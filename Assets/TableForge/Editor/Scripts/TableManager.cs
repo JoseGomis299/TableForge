@@ -9,13 +9,14 @@ namespace TableForge
     internal static class TableManager
     {
         private static List<Table> _tables = new List<Table>();
-        private static ItemSelector _itemSelector = new ScriptableObjectSelector();
         
         [MenuItem("TableForge/Generate Tables")]
         public static void GenerateTables()
         {
             _tables.Clear();
-            List<List<ITFSerializedObject>> items = _itemSelector.GetItemData();
+            
+            ItemSelector itemSelector = new ScriptableObjectSelector(new []{"Assets/TableForgeDemoFiles/pruebaTest2.asset", "Assets/TableForgeDemoFiles/Test1.asset"});
+            List<List<ITFSerializedObject>> items = itemSelector.GetItemData();
             
             foreach (var item in items)
             {
@@ -24,8 +25,6 @@ namespace TableForge
                 Table table = TableGenerator.GenerateTable(item, tableName, null);
                 _tables.Add(table);
             }
-            
-            _itemSelector.Close();
         }
         
     }

@@ -56,9 +56,20 @@ namespace TableForge
                 type.IsPrimitive || 
                 type == typeof(string)) 
                 return false;
+            
+            // Check for ICollection<> types
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(ICollection<>))
+                {
+                    return false;
+                }
+            }
 
-            return type.IsDefined(typeof(SerializableAttribute)) && 
-                   (type.IsClass || type.IsValueType);
+            return type.IsDefined(typeof(SerializableAttribute)) &&
+                   (type.IsClass || type.IsValueType) &&
+                   !type.IsEnum &&
+                   !typeof(ICollection).IsAssignableFrom(type);
         }
 
         /// <summary>

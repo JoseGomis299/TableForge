@@ -99,14 +99,15 @@ namespace TableForge
         /// <returns>True if the field is serializable; otherwise, false.</returns>
         private static bool IsSerializable(FieldInfo field)
         {
-            bool isUnitySerializable = field != null && IsUnitySerializable(field.FieldType);
-            bool isSerializable = field != null && ((isUnitySerializable && field.GetCustomAttribute<SerializeField>() != null) || 
-                                     (isUnitySerializable && field.IsPublic) || 
-                                     field.GetCustomAttribute<TableForgeSerializeAttribute>() != null);
+            if(field.GetCustomAttribute<TableForgeIgnoreAttribute>() != null)
+                return false;
             
-            return isSerializable 
-                   && field.GetCustomAttribute<TableForgeIgnoreAttribute>() == null 
-                   && IsTableForgeSerializable(field.FieldType);
+            bool isUnitySerializable = IsUnitySerializable(field.FieldType);
+            bool isSerializable = (isUnitySerializable && field.GetCustomAttribute<SerializeField>() != null) || 
+                                  (isUnitySerializable && field.IsPublic) || 
+                                  field.GetCustomAttribute<TableForgeSerializeAttribute>() != null;
+            
+            return isSerializable && IsTableForgeSerializable(field.FieldType);
         }
 
         /// <summary>
@@ -117,11 +118,12 @@ namespace TableForge
         /// <returns>True if the type is serializable, otherwise false.</returns>
         public static bool IsTableForgeSerializable(Type type)
         {
-            return IsTableForgeSerializable(TypeMatchMode.Exact, type, out _)
+            return (IsTableForgeSerializable(TypeMatchMode.Exact, type, out _)
                    || IsTableForgeSerializable(TypeMatchMode.Assignable, type, out _)
                    || IsTableForgeSerializable(TypeMatchMode.GenericArgument, type, out _)
                    || type.IsEnum
-                   || type.IsSerializableClassOrStruct();
+                   || type.IsSerializableClassOrStruct())
+                   && type != typeof(object);
         }
 
         /// <summary>
@@ -149,7 +151,9 @@ namespace TableForge
         /// <returns>True if the type is serializable in Unity; otherwise, false.</returns>
         private static bool IsUnitySerializable(Type type)
         {
-            if (type == null || typeof(IDictionary).IsAssignableFrom(type))
+            if (type == null || typeof(IDictionary).IsAssignableFrom(type) 
+                             || typeof(LinkedList<>).IsAssignableFrom(type) 
+                             || typeof(ISet<>).IsAssignableFrom(type))
                 return false;
 
             if (type.IsArray && type.GetArrayRank() == 1)
