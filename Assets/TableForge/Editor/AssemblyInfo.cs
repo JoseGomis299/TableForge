@@ -1,4 +1,4 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Tests")]
+[assembly: InternalsVisibleTo("TableForge.Tests")]
     

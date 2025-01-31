@@ -1,5 +1,5 @@
 {
-    "name": "Tests",
+    "name": "TableForge.Tests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
