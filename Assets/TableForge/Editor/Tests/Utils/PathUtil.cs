@@ -1,19 +1,21 @@
 using System.IO;
+using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 
 namespace TableForge.Tests
 {
     internal static class PathUtil
     {
-        private const string RELATIVE_PATH = "/TableForge/Editor/Tests/";
         
         public static string GetTestFolderRelativePath()
         {
-            string[] guids = AssetDatabase.FindAssets("t:MonoScript");
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string[] guids = AssetDatabase.FindAssets("t:AssemblyDefinitionAsset");
             foreach (string guid in guids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
-                if (path.Contains(RELATIVE_PATH))
+                if (path.EndsWith(assembly.GetName().Name + ".asmdef"))
                 {
                     return Path.GetDirectoryName(path)?.Replace("\\", "/");
                 }

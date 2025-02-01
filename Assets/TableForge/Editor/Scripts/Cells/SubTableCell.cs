@@ -15,7 +15,7 @@ namespace TableForge
         /// <summary>
         /// The subtable associated with this cell.
         /// </summary>
-        protected Table SubTable { get; set; }
+        public Table SubTable { get; protected set; }
 
         #endregion
 

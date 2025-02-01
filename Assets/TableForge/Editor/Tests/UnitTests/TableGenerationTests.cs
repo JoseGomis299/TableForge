@@ -336,6 +336,39 @@ namespace TableForge.Tests
             AssetDatabase.DeleteAsset(path);
         }
 
+        [Test]
+        public void SubitemCellGeneration()
+        {
+            // Arrange
+            ComplexTypeScriptableObject testData = ScriptableObject.CreateInstance<ComplexTypeScriptableObject>();
+            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/ComplexTypeScriptableObject.asset";
+            
+            // Create the scriptableObject
+            AssetDatabase.CreateAsset(testData, path);
+            
+            // Act
+            ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
+            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            var table = TableGenerator.GenerateTable(serializedObjects[0], "ComplexTypeTable", null);
+            
+            // Assert
+            Assert.AreEqual(1, serializedObjects.Count); // 1 scriptableObject type
+            Assert.AreEqual(1, serializedObjects[0].Count); // 1 instance of ComplexTypeScriptableObject
+            
+            // Check that the cell type for the first row is correct
+            var firstRow = table.Rows[1];
+            Assert.AreEqual(typeof(SubitemCell), firstRow.Cells[1].GetType());
+            
+            //Check that the subtable was created correctly
+            var subtable = ((SubTableCell)firstRow.Cells[1]).SubTable;
+            Assert.AreEqual(1, subtable.Rows.Count);
+            Assert.IsTrue(subtable.Columns[1].Name == "Number");
+            Assert.IsTrue(subtable.Columns[2].Name == "Text");
+            
+            // Cleanup
+            AssetDatabase.DeleteAsset(path);
+        }
+
     }
 }
 
