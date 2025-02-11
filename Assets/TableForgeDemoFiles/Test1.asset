@@ -42,18 +42,37 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
   animationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
-  intField: 0
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  reference: {fileID: 11500000, guid: 617777001e5040a49cfff8794078e486, type: 3}
+  B: 1
+  intField: 13
+  floatField: 13
+  <PublicLongProperty>k__BackingField: 1
+  <PublicDoubleProperty>k__BackingField: 32
   innerClasses: []
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}

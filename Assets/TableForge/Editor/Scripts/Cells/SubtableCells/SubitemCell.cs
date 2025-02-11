@@ -20,7 +20,7 @@ namespace TableForge
                 
                 try
                 {
-                    value = Activator.CreateInstance(fieldInfo.Type);
+                    value = fieldInfo.Type.CreateInstanceWithDefaults();
                     SetFieldValue(value);
                 }
                 catch (Exception e)

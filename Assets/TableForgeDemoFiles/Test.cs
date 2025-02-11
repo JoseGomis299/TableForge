@@ -11,6 +11,7 @@ public class Test1 : ScriptableObject
     public Color color;
     public AnimationCurve animationCurve;
     public Object reference;
+    public bool B;
     
     [SerializeField] private int intField;
     [SerializeField] private float floatField;
@@ -36,7 +37,7 @@ public class Test1 : ScriptableObject
     {
         Value1,
         Value2,
-        Value3
+        SuperLongValueToCheckIfItFits
     }
     
     public TestEnum testEnum = TestEnum.Value2;

@@ -11,11 +11,11 @@ namespace TableForge
         private static List<Table> _tables = new List<Table>();
         
         [MenuItem("TableForge/Generate Tables")]
-        public static void GenerateTables()
+        public static List<Table> GenerateTables()
         {
             _tables.Clear();
             
-            ItemSelector itemSelector = new ScriptableObjectSelector(new []{"Assets/TableForgeDemoFiles/pruebaTest2.asset", "Assets/TableForgeDemoFiles/Test1.asset"});
+            ItemSelector itemSelector = new ScriptableObjectSelector(new []{"Assets/TableForgeDemoFiles/pruebaTest2.asset", "Assets/TableForgeDemoFiles/Test1.asset", "Assets/TableForgeDemoFiles/Test1 1.asset"});
             List<List<ITFSerializedObject>> items = itemSelector.GetItemData();
             
             foreach (var item in items)
@@ -25,6 +25,8 @@ namespace TableForge
                 Table table = TableGenerator.GenerateTable(item, tableName, null);
                 _tables.Add(table);
             }
+            
+            return _tables;
         }
         
     }

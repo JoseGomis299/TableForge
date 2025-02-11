@@ -1,3 +1,5 @@
+using System;
+
 namespace TableForge
 {
     /// <summary>
@@ -9,6 +11,12 @@ namespace TableForge
         /// The table to which the cell anchor belongs.
         /// </summary>
         public Table Table { get; set; }
+        
+        /// <summary>
+        /// The unique identifier of the cell anchor.
+        /// </summary>
+        /// <remarks>The id is unique only inside its table scope.</remarks>
+        public int Id { get; }
         
         /// <summary>
         /// The name of the cell anchor.
@@ -37,6 +45,8 @@ namespace TableForge
         {
             Name = name;
             Position = position;
+            
+            Id = HashCode.Combine(name, position);
         }
     }
 }

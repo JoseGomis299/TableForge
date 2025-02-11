@@ -88,7 +88,7 @@ namespace TableForge
             if (!field.Name.StartsWith("<") || !field.Name.EndsWith(">k__BackingField"))
                 return false;
 
-            propertyName = field.Name.Substring(1, field.Name.Length - 16);
+            propertyName = field.Name.Substring(1, field.Name.Length - 17);
             return true;
         }
 

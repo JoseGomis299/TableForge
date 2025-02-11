@@ -1,0 +1,106 @@
+:root {
+    --border-color: rgb(69, 69, 69);
+    --cell-width: 100px;
+    --cell-height: 30px;
+    --header-padding: 5px;
+    --border-width: 1px;
+    --resizable-border-span: 5px;
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+}
+
+.table {
+    flex-direction: column;
+}
+
+.table__corner {
+    width: var(--cell-width);
+    height: var(--cell-height);
+    border-left-color: var(--border-color);
+    border-left-width: var(--border-width);
+}
+
+.table__header-cell {
+    width: var(--cell-width);
+    height: var(--cell-height);
+    -unity-text-align: middle-center;
+    align-items: stretch;
+    justify-content: center;
+    align-self: center;
+    align-content: flex-start;
+    border-left-color: var(--border-color);
+    border-left-width: 0;
+    border-right-color: var(--border-color);
+    border-right-width: 1px;
+    overflow: hidden;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.table__row {
+    flex-direction: row;
+    border-bottom-width: var(--border-width);
+    border-bottom-color: var(--border-color);
+    align-content: flex-start;
+}
+
+.table__cell {
+    width: var(--cell-width);
+    height: 100%;
+    border-width: var(--border-width);
+    border-color: var(--border-color);
+    -unity-text-align: middle-center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border-top-width: 0;
+    border-right-width: 1px;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.table__cell__content {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    margin: 0;
+    overflow: hidden;
+    background-color: rgba(55, 55, 55, 0);
+    border-width: 0;
+    -unity-text-align: middle-left;
+    -unity-text-outline-color: rgba(40, 40, 40, 0);
+    padding-left: 5px;
+}
+
+.table__cell__content :disabled {
+    cursor: arrow;
+}
+
+.center {
+    -unity-text-align: middle-center;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+}
+
+.cursor__resize--horizontal {
+    cursor: resize-horizontal;
+}
+
+.cursor__resize--vertical {
+    cursor: resize-vertical;
+}
+
+.selected {
+    background-color: rgba(255, 255, 255, 0.29);
+}
+
+.selectedHeader {
+    background-color: rgba(152, 152, 152, 0.28);
+}

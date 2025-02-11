@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace TableForge
@@ -145,8 +146,41 @@ namespace TableForge
             
             return memberInfo;
         }
+
         
-        
+        /// <summary>
+        /// Creates an instance of the specified type using the most suitable public constructor.
+        /// </summary>
+        /// <param name="type">The type of the object.</param>
+        /// <returns>The created default instance.</returns>
+        /// <exception cref="InvalidOperationException">If the type has no valid constructors.</exception>
+        public static object CreateInstanceWithDefaults(this Type type)
+        {
+            // Get all constructors and sort by parameter count and create an instance with default values
+            ConstructorInfo[] constructors = type.GetConstructors();
+            var sortedConstructors = constructors.OrderBy(ctor => ctor.GetParameters().Length);
+            
+            foreach (var constructor in sortedConstructors)
+            {
+                try
+                {
+                    ParameterInfo[] parameters = constructor.GetParameters();
+                    object[] defaultValues = parameters
+                        .Select(param =>
+                            param.ParameterType.IsValueType ? Activator.CreateInstance(param.ParameterType) : null)
+                        .ToArray();
+
+                    return constructor.Invoke(defaultValues);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+
+            // If no suitable constructor is found or all invocations fail, throw an exception
+            throw new InvalidOperationException($"No suitable constructor found for type {type.FullName}.");
+        }
 
         #endregion
     }

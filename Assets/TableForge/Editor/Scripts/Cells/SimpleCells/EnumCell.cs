@@ -1,3 +1,6 @@
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+using UnityEngine;
+
 namespace TableForge
 {
     /// <summary>
@@ -5,7 +8,7 @@ namespace TableForge
     /// </summary>
     internal class EnumCell : Cell
     {
-        public EnumCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject)  => Type = typeof(int);
+        public EnumCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject) { }
 
         public override void SerializeData()
         {

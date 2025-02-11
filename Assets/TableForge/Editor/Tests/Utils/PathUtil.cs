@@ -1,7 +1,6 @@
 using System.IO;
 using System.Reflection;
 using UnityEditor;
-using UnityEngine;
 
 namespace TableForge.Tests
 {

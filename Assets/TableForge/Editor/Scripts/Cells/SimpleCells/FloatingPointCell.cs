@@ -13,7 +13,7 @@ namespace TableForge
         public override void SetValue(object value)
         {
             if(!value.GetType().IsFloatingPointType())
-                throw new ArgumentException("Data must be a floating point type");
+                throw new ArgumentException($"Data must be a floating point type, type provided: {value.GetType()}");
         
             base.SetValue(value);
             Value = Convert.ChangeType(value, Type);

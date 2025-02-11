@@ -14,7 +14,7 @@
     - Enums
     - Floating point types (float, double)
     - Gradients
-    - Integral types (byte, sbyte, short, ushort, int, uint, long, ulong)
+    - Integral types (int, uint, long, ulong)
     - Unity Object references
     - Strings
     - Dictionaries (serialized as subtables)

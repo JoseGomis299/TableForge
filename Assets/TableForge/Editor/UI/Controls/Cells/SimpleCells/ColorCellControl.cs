@@ -1,0 +1,24 @@
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace TableForge.UI
+{
+    internal class ColorCellControl : CellControl
+    {
+        public ColorCellControl(ColorCell cell, TableControl tableControl) : base(cell, tableControl)
+        {
+            var field = new ColorField()
+            {
+                value = (Color)Cell.GetValue()
+            };
+            field.RegisterValueChangedCallback(OnChange);
+            Add(field);
+            
+            field.AddToClassList("table__cell__content");
+            SetDesiredSize(UiContants.SpecialCellDesiredWidth, UiContants.CellHeight);
+            
+            IsSelected = false;
+        }
+    }
+}
