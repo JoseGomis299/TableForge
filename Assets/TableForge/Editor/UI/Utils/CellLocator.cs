@@ -86,7 +86,7 @@ namespace TableForge.UI
         public static List<CellControl> GetCellsAtColumn(TableControl tableControl, int columnId)
         {
             if (!tableControl.ColumnData.TryGetValue(columnId, out var columnAnchor)) return new List<CellControl>();
-            return tableControl.RowsContainer.Children().Select(r => r.Children().ElementAt(columnAnchor.Position)).OfType<CellControl>().ToList();
+            return tableControl.RowsContainer.Children().Select(r => r.Children().Any() ? r.Children().ElementAt(columnAnchor.Position) : null).OfType<CellControl>().ToList();
         }
 
         public static (RowHeaderControl row, ColumnHeaderControl column) GetHeadersAtPosition(TableControl tableControl, Vector3 position)

@@ -14,8 +14,8 @@ namespace TableForge
         public static List<Table> GenerateTables()
         {
             _tables.Clear();
-            
-            ItemSelector itemSelector = new ScriptableObjectSelector(new []{"Assets/TableForgeDemoFiles/pruebaTest2.asset", "Assets/TableForgeDemoFiles/Test1.asset", "Assets/TableForgeDemoFiles/Test1 1.asset"});
+
+            ItemSelector itemSelector = new ScriptableObjectSelector(new[] { "Assets/TableForgeDemoFiles" });
             List<List<ITFSerializedObject>> items = itemSelector.GetItemData();
             
             foreach (var item in items)

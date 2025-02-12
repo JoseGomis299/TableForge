@@ -8,7 +8,7 @@ namespace TableForge.UI
     {
         public ColumnHeaderControl(int id, string name, TableControl tableControl) : base(id, name, tableControl)
         {
-            AddToClassList("table__header-cell");
+            AddToClassList("table__header-cell--horizontal");
             
             var textSize = EditorStyles.label.CalcSize(new GUIContent(CompleteName.Replace("<b>", "").Replace("</b>", "")));
             var desiredWidth = textSize.x + UiContants.HeaderPadding;
@@ -18,6 +18,7 @@ namespace TableForge.UI
             headerLabel.AddToClassList("fill");
             Add(headerLabel);
 
+            if(id != 0)
             TableControl.HorizontalResizer.HandleResize(this);
         }
         

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -20,7 +21,10 @@ namespace TableForge.UI
         public VisualElement Root { get; }
 
         public VisualElement ColumnHeaderContainer { get; }
+        public VisualElement RowHeaderContainer { get; }
+        public VisualElement CornerContainer { get; }
         public VisualElement RowsContainer { get; }
+        public ScrollView ScrollView { get; }
 
         public HorizontalBorderResizer HorizontalResizer { get; }
         public VerticalBorderResizer VerticalResizer { get; }
@@ -28,19 +32,47 @@ namespace TableForge.UI
 
         public TableControl(VisualElement root)
         {
+            AddToClassList("table");
+            
             Root = root;
             HorizontalResizer = new HorizontalBorderResizer(this);
             VerticalResizer = new VerticalBorderResizer(this);
-            CellSelector = new CellSelector(this);
-
-            ColumnHeaderContainer = new VisualElement();
-            ColumnHeaderContainer.AddToClassList("table__row");
-
+            
+            ScrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
+            ScrollView.AddToClassList("fill");
+            
             RowsContainer = new VisualElement();
             RowsContainer.AddToClassList("table__row-container");
-
-            Add(ColumnHeaderContainer);
-            Add(RowsContainer);
+            
+            ColumnHeaderContainer = new ColumnHeaderContainerControl(ScrollView);
+            RowHeaderContainer = new RowHeaderContainerControl(ScrollView);
+            CornerContainer = new CornerContainerControl(ScrollView);
+            
+            CellSelector = new CellSelector(this);
+          
+            Add(ScrollView);
+            VisualElement parent = new VisualElement();
+            parent.AddToClassList("fill");
+            parent.style.flexDirection = FlexDirection.ColumnReverse;
+            ScrollView.Add(parent);
+            
+            VisualElement rowAndHeaderContainer = new VisualElement();
+            rowAndHeaderContainer.style.flexShrink = 1;
+            rowAndHeaderContainer.style.flexDirection = FlexDirection.Row;
+            
+            parent.Add(rowAndHeaderContainer);
+            rowAndHeaderContainer.Add(RowsContainer);
+            rowAndHeaderContainer.Add(RowHeaderContainer);
+            
+            VisualElement cornerAndHeaderContainer = new VisualElement();
+            cornerAndHeaderContainer.style.flexDirection = FlexDirection.Row;
+            cornerAndHeaderContainer.style.flexShrink = 0;
+            
+            parent.Add(cornerAndHeaderContainer);
+            var cornerCell = new TableCornerControl(this);
+            CornerContainer.Add(cornerCell);
+            cornerAndHeaderContainer.Add(ColumnHeaderContainer);
+            cornerAndHeaderContainer.Add(CornerContainer);
         }
 
         public void SetTable(Table table)
@@ -60,20 +92,17 @@ namespace TableForge.UI
             VerticalResizer.ResizeAll();
         }
         
-
-
+        
         private void BuildHeader()
         {
             _columnData.Add(0, new CellAnchorData(null));
-            var headerCell = new ColumnHeaderControl(0, "", this);
-            ColumnHeaderContainer.Add(headerCell);
 
             foreach (var columnEntry in TableData.Columns)
             {
                 var column = columnEntry.Value;
                 _columnData.Add(column.Id, new CellAnchorData(column));
 
-                headerCell = new ColumnHeaderControl(column.Id, column.Name, this);
+                var headerCell = new ColumnHeaderControl(column.Id, column.Name, this);
                 ColumnHeaderContainer.Add(headerCell);
                 _columnHeaders.Add(column.Id, headerCell);
             }
@@ -81,6 +110,8 @@ namespace TableForge.UI
 
         private void BuildRows()
         {
+
+            
             foreach (var rowEntry in TableData.Rows)
             {
                 var row = rowEntry.Value;
@@ -88,8 +119,74 @@ namespace TableForge.UI
 
                 var rowControl = new TableRowControl(row, this);
                 RowsContainer.Add(rowControl);
+                
                 _rowHeaders.Add(row.Id, rowControl.Children().First() as RowHeaderControl);
+                RowHeaderContainer.Add(rowControl.Children().First());
             }
+        }
+    }
+
+    internal abstract class HeaderContainerControl : VisualElement
+    {
+        protected ScrollView CellContainer;
+        
+        protected HeaderContainerControl(ScrollView cellContainer)
+        {
+            CellContainer = cellContainer;
+        }
+
+        protected abstract void HandleOffset(float offset);
+
+    }
+    
+    internal class ColumnHeaderContainerControl : HeaderContainerControl
+    {
+        public ColumnHeaderContainerControl(ScrollView cellContainer) : base(cellContainer)
+        {
+            AddToClassList("table__header-container--horizontal");
+            cellContainer.verticalScroller.valueChanged += HandleOffset;
+            style.left = UiContants.CellWidth;
+
+            HandleOffset(0);
+        }
+
+        protected override void HandleOffset(float offset)
+        {
+            style.top = offset;
+        }
+    }
+    
+    internal class RowHeaderContainerControl : HeaderContainerControl
+    {
+        public RowHeaderContainerControl(ScrollView cellContainer) : base(cellContainer)
+        {
+            AddToClassList("table__header-container--vertical");
+            cellContainer.horizontalScroller.valueChanged += HandleOffset;
+        }
+
+        protected override void HandleOffset(float offset)
+        {
+            style.left = offset;
+        }
+    }
+    
+    internal class CornerContainerControl : HeaderContainerControl
+    {
+        public CornerContainerControl(ScrollView cellContainer) : base(cellContainer)
+        {
+            AddToClassList("table__corner-container");
+            cellContainer.horizontalScroller.valueChanged += HandleOffset;
+            cellContainer.verticalScroller.valueChanged += HandleVerticalOffset;
+        }
+
+        protected override void HandleOffset(float offset)
+        {
+            style.left = offset;
+        }
+        
+        private void HandleVerticalOffset(float offset)
+        {
+            style.top = offset;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace TableForge.UI
 
         protected override void InstantResize(HeaderControl target)
         {
+            if(target.Id == 0) return;
             var columnData = TableControl.ColumnData[target.Id];
             target.style.width = columnData.PreferredWidth;
             UpdateChildrenSize(target, columnData.PreferredWidth);

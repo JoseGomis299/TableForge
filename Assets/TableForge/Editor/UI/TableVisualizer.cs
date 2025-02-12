@@ -1,5 +1,7 @@
 using UnityEditor;
+using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -23,12 +25,12 @@ namespace TableForge.UI
         private void OnStylesInitialized()
         {
             var root = rootVisualElement;
-            var scrollView = root.Q<ScrollView>("ScrollView");
+            var mainTable = root.Q<VisualElement>("MainTable");
             var table = TableManager.GenerateTables()[1];
 
             var tableControl = new TableControl(rootVisualElement);
             tableControl.SetTable(table);
-            scrollView.Add(tableControl);
+            mainTable.Add(tableControl);
 
             UiContants.OnStylesInitialized -= OnStylesInitialized;
         }

@@ -151,11 +151,14 @@ namespace TableForge.UI
             var lastColumn = lastCell.Cell.Column;
             var cells = CellLocator.GetCellRange(_tableControl, firstRow.Id, firstColumn.Id, lastRow.Id, lastColumn.Id);
 
-            ClearSelection();
+            _cellsToDeselect = new HashSet<CellControl>(_selectedCells);
             foreach (var cell in cells)
             {
-                SelectCell(cell);
+                _selectedCells.Add(cell);
+                _cellsToDeselect.Remove(cell);
             }
+            
+            ConfirmSelection();
         }
 
         public void SelectCell(CellControl cellControl)

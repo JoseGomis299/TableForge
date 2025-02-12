@@ -20,6 +20,25 @@ namespace TableForge
         {
             foreach (string path in _paths)
             {
+                if (!path.EndsWith(".asset"))
+                {
+                    String[] guids = AssetDatabase.FindAssets("", new []{path});
+                    
+                    if(guids.Length == 0)
+                    {
+                        Debug.LogError($"Failed to load assets at path {path}");
+                        continue;
+                    }
+                    
+                    foreach (string guid in guids)
+                    {
+                        string p = AssetDatabase.GUIDToAssetPath(guid);     
+                        GroupData(AssetDatabase.LoadAssetAtPath<ScriptableObject>(p));
+                    }
+                    
+                    continue;
+                }
+                
                 ScriptableObject scriptableObject = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
 
                 if (scriptableObject == null)

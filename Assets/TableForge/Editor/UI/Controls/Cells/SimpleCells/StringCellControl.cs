@@ -24,7 +24,7 @@ namespace TableForge.UI
         protected override void InitializeSize()
         {
             float padding = 20f;
-            var preferredWidth = EditorStyles.label.CalcSize(new GUIContent(Cell.GetValue().ToString())).x;
+            var preferredWidth = EditorStyles.label.CalcSize(new GUIContent(Cell?.GetValue()?.ToString())).x;
             SetDesiredSize(preferredWidth + padding, UiContants.CellHeight);
         }
     }

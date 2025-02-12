@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TableForge.UI
 {
@@ -19,12 +20,7 @@ namespace TableForge.UI
             if(!_preferredWidths.TryAdd(id, width))
                 _preferredWidths[id] = width;
             
-            float max = float.MinValue;
-            foreach (var widths in _preferredWidths.Values)
-            {
-                if (widths > max)
-                    max = widths;
-            }
+            float max = _preferredWidths.Values.Prepend(float.MinValue).Max();
             PreferredWidth = max;
         }
         
@@ -33,12 +29,7 @@ namespace TableForge.UI
             if(!_preferredHeights.TryAdd(id, height))
                 _preferredHeights[id] = height;
 
-            float max = float.MinValue;
-            foreach (var heights in _preferredHeights.Values)
-            {
-                if (heights > max)
-                    max = heights;
-            }
+            float max = _preferredHeights.Values.Prepend(float.MinValue).Max();
             PreferredHeight = max;
         }
 

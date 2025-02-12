@@ -1,6 +1,9 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/TableForge/Editor/UI/TableVisualizer.uss?fileID=7433441132597879392&amp;guid=a455e57f116774943a6cfc88af0d43ab&amp;type=3#TableVisualizer" />
-    <engine:VisualElement style="flex-grow: 1;">
-        <engine:ScrollView name="ScrollView" mode="VerticalAndHorizontal" usage-hints="-1" vertical-scroller-visibility="Auto" horizontal-scroller-visibility="Auto" style="width: 100%; height: 100%;" />
+    <engine:VisualElement style="background-color: rgba(98, 44, 44, 0); overflow: visible; visibility: visible; height: 100%; position: relative; width: 100%; flex-direction: column-reverse;">
+        <engine:VisualElement style="flex-grow: 1; width: 100%; height: 100%; background-size: 100% 100%;">
+            <engine:VisualElement name="MainTable" style="height: 100%; width: 100%;" />
+        </engine:VisualElement>
+        <engine:ScrollView name="Toolbar" class="toolbar" style="width: 100%; height: 150px;" />
     </engine:VisualElement>
 </engine:UXML>

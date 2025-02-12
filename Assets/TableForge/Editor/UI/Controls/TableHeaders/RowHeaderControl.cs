@@ -6,9 +6,11 @@ namespace TableForge.UI
 {
     internal class RowHeaderControl : HeaderControl
     {
-        public RowHeaderControl(int id, string name, TableControl tableControl) : base(id, name, tableControl)
+        public TableRowControl RowControl { get; }
+        public RowHeaderControl(int id, string name, TableControl tableControl, TableRowControl rowControl) : base(id, name, tableControl)
         {
-            AddToClassList("table__header-cell");
+            AddToClassList("table__header-cell--vertical");
+            RowControl = rowControl;
             
             var textSize = EditorStyles.label.CalcSize(new GUIContent(CompleteName.Replace("<b>", "").Replace("</b>", "")));
             var desiredWidth = textSize.x + UiContants.HeaderPadding;
@@ -20,6 +22,7 @@ namespace TableForge.UI
 
             TableControl.VerticalResizer.HandleResize(this);
         }
+        
         
         private string CompleteName => $"{TableControl.RowData[Id].CellAnchor.Position} | <b>{Name}</b>";
     }

@@ -1,4 +1,5 @@
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 
@@ -30,8 +31,14 @@ namespace TableForge.UI
             var columnsByPosition = _tableControl.ColumnData.ToDictionary(c => c.Value.Position, c => c.Value);
             columnsByPosition = columnsByPosition.OrderBy(c => c.Key).ToDictionary(c => c.Key, c => c.Value);
 
-            var header = new RowHeaderControl(_row.Id, _row.Name, _tableControl);
+            var header = new RowHeaderControl(_row.Id, _row.Name, _tableControl, this);
             Add(header);
+            
+                        
+            var spacer = new VisualElement();
+            spacer.style.width = UiContants.CellWidth;
+            spacer.style.height =UiContants.CellHeight;
+            Add(spacer);
 
             foreach (var columnEntry in columnsByPosition)
             {

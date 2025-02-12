@@ -95,15 +95,9 @@ namespace TableForge.UI
         {
             headerControl.style.height = newHeight;
 
-            foreach (var child in TableControl.RowsContainer.Children())
+            if (headerControl is RowHeaderControl rowHeaderControl)
             {
-                if (child is TableRowControl rowControl)
-                {
-                    if (rowControl.Children().First() != headerControl) continue;
-
-                    rowControl.style.height = newHeight;
-                    return;
-                }
+                rowHeaderControl.RowControl.style.height = newHeight;
             }
         }
 

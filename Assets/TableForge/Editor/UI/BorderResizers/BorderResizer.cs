@@ -60,32 +60,23 @@ namespace TableForge.UI
             var startPosition = downEvent.position;
 
             TableControl.Root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
-            TableControl.Root.RegisterCallback<PointerUpEvent>(OnPointerUp);
-            TableControl.Root.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
             downEvent.StopPropagation();
 
             void OnPointerMove(PointerMoveEvent moveEvent)
             {
+                if (!IsResizing || moveEvent.pressedButtons != 1)
+                {
+                    UnregisterCallbacks();
+                    return;
+                }
+                
                 float newWidth = CalculateNewSize(initialSize, startPosition, moveEvent.position);
                 UpdateChildrenSize(ResizingHeader, newWidth);
             }
 
-            void OnPointerUp(PointerUpEvent pointerUpEvent)
-            {
-                if(pointerUpEvent.button == 0)
-                    UnregisterCallbacks();
-            }
-            
-            void OnPointerLeave(PointerLeaveEvent _)
-            {
-                UnregisterCallbacks();
-            }
-            
             void UnregisterCallbacks()
             {
                 TableControl.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
-                TableControl.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
-                TableControl.Root.UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
                 IsResizing = false;
             }
         }

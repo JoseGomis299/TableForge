@@ -48,6 +48,8 @@ public class Test1 : ScriptableObject
     [TableForgeSerialize] public Dictionary<string, InnerClass> stringInnerClassDictionary = new Dictionary<string, InnerClass>() { { "key1", null }, { "key2", null } };
     
     public Dictionary<int, InnerClass> hiddenDictionary = new Dictionary<int, InnerClass>() { { 1, null }, { 2, new InnerClass(2, "text2") } };
+    
+    public string text;
 }
 
 [Serializable]
