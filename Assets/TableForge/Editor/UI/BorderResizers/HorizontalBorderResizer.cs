@@ -7,10 +7,19 @@ namespace TableForge.UI
 {
     internal class HorizontalBorderResizer : BorderResizer
     {
-        public HorizontalBorderResizer(TableControl tableControl) : base(tableControl)
+        public HorizontalBorderResizer(TableControl tableControl, CellVisibilityManager cellVisibilityManager) : base(tableControl)
         {
+            cellVisibilityManager.OnHeaderBecameVisible += OnHeaderBecameVisible;
         }
         
+        private void OnHeaderBecameVisible(HeaderControl headerControl)
+        {
+            if (headerControl is RowHeaderControl rowHeaderControl)
+            {
+                rowHeaderControl.RowControl.RefreshColumnWidths();
+            }
+        }
+
         protected override void HandleDoubleClick(PointerDownEvent downEvent)
         {
             if (ResizingHeaders.Count == 0 || IsResizing || downEvent.button != 0) return;
@@ -37,8 +46,8 @@ namespace TableForge.UI
         {
             if(target.Id == 0) return;
             var columnData = TableControl.ColumnData[target.Id];
-            target.style.width = columnData.PreferredWidth;
-            UpdateChildrenSize(target, columnData.PreferredWidth);
+            UpdateSize(target, columnData.PreferredWidth);
+            UpdateChildrenSize(target);
         }
 
         public override bool IsResizingArea(Vector3 position, out HeaderControl headerControl)
@@ -91,17 +100,18 @@ namespace TableForge.UI
             }
             ResizingHeader = null;
         }
-
-        protected override void UpdateChildrenSize(HeaderControl headerControl, float newWidth)
+        
+        protected override void UpdateSize(HeaderControl headerControl, float newWidth)
         {
             headerControl.style.width = newWidth;
+        }
 
-            foreach (var child in TableControl.RowsContainer.Children())
+        protected override void UpdateChildrenSize(HeaderControl headerControl)
+        {
+            Debug.Log(TableControl.CellVisibilityManager.VisibleRows.Count);
+            foreach (var child in TableControl.CellVisibilityManager.VisibleRows)
             {
-                if (child is TableRowControl rowControl)
-                {
-                    rowControl.SetColumnWidth(headerControl.Id, newWidth);
-                }
+                child.RowControl.RefreshColumnWidths();
             }
         }
 

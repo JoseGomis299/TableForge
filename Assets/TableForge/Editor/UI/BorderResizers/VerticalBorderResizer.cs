@@ -36,8 +36,8 @@ namespace TableForge.UI
         protected override void InstantResize(HeaderControl target)
         {
             var rowData = TableControl.RowData[target.Id];
-            target.style.height = rowData.PreferredHeight;
-            UpdateChildrenSize(target, rowData.PreferredHeight);
+            UpdateSize(target, rowData.PreferredHeight);
+            UpdateChildrenSize(target);
         }
 
         public override bool IsResizingArea(Vector3 position, out HeaderControl headerControl)
@@ -90,14 +90,17 @@ namespace TableForge.UI
             }            
             ResizingHeader = null;
         }
-
-        protected override void UpdateChildrenSize(HeaderControl headerControl, float newHeight)
+        
+        protected override void UpdateSize(HeaderControl headerControl, float newHeight)
         {
             headerControl.style.height = newHeight;
+        }
 
+        protected override void UpdateChildrenSize(HeaderControl headerControl)
+        {
             if (headerControl is RowHeaderControl rowHeaderControl)
             {
-                rowHeaderControl.RowControl.style.height = newHeight;
+                rowHeaderControl.RowControl.style.height = rowHeaderControl.style.height;
             }
         }
 

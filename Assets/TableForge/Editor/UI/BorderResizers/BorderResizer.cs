@@ -26,7 +26,8 @@ namespace TableForge.UI
         }
 
         protected abstract void CheckResize(PointerMoveEvent moveEvent);
-        protected abstract void UpdateChildrenSize(HeaderControl headerControl, float newWidth);
+        protected abstract void UpdateChildrenSize(HeaderControl headerControl);
+        protected abstract void UpdateSize(HeaderControl headerControl, float newWidth);
         protected abstract float CalculateNewSize(Vector2 initialSize, Vector3 startPosition, Vector3 currentPosition);
         protected abstract void HandleDoubleClick(PointerDownEvent downEvent);
         protected abstract void InstantResize(HeaderControl target);
@@ -66,16 +67,18 @@ namespace TableForge.UI
             {
                 if (!IsResizing || moveEvent.pressedButtons != 1)
                 {
+                    Debug.Log("Stopping resize");
                     UnregisterCallbacks();
                     return;
                 }
                 
-                float newWidth = CalculateNewSize(initialSize, startPosition, moveEvent.position);
-                UpdateChildrenSize(ResizingHeader, newWidth);
+                float newSize = CalculateNewSize(initialSize, startPosition, moveEvent.position);
+                UpdateSize(ResizingHeader, newSize);
             }
 
             void UnregisterCallbacks()
             {
+                UpdateChildrenSize(ResizingHeader);
                 TableControl.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
                 IsResizing = false;
             }

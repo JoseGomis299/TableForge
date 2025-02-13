@@ -9,7 +9,7 @@ namespace TableForge.UI
     {
         private readonly Row _row;
         private readonly TableControl _tableControl;
-
+        
         public TableRowControl(Row row, TableControl tableControl)
         {
             _row = row;
@@ -22,6 +22,15 @@ namespace TableForge.UI
         public void SetColumnWidth(int id, float width)
         {
             this[_tableControl.ColumnData[id].Position].style.width = width;
+        }
+        
+        public void RefreshColumnWidths()
+        {
+            foreach (var columnEntry in _tableControl.ColumnData)
+            {
+                if (!_tableControl.ColumnHeaders.TryGetValue(columnEntry.Key, out var header)) continue;
+                this[columnEntry.Value.Position].style.width = header.style.width;
+            }
         }
 
         private void SetRow()
@@ -56,6 +65,8 @@ namespace TableForge.UI
             cellControl.style.width = columnWidth;
             return cellControl;
         }
+
+     
     }
     
     internal static class CellControlFactory

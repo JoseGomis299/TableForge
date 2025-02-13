@@ -29,17 +29,20 @@ namespace TableForge.UI
         public HorizontalBorderResizer HorizontalResizer { get; }
         public VerticalBorderResizer VerticalResizer { get; }
         public CellSelector CellSelector { get; }
+        
+        public CellVisibilityManager CellVisibilityManager { get; }
 
         public TableControl(VisualElement root)
         {
-            AddToClassList("table");
-            
             Root = root;
-            HorizontalResizer = new HorizontalBorderResizer(this);
-            VerticalResizer = new VerticalBorderResizer(this);
-            
+            AddToClassList("table");
+
             ScrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
             ScrollView.AddToClassList("fill");
+            CellVisibilityManager = new CellVisibilityManager(this);
+            
+            HorizontalResizer = new HorizontalBorderResizer(this, CellVisibilityManager);
+            VerticalResizer = new VerticalBorderResizer(this);
             
             RowsContainer = new VisualElement();
             RowsContainer.AddToClassList("table__row-container");
@@ -110,8 +113,6 @@ namespace TableForge.UI
 
         private void BuildRows()
         {
-
-            
             foreach (var rowEntry in TableData.Rows)
             {
                 var row = rowEntry.Value;
@@ -123,70 +124,6 @@ namespace TableForge.UI
                 _rowHeaders.Add(row.Id, rowControl.Children().First() as RowHeaderControl);
                 RowHeaderContainer.Add(rowControl.Children().First());
             }
-        }
-    }
-
-    internal abstract class HeaderContainerControl : VisualElement
-    {
-        protected ScrollView CellContainer;
-        
-        protected HeaderContainerControl(ScrollView cellContainer)
-        {
-            CellContainer = cellContainer;
-        }
-
-        protected abstract void HandleOffset(float offset);
-
-    }
-    
-    internal class ColumnHeaderContainerControl : HeaderContainerControl
-    {
-        public ColumnHeaderContainerControl(ScrollView cellContainer) : base(cellContainer)
-        {
-            AddToClassList("table__header-container--horizontal");
-            cellContainer.verticalScroller.valueChanged += HandleOffset;
-            style.left = UiContants.CellWidth;
-
-            HandleOffset(0);
-        }
-
-        protected override void HandleOffset(float offset)
-        {
-            style.top = offset;
-        }
-    }
-    
-    internal class RowHeaderContainerControl : HeaderContainerControl
-    {
-        public RowHeaderContainerControl(ScrollView cellContainer) : base(cellContainer)
-        {
-            AddToClassList("table__header-container--vertical");
-            cellContainer.horizontalScroller.valueChanged += HandleOffset;
-        }
-
-        protected override void HandleOffset(float offset)
-        {
-            style.left = offset;
-        }
-    }
-    
-    internal class CornerContainerControl : HeaderContainerControl
-    {
-        public CornerContainerControl(ScrollView cellContainer) : base(cellContainer)
-        {
-            AddToClassList("table__corner-container");
-            cellContainer.horizontalScroller.valueChanged += HandleOffset;
-            cellContainer.verticalScroller.valueChanged += HandleVerticalOffset;
-        }
-
-        protected override void HandleOffset(float offset)
-        {
-            style.left = offset;
-        }
-        
-        private void HandleVerticalOffset(float offset)
-        {
-            style.top = offset;
         }
     }
 }

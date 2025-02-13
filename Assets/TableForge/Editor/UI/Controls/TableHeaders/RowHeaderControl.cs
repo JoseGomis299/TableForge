@@ -7,6 +7,17 @@ namespace TableForge.UI
     internal class RowHeaderControl : HeaderControl
     {
         public TableRowControl RowControl { get; }
+
+        public override bool IsVisible
+        {
+            get => base.IsVisible;
+            set
+            {
+                base.IsVisible = value;
+              
+            }
+        }
+
         public RowHeaderControl(int id, string name, TableControl tableControl, TableRowControl rowControl) : base(id, name, tableControl)
         {
             AddToClassList("table__header-cell--vertical");

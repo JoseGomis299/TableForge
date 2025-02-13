@@ -22,10 +22,11 @@ namespace TableForge.UI
                     this[0].SetEnabled(true);
                     AddToClassList("selected");
                 }
-                
+
                 _isSelected = value;
             }
         }
+        public bool IsVisible => TableControl.ColumnHeaders[Cell.Column.Id].IsVisible && TableControl.RowHeaders[Cell.Row.Id].IsVisible;
         protected TableControl TableControl { get; }
         public Cell Cell { get; }
 
