@@ -12,11 +12,11 @@ namespace TableForge.UI
             {
                 value = (Gradient)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt => Cell.SetValue(evt.newValue));
+            field.RegisterValueChangedCallback(OnChange);
             Add(field);
             
-            field.AddToClassList("table__cell__content");
-            SetDesiredSize(UiContants.SpecialCellDesiredWidth, UiContants.CellHeight);
+            field.AddToClassList(USSClasses.TableCellContent);
+            SetDesiredSize(UiConstants.SpecialCellDesiredWidth, UiConstants.CellHeight);
             
             IsSelected = false;
         }

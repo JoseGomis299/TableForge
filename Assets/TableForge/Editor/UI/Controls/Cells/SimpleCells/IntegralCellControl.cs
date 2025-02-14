@@ -11,7 +11,7 @@ namespace TableForge.UI
             var field = GetField();
             Add(field);
             
-            field.AddToClassList("table__cell__content");
+            field.AddToClassList(USSClasses.TableCellContent);
             InitializeSize();
             
             IsSelected = false;
@@ -66,7 +66,7 @@ namespace TableForge.UI
         {
             float padding = 20f;
             var preferredWidth = EditorStyles.label.CalcSize(new GUIContent(Cell.GetValue().ToString())).x;
-            SetDesiredSize(preferredWidth + padding, UiContants.CellHeight);
+            SetDesiredSize(preferredWidth + padding, UiConstants.CellHeight);
         }
     }
 }

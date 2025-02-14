@@ -1,11 +1,16 @@
 :root {
     --border-color: rgb(69, 69, 69);
     --background-color: rgb(56, 56, 56);
+    --resize-preview-color: rgba(255, 255, 255, 0.5);
+    --selected-color: rgb(114, 114, 114);
+    --selected-header-color: rgb(83, 83, 83);
+    
     --cell-width: 100px;
     --cell-height: 30px;
     --header-padding: 5px;
     --border-width: 1px;
     --resizable-border-span: 5px;
+    --resize-preview-width: 3px;
 }
 
 .fill {
@@ -21,8 +26,8 @@
 }
 
 .table__corner {
-    width: var(--cell-width);
-    height: var(--cell-height);
+    width: 100%;
+    height: 100%;
     background-color: var(--background-color);
     border-color: var(--border-color);
     border-right-width: var(--border-width);
@@ -30,25 +35,27 @@
 }
 
 .table__corner-container {
-    width: var(--cell-width);
+    width: auto;
     height: var(--cell-height);
     background-color: var(--background-color);
     border-color: var(--border-color);
 }
 
 .table__header-cell--vertical {
+    width: 100%;
+    height: var(--cell-height);
     border-right-width: var(--border-width);
     border-bottom-width: var(--border-width);
 }
 
 .table__header-cell--horizontal {
+    width: var(--cell-width);
+    height: 100%;
     border-right-width: var(--border-width);
     border-bottom-width: var(--border-width);
 }
 
 .table__header-cell--vertical, .table__header-cell--horizontal {
-    width: var(--cell-width);
-    height: var(--cell-height);
     border-color: var(--border-color);
     background-color: var(--background-color);
     -unity-text-align: middle-center;
@@ -62,6 +69,7 @@
 }
 
 .table__header-container--horizontal {
+    height: var(--cell-height);
     flex-direction: row;
     flex-grow: 0;
     position: absolute;
@@ -119,10 +127,8 @@
     padding: 5px;
     margin: 0;
     overflow: hidden;
-    background-color: rgba(55, 55, 55, 0);
     border-width: 0;
     -unity-text-align: middle-left;
-    -unity-text-outline-color: rgba(40, 40, 40, 0);
     padding-left: 5px;
     flex-shrink: 0;
 }
@@ -147,12 +153,48 @@
     cursor: resize-vertical;
 }
 
+.resize-preview--horizontal {
+    width: var(--resize-preview-width);
+    height: 100%;
+    background-color: var(--resize-preview-color);
+    position: absolute;
+    cursor: resize-horizontal;
+}
+
+.resize-preview--vertical {
+    width: 100%;
+    height: var(--resize-preview-width);
+    background-color: var(--resize-preview-color);
+    position: absolute;
+    cursor: resize-vertical;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
 .selected {
-    background-color: rgba(255, 255, 255, 0.29);
+    background-color: var(--selected-color);
 }
 
 .selectedHeader {
-    background-color: rgb(83, 83, 83);
+    background-color: var(--selected-header-color);
+}
+
+.table__scroll-view-content__container {
+    width: 100%;
+    height: 100%;
+    flex-direction: column-reverse;
+}
+
+.table__scroll-view-content--top {
+    flex-shrink: 0;
+    flex-direction: row;
+}
+
+.table__scroll-view-content--bottom {
+    flex-shrink: 1;
+    flex-direction: row;
 }
 
 .table {
@@ -168,10 +210,4 @@
     border-width: var(--border-width);
     border-color: var(--border-color);
     background-color: var(--background-color);
-}
-
-.absolute {
-    flex-grow: 0;
-    position: absolute;
-    overflow: visible;
 }

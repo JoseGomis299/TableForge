@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -15,12 +14,12 @@ namespace TableForge.UI
                 {
                     this[0].SetEnabled(false);
                     this.RemoveFromChildrenClassList(disabledUssClassName);
-                    RemoveFromClassList("selected");
+                    RemoveFromClassList(USSClasses.Selected);
                 }
                 else
                 {
                     this[0].SetEnabled(true);
-                    AddToClassList("selected");
+                    AddToClassList(USSClasses.Selected);
                 }
 
                 _isSelected = value;
@@ -34,10 +33,11 @@ namespace TableForge.UI
         {
             TableControl = tableControl;
             Cell = cell;
-            AddToClassList("table__cell");
+            AddToClassList(USSClasses.TableCell);
         }
         
-        protected void SetDesiredSize(float width, float height, bool force = false)
+        
+        protected void SetDesiredSize(float width, float height)
         {
             int columnId = Cell.Column.Id;
             int rowId = Cell.Row.Id;

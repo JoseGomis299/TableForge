@@ -36,7 +36,7 @@ namespace TableForge.UI
         public CellAnchorData(CellAnchor cellAnchor)
         {
             CellAnchor = cellAnchor;
-            AddPreferredHeight(0, UiContants.CellHeight);
+            AddPreferredHeight(0, UiConstants.CellHeight);
         }
     }
 }

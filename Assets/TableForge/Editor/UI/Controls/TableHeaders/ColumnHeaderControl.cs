@@ -8,20 +8,19 @@ namespace TableForge.UI
     {
         public ColumnHeaderControl(int id, string name, TableControl tableControl) : base(id, name, tableControl)
         {
-            AddToClassList("table__header-cell--horizontal");
+            AddToClassList(USSClasses.TableHeaderCellHorizontal);
             
             var textSize = EditorStyles.label.CalcSize(new GUIContent(CompleteName.Replace("<b>", "").Replace("</b>", "")));
-            var desiredWidth = textSize.x + UiContants.HeaderPadding;
-            TableControl.ColumnData[Id].AddPreferredWidth(id, Mathf.Max(desiredWidth, UiContants.MinCellWidth));
+            var desiredWidth = textSize.x + UiConstants.HeaderPadding;
+            TableControl.ColumnData[Id].AddPreferredWidth(id, Mathf.Max(desiredWidth, UiConstants.MinCellWidth));
 
             var headerLabel = new Label(CompleteName);
-            headerLabel.AddToClassList("fill");
+            headerLabel.AddToClassList(USSClasses.Fill);
             Add(headerLabel);
 
-            if(id != 0)
             TableControl.HorizontalResizer.HandleResize(this);
         }
         
-        private string CompleteName => Id == 0 ? "" : $"{TableControl.ColumnData[Id].CellAnchor.LetterPosition} | <b>{Name}</b>";
+        private string CompleteName => $"{TableControl.ColumnData[Id].CellAnchor.LetterPosition} | <b>{Name}</b>";
     }
 }

@@ -1,7 +1,5 @@
 using UnityEditor;
-using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -18,8 +16,8 @@ namespace TableForge.UI
             var root = rootVisualElement;
             root.Add(visualTreeAsset.Instantiate());
 
-            UiContants.InitializeStyles(root);
-            UiContants.OnStylesInitialized += OnStylesInitialized;
+            UiConstants.InitializeStyles(root);
+            UiConstants.OnStylesInitialized += OnStylesInitialized;
         }
 
         private void OnStylesInitialized()
@@ -32,7 +30,7 @@ namespace TableForge.UI
             tableControl.SetTable(table);
             mainTable.Add(tableControl);
 
-            UiContants.OnStylesInitialized -= OnStylesInitialized;
+            UiConstants.OnStylesInitialized -= OnStylesInitialized;
         }
     }
 }

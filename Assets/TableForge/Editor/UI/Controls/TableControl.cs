@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,106 +7,149 @@ namespace TableForge.UI
 {
     internal class TableControl : VisualElement
     {
+        public event Action OnScrollviewHeightChanged;
+        public event Action OnScrollviewWidthChanged;
+        
         private readonly Dictionary<int, CellAnchorData> _columnData = new Dictionary<int, CellAnchorData>();
         private readonly Dictionary<int, CellAnchorData> _rowData = new Dictionary<int, CellAnchorData>();
         private readonly Dictionary<int, RowHeaderControl> _rowHeaders = new Dictionary<int, RowHeaderControl>();
         private readonly Dictionary<int, ColumnHeaderControl> _columnHeaders = new Dictionary<int, ColumnHeaderControl>();
+        
+        private readonly ColumnHeaderContainerControl _columnHeaderContainer;
+        private readonly RowHeaderContainerControl _rowHeaderContainer;
+        private readonly CornerContainerControl _cornerContainer;
+        private readonly VisualElement _rowsContainer;
+        private readonly ScrollView _scrollView;
+
+        private float _scrollViewHeight;
+        private float _scrollViewWidth;
         
         public IReadOnlyDictionary<int, CellAnchorData> ColumnData => _columnData;
         public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
         public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
         public IReadOnlyDictionary<int, ColumnHeaderControl> ColumnHeaders => _columnHeaders;
         
-        public Table TableData { get; private set; }
         public VisualElement Root { get; }
-
-        public VisualElement ColumnHeaderContainer { get; }
-        public VisualElement RowHeaderContainer { get; }
-        public VisualElement CornerContainer { get; }
-        public VisualElement RowsContainer { get; }
-        public ScrollView ScrollView { get; }
-
-        public HorizontalBorderResizer HorizontalResizer { get; }
-        public VerticalBorderResizer VerticalResizer { get; }
-        public CellSelector CellSelector { get; }
+        public CornerContainerControl CornerContainer => _cornerContainer;
         
-        public CellVisibilityManager CellVisibilityManager { get; }
-
+        public Table TableData { get; private set; }
+        public BorderResizer HorizontalResizer { get; }
+        public BorderResizer VerticalResizer { get; }
+        public ICellSelector CellSelector { get; }
+        public VisibilityManager<ColumnHeaderControl> ColumnVisibilityManager { get; }
+        public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
+        
+        
         public TableControl(VisualElement root)
         {
+            // Basic initialization
             Root = root;
-            AddToClassList("table");
+            AddToClassList(USSClasses.Table);
 
-            ScrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
-            ScrollView.AddToClassList("fill");
-            CellVisibilityManager = new CellVisibilityManager(this);
-            
-            HorizontalResizer = new HorizontalBorderResizer(this, CellVisibilityManager);
+            // Initialize main components
+            _scrollView = CreateScrollView();
+            HorizontalResizer = new HorizontalBorderResizer(this);
             VerticalResizer = new VerticalBorderResizer(this);
-            
-            RowsContainer = new VisualElement();
-            RowsContainer.AddToClassList("table__row-container");
-            
-            ColumnHeaderContainer = new ColumnHeaderContainerControl(ScrollView);
-            RowHeaderContainer = new RowHeaderContainerControl(ScrollView);
-            CornerContainer = new CornerContainerControl(ScrollView);
-            
+            ColumnVisibilityManager = new ColumnVisibilityManager(this, _scrollView);
+            RowVisibilityManager = new RowVisibilityManager(this, _scrollView);
             CellSelector = new CellSelector(this);
-          
-            Add(ScrollView);
-            VisualElement parent = new VisualElement();
-            parent.AddToClassList("fill");
-            parent.style.flexDirection = FlexDirection.ColumnReverse;
-            ScrollView.Add(parent);
-            
-            VisualElement rowAndHeaderContainer = new VisualElement();
-            rowAndHeaderContainer.style.flexShrink = 1;
-            rowAndHeaderContainer.style.flexDirection = FlexDirection.Row;
-            
-            parent.Add(rowAndHeaderContainer);
-            rowAndHeaderContainer.Add(RowsContainer);
-            rowAndHeaderContainer.Add(RowHeaderContainer);
-            
-            VisualElement cornerAndHeaderContainer = new VisualElement();
-            cornerAndHeaderContainer.style.flexDirection = FlexDirection.Row;
-            cornerAndHeaderContainer.style.flexShrink = 0;
-            
-            parent.Add(cornerAndHeaderContainer);
-            var cornerCell = new TableCornerControl(this);
-            CornerContainer.Add(cornerCell);
-            cornerAndHeaderContainer.Add(ColumnHeaderContainer);
-            cornerAndHeaderContainer.Add(CornerContainer);
-        }
 
+            // Initialize sub-containers
+            _rowsContainer = CreateRowsContainer();
+            _columnHeaderContainer = new ColumnHeaderContainerControl(_scrollView);
+            _rowHeaderContainer = new RowHeaderContainerControl(_scrollView);
+            _cornerContainer = new CornerContainerControl(_scrollView);
+
+            // Build UI hierarchy (styles defined in USS)
+            BuildLayoutHierarchy();
+        }
+        
+        private ScrollView CreateScrollView()
+        {
+            var scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
+            scrollView.AddToClassList(USSClasses.Fill);
+            Add(scrollView);
+            
+            return scrollView;
+        }
+        
+        private VisualElement CreateRowsContainer()
+        {
+            var container = new VisualElement();
+            container.AddToClassList(USSClasses.TableRowContainer);
+            return container;
+        }
+        
+        private void BuildLayoutHierarchy()
+        {
+            // Container for all scroll view content
+            var scrollviewContentContainer = new VisualElement();
+            scrollviewContentContainer.AddToClassList(USSClasses.TableScrollViewContentContainer);
+            _scrollView.Add(scrollviewContentContainer);
+            
+            /*
+             Note that the bottom container is added first, as the scrollviewContentContainer flex-direction is columnReverse.
+             This is done to ensure that the bottom container is rendered first and the top container is rendered last
+             while still maintaining the correct order
+            */
+             
+            // Bottom container for rows and row headers
+            var bottomContainer = new VisualElement();
+            bottomContainer.AddToClassList(USSClasses.TableScrollViewContentBottom);
+            scrollviewContentContainer.Add(bottomContainer);
+            bottomContainer.Add(_rowsContainer);
+            bottomContainer.Add(_rowHeaderContainer);
+            
+            // Top container for column headers and corner cell
+            var topContainer = new VisualElement();
+            topContainer.AddToClassList(USSClasses.TableScrollViewContentTop);
+            scrollviewContentContainer.Add(topContainer);
+            var cornerCell = new TableCornerControl(this, _columnHeaderContainer, _rowHeaderContainer, _rowsContainer);
+            _cornerContainer.Add(cornerCell);
+            topContainer.Add(_columnHeaderContainer);
+            topContainer.Add(_cornerContainer);
+        }
+        
         public void SetTable(Table table)
         {
             TableData = table;
+            _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
 
             _columnData.Clear();
             _rowData.Clear();
             _rowHeaders.Clear();
             _columnHeaders.Clear();
-            ColumnHeaderContainer.Clear();
-            RowsContainer.Clear();
+            _columnHeaderContainer.Clear();
+            _rowsContainer.Clear();
+            
+            // Add empty data for the corner cell
+            _rowData.Add(0, new CellAnchorData(null));
+            _columnData.Add(0, new CellAnchorData(null));
+            
             BuildHeader();
             BuildRows();
             
+            this.RegisterSingleUseCallback<GeometryChangedEvent>(OnGeometryInitialized);
+        }
+        
+        private void OnGeometryInitialized()
+        {
+            VerticalResizer.OnResize += RefreshScrollViewHeight;
+            HorizontalResizer.OnResize += RefreshScrollViewWidth;
+
             HorizontalResizer.ResizeAll();
             VerticalResizer.ResizeAll();
         }
         
-        
         private void BuildHeader()
         {
-            _columnData.Add(0, new CellAnchorData(null));
-
             foreach (var columnEntry in TableData.Columns)
             {
                 var column = columnEntry.Value;
                 _columnData.Add(column.Id, new CellAnchorData(column));
 
                 var headerCell = new ColumnHeaderControl(column.Id, column.Name, this);
-                ColumnHeaderContainer.Add(headerCell);
+                _columnHeaderContainer.Add(headerCell);
                 _columnHeaders.Add(column.Id, headerCell);
             }
         }
@@ -118,12 +161,29 @@ namespace TableForge.UI
                 var row = rowEntry.Value;
                 _rowData.Add(row.Id, new CellAnchorData(row));
 
-                var rowControl = new TableRowControl(row, this);
-                RowsContainer.Add(rowControl);
+                var rowControl = new RowControl(row, this);
+                _rowsContainer.Add(rowControl);
                 
-                _rowHeaders.Add(row.Id, rowControl.Children().First() as RowHeaderControl);
-                RowHeaderContainer.Add(rowControl.Children().First());
+                var header = new RowHeaderControl(row.Id, row.Name, this, rowControl);
+                _rowHeaders.Add(row.Id, header);
+                _rowHeaderContainer.Add(header);
             }
+        }
+        
+        private void RefreshScrollViewHeight(float delta)
+        {
+            _scrollView.contentContainer.RegisterSingleUseCallback<GeometryChangedEvent>(() => OnScrollviewHeightChanged?.Invoke());
+
+            _scrollViewHeight += delta;
+            _scrollView.contentContainer.style.height = _scrollViewHeight;
+        }
+        
+        private void RefreshScrollViewWidth(float delta)
+        {
+            _scrollView.contentContainer.RegisterSingleUseCallback<GeometryChangedEvent>(() => OnScrollviewWidthChanged?.Invoke());
+
+            _scrollViewWidth += delta;
+            _scrollView.contentContainer.style.width = _scrollViewWidth;
         }
     }
 }

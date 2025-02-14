@@ -6,7 +6,7 @@ namespace TableForge.UI
     {
         public CornerContainerControl(ScrollView cellContainer) : base(cellContainer)
         {
-            AddToClassList("table__corner-container");
+            AddToClassList(USSClasses.TableCornerContainer);
             cellContainer.horizontalScroller.valueChanged += HandleOffset;
             cellContainer.verticalScroller.valueChanged += HandleVerticalOffset;
         }

@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,6 +6,8 @@ namespace TableForge.UI
 {
     internal class VerticalBorderResizer : BorderResizer
     {
+        protected override string ResizingPreviewClass => USSClasses.ResizePreviewVertical;
+
         public VerticalBorderResizer(TableControl tableControl) : base(tableControl)
         {
         }
@@ -27,22 +28,37 @@ namespace TableForge.UI
 
                 if (downEvent.position.y >= bottomBound && downEvent.position.y <= upperBound)
                 {
-                    InstantResize(headerControl);
+                    float delta = InstantResize(headerControl);
+                    InvokeResize(headerControl, delta);
                     return;
                 }
             }
         }
 
-        protected override void InstantResize(HeaderControl target)
+        protected override float InstantResize(HeaderControl target)
         {
             var rowData = TableControl.RowData[target.Id];
-            UpdateSize(target, rowData.PreferredHeight);
+            float delta = UpdateSize(target, new Vector3(0, rowData.PreferredHeight));
             UpdateChildrenSize(target);
+            return delta;
+        }
+
+        protected override void MovePreview(Vector3 startPosition, Vector3 initialSize, Vector3 newSize)
+        {
+            if (ResizingPreview == null) return;
+
+            var delta = newSize.y - initialSize.y;
+            var position = startPosition.y - TableControl.worldBound.yMin + delta;
+            ResizingPreview.style.top = position;
         }
 
         public override bool IsResizingArea(Vector3 position, out HeaderControl headerControl)
         {
             headerControl = null;
+            float margin = UiConstants.ResizableBorderSpan + UiConstants.BorderWidth / 2f;
+
+            //If the mouse is touching the corner, we don't want to resize the rows behind it.
+            if(position.y < TableControl.CornerContainer.worldBound.yMax - margin) return false;
 
             foreach (var header in ResizingHeaders)
             {
@@ -51,7 +67,6 @@ namespace TableForge.UI
                 if (position.x < leftBound || position.x > rightBound) continue;
 
                 float bottomBound = header.worldBound.yMax;
-                float margin = UiContants.ResizableBorderSpan + UiContants.BorderWidth / 2f;
                 float minPosition = bottomBound - margin;
                 float maxPosition = bottomBound + margin;
 
@@ -75,8 +90,8 @@ namespace TableForge.UI
                     
                 foreach (var header in ResizingHeaders)
                 {
-                    header.AddToClassList("cursor__resize--vertical");
-                    header.AddToChildrenClassList("cursor__resize--vertical");
+                    header.AddToClassList(USSClasses.CursorResizeVertical);
+                    header.AddToChildrenClassList(USSClasses.CursorResizeVertical);
                 }
                 return;
             }
@@ -85,26 +100,28 @@ namespace TableForge.UI
             
             foreach (var header in ResizingHeaders)
             {
-                header.RemoveFromClassList("cursor__resize--vertical");
-                header.RemoveFromChildrenClassList("cursor__resize--vertical");
+                header.RemoveFromClassList(USSClasses.CursorResizeVertical);
+                header.RemoveFromChildrenClassList(USSClasses.CursorResizeVertical);
             }            
             ResizingHeader = null;
         }
         
-        protected override void UpdateSize(HeaderControl headerControl, float newHeight)
+        protected override float UpdateSize(HeaderControl headerControl, Vector3 newSize)
         {
-            headerControl.style.height = newHeight;
+            float delta = newSize.y - headerControl.style.height.value.value;
+            headerControl.style.height = newSize.y;
+            return delta;
         }
 
         protected override void UpdateChildrenSize(HeaderControl headerControl)
         {
             if (headerControl is RowHeaderControl rowHeaderControl)
             {
-                rowHeaderControl.RowControl.style.height = rowHeaderControl.style.height;
+                rowHeaderControl.RowControl.style.height = rowHeaderControl.style.height;   
             }
         }
 
-        protected override float CalculateNewSize(Vector2 initialSize, Vector3 startPosition, Vector3 currentPosition)
+        protected override Vector3 CalculateNewSize(Vector2 initialSize, Vector3 startPosition, Vector3 currentPosition)
         {
             var delta = currentPosition.y - startPosition.y;
             var rowData = TableControl.RowData[ResizingHeader.Id];
@@ -112,12 +129,12 @@ namespace TableForge.UI
             float scaledHeight = initialSize.y + delta;
             float desiredHeight = rowData.PreferredHeight;
             
-            if(scaledHeight >= desiredHeight - UiContants.SnappingThreshold && scaledHeight <= desiredHeight + UiContants.SnappingThreshold)
+            if(scaledHeight >= desiredHeight - UiConstants.SnappingThreshold && scaledHeight <= desiredHeight + UiConstants.SnappingThreshold)
             {
-                return desiredHeight;
+                return new Vector3(0, desiredHeight);
             }
             
-            return Mathf.Max(UiContants.MinCellHeight, scaledHeight);
+            return new Vector3(0, Mathf.Max(UiConstants.MinCellHeight, scaledHeight));
         }
     }
 }

@@ -13,14 +13,10 @@ namespace TableForge.UI
             {
                 value = (Object)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt =>
-            {
-                Cell.SetValue(evt.newValue);
-                InitializeSize();
-            });
+            field.RegisterValueChangedCallback(OnChange);
             Add(field);
             
-            field.AddToClassList("table__cell__content");
+            field.AddToClassList(USSClasses.TableCellContent);
             InitializeSize();
             
             IsSelected = false;
@@ -33,7 +29,7 @@ namespace TableForge.UI
                 EditorStyles.label.CalcSize(new GUIContent((Cell.GetValue() as Object)?.name)).x :
                 EditorStyles.label.CalcSize(new GUIContent($"None ({Cell.Type.Name})")).x;
                 
-            SetDesiredSize(preferredWidth + padding, UiContants.CellHeight);
+            SetDesiredSize(preferredWidth + padding, UiConstants.CellHeight);
         }
     }
 }

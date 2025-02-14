@@ -6,37 +6,27 @@ namespace TableForge.UI
     {
         public readonly int Id;
         public readonly string Name;
-        protected readonly TableControl TableControl;
         
-        private bool _isVisible;
+        protected readonly TableControl TableControl;
+
         private bool _isSelected;
+        
         public bool IsSelected
         {
             get => _isSelected;
             set
             {
-                if (IsVisible)
-                {
-                    if (!value)
-                        RemoveFromClassList("selectedHeader");
-                    else
-                        AddToClassList("selectedHeader");
-                }
+                if (!value)
+                    RemoveFromClassList(USSClasses.SelectedHeader);
+                else
+                    AddToClassList(USSClasses.SelectedHeader);
 
                 _isSelected = value;
             }
         }
         
-        public virtual bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                _isVisible = value;
-            }
-        }
-        
-        
+        public bool IsVisible { get; set; }
+
 
         protected HeaderControl(int id, string name, TableControl tableControl)
         {

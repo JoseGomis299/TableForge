@@ -13,8 +13,8 @@ namespace TableForge.UI
             field.RegisterValueChangedCallback(OnChange);
             Add(field);
             
-            field.AddToClassList("fill");
-            field.AddToChildrenClassList("center");
+            field.AddToClassList(USSClasses.Fill);
+            field.AddToChildrenClassList(USSClasses.Center);
             
             IsSelected = false;
         }

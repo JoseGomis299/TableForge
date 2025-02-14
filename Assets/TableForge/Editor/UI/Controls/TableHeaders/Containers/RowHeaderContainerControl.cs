@@ -6,7 +6,7 @@ namespace TableForge.UI
     {
         public RowHeaderContainerControl(ScrollView cellContainer) : base(cellContainer)
         {
-            AddToClassList("table__header-container--vertical");
+            AddToClassList(USSClasses.TableHeaderContainerVertical);
             cellContainer.horizontalScroller.valueChanged += HandleOffset;
         }
 

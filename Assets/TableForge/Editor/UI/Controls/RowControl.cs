@@ -1,35 +1,34 @@
+using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 
 namespace TableForge.UI
 {
-    internal class TableRowControl : VisualElement
+    internal class RowControl : VisualElement
     {
         private readonly Row _row;
-        private readonly TableControl _tableControl;
+        private readonly Dictionary<int, CellControl> _cells = new Dictionary<int, CellControl>();
         
-        public TableRowControl(Row row, TableControl tableControl)
+        public IReadOnlyDictionary<int, CellControl> Cells => _cells;
+        public TableControl TableControl { get; }
+        
+        public RowControl(Row row, TableControl tableControl)
         {
             _row = row;
-            _tableControl = tableControl;
+            TableControl = tableControl;
             SetRow();
 
-            AddToClassList("table__row");
+            AddToClassList(USSClasses.TableRow);
+            AddToClassList(USSClasses.Hidden);
         }
 
-        public void SetColumnWidth(int id, float width)
-        {
-            this[_tableControl.ColumnData[id].Position].style.width = width;
-        }
-        
         public void RefreshColumnWidths()
         {
-            foreach (var columnEntry in _tableControl.ColumnData)
+            foreach (var columnEntry in TableControl.ColumnData)
             {
-                if (!_tableControl.ColumnHeaders.TryGetValue(columnEntry.Key, out var header)) continue;
-                this[columnEntry.Value.Position].style.width = header.style.width;
+                if (!TableControl.ColumnHeaders.TryGetValue(columnEntry.Key, out var header)) continue;
+                this[columnEntry.Value.Position - 1].style.width = header.style.width;
             }
         }
 
@@ -37,23 +36,16 @@ namespace TableForge.UI
         {
             Clear();
 
-            var columnsByPosition = _tableControl.ColumnData.ToDictionary(c => c.Value.Position, c => c.Value);
+            var columnsByPosition = TableControl.ColumnData.ToDictionary(c => c.Value.Position, c => c.Value);
             columnsByPosition = columnsByPosition.OrderBy(c => c.Key).ToDictionary(c => c.Key, c => c.Value);
-
-            var header = new RowHeaderControl(_row.Id, _row.Name, _tableControl, this);
-            Add(header);
-            
                         
-            var spacer = new VisualElement();
-            spacer.style.width = UiContants.CellWidth;
-            spacer.style.height =UiContants.CellHeight;
-            Add(spacer);
-
             foreach (var columnEntry in columnsByPosition)
             {
                 if (!_row.Cells.TryGetValue(columnEntry.Key, out var cell)) continue;
 
                 var cellField = CreateCellField(cell, columnEntry.Value.PreferredWidth);
+                if(cellField is CellControl cellControl)
+                    _cells.Add(columnEntry.Key, cellControl);
                 Add(cellField);
             }
         }
@@ -61,7 +53,7 @@ namespace TableForge.UI
         private VisualElement CreateCellField(Cell cell, float columnWidth)
         {
             if(cell == null) return new Label {text = ""};
-            var cellControl = CellControlFactory.Create(cell, _tableControl);
+            var cellControl = CellControlFactory.Create(cell, TableControl);
             cellControl.style.width = columnWidth;
             return cellControl;
         }
@@ -94,7 +86,7 @@ namespace TableForge.UI
                 case ReferenceCell referenceCell:
                     return new ReferenceCellControl(referenceCell, tableControl);
                 default:
-                    return new Label {text = ""};
+                    return new Label { text = "" };
             }
         }
     }

@@ -12,10 +12,10 @@ namespace TableForge.UI
             {
                 value = (string)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt => Cell.SetValue(evt.newValue));
+            field.RegisterValueChangedCallback(OnChange);
             Add(field);
             
-            field.AddToClassList("table__cell__content");
+            field.AddToClassList(USSClasses.TableCellContent);
             InitializeSize();
             
             IsSelected = false;
@@ -24,8 +24,8 @@ namespace TableForge.UI
         protected override void InitializeSize()
         {
             float padding = 20f;
-            var preferredWidth = EditorStyles.label.CalcSize(new GUIContent(Cell?.GetValue()?.ToString())).x;
-            SetDesiredSize(preferredWidth + padding, UiContants.CellHeight);
+            var preferredWidth = EditorStyles.label.CalcSize(new GUIContent(Cell.GetValue()?.ToString())).x;
+            SetDesiredSize(preferredWidth + padding, UiConstants.CellHeight);
         }
     }
 }

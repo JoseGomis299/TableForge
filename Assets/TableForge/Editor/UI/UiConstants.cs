@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
-    internal static class UiContants
+    internal static class UiConstants
     {
         public static event Action OnStylesInitialized;
 
@@ -48,4 +48,8 @@ namespace TableForge.UI
             OnStylesInitialized?.Invoke();
         }
     }
+}
+
+namespace TableForge.UI
+{
 }
