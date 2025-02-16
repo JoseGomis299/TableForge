@@ -21,7 +21,7 @@ public class Test1 : ScriptableObject
     
     [field: SerializeField] public int PublicLongProperty { get; set; }
     [field: SerializeField] public float PublicDoubleProperty { get; set; }
-    
+
     [TableForgeSerialize] private InnerClass innerClass;
     
     public List<InnerClass> innerClasses;
@@ -45,7 +45,7 @@ public class Test1 : ScriptableObject
     public Vector3[] vector3Array;
     [TableForgeSerialize] public Dictionary<InnerClass, int> innerClassIntDictionary = new Dictionary<InnerClass, int>() { { new InnerClass(1, "text1"), 1 }, { new InnerClass(2, "text2"), 2 } };
     [TableForgeSerialize] public Dictionary<string, int> stringIntDictionary = new Dictionary<string, int>() { { "key1", 1 }, { "key2", 2 } };
-    [TableForgeSerialize] public Dictionary<string, InnerClass> stringInnerClassDictionary = new Dictionary<string, InnerClass>() { { "key1", null }, { "key2", null } };
+    [TableForgeSerialize] public Dictionary<string, InnerClass> stringInnerClassDictionary = new Dictionary<string, InnerClass>() { { "key1", null }, { "key2", new InnerClass(1, "") } };
     
     public Dictionary<int, InnerClass> hiddenDictionary = new Dictionary<int, InnerClass>() { { 1, null }, { 2, new InnerClass(2, "text2") } };
     

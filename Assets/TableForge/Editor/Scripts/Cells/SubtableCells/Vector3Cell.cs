@@ -9,7 +9,7 @@ namespace TableForge
     [CellType(typeof(Vector3))]
     internal class Vector3Cell : SubTableCell
     {
-        public Vector3Cell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject)
+        public Vector3Cell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
             Type = typeof(Vector3);
             CreateSubTable();
@@ -21,7 +21,7 @@ namespace TableForge
             CreateSubTable();
         }
         
-        public override void SerializeData()
+        public override void RefreshData()
         {
         
         }

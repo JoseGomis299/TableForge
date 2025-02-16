@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TableForge
@@ -87,6 +88,35 @@ namespace TableForge
         }
         
         /// <summary>
+        /// Removes a row from the table at the specified position, adjusting subsequent row positions accordingly.
+        /// <remarks>If the row represents a value in a collection, the corresponding value will be removed from it.</remarks>
+        /// </summary>
+        /// <param name="position">The position of the row to remove.</param>
+        public void RemoveRow(int position)
+        {
+            if (!_rows.TryGetValue(position, out Row row))
+                return;
+
+            if (ParentCell is ICollectionCell collectionCell)
+            {
+                collectionCell.RemoveItem(position - 1);
+                _rows.Remove(position);
+                row.Table = null;
+            }
+            else
+            {
+                _rows.Remove(position);
+                row.Table = null;
+                
+                List<Row> orderedRows = new List<Row>(_rows.Values.OrderBy(x => x.Position));
+                for (int i = position - 1; i < orderedRows.Count; i++)
+                {
+                    orderedRows[i].Position = i;
+                }
+            }
+        }
+        
+        /// <summary>
         /// Moves a row from one position to another, adjusting subsequent row positions accordingly.
         /// </summary>
         /// <param name="fromPosition">Original 1-based row position</param>
@@ -141,11 +171,11 @@ namespace TableForge
                  && _rows.TryGetValue(fromPosition, out Row fromRow)
                  && !fromRow.IsStatic
                  && fromRow.Cells.TryGetValue(1, out Cell fromCell)
-                 && fromCell.TfSerializedObject is TFSerializedListItem fromItem
+                 && fromCell.TfSerializedObject is ITFSwapableCollectionItem fromItem
                  && _rows.TryGetValue(toPosition, out Row toRow)
                  && !toRow.IsStatic
                  && toRow.Cells.TryGetValue(1, out Cell toCell)
-                 && toCell.TfSerializedObject is TFSerializedListItem toItem)
+                 && toCell.TfSerializedObject is ITFSwapableCollectionItem toItem)
             {
                 fromItem.SwapWith(toItem);
             }

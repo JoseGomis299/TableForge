@@ -27,7 +27,7 @@ namespace TableForge
         /// <summary>
         /// The serialized object containing the field.
         /// </summary>
-        public readonly ITFSerializedObject TfSerializedObject;
+        public ITFSerializedObject TfSerializedObject => Row.SerializedObject;
 
         /// <summary>
         /// The cached value of the cell.
@@ -46,12 +46,11 @@ namespace TableForge
         #endregion
 
         #region Constructors
-        protected Cell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject)
+        protected Cell(CellAnchor column, Row row, TFFieldInfo fieldInfo)
         {
             Column = column;
             Row = row;
             FieldInfo = fieldInfo;
-            TfSerializedObject = tfSerializedObject;
             Type = GetFieldType();
             
             Value = GetFieldValue();
@@ -79,9 +78,12 @@ namespace TableForge
         }
 
         /// <summary>
-        /// Serializes the cell data.
+        /// Retrieves and stores the current value of the field stored in this cell.
         /// </summary>
-        public abstract void SerializeData();
+        public virtual void RefreshData()
+        {
+            Value = GetFieldValue();
+        }
         
         /// <summary>
         /// Gets the position of the cell in the table in a spreadsheet like format.

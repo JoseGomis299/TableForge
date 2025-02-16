@@ -1,23 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TableForge.Exceptions;
+using UnityEngine;
 
 namespace TableForge
 {
     /// <summary>
     /// Serialized object for dictionary items, which have a key and a value
     /// </summary>
-    internal class TFSerializedDictionaryItem : TFSerializedObject
+    internal class TFSerializedDictionaryItem : TFSerializedObject, ITFSerializedCollectionItem
     {
         private readonly IDictionary _dictionary;
         private object _itemKey;
         
-        public TFSerializedDictionaryItem(IDictionary dictionary, object itemKey)
+        public  TFSerializedDictionaryItem(IDictionary dictionary, object itemKey)
         {
             TargetInstance = dictionary;
             Name = "";
             _dictionary = dictionary;
             _itemKey = itemKey;
+            ColumnGenerator = new DictionaryColumnGenerator();
         }
         
         public override object GetValue(Cell cell)
@@ -39,12 +42,15 @@ namespace TableForge
             if(!_dictionary.Contains(_itemKey) && !((SubTableCell)cell.Row.Table.ParentCell).IsSubTableInvalid)
             {
                 ((SubTableCell)cell.Row.Table.ParentCell).IsSubTableInvalid = true;
-                //TODO: Adter this, the subtable will be regenerated
+                //TODO: After this, the subtable will be regenerated
             }
             
             bool isKey = cell.Column.Name == "Key";
             if (isKey)
             {
+                if(_dictionary.Contains(data))
+                    throw new InvalidCellValueException($"Key {data} already exists in dictionary. Cannot add duplicate keys.");
+                
                 object value = _dictionary[_itemKey];
                 _dictionary.Remove(_itemKey);
                 _dictionary.Add(data, value);
@@ -68,26 +74,14 @@ namespace TableForge
         
         public override void PopulateRow(List<CellAnchor> columns, Table table, Row row)
         {
-            CellAnchor keyColumn = new CellAnchor("Key", 1);
-            CellAnchor valueColumn = new CellAnchor("Value", 2);
-            keyColumn.IsStatic = true;
-            valueColumn.IsStatic = true;
+            ColumnGenerator.GenerateColumns(columns, table);
+            row.SerializedObject = this;
             
-            if(columns.Count == 0)
-            {
-                columns.Add(keyColumn);
-                columns.Add(valueColumn);
-                
-                table.AddColumn(keyColumn);
-                table.AddColumn(valueColumn);
-            }
-            
-            Cell keyCell = CellFactory.CreateCell(columns[0], row, _dictionary.GetType().GetGenericArguments()[0],null, this);
+            Cell keyCell = CellFactory.CreateCell(columns[0], row, _dictionary.GetType().GetGenericArguments()[0]);
             row.Cells.Add(1, keyCell);
             
-            Cell valueCell = CellFactory.CreateCell(columns[1], row, _dictionary.GetType().GetGenericArguments()[1],null, this);
+            Cell valueCell = CellFactory.CreateCell(columns[1], row, _dictionary.GetType().GetGenericArguments()[1]);
             row.Cells.Add(2, valueCell);
         }
-        
     }
 }

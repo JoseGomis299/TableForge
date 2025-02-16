@@ -1,4 +1,5 @@
 using System;
+using TableForge.Exceptions;
 
 namespace TableForge
 {
@@ -8,19 +9,15 @@ namespace TableForge
     [CellType(typeof(int), typeof(uint), typeof(long), typeof(ulong))]
     internal class IntegralCell : Cell
     {
-        public IntegralCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject) { }
+        public IntegralCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
 
         public override void SetValue(object value)
         {
             if(!value.GetType().IsIntegralType())
-                throw new ArgumentException($"Data must be an integral type, type {value.GetType().Name} is not valid for this cell!");
+                throw new InvalidCellValueException($"Data must be an integral type, type {value.GetType().Name} is not valid for this cell!");
           
             base.SetValue(value);
             Value = Convert.ChangeType(value, Type);
-        }
-
-        public override void SerializeData()
-        {
         }
     }
 }

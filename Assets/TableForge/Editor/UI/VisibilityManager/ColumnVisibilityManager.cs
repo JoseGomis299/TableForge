@@ -20,6 +20,7 @@ namespace TableForge.UI
             // Subscribe to horizontal scroll changes.
             _scrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
             _tableControl.OnScrollviewWidthChanged += () => RefreshVisibility(_scrollView.horizontalScroller.value);
+            _tableControl.RegisterCallback<GeometryChangedEvent>(_ => RefreshVisibility(_scrollView.horizontalScroller.value));
         }
 
         public override void RefreshVisibility(float value)

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -20,6 +21,7 @@ namespace TableForge.UI
                 {
                     this[0].SetEnabled(true);
                     AddToClassList(USSClasses.Selected);
+                    this.RemoveFromChildrenClassList(disabledUssClassName);
                 }
 
                 _isSelected = value;
@@ -48,8 +50,14 @@ namespace TableForge.UI
         
         protected virtual void OnChange<T>(ChangeEvent<T> evt)
         {
-            Cell.SetValue(evt.newValue);
-            InitializeSize();
+            try
+            {
+                Cell.SetValue(evt.newValue);
+            }
+            finally
+            {
+                InitializeSize();
+            }
         }
 
         protected virtual void InitializeSize()

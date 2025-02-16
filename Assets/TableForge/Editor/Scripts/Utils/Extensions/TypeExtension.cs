@@ -156,6 +156,9 @@ namespace TableForge
         /// <exception cref="InvalidOperationException">If the type has no valid constructors.</exception>
         public static object CreateInstanceWithDefaults(this Type type)
         {
+            if(type.IsValueType)
+                return Activator.CreateInstance(type);
+            
             // Get all constructors and sort by parameter count and create an instance with default values
             ConstructorInfo[] constructors = type.GetConstructors();
             var sortedConstructors = constructors.OrderBy(ctor => ctor.GetParameters().Length);

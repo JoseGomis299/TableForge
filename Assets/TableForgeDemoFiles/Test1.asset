@@ -73,10 +73,15 @@ MonoBehaviour:
   floatField: 13
   <PublicLongProperty>k__BackingField: 1
   <PublicDoubleProperty>k__BackingField: 32
-  innerClasses: []
+  innerClasses:
+  - number: 0
+    text: 
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 1
-  vector3Array: []
+  vector3Array:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  text: 

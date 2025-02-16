@@ -5,11 +5,6 @@ namespace TableForge
     /// </summary>
     internal class EnumCell : Cell
     {
-        public EnumCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject) { }
-
-        public override void SerializeData()
-        {
-        
-        }
+        public EnumCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

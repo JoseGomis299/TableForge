@@ -6,11 +6,6 @@ namespace TableForge
     [CellType(typeof(bool))]
     internal class BoolCell : Cell
     {
-        public BoolCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject) { }
-
-        public override void SerializeData()
-        {
-        
-        }
+        public BoolCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

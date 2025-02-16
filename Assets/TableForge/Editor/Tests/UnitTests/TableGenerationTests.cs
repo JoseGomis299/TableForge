@@ -357,7 +357,7 @@ namespace TableForge.Tests
             
             // Check that the cell type for the first row is correct
             var firstRow = table.Rows[1];
-            Assert.AreEqual(typeof(SubitemCell), firstRow.Cells[1].GetType());
+            Assert.AreEqual(typeof(SubItemCell), firstRow.Cells[1].GetType());
             
             //Check that the subtable was created correctly
             var subtable = ((SubTableCell)firstRow.Cells[1]).SubTable;

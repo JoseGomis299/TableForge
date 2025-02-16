@@ -48,5 +48,6 @@ namespace TableForge
             
             Id = HashCode.Combine(name, position);
         }
+        
     }
 }

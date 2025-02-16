@@ -1,4 +1,5 @@
 using System;
+using TableForge.Exceptions;
 
 namespace TableForge
 {
@@ -8,20 +9,15 @@ namespace TableForge
     [CellType(typeof(float), typeof(double))]
     internal class FloatingPointCell : Cell
     {
-        public FloatingPointCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject) { }
+        public FloatingPointCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
 
         public override void SetValue(object value)
         {
             if(!value.GetType().IsFloatingPointType())
-                throw new ArgumentException($"Data must be a floating point type, type provided: {value.GetType()}");
+                throw new InvalidCellValueException($"Data must be a floating point type, type provided: {value.GetType()}");
         
             base.SetValue(value);
             Value = Convert.ChangeType(value, Type);
-        }
-
-        public override void SerializeData()
-        {
-            
         }
     }
 }

@@ -28,6 +28,7 @@ namespace TableForge.UI
             foreach (var columnEntry in TableControl.ColumnData)
             {
                 if (!TableControl.ColumnHeaders.TryGetValue(columnEntry.Key, out var header)) continue;
+                if(childCount <= columnEntry.Value.Position - 1) continue;
                 this[columnEntry.Value.Position - 1].style.width = header.style.width;
             }
         }
@@ -85,6 +86,18 @@ namespace TableForge.UI
                     return new GradientCellControl(gradientCell, tableControl);
                 case ReferenceCell referenceCell:
                     return new ReferenceCellControl(referenceCell, tableControl);
+                case SubItemCell subItemCell:
+                    return new SubItemCellControl(subItemCell, tableControl);
+                case DictionaryCell dictionaryCell:
+                    return new DictionaryCellControl(dictionaryCell, tableControl);
+                case ListCell listCell:
+                    return new ListCellControl(listCell, tableControl);
+                case Vector2Cell vector2Cell:
+                    return new Vector2CellControl(vector2Cell, tableControl);
+                case Vector3Cell vector3Cell:
+                    return new Vector3CellControl(vector3Cell, tableControl);
+                case Vector4Cell vector4Cell:
+                    return new Vector4CellControl(vector4Cell, tableControl);
                 default:
                     return new Label { text = "" };
             }

@@ -7,16 +7,20 @@ namespace TableForge
     /// <summary>
     /// Cell for complex types that are serialized as subtables.
     /// </summary>
-    internal class SubitemCell : SubTableCell
+    internal class SubItemCell : SubTableCell
     {
-        public SubitemCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject)
+        public SubItemCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
             Type = typeof(ITFSerializedObject);
             object value = GetFieldValue();
             
             if (value == null)
             {
-                if(fieldInfo == null) return;
+                if (fieldInfo == null)
+                {
+                    CreateSubTable();
+                    return;
+                }
                 
                 try
                 {
@@ -26,6 +30,7 @@ namespace TableForge
                 catch (Exception e)
                 {
                     Debug.LogWarning($"Failed to create instance of {fieldInfo.Type} for {fieldInfo.FriendlyName} in table {column.Table.Name}, row {row.Position}.\n{e.Message}");
+                    CreateSubTable();
                     return;
                 }
             }
@@ -40,13 +45,19 @@ namespace TableForge
             CreateSubTable();
         }
         
-        public override void SerializeData()
+        public override void RefreshData()
         {
         
         }
 
         protected sealed override void CreateSubTable()
         {
+            if (Value == null)
+            {
+                SubTable = TableGenerator.GenerateTable(new TFSerializedType(Type), $"{Column.Table.Name}.{Column.Name}", this);
+                return;
+            }
+            
             SubTable = TableGenerator.GenerateTable(new List<ITFSerializedObject>{(TFSerializedObject)Value}, $"{Column.Table.Name}.{((TFSerializedObject)Value).Name}", this);
         }
     }

@@ -20,18 +20,18 @@ namespace TableForge
         #endregion
 
         #region Constructors
-        protected SubTableCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject)
-            : base(column, row, fieldInfo, tfSerializedObject) { }
+        protected SubTableCell(CellAnchor column, Row row, TFFieldInfo fieldInfo)
+            : base(column, row, fieldInfo) { }
 
         #endregion
-
+        
         #region Protected Methods
 
         /// <summary>
         /// Creates and initializes the subtable associated with this cell.
         /// </summary>
         protected abstract void CreateSubTable();
-
+        
         #endregion
     }
 }

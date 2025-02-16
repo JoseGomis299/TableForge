@@ -26,11 +26,32 @@ namespace TableForge
             
             for (int i = 0; i < rowCount; i++)
             {
+                if(i >50) break;
+                
                 Row row = new Row(items[i].Name, i + 1);
                 table.AddRow(row);
                 items[i].PopulateRow(columns, table, row);
             }
             
+            return table;
+        }
+        
+        
+        /// <summary>
+        /// Generates an empty table with columns based on the provided column generator.
+        /// </summary>
+        /// <param name="columnGenerator">The provided generator to create the corresponding columns.</param>
+        /// <param name="tableName">The name of the generated table.</param>
+        /// <param name="parentCell">The parent cell for the table, if any.</param>
+        /// <returns>A new <see cref="Table"/> without data but with the correct columns.</returns>
+        public static Table GenerateTable(IColumnGenerator columnGenerator, string tableName, Cell parentCell)
+        {
+            if (columnGenerator == null)
+                return null;
+
+            List<CellAnchor> columns = new List<CellAnchor>();
+            Table table = new Table(tableName, parentCell);
+            columnGenerator.GenerateColumns(columns, table);
             return table;
         }
 

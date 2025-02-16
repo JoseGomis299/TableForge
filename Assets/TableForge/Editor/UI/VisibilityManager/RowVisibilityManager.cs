@@ -19,6 +19,8 @@ namespace TableForge.UI
             // Subscribe to vertical scroll changes.
             _scrollView.verticalScroller.valueChanged += OnVerticalScroll;
             _tableControl.OnScrollviewHeightChanged += () => RefreshVisibility(_scrollView.verticalScroller.value);
+            _tableControl.RegisterCallback<GeometryChangedEvent>(_ => RefreshVisibility(_scrollView.verticalScroller.value));
+
         }
         
         private void OnVerticalScroll(float value)

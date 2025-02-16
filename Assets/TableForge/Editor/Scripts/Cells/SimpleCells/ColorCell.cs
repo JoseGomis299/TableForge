@@ -8,11 +8,6 @@ namespace TableForge
     [CellType(typeof(Color))]
     internal class ColorCell : Cell
     {
-        public ColorCell(CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject) : base(column, row, fieldInfo, tfSerializedObject) { }
-    
-        public override void SerializeData()
-        {
-        
-        }
+        public ColorCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

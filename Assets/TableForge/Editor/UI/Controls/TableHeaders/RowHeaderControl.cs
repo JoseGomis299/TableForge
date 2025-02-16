@@ -15,8 +15,8 @@ namespace TableForge.UI
             RowControl = rowControl;
             
             var textSize = EditorStyles.label.CalcSize(new GUIContent(CompleteName.Replace("<b>", "").Replace("</b>", "")));
-            var desiredWidth = textSize.x + UiConstants.HeaderPadding;
-            TableControl.ColumnData[0].AddPreferredWidth(id, Mathf.Max(desiredWidth, TableControl.ColumnData[0].PreferredWidth));
+            var preferredWidth = textSize.x + UiConstants.HeaderPadding;
+            TableControl.ColumnData[0].AddPreferredWidth(id, Mathf.Max(preferredWidth, TableControl.ColumnData[0].PreferredWidth));
 
             var headerLabel = new Label(CompleteName);
             headerLabel.AddToClassList(USSClasses.Fill);

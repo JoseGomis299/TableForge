@@ -15,6 +15,11 @@ namespace TableForge
         /// </summary>
         public Dictionary<int, Cell> Cells { get; } = new Dictionary<int, Cell>();
         
+        /// <summary>
+        /// The serialized object associated with the row.
+        /// </summary>
+        public ITFSerializedObject SerializedObject { get; set; }
+        
         public Row(string name, int position) : base(name, position) { }
     }
 }

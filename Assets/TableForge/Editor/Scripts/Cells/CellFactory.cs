@@ -17,34 +17,33 @@ namespace TableForge
         /// <param name="row">The row in which this cell belongs.</param>
         /// <param name="fieldType">The type of the field to be serialized. (can be null, see 'Remarks' section)</param>
         /// <param name="fieldInfo">Metadata about the field.</param>
-        /// <param name="tfSerializedObject">The serialized object containing the field.</param>
         /// <remarks>
         /// Is acceptable to receive a null fieldInfo parameter if the field is part of a collection.
         /// </remarks>
         /// <returns>A Cell instance matching the given type, or a default cell if no match is found.</returns>
-        public static Cell CreateCell(CellAnchor column, Row row, Type fieldType, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject)
+        public static Cell CreateCell(CellAnchor column, Row row, Type fieldType, TFFieldInfo fieldInfo = null)
         {
             // Check for exact type matches first (e.g., `bool`, `string`)
             if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, fieldType, out var cellType))
-                return CreateCellInstance(cellType, column, row, fieldInfo, tfSerializedObject);
+                return CreateCellInstance(cellType, column, row, fieldInfo);
 
             // Check for assignable types (e.g., `IList`, `ICollection`)
             if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Assignable, fieldType, out cellType))
-                return CreateCellInstance(cellType, column, row, fieldInfo, tfSerializedObject);
+                return CreateCellInstance(cellType, column, row, fieldInfo);
 
             // Check for generic types (e.g., `List<T>`, `IList<T>`)
             if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.GenericArgument, fieldType, out cellType))
-                return CreateCellInstance(cellType, column, row, fieldInfo, tfSerializedObject);
+                return CreateCellInstance(cellType, column, row, fieldInfo);
 
             // Handle special cases
             if (fieldType.IsEnum)
-                return new EnumCell(column, row, fieldInfo, tfSerializedObject);
+                return new EnumCell(column, row, fieldInfo);
 
             if (fieldType.IsSerializableClassOrStruct())
-                return new SubitemCell(column, row, fieldInfo, tfSerializedObject);
+                return new SubItemCell(column, row, fieldInfo);
 
             Debug.LogWarning($"Unsupported type: {fieldType}\nField: {fieldInfo?.Name}\nAt table: {column.Table.Name}\nPosition: {column.LetterPosition}{row.Position}");
-            return new DefaultCell(column, row, fieldInfo, tfSerializedObject);
+            return new DefaultCell(column, row, fieldInfo);
         }
 
         #endregion
@@ -60,14 +59,14 @@ namespace TableForge
         /// <param name="fieldInfo">Metadata about the field.</param>
         /// <param name="tfSerializedObject">The serialized object containing the field.</param>
         /// <returns>An instance of the specified Cell type, or null if creation fails.</returns>
-        private static Cell CreateCellInstance(Type cellType, CellAnchor column, Row row, TFFieldInfo fieldInfo, ITFSerializedObject tfSerializedObject)
+        private static Cell CreateCellInstance(Type cellType, CellAnchor column, Row row, TFFieldInfo fieldInfo)
         {
             var constructor = cellType.GetConstructor(
-                new[] { typeof(CellAnchor), typeof(Row), typeof(TFFieldInfo), typeof(ITFSerializedObject) }
+                new[] { typeof(CellAnchor), typeof(Row), typeof(TFFieldInfo)}
             );
 
             if (constructor != null)
-                return (Cell)constructor.Invoke(new object[] { column, row, fieldInfo, tfSerializedObject });
+                return (Cell)constructor.Invoke(new object[] { column, row, fieldInfo});
 
             Debug.LogError($"{cellType.Name} lacks required constructor.");
             return null;
