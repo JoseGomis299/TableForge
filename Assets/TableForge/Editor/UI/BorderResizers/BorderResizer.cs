@@ -43,9 +43,9 @@ namespace TableForge.UI
         public abstract bool IsResizingArea(Vector3 position, out HeaderControl headerControl);
 
 
-        public void ResizeAll()
+        public float ResizeAll()
         {
-            if(ResizingHeaders.Count == 0) return;
+            if(ResizingHeaders.Count == 0) return 0;
 
             float delta = 0;
             foreach (var header in ResizingHeaders)
@@ -54,6 +54,7 @@ namespace TableForge.UI
             }
             
             InvokeResize(ResizingHeaders.First(), delta);
+            return delta;
         }
 
         public void HandleResize(HeaderControl target)

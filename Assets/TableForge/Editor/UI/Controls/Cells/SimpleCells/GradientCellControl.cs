@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
+    [CellControlUsage(typeof(GradientCell), CellSizeCalculationMethod.FixedBigCell)]
     internal class GradientCellControl : CellControl
     {
         public GradientCellControl(GradientCell cell, TableControl tableControl) : base(cell, tableControl)
@@ -16,7 +17,6 @@ namespace TableForge.UI
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);
-            SetDesiredSize(UiConstants.SpecialCellDesiredWidth, UiConstants.CellHeight);
             
             IsSelected = false;
         }

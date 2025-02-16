@@ -61,46 +61,4 @@ namespace TableForge.UI
 
      
     }
-    
-    internal static class CellControlFactory
-    {
-        public static VisualElement Create(Cell cell, TableControl tableControl)
-        {
-            switch (cell)
-            {
-                case BoolCell boolCell:
-                    return new BooleanCellControl(boolCell, tableControl);
-                case IntegralCell integralCell:
-                    return new IntegralCellControl(integralCell, tableControl);
-                case FloatingPointCell floatCell:
-                    return new FloatingPointCellControl(floatCell, tableControl);
-                case StringCell stringCell:
-                    return new StringCellControl(stringCell, tableControl);
-                case EnumCell enumCell:
-                    return new EnumCellControl(enumCell, tableControl);
-                case AnimationCurveCell animationCurveCell:
-                    return new AnimationCurveCellControl(animationCurveCell, tableControl);
-                case ColorCell colorCell:
-                    return new ColorCellControl(colorCell, tableControl);
-                case GradientCell gradientCell:
-                    return new GradientCellControl(gradientCell, tableControl);
-                case ReferenceCell referenceCell:
-                    return new ReferenceCellControl(referenceCell, tableControl);
-                case SubItemCell subItemCell:
-                    return new SubItemCellControl(subItemCell, tableControl);
-                case DictionaryCell dictionaryCell:
-                    return new DictionaryCellControl(dictionaryCell, tableControl);
-                case ListCell listCell:
-                    return new ListCellControl(listCell, tableControl);
-                case Vector2Cell vector2Cell:
-                    return new Vector2CellControl(vector2Cell, tableControl);
-                case Vector3Cell vector3Cell:
-                    return new Vector3CellControl(vector3Cell, tableControl);
-                case Vector4Cell vector4Cell:
-                    return new Vector4CellControl(vector4Cell, tableControl);
-                default:
-                    return new Label { text = "" };
-            }
-        }
-    }
 }

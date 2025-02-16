@@ -26,5 +26,6 @@ namespace TableForge.UI
         public const string TableScrollViewContentTop = "table__scroll-view-content--top";
         public const string TableScrollViewContentBottom = "table__scroll-view-content--bottom";
         public const string Toolbar = "toolbar";
+        public const string SubTableContainer = "table__subtable-container";
     }
 }

@@ -26,8 +26,6 @@ namespace TableForge
             
             for (int i = 0; i < rowCount; i++)
             {
-                if(i >50) break;
-                
                 Row row = new Row(items[i].Name, i + 1);
                 table.AddRow(row);
                 items[i].PopulateRow(columns, table, row);

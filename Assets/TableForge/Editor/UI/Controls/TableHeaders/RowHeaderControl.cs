@@ -8,23 +8,22 @@ namespace TableForge.UI
     {
         public RowControl RowControl { get; }
 
-        public RowHeaderControl(int id, string name, TableControl tableControl, RowControl rowControl) : base(id, name, tableControl)
+        public RowHeaderControl(CellAnchor cellAnchor, TableControl tableControl, RowControl rowControl) : base(cellAnchor, tableControl)
         {
             AddToClassList(USSClasses.TableHeaderCellVertical);
             AddToClassList(USSClasses.Hidden);
             RowControl = rowControl;
-            
-            var textSize = EditorStyles.label.CalcSize(new GUIContent(CompleteName.Replace("<b>", "").Replace("</b>", "")));
-            var preferredWidth = textSize.x + UiConstants.HeaderPadding;
-            TableControl.ColumnData[0].AddPreferredWidth(id, Mathf.Max(preferredWidth, TableControl.ColumnData[0].PreferredWidth));
 
-            var headerLabel = new Label(CompleteName);
+
+            float preferredWidth = CellSizeCalculator.CalculateHeaderSize(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility).x;
+            TableControl.ColumnData[0].AddPreferredWidth(Id, Mathf.Max(preferredWidth, TableControl.ColumnData[0].PreferredWidth));
+
+            string title = HeaderNameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility);
+            var headerLabel = new Label(title);
             headerLabel.AddToClassList(USSClasses.Fill);
             Add(headerLabel);
 
             TableControl.VerticalResizer.HandleResize(this);
         }
-
-        private string CompleteName => $"{TableControl.RowData[Id].CellAnchor.Position} | <b>{Name}</b>";
     }
 }

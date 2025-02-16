@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
+    [CellControlUsage(typeof(EnumCell), CellSizeCalculationMethod.AutoSize)]
     internal class EnumCellControl : CellControl
     {
         public EnumCellControl(EnumCell cell, TableControl tableControl) : base(cell, tableControl)
@@ -14,7 +15,6 @@ namespace TableForge.UI
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);
-            InitializeSize();
             
             IsSelected = false;
         }

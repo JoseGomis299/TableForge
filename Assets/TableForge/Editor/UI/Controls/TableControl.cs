@@ -24,6 +24,9 @@ namespace TableForge.UI
         private float _scrollViewHeight;
         private float _scrollViewWidth;
         
+        private int _page = 0;
+        private int _pageNumber = 0;
+        
         public IReadOnlyDictionary<int, CellAnchorData> ColumnData => _columnData;
         public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
         public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
@@ -33,6 +36,7 @@ namespace TableForge.UI
         public CornerContainerControl CornerContainer => _cornerContainer;
         
         public Table TableData { get; private set; }
+        public TableAttributes TableAttributes { get; }
         public BorderResizer HorizontalResizer { get; }
         public BorderResizer VerticalResizer { get; }
         public ICellSelector CellSelector { get; }
@@ -45,6 +49,41 @@ namespace TableForge.UI
             // Basic initialization
             Root = root;
             AddToClassList(USSClasses.Table);
+            
+            TableAttributes = new TableAttributes()
+            {
+                TableType = TableType.Dynamic,
+                ColumnReorderMode = TableReorderMode.Instant,
+                RowReorderMode = TableReorderMode.Instant,
+                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
+                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
+            };
+            
+            // Initialize main components
+            _scrollView = CreateScrollView();
+            HorizontalResizer = new HorizontalBorderResizer(this);
+            VerticalResizer = new VerticalBorderResizer(this);
+            ColumnVisibilityManager = new ColumnVisibilityManager(this, _scrollView);
+            RowVisibilityManager = new RowVisibilityManager(this, _scrollView);
+            CellSelector = new CellSelector(this);
+
+            // Initialize sub-containers
+            _rowsContainer = CreateRowsContainer();
+            _columnHeaderContainer = new ColumnHeaderContainerControl(_scrollView);
+            _rowHeaderContainer = new RowHeaderContainerControl(_scrollView);
+            _cornerContainer = new CornerContainerControl(_scrollView);
+
+            // Build UI hierarchy (styles defined in USS)
+            BuildLayoutHierarchy();
+        }
+        
+        public TableControl(VisualElement root, TableAttributes attributes)
+        {
+            // Basic initialization
+            Root = root;
+            AddToClassList(USSClasses.Table);
+            
+            TableAttributes = attributes;
 
             // Initialize main components
             _scrollView = CreateScrollView();
@@ -126,6 +165,9 @@ namespace TableForge.UI
             _rowData.Add(0, new CellAnchorData(null));
             _columnData.Add(0, new CellAnchorData(null));
             
+            _pageNumber = table.Rows.Count > 0 ? table.Rows.Count / ToolbarData.PageSize + 1 : 0;
+            _page = table.Rows.Count > 0 ? 1 : 0;
+            
             BuildHeader();
             BuildRows();
             
@@ -148,7 +190,7 @@ namespace TableForge.UI
                 var column = columnEntry.Value;
                 _columnData.Add(column.Id, new CellAnchorData(column));
 
-                var headerCell = new ColumnHeaderControl(column.Id, column.Name, this);
+                var headerCell = new ColumnHeaderControl(column, this);
                 _columnHeaderContainer.Add(headerCell);
                 _columnHeaders.Add(column.Id, headerCell);
             }
@@ -156,15 +198,19 @@ namespace TableForge.UI
 
         private void BuildRows()
         {
-            foreach (var rowEntry in TableData.Rows)
+            IReadOnlyList<Row> rows = TableData.OrderedRows;
+            if(rows.Count == 0)
+                return;
+            
+            for (int i = (_page - 1) * ToolbarData.PageSize; i < rows.Count && i < _page * ToolbarData.PageSize; i++)
             {
-                var row = rowEntry.Value;
+                var row = rows[i];
                 _rowData.Add(row.Id, new CellAnchorData(row));
 
                 var rowControl = new RowControl(row, this);
                 _rowsContainer.Add(rowControl);
                 
-                var header = new RowHeaderControl(row.Id, row.Name, this, rowControl);
+                var header = new RowHeaderControl(row, this, rowControl);
                 _rowHeaders.Add(row.Id, header);
                 _rowHeaderContainer.Add(header);
             }
@@ -184,6 +230,53 @@ namespace TableForge.UI
 
             _scrollViewWidth += delta;
             _scrollView.contentContainer.style.width = _scrollViewWidth;
+        }
+
+        public void RefreshPage()
+        {
+            _rowsContainer.Clear();
+            _rowHeaderContainer.Clear();
+            
+            BuildRows();
+        }
+    }
+    
+    internal class TablePageManager
+    {
+        private readonly TableControl _tableControl;
+        private int _page = 0;
+        private readonly int _pageNumber;
+        private readonly int _recommendedPageSize;
+        
+        public int Page => _page;
+        public int PageNumber => _pageNumber;
+        
+        public TablePageManager(TableControl tableControl)
+        {
+            _tableControl = tableControl;
+            
+            _pageNumber = tableControl.TableData.Rows.Count > 0 ? tableControl.TableData.Rows.Count / ToolbarData.PageSize + 1 : 0;
+            _page = tableControl.TableData.Rows.Count > 0 ? 1 : 0;
+            
+            
+        }
+        
+        public void NextPage()
+        {
+            if(_page == _pageNumber)
+                return;
+            
+            _page++;
+            _tableControl.RefreshPage();
+        }
+        
+        public void PreviousPage()
+        {
+            if(_page == 1)
+                return;
+            
+            _page--;
+            _tableControl.RefreshPage();
         }
     }
 }

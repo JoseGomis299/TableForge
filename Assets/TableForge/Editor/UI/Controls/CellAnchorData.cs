@@ -20,8 +20,7 @@ namespace TableForge.UI
             if(!_preferredWidths.TryAdd(id, width))
                 _preferredWidths[id] = width;
             
-            float max = _preferredWidths.Values.Prepend(float.MinValue).Max();
-            PreferredWidth = max;
+            PreferredWidth = _preferredWidths.Values.Max();
         }
         
         public void AddPreferredHeight(int id, float height)
@@ -29,8 +28,7 @@ namespace TableForge.UI
             if(!_preferredHeights.TryAdd(id, height))
                 _preferredHeights[id] = height;
 
-            float max = _preferredHeights.Values.Prepend(float.MinValue).Max();
-            PreferredHeight = max;
+            PreferredHeight = _preferredHeights.Values.Max();
         }
 
         public CellAnchorData(CellAnchor cellAnchor)

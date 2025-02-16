@@ -4,9 +4,8 @@ namespace TableForge.UI
 {
     internal abstract class HeaderControl : VisualElement
     {
-        public readonly int Id;
-        public readonly string Name;
-        
+        public readonly CellAnchor CellAnchor;
+
         protected readonly TableControl TableControl;
 
         private bool _isSelected;
@@ -26,12 +25,14 @@ namespace TableForge.UI
         }
         
         public bool IsVisible { get; set; }
+        
+        public string Name => CellAnchor?.Name ?? string.Empty;
+        public int Id => CellAnchor?.Id ?? 0;
 
 
-        protected HeaderControl(int id, string name, TableControl tableControl)
+        protected HeaderControl(CellAnchor cellAnchor, TableControl tableControl)
         {
-            Id = id;
-            Name = name;
+            CellAnchor = cellAnchor;
             TableControl = tableControl;
         }
     }

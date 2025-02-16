@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
+    [CellControlUsage(typeof(StringCell), CellSizeCalculationMethod.AutoSize)]
     internal class StringCellControl : CellControl
     {
         public StringCellControl(StringCell cell, TableControl tableControl) : base(cell, tableControl)
@@ -27,16 +28,8 @@ namespace TableForge.UI
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);
-            InitializeSize();
             
             IsSelected = false;
-        }
-
-        protected override void InitializeSize()
-        {
-            float padding = 20f;
-            var preferredWidth = EditorStyles.label.CalcSize(new GUIContent(Cell.GetValue()?.ToString())).x;
-            SetDesiredSize(preferredWidth + padding, UiConstants.CellHeight);
         }
     }
 }

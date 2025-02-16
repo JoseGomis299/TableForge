@@ -1,10 +1,13 @@
 using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
     internal abstract class CellControl : VisualElement
     {
+        public event Action<object> OnValueChange; 
+        
         private bool _isSelected;
         public bool IsSelected
         {
@@ -36,6 +39,8 @@ namespace TableForge.UI
             TableControl = tableControl;
             Cell = cell;
             AddToClassList(USSClasses.TableCell);
+            
+            InitializeSize();
         }
         
         
@@ -53,6 +58,7 @@ namespace TableForge.UI
             try
             {
                 Cell.SetValue(evt.newValue);
+                OnValueChange?.Invoke(evt.newValue);
             }
             finally
             {
@@ -62,7 +68,8 @@ namespace TableForge.UI
 
         protected virtual void InitializeSize()
         {
-            // Do nothing by default
+            Vector2 size = CellSizeCalculator.CalculateSize(Cell);
+            SetDesiredSize(size.x, size.y);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace TableForge.UI
         public ColumnHeaderContainerControl ColumnHeaderContainer { get; }
         public RowHeaderContainerControl RowHeaderContainer { get; }
         public VisualElement RowsContainer { get; }
-        public TableCornerControl(TableControl tableControl, ColumnHeaderContainerControl columnHeaderContainer, RowHeaderContainerControl rowHeaderContainer, VisualElement rowsContainer) : base(0, "", tableControl)
+        public TableCornerControl(TableControl tableControl, ColumnHeaderContainerControl columnHeaderContainer, RowHeaderContainerControl rowHeaderContainer, VisualElement rowsContainer) : base(null, tableControl)
         {
             AddToClassList(USSClasses.TableCorner);
             ColumnHeaderContainer = columnHeaderContainer;

@@ -16,7 +16,7 @@ namespace TableForge.UI
             var root = rootVisualElement;
             root.Add(visualTreeAsset.Instantiate());
 
-            UiConstants.InitializeStyles(root);
+            UiConstants.InitializeStyles(root[0]);
             UiConstants.OnStylesInitialized += OnStylesInitialized;
         }
 

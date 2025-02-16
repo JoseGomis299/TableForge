@@ -1,32 +1,23 @@
+using UnityEngine.UIElements;
+
 namespace TableForge.UI
 {
+    [CellControlUsage(typeof(Vector3Cell), CellSizeCalculationMethod.AutoSize)]
+    [SubTableCellControlUsage(TableType.Static, TableReorderMode.None, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
     internal class Vector3CellControl : SubTableCellControl
     {
         private TableControl _subTableControl;
         public Vector3CellControl(Vector3Cell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            _subTableControl = new TableControl(tableControl.Root);
+            _subTableControl = new TableControl(tableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()));
             _subTableControl.SetTable(cell.SubTable);
-            Add(_subTableControl);
+           
+            VisualElement container = new VisualElement();
+            container.AddToClassList(USSClasses.SubTableContainer);
+            container.Add(_subTableControl);
+            Add(container);
             
-            InitializeSize();
             IsSelected = false;
-        }
-
-        protected override void InitializeSize()
-        {
-            float width = 0, height = 0;
-            foreach (var column in _subTableControl.ColumnData.Values)
-            {
-                width += column.PreferredWidth + 0.5f;
-            }
-            
-            foreach (var row in _subTableControl.RowData.Values)
-            {
-                height += row.PreferredHeight + 0.5f;
-            }
-            
-            SetDesiredSize(width, height);
         }
     }
 }

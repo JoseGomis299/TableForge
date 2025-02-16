@@ -2,6 +2,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
+    [CellControlUsage(typeof(BoolCell), CellSizeCalculationMethod.FixedSmallCell)]
     internal class BooleanCellControl : CellControl
     {
         public BooleanCellControl(BoolCell cell, TableControl tableControl) : base(cell, tableControl)

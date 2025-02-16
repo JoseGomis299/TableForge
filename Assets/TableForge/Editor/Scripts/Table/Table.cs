@@ -35,6 +35,16 @@ namespace TableForge
         public IReadOnlyDictionary<int, CellAnchor> Columns => _columns;
         
         /// <summary>
+        /// Gets the rows of the table in order of their position.
+        /// </summary>
+        public IReadOnlyList<Row> OrderedRows => _rows.Values.OrderBy(x => x.Position).ToList();
+        
+        /// <summary>
+        /// Gets the columns of the table in order of their position.
+        /// </summary>
+        public IReadOnlyList<CellAnchor> OrderedColumns => _columns.Values.OrderBy(x => x.Position).ToList();
+        
+        /// <summary>
         /// Gets the parent cell of the table, if any.
         /// <remarks>
         /// A table may be contained within a cell, this happens when a table represents a collection or a serialized object.

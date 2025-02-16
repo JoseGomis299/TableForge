@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TableForge.Exceptions;
-using UnityEngine;
 
 namespace TableForge
 {

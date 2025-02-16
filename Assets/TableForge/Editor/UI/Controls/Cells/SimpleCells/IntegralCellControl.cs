@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
+    [CellControlUsage(typeof(IntegralCell), CellSizeCalculationMethod.AutoSize)]
     internal class IntegralCellControl : CellControl
     {
         public IntegralCellControl(IntegralCell cell, TableControl tableControl) : base(cell, tableControl)
@@ -13,7 +14,6 @@ namespace TableForge.UI
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);
-            InitializeSize();
             
             IsSelected = false;
         }
@@ -101,13 +101,6 @@ namespace TableForge.UI
             }
 
             return null;
-        }
-
-        protected override void InitializeSize()
-        {
-            float padding = 20f;
-            var preferredWidth = EditorStyles.label.CalcSize(new GUIContent(Cell.GetValue().ToString())).x;
-            SetDesiredSize(preferredWidth + padding, UiConstants.CellHeight);
         }
     }
 }
