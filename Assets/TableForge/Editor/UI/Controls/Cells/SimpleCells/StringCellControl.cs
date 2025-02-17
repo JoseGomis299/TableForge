@@ -30,6 +30,8 @@ namespace TableForge.UI
             field.AddToClassList(USSClasses.TableCellContent);
             
             IsSelected = false;
+            
+            InitializeSize();
         }
     }
 }

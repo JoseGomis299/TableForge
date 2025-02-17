@@ -25,8 +25,8 @@ public class Test1 : ScriptableObject
     [TableForgeSerialize] private InnerClass innerClass;
     
     public List<InnerClass> innerClasses;
-    [TableForgeSerialize] public List<List<int>> intlList2D;
-    public List<List<List<InnerClass>>> innerClasses3D;
+    [TableForgeSerialize] public List<List<int>> intlList2d;
+    public List<List<List<InnerClass>>> innerClasses3d;
     [SerializeField] public int[] intArray = new int[] { 1, 2};
     
     public Vector2 vector2;

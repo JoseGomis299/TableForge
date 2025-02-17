@@ -25,21 +25,21 @@ namespace TableForge.UI
         public CellSelector(TableControl tableControl)
         {
             _tableControl = tableControl;
-            _tableControl.RegisterCallback<MouseDownEvent>(PreselectCells, TrickleDown.TrickleDown);
-            _tableControl.RegisterCallback<MouseDownEvent>(ConfirmSelection, TrickleDown.NoTrickleDown);
+            _tableControl.RegisterCallback<PointerDownEvent>(PreselectCells, TrickleDown.TrickleDown);
+            _tableControl.RegisterCallback<PointerDownEvent>(ConfirmSelection, TrickleDown.NoTrickleDown);
             _tableControl.RegisterCallback<MouseMoveEvent>(OnMouseMove);
         }
 
-        private bool IsValidClick(MouseDownEvent evt)
+        private bool IsValidClick(PointerDownEvent evt)
         {
             return evt.button == 0 &&
                    !_tableControl.VerticalResizer.IsResizing &&
                    !_tableControl.HorizontalResizer.IsResizing &&
-                   !_tableControl.VerticalResizer.IsResizingArea(evt.mousePosition, out _) &&
-                   !_tableControl.HorizontalResizer.IsResizingArea(evt.mousePosition, out _);
+                   !_tableControl.VerticalResizer.IsResizingArea(evt.position, out _) &&
+                   !_tableControl.HorizontalResizer.IsResizingArea(evt.position, out _);
         }
 
-        private void ConfirmSelection(MouseDownEvent evt)
+        private void ConfirmSelection(PointerDownEvent evt)
         {
             if (!IsValidClick(evt))
                 return;
@@ -80,13 +80,13 @@ namespace TableForge.UI
             _cellsToDeselect.Clear();
         }
 
-        private void PreselectCells(MouseDownEvent evt)
+        private void PreselectCells(PointerDownEvent evt)
         {
             if (!IsValidClick(evt))
                 return;
 
-            List<CellControl> cellsAtPosition = GetCellsAtPosition(evt.mousePosition);
-            _lastMousePosition = evt.mousePosition;
+            List<CellControl> cellsAtPosition = GetCellsAtPosition(evt.position);
+            _lastMousePosition = evt.position;
 
             // Use the proper selection strategy based on modifier keys.
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(evt);

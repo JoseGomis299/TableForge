@@ -21,6 +21,16 @@ namespace TableForge.UI
         {
             _scrollView = scrollView;
         }
+        
+        public virtual void Clear()
+        {
+            foreach (var header in _visibleHeaders)
+            {
+                header.IsVisible = false;
+                NotifyHeaderBecameInvisible(header);
+            }
+            _visibleHeaders.Clear();
+        }
 
         /// <summary>
         /// Shows a header by marking it as visible, adding it to the list, and notifying listeners.

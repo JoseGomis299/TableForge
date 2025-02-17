@@ -47,7 +47,7 @@ namespace TableForge.UI
             if (ResizingPreview == null) return;
 
             var delta = newSize.x - initialSize.x;
-            var position = startPosition.x + delta;
+            var position = startPosition.x - TableControl.worldBound.xMin + delta;
             ResizingPreview.style.left = position;
         }
 

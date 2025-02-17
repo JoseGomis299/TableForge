@@ -15,14 +15,15 @@ namespace TableForge.UI
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);
-            
             IsSelected = false;
+            
+            InitializeSize();
         }
 
         protected override void InitializeSize()
         {
-            float padding = 60f;
-            var preferredWidth = EditorStyles.label.CalcSize(new GUIContent((Cell.GetValue() as Enum)?.ToString())).x;
+            float padding = 12;
+            var preferredWidth = SizeCalculator.CalculateSize(this).x;
                 
             SetDesiredSize(preferredWidth + padding, UiConstants.CellHeight);
         }

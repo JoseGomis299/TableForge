@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace TableForge
@@ -8,6 +10,12 @@ namespace TableForge
     /// </summary>
     internal static class CellFactory
     {
+        #region Fields
+
+        private static readonly Dictionary<Type, ConstructorInfo> _cellConstructors = new Dictionary<Type, ConstructorInfo>();
+
+        #endregion
+        
         #region Public Methods
 
         /// <summary>
@@ -61,18 +69,23 @@ namespace TableForge
         /// <returns>An instance of the specified Cell type, or null if creation fails.</returns>
         private static Cell CreateCellInstance(Type cellType, CellAnchor column, Row row, TFFieldInfo fieldInfo)
         {
-            var constructor = cellType.GetConstructor(
+            if (_cellConstructors.TryGetValue(cellType, out var constructor))
+                return (Cell)constructor.Invoke(new object[] { column, row, fieldInfo });
+            
+            constructor = cellType.GetConstructor(
                 new[] { typeof(CellAnchor), typeof(Row), typeof(TFFieldInfo)}
             );
 
             if (constructor != null)
-                return (Cell)constructor.Invoke(new object[] { column, row, fieldInfo});
+            {
+                _cellConstructors.Add(cellType, constructor);
+                return (Cell)constructor.Invoke(new object[] { column, row, fieldInfo });
+            }
 
             Debug.LogError($"{cellType.Name} lacks required constructor.");
             return null;
         }
 
         #endregion
-
     }
 }

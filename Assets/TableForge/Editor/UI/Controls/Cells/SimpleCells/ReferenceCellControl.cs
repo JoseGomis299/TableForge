@@ -20,6 +20,7 @@ namespace TableForge.UI
             field.AddToClassList(USSClasses.TableCellContent);
             
             IsSelected = false;
+            InitializeSize();
         }
 
         protected override void InitializeSize()

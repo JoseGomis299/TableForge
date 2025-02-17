@@ -24,9 +24,6 @@ namespace TableForge.UI
         private float _scrollViewHeight;
         private float _scrollViewWidth;
         
-        private int _page = 0;
-        private int _pageNumber = 0;
-        
         public IReadOnlyDictionary<int, CellAnchorData> ColumnData => _columnData;
         public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
         public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
@@ -36,14 +33,16 @@ namespace TableForge.UI
         public CornerContainerControl CornerContainer => _cornerContainer;
         
         public Table TableData { get; private set; }
+        public TablePageManager PageManager { get; private set; }
         public TableAttributes TableAttributes { get; }
         public BorderResizer HorizontalResizer { get; }
         public BorderResizer VerticalResizer { get; }
         public ICellSelector CellSelector { get; }
         public VisibilityManager<ColumnHeaderControl> ColumnVisibilityManager { get; }
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
-        
-        
+        public bool[] VisibleColumns { get; private set; }
+
+
         public TableControl(VisualElement root)
         {
             // Basic initialization
@@ -82,7 +81,6 @@ namespace TableForge.UI
             // Basic initialization
             Root = root;
             AddToClassList(USSClasses.Table);
-            
             TableAttributes = attributes;
 
             // Initialize main components
@@ -161,12 +159,15 @@ namespace TableForge.UI
             _columnHeaderContainer.Clear();
             _rowsContainer.Clear();
             
+            PageManager = new TablePageManager(this);
+            VisibleColumns = new bool[TableData.Columns.Count];
+            for (int i = 0; i < VisibleColumns.Length; i++)
+                VisibleColumns[i] = true;
+            
+
             // Add empty data for the corner cell
             _rowData.Add(0, new CellAnchorData(null));
             _columnData.Add(0, new CellAnchorData(null));
-            
-            _pageNumber = table.Rows.Count > 0 ? table.Rows.Count / ToolbarData.PageSize + 1 : 0;
-            _page = table.Rows.Count > 0 ? 1 : 0;
             
             BuildHeader();
             BuildRows();
@@ -202,7 +203,7 @@ namespace TableForge.UI
             if(rows.Count == 0)
                 return;
             
-            for (int i = (_page - 1) * ToolbarData.PageSize; i < rows.Count && i < _page * ToolbarData.PageSize; i++)
+            for (int i = PageManager.FirstRowPosition - 1; i < rows.Count && i < PageManager.LastRowPosition; i++)
             {
                 var row = rows[i];
                 _rowData.Add(row.Id, new CellAnchorData(row));
@@ -218,7 +219,7 @@ namespace TableForge.UI
         
         private void RefreshScrollViewHeight(float delta)
         {
-            _scrollView.contentContainer.RegisterSingleUseCallback<GeometryChangedEvent>(() => OnScrollviewHeightChanged?.Invoke());
+            _scrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewHeightChanged?.Invoke());
 
             _scrollViewHeight += delta;
             _scrollView.contentContainer.style.height = _scrollViewHeight;
@@ -226,57 +227,46 @@ namespace TableForge.UI
         
         private void RefreshScrollViewWidth(float delta)
         {
-            _scrollView.contentContainer.RegisterSingleUseCallback<GeometryChangedEvent>(() => OnScrollviewWidthChanged?.Invoke());
+            _scrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewWidthChanged?.Invoke());
 
             _scrollViewWidth += delta;
             _scrollView.contentContainer.style.width = _scrollViewWidth;
         }
 
+        public CellControl GetCell(int rowId, int columnId)
+        {
+            if (!_rowData.ContainsKey(rowId) || !_columnData.ContainsKey(columnId))
+                return null;
+
+            int rowIndex = _rowData[rowId].Position - 1;
+            int columnIndex = _columnData[columnId].Position - 1;
+            
+            if (rowIndex < 0 || columnIndex < 0)
+                return null;
+            
+            return _rowsContainer[rowIndex].ElementAt(columnIndex) as CellControl;
+        }
+
         public void RefreshPage()
         {
+            _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
+    
             _rowsContainer.Clear();
+            _rowData.Clear();
+            _rowHeaders.Clear();
+            RowVisibilityManager.Clear();
+
+            foreach (var rowHeader in _rowHeaderContainer.Children())
+            {
+                if(rowHeader is RowHeaderControl rowHeaderControl)
+                    VerticalResizer.Dispose(rowHeaderControl);
+            }
             _rowHeaderContainer.Clear();
             
             BuildRows();
-        }
-    }
-    
-    internal class TablePageManager
-    {
-        private readonly TableControl _tableControl;
-        private int _page = 0;
-        private readonly int _pageNumber;
-        private readonly int _recommendedPageSize;
-        
-        public int Page => _page;
-        public int PageNumber => _pageNumber;
-        
-        public TablePageManager(TableControl tableControl)
-        {
-            _tableControl = tableControl;
             
-            _pageNumber = tableControl.TableData.Rows.Count > 0 ? tableControl.TableData.Rows.Count / ToolbarData.PageSize + 1 : 0;
-            _page = tableControl.TableData.Rows.Count > 0 ? 1 : 0;
-            
-            
-        }
-        
-        public void NextPage()
-        {
-            if(_page == _pageNumber)
-                return;
-            
-            _page++;
-            _tableControl.RefreshPage();
-        }
-        
-        public void PreviousPage()
-        {
-            if(_page == 1)
-                return;
-            
-            _page--;
-            _tableControl.RefreshPage();
+            HorizontalResizer.ResizeAll();
+            VerticalResizer.ResizeAll();
         }
     }
 }

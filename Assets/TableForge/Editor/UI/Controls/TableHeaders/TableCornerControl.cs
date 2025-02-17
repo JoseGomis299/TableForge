@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -7,15 +8,40 @@ namespace TableForge.UI
         public ColumnHeaderContainerControl ColumnHeaderContainer { get; }
         public RowHeaderContainerControl RowHeaderContainer { get; }
         public VisualElement RowsContainer { get; }
+        private TableControl _tableControl;
         public TableCornerControl(TableControl tableControl, ColumnHeaderContainerControl columnHeaderContainer, RowHeaderContainerControl rowHeaderContainer, VisualElement rowsContainer) : base(null, tableControl)
         {
             AddToClassList(USSClasses.TableCorner);
             ColumnHeaderContainer = columnHeaderContainer;
             RowHeaderContainer = rowHeaderContainer;
             RowsContainer = rowsContainer;
+            _tableControl = tableControl;
             
             TableControl.HorizontalResizer.HandleResize(this);
+            this.AddManipulator(new ContextualMenuManipulator(BuildContextMenu));
         }
+
+        // Callback to build the context menu
+        void BuildContextMenu(ContextualMenuPopulateEvent evt)
+        {
+            evt.menu.AppendAction("Next page", NextPage, DropdownMenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Prev page", PrevPage, DropdownMenuAction.AlwaysEnabled);
+        }
+
+        void NextPage(DropdownMenuAction action)
+        {
+            _tableControl.PageManager.NextPage();
+        }
+
+        void PrevPage(DropdownMenuAction action)
+        {
+            _tableControl.PageManager.PreviousPage();
+        }
+
+       
+        
+        
+        
 
     }
 }

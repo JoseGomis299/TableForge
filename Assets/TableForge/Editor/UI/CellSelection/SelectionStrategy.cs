@@ -13,7 +13,7 @@ namespace TableForge.UI
         /// Executes preselection using the given mouse event and the cells under the mouse position.
         /// Returns the "last selected cell" for further actions.
         /// </summary>
-        CellControl Preselect(CellSelector selector, MouseDownEvent evt, List<CellControl> cellsAtPosition);
+        CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition);
     }
 
     /// <summary>
@@ -21,7 +21,7 @@ namespace TableForge.UI
     /// </summary>
     internal static class SelectionStrategyFactory
     {
-        public static ISelectionStrategy GetSelectionStrategy(MouseDownEvent evt)
+        public static ISelectionStrategy GetSelectionStrategy(PointerDownEvent evt)
         {
             if (evt.ctrlKey)
                 return new CtrlSelectionStrategy();
@@ -38,7 +38,7 @@ namespace TableForge.UI
     /// </summary>
     internal class CtrlSelectionStrategy : ISelectionStrategy
     {
-        public CellControl Preselect(CellSelector selector, MouseDownEvent evt, List<CellControl> cellsAtPosition)
+        public CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition)
         {
             CellControl lastSelectedCell = null;
             foreach (var cell in cellsAtPosition)
@@ -66,7 +66,7 @@ namespace TableForge.UI
     /// </summary>
     internal class ShiftSelectionStrategy : ISelectionStrategy
     {
-        public CellControl Preselect(CellSelector selector, MouseDownEvent evt, List<CellControl> cellsAtPosition)
+        public CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition)
         {
             CellControl lastSelectedCell = null;
             if (selector.SelectedCells.Count == 0)
@@ -110,7 +110,7 @@ namespace TableForge.UI
     /// </summary>
     internal class NormalSelectionStrategy : ISelectionStrategy
     {
-        public CellControl Preselect(CellSelector selector, MouseDownEvent evt, List<CellControl> cellsAtPosition)
+        public CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition)
         {
             CellControl lastSelectedCell = null;
             // Mark all currently selected cells for deselection.

@@ -20,10 +20,18 @@ namespace TableForge.UI
             _scrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
             _tableControl.OnScrollviewWidthChanged += () => RefreshVisibility(_scrollView.horizontalScroller.value);
             _tableControl.RegisterCallback<GeometryChangedEvent>(_ => RefreshVisibility(_scrollView.horizontalScroller.value));
+            _tableControl.HorizontalResizer.OnResize += _ => OnHorizontalScroll(_scrollView.horizontalScroller.value);
+        }
+
+        public override void Clear()
+        {
+            base.Clear();
+            _lastHorizontalScroll = float.MinValue;
         }
 
         public override void RefreshVisibility(float value)
         {
+            if(_tableControl.TableData.Columns.Count == 0) return;
             bool isScrollingRight = value > 0;
 
             // Update visibility of columns that were previously visible.

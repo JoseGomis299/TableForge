@@ -10,7 +10,7 @@ namespace TableForge.UI
         {
             AddToClassList(USSClasses.TableHeaderCellHorizontal);
             
-            float preferredWidth = CellSizeCalculator.CalculateHeaderSize(cellAnchor, tableControl.TableAttributes.ColumnHeaderVisibility).x;
+            float preferredWidth = SizeCalculator.CalculateHeaderSize(cellAnchor, tableControl.TableAttributes.ColumnHeaderVisibility).x;
             TableControl.ColumnData[Id].AddPreferredWidth(Id, Mathf.Max(preferredWidth, UiConstants.MinCellWidth));
 
             string title = HeaderNameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.ColumnHeaderVisibility);

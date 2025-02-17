@@ -38,9 +38,8 @@ namespace TableForge.UI
         {
             TableControl = tableControl;
             Cell = cell;
-            AddToClassList(USSClasses.TableCell);
             
-            InitializeSize();
+            AddToClassList(USSClasses.TableCell);
         }
         
         
@@ -68,7 +67,7 @@ namespace TableForge.UI
 
         protected virtual void InitializeSize()
         {
-            Vector2 size = CellSizeCalculator.CalculateSize(Cell);
+            Vector2 size = SizeCalculator.CalculateSize(this);
             SetDesiredSize(size.x, size.y);
         }
     }

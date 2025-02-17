@@ -6,18 +6,18 @@ namespace TableForge.UI
     [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.Instant, TableHeaderVisibility.ShowHeaderNumber, TableHeaderVisibility.ShowHeaderName)]
     internal class ListCellControl : SubTableCellControl
     {
-        private TableControl _subTableControl;
         public ListCellControl(ListCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            _subTableControl = new TableControl(tableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()));
-            _subTableControl.SetTable(cell.SubTable);
+            SubTableControl = new TableControl(tableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()));
+            SubTableControl.SetTable(cell.SubTable);
 
             VisualElement container = new VisualElement();
             container.AddToClassList(USSClasses.SubTableContainer);
-            container.Add(_subTableControl);
+            container.Add(SubTableControl);
             Add(container);
             
             IsSelected = false;
+            InitializeSize();
         }
     }
 }

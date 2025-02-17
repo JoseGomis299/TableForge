@@ -16,8 +16,9 @@ namespace TableForge.UI
             
             field.AddToClassList(USSClasses.Fill);
             field.AddToChildrenClassList(USSClasses.Center);
-            
             IsSelected = false;
+            
+            InitializeSize();
         }
     }
 }

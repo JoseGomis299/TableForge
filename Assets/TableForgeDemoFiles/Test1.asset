@@ -77,7 +77,7 @@ MonoBehaviour:
   - number: 0
     text: 
   intArray: 0100000015000000
-  vector2: {x: 0, y: 0}
+  vector2: {x: 1, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 1

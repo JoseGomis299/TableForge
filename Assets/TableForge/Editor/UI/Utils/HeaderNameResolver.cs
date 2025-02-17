@@ -7,6 +7,7 @@ namespace TableForge.UI
             return visibility switch
             {
                 TableHeaderVisibility.Hidden => string.Empty,
+                TableHeaderVisibility.ShowEmpty => string.Empty,
                 TableHeaderVisibility.ShowHeaderName => header.Name,
                 TableHeaderVisibility.ShowHeaderNumber => header.Position.ToString(),
                 TableHeaderVisibility.ShowHeaderLetter => header.LetterPosition,
@@ -21,6 +22,7 @@ namespace TableForge.UI
             return visibility switch
             {
                 TableHeaderVisibility.Hidden => string.Empty,
+                TableHeaderVisibility.ShowEmpty => string.Empty,
                 TableHeaderVisibility.ShowHeaderName => $"<b>{header.Name}</b>",
                 TableHeaderVisibility.ShowHeaderNumber => $"<b>{header.Position}</b>",
                 TableHeaderVisibility.ShowHeaderLetter => $"<b>{header.LetterPosition}</b>",

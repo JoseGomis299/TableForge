@@ -6,18 +6,18 @@ namespace TableForge.UI
     [SubTableCellControlUsage(TableType.Static, TableReorderMode.None, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
     internal class Vector3CellControl : SubTableCellControl
     {
-        private TableControl _subTableControl;
         public Vector3CellControl(Vector3Cell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            _subTableControl = new TableControl(tableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()));
-            _subTableControl.SetTable(cell.SubTable);
+            SubTableControl = new TableControl(tableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()));
+            SubTableControl.SetTable(cell.SubTable);
            
             VisualElement container = new VisualElement();
             container.AddToClassList(USSClasses.SubTableContainer);
-            container.Add(_subTableControl);
+            container.Add(SubTableControl);
             Add(container);
             
             IsSelected = false;
+            InitializeSize();
         }
     }
 }

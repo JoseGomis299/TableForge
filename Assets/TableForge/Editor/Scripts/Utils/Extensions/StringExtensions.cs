@@ -8,6 +8,8 @@ namespace TableForge
         private static readonly Regex UnderscorePrefixRegex = new(@"^m_|^_", RegexOptions.Compiled);
         private static readonly Regex CamelCaseRegex = new(@"([a-z])([A-Z])", RegexOptions.Compiled);
         private static readonly Regex UnderscoreReplaceRegex = new(@"_+", RegexOptions.Compiled);
+        private static readonly Regex LetterNumberRegex = new(@"([a-zA-Z])(\d)", RegexOptions.Compiled);
+        private static readonly Regex NumberLetterRegex = new(@"(\d)([A-Z])", RegexOptions.Compiled);
 
         /// <summary>
         /// Converts a string to proper case by handling common naming conventions.
@@ -24,6 +26,12 @@ namespace TableForge
 
             // Add spaces between camel case transitions
             string spaced = CamelCaseRegex.Replace(input, "$1 $2");
+            
+            //Add spaces between letters and numbers
+            spaced = LetterNumberRegex.Replace(spaced, "$1 $2");
+            
+            //Add spaces between numbers and letters
+            spaced = NumberLetterRegex.Replace(spaced, "$1 $2");
 
             // Replace underscores with spaces and remove excess whitespace
             spaced = UnderscoreReplaceRegex.Replace(spaced, " ").Trim();
