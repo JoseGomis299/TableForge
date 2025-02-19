@@ -34,7 +34,7 @@ namespace TableForge
             else 
             {
                 TargetInstance = itemFromCollection;
-                SerializedType = new TFSerializedType(itemType);
+                SerializedType = new TFSerializedType(itemType, null);
                 ColumnGenerator = SerializedType;
             }
         }
@@ -69,7 +69,11 @@ namespace TableForge
                 _collection[CollectionIndex] = data;
                 return;
             }
+            
             base.SetValue(cell, data);
+
+            if (SerializedType.IsStruct)
+                _collection[CollectionIndex] = TargetInstance;
         }
 
         public override Type GetValueType(Cell cell)

@@ -42,7 +42,7 @@ namespace TableForge
                 }
                 else
                 {
-                    columnGenerator = new TFSerializedType(itemType);
+                    columnGenerator = new TFSerializedType(itemType, null);
                 }
 
                 SubTable = TableGenerator.GenerateTable(columnGenerator, $"{Column.Table.Name}.{Column.Name}", this);

@@ -220,7 +220,6 @@ namespace TableForge.Tests
             Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[2].GetType());
             Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[3].GetType());
             Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[4].GetType());
-            Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[5].GetType());
 
             // Cleanup
             AssetDatabase.DeleteAsset(path);
@@ -303,7 +302,6 @@ namespace TableForge.Tests
             var firstRow = table.Rows[1];
             Assert.AreEqual(typeof(ListCell), firstRow.Cells[1].GetType()); // int[]
             Assert.AreEqual(typeof(ListCell), firstRow.Cells[2].GetType()); // List<int>
-            Assert.AreEqual(typeof(ListCell), firstRow.Cells[3].GetType()); // List<List<int>>
             
             // Cleanup
             AssetDatabase.DeleteAsset(path);

@@ -30,7 +30,7 @@ namespace TableForge.UI
         
         public const float SnappingThreshold = 3.5f;
         public const float MoveSelectionStep = 7.5f;
-
+        
         public static void InitializeStyles(VisualElement root)
         {
             root.RegisterCallback<CustomStyleResolvedEvent>(OnCustomStyleResolved);
@@ -50,10 +50,10 @@ namespace TableForge.UI
 
             CellWidth = 100;
             CellHeight = 25;
-            HeaderPadding = 10;
+            HeaderPadding = 10*2f;
             BorderWidth = 1;
             ResizableBorderSpan = 5;
-            CellContentPadding = 5;
+            CellContentPadding = 5*2f;
 
             OnStylesInitialized?.Invoke();
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace TableForge
@@ -11,31 +12,31 @@ namespace TableForge
     {
         public SubItemCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            Type = typeof(ITFSerializedObject);
-            object value = GetFieldValue();
-            
-            if (value == null)
+            if (Value == null)
             {
                 if (fieldInfo == null)
                 {
                     CreateSubTable();
                     return;
                 }
-                
-                try
+
+                if (FieldInfo?.FieldInfo.GetCustomAttribute<SerializeReference>() == null)
                 {
-                    value = fieldInfo.Type.CreateInstanceWithDefaults();
-                    SetFieldValue(value);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarning($"Failed to create instance of {fieldInfo.Type} for {fieldInfo.FriendlyName} in table {column.Table.Name}, row {row.Position}.\n{e.Message}");
-                    CreateSubTable();
-                    return;
+                    try
+                    {
+                        Value = fieldInfo.Type.CreateInstanceWithDefaults();
+                        SetFieldValue(Value);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning(
+                            $"Failed to create instance of {fieldInfo.Type} for {fieldInfo.FriendlyName} in table {column.Table.Name}, row {row.Position}.\n{e.Message}");
+                        CreateSubTable();
+                        return;
+                    }
                 }
             }
             
-            Value = new TFSerializedObject(fieldInfo?.FriendlyName ?? value.GetType().Name, value);
             CreateSubTable();
         }
 
@@ -54,11 +55,13 @@ namespace TableForge
         {
             if (Value == null)
             {
-                SubTable = TableGenerator.GenerateTable(new TFSerializedType(Type), $"{Column.Table.Name}.{Column.Name}", this);
+                SubTable = TableGenerator.GenerateTable(new TFSerializedType(Type, FieldInfo?.FieldInfo), $"{Table.Name}.{Column.Name}", this);
                 return;
             }
             
-            SubTable = TableGenerator.GenerateTable(new List<ITFSerializedObject>{(TFSerializedObject)Value}, $"{Column.Table.Name}.{((TFSerializedObject)Value).Name}", this);
+            ITFSerializedObject serializedObject = new TFSerializedObject(Value, FieldInfo?.FieldInfo, FieldInfo?.FriendlyName ?? Value.GetType().Name);
+            
+            SubTable = TableGenerator.GenerateTable(new List<ITFSerializedObject>{serializedObject}, $"{Column.Table.Name}.{serializedObject.Name}", this);
         }
     }
 }

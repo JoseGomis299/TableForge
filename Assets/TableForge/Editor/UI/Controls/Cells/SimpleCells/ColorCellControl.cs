@@ -13,7 +13,7 @@ namespace TableForge.UI
             {
                 value = (Color)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(OnChange);
+            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);

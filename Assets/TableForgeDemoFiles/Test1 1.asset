@@ -49,15 +49,20 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
+  reference: {fileID: 11500000, guid: 92a95df6fa0744b8acca002809e02084, type: 3}
+  B: 0
   intField: 0
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   innerClasses: []
-  intArray: 0100000015000000
-  vector2: {x: 0, y: 0}
+  intArray: 0c00000002000000020000000200000002000000020000000200000002000000
+  vector2: {x: 2, y: 8}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 0, y: 0, z: 3, w: 0}
   testEnum: 1
-  vector3Array: []
+  vector3Array:
+  - {x: 0, y: 2, z: 3}
+  - {x: 1, y: 3, z: 0}
+  - {x: 0, y: 1, z: 0}
+  text: 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -56,10 +57,17 @@ namespace TableForge
         /// Fields are considered serializable based on Unity's serialization rules and custom attributes.
         /// </summary>
         /// <param name="type">The type to analyze.</param>
+        /// <param name="fromField">The field containing the type.</param>
         /// <returns>A list of <see cref="TFFieldInfo"/> representing serializable fields.</returns>
-        public static List<TFFieldInfo> GetSerializableFields(Type type)
+        public static List<TFFieldInfo> GetSerializableFields(Type type, FieldInfo fromField)
         {
             var members = new List<TFFieldInfo>();
+            
+            bool isSerializedReference = fromField != null && fromField.GetCustomAttribute<SerializeReference>() != null;
+            if (fromField != null && !isSerializedReference && fromField.FieldType != type)
+            {
+                type = fromField.FieldType;
+            }   
 
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
@@ -70,7 +78,7 @@ namespace TableForge
                 if (IsBackingField(field, out var propertyName)) 
                     friendlyName = propertyName.ConvertToProperCase();
                 
-                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType));
+                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType, fromField));
             }
 
             return members;
@@ -99,13 +107,11 @@ namespace TableForge
         /// <returns>True if the field is serializable; otherwise, false.</returns>
         private static bool IsSerializable(FieldInfo field)
         {
-            if(field.GetCustomAttribute<TableForgeIgnoreAttribute>() != null)
+            if(field.GetCustomAttribute<TableForgeIgnoreAttribute>() != null || !IsUnitySerializable(field.FieldType))
                 return false;
             
-            bool isUnitySerializable = IsUnitySerializable(field.FieldType);
-            bool isSerializable = (isUnitySerializable && field.GetCustomAttribute<SerializeField>() != null) || 
-                                  (isUnitySerializable && field.IsPublic) || 
-                                  field.GetCustomAttribute<TableForgeSerializeAttribute>() != null;
+            bool isSerializable = field.GetCustomAttribute<SerializeField>() != null || field.IsPublic;
+            isSerializable &= !field.Attributes.HasFlag(FieldAttributes.Static) && !field.Attributes.HasFlag(FieldAttributes.InitOnly);
             
             return isSerializable && IsTableForgeSerializable(field.FieldType);
         }
@@ -151,9 +157,12 @@ namespace TableForge
         /// <returns>True if the type is serializable in Unity; otherwise, false.</returns>
         private static bool IsUnitySerializable(Type type)
         {
-            if (type == null || typeof(IDictionary).IsAssignableFrom(type) 
+            if (type == null || type.IsAbstract || type.IsInterface)
+                return false;
+            
+            if (!typeof(ISerializationCallbackReceiver).IsAssignableFrom(type) && (typeof(IDictionary).IsAssignableFrom(type) 
                              || typeof(LinkedList<>).IsAssignableFrom(type) 
-                             || typeof(ISet<>).IsAssignableFrom(type))
+                             || typeof(ISet<>).IsAssignableFrom(type)))
                 return false;
 
             if (type.IsArray && type.GetArrayRank() == 1)
@@ -170,7 +179,7 @@ namespace TableForge
             }
 
             return type.IsPrimitive || type == typeof(string) || typeof(Object).IsAssignableFrom(type) || 
-                   type.Namespace == "UnityEngine" || type.IsSerializableClassOrStruct() || type.IsEnum;
+                   type.Assembly.GetName().Name.StartsWith("UnityEngine.CoreModule") || type.IsSerializableClassOrStruct() || type.IsEnum;
         }
 
         /// <summary>
@@ -197,7 +206,7 @@ namespace TableForge
 
             bool CheckCircularDependency(Type t) =>
                 t != null && parentType != null && !t.IsSimpleType() && !typeof(Object).IsAssignableFrom(t) &&
-                t.Namespace != "UnityEngine" && parentType.IsAssignableFrom(t);
+                t.Namespace != "UnityEngine" && (parentType.IsAssignableFrom(t) || t.IsAssignableFrom(parentType));
         }
     }
 }

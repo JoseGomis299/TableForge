@@ -6,7 +6,7 @@ namespace TableForge
     /// <summary>
     /// Cell for integral type fields. (int, uint, long, ulong)
     /// </summary>
-    [CellType(typeof(int), typeof(uint), typeof(long), typeof(ulong))]
+    [CellType(/*typeof(byte), typeof(sbyte), typeof(short), typeof(ushort), */typeof(int), typeof(uint), typeof(long), typeof(ulong))]
     internal class IntegralCell : Cell
     {
         public IntegralCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }

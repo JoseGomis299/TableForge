@@ -102,7 +102,7 @@ namespace TableForge.UI
                 return Vector2.zero;
             
             string headerName = HeaderNameResolver.ResolveHeaderName(header, visibility);
-            return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + UiConstants.HeaderPadding, UiConstants.CellHeight);
+            return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + UiConstants.HeaderPadding, UiConstants.CellHeight + UiConstants.HeaderPadding);
         }
 
         #endregion
@@ -111,7 +111,7 @@ namespace TableForge.UI
         
         private static Vector2 CalculateSize(Table table, TableAttributes tableAttributes, int page, List<Vector2> cellSizes, bool[] visibleColumns)
         {
-            float width = UiConstants.BorderWidth*4 + UiConstants.CellContentPadding, height = UiConstants.BorderWidth*4 + UiConstants.CellContentPadding;
+            float width = UiConstants.CellContentPadding / 2f, height = UiConstants.CellContentPadding / 2f;
 
             int pageSize = ToolbarData.PageSize;
             
@@ -136,7 +136,7 @@ namespace TableForge.UI
                 }
                 
                 //The table has no rows, but has columns, so we need to return the width of the headers
-                return new Vector2(width, UiConstants.CellHeight);
+                return new Vector2(width, UiConstants.CellHeight + UiConstants.HeaderPadding);
             }
             
             //Add the row headers width

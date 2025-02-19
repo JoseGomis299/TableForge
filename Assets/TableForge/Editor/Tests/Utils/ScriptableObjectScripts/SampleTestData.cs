@@ -30,10 +30,10 @@ namespace TableForge.Tests
 
         #region Collections
 
-        [TableForgeSerialize] private NestedData nestedData;
+        public NestedData nestedData;
 
         public List<NestedData> nestedDataList;
-        [TableForgeSerialize] public List<List<int>> intList2D;
+        public List<List<int>> intList2D;
         public List<List<List<NestedData>>> nestedData3D;
         [SerializeField] public int[] intArray = new int[] { 1, 2 };
 
@@ -63,21 +63,21 @@ namespace TableForge.Tests
 
         #region Dictionaries
 
-        [TableForgeSerialize] public Dictionary<NestedData, int> nestedDataToIntDictionary =
+        public Dictionary<NestedData, int> nestedDataToIntDictionary =
             new Dictionary<NestedData, int>()
             {
                 { new NestedData(1, "Example1"), 10 },
                 { new NestedData(2, "Example2"), 20 }
             };
 
-        [TableForgeSerialize] public Dictionary<string, int> stringToIntDictionary =
+        public Dictionary<string, int> stringToIntDictionary =
             new Dictionary<string, int>()
             {
                 { "KeyA", 100 },
                 { "KeyB", 200 }
             };
 
-        [TableForgeSerialize] public Dictionary<string, NestedData> stringToNestedDataDictionary =
+        public Dictionary<string, NestedData> stringToNestedDataDictionary =
             new Dictionary<string, NestedData>()
             {
                 { "Entry1", null },

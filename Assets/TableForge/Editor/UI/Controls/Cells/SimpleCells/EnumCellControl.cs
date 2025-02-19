@@ -11,7 +11,7 @@ namespace TableForge.UI
         public EnumCellControl(EnumCell cell, TableControl tableControl) : base(cell, tableControl)
         {
             var field = new EnumField(Cell.GetValue() as Enum);
-            field.RegisterValueChangedCallback(OnChange);
+            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);

@@ -29,7 +29,7 @@ namespace TableForge
         protected sealed override void CreateSubTable()
         {
             List<ITFSerializedObject> itemData = new List<ITFSerializedObject>();
-            itemData.Add(new TFSerializedObject(Value));
+            itemData.Add(new TFSerializedObject(Value, FieldInfo?.FieldInfo));
             SubTable = TableGenerator.GenerateTable(itemData, $"{Column.Table.Name}.{Column.Name}", this);
         }
     }

@@ -6,7 +6,7 @@ namespace TableForge
     /// <summary>
     /// Cell for dictionaries, which will create a subtable where each key-value pair is a row.
     /// </summary>
-    [CellType(TypeMatchMode.GenericArgument,typeof(Dictionary<,>))]
+    [CellType(TypeMatchMode.Assignable,typeof(IDictionary))]
     internal class DictionaryCell : SubTableCell, ICollectionCell
     {
         public DictionaryCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)

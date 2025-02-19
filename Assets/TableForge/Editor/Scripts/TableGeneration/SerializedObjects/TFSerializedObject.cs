@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TableForge
@@ -10,36 +12,29 @@ namespace TableForge
     /// </summary>
     internal class TFSerializedObject : ITFSerializedObject
     {
-        public string Name { get; protected set; }
-        
         protected TFSerializedType SerializedType;
         protected IColumnGenerator ColumnGenerator;
-        protected object TargetInstance;
+        
+        public string Name { get; protected set; }
+        public object TargetInstance { get; protected set; }
         
         protected TFSerializedObject() { }
-        
-        public TFSerializedObject(object targetInstance)
+
+        public TFSerializedObject(object targetInstance, FieldInfo parentField, string name = null)
         {
             TargetInstance = targetInstance;
-            SerializedType = new TFSerializedType(targetInstance.GetType());
+            SerializedType = new TFSerializedType(targetInstance.GetType(), parentField);
             ColumnGenerator = SerializedType;
-            
-            if (targetInstance is Object unityObject)
+
+            if (name == null)
             {
-                Name = unityObject.name;
-                return;
+                if (targetInstance is Object unityObject)
+                    Name = unityObject.name;
+                else
+                    Name = targetInstance.GetType().Name;
             }
-            
-            Name = targetInstance.GetType().Name;
+            else Name = name;
         }
-        
-        public TFSerializedObject(string name, object targetInstance)
-        {
-            TargetInstance = targetInstance;
-            Name = name;
-            SerializedType = new TFSerializedType(targetInstance.GetType());
-            ColumnGenerator = SerializedType;
-        }        
 
         public virtual object GetValue(Cell cell)
         {
@@ -57,7 +52,19 @@ namespace TableForge
             if(TargetInstance == null)
                 return;
             
-            cell.FieldInfo.SetValue(TargetInstance, data);
+            Cell parentCell = cell.Row.Table.ParentCell;
+            if (parentCell != null && SerializedType.IsStruct && parentCell is SubTableCell parentSubTableCell and not ICollectionCell)
+            {
+                object structInstance = TargetInstance;
+                MethodInfo memberwiseClone = structInstance.GetType().GetMethod("MemberwiseClone", BindingFlags.Instance | BindingFlags.NonPublic);
+                object copy = memberwiseClone.Invoke(structInstance, null);
+                
+                cell.FieldInfo.SetValue(copy, data);
+                TargetInstance = structInstance;
+                parentSubTableCell.SetValue(copy);
+                TargetInstance = copy;
+            }
+            else cell.FieldInfo.SetValue(TargetInstance, data);
         }
 
         public virtual Type GetValueType(Cell cell)

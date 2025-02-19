@@ -27,17 +27,7 @@ namespace TableForge.UI
                 {
                     value = (float)Cell.GetValue()
                 };
-                field.RegisterValueChangedCallback(evt =>
-                {
-                    try
-                    {
-                        OnChange(evt);
-                    }
-                    catch (InvalidCellValueException)
-                    {
-                        field.SetValueWithoutNotify(evt.previousValue);
-                    }
-                });
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 return field;
             }
 
@@ -47,17 +37,7 @@ namespace TableForge.UI
                 {
                     value = (double)Cell.GetValue()
                 };
-                field.RegisterValueChangedCallback(evt =>
-                {
-                    try
-                    {
-                        OnChange(evt);
-                    }
-                    catch (InvalidCellValueException)
-                    {
-                        field.SetValueWithoutNotify(evt.previousValue);
-                    }
-                });
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 return field;
             }
 

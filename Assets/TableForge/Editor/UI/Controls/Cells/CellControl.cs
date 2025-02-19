@@ -1,4 +1,5 @@
 using System;
+using TableForge.Exceptions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -52,12 +53,17 @@ namespace TableForge.UI
             TableControl.RowData[rowId].AddPreferredHeight(columnId, height);
         }
         
-        protected virtual void OnChange<T>(ChangeEvent<T> evt)
+        protected void OnChange<T>(ChangeEvent<T> evt, BaseField<T> field)
         {
             try
             {
                 Cell.SetValue(evt.newValue);
                 OnValueChange?.Invoke(evt.newValue);
+            }
+            catch(InvalidCellValueException e)
+            {
+                field.SetValueWithoutNotify(evt.previousValue);
+                Debug.LogWarning(e.Message);
             }
             finally
             {

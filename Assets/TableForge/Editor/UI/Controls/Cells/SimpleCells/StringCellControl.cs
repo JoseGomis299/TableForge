@@ -14,17 +14,7 @@ namespace TableForge.UI
             {
                 value = (string)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt =>
-            {
-                try
-                {
-                    OnChange(evt);
-                }
-                catch (InvalidCellValueException)
-                {
-                    field.SetValueWithoutNotify(evt.previousValue);
-                }
-            });
+            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);

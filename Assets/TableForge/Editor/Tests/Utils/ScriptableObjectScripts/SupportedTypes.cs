@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
 namespace TableForge.Tests
@@ -12,7 +13,7 @@ namespace TableForge.Tests
 
         public Color colorField;
 
-        [TableForgeSerialize] public object fallbackField;
+        public object fallbackField;
         
         // floating point data types (float, double)
         public float floatField;
@@ -31,11 +32,11 @@ namespace TableForge.Tests
 
         public string stringField;
         
-        [TableForgeSerialize] public Dictionary<string, int> stringToIntDictionary;
+        public SerializedDictionary<string, int> stringToIntDictionary;
         
         public int[] intArray;
         public List<int> intList;
-        [TableForgeSerialize] public List<List<int>> intList2D;
+        public List<List<int>> intList2D;
 
         public NestedData complexTypeData;
         
@@ -96,8 +97,7 @@ namespace TableForge.Tests
     {
         public int intField;
         public long longField;
-        public byte byteField;
-        public short shortField;
+        public ulong ulongField;
         public uint uintField;
     }
 
@@ -113,14 +113,13 @@ namespace TableForge.Tests
 
     internal class DictionaryScriptableObject : ScriptableObject
     {
-        [TableForgeSerialize] public Dictionary<string, int> stringToIntDictionary;
+        public SerializedDictionary<string, int> stringToIntDictionary;
     }
 
     internal class ListScriptableObject : ScriptableObject
     {
         public int[] intArray;
         public List<int> intList;
-        [TableForgeSerialize] public List<List<int>> intList2D;
     }
 
     internal class ComplexTypeScriptableObject : ScriptableObject

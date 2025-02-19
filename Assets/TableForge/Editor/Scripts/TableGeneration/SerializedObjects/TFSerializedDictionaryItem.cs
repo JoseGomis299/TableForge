@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TableForge.Exceptions;
+using UnityEngine;
 
 namespace TableForge
 {
@@ -13,12 +14,14 @@ namespace TableForge
         private readonly IDictionary _dictionary;
         private object _itemKey;
         
-        public  TFSerializedDictionaryItem(IDictionary dictionary, object itemKey)
+        public TFSerializedDictionaryItem(IDictionary dictionary, object itemKey)
         {
             TargetInstance = dictionary;
             Name = "";
             _dictionary = dictionary;
-            _itemKey = itemKey;
+            if(itemKey is Vector3 key && key.GetType().IsValueType)
+                _itemKey = key;
+            else _itemKey = itemKey;
             ColumnGenerator = new DictionaryColumnGenerator();
         }
         

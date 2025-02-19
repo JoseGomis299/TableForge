@@ -5,11 +5,12 @@ namespace TableForge.Tests
 {
     internal class NonSupportedTypes : ScriptableObject
     {
-        [TableForgeSerialize] public LinkedList<int> linkedListField;
-        [TableForgeSerialize] public object objectField;
-        [TableForgeSerialize] public Queue<int> queueField;
-        [TableForgeSerialize] public Stack<int> stackField;
-        [TableForgeSerialize] public SortedList<int, string> sortedListField;
-        [TableForgeSerialize] public HashSet<int> hashSetField;
+        public LinkedList<int> linkedListField;
+        public object objectField;
+        public Queue<int> queueField;
+        public Stack<int> stackField;
+        public SortedList<int, string> sortedListField;
+        public HashSet<int> hashSetField;
+        public Dictionary<int, int> dictionaryField;
     }
 }

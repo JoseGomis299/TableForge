@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace TableForge
 {
@@ -10,10 +11,12 @@ namespace TableForge
     {
         private readonly List<TFFieldInfo> _fields;
         public IReadOnlyList<TFFieldInfo> Fields => _fields;
+        public bool IsStruct {get;}
         
-        public TFSerializedType(Type type)
+        public TFSerializedType(Type type, FieldInfo parentField)
         {
-            _fields = SerializationUtil.GetSerializableFields(type);
+            _fields = SerializationUtil.GetSerializableFields(type, parentField);
+            IsStruct = type.IsValueType;
         }
 
         public void GenerateColumns(List<CellAnchor> columns, Table table)

@@ -1,3 +1,4 @@
+using System;
 using TableForge.Exceptions;
 using UnityEditor;
 using UnityEngine;
@@ -27,17 +28,7 @@ namespace TableForge.UI
                 {
                     value = (int)Cell.GetValue()
                 };
-                field.RegisterValueChangedCallback(evt =>
-                {
-                    try
-                    {
-                        OnChange(evt);
-                    }
-                    catch (InvalidCellValueException)
-                    {
-                        field.SetValueWithoutNotify(evt.previousValue);
-                    }
-                });
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 return field;
             }
 
@@ -47,17 +38,7 @@ namespace TableForge.UI
                 {
                     value = (long)Cell.GetValue()
                 };
-                field.RegisterValueChangedCallback(evt =>
-                {
-                    try
-                    {
-                        OnChange(evt);
-                    }
-                    catch (InvalidCellValueException)
-                    {
-                        field.SetValueWithoutNotify(evt.previousValue);
-                    }
-                });
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 return field;
             }
             
@@ -67,17 +48,7 @@ namespace TableForge.UI
                 {
                     value = (uint)Cell.GetValue()
                 };
-                field.RegisterValueChangedCallback(evt =>
-                {
-                    try
-                    {
-                        OnChange(evt);
-                    }
-                    catch (InvalidCellValueException)
-                    {
-                        field.SetValueWithoutNotify(evt.previousValue);
-                    }
-                });
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 return field;
             }
             
@@ -87,21 +58,36 @@ namespace TableForge.UI
                 {
                     value = (ulong)Cell.GetValue()
                 };
-                field.RegisterValueChangedCallback(evt =>
-                {
-                    try
-                    {
-                        OnChange(evt);
-                    }
-                    catch (InvalidCellValueException)
-                    {
-                        field.SetValueWithoutNotify(evt.previousValue);
-                    }
-                });
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 return field;
             }
 
-            return null;
+            int maxValue = Cell.Type switch
+            {
+                { } t when t == typeof(byte) => byte.MaxValue,
+                { } t when t == typeof(sbyte) => sbyte.MaxValue,
+                { } t when t == typeof(short) => short.MaxValue,
+                { } t when t == typeof(ushort) => ushort.MaxValue,
+                _ => 0
+            }; 
+            
+            int minValue = Cell.Type switch
+            {
+                { } t when t == typeof(byte) => byte.MinValue,
+                { } t when t == typeof(sbyte) => sbyte.MinValue,
+                { } t when t == typeof(short) => short.MinValue,
+                { } t when t == typeof(ushort) => ushort.MinValue,
+                _ => 0
+            };
+
+            //TODO: Add support for byte, sbyte, short, ushort
+            var basefield = new IntegerField
+            {
+                value = (int)Cell.GetValue()
+            };
+            basefield.RegisterValueChangedCallback(evt => OnChange(evt, basefield));
+
+            return basefield;
         }
     }
 }

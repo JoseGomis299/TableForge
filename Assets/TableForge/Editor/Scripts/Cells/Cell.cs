@@ -42,6 +42,11 @@ namespace TableForge
         /// The type of the field stored in this cell.
         /// </summary>
         public Type Type { get; protected set; }
+        
+        /// <summary>
+        /// The table in which this cell belongs.
+        /// </summary>
+        public Table Table => Column.Table;
 
         #endregion
 

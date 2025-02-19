@@ -63,6 +63,7 @@
 .table__header-cell--vertical, .table__header-cell--horizontal {
     border-color: var(--border-color);
     background-color: var(--background-color);
+    padding: var(--header-padding);
     -unity-text-align: middle-center;
     align-items: stretch;
     justify-content: center;

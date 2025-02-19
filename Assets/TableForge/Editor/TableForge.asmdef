@@ -1,7 +1,8 @@
 {
     "name": "TableForge",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+    ],
     "includePlatforms": [
         "Editor"
     ],

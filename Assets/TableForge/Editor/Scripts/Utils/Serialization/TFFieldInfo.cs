@@ -12,6 +12,7 @@ namespace TableForge
         #region Fields
 
         private readonly FieldInfo _fieldInfo;
+        private readonly FieldInfo _parentField;
 
         #endregion
         
@@ -36,6 +37,16 @@ namespace TableForge
         /// The data type of the field.
         /// </summary>
         public Type Type { get; }
+        
+        /// <summary>
+        /// The <see cref="FieldInfo"/> object for the field.
+        /// </summary>
+        public FieldInfo FieldInfo => _fieldInfo;
+        
+        /// <summary>
+        /// The field that contains this field, if any.
+        /// </summary>
+        public FieldInfo ParentField => _parentField;
 
         #endregion
         
@@ -48,12 +59,13 @@ namespace TableForge
         /// <param name="friendlyName">A user-friendly name for display.</param>
         /// <param name="fromType">The type that declares the field.</param>
         /// <param name="type">The data type of the field.</param>
-        public TFFieldInfo(string name, string friendlyName, Type fromType, Type type)
+        public TFFieldInfo(string name, string friendlyName, Type fromType, Type type, FieldInfo parentField)
         {
             Name = name;
             FriendlyName = friendlyName;
             FromType = fromType;
             Type = type;
+            _parentField = parentField;
 
             _fieldInfo = FromType.GetField(Name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (_fieldInfo == null)
