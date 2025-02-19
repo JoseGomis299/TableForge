@@ -28,15 +28,12 @@ namespace TableForge.Tests
             Assert.IsTrue(fields.Any(x => x.Name == "unityObjectReference"));
             Assert.IsTrue(fields.Any(x => x.Name == "nestedData"));
             Assert.IsTrue(fields.Any(x => x.Name == "nestedDataList"));
-        //    Assert.IsTrue(fields.Any(x => x.Name == "intList2D"));
             Assert.IsTrue(fields.Any(x => x.Name == "intArray"));
             Assert.IsTrue(fields.Any(x => x.Name == "vector2"));
             Assert.IsTrue(fields.Any(x => x.Name == "vector4"));
             Assert.IsTrue(fields.Any(x => x.Name == "vector3Array"));
             Assert.IsTrue(fields.Any(x => x.Name == "sampleEnum"));
-            Assert.IsTrue(fields.Any(x => x.Name == "nestedDataToIntDictionary"));
             Assert.IsTrue(fields.Any(x => x.Name == "stringToIntDictionary"));
-            Assert.IsTrue(fields.Any(x => x.Name == "stringToNestedDataDictionary"));
             
             //Check if the fields non-serializable fields are not included
             Assert.IsTrue(fields.All(x => x.Name != "_privateIntField"));
@@ -44,6 +41,9 @@ namespace TableForge.Tests
             Assert.IsTrue(fields.All(x => x.Name != "nestedData3D"));
             Assert.IsTrue(fields.All(x => x.Name != "vector3"));
             Assert.IsTrue(fields.All(x => x.Name != "hiddenDictionary"));
+            Assert.IsTrue(fields.All(x => x.Name != "intList2D"));
+            Assert.IsTrue(fields.All(x => x.Name != "stringToNestedDataDictionary"));
+            Assert.IsTrue(fields.All(x => x.Name != "nestedDataToIntDictionary"));
         }
        
     }

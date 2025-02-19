@@ -5,6 +5,8 @@ namespace TableForge.UI
         FixedBigCell,
         FixedRegularCell,
         FixedSmallCell,
-        AutoSize
+        AutoSize,
+        EnumAutoSize,
+        ReferenceAutoSize
     }
 }

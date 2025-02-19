@@ -37,11 +37,13 @@ public class Test1 : ScriptableObject
     [TableForgeIgnore] public Vector3 vector3;
     public Vector4 vector4;
 
+    [Flags]
     public enum TestEnum
     {
-        Value1,
-        Value2,
-        SuperLongValueToCheckIfItFits
+        Null = 0,
+        Value1 = 1,
+        Value2 = 2,
+        SuperLongValueToCheckIfItFits = 4
     }
     
     public TestEnum testEnum = TestEnum.Value2;
@@ -66,6 +68,8 @@ public class Test1 : ScriptableObject
     public byte byteValue;
     public short shortValue;
     public sbyte sbyteValue;
+    public BoundingSphere boundingSphere;
+    public LayerMask layerMask;
 }
 
 [Serializable]

@@ -18,7 +18,7 @@ namespace TableForge.UI
             float preferredWidth = SizeCalculator.CalculateHeaderSize(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility).x;
             TableControl.ColumnData[0].AddPreferredWidth(Id, Mathf.Max(preferredWidth, TableControl.ColumnData[0].PreferredWidth));
 
-            string title = HeaderNameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility);
+            string title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility);
             var headerLabel = new Label(title);
             headerLabel.AddToClassList(USSClasses.Fill);
             Add(headerLabel);

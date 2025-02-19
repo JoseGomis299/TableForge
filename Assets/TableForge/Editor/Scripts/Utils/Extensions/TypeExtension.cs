@@ -47,23 +47,6 @@ namespace TableForge
         }
 
         /// <summary>
-        /// Determines whether the specified type is a serializable class or struct.
-        /// </summary>
-        /// <param name="type">The type to check.</param>
-        /// <returns>True if the type is serializable and not a Unity object, primitive, or string.</returns>
-        public static bool IsSerializableClassOrStruct(this Type type)
-        {
-            if (typeof(UnityEngine.Object).IsAssignableFrom(type) || 
-                type.IsPrimitive || 
-                type == typeof(string)) 
-                return false;
-
-            return type.IsDefined(typeof(SerializableAttribute)) &&
-                   (type.IsClass || type.IsValueType) &&
-                   !type.IsEnum;
-        }
-
-        /// <summary>
         /// Determines whether the specified type is an integral type.
         /// </summary>
         /// <param name="type">The type to check.</param>
@@ -173,6 +156,29 @@ namespace TableForge
 
             // If no suitable constructor is found or all invocations fail, throw an exception
             throw new InvalidOperationException($"No suitable constructor found for type {type.FullName}.");
+        }
+        
+        
+        /// <summary>
+        /// Checks if a type implements a specific interface.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="interfaceType">The interface to check if is implemented.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Some of the given types are null.</exception>
+        /// <exception cref="ArgumentException">The interface type is not an interface</exception>
+        public static bool ImplementsInterface(this Type type, Type interfaceType)
+        {
+            if (type == null || interfaceType == null)
+                throw new ArgumentNullException("Type parameters cannot be null.");
+
+            if (!interfaceType.IsInterface)
+                throw new ArgumentException("The provided interfaceType must be an interface.");
+
+            return type.GetInterfaces().Any(it =>
+                it.IsGenericType
+                    ? it.GetGenericTypeDefinition() == interfaceType
+                    : it == interfaceType);
         }
 
         #endregion

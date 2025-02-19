@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace TableForge.Tests
 {
@@ -70,8 +71,8 @@ namespace TableForge.Tests
                 { new NestedData(2, "Example2"), 20 }
             };
 
-        public Dictionary<string, int> stringToIntDictionary =
-            new Dictionary<string, int>()
+        public SerializedDictionary<string, int> stringToIntDictionary =
+            new SerializedDictionary<string, int>()
             {
                 { "KeyA", 100 },
                 { "KeyB", 200 }
@@ -84,8 +85,8 @@ namespace TableForge.Tests
                 { "Entry2", new NestedData(4, "Sample4") }
             };
 
-        public Dictionary<int, NestedData> hiddenDictionary =
-            new Dictionary<int, NestedData>()
+        private SerializedDictionary<int, NestedData> hiddenDictionary =
+            new SerializedDictionary<int, NestedData>()
             {
                 { 1, new NestedData(5, "Hidden1") },
                 { 2, new NestedData(6, "Hidden2") }

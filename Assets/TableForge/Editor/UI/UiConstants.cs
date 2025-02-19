@@ -30,7 +30,9 @@ namespace TableForge.UI
         
         public const float SnappingThreshold = 3.5f;
         public const float MoveSelectionStep = 7.5f;
-        
+        public static float EnumArrowSize = 14;
+        public static float ReferenceTypeExtraSpace = 32;
+
         public static void InitializeStyles(VisualElement root)
         {
             root.RegisterCallback<CustomStyleResolvedEvent>(OnCustomStyleResolved);

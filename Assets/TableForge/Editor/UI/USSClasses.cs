@@ -13,6 +13,7 @@ namespace TableForge.UI
         public const string TableRow = "table__row";
         public const string TableRowContainer = "table__row-container";
         public const string TableCell = "table__cell";
+        public const string MultilineCell = "table__cell--multiline";
         public const string TableCellContent = "table__cell__content";
         public const string Center = "center";
         public const string CursorResizeHorizontal = "cursor__resize--horizontal";

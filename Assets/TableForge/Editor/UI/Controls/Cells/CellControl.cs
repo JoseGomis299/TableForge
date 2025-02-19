@@ -1,5 +1,6 @@
 using System;
 using TableForge.Exceptions;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -57,7 +58,7 @@ namespace TableForge.UI
         {
             try
             {
-                Cell.SetValue(evt.newValue);
+                SetCellValue(evt.newValue);
                 OnValueChange?.Invoke(evt.newValue);
             }
             catch(InvalidCellValueException e)
@@ -70,8 +71,13 @@ namespace TableForge.UI
                 InitializeSize();
             }
         }
+        
+        protected virtual void SetCellValue(object value)
+        {
+            Cell.SetValue(value);
+        }
 
-        protected virtual void InitializeSize()
+        protected void InitializeSize()
         {
             Vector2 size = SizeCalculator.CalculateSize(this);
             SetDesiredSize(size.x, size.y);

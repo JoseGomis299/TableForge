@@ -1,31 +1,34 @@
 using System;
+using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
-    [CellControlUsage(typeof(EnumCell), CellSizeCalculationMethod.AutoSize)]
+    [CellControlUsage(typeof(EnumCell), CellSizeCalculationMethod.EnumAutoSize)]
     internal class EnumCellControl : CellControl
     {
         public EnumCellControl(EnumCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            var field = new EnumField(Cell.GetValue() as Enum);
-            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            Add(field);
+            if(cell.Type.GetCustomAttribute<FlagsAttribute>() != null)
+            {
+                var field = new EnumFlagsField(Cell.GetValue() as Enum);
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+                Add(field);
+            }
+            else
+            {
+                var field = new EnumField(Cell.GetValue() as Enum);
+                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+                Add(field);
+            }
             
-            field.AddToClassList(USSClasses.TableCellContent);
+            this[0].AddToClassList(USSClasses.TableCellContent);
             IsSelected = false;
             
             InitializeSize();
-        }
-
-        protected override void InitializeSize()
-        {
-            float padding = 12;
-            var preferredWidth = SizeCalculator.CalculateSize(this).x;
-                
-            SetDesiredSize(preferredWidth + padding, UiConstants.CellHeight);
         }
     }
 }

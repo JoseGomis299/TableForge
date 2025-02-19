@@ -108,7 +108,7 @@ namespace TableForge
                 : _collection.GetType().GetGenericArguments().FirstOrDefault();
 
             Cell cell = CellFactory.CreateCell(columns[0], row, memberType);
-            row.Cells.Add(CollectionIndex + 1, cell);
+            row.Cells.Add(1, cell);
         }
 
         public void SwapWith(ITFSwapableCollectionItem other)

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TableForge.UI
 {
@@ -29,6 +31,8 @@ namespace TableForge.UI
                 CellSizeCalculationMethod.FixedSmallCell => new Vector2(UiConstants.SmallCellDesiredWidth,
                     UiConstants.CellHeight),
                 CellSizeCalculationMethod.AutoSize => CalculateAutoSize(cellControl),
+                CellSizeCalculationMethod.EnumAutoSize => CalculateEnumAutoSize(cellControl),
+                CellSizeCalculationMethod.ReferenceAutoSize => CalculateReferenceAutoSize(cellControl),
                 _ => new Vector2(UiConstants.CellWidth, UiConstants.CellHeight)
             };
         }
@@ -52,6 +56,8 @@ namespace TableForge.UI
                 CellSizeCalculationMethod.FixedSmallCell => new Vector2(UiConstants.SmallCellDesiredWidth,
                     UiConstants.CellHeight),
                 CellSizeCalculationMethod.AutoSize => CalculateAutoSize(cell),
+                CellSizeCalculationMethod.EnumAutoSize => CalculateEnumAutoSize(cell),
+                CellSizeCalculationMethod.ReferenceAutoSize => CalculateReferenceAutoSize(cell),
                 _ => new Vector2(UiConstants.CellWidth, UiConstants.CellHeight)
             };
         }
@@ -101,7 +107,7 @@ namespace TableForge.UI
             if (visibility == TableHeaderVisibility.Hidden)
                 return Vector2.zero;
             
-            string headerName = HeaderNameResolver.ResolveHeaderName(header, visibility);
+            string headerName = NameResolver.ResolveHeaderName(header, visibility);
             return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + UiConstants.HeaderPadding, UiConstants.CellHeight + UiConstants.HeaderPadding);
         }
 
@@ -187,11 +193,17 @@ namespace TableForge.UI
         
         private static Vector2 CalculateAutoSize(CellControl cell)
         {
-            float width = cell.Cell.GetValue() == null ? UiConstants.SmallCellDesiredWidth : EditorStyles.label.CalcSize(new GUIContent(cell.Cell.GetValue().ToString())).x;
-            if(width < UiConstants.SmallCellDesiredWidth)
-                width = UiConstants.SmallCellDesiredWidth;
-            
-            return new Vector2(width + UiConstants.CellContentPadding, UiConstants.CellHeight + UiConstants.CellContentPadding);
+            return CalculateAutoSize(cell.Cell);
+        }
+        
+        private static Vector2 CalculateEnumAutoSize(CellControl cell)
+        {
+            return CalculateEnumAutoSize(cell.Cell);
+        }
+        
+        private static Vector2 CalculateReferenceAutoSize(CellControl cell)
+        {
+            return CalculateReferenceAutoSize(cell.Cell);
         }
         
         private static Vector2 CalculateAutoSize(Cell cell)
@@ -201,6 +213,33 @@ namespace TableForge.UI
                 width = UiConstants.SmallCellDesiredWidth;
             
             return new Vector2(width + UiConstants.CellContentPadding, UiConstants.CellHeight + UiConstants.CellContentPadding);
+        }
+        
+        private static Vector2 CalculateEnumAutoSize(Cell cell)
+        {
+            float padding = UiConstants.EnumArrowSize;
+            string enumValue = cell.GetValue().ToString().ConvertToProperCase();
+            
+            if (cell is LayerMaskCell)
+            {
+                enumValue = NameResolver.ResolveLayerMaskName((LayerMask)cell.GetValue());
+            }
+            else if (cell is EnumCell && cell.Type.GetCustomAttribute<FlagsAttribute>() != null)
+            {
+                enumValue = NameResolver.ResolveFlagsEnumName(cell.Type, (int)cell.GetValue());
+            }
+
+            var preferredWidth = EditorStyles.popup.CalcSize(new GUIContent(enumValue)).x;
+            return new Vector2(preferredWidth + padding, UiConstants.CellHeight);
+        }
+        
+        private static Vector2 CalculateReferenceAutoSize(Cell cell)
+        {
+            var preferredWidth = cell.GetValue() as Object != null ? 
+                EditorStyles.objectField.CalcSize(new GUIContent((cell.GetValue() as Object)?.name)).x :
+                EditorStyles.objectField.CalcSize(new GUIContent($"None ({cell.Type.Name})")).x;
+                 
+            return new Vector2(preferredWidth + UiConstants.ReferenceTypeExtraSpace, UiConstants.CellHeight);
         }
         
         private static Vector2 CalculateSize(SubTableCell subTableCell, int page)

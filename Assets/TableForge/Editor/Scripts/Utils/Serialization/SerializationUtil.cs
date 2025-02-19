@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using ICollection = System.Collections.ICollection;
 using Object = UnityEngine.Object;
 
 namespace TableForge
@@ -128,7 +129,7 @@ namespace TableForge
                    || IsTableForgeSerializable(TypeMatchMode.Assignable, type, out _)
                    || IsTableForgeSerializable(TypeMatchMode.GenericArgument, type, out _)
                    || type.IsEnum
-                   || type.IsSerializableClassOrStruct())
+                   || !type.IsSimpleType())
                    && type != typeof(object);
         }
 
@@ -159,11 +160,6 @@ namespace TableForge
         {
             if (type == null || type.IsAbstract || type.IsInterface)
                 return false;
-            
-            if (!typeof(ISerializationCallbackReceiver).IsAssignableFrom(type) && (typeof(IDictionary).IsAssignableFrom(type) 
-                             || typeof(LinkedList<>).IsAssignableFrom(type) 
-                             || typeof(ISet<>).IsAssignableFrom(type)))
-                return false;
 
             if (type.IsArray && type.GetArrayRank() == 1)
                 return IsUnitySerializable(type.GetElementType());
@@ -177,9 +173,16 @@ namespace TableForge
 
                 return IsUnitySerializable(elementType);
             }
+            
+            if (type.ImplementsInterface(typeof(ICollection))
+                || type.ImplementsInterface(typeof(ICollection<>))
+                || typeof(Ray).IsAssignableFrom(type)
+                || typeof(Plane).IsAssignableFrom(type)
+               )
+                return typeof(ISerializationCallbackReceiver).IsAssignableFrom(type);
 
             return type.IsPrimitive || type == typeof(string) || typeof(Object).IsAssignableFrom(type) || 
-                   type.Assembly.GetName().Name.StartsWith("UnityEngine.CoreModule") || type.IsSerializableClassOrStruct() || type.IsEnum;
+                   type.Assembly.GetName().Name.StartsWith("UnityEngine.CoreModule") || type.IsEnum || type.GetCustomAttribute<SerializableAttribute>() != null;
         }
 
         /// <summary>

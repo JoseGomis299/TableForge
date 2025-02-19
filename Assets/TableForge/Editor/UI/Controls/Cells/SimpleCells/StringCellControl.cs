@@ -12,13 +12,13 @@ namespace TableForge.UI
         {
             var field = new TextField
             {
-                value = (string)Cell.GetValue()
+                value = (string)Cell.GetValue(),
             };
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);
-            
+            field.AddToClassList(USSClasses.MultilineCell);
             IsSelected = false;
             
             InitializeSize();

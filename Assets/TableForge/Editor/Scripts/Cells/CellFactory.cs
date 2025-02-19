@@ -47,7 +47,7 @@ namespace TableForge
             if (fieldType.IsEnum)
                 return new EnumCell(column, row, fieldInfo);
 
-            if (fieldType.IsSerializableClassOrStruct())
+            if (!fieldType.IsSimpleType())
                 return new SubItemCell(column, row, fieldInfo);
 
             Debug.LogWarning($"Unsupported type: {fieldType}\nField: {fieldInfo?.Name}\nAt table: {column.Table.Name}\nPosition: {column.LetterPosition}{row.Position}");

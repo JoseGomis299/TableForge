@@ -116,6 +116,8 @@
     -unity-text-align: middle-center;
     align-items: center;
     justify-content: center;
+    align-self: center;
+    align-content: center;
     padding: var(--cell-content-padding);
     overflow: hidden;
     flex-shrink: 0;
@@ -127,11 +129,19 @@
     height: var(--cell-content-height);
     overflow: hidden;
     -unity-text-align: middle-left;
-    flex-shrink: 1;
+    flex-shrink: 0;
+}
+
+.table__cell--multiline {
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+    flex-grow: 0;
 }
 
 .table__cell__content :disabled {
     cursor: arrow;
+    flex-shrink: 0;
 }
 
 .table__subtable-container {
