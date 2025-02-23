@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -44,7 +43,8 @@ namespace TableForge.UI
             header.RowControl.RefreshColumnWidths();
             header.RemoveFromClassList(USSClasses.Hidden);
             header.RowControl.RemoveFromClassList(USSClasses.Hidden);
-            
+
+            //Debug.Log($"Row {header.Name} became visible");
             base.NotifyHeaderBecameVisible(header);
         }
 
@@ -53,6 +53,7 @@ namespace TableForge.UI
             header.AddToClassList(USSClasses.Hidden);
             header.RowControl.AddToClassList(USSClasses.Hidden);
 
+            //Debug.Log($"Row {header.Name} became invisible");
             base.NotifyHeaderBecameInvisible(header);
         }
 

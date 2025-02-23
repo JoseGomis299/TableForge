@@ -5,6 +5,7 @@ namespace TableForge.UI
     [CellControlUsage(typeof(BoolCell), CellSizeCalculationMethod.FixedSmallCell)]
     internal class BooleanCellControl : CellControl
     {
+        
         public BooleanCellControl(BoolCell cell, TableControl tableControl) : base(cell, tableControl)
         {
             var field = new Toggle
@@ -12,6 +13,7 @@ namespace TableForge.UI
                 value = (bool)Cell.GetValue()
             };
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+            OnRefresh = () => field.value = (bool)Cell.GetValue();
             Add(field);
             
             field.AddToClassList(USSClasses.Fill);

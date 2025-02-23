@@ -1,0 +1,42 @@
+using System.Collections.Generic;
+using UnityEngine.UIElements;
+
+namespace TableForge.UI
+{
+    internal class HeaderSwapper
+    {
+        private readonly TableControl _tableControl;
+        private readonly Dictionary<HeaderControl, SwappingDragger> _swappingDraggers = new Dictionary<HeaderControl, SwappingDragger>();
+        
+        public HeaderSwapper(TableControl tableControl)
+        {
+            _tableControl = tableControl;
+        }
+        
+        public void HandleSwapping(HeaderControl headerControl)
+        {
+            if(headerControl is RowHeaderControl 
+               && _tableControl.TableAttributes.RowReorderMode != TableReorderMode.None
+               && _swappingDraggers.TryAdd(headerControl, new RowSwappingDragger(_tableControl)))
+            {
+                headerControl.AddManipulator(_swappingDraggers[headerControl]);
+            }
+        }
+        
+        public void Dispose(HeaderControl headerControl)
+        {
+            if (headerControl == null) return;
+            
+            if(_swappingDraggers.TryGetValue(headerControl, out var dragger))
+            {
+                headerControl.RemoveManipulator(dragger);
+                _swappingDraggers.Remove(headerControl);
+            }
+        }
+        
+        
+        
+        
+        
+    }
+}

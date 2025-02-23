@@ -13,6 +13,7 @@ namespace TableForge.UI
                 TableHeaderVisibility.ShowEmpty => string.Empty,
                 TableHeaderVisibility.ShowHeaderName => header.Name,
                 TableHeaderVisibility.ShowHeaderNumber => header.Position.ToString(),
+                TableHeaderVisibility.ShowHeaderNumberBase0 => (header.Position - 1).ToString(),
                 TableHeaderVisibility.ShowHeaderLetter => header.LetterPosition,
                 TableHeaderVisibility.ShowHeaderLetterAndName => $"{header.LetterPosition} | {header.Name}",
                 TableHeaderVisibility.ShowHeaderNumberAndName => $"{header.Position} | {header.Name}",
@@ -29,6 +30,7 @@ namespace TableForge.UI
                 TableHeaderVisibility.ShowHeaderName => $"<b>{header.Name}</b>",
                 TableHeaderVisibility.ShowHeaderNumber => $"<b>{header.Position}</b>",
                 TableHeaderVisibility.ShowHeaderLetter => $"<b>{header.LetterPosition}</b>",
+                TableHeaderVisibility.ShowHeaderNumberBase0 => $"<b>{header.Position - 1}</b>",
                 TableHeaderVisibility.ShowHeaderLetterAndName => $"{header.LetterPosition} | <b>{header.Name}</b>",
                 TableHeaderVisibility.ShowHeaderNumberAndName => $"{header.Position} | <b>{header.Name}</b>",
                 _ => string.Empty

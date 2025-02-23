@@ -103,7 +103,7 @@ namespace TableForge
         /// Retrieves the current value of the field stored in this cell.
         /// </summary>
         /// <returns>The field value as an object.</returns>
-        public object GetFieldValue()
+        protected object GetFieldValue()
         {
             return TfSerializedObject.GetValue(this);
         }
@@ -112,7 +112,7 @@ namespace TableForge
         /// Sets the field value in the serialized object.
         /// </summary>
         /// <param name="value">The new value to be stored.</param>
-        public void SetFieldValue(object value)
+        protected void SetFieldValue(object value)
         {
             TfSerializedObject.SetValue(this, value);
         }

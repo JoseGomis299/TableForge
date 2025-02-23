@@ -51,10 +51,13 @@ namespace TableForge
             
             for (var i = 0; i < ((IList)Value).Count; i++)
             {
-                rowsData.Add(new TFSerializedListItem((IList)Value, ((IList)Value)[i], i));
+                rowsData.Add(new TFSerializedListItem((IList)Value, ((IList)Value)[i], i, TfSerializedObject.RootObject));
             }
             
-            SubTable = TableGenerator.GenerateTable(rowsData, $"{Column.Table.Name}.{Column.Name}", this);
+            if(SubTable != null)
+                TableGenerator.GenerateTable(SubTable, rowsData);
+            else 
+                SubTable = TableGenerator.GenerateTable(rowsData, $"{Column.Table.Name}.{Column.Name}", this);
         }
 
         public void AddItem(object item)
@@ -77,14 +80,15 @@ namespace TableForge
             else if (Value is IList list)
             {
                 list.Add(item);
-                TFSerializedListItem listItem = new TFSerializedListItem(list, item, list.Count - 1);
-                SubTable.AddRow(TableGenerator.GenerateRow(SubTable, listItem));
+                TFSerializedListItem listItem = new TFSerializedListItem(list, item, list.Count - 1, TfSerializedObject.RootObject);
+                TableGenerator.GenerateRow(SubTable, listItem);
             }
         }
 
         public void AddEmptyItem()
         {
             Type itemType = Type.IsArray ? Type.GetElementType() : Type.GetGenericArguments()[0];
+            object item = ((IList)Value).Count == 0 ? itemType.CreateInstanceWithDefaults() : ((IList)Value)[^1].CreateShallowCopy();
             
             if(Value is Array array)
             {
@@ -94,14 +98,14 @@ namespace TableForge
                     newArray.SetValue(array.GetValue(i), i);
                 }
                 
-                newArray.SetValue(itemType.CreateInstanceWithDefaults(), array.Length);
+                newArray.SetValue(item, array.Length);
                 SetValue(newArray);
             }
             else if (Value is IList list)
             {
-                list.Add(itemType.CreateInstanceWithDefaults());
-                TFSerializedListItem listItem = new TFSerializedListItem(list, list[^1], list.Count - 1);
-                SubTable.AddRow(TableGenerator.GenerateRow(SubTable, listItem));
+                list.Add(item);
+                TFSerializedListItem listItem = new TFSerializedListItem(list, list[^1], list.Count - 1, TfSerializedObject.RootObject);
+                TableGenerator.GenerateRow(SubTable, listItem);
             }
         }
 

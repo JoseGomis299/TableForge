@@ -1,4 +1,3 @@
-using TableForge.Exceptions;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,6 +14,7 @@ namespace TableForge.UI
                 value = (LayerMask)Cell.GetValue()
             };
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+            OnRefresh = () => field.value = (LayerMask)Cell.GetValue();
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);

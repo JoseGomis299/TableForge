@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -9,6 +8,7 @@ namespace TableForge.UI
         public RowHeaderContainerControl RowHeaderContainer { get; }
         public VisualElement RowsContainer { get; }
         private TableControl _tableControl;
+        private Label _label;
         public TableCornerControl(TableControl tableControl, ColumnHeaderContainerControl columnHeaderContainer, RowHeaderContainerControl rowHeaderContainer, VisualElement rowsContainer) : base(null, tableControl)
         {
             AddToClassList(USSClasses.TableCorner);
@@ -16,6 +16,10 @@ namespace TableForge.UI
             RowHeaderContainer = rowHeaderContainer;
             RowsContainer = rowsContainer;
             _tableControl = tableControl;
+            
+            _label = new Label();
+            _label.AddToClassList(USSClasses.CornerText);
+            Add(_label);
             
             TableControl.HorizontalResizer.HandleResize(this);
             this.AddManipulator(new ContextualMenuManipulator(BuildContextMenu));
@@ -38,10 +42,9 @@ namespace TableForge.UI
             _tableControl.PageManager.PreviousPage();
         }
 
-       
-        
-        
-        
-
+        public void UpdateCornerText()
+        {
+            _label.text = $"{_tableControl.PageManager.Page} / {_tableControl.PageManager.PageNumber}";
+        }
     }
 }

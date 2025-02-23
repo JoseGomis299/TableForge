@@ -59,9 +59,34 @@ namespace TableForge
                 return;
             }
             
-            ITFSerializedObject serializedObject = new TFSerializedObject(Value, FieldInfo?.FieldInfo, FieldInfo?.FriendlyName ?? Value.GetType().Name);
+            ITFSerializedObject serializedObject = new TFSerializedObject(Value, FieldInfo?.FieldInfo, TfSerializedObject.RootObject, FieldInfo?.FriendlyName ?? Value.GetType().Name);
             
-            SubTable = TableGenerator.GenerateTable(new List<ITFSerializedObject>{serializedObject}, $"{Column.Table.Name}.{serializedObject.Name}", this);
+            if(SubTable != null)
+                TableGenerator.GenerateTable(SubTable, new List<ITFSerializedObject>{serializedObject});
+            else 
+                SubTable = TableGenerator.GenerateTable(new List<ITFSerializedObject>{serializedObject}, $"{Column.Table.Name}.{serializedObject.Name}", this);
+        }
+
+        public void CreateDefaultValue()
+        {
+            if (Value != null)
+                return;
+            
+            if (FieldInfo == null)
+            {
+                Debug.LogWarning("FieldInfo is null, cannot create default value.");
+                return;
+            }
+
+            try
+            {
+                SetValue(FieldInfo.Type.CreateInstanceWithDefaults());
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(
+                    $"Failed to create instance of {FieldInfo.Type} for {FieldInfo.FriendlyName} in table {Column.Table.Name}, row {Row.Position}.\n{e.Message}");
+            }
         }
     }
 }

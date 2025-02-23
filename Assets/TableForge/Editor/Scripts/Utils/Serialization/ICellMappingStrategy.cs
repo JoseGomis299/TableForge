@@ -5,9 +5,9 @@ using System.Linq;
 namespace TableForge
 {
     /// <summary>
-    /// Defines a strategy for determining the serialization of a given type.
+    /// Defines a strategy for determining the cell mapped to a given type.
     /// </summary>
-    internal interface ISerializationStrategy
+    internal interface ICellMappingStrategy
     {
         /// <summary>
         /// Attempts to determine the appropriate cell type for the given type.
@@ -19,7 +19,7 @@ namespace TableForge
         bool TryGetCellType(Type type, Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> cellMappings, out Type cellType);
     }
 
-    internal abstract class BaseSerializationStrategy : ISerializationStrategy
+    internal abstract class BaseCellMappingStrategy : ICellMappingStrategy
     {
         public abstract bool TryGetCellType(Type type, Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> cellMappings, out Type cellType);
         
@@ -32,7 +32,7 @@ namespace TableForge
     /// <summary>
     /// Strategy for exact type matches.
     /// </summary>
-    internal class ExactMatchStrategy : BaseSerializationStrategy
+    internal class ExactMatchStrategy : BaseCellMappingStrategy
     {
         public override bool TryGetCellType(Type type, Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> cellMappings, out Type cellType)
         {
@@ -54,7 +54,7 @@ namespace TableForge
     /// <summary>
     /// Strategy for types that are assignable to the registered types.
     /// </summary>
-    internal class AssignableMatchStrategy : BaseSerializationStrategy
+    internal class AssignableMatchStrategy : BaseCellMappingStrategy
     {
         public override bool TryGetCellType(Type type, Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> cellMappings, out Type cellType)
         {
@@ -76,7 +76,7 @@ namespace TableForge
     /// <summary>
     /// Strategy for matching generic types based on their definitions.
     /// </summary>
-    internal class GenericMatchStrategy : BaseSerializationStrategy
+    internal class GenericMatchStrategy : BaseCellMappingStrategy
     {
         public override bool TryGetCellType(Type type, Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> cellMappings, out Type cellType)
         {

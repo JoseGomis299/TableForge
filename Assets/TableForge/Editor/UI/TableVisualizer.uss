@@ -37,6 +37,20 @@
     border-color: var(--border-color);
     border-right-width: var(--border-width);
     border-bottom-width: var(--border-width);
+    overflow: hidden;
+}
+
+.table__corner__text {
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
+    -unity-text-align: middle-center;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .table__corner-container {
@@ -150,6 +164,37 @@
     border-radius: var(--border-radius);
     background-color: var(--background-color);
     overflow: hidden;
+}
+
+.add-row__button {
+    width: 100%;
+    height: var(--cell-height);
+    background-color: var(--background-color);
+    -unity-text-align: middle-center;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+}
+
+.add-row__button:enabled:hover {
+    cursor: arrow-plus;
+    background-color: var(--selected-header-color);
+}
+
+.add-row__button__label {
+    width: 100%;
+    height: 100%;
+    padding-left: var(--header-padding);
+    -unity-text-align: middle-left;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+}
+
+.add-row__button__label:enabled {
+    cursor: arrow-plus;
 }
 
 .center {

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 using ICollection = System.Collections.ICollection;
 using Object = UnityEngine.Object;
@@ -15,9 +14,24 @@ namespace TableForge
     /// </summary>
     internal static class SerializationUtil
     {
+        private static readonly List<Type> UnitySerializedTypes = new List<Type>
+        {
+            typeof(Vector2),
+            typeof(Vector3),
+            typeof(Vector4),
+            typeof(Quaternion),
+            typeof(Color),
+            typeof(Rect),
+            typeof(Bounds),
+            typeof(AnimationCurve),
+            typeof(Gradient),
+            typeof(RectOffset),
+            typeof(LayerMask)
+        };
+        
         private static readonly Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> CellMappings = new();
         
-        private static readonly Dictionary<TypeMatchMode, ISerializationStrategy> Strategies = new()
+        private static readonly Dictionary<TypeMatchMode, ICellMappingStrategy> Strategies = new()
         {
             { TypeMatchMode.Exact, new ExactMatchStrategy() },
             { TypeMatchMode.Assignable, new AssignableMatchStrategy() },
@@ -62,27 +76,22 @@ namespace TableForge
         /// <returns>A list of <see cref="TFFieldInfo"/> representing serializable fields.</returns>
         public static List<TFFieldInfo> GetSerializableFields(Type type, FieldInfo fromField)
         {
-            var members = new List<TFFieldInfo>();
-            
             bool isSerializedReference = fromField != null && fromField.GetCustomAttribute<SerializeReference>() != null;
             if (fromField != null && !isSerializedReference && fromField.FieldType != type)
             {
                 type = fromField.FieldType;
-            }   
-
-            foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-            {
-                if (!IsSerializable(field)) continue;
-                if (HasCircularDependency(field.FieldType, type)) continue;
-                
-                string friendlyName = field.Name.ConvertToProperCase();
-                if (IsBackingField(field, out var propertyName)) 
-                    friendlyName = propertyName.ConvertToProperCase();
-                
-                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType, fromField));
             }
 
-            return members;
+            IFieldSerializationStrategy strategy = FieldSerializationStrategyFactory.GetStrategy(type);
+            return strategy.GetFields(type, fromField);
+        }
+        
+        public static string GetFriendlyName(FieldInfo field)
+        {
+            if (IsBackingField(field, out var propertyName))
+                return propertyName.ConvertToProperCase();
+            
+            return field.Name.ConvertToProperCase();
         }
 
         /// <summary>
@@ -105,13 +114,16 @@ namespace TableForge
         /// Determines whether a given field should be considered serializable.
         /// </summary>
         /// <param name="field">The field to analyze.</param>
+        /// <param name="allowPrivate">Allow private fields to be serialized.
+        /// (This is done in very few cases where unity serializes a field even if it is private and not marked as serializable,
+        /// which is the case for the fields in <see cref="Rect"/> and <see cref="Bounds"/>)</param>
         /// <returns>True if the field is serializable; otherwise, false.</returns>
-        private static bool IsSerializable(FieldInfo field)
+        public static bool IsSerializable(FieldInfo field, bool allowPrivate = false)
         {
             if(field.GetCustomAttribute<TableForgeIgnoreAttribute>() != null || !IsUnitySerializable(field.FieldType))
                 return false;
             
-            bool isSerializable = field.GetCustomAttribute<SerializeField>() != null || field.IsPublic;
+            bool isSerializable = field.GetCustomAttribute<SerializeField>() != null || field.IsPublic || allowPrivate;
             isSerializable &= !field.Attributes.HasFlag(FieldAttributes.Static) && !field.Attributes.HasFlag(FieldAttributes.InitOnly);
             
             return isSerializable && IsTableForgeSerializable(field.FieldType);
@@ -176,13 +188,12 @@ namespace TableForge
             
             if (type.ImplementsInterface(typeof(ICollection))
                 || type.ImplementsInterface(typeof(ICollection<>))
-                || typeof(Ray).IsAssignableFrom(type)
-                || typeof(Plane).IsAssignableFrom(type)
                )
                 return typeof(ISerializationCallbackReceiver).IsAssignableFrom(type);
 
-            return type.IsPrimitive || type == typeof(string) || typeof(Object).IsAssignableFrom(type) || 
-                   type.Assembly.GetName().Name.StartsWith("UnityEngine.CoreModule") || type.IsEnum || type.GetCustomAttribute<SerializableAttribute>() != null;
+            return type.IsPrimitive || type == typeof(string) || typeof(Object).IsAssignableFrom(type) ||
+                   type.IsEnum || type.GetCustomAttribute<SerializableAttribute>() != null ||
+                   typeof(ISerializationCallbackReceiver).IsAssignableFrom(type) || UnitySerializedTypes.Contains(type);
         }
 
         /// <summary>
@@ -191,7 +202,7 @@ namespace TableForge
         /// <param name="type">The type being analyzed.</param>
         /// <param name="parentType">The parent type in the serialization hierarchy.</param>
         /// <returns>True if a circular dependency is detected, otherwise false.</returns>
-        private static bool HasCircularDependency(Type type, Type parentType)
+        public static bool HasCircularDependency(Type type, Type parentType)
         {
             if (CheckCircularDependency(type)) 
                 return true;

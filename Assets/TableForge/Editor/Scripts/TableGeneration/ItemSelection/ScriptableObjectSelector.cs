@@ -58,9 +58,9 @@ namespace TableForge
             if (scriptableObject == null) return;
             
             if(_selectedData.ContainsKey(scriptableObject.GetType()))
-                _selectedData[scriptableObject.GetType()].Add(new TFSerializedObject(scriptableObject, null));
+                _selectedData[scriptableObject.GetType()].Add(new TFSerializedObject(scriptableObject, null, scriptableObject));
             else
-                _selectedData.Add(scriptableObject.GetType(), new List<ITFSerializedObject> {new TFSerializedObject(scriptableObject, null)});
+                _selectedData.Add(scriptableObject.GetType(), new List<ITFSerializedObject> {new TFSerializedObject(scriptableObject, null, scriptableObject)});
         }
     }
 }

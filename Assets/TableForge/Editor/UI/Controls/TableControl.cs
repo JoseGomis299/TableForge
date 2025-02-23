@@ -38,50 +38,19 @@ namespace TableForge.UI
         public BorderResizer HorizontalResizer { get; }
         public BorderResizer VerticalResizer { get; }
         public ICellSelector CellSelector { get; }
+        public HeaderSwapper HeaderSwapper { get; }
+        public SubTableCellControl Parent { get; }
         public VisibilityManager<ColumnHeaderControl> ColumnVisibilityManager { get; }
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
         public bool[] VisibleColumns { get; private set; }
-
-
-        public TableControl(VisualElement root)
-        {
-            // Basic initialization
-            Root = root;
-            AddToClassList(USSClasses.Table);
-            
-            TableAttributes = new TableAttributes()
-            {
-                TableType = TableType.Dynamic,
-                ColumnReorderMode = TableReorderMode.Instant,
-                RowReorderMode = TableReorderMode.Instant,
-                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
-                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
-            };
-            
-            // Initialize main components
-            _scrollView = CreateScrollView();
-            HorizontalResizer = new HorizontalBorderResizer(this);
-            VerticalResizer = new VerticalBorderResizer(this);
-            ColumnVisibilityManager = new ColumnVisibilityManager(this, _scrollView);
-            RowVisibilityManager = new RowVisibilityManager(this, _scrollView);
-            CellSelector = new CellSelector(this);
-
-            // Initialize sub-containers
-            _rowsContainer = CreateRowsContainer();
-            _columnHeaderContainer = new ColumnHeaderContainerControl(_scrollView);
-            _rowHeaderContainer = new RowHeaderContainerControl(_scrollView);
-            _cornerContainer = new CornerContainerControl(_scrollView);
-
-            // Build UI hierarchy (styles defined in USS)
-            BuildLayoutHierarchy();
-        }
         
-        public TableControl(VisualElement root, TableAttributes attributes)
+        public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent)
         {
             // Basic initialization
             Root = root;
             AddToClassList(USSClasses.Table);
             TableAttributes = attributes;
+            Parent = parent;
 
             // Initialize main components
             _scrollView = CreateScrollView();
@@ -90,6 +59,7 @@ namespace TableForge.UI
             ColumnVisibilityManager = new ColumnVisibilityManager(this, _scrollView);
             RowVisibilityManager = new RowVisibilityManager(this, _scrollView);
             CellSelector = new CellSelector(this);
+            HeaderSwapper = new HeaderSwapper(this);
 
             // Initialize sub-containers
             _rowsContainer = CreateRowsContainer();
@@ -160,6 +130,8 @@ namespace TableForge.UI
             _rowsContainer.Clear();
             
             PageManager = new TablePageManager(this);
+            PageManager.RecalculatePage();
+            
             VisibleColumns = new bool[TableData.Columns.Count];
             for (int i = 0; i < VisibleColumns.Length; i++)
                 VisibleColumns[i] = true;
@@ -214,6 +186,7 @@ namespace TableForge.UI
                 var header = new RowHeaderControl(row, this, rowControl);
                 _rowHeaders.Add(row.Id, header);
                 _rowHeaderContainer.Add(header);
+                HeaderSwapper.HandleSwapping(header);
             }
         }
         
@@ -247,10 +220,11 @@ namespace TableForge.UI
             return _rowsContainer[rowIndex].ElementAt(columnIndex) as CellControl;
         }
 
-        public void RefreshPage()
+        public void RebuildPage()
         {
             _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
-    
+            CellSelector.ClearSelection();
+            
             _rowsContainer.Clear();
             _rowData.Clear();
             _rowHeaders.Clear();
@@ -263,10 +237,52 @@ namespace TableForge.UI
             }
             _rowHeaderContainer.Clear();
             
+            PageManager.RecalculatePage();
             BuildRows();
             
             HorizontalResizer.ResizeAll();
             VerticalResizer.ResizeAll();
+        }
+        
+        public void RefreshPage()
+        {
+            foreach (var row in _rowHeaders.Values)
+            {
+                row.Refresh();
+            }
+        }
+        
+        public void ShowScrollbars(bool value)
+        {
+            _scrollView.horizontalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
+            _scrollView.verticalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
+        }
+
+        public void MoveRow(int rowStartPos, int rowEndPos)
+        {
+            if (rowStartPos == rowEndPos)
+                return;
+
+            if (TableAttributes.RowReorderMode == TableReorderMode.ExplicitReorder)
+            {
+                int startIndex = rowStartPos - 1;
+                int endIndex = rowEndPos - 1;
+                bool isMovingUp = rowStartPos > rowEndPos;
+                int currentIndex = startIndex;
+                while (currentIndex != endIndex)
+                {
+                    var nextIndex = isMovingUp ? currentIndex - 1 : currentIndex + 1;
+
+                    _rowsContainer.SwapChildren(currentIndex, nextIndex);
+                    _rowHeaderContainer.SwapChildren(currentIndex, nextIndex);
+
+                    currentIndex = nextIndex;
+                }
+            }
+
+            CellSelector.ClearSelection();
+            TableData.MoveRow(rowStartPos, rowEndPos);
+            RefreshPage();
         }
     }
 }

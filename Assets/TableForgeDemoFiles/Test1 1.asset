@@ -51,32 +51,132 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
   B: 0
-  intField: 0
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  intField: 1352
+  floatField: 32
+  <PublicLongProperty>k__BackingField: 32
+  <PublicDoubleProperty>k__BackingField: 123
   inheritorClass:
     number: 0
     text: 
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
-    number: 0
-    text: 
+    number: 34
+    text: aaaa
   innerClass:
-    rid: -2
+    rid: 617020005463621698
   inheritorClassAsInnerClass2:
-    rid: -2
-  innerClasses: []
-  intArray: 0c00000002000000020000000200000002000000020000000200000002000000
+    rid: 617020005463621699
+  innerClasses:
+  - number: 2
+    text: 
+  - number: 4
+    text: 
+  - number: 1
+    text: 
+  - number: 5
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  - number: 0
+    text: 
+  intArray: 02000000020000000200000002000000020000000c0000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000
   vector2: {x: 2, y: 8}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 3, w: 0}
   testEnum: 0
   vector3Array:
-  - {x: 0, y: 2, z: 3}
   - {x: 1, y: 3, z: 0}
-  - {x: 0, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 4, y: 2, z: 3}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
   structDictionary2:
     m_Keys:
     - number: 1
@@ -107,13 +207,13 @@ MonoBehaviour:
   Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
+    x: 12
+    y: 3
+    width: 13
+    height: 15
   bounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Center: {x: 12, y: 32, z: 54}
+    m_Extent: {x: 12, y: 123, z: 35}
   byteValue: 0
   shortValue: 0
   sbyteValue: 0
@@ -123,5 +223,13 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 617020005463621698
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+    - rid: 617020005463621699
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 

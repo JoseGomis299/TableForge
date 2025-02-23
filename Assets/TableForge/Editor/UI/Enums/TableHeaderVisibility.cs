@@ -6,6 +6,7 @@ namespace TableForge.UI
         ShowEmpty,
         ShowHeaderName,
         ShowHeaderNumber,
+        ShowHeaderNumberBase0,
         ShowHeaderLetter,
         ShowHeaderLetterAndName,
         ShowHeaderNumberAndName,

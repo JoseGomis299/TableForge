@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TableForge
@@ -16,7 +18,7 @@ namespace TableForge
         private readonly IList _collection;
         public int CollectionIndex { get; set; }
         
-        public TFSerializedListItem(IList collection, object itemFromCollection, int collectionIndex)
+        public TFSerializedListItem(IList collection, object itemFromCollection, int collectionIndex, Object rootObject) : base(itemFromCollection, null, rootObject)
         {
             TargetInstance = collection;
             Name = "Element " + collectionIndex;
@@ -74,6 +76,9 @@ namespace TableForge
 
             if (SerializedType.IsStruct)
                 _collection[CollectionIndex] = TargetInstance;
+            
+            if (!EditorUtility.IsDirty(RootObject))
+                EditorUtility.SetDirty(RootObject);
         }
 
         public override Type GetValueType(Cell cell)
@@ -132,12 +137,9 @@ namespace TableForge
             }
 
             (_collection[index1], _collection[index2]) = (_collection[index2], _collection[index1]);
-
-            Name = "Element " + index1;
-            CollectionIndex = index1;
             
-            other.Name = "Element " + index2;
-            other.CollectionIndex = index2;
+            if(!_isSimpleValue)
+                (TargetInstance, other.TargetInstance) = (other.TargetInstance, TargetInstance);
         }
     }
 }

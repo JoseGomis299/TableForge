@@ -37,10 +37,13 @@ namespace TableForge
 
             foreach (var key in ((IDictionary)Value).Keys)
             {
-                rowsData.Add(new TFSerializedDictionaryItem((IDictionary)Value, key));
+                rowsData.Add(new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject));
             }
             
-            SubTable = TableGenerator.GenerateTable(rowsData, $"{Column.Table.Name}.{Column.Name}", this);
+            if(SubTable != null)
+                TableGenerator.GenerateTable(SubTable, rowsData);
+            else 
+                SubTable = TableGenerator.GenerateTable(rowsData, $"{Column.Table.Name}.{Column.Name}", this);
         }
 
         public void AddItem(object key)
@@ -52,8 +55,8 @@ namespace TableForge
                 return;
             
             ((IDictionary)Value).Add(key, null);
-            TFSerializedDictionaryItem item = new TFSerializedDictionaryItem((IDictionary)Value, key);
-            SubTable.AddRow(TableGenerator.GenerateRow(SubTable, item));
+            TFSerializedDictionaryItem item = new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject);
+            TableGenerator.GenerateRow(SubTable, item);
         }
 
         public void AddEmptyItem()

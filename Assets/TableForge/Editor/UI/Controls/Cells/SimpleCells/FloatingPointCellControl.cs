@@ -1,6 +1,3 @@
-using TableForge.Exceptions;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -28,6 +25,7 @@ namespace TableForge.UI
                     value = (float)Cell.GetValue()
                 };
                 field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+                OnRefresh = () => field.value = (float)Cell.GetValue();
                 return field;
             }
 
@@ -38,6 +36,7 @@ namespace TableForge.UI
                     value = (double)Cell.GetValue()
                 };
                 field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+                OnRefresh = () => field.value = (double)Cell.GetValue();
                 return field;
             }
 

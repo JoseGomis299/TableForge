@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -15,16 +16,17 @@ namespace TableForge
         protected TFSerializedType SerializedType;
         protected IColumnGenerator ColumnGenerator;
         
+        public Object RootObject { get; }
         public string Name { get; protected set; }
         public object TargetInstance { get; protected set; }
         
-        protected TFSerializedObject() { }
 
-        public TFSerializedObject(object targetInstance, FieldInfo parentField, string name = null)
+        public TFSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string name = null)
         {
             TargetInstance = targetInstance;
             SerializedType = new TFSerializedType(targetInstance.GetType(), parentField);
             ColumnGenerator = SerializedType;
+            RootObject = rootObject;
 
             if (name == null)
             {
@@ -55,16 +57,29 @@ namespace TableForge
             Cell parentCell = cell.Row.Table.ParentCell;
             if (parentCell != null && SerializedType.IsStruct && parentCell is SubTableCell parentSubTableCell and not ICollectionCell)
             {
-                object structInstance = TargetInstance;
-                MethodInfo memberwiseClone = structInstance.GetType().GetMethod("MemberwiseClone", BindingFlags.Instance | BindingFlags.NonPublic);
-                object copy = memberwiseClone.Invoke(structInstance, null);
+                /*As we are dealing always with type "object", value types are boxed in reference types,
+                 so TargetInstance is in fact a reference to the boxed value type. This means that we need to
+                 create a copy of the struct, to be able to change the value of the field in the struct without
+                 affecting the original value that could be stored in other SerializedObjects as a reference.  
+                 
+                 Doing this we can mimic the behaviour of a real value type even when we are dealing with reference types internally.               
+                 */
                 
+                object structInstance = TargetInstance;
+                object copy = TargetInstance.CreateShallowCopy();
+
+                //We change the value inside TargetInstance without affecting the original value that could be stored in other SerializedObjects as a reference.
                 cell.FieldInfo.SetValue(copy, data);
-                TargetInstance = structInstance;
+                TargetInstance = structInstance; //We restore the original value of TargetInstance
+                
+                //Now it's time to update the parent cell with the new value
                 parentSubTableCell.SetValue(copy);
-                TargetInstance = copy;
+                TargetInstance = copy; //We update the value of TargetInstance with the new value reference
             }
             else cell.FieldInfo.SetValue(TargetInstance, data);
+            
+            if(!EditorUtility.IsDirty(RootObject))
+                EditorUtility.SetDirty(RootObject);
         }
 
         public virtual Type GetValueType(Cell cell)

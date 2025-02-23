@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -41,6 +42,37 @@ namespace TableForge.UI
                 element.UnregisterCallback<T>(OnEventPerformed);
                 actionToPerform?.Invoke();
             }
+        }
+        
+        public static void SwapChildren(this VisualElement element, VisualElement child1, VisualElement child2)
+        {
+            int index1 = element.IndexOf(child1);
+            int index2 = element.IndexOf(child2);
+
+            if (index1 == -1 || index2 == -1)
+                throw new ArgumentException("One or both elements are not children of the specified parent.");
+
+            element.SwapChildren(index1, index2);
+        }
+        
+        public static void SwapChildren(this VisualElement element, int index1, int index2)
+        {
+            if (index1 == index2)
+                return; 
+
+            if (index1 > index2)
+            {
+                (index1, index2) = (index2, index1);
+            }
+
+            var child1 = element.ElementAt(index1);
+            var child2 = element.ElementAt(index2);
+
+            element.RemoveAt(index2);
+            element.RemoveAt(index1);
+
+            element.Insert(index1, child2);
+            element.Insert(index2, child1);
         }
     }
 }

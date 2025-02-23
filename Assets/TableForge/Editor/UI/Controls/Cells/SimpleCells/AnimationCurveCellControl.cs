@@ -14,6 +14,7 @@ namespace TableForge.UI
                 value = (AnimationCurve)Cell.GetValue()
             };
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+            OnRefresh = () => field.value = (AnimationCurve)Cell.GetValue();
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);
@@ -21,5 +22,7 @@ namespace TableForge.UI
             
             InitializeSize();
         }
+        
+        
     }
 }

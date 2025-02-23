@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -45,6 +46,7 @@ namespace TableForge.UI
                 return;
 
             ConfirmSelection();
+            evt.StopImmediatePropagation();
         }
 
         private void ConfirmSelection()
@@ -92,8 +94,17 @@ namespace TableForge.UI
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(evt);
             CellControl lastSelectedCell = strategy.Preselect(this, evt, cellsAtPosition);
 
+            if(evt.clickCount == 2)
+            {
+                foreach (var selectedCell in _selectedCells)
+                {
+                    if(selectedCell is SubTableCellControl subCell)
+                        subCell.SubTableControl.CellSelector.SelectAllRecursively();
+                }
+            }
+            
             // If the last selected cell is a reference cell, immediately confirm the selection.
-            if (lastSelectedCell is ReferenceCellControl)
+            else if (lastSelectedCell is ReferenceCellControl)
             {
                 ConfirmSelection();
             }
@@ -178,12 +189,50 @@ namespace TableForge.UI
             cellControl.IsSelected = false;
         }
 
+        public void SelectAll()
+        {
+            _selectedCells.Clear();
+            foreach (var row in _tableControl.RowHeaders.Values)
+            {
+                foreach (var cell in row.RowControl.Children().OfType<CellControl>())
+                {
+                    _selectedCells.Add(cell);
+                }
+            }
+            
+            ConfirmSelection();
+        }
+
+        public void SelectAllRecursively()
+        {
+            _selectedCells.Clear();
+            foreach (var row in _tableControl.RowHeaders.Values)
+            {
+                foreach (var cell in row.RowControl.Children().OfType<CellControl>())
+                {
+                    _selectedCells.Add(cell);
+                    
+                    if(cell is SubTableCellControl subCell)
+                        subCell.SubTableControl.CellSelector.SelectAllRecursively();
+                }
+            }
+            
+            ConfirmSelection();
+        }
+
         public void ClearSelection()
         {
             foreach (var cell in _selectedCells)
             {
                 cell.IsSelected = false;
             }
+
+            foreach (var header in _selectedHeaders)
+            {
+                header.IsSelected = false;
+            }
+            
+            _selectedHeaders.Clear();
             _selectedCells.Clear();
             _cellsToDeselect.Clear();
         }

@@ -12,17 +12,16 @@ namespace TableForge
         /// Generates a table from a list of serialized objects.
         /// </summary>
         /// <param name="items">A list of serialized objects to populate the table.</param>
-        /// <param name="tableName">The name of the generated table.</param>
-        /// <param name="parentCell">The parent cell for the table, if any.</param>
+        /// <param name="table">The table to populate.</param>
         /// <returns>A new <see cref="Table"/> populated with the serialized data.</returns>
-        public static Table GenerateTable(List<ITFSerializedObject> items, string tableName, Cell parentCell)
+        public static Table GenerateTable(Table table, List<ITFSerializedObject> items)
         {
             if (items == null || items.Count == 0)
                 return null; 
             
             int rowCount = items.Count;
             List<CellAnchor> columns = new List<CellAnchor>();
-            Table table = new Table(tableName, parentCell);
+            table.Clear();
             
             for (int i = 0; i < rowCount; i++)
             {
@@ -32,6 +31,19 @@ namespace TableForge
             }
             
             return table;
+        }
+        
+        /// <summary>
+        /// Generates a table from a list of serialized objects.
+        /// </summary>
+        /// <param name="items">A list of serialized objects to populate the table.</param>
+        /// <param name="tableName">The name of the generated table.</param>
+        /// <param name="parentCell">The parent cell for the table, if any.</param>
+        /// <returns>A new <see cref="Table"/> populated with the serialized data.</returns>
+        public static Table GenerateTable(List<ITFSerializedObject> items, string tableName, Cell parentCell)
+        {
+            Table table = new Table(tableName, parentCell);
+            return GenerateTable(table, items);
         }
         
         

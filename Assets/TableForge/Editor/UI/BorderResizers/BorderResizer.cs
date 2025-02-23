@@ -29,8 +29,8 @@ namespace TableForge.UI
         {
             TableControl = tableControl;
             tableControl.Root.RegisterCallback<PointerMoveEvent>(CheckResize);
-            tableControl.Root.RegisterCallback<PointerDownEvent>(StartResize);
-            TableControl.Root.RegisterCallback<PointerDownEvent>(HandleDoubleClick);
+            tableControl.Root.RegisterCallback<PointerDownEvent>(StartResize, TrickleDown.TrickleDown);
+            TableControl.Root.RegisterCallback<PointerDownEvent>(HandleDoubleClick, TrickleDown.TrickleDown);
         }
 
         protected abstract void CheckResize(PointerMoveEvent moveEvent);
@@ -113,7 +113,7 @@ namespace TableForge.UI
                 UpdateChildrenSize(ResizingHeader);
                 InvokeResize(ResizingHeader, delta);
                 ResizingPreview.RemoveFromHierarchy();
-
+                
                 TableControl.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
                 TableControl.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
                 IsResizing = false;

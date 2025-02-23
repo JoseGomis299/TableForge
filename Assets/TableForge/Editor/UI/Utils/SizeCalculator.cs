@@ -14,15 +14,17 @@ namespace TableForge.UI
 
         public static Vector2 CalculateSize(CellControl cellControl)
         {
+            Vector2 size;
             if (cellControl is SubTableCellControl subTableCell)
             {
-                return CalculateSize(subTableCell);
+                size = CalculateSize(subTableCell);
+                return GetClampedSize(size);
             }
 
             CellSizeCalculationMethod method = 
                 CellStaticData.GetCellAttributes(cellControl.GetType()).SizeCalculationMethod;
 
-            return method switch
+            size = method switch
             {
                 CellSizeCalculationMethod.FixedBigCell => new Vector2(UiConstants.BigCellDesiredWidth,
                     UiConstants.CellHeight),
@@ -35,19 +37,23 @@ namespace TableForge.UI
                 CellSizeCalculationMethod.ReferenceAutoSize => CalculateReferenceAutoSize(cellControl),
                 _ => new Vector2(UiConstants.CellWidth, UiConstants.CellHeight)
             };
+            
+            return GetClampedSize(size);
         }
         
         public static Vector2 CalculateSize(Cell cell, int page)
         {
+            Vector2 size;
             if (cell is SubTableCell subTableCell)
             {
-                return CalculateSize(subTableCell, page);
+                size = CalculateSize(subTableCell, page);
+                return GetClampedSize(size);
             }
 
             CellSizeCalculationMethod method = 
                 CellStaticData.GetCellAttributes(CellStaticData.GetCellControlType(cell.GetType())).SizeCalculationMethod;
 
-            return method switch
+            size = method switch
             {
                 CellSizeCalculationMethod.FixedBigCell => new Vector2(UiConstants.BigCellDesiredWidth,
                     UiConstants.CellHeight),
@@ -60,6 +66,8 @@ namespace TableForge.UI
                 CellSizeCalculationMethod.ReferenceAutoSize => CalculateReferenceAutoSize(cell),
                 _ => new Vector2(UiConstants.CellWidth, UiConstants.CellHeight)
             };
+            
+            return GetClampedSize(size);
         }
 
         public static Vector2 CalculateSize(TableControl tableControl)
@@ -86,6 +94,24 @@ namespace TableForge.UI
             return CalculateSize(tableControl.TableData, tableControl.TableAttributes, tableControl.PageManager.Page, cellSizes, tableControl.VisibleColumns);
         }
         
+        public static Vector2 CalculateSizeWithCurrentCellSizes(TableControl tableControl)
+        {
+            List<Vector2> cellSizes = new List<Vector2>();
+            List<ColumnHeaderControl> columnHeaders = tableControl.ColumnHeaders.Values.OrderBy(x => x.CellAnchor.Position).ToList();
+            List<RowHeaderControl> rowHeaders = tableControl.RowHeaders.Values.OrderBy(x => x.CellAnchor.Position).ToList();
+            
+            foreach (var row in  rowHeaders)
+            {
+                foreach (var column in columnHeaders)
+                {
+                    cellSizes.Add(new Vector2(column.resolvedStyle.width, row.resolvedStyle.height));
+                }
+            }
+            
+            return GetClampedSize(CalculateSize(tableControl.TableData, tableControl.TableAttributes, tableControl.PageManager.Page, cellSizes, tableControl.VisibleColumns)
+                                  + Vector2.one * (UiConstants.CellContentPadding + UiConstants.BorderWidth));
+        }
+        
         public static Vector2 CalculateSize(Table table, TableAttributes tableAttributes, int page)
         {
             List<Row> rows = table.Rows.Values.Where(row => row.Position >= TablePageManager.GetFirstRowPosition(page, table.Rows.Count) && row.Position <= TablePageManager.GetLastRowPosition(page, table.Rows.Count)).ToList();
@@ -108,7 +134,11 @@ namespace TableForge.UI
                 return Vector2.zero;
             
             string headerName = NameResolver.ResolveHeaderName(header, visibility);
-            return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + UiConstants.HeaderPadding, UiConstants.CellHeight + UiConstants.HeaderPadding);
+            float padding = visibility is TableHeaderVisibility.ShowHeaderNumber or TableHeaderVisibility.ShowHeaderLetter or TableHeaderVisibility.ShowHeaderNumberBase0 ? 
+                UiConstants.SmallHeaderPadding 
+                : UiConstants.HeaderPadding;
+            
+            return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + padding, UiConstants.CellHeight + padding);
         }
 
         #endregion
@@ -118,7 +148,10 @@ namespace TableForge.UI
         private static Vector2 CalculateSize(Table table, TableAttributes tableAttributes, int page, List<Vector2> cellSizes, bool[] visibleColumns)
         {
             float width = UiConstants.CellContentPadding / 2f, height = UiConstants.CellContentPadding / 2f;
-
+            
+            if(tableAttributes.TableType == TableType.Dynamic || table.Rows.Count == 0)
+                height += UiConstants.CellHeight; //Add the AddRowButton height
+                
             int pageSize = ToolbarData.PageSize;
             
             bool hasRowHeaders = tableAttributes.RowHeaderVisibility != TableHeaderVisibility.Hidden;
@@ -162,7 +195,7 @@ namespace TableForge.UI
             //Calculate the table height
             for (int i = 0; i < rows.Count; i++)
             {
-                float maxRowHeight = UiConstants.CellHeight;
+                float maxRowHeight = 0;
                 for (int j = 0; j < table.Columns.Count; j++)
                 {
                     if(!visibleColumns[j]) continue;
@@ -261,6 +294,33 @@ namespace TableForge.UI
                 : CalculateSize(subTableCellControl.Cell, 0);
             
             return new Vector2(width + tableSize.x, height + tableSize.y);
+        }
+        
+        private static Vector2 GetClampedSize(Vector2 size)
+        {
+            float width = 0, height = 0, additionalWidth = 0, additionalHeight = 0;
+
+            if (size.x > UiConstants.MaxRecommendedWidth)
+            {
+                width = (int)UiConstants.MaxRecommendedWidth;
+                additionalHeight = UiConstants.ScrollerWidth;
+            }
+            else if (size.x < UiConstants.MinCellWidth)
+                width = (int) UiConstants.MinCellWidth;
+            else
+                width = (int) size.x;
+
+            if (size.y > UiConstants.MaxRecommendedHeight)
+            {
+                height = (int)UiConstants.MaxRecommendedHeight;
+                additionalWidth = UiConstants.ScrollerWidth;
+            }
+            else if (size.y < UiConstants.MinCellHeight)
+                height = (int) UiConstants.MinCellHeight;
+            else
+                height = (int) size.y;
+            
+            return new Vector2(width + additionalWidth, height + additionalHeight);
         }
         
         #endregion

@@ -25,13 +25,17 @@ namespace TableForge.UI
 
         public const float BigCellDesiredWidth = 120;
         public const float SmallCellDesiredWidth = 50;
-        public const float MinCellWidth = 30;
+        public const float MinCellWidth = 20;
         public const float MinCellHeight = 25;
         
         public const float SnappingThreshold = 3.5f;
         public const float MoveSelectionStep = 7.5f;
-        public static float EnumArrowSize = 14;
-        public static float ReferenceTypeExtraSpace = 32;
+        public const float EnumArrowSize = 14;
+        public const float ScrollerWidth = 18;
+        public const float ReferenceTypeExtraSpace = 32;
+        public const float MaxRecommendedWidth = 500;
+        public const float MaxRecommendedHeight = 200;
+        public const float SmallHeaderPadding = 5;
 
         public static void InitializeStyles(VisualElement root)
         {

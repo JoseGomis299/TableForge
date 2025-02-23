@@ -8,98 +8,23 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12004, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PixelRect:
-    serializedVersion: 2
-    x: 2871
-    y: 178
-    width: 948
-    height: 514
-  m_ShowMode: 0
-  m_Title: UI Toolkit Debugger
-  m_RootView: {fileID: 4}
-  m_MinSize: {x: 50, y: 76}
-  m_MaxSize: {x: 4000, y: 4026}
-  m_Maximized: 0
---- !u!114 &2
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12004, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 2560
-    y: 43
-    width: 1920
-    height: 989
+    x: 7.3333335
+    y: 50
+    width: 1692
+    height: 961.3334
   m_ShowMode: 4
-  m_Title: Project
-  m_RootView: {fileID: 5}
+  m_Title: Console
+  m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
-  m_Maximized: 1
---- !u!114 &3
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: UIElementsDebugger
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 948
-    height: 514
-  m_MinSize: {x: 50, y: 76}
-  m_MaxSize: {x: 4000, y: 4026}
-  m_ActualView: {fileID: 16}
-  m_Panes:
-  - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &4
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 3}
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 948
-    height: 514
-  m_MinSize: {x: 50, y: 76}
-  m_MaxSize: {x: 4000, y: 4026}
-  vertical: 0
-  controlID: 309
-  draggingID: 0
---- !u!114 &5
+  m_Maximized: 0
+--- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,22 +37,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 6}
-  - {fileID: 8}
-  - {fileID: 7}
+  - {fileID: 3}
+  - {fileID: 5}
+  - {fileID: 4}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
-    height: 989
+    width: 1692
+    height: 961.3333
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 36
   m_UseBottomView: 1
   m_BottomViewHeight: 20
---- !u!114 &6
+--- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,12 +69,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
+    width: 1692
     height: 36
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
   m_LastLoadedLayoutName: 
---- !u!114 &7
+--- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,12 +90,12 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 969
-    width: 1920
+    y: 941.3333
+    width: 1692
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
---- !u!114 &8
+--- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,20 +108,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 9}
-  - {fileID: 15}
+  - {fileID: 6}
+  - {fileID: 12}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 36
-    width: 1920
-    height: 933
+    width: 1692
+    height: 905.3333
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 148
+  controlID: 67
   draggingID: 0
---- !u!114 &9
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,20 +134,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 10}
-  - {fileID: 14}
+  - {fileID: 7}
+  - {fileID: 11}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1579
-    height: 933
+    width: 1332.6666
+    height: 905.3333
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 99
+  controlID: 68
   draggingID: 0
---- !u!114 &10
+--- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,21 +160,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 11}
-  - {fileID: 12}
-  - {fileID: 13}
+  - {fileID: 8}
+  - {fileID: 9}
+  - {fileID: 10}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1579
-    height: 618
+    width: 1332.6666
+    height: 626
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
   controlID: 69
   draggingID: 0
---- !u!114 &11
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,16 +191,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 231
-    height: 618
+    width: 188.66667
+    height: 626
   m_MinSize: {x: 201, y: 226}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 19}
+  m_ActualView: {fileID: 13}
   m_Panes:
-  - {fileID: 19}
+  - {fileID: 13}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &12
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,21 +215,21 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 231
+    x: 188.66667
     y: 0
-    width: 807
-    height: 618
+    width: 677.3333
+    height: 626
   m_MinSize: {x: 52, y: 76}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 17}
+  m_ActualView: {fileID: 16}
   m_Panes:
-  - {fileID: 20}
-  - {fileID: 21}
+  - {fileID: 14}
+  - {fileID: 15}
+  - {fileID: 16}
   - {fileID: 17}
-  - {fileID: 18}
   m_Selected: 2
   m_LastSelected: 2
---- !u!114 &13
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -319,18 +244,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1038
+    x: 866
     y: 0
-    width: 541
-    height: 618
+    width: 466.66663
+    height: 626
   m_MinSize: {x: 202, y: 226}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 22}
+  m_ActualView: {fileID: 18}
   m_Panes:
-  - {fileID: 22}
+  - {fileID: 18}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &14
+--- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -340,24 +265,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 618
-    width: 1579
-    height: 315
-  m_MinSize: {x: 231, y: 276}
-  m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 23}
+    y: 626
+    width: 1332.6666
+    height: 279.3333
+  m_MinSize: {x: 101, y: 126}
+  m_MaxSize: {x: 4001, y: 4026}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 23}
-  - {fileID: 24}
-  m_Selected: 0
-  m_LastSelected: 1
---- !u!114 &15
+  - {fileID: 19}
+  - {fileID: 20}
+  m_Selected: 1
+  m_LastSelected: 0
+--- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -372,786 +297,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1579
+    x: 1332.6666
     y: 0
-    width: 341
-    height: 933
+    width: 359.33337
+    height: 905.3333
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 25}
+  m_ActualView: {fileID: 21}
   m_Panes:
-  - {fileID: 25}
+  - {fileID: 21}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &16
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 13956, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: UI Toolkit Debugger
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-    m_TextWithWhitespace: "UI Toolkit Debugger\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 26
-    width: 948
-    height: 488
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  m_DebuggerImpl:
-    m_LastVisualTreeName: InspectorWindow
-  m_DebuggerContext:
-    m_SelectedElementIndex: 433
-    m_ShowLayoutBound: 0
-    m_ShowRepaintOverlay: 0
-    m_ShowDrawStats: 0
-    m_BreakBatches: 0
-    m_ShowWireframe: 0
-    m_ShowTextureAtlasViewer: 0
---- !u!114 &17
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 13401, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Test Runner
-    m_Image: {fileID: 0}
-    m_Tooltip: Test framework for running Edit mode and Play mode tests in Unity.
-      Part of the com.unity.test-framework package.
-    m_TextWithWhitespace: "Test Runner\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 232
-    y: 24
-    width: 805
-    height: 592
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  m_Spl:
-    ID: 157
-    splitterInitialOffset: 0
-    currentActiveSplitter: -1
-    realSizes:
-    - 391
-    - 131
-    relativeSizes:
-    - 0.75
-    - 0.25
-    minSizes:
-    - 32
-    - 32
-    maxSizes:
-    - 0
-    - 0
-    lastTotalSize: 522
-    splitSize: 6
-    xOffset: 0
-    m_Version: 1
-    oldRealSizes: 
-    oldMinSizes: 
-    oldMaxSizes: 
-    oldSplitSize: 0
-  m_TestTypeToolbarIndex: 0
-  m_TestListGUIs:
-  - m_Window: {fileID: 17}
-    runProgress:
-      RunGuid: 1aee10bd-a87b-4466-a10e-83dd437059aa
-      ExecutionSettings:
-        m_TargetPlatform: 0
-        m_HasTargetPlatform: 0
-        filter:
-          testMode: 0
-          testNames: []
-          groupNames: []
-          categoryNames: []
-          assemblyNames: []
-        filters:
-        - testMode: 1
-          testNames: []
-          groupNames: []
-          categoryNames: []
-          assemblyNames: []
-        runSynchronously: 0
-        playerHeartbeatTimeout: 600
-        orderedTestNames: []
-        ignoreTests: []
-        featureFlags:
-          fileCleanUpCheck: 0
-          requiresSplashScreen: 0
-          strictDomainReload: 0
-          disableNestedEnumeratorBugfix: 0
-        randomOrderSeed: 0
-      HasFinished: 1
-      Progress: 0.99999976
-      CurrentStepName: Unlock Reload Assemblies
-      CurrentStageName: 
-    m_NewResultList:
-    - id: 1000
-      uniqueId: '[TableForge][suite]'
-      name: TableForge
-      fullName: TableForge
-      resultStatus: 1
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 
-      parentUniqueId: 
-    - id: 1019
-      uniqueId: '[TableForge.Tests.dll][suite]'
-      name: TableForge.Tests.dll
-      fullName: C:/Users/joseg/Documents/GitHub/TableForge/Library/ScriptAssemblies/TableForge.Tests.dll
-      resultStatus: 1
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1000
-      parentUniqueId: '[TableForge][suite]'
-    - id: 1020
-      uniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
-      name: TableForge
-      fullName: TableForge
-      resultStatus: 1
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1019
-      parentUniqueId: '[TableForge.Tests.dll][suite]'
-    - id: 1021
-      uniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-      name: Tests
-      fullName: TableForge.Tests
-      resultStatus: 1
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1020
-      parentUniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
-    - id: 1001
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
-      name: ItemSelectionTests
-      fullName: TableForge.Tests.ItemSelectionTests
-      resultStatus: 1
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1021
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-    - id: 1002
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ItemSelectionTests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection]'
-      name: ScriptableObjectSelection
-      fullName: TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection
-      resultStatus: 1
-      duration: 0.284264
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
-    - id: 1003
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
-      name: SerializationTests
-      fullName: TableForge.Tests.SerializationTests
-      resultStatus: 1
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1021
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-    - id: 1004
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/SerializationTests/[TableForge.Tests][TableForge.Tests.SerializationTests.GetSerializableFields]'
-      name: GetSerializableFields
-      fullName: TableForge.Tests.SerializationTests.GetSerializableFields
-      resultStatus: 1
-      duration: 0.00209
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1003
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
-    - id: 1005
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-      name: TableGenerationTests
-      fullName: TableForge.Tests.TableGenerationTests
-      resultStatus: 1
-      duration: 0
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 1
-      categories: []
-      parentId: 1021
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-    - id: 1007
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration]'
-      name: AnimationCurveCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration
-      resultStatus: 1
-      duration: 0.0841962
-      messages: 
-      output: 'No script asset for AnimationCurveScriptableObject. Check that the
-        definition is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1008
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.BooleanCellGeneration]'
-      name: BooleanCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.BooleanCellGeneration
-      resultStatus: 1
-      duration: 0.0821741
-      messages: 
-      output: 'No script asset for BooleanScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1009
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.ColorCellGeneration]'
-      name: ColorCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.ColorCellGeneration
-      resultStatus: 1
-      duration: 0.093765
-      messages: 
-      output: 'No script asset for ColorScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1017
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.DictionaryCellGeneration]'
-      name: DictionaryCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.DictionaryCellGeneration
-      resultStatus: 1
-      duration: 0.083533
-      messages: 
-      output: 'No script asset for DictionaryScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1010
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.EnumCellGeneration]'
-      name: EnumCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.EnumCellGeneration
-      resultStatus: 1
-      duration: 0.0821804
-      messages: 
-      output: 'No script asset for EnumScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1011
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration]'
-      name: FloatingPointCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration
-      resultStatus: 1
-      duration: 0.0830432
-      messages: 
-      output: 'No script asset for FloatingPointScriptableObject. Check that the
-        definition is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1012
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.GradientCellGeneration]'
-      name: GradientCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.GradientCellGeneration
-      resultStatus: 1
-      duration: 0.0823682
-      messages: 
-      output: 'No script asset for GradientScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1013
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration]'
-      name: IntegralTypesCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration
-      resultStatus: 1
-      duration: 0.0812886
-      messages: 
-      output: 'No script asset for IntegralTypesScriptableObject. Check that the
-        definition is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1016
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.ListCellGeneration]'
-      name: ListCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.ListCellGeneration
-      resultStatus: 1
-      duration: 0.0821613
-      messages: 
-      output: 'No script asset for ListScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1006
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated]'
-      name: NoSerializableTypes_NoCellsGenerated
-      fullName: TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated
-      resultStatus: 1
-      duration: 0.0813026
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1015
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.StringCellGeneration]'
-      name: StringCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.StringCellGeneration
-      resultStatus: 1
-      duration: 0.082458
-      messages: 
-      output: 'No script asset for StringScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1018
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.SubitemCellGeneration]'
-      name: SubitemCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.SubitemCellGeneration
-      resultStatus: 1
-      duration: 0.0832172
-      messages: 
-      output: 'No script asset for ComplexTypeScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1014
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration]'
-      name: UnityObjectCellGeneration
-      fullName: TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration
-      resultStatus: 1
-      duration: 0.0814573
-      messages: 
-      output: 'No script asset for UnityObjectScriptableObject. Check that the definition
-        is in a file of the same name and that it compiles properly.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1005
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    m_ResultText: TableForge (15 tests) (0,000s)
-    m_ResultStacktrace: 
-    m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: b1b65a60
-      m_LastClickedID: 1616557745
-      m_ExpandedIDs: 6e6da2e15da74a17b1b65a603e11d07dffffff7f
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_TrimLeadingAndTrailingWhitespace: 0
-        m_ClientGUIView: {fileID: 0}
-      m_SearchString: 
-    m_TestRunnerUIFilter:
-      PassedHidden: 0
-      FailedHidden: 0
-      NotRunHidden: 0
-      m_SearchString: 
-      selectedCategories: []
-      availableCategories:
-      - Uncategorized
-    m_SelectedOption: 0
-  - m_Window: {fileID: 0}
-    runProgress:
-      RunGuid: 1aee10bd-a87b-4466-a10e-83dd437059aa
-      ExecutionSettings:
-        m_TargetPlatform: 0
-        m_HasTargetPlatform: 0
-        filter:
-          testMode: 0
-          testNames: []
-          groupNames: []
-          categoryNames: []
-          assemblyNames: []
-        filters:
-        - testMode: 1
-          testNames: []
-          groupNames: []
-          categoryNames: []
-          assemblyNames: []
-        runSynchronously: 0
-        playerHeartbeatTimeout: 600
-        orderedTestNames: []
-        ignoreTests: []
-        featureFlags:
-          fileCleanUpCheck: 0
-          requiresSplashScreen: 0
-          strictDomainReload: 0
-          disableNestedEnumeratorBugfix: 0
-        randomOrderSeed: 0
-      HasFinished: 1
-      Progress: 0.99999976
-      CurrentStepName: Unlock Reload Assemblies
-      CurrentStageName: 
-    m_NewResultList: []
-    m_ResultText: 
-    m_ResultStacktrace: 
-    m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_TrimLeadingAndTrailingWhitespace: 0
-        m_ClientGUIView: {fileID: 0}
-      m_SearchString: 
-    m_TestRunnerUIFilter:
-      PassedHidden: 0
-      FailedHidden: 0
-      NotRunHidden: 0
-      m_SearchString: 
-      selectedCategories: []
-      availableCategories: []
-    m_SelectedOption: 0
-  - m_Window: {fileID: 0}
-    runProgress:
-      RunGuid: 1aee10bd-a87b-4466-a10e-83dd437059aa
-      ExecutionSettings:
-        m_TargetPlatform: 0
-        m_HasTargetPlatform: 0
-        filter:
-          testMode: 0
-          testNames: []
-          groupNames: []
-          categoryNames: []
-          assemblyNames: []
-        filters:
-        - testMode: 1
-          testNames: []
-          groupNames: []
-          categoryNames: []
-          assemblyNames: []
-        runSynchronously: 0
-        playerHeartbeatTimeout: 600
-        orderedTestNames: []
-        ignoreTests: []
-        featureFlags:
-          fileCleanUpCheck: 0
-          requiresSplashScreen: 0
-          strictDomainReload: 0
-          disableNestedEnumeratorBugfix: 0
-        randomOrderSeed: 0
-      HasFinished: 1
-      Progress: 0.99999976
-      CurrentStepName: Unlock Reload Assemblies
-      CurrentStageName: 
-    m_NewResultList: []
-    m_ResultText: 
-    m_ResultStacktrace: 
-    m_TestListState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 
-      m_RenameOverlay:
-        m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
-        m_EditFieldRect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        m_UserData: 0
-        m_IsWaitingForDelay: 0
-        m_IsRenaming: 0
-        m_OriginalEventType: 11
-        m_IsRenamingFilename: 0
-        m_TrimLeadingAndTrailingWhitespace: 0
-        m_ClientGUIView: {fileID: 0}
-      m_SearchString: 
-    m_TestRunnerUIFilter:
-      PassedHidden: 0
-      FailedHidden: 0
-      NotRunHidden: 0
-      m_SearchString: 
-      selectedCategories: []
-      availableCategories: []
-    m_SelectedOption: 0
---- !u!114 &18
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 924ffcbe75518854f97b48776d0f1939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: New Shader Graph
-    m_Image: {fileID: 2800000, guid: 7129268cf102b2f45809905bcb27ce8b, type: 3}
-    m_Tooltip: 
-    m_TextWithWhitespace: "New Shader Graph\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 222
-    y: 78.66667
-    width: 860
-    height: 538.6667
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  m_Selected: 49d3cbe1073ca904c9614fea3cf90ac6
-  m_GraphObject: {fileID: 0}
-  m_LastSerializedFileContents: "{\n    \"m_SGVersion\": 3,\n    \"m_Type\": \"UnityEditor.ShaderGraph.GraphData\",\n   
-    \"m_ObjectId\": \"3898de26df9448b6ab7a1bb798b73e34\",\n    \"m_Properties\":
-    [],\n    \"m_Keywords\": [],\n    \"m_Dropdowns\": [],\n    \"m_CategoryData\":
-    [\n        {\n            \"m_Id\": \"4e88b4e8c64447bb9ae64dcfaad0a5cb\"\n       
-    }\n    ],\n    \"m_Nodes\": [],\n    \"m_GroupDatas\": [],\n    \"m_StickyNoteDatas\":
-    [],\n    \"m_Edges\": [],\n    \"m_VertexContext\": {\n        \"m_Position\":
-    {\n            \"x\": 0.0,\n            \"y\": 0.0\n        },\n        \"m_Blocks\":
-    []\n    },\n    \"m_FragmentContext\": {\n        \"m_Position\": {\n           
-    \"x\": 0.0,\n            \"y\": 200.0\n        },\n        \"m_Blocks\": []\n   
-    },\n    \"m_PreviewData\": {\n        \"serializedMesh\": {\n            \"m_SerializedMesh\":
-    \"{\\\"mesh\\\":{\\\"instanceID\\\":0}}\",\n            \"m_Guid\": \"\"\n       
-    },\n        \"preventRotation\": false\n    },\n    \"m_Path\": \"Shader Graphs\",\n   
-    \"m_GraphPrecision\": 1,\n    \"m_PreviewMode\": 2,\n    \"m_OutputNode\": {\n       
-    \"m_Id\": \"\"\n    },\n    \"m_SubDatas\": [],\n    \"m_ActiveTargets\": []\n}\n\n{\n   
-    \"m_SGVersion\": 0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.CategoryData\",\n   
-    \"m_ObjectId\": \"4e88b4e8c64447bb9ae64dcfaad0a5cb\",\n    \"m_Name\": \"\",\n   
-    \"m_ChildObjectList\": []\n}\n\n"
-  m_AssetMaybeChangedOnDisk: 0
-  m_AssetMaybeDeleted: 0
---- !u!114 &19
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1174,8 +331,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 230
-    height: 592
+    width: 187.66667
+    height: 600
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1217,7 +374,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &20
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1941,7 +1098,7 @@ MonoBehaviour:
   m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
-    m_SceneView: {fileID: 20}
+    m_SceneView: {fileID: 14}
     m_CameraOverscanSettings:
       m_Opacity: 50
       m_Scale: 1
@@ -1951,7 +1108,7 @@ MonoBehaviour:
   m_LastLockedObject: {fileID: 0}
   m_LastDebugDrawMode: 35
   m_ViewIsLockedToObject: 0
---- !u!114 &21
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2023,7 +1180,729 @@ MonoBehaviour:
   m_CurrentEditor: 0
   m_LayerEditor:
     m_SelectedLayerIndex: 0
---- !u!114 &22
+--- !u!114 &16
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13401, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Test Runner
+    m_Image: {fileID: 0}
+    m_Tooltip: Test framework for running Edit mode and Play mode tests in Unity.
+      Part of the com.unity.test-framework package.
+    m_TextWithWhitespace: "Test Runner\u200B"
+  m_Pos:
+    serializedVersion: 2
+    x: 189.66667
+    y: 24
+    width: 675.3333
+    height: 600
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_ContainerData: []
+    m_OverlaysVisible: 1
+  m_Spl:
+    ID: 153
+    splitterInitialOffset: 435
+    currentActiveSplitter: -1
+    realSizes:
+    - 396.66666
+    - 133.33334
+    relativeSizes:
+    - 0.748062
+    - 0.251938
+    minSizes:
+    - 32
+    - 32
+    maxSizes:
+    - 0
+    - 0
+    lastTotalSize: 530
+    splitSize: 6
+    xOffset: 0
+    m_Version: 1
+    oldRealSizes: 
+    oldMinSizes: 
+    oldMaxSizes: 
+    oldSplitSize: 0
+  m_TestTypeToolbarIndex: 0
+  m_TestListGUIs:
+  - m_Window: {fileID: 16}
+    runProgress:
+      RunGuid: 43da662d-7c56-4463-ae07-d6d774d6e7c1
+      ExecutionSettings:
+        m_TargetPlatform: 0
+        m_HasTargetPlatform: 0
+        filter:
+          testMode: 0
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
+        filters:
+        - testMode: 1
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
+        runSynchronously: 0
+        playerHeartbeatTimeout: 600
+        orderedTestNames: []
+        ignoreTests: []
+        featureFlags:
+          fileCleanUpCheck: 0
+          requiresSplashScreen: 0
+          strictDomainReload: 0
+          disableNestedEnumeratorBugfix: 0
+        randomOrderSeed: 0
+      HasFinished: 1
+      Progress: 0.99999976
+      CurrentStepName: Unlock Reload Assemblies
+      CurrentStageName: 
+    m_NewResultList:
+    - id: 1000
+      uniqueId: '[TableForge][suite]'
+      name: TableForge
+      fullName: TableForge
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 
+      parentUniqueId: 
+    - id: 1019
+      uniqueId: '[TableForge.Tests.dll][suite]'
+      name: TableForge.Tests.dll
+      fullName: C:/Users/joseg/Documents/GitHub/TableForge/Library/ScriptAssemblies/TableForge.Tests.dll
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1000
+      parentUniqueId: '[TableForge][suite]'
+    - id: 1020
+      uniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
+      name: TableForge
+      fullName: TableForge
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1019
+      parentUniqueId: '[TableForge.Tests.dll][suite]'
+    - id: 1021
+      uniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
+      name: Tests
+      fullName: TableForge.Tests
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1020
+      parentUniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
+    - id: 1001
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
+      name: ItemSelectionTests
+      fullName: TableForge.Tests.ItemSelectionTests
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1021
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
+    - id: 1002
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ItemSelectionTests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection]'
+      name: ScriptableObjectSelection
+      fullName: TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection
+      resultStatus: 1
+      duration: 0.3239198
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
+    - id: 1003
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
+      name: SerializationTests
+      fullName: TableForge.Tests.SerializationTests
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1021
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
+    - id: 1004
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/SerializationTests/[TableForge.Tests][TableForge.Tests.SerializationTests.GetSerializableFields]'
+      name: GetSerializableFields
+      fullName: TableForge.Tests.SerializationTests.GetSerializableFields
+      resultStatus: 1
+      duration: 0.00285
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
+    - id: 1005
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+      name: TableGenerationTests
+      fullName: TableForge.Tests.TableGenerationTests
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1021
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
+    - id: 1007
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration]'
+      name: AnimationCurveCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration
+      resultStatus: 1
+      duration: 0.08306
+      messages: 
+      output: 'No script asset for AnimationCurveScriptableObject. Check that the
+        definition is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1008
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.BooleanCellGeneration]'
+      name: BooleanCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.BooleanCellGeneration
+      resultStatus: 1
+      duration: 0.082306
+      messages: 
+      output: 'No script asset for BooleanScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1009
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.ColorCellGeneration]'
+      name: ColorCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.ColorCellGeneration
+      resultStatus: 1
+      duration: 0.0747989
+      messages: 
+      output: 'No script asset for ColorScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1017
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.DictionaryCellGeneration]'
+      name: DictionaryCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.DictionaryCellGeneration
+      resultStatus: 1
+      duration: 0.0840224
+      messages: 
+      output: 'No script asset for DictionaryScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1010
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.EnumCellGeneration]'
+      name: EnumCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.EnumCellGeneration
+      resultStatus: 1
+      duration: 0.0902446
+      messages: 
+      output: 'No script asset for EnumScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1011
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration]'
+      name: FloatingPointCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration
+      resultStatus: 1
+      duration: 0.0876955
+      messages: 
+      output: 'No script asset for FloatingPointScriptableObject. Check that the
+        definition is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1012
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.GradientCellGeneration]'
+      name: GradientCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.GradientCellGeneration
+      resultStatus: 1
+      duration: 0.0817013
+      messages: 
+      output: 'No script asset for GradientScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1013
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration]'
+      name: IntegralTypesCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration
+      resultStatus: 1
+      duration: 0.0903785
+      messages: 
+      output: 'No script asset for IntegralTypesScriptableObject. Check that the
+        definition is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1016
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.ListCellGeneration]'
+      name: ListCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.ListCellGeneration
+      resultStatus: 1
+      duration: 0.087409
+      messages: 
+      output: 'No script asset for ListScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1006
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated]'
+      name: NoSerializableTypes_NoCellsGenerated
+      fullName: TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated
+      resultStatus: 1
+      duration: 0.084798
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1015
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.StringCellGeneration]'
+      name: StringCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.StringCellGeneration
+      resultStatus: 1
+      duration: 0.0978559
+      messages: 
+      output: 'No script asset for StringScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1018
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.SubitemCellGeneration]'
+      name: SubitemCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.SubitemCellGeneration
+      resultStatus: 1
+      duration: 0.0992298
+      messages: 
+      output: 'No script asset for ComplexTypeScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    - id: 1014
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration]'
+      name: UnityObjectCellGeneration
+      fullName: TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration
+      resultStatus: 1
+      duration: 0.1068403
+      messages: 
+      output: 'No script asset for UnityObjectScriptableObject. Check that the definition
+        is in a file of the same name and that it compiles properly.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
+    m_ResultText: NoSerializableTypes_NoCellsGenerated (0,085s)
+    m_ResultStacktrace: 
+    m_TestListState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 33633618
+      m_LastClickedID: 406217523
+      m_ExpandedIDs: 9e07bdba6e6da2e15da74a17b1b65a606cd327683e11d07dffffff7f
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_TrimLeadingAndTrailingWhitespace: 0
+        m_ClientGUIView: {fileID: 0}
+      m_SearchString: 
+    m_TestRunnerUIFilter:
+      PassedHidden: 0
+      FailedHidden: 0
+      NotRunHidden: 0
+      m_SearchString: 
+      selectedCategories: []
+      availableCategories:
+      - Uncategorized
+    m_SelectedOption: 0
+  - m_Window: {fileID: 0}
+    runProgress:
+      RunGuid: 43da662d-7c56-4463-ae07-d6d774d6e7c1
+      ExecutionSettings:
+        m_TargetPlatform: 0
+        m_HasTargetPlatform: 0
+        filter:
+          testMode: 0
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
+        filters:
+        - testMode: 1
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
+        runSynchronously: 0
+        playerHeartbeatTimeout: 600
+        orderedTestNames: []
+        ignoreTests: []
+        featureFlags:
+          fileCleanUpCheck: 0
+          requiresSplashScreen: 0
+          strictDomainReload: 0
+          disableNestedEnumeratorBugfix: 0
+        randomOrderSeed: 0
+      HasFinished: 1
+      Progress: 0.99999976
+      CurrentStepName: Unlock Reload Assemblies
+      CurrentStageName: 
+    m_NewResultList: []
+    m_ResultText: 
+    m_ResultStacktrace: 
+    m_TestListState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_TrimLeadingAndTrailingWhitespace: 0
+        m_ClientGUIView: {fileID: 0}
+      m_SearchString: 
+    m_TestRunnerUIFilter:
+      PassedHidden: 0
+      FailedHidden: 0
+      NotRunHidden: 0
+      m_SearchString: 
+      selectedCategories: []
+      availableCategories: []
+    m_SelectedOption: 0
+  - m_Window: {fileID: 0}
+    runProgress:
+      RunGuid: 43da662d-7c56-4463-ae07-d6d774d6e7c1
+      ExecutionSettings:
+        m_TargetPlatform: 0
+        m_HasTargetPlatform: 0
+        filter:
+          testMode: 0
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
+        filters:
+        - testMode: 1
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
+        runSynchronously: 0
+        playerHeartbeatTimeout: 600
+        orderedTestNames: []
+        ignoreTests: []
+        featureFlags:
+          fileCleanUpCheck: 0
+          requiresSplashScreen: 0
+          strictDomainReload: 0
+          disableNestedEnumeratorBugfix: 0
+        randomOrderSeed: 0
+      HasFinished: 1
+      Progress: 0.99999976
+      CurrentStepName: Unlock Reload Assemblies
+      CurrentStageName: 
+    m_NewResultList: []
+    m_ResultText: 
+    m_ResultStacktrace: 
+    m_TestListState:
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 
+      m_RenameOverlay:
+        m_UserAcceptedRename: 0
+        m_Name: 
+        m_OriginalName: 
+        m_EditFieldRect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_UserData: 0
+        m_IsWaitingForDelay: 0
+        m_IsRenaming: 0
+        m_OriginalEventType: 11
+        m_IsRenamingFilename: 0
+        m_TrimLeadingAndTrailingWhitespace: 0
+        m_ClientGUIView: {fileID: 0}
+      m_SearchString: 
+    m_TestRunnerUIFilter:
+      PassedHidden: 0
+      FailedHidden: 0
+      NotRunHidden: 0
+      m_SearchString: 
+      selectedCategories: []
+      availableCategories: []
+    m_SelectedOption: 0
+--- !u!114 &17
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924ffcbe75518854f97b48776d0f1939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: New Shader Graph
+    m_Image: {fileID: 2800000, guid: 7129268cf102b2f45809905bcb27ce8b, type: 3}
+    m_Tooltip: 
+    m_TextWithWhitespace: "New Shader Graph\u200B"
+  m_Pos:
+    serializedVersion: 2
+    x: 222
+    y: 78.66667
+    width: 860
+    height: 538.6667
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_ContainerData: []
+    m_OverlaysVisible: 1
+  m_Selected: 49d3cbe1073ca904c9614fea3cf90ac6
+  m_GraphObject: {fileID: 0}
+  m_LastSerializedFileContents: "{\n    \"m_SGVersion\": 3,\n    \"m_Type\": \"UnityEditor.ShaderGraph.GraphData\",\n   
+    \"m_ObjectId\": \"3898de26df9448b6ab7a1bb798b73e34\",\n    \"m_Properties\":
+    [],\n    \"m_Keywords\": [],\n    \"m_Dropdowns\": [],\n    \"m_CategoryData\":
+    [\n        {\n            \"m_Id\": \"4e88b4e8c64447bb9ae64dcfaad0a5cb\"\n       
+    }\n    ],\n    \"m_Nodes\": [],\n    \"m_GroupDatas\": [],\n    \"m_StickyNoteDatas\":
+    [],\n    \"m_Edges\": [],\n    \"m_VertexContext\": {\n        \"m_Position\":
+    {\n            \"x\": 0.0,\n            \"y\": 0.0\n        },\n        \"m_Blocks\":
+    []\n    },\n    \"m_FragmentContext\": {\n        \"m_Position\": {\n           
+    \"x\": 0.0,\n            \"y\": 200.0\n        },\n        \"m_Blocks\": []\n   
+    },\n    \"m_PreviewData\": {\n        \"serializedMesh\": {\n            \"m_SerializedMesh\":
+    \"{\\\"mesh\\\":{\\\"instanceID\\\":0}}\",\n            \"m_Guid\": \"\"\n       
+    },\n        \"preventRotation\": false\n    },\n    \"m_Path\": \"Shader Graphs\",\n   
+    \"m_GraphPrecision\": 1,\n    \"m_PreviewMode\": 2,\n    \"m_OutputNode\": {\n       
+    \"m_Id\": \"\"\n    },\n    \"m_SubDatas\": [],\n    \"m_ActiveTargets\": []\n}\n\n{\n   
+    \"m_SGVersion\": 0,\n    \"m_Type\": \"UnityEditor.ShaderGraph.CategoryData\",\n   
+    \"m_ObjectId\": \"4e88b4e8c64447bb9ae64dcfaad0a5cb\",\n    \"m_Name\": \"\",\n   
+    \"m_ChildObjectList\": []\n}\n\n"
+  m_AssetMaybeChangedOnDisk: 0
+  m_AssetMaybeDeleted: 0
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2044,10 +1923,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1039
+    x: 867
     y: 24
-    width: 539
-    height: 592
+    width: 464.66663
+    height: 600
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2101,10 +1980,10 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 539
-      height: 571
-    m_Scale: {x: 0.3158203, y: 0.3158203}
-    m_Translation: {x: 269.5, y: 285.5}
+      width: 464.66663
+      height: 579
+    m_Scale: {x: 0.27226558, y: 0.27226558}
+    m_Translation: {x: 232.33331, y: 289.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -2112,18 +1991,18 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -853.3334
-      y: -903.99506
+      y: -1063.3
       width: 1706.6667
-      height: 1807.9901
+      height: 2126.6
     m_MinimalGUI: 1
-  m_defaultScale: 0.3158203
-  m_LastWindowPixelSize: {x: 539, y: 592}
+  m_defaultScale: 0.27226558
+  m_LastWindowPixelSize: {x: 464.66663, y: 600}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &23
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2144,10 +2023,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 642
-    width: 1578
-    height: 289
+    x: 7.3333335
+    y: 678.6667
+    width: 1331.6666
+    height: 286.66663
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2186,10 +2065,10 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 124}
-    m_SelectedIDs: 04ad0000
-    m_LastClickedID: 44292
-    m_ExpandedIDs: 0000000002ab000004ab000006ab000008ab00000aab00000cab00000eab000010ab000012ab000014ab000016ab000018ab00001aab00001cab00001eab0000
+    scrollPos: {x: 0, y: 258}
+    m_SelectedIDs: 04ae0000
+    m_LastClickedID: 44548
+    m_ExpandedIDs: 00000000a6ad0000a8ad0000aaad0000acad0000aead0000b0ad0000b2ad0000b4ad0000b6ad0000b8ad0000baad0000bcad0000bead0000c0ad0000c2ad0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2218,7 +2097,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000002ab000004ab000006ab000008ab00000aab00000cab00000eab000010ab000012ab000014ab000016ab000018ab00001aab00001cab00001eab0000
+    m_ExpandedIDs: 00000000a6ad0000a8ad0000aaad0000acad0000aead0000b0ad0000b2ad0000b4ad0000b6ad0000b8ad0000baad0000bcad0000bead0000c0ad0000c2ad0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2244,8 +2123,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: a0a90000
+    m_LastClickedInstanceID: 43424
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000050370100e00f010082be0300a232010064340100fe20ffff6e20ffff2cbc0000
     m_RenameOverlay:
@@ -2264,7 +2143,7 @@ MonoBehaviour:
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
-      m_ClientGUIView: {fileID: 14}
+      m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -2276,7 +2155,7 @@ MonoBehaviour:
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
---- !u!114 &24
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2297,10 +2176,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2560
-    y: 697
-    width: 1578
-    height: 289
+    x: 0
+    y: 650
+    width: 1331.6666
+    height: 253.33331
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2312,7 +2191,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &25
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2333,10 +2212,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1580
+    x: 1333.6666
     y: 24
-    width: 340
-    height: 907
+    width: 358.33337
+    height: 879.3333
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

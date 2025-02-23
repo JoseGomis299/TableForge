@@ -26,7 +26,17 @@ namespace TableForge.UI
             var mainTable = root.Q<VisualElement>("MainTable");
             var table = TableManager.GenerateTables()[1];
 
-            var tableControl = new TableControl(rootVisualElement);
+                        
+            var tableAttributes = new TableAttributes()
+            {
+                TableType = TableType.Dynamic,
+                ColumnReorderMode = TableReorderMode.ExplicitReorder,
+                RowReorderMode = TableReorderMode.ExplicitReorder,
+                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
+                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
+            };
+            
+            var tableControl = new TableControl(rootVisualElement, tableAttributes, null);
             tableControl.SetTable(table);
             mainTable.Add(tableControl);
 

@@ -127,6 +127,15 @@ namespace TableForge
         }
         
         /// <summary>
+        /// Clears all rows and columns from the table without removing the referenced data.
+        /// </summary>
+        public void Clear()
+        {
+            _rows.Clear();
+            _columns.Clear();
+        }
+        
+        /// <summary>
         /// Moves a row from one position to another, adjusting subsequent row positions accordingly.
         /// </summary>
         /// <param name="fromPosition">Original 1-based row position</param>

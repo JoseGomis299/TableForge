@@ -28,5 +28,8 @@ namespace TableForge.UI
         public const string TableScrollViewContentBottom = "table__scroll-view-content--bottom";
         public const string Toolbar = "toolbar";
         public const string SubTableContainer = "table__subtable-container";
+        public const string AddRowButton = "add-row__button";
+        public const string AddRowButtonLabel = "add-row__button__label";
+        public const string CornerText = "table__corner__text";
     }
 }

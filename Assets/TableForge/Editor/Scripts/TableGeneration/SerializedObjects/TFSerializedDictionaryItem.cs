@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TableForge.Exceptions;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TableForge
 {
@@ -14,14 +16,12 @@ namespace TableForge
         private readonly IDictionary _dictionary;
         private object _itemKey;
         
-        public TFSerializedDictionaryItem(IDictionary dictionary, object itemKey)
+        public TFSerializedDictionaryItem(IDictionary dictionary, object itemKey, Object rootObject) : base(dictionary, null, rootObject)
         {
             TargetInstance = dictionary;
             Name = "";
             _dictionary = dictionary;
-            if(itemKey is Vector3 key && key.GetType().IsValueType)
-                _itemKey = key;
-            else _itemKey = itemKey;
+            _itemKey = itemKey;
             ColumnGenerator = new DictionaryColumnGenerator();
         }
         
@@ -62,6 +62,9 @@ namespace TableForge
             {
                 _dictionary[_itemKey] = data;
             }
+
+            if (!EditorUtility.IsDirty(RootObject))
+                EditorUtility.SetDirty(RootObject);
         }
 
         public override Type GetValueType(Cell cell)

@@ -1,6 +1,5 @@
 using System;
 using TableForge.Exceptions;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,9 +8,10 @@ namespace TableForge.UI
     internal abstract class CellControl : VisualElement
     {
         public event Action<object> OnValueChange; 
+        protected Action OnRefresh;
         
         private bool _isSelected;
-        public bool IsSelected
+        public virtual bool IsSelected
         {
             get => _isSelected;
             set
@@ -33,8 +33,8 @@ namespace TableForge.UI
             }
         }
         public bool IsVisible => TableControl.ColumnHeaders[Cell.Column.Id].IsVisible && TableControl.RowHeaders[Cell.Row.Id].IsVisible;
-        protected TableControl TableControl { get; }
-        public Cell Cell { get; }
+        public TableControl TableControl { get; }
+        public Cell Cell { get; set; }
 
         protected CellControl(Cell cell, TableControl tableControl)
         {
@@ -44,6 +44,10 @@ namespace TableForge.UI
             AddToClassList(USSClasses.TableCell);
         }
         
+        public void Refresh()
+        {
+            OnRefresh?.Invoke();
+        }
         
         protected void SetDesiredSize(float width, float height)
         {

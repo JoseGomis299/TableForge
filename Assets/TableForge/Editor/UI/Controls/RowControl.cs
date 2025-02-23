@@ -7,17 +7,16 @@ namespace TableForge.UI
 {
     internal class RowControl : VisualElement
     {
-        private readonly Row _row;
         private readonly Dictionary<int, CellControl> _cells = new Dictionary<int, CellControl>();
-        
         public IReadOnlyDictionary<int, CellControl> Cells => _cells;
+        public Row Row { get; }
         public TableControl TableControl { get; }
         
         public RowControl(Row row, TableControl tableControl)
         {
-            _row = row;
+            Row = row;
             TableControl = tableControl;
-            SetRow();
+            InitializeRow();
 
             AddToClassList(USSClasses.TableRow);
             AddToClassList(USSClasses.Hidden);
@@ -32,8 +31,16 @@ namespace TableForge.UI
                 this[columnEntry.Value.Position - 1].style.width = header.style.width;
             }
         }
+        
+        public void Refresh()
+        {
+            foreach (var cell in _cells)
+            {
+                cell.Value.Refresh();
+            }
+        }
 
-        private void SetRow()
+        private void InitializeRow()
         {
             Clear();
 
@@ -42,7 +49,7 @@ namespace TableForge.UI
                         
             foreach (var columnEntry in columnsByPosition)
             {
-                if (!_row.Cells.TryGetValue(columnEntry.Key, out var cell)) continue;
+                if (!Row.Cells.TryGetValue(columnEntry.Key, out var cell)) continue;
 
                 var cellField = CreateCellField(cell, columnEntry.Value.PreferredWidth);
                 if(cellField is CellControl cellControl)

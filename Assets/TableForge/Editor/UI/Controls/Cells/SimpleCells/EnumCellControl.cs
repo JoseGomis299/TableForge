@@ -1,8 +1,6 @@
 using System;
 using System.Reflection;
-using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -16,12 +14,14 @@ namespace TableForge.UI
             {
                 var field = new EnumFlagsField(Cell.GetValue() as Enum);
                 field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+                OnRefresh += () => field.value = Cell.GetValue() as Enum;
                 Add(field);
             }
             else
             {
                 var field = new EnumField(Cell.GetValue() as Enum);
                 field.RegisterValueChangedCallback(evt => OnChange(evt, field));
+                OnRefresh += () => field.value = Cell.GetValue() as Enum;
                 Add(field);
             }
             

@@ -14,6 +14,11 @@ namespace TableForge
         /// Gets the name of the serialized object.
         /// </summary>
         string Name { get; }
+        
+        /// <summary>
+        /// The root object from which the serialized object hierarchy originates.
+        /// </summary>
+        UnityEngine.Object RootObject { get; }
 
         #endregion
 
