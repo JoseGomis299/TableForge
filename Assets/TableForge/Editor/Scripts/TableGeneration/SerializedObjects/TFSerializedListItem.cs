@@ -140,6 +140,9 @@ namespace TableForge
             
             if(!_isSimpleValue)
                 (TargetInstance, other.TargetInstance) = (other.TargetInstance, TargetInstance);
+            
+            if (!EditorUtility.IsDirty(RootObject))
+                EditorUtility.SetDirty(RootObject);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace TableForge.UI
         {
             SubTableControl = new TableControl(tableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this);
             SubTableControl.SetTable(cell.SubTable);
-
+            
             VisualElement container = new VisualElement();
             container.AddToClassList(USSClasses.SubTableContainer);
             container.Add(SubTableControl);

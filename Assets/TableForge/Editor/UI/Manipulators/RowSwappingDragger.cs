@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -5,48 +6,97 @@ namespace TableForge.UI
 {
     internal class RowSwappingDragger : SwappingDragger
     {
+        private int _lastHeaderIndex;
+        private readonly List<RowHeaderControl> _orderedHeaders = new List<RowHeaderControl>();
+
         public RowSwappingDragger(TableControl tableControl) : base(tableControl)
         {
         }
         
-        protected override void CacheHeaderBounds()
+        protected override void OnClick()
         {
-            HeaderBounds.Clear();
+            _orderedHeaders.Clear();
             foreach (var rowHeader in TableControl.RowHeaders.Values)
             {
-                HeaderBounds.Add(rowHeader.Id, rowHeader.worldBound);
+                _orderedHeaders.Add(rowHeader);
             }
+            
+            _orderedHeaders.Sort((a, b) => TableControl.RowData[a.Id].Position.CompareTo(TableControl.RowData[b.Id].Position));
+            TableControl.RowVisibilityManager.LockHeaderVisibility(target as RowHeaderControl);
+            
+            _lastHeaderIndex = -1;
+        }
+
+        protected override void OnRelease()
+        {
+            TableControl.RowVisibilityManager.UnlockHeaderVisibility(target as RowHeaderControl);
         }
 
         protected override void MoveElements(MouseMoveEvent e)
         {
+            Vector3 delta = (Vector3) e.mousePosition - new Vector3(e.mousePosition.x, target.worldBound.y + target.worldBound.size.y / 2);
+            MoveElements(delta);
+        }
+
+        private void MoveElements(Vector3 delta)
+        {
             if (target is not RowHeaderControl rowHeaderControl) return;
-            Vector3 delta = (Vector3) e.mouseDelta - new Vector3(e.mouseDelta.x, 0);
+            float direction = delta.y > 0 ? -1 : 1;
             
             target.transform.position += delta;
             rowHeaderControl.RowControl.transform.position += delta;
-
-            foreach (var idBoundPar in HeaderBounds)
+            
+            int movingIndex = TableControl.RowData[rowHeaderControl.Id].Position - 1;
+            if(_lastHeaderIndex == -1)
+                _lastHeaderIndex = movingIndex;
+            
+            for (var i = 0; i < _orderedHeaders.Count; i++)
             {
-                int id = idBoundPar.Key;
-                Rect rowBound = idBoundPar.Value;
-                RowHeaderControl rowHeader = TableControl.RowHeaders[id];
+                var rowHeader = _orderedHeaders[i];
                 Vector3 midPoint = (Vector3)target.worldBound.position + (Vector3)target.worldBound.size / 2;
-                    
-                if(rowBound.Contains(midPoint))
-                {
-                    LastHeaderId = rowHeader.Id;
-                }
 
                 if (rowHeader == target || !rowHeader.worldBound.Contains(midPoint)) continue;
-                    
-                Vector3 positionBeforeMoving = rowHeader.worldBound.position;
-                Vector3 newRowPosition = FinalPosition - (Vector3)rowHeader.worldBound.position;
-                rowHeader.transform.position += newRowPosition;
-                rowHeader.RowControl.transform.position += newRowPosition;
-                FinalPosition = positionBeforeMoving;
+
+                var targetPos = GetPosition(direction, movingIndex, i);
+                rowHeader.transform.position = targetPos;
+                rowHeader.RowControl.transform.position = targetPos;
+                
+                //If the header is moved more than one position, ensure that the other headers are in the correct position
+                int indexDifference = _lastHeaderIndex - i;
+                if (indexDifference * indexDifference > 1)
+                {
+                    for (int j = 0; j < _orderedHeaders.Count; j++)
+                    {
+                        if ((i <= j && j < movingIndex) || (i >= j && j > movingIndex))
+                        {
+                            _orderedHeaders[j].transform.position = targetPos;
+                            _orderedHeaders[j].RowControl.transform.position = targetPos;
+                        }
+                        else
+                        {
+                            _orderedHeaders[j].transform.position = Vector3.zero;
+                            _orderedHeaders[j].RowControl.transform.position = Vector3.zero;
+                        }
+                    }
+                }
+                
+                _lastHeaderIndex = i;
                 break;
             }
+            
+            bool hasMovedUp = movingIndex > 0 && _orderedHeaders[movingIndex - 1].transform.position != Vector3.zero;
+            bool hasMovedDown = movingIndex < _orderedHeaders.Count - 1 && _orderedHeaders[movingIndex + 1].transform.position != Vector3.zero;
+            if(!hasMovedUp && !hasMovedDown) 
+                _lastHeaderIndex = -1;
+        }
+
+        private Vector3 GetPosition(float direction, int movingIndex, int i)
+        {
+            float targetY = target.worldBound.height * direction;
+            float maxY = movingIndex > i ? targetY : 0;
+            float minY = movingIndex < i ? targetY : 0;
+            Vector3 targetPos =  Mathf.Clamp(targetY, minY, maxY) * Vector3.up;
+            return targetPos;
         }
 
         protected override void PerformSwap()
@@ -58,10 +108,10 @@ namespace TableForge.UI
                 rowHeader.RowControl.transform.position = Vector3.zero;
             }
                 
-            if (LastHeaderId != 0)
+            if (_lastHeaderIndex != -1)
             {
                 int rowStartPos = TableControl.RowData[rowHeaderControl.Id].Position;
-                int rowEndPos = TableControl.RowData[LastHeaderId].Position;
+                int rowEndPos = _lastHeaderIndex + 1;
                     
                 TableControl.MoveRow(rowStartPos, rowEndPos);
             }

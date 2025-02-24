@@ -67,6 +67,7 @@ namespace TableForge.UI
 
         protected override bool IsHeaderVisible(ColumnHeaderControl header)
         {
+            if(_lockedVisibleHeaders.Contains(header)) return true;
             var viewBounds = _scrollView.worldBound;
 
             // Check if the left side of the header is visible.

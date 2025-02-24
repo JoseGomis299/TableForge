@@ -19,7 +19,6 @@ namespace TableForge.UI
         private readonly RowHeaderContainerControl _rowHeaderContainer;
         private readonly CornerContainerControl _cornerContainer;
         private readonly VisualElement _rowsContainer;
-        private readonly ScrollView _scrollView;
 
         private float _scrollViewHeight;
         private float _scrollViewWidth;
@@ -33,6 +32,7 @@ namespace TableForge.UI
         public CornerContainerControl CornerContainer => _cornerContainer;
         
         public Table TableData { get; private set; }
+        public ScrollView ScrollView { get; }
         public TablePageManager PageManager { get; private set; }
         public TableAttributes TableAttributes { get; }
         public BorderResizer HorizontalResizer { get; }
@@ -53,19 +53,19 @@ namespace TableForge.UI
             Parent = parent;
 
             // Initialize main components
-            _scrollView = CreateScrollView();
+            ScrollView = CreateScrollView();
             HorizontalResizer = new HorizontalBorderResizer(this);
             VerticalResizer = new VerticalBorderResizer(this);
-            ColumnVisibilityManager = new ColumnVisibilityManager(this, _scrollView);
-            RowVisibilityManager = new RowVisibilityManager(this, _scrollView);
+            ColumnVisibilityManager = new ColumnVisibilityManager(this, ScrollView);
+            RowVisibilityManager = new RowVisibilityManager(this, ScrollView);
             CellSelector = new CellSelector(this);
             HeaderSwapper = new HeaderSwapper(this);
 
             // Initialize sub-containers
             _rowsContainer = CreateRowsContainer();
-            _columnHeaderContainer = new ColumnHeaderContainerControl(_scrollView);
-            _rowHeaderContainer = new RowHeaderContainerControl(_scrollView);
-            _cornerContainer = new CornerContainerControl(_scrollView);
+            _columnHeaderContainer = new ColumnHeaderContainerControl(ScrollView);
+            _rowHeaderContainer = new RowHeaderContainerControl(ScrollView);
+            _cornerContainer = new CornerContainerControl(ScrollView);
 
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
@@ -92,7 +92,7 @@ namespace TableForge.UI
             // Container for all scroll view content
             var scrollviewContentContainer = new VisualElement();
             scrollviewContentContainer.AddToClassList(USSClasses.TableScrollViewContentContainer);
-            _scrollView.Add(scrollviewContentContainer);
+            ScrollView.Add(scrollviewContentContainer);
             
             /*
              Note that the bottom container is added first, as the scrollviewContentContainer flex-direction is columnReverse.
@@ -192,18 +192,18 @@ namespace TableForge.UI
         
         private void RefreshScrollViewHeight(float delta)
         {
-            _scrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewHeightChanged?.Invoke());
+            ScrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewHeightChanged?.Invoke());
 
             _scrollViewHeight += delta;
-            _scrollView.contentContainer.style.height = _scrollViewHeight;
+            ScrollView.contentContainer.style.height = _scrollViewHeight;
         }
         
         private void RefreshScrollViewWidth(float delta)
         {
-            _scrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewWidthChanged?.Invoke());
+            ScrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewWidthChanged?.Invoke());
 
             _scrollViewWidth += delta;
-            _scrollView.contentContainer.style.width = _scrollViewWidth;
+            ScrollView.contentContainer.style.width = _scrollViewWidth;
         }
 
         public CellControl GetCell(int rowId, int columnId)
@@ -254,8 +254,8 @@ namespace TableForge.UI
         
         public void ShowScrollbars(bool value)
         {
-            _scrollView.horizontalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
-            _scrollView.verticalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
+            ScrollView.horizontalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
+            ScrollView.verticalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
         }
 
         public void MoveRow(int rowStartPos, int rowEndPos)

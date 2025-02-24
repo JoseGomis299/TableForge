@@ -14,6 +14,7 @@ namespace TableForge.UI
 
         protected readonly ScrollView _scrollView;
         protected readonly List<THeader> _visibleHeaders = new List<THeader>();
+        protected readonly HashSet<THeader> _lockedVisibleHeaders = new HashSet<THeader>(); 
         
         public IReadOnlyList<THeader> VisibleHeaders => _visibleHeaders;
 
@@ -30,8 +31,21 @@ namespace TableForge.UI
                 NotifyHeaderBecameInvisible(header);
             }
             _visibleHeaders.Clear();
+            _lockedVisibleHeaders.Clear();
         }
-
+        
+        public void LockHeaderVisibility(THeader header)
+        {
+            _lockedVisibleHeaders.Add(header);
+            if(!header.IsVisible)
+                MakeHeaderVisible(header, false);
+        }
+        
+        public void UnlockHeaderVisibility(THeader header)
+        {
+            _lockedVisibleHeaders.Remove(header);
+        }
+        
         /// <summary>
         /// Shows a header by marking it as visible, adding it to the list, and notifying listeners.
         /// </summary>

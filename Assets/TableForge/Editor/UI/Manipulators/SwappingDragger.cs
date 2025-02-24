@@ -7,12 +7,7 @@ namespace TableForge.UI
     internal abstract class SwappingDragger : MouseManipulator
     {
         protected readonly TableControl TableControl;
-        protected readonly Dictionary<int, Rect> HeaderBounds = new Dictionary<int, Rect>();
-
-        protected Vector3 FinalPosition;
-        protected int LastHeaderId;
-
-        private bool _isDragging;
+        protected bool IsDragging;
 
         protected SwappingDragger(TableControl tableControl)
         {
@@ -36,32 +31,32 @@ namespace TableForge.UI
         
         private void OnMouseDown(MouseDownEvent e)
         {
-            FinalPosition= target.worldBound.position;
-            LastHeaderId = 0;
-            _isDragging = true;
+            IsDragging = true;
             
-            CacheHeaderBounds();
+            OnClick();
             target.CaptureMouse();
         }
         
         private void OnMouseUp(MouseUpEvent e)
         {
-            if (!_isDragging) return;
+            if (!IsDragging) return;
            
-            _isDragging = false;
+            IsDragging = false;
             PerformSwap();
 
+            OnRelease();
             target.ReleaseMouse();
         }
         
         private void OnMouseMove(MouseMoveEvent e)
         {
-            if (!_isDragging) return;
+            if (!IsDragging) return;
 
             MoveElements(e);
         }
         
-        protected abstract void CacheHeaderBounds();
+        protected abstract void OnClick();
+        protected abstract void OnRelease();
         protected abstract void MoveElements(MouseMoveEvent e);
         protected abstract void PerformSwap();
     }

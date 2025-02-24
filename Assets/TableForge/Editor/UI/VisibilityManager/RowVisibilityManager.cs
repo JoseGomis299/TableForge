@@ -208,6 +208,7 @@ namespace TableForge.UI
 
         protected override bool IsHeaderVisible(RowHeaderControl header)
         {
+            if(_lockedVisibleHeaders.Contains(header)) return true;
             var viewBounds = _scrollView.worldBound;
 
             // Check if the top of the header is visible.

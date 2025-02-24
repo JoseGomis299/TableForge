@@ -68,29 +68,29 @@ MonoBehaviour:
   inheritorClassAsInnerClass2:
     rid: 617020005463621701
   innerClasses:
-  - number: 234
-    text: asd
-  - number: 234
-    text: asd
   - number: 0
     text: 
   - number: 234
     text: asd
+  - number: 234
+    text: asd
+  - number: 234
+    text: asd
   intArray: 01000000000000001500000000000000000000000000000000000000
-  vector2: {x: 0, y: 0}
+  vector2: {x: 3, y: 3}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 0, y: 4, z: 0, w: 0}
   testEnum: 1
   vector3Array:
-  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 2, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   structDictionary2:
     m_Keys:
-    - number: 1
+    - number: 5
       boolean: 1
-    - number: 2
-      boolean: 0
+    - number: 35
+      boolean: 1
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
@@ -134,8 +134,8 @@ MonoBehaviour:
     - rid: 617020005463621700
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
-        number: 0
-        text: 
+        number: 1
+        text: as
     - rid: 617020005463621701
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
