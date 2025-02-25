@@ -69,13 +69,22 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 617777001e5040a49cfff8794078e486, type: 3}
   B: 1
-  intField: 13
+  intField: 45
   floatField: 13
   <PublicLongProperty>k__BackingField: 1
   <PublicDoubleProperty>k__BackingField: 32
-  innerClass:
+  inheritorClass:
     number: 0
     text: 
+    inheritorNumber: 0
+    inheritorText: 
+  inheritorClassAsInnerClass:
+    number: 0
+    text: 
+  innerClass:
+    rid: -2
+  inheritorClassAsInnerClass2:
+    rid: -2
   innerClasses:
   - number: 0
     text: 
@@ -127,3 +136,11 @@ MonoBehaviour:
   byteValue: 0
   shortValue: 32767
   sbyteValue: -127
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

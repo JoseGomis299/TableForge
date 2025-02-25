@@ -7,7 +7,7 @@ namespace TableForge.UI
     internal abstract class SwappingDragger : MouseManipulator
     {
         protected readonly TableControl TableControl;
-        protected bool IsDragging;
+        private bool _isDragging;
 
         protected SwappingDragger(TableControl tableControl)
         {
@@ -31,7 +31,7 @@ namespace TableForge.UI
         
         private void OnMouseDown(MouseDownEvent e)
         {
-            IsDragging = true;
+            _isDragging = true;
             
             OnClick();
             target.CaptureMouse();
@@ -39,9 +39,9 @@ namespace TableForge.UI
         
         private void OnMouseUp(MouseUpEvent e)
         {
-            if (!IsDragging) return;
+            if (!_isDragging) return;
            
-            IsDragging = false;
+            _isDragging = false;
             PerformSwap();
 
             OnRelease();
@@ -50,7 +50,7 @@ namespace TableForge.UI
         
         private void OnMouseMove(MouseMoveEvent e)
         {
-            if (!IsDragging) return;
+            if (!_isDragging) return;
 
             MoveElements(e);
         }

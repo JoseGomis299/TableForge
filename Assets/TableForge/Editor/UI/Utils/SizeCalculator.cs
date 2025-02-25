@@ -157,7 +157,7 @@ namespace TableForge.UI
             bool hasRowHeaders = tableAttributes.RowHeaderVisibility != TableHeaderVisibility.Hidden;
             bool hasColumnHeaders = tableAttributes.ColumnHeaderVisibility != TableHeaderVisibility.Hidden;
             
-            List<Row> rows = table.Rows.Values.Where(row => row.Position >= (page - 1)*pageSize && row.Position <= pageSize).ToList();
+            List<Row> rows = table.Rows.Values.Where(row => row.Position >= TablePageManager.GetFirstRowPosition(page, table.Rows.Count) && row.Position <= TablePageManager.GetLastRowPosition(page, table.Rows.Count)).ToList();
             
             if(rows.Count == 0 || pageSize == 0)
             {

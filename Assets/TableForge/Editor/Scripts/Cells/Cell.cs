@@ -58,7 +58,7 @@ namespace TableForge
             FieldInfo = fieldInfo;
             Type = GetFieldType();
             
-            Value = GetFieldValue();
+            Value = GetValue();
         }
         #endregion
 
@@ -67,9 +67,9 @@ namespace TableForge
         /// Gets the current value stored in this cell.
         /// </summary>
         /// <returns>The object value of the cell.</returns>
-        public virtual object GetValue()
+        public object GetValue()
         {
-            return GetFieldValue();
+            return TfSerializedObject.GetValue(this);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace TableForge
         /// </summary>
         public virtual void RefreshData()
         {
-            Value = GetFieldValue();
+            Value = GetValue();
         }
         
         /// <summary>
@@ -98,15 +98,7 @@ namespace TableForge
         /// </example>
         /// <returns>A string representing the cell's position .</returns>
         public string GetPosition() => $"{Row.LetterPosition}{Column.Position}";
-
-        /// <summary>
-        /// Retrieves the current value of the field stored in this cell.
-        /// </summary>
-        /// <returns>The field value as an object.</returns>
-        protected object GetFieldValue()
-        {
-            return TfSerializedObject.GetValue(this);
-        }
+        
 
         /// <summary>
         /// Sets the field value in the serialized object.

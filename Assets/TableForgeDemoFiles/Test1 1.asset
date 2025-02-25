@@ -177,15 +177,17 @@ MonoBehaviour:
   - {x: 3, y: 1, z: 0}
   - {x: 3, y: 1, z: 0}
   - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 0}
   structDictionary2:
     m_Keys:
-    - number: 1
+    - number: 14
       boolean: 1
-    - number: 2
+    - number: 123
       boolean: 1
     m_Values:
-    - {x: 1, y: 2}
-    - {x: 3, y: 4}
+    - {x: 1, y: 1}
+    - {x: 1, y: 14}
   text: 
   matrix:
     e00: 1

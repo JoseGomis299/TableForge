@@ -14,7 +14,6 @@ namespace TableForge.UI
             AddToClassList(USSClasses.Hidden);
             RowControl = rowControl;
 
-
             float preferredWidth = SizeCalculator.CalculateHeaderSize(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility).x;
             TableControl.ColumnData[0].AddPreferredWidth(Id, Mathf.Max(preferredWidth, TableControl.ColumnData[0].PreferredWidth));
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -69,6 +70,18 @@ namespace TableForge.UI
 
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
+        }
+
+        public void Update()
+        {
+            foreach (var rowHeader in RowVisibilityManager.VisibleHeaders)
+            {
+                foreach (var columnHeader in ColumnVisibilityManager.VisibleHeaders)
+                {
+                    var cell = GetCell(rowHeader.Id, columnHeader.Id);
+                    cell?.Refresh();
+                }
+            }
         }
         
         private ScrollView CreateScrollView()
@@ -211,7 +224,7 @@ namespace TableForge.UI
             if (!_rowData.ContainsKey(rowId) || !_columnData.ContainsKey(columnId))
                 return null;
 
-            int rowIndex = _rowData[rowId].Position - 1;
+            int rowIndex = _rowData[rowId].Position - 1 - PageManager.FirstRowPosition;
             int columnIndex = _columnData[columnId].Position - 1;
             
             if (rowIndex < 0 || columnIndex < 0)

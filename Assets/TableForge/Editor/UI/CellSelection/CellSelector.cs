@@ -112,8 +112,16 @@ namespace TableForge.UI
 
         private List<CellControl> GetCellsAtPosition(Vector3 position)
         {
-            var headers = CellLocator.GetHeadersAtPosition(_tableControl, position);
             var selectedCells = new List<CellControl>();
+            if (_tableControl.CornerContainer.worldBound.Contains(position))
+            {
+                foreach (var row in _tableControl.RowHeaders.Values)
+                    selectedCells.AddRange(row.RowControl.Children().OfType<CellControl>());
+                
+                return selectedCells;
+            }
+            
+            var headers = CellLocator.GetHeadersAtPosition(_tableControl, position);
 
             if (headers.row == null && headers.column == null)
                 return selectedCells;

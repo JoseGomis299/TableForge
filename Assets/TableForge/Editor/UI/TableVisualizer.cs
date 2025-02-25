@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,6 +7,9 @@ namespace TableForge.UI
 {
     internal class TableVisualizer : EditorWindow
     {
+        private double _lastUpdateTime;
+        private TableControl _tableControl;
+        
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
         [MenuItem("TableForge/TableVisualizer")]
@@ -36,11 +40,21 @@ namespace TableForge.UI
                 RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
             };
             
-            var tableControl = new TableControl(rootVisualElement, tableAttributes, null);
-            tableControl.SetTable(table);
-            mainTable.Add(tableControl);
-
+            _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
+            _tableControl.SetTable(table);
+            mainTable.Add(_tableControl);
+            
+            EditorApplication.update += Update;
             UiConstants.OnStylesInitialized -= OnStylesInitialized;
+        }
+
+        private void Update()
+        {
+            if(_lastUpdateTime >= EditorApplication.timeSinceStartup - ToolbarData.RefreshRate)
+                return;
+
+            _lastUpdateTime = EditorApplication.timeSinceStartup;
+            _tableControl?.Update();
         }
     }
 }

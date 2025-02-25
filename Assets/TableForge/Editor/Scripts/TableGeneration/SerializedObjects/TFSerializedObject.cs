@@ -27,7 +27,7 @@ namespace TableForge
             SerializedType = new TFSerializedType(targetInstance.GetType(), parentField);
             ColumnGenerator = SerializedType;
             RootObject = rootObject;
-
+            
             if (name == null)
             {
                 if (targetInstance is Object unityObject)
