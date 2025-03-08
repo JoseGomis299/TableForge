@@ -58,19 +58,13 @@ namespace TableForge
             FieldInfo = fieldInfo;
             Type = GetFieldType();
             
-            Value = GetValue();
+            Value = GetFieldValue();
         }
         #endregion
 
         #region Public Methods
-        /// <summary>
-        /// Gets the current value stored in this cell.
-        /// </summary>
-        /// <returns>The object value of the cell.</returns>
-        public object GetValue()
-        {
-            return TfSerializedObject.GetValue(this);
-        }
+        
+        public object GetValue() => Value;
 
         /// <summary>
         /// Sets the value of this cell and updates the serialized object.
@@ -87,7 +81,7 @@ namespace TableForge
         /// </summary>
         public virtual void RefreshData()
         {
-            Value = GetValue();
+            Value = GetFieldValue();
         }
         
         /// <summary>
@@ -116,6 +110,15 @@ namespace TableForge
         protected Type GetFieldType()
         {
             return TfSerializedObject.GetValueType(this);
+        }
+        
+        /// <summary>
+        /// Gets the current value stored in this cell.
+        /// </summary>
+        /// <returns>The object value of the cell.</returns>
+        protected object GetFieldValue()
+        {
+            return TfSerializedObject.GetValue(this);
         }
         
         #endregion

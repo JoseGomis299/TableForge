@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Children:
   - {fileID: 3}
-  - {fileID: 19}
+  - {fileID: 17}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 36
-    width: 1920
-    height: 933
-  m_MinSize: {x: 400, y: 150}
-  m_MaxSize: {x: 32384, y: 24288}
+    width: 1692
+    height: 905.3333
+  m_MinSize: {x: 400, y: 100}
+  m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 3836
+  controlID: 67
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -47,10 +47,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "TableVisualizer\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2782
-    y: 87
-    width: 768
-    height: 180
+    x: 196
+    y: 86
+    width: 802.6666
+    height: 624.6667
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -77,17 +77,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Children:
   - {fileID: 4}
-  - {fileID: 16}
+  - {fileID: 14}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1513.3334
-    height: 933
-  m_MinSize: {x: 300, y: 150}
-  m_MaxSize: {x: 24288, y: 24288}
+    width: 1332.6666
+    height: 905.3333
+  m_MinSize: {x: 300, y: 100}
+  m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 3837
+  controlID: 68
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -104,17 +104,17 @@ MonoBehaviour:
   m_Children:
   - {fileID: 5}
   - {fileID: 7}
-  - {fileID: 14}
+  - {fileID: 12}
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1513.3334
-    height: 618
-  m_MinSize: {x: 300, y: 100}
-  m_MaxSize: {x: 24288, y: 16192}
+    width: 1332.6666
+    height: 650.6667
+  m_MinSize: {x: 300, y: 50}
+  m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 3838
+  controlID: 69
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -133,10 +133,10 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 214
-    height: 618
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+    width: 188.66667
+    height: 650.6667
+  m_MinSize: {x: 201, y: 226}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -158,15 +158,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Hierarchy
-    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -3734745235275155857, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 24
-    width: 213
-    height: 592
+    x: 7.3333335
+    y: 86
+    width: 187.66667
+    height: 624.6667
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -181,9 +181,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 44b70000
+      m_SelectedIDs: aaab0000
       m_LastClickedID: 0
-      m_ExpandedIDs: cca6ffffbaa7ffff98a9ffffe6a9ffff30aaffff0aabffff82aeffffd8aeffff0eb0ffff64b0ffff9eb1ffff8ab2ffffc0b3ffffa2b4ffff32b5ffff88b5ffffd2b5ffffacb6ffff6cb8ffff52b9ffff6cbbffff40bcffff64bdffffd8bdffff20befffff4beffffd2c1ffff32c2ffff8ac2ffff1ac4fffffcfaffff
+      m_ExpandedIDs: fcfaffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -216,80 +216,29 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Children:
-  - {fileID: 8}
-  - {fileID: 9}
-  m_Position:
-    serializedVersion: 2
-    x: 214
-    y: 0
-    width: 770
-    height: 618
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 8096, y: 16192}
-  vertical: 1
-  controlID: 3839
-  draggingID: 0
---- !u!114 &8
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: TableVisualizer
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 0
+    x: 188.66667
     y: 0
-    width: 770
-    height: 206
+    width: 804.6666
+    height: 650.6667
   m_MinSize: {x: 52, y: 76}
   m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 2}
   m_Panes:
-  - {fileID: 2}
-  m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &9
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TestRunnerWindow
-  m_EditorClassIdentifier: 
-  m_Children: []
-  m_Position:
-    serializedVersion: 2
-    x: 0
-    y: 206
-    width: 770
-    height: 412
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 12}
-  m_Panes:
+  - {fileID: 8}
+  - {fileID: 9}
   - {fileID: 10}
+  - {fileID: 2}
   - {fileID: 11}
-  - {fileID: 12}
-  - {fileID: 13}
-  m_Selected: 2
+  m_Selected: 3
   m_LastSelected: 2
---- !u!114 &10
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -305,7 +254,7 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Scene
-    m_Image: {fileID: 2593428753322112591, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: 8634526014445323508, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
@@ -1013,7 +962,7 @@ MonoBehaviour:
   m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
-    m_SceneView: {fileID: 10}
+    m_SceneView: {fileID: 8}
     m_CameraOverscanSettings:
       m_Opacity: 50
       m_Scale: 1
@@ -1023,7 +972,7 @@ MonoBehaviour:
   m_LastLockedObject: {fileID: 0}
   m_LastDebugDrawMode: 35
   m_ViewIsLockedToObject: 0
---- !u!114 &11
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1039,7 +988,7 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Animator
-    m_Image: {fileID: -1673928668082335149, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: 1711060831702674872, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
     m_TextWithWhitespace: "Animator\u200B"
   m_Pos:
@@ -1095,7 +1044,7 @@ MonoBehaviour:
   m_CurrentEditor: 0
   m_LayerEditor:
     m_SelectedLayerIndex: 0
---- !u!114 &12
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1117,10 +1066,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Test Runner\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2782
-    y: 293
-    width: 768
-    height: 386
+    x: 196
+    y: 86
+    width: 675.3333
+    height: 365.33334
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1133,22 +1082,22 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 3796
-    splitterInitialOffset: 438
+    ID: 160
+    splitterInitialOffset: 435
     currentActiveSplitter: -1
     realSizes:
-    - 237
-    - 79
+    - 220.66666
+    - 74
     relativeSizes:
-    - 0.74904215
-    - 0.25095785
+    - 0.748062
+    - 0.251938
     minSizes:
     - 32
     - 32
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 316
+    lastTotalSize: 294.66666
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -1158,9 +1107,9 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 0
   m_TestListGUIs:
-  - m_Window: {fileID: 12}
+  - m_Window: {fileID: 10}
     runProgress:
-      RunGuid: 365d271e-88a5-4beb-b26c-7f5e1bb92929
+      RunGuid: bb03bef5-5682-4ef1-ba46-994ee6c01780
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -1276,7 +1225,7 @@ MonoBehaviour:
       name: ScriptableObjectSelection
       fullName: TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection
       resultStatus: 1
-      duration: 0.2851045
+      duration: 0.2138482
       messages: 
       output: 
       stacktrace: 
@@ -1309,7 +1258,7 @@ MonoBehaviour:
       name: GetSerializableFields
       fullName: TableForge.Tests.SerializationTests.GetSerializableFields
       resultStatus: 1
-      duration: 0.0030723
+      duration: 0.0018576
       messages: 
       output: 
       stacktrace: 
@@ -1342,7 +1291,7 @@ MonoBehaviour:
       name: AnimationCurveCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration
       resultStatus: 1
-      duration: 0.0790865
+      duration: 0.0690153
       messages: 
       output: 'No script asset for AnimationCurveScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -1362,7 +1311,7 @@ MonoBehaviour:
       name: BooleanCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.BooleanCellGeneration
       resultStatus: 1
-      duration: 0.0762032
+      duration: 0.0628212
       messages: 
       output: 'No script asset for BooleanScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1382,7 +1331,7 @@ MonoBehaviour:
       name: ColorCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ColorCellGeneration
       resultStatus: 1
-      duration: 0.0773105
+      duration: 0.0690269
       messages: 
       output: 'No script asset for ColorScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1402,7 +1351,7 @@ MonoBehaviour:
       name: DictionaryCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.DictionaryCellGeneration
       resultStatus: 1
-      duration: 0.0797966
+      duration: 0.0625707
       messages: 
       output: 'No script asset for DictionaryScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1422,7 +1371,7 @@ MonoBehaviour:
       name: EnumCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.EnumCellGeneration
       resultStatus: 1
-      duration: 0.0844857
+      duration: 0.0626385
       messages: 
       output: 'No script asset for EnumScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1442,7 +1391,7 @@ MonoBehaviour:
       name: FloatingPointCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration
       resultStatus: 1
-      duration: 0.0786176
+      duration: 0.0635143
       messages: 
       output: 'No script asset for FloatingPointScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -1462,7 +1411,7 @@ MonoBehaviour:
       name: GradientCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.GradientCellGeneration
       resultStatus: 1
-      duration: 0.0837814
+      duration: 0.0638494
       messages: 
       output: 'No script asset for GradientScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1482,7 +1431,7 @@ MonoBehaviour:
       name: IntegralTypesCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration
       resultStatus: 1
-      duration: 0.0841642
+      duration: 0.0639431
       messages: 
       output: 'No script asset for IntegralTypesScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -1502,7 +1451,7 @@ MonoBehaviour:
       name: ListCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ListCellGeneration
       resultStatus: 1
-      duration: 0.0798597
+      duration: 0.0640077
       messages: 
       output: 'No script asset for ListScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1522,7 +1471,7 @@ MonoBehaviour:
       name: NoSerializableTypes_NoCellsGenerated
       fullName: TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated
       resultStatus: 1
-      duration: 3.425807
+      duration: 0.063327
       messages: 
       output: 
       stacktrace: 
@@ -1539,7 +1488,7 @@ MonoBehaviour:
       name: StringCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.StringCellGeneration
       resultStatus: 1
-      duration: 0.0777645
+      duration: 0.0640765
       messages: 
       output: 'No script asset for StringScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1559,7 +1508,7 @@ MonoBehaviour:
       name: SubitemCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.SubitemCellGeneration
       resultStatus: 1
-      duration: 0.0774983
+      duration: 0.0661657
       messages: 
       output: 'No script asset for ComplexTypeScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1579,7 +1528,7 @@ MonoBehaviour:
       name: UnityObjectCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration
       resultStatus: 1
-      duration: 0.078527
+      duration: 0.0623596
       messages: 
       output: 'No script asset for UnityObjectScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -1594,12 +1543,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1005
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    m_ResultText: GetSerializableFields (0,003s)
+    m_ResultText: NoSerializableTypes_NoCellsGenerated (0,063s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 601271d6
-      m_LastClickedID: -697232800
+      m_SelectedIDs: 33633618
+      m_LastClickedID: 406217523
       m_ExpandedIDs: 9e07bdba6e6da2e15da74a17b1b65a606cd327683e11d07dffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1630,7 +1579,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 365d271e-88a5-4beb-b26c-7f5e1bb92929
+      RunGuid: bb03bef5-5682-4ef1-ba46-994ee6c01780
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -1696,7 +1645,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 365d271e-88a5-4beb-b26c-7f5e1bb92929
+      RunGuid: bb03bef5-5682-4ef1-ba46-994ee6c01780
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -1760,7 +1709,7 @@ MonoBehaviour:
       selectedCategories: []
       availableCategories: []
     m_SelectedOption: 0
---- !u!114 &13
+--- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1817,7 +1766,7 @@ MonoBehaviour:
     \"m_ChildObjectList\": []\n}\n\n"
   m_AssetMaybeChangedOnDisk: 0
   m_AssetMaybeDeleted: 0
---- !u!114 &14
+--- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1832,18 +1781,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 984
+    x: 993.3333
     y: 0
-    width: 529.3334
-    height: 618
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 15}
+    width: 339.3333
+    height: 650.6667
+  m_MinSize: {x: 202, y: 226}
+  m_MaxSize: {x: 4002, y: 4026}
+  m_ActualView: {fileID: 13}
   m_Panes:
-  - {fileID: 15}
+  - {fileID: 13}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &15
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1859,15 +1808,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Game
-    m_Image: {fileID: -6423792434712278376, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: 4621777727084837110, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 3552
-    y: 87
-    width: 527.3334
-    height: 592
+    x: 1000.6667
+    y: 86
+    width: 337.3333
+    height: 624.6667
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1900,10 +1849,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -1280
-    m_HBaseRangeMax: 1280
-    m_VBaseRangeMin: -720
-    m_VBaseRangeMax: 720
+    m_HBaseRangeMin: -853.3334
+    m_HBaseRangeMax: 853.3334
+    m_VBaseRangeMin: -480
+    m_VBaseRangeMax: 480
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1921,29 +1870,29 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 527.3334
-      height: 571
-    m_Scale: {x: 0.2059896, y: 0.2059896}
-    m_Translation: {x: 263.6667, y: 285.5}
+      width: 337.3333
+      height: 603.6667
+    m_Scale: {x: 0.19765623, y: 0.19765623}
+    m_Translation: {x: 168.66666, y: 301.83334}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -1280
-      y: -1385.9923
-      width: 2560
-      height: 2771.9846
+      x: -853.3334
+      y: -1527.0621
+      width: 1706.6667
+      height: 3054.1243
     m_MinimalGUI: 1
-  m_defaultScale: 0.2059896
-  m_LastWindowPixelSize: {x: 527.3334, y: 592}
+  m_defaultScale: 0.19765623
+  m_LastWindowPixelSize: {x: 505.99997, y: 937}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &16
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1959,18 +1908,18 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 618
-    width: 1513.3334
-    height: 315
+    y: 650.6667
+    width: 1332.6666
+    height: 254.66663
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 17}
+  m_ActualView: {fileID: 15}
   m_Panes:
-  - {fileID: 17}
-  - {fileID: 18}
+  - {fileID: 15}
+  - {fileID: 16}
   m_Selected: 0
   m_LastSelected: 1
---- !u!114 &17
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1986,15 +1935,15 @@ MonoBehaviour:
   m_MaxSize: {x: 10000, y: 10000}
   m_TitleContent:
     m_Text: Project
-    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -5179483145760003458, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2568
-    y: 705
-    width: 1512.3334
-    height: 289
+    x: 7.3333335
+    y: 736.6667
+    width: 1331.6666
+    height: 228.66663
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2017,7 +1966,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/TestData/Resources/ScriptableObjects/Monsters
+    - Assets/TableForgeDemoFiles
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -2027,16 +1976,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/TestData/Resources/ScriptableObjects/Monsters
+  - Assets/TableForgeDemoFiles
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\joseg\Documents\GitHub\TableForge
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 467}
-    m_SelectedIDs: d6bd0000
-    m_LastClickedID: 48598
-    m_ExpandedIDs: 0000000002ab000004ab000006ab000008ab00000aab00000cab00000eab000010ab000012ab000014ab000016ab000018ab00001aab00001cab00001eab00000aad00002eae0000f8b30000cabd0000d8bd00003ebe000044be000056be00005ebe000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: caaf0000
+    m_LastClickedID: 45002
+    m_ExpandedIDs: 00000000b6ad0000baad0000bead0000c0ad0000c2ad0000c4ad0000c6ad0000c8ad0000caad0000ccad0000cead0000d0ad0000d2ad000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2065,7 +2014,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000002ab000004ab000006ab000008ab00000aab00000cab00000eab000010ab000012ab000014ab000016ab000018ab00001aab00001cab00001eab0000
+    m_ExpandedIDs: 00000000b6ad0000b8ad0000baad0000bcad0000bead0000c0ad0000c2ad0000c4ad0000c6ad0000c8ad0000caad0000ccad0000cead0000d0ad0000d2ad0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2091,8 +2040,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 44b70000
-    m_LastClickedInstanceID: 46916
+    m_SelectedInstanceIDs: aaab0000
+    m_LastClickedInstanceID: 43946
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000050370100e00f010082be0300a232010064340100fe20ffff6e20ffff2cbc0000
     m_RenameOverlay:
@@ -2111,7 +2060,7 @@ MonoBehaviour:
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
-      m_ClientGUIView: {fileID: 14}
+      m_ClientGUIView: {fileID: 12}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -2123,7 +2072,7 @@ MonoBehaviour:
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
---- !u!114 &18
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2139,15 +2088,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Console
-    m_Image: {fileID: -4327648978806127646, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -4950941429401207979, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2568
-    y: 705
-    width: 1512
-    height: 289
+    x: 7.3333335
+    y: 477.33334
+    width: 1331.6666
+    height: 488
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2159,7 +2108,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &19
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2174,18 +2123,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1513.3334
+    x: 1332.6666
     y: 0
-    width: 406.66663
-    height: 933
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 20}
+    width: 359.33337
+    height: 905.3333
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
+  m_ActualView: {fileID: 18}
   m_Panes:
-  - {fileID: 20}
+  - {fileID: 18}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &20
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2201,15 +2150,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Inspector
-    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -440750813802333266, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 4081
-    y: 87
-    width: 405.66663
-    height: 907
+    x: 1340
+    y: 86
+    width: 358.33337
+    height: 879.3333
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

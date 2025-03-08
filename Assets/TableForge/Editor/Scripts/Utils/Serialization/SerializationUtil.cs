@@ -82,8 +82,7 @@ namespace TableForge
                 type = fromField.FieldType;
             }
 
-            IFieldSerializationStrategy strategy = FieldSerializationStrategyFactory.GetStrategy(type);
-            return strategy.GetFields(type, fromField);
+            return TFFieldInfoFactory.GetFields(type);
         }
         
         public static string GetFriendlyName(FieldInfo field)

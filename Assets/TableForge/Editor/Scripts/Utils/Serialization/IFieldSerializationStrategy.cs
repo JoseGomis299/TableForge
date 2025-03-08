@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 
 namespace TableForge
 {
     internal interface IFieldSerializationStrategy
     {
-        List<TFFieldInfo> GetFields(Type type, FieldInfo parentField);
+        List<TFFieldInfo> GetFields(Type type);
     }
 
     internal class BaseFieldSerializationStrategy : IFieldSerializationStrategy
     {
-        public List<TFFieldInfo> GetFields(Type type, FieldInfo parentField)
+        public List<TFFieldInfo> GetFields(Type type)
         {
             List<TFFieldInfo> members = new List<TFFieldInfo>();
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
@@ -22,7 +21,7 @@ namespace TableForge
                 
                 string friendlyName = SerializationUtil.GetFriendlyName(field);
                 
-                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType, parentField));
+                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType));
             }
 
             return members;
@@ -31,7 +30,7 @@ namespace TableForge
 
     internal class PrivateIncludedFieldSerializationStrategy : IFieldSerializationStrategy
     {
-        public List<TFFieldInfo> GetFields(Type type, FieldInfo parentField)
+        public List<TFFieldInfo> GetFields(Type type)
         {
             List<TFFieldInfo> members = new List<TFFieldInfo>();
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
@@ -41,21 +40,10 @@ namespace TableForge
                 
                 string friendlyName = SerializationUtil.GetFriendlyName(field);
                 
-                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType, parentField));
+                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType));
             }
 
             return members;
-        }
-    }
-    
-    internal class FieldSerializationStrategyFactory
-    {
-        public static IFieldSerializationStrategy GetStrategy(Type type)
-        {
-            if(type == typeof(Rect) || type == typeof(Bounds)) 
-                return new PrivateIncludedFieldSerializationStrategy();
-            
-            return new BaseFieldSerializationStrategy();
         }
     }
 }

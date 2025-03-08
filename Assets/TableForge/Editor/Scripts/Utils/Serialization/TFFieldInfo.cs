@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
+using UnityEngine;
 
 namespace TableForge
 {
@@ -13,6 +16,7 @@ namespace TableForge
 
         private readonly FieldInfo _fieldInfo;
         private readonly FieldInfo _parentField;
+        private readonly Func<object, object> _getterDelegate;
 
         #endregion
         
@@ -42,11 +46,6 @@ namespace TableForge
         /// The <see cref="FieldInfo"/> object for the field.
         /// </summary>
         public FieldInfo FieldInfo => _fieldInfo;
-        
-        /// <summary>
-        /// The field that contains this field, if any.
-        /// </summary>
-        public FieldInfo ParentField => _parentField;
 
         #endregion
         
@@ -59,17 +58,21 @@ namespace TableForge
         /// <param name="friendlyName">A user-friendly name for display.</param>
         /// <param name="fromType">The type that declares the field.</param>
         /// <param name="type">The data type of the field.</param>
-        public TFFieldInfo(string name, string friendlyName, Type fromType, Type type, FieldInfo parentField)
+        public TFFieldInfo(string name, string friendlyName, Type fromType, Type type)
         {
             Name = name;
             FriendlyName = friendlyName;
             FromType = fromType;
             Type = type;
-            _parentField = parentField;
 
             _fieldInfo = FromType.GetField(Name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (_fieldInfo == null)
                 throw new ArgumentException($"Field '{Name}' not found in type '{FromType.FullName}'.");
+            
+            var param = Expression.Parameter(typeof(object), "target");
+            var field = Expression.Field(Expression.Convert(param, fromType), _fieldInfo);
+            var lambda = Expression.Lambda<Func<object, object>>(Expression.Convert(field, typeof(object)), param);
+            _getterDelegate = lambda.Compile();
         }
 
         #endregion
@@ -83,7 +86,7 @@ namespace TableForge
         /// <returns>The field value, or null if not found.</returns>
         public virtual object GetValue(object target)
         {
-            return _fieldInfo?.GetValue(target);
+            return _getterDelegate(target);
         }
 
         /// <summary>

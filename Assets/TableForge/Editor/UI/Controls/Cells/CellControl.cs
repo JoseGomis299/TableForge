@@ -46,6 +46,7 @@ namespace TableForge.UI
         
         public void Refresh()
         {
+            Cell.RefreshData();
             OnRefresh?.Invoke();
         }
         

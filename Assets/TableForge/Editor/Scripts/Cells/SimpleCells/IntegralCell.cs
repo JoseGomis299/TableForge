@@ -17,7 +17,6 @@ namespace TableForge
                 throw new InvalidCellValueException($"Data must be an integral type, type {value.GetType().Name} is not valid for this cell!");
           
             base.SetValue(value);
-            Value = Convert.ChangeType(value, Type);
         }
     }
 }
