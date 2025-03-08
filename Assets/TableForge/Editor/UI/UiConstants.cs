@@ -18,6 +18,7 @@ namespace TableForge.UI
         public static Color BorderColor { get; private set; }
         public static float CellWidth { get; private set; }
         public static float CellHeight { get; private set; }
+        public static float FoldoutHeight { get; private set; }
         public static float CellContentPadding { get; private set; }
         public static float HeaderPadding { get; private set; }
         public static float BorderWidth { get; private set; }
@@ -34,7 +35,7 @@ namespace TableForge.UI
         public const float ScrollerWidth = 18;
         public const float ReferenceTypeExtraSpace = 32;
         public const float MaxRecommendedWidth = 500;
-        public const float MaxRecommendedHeight = 200;
+        public const float MaxRecommendedHeight = 500;
         public const float SmallHeaderPadding = 5;
 
         public static void InitializeStyles(VisualElement root)
@@ -60,12 +61,9 @@ namespace TableForge.UI
             BorderWidth = 1;
             ResizableBorderSpan = 5;
             CellContentPadding = 5*2f;
+            FoldoutHeight = 20;
 
             OnStylesInitialized?.Invoke();
         }
     }
-}
-
-namespace TableForge.UI
-{
 }

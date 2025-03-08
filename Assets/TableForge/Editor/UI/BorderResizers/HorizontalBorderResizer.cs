@@ -17,7 +17,7 @@ namespace TableForge.UI
             if (ResizingHeaders.Count == 0 || IsResizing || downEvent.button != 0) return;
             if (downEvent.clickCount != 2) return;
 
-            foreach (var headerControl in ResizingHeaders)
+            foreach (var headerControl in ResizingHeaders.Values)
             {
                 float upperBound = headerControl.worldBound.yMax;
                 float bottomBound = headerControl.worldBound.yMin;
@@ -59,7 +59,7 @@ namespace TableForge.UI
             //If the mouse is touching the corner, we don't want to resize the columns behind it.
             if(position.x < TableControl.CornerContainer.worldBound.xMax - margin) return false;
 
-            foreach (var header in ResizingHeaders)
+            foreach (var header in ResizingHeaders.Values)
             {
                 float upperBound = header.worldBound.yMax;
                 float bottomBound = header.worldBound.yMin;
@@ -87,7 +87,7 @@ namespace TableForge.UI
             {
                 ResizingHeader = headerControl;
 
-                foreach (var header in ResizingHeaders)
+                foreach (var header in ResizingHeaders.Values)
                 {
                     header.AddToClassList(USSClasses.CursorResizeHorizontal);
                     header.AddToChildrenClassList(USSClasses.CursorResizeHorizontal);
@@ -97,7 +97,7 @@ namespace TableForge.UI
             
             if (IsResizing || ResizingHeader == null) return;
 
-            foreach (var header in ResizingHeaders)
+            foreach (var header in ResizingHeaders.Values)
             {
                 header.RemoveFromClassList(USSClasses.CursorResizeHorizontal);
                 header.RemoveFromChildrenClassList(USSClasses.CursorResizeHorizontal);

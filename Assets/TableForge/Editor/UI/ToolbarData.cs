@@ -6,7 +6,7 @@ namespace TableForge.UI
     {
         public static event Action OnPageSizeChanged;
         
-        private static int _pageSize = 20;
+        private static int _pageSize = 50;
         public static int PageSize 
         {
             get => _pageSize;
@@ -17,7 +17,7 @@ namespace TableForge.UI
             }
         }
         public static int PageStep { get; set; } = 1;
-        public static double RefreshRate { get; set; } = 0.2;
+        public static double RefreshRate { get; set; } = 0.4;
 
     }
 }

@@ -99,7 +99,7 @@ namespace TableForge.UI
                 foreach (var selectedCell in _selectedCells)
                 {
                     if(selectedCell is SubTableCellControl subCell)
-                        subCell.SubTableControl.CellSelector.SelectAllRecursively();
+                        subCell.SubTableControl?.CellSelector?.SelectAllRecursively();
                 }
             }
             
@@ -221,7 +221,7 @@ namespace TableForge.UI
                     _selectedCells.Add(cell);
                     
                     if(cell is SubTableCellControl subCell)
-                        subCell.SubTableControl.CellSelector.SelectAllRecursively();
+                        subCell.SubTableControl?.CellSelector?.SelectAllRecursively();
                 }
             }
             

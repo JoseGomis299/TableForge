@@ -68,7 +68,7 @@ MonoBehaviour:
   inheritorClassAsInnerClass2:
     rid: -2
   innerClasses: []
-  intArray: 0100000015000000
+  intArray: 010000001500000015000000150000001500000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}

@@ -104,7 +104,7 @@ namespace TableForge.UI
             {
                 foreach (var column in columnHeaders)
                 {
-                    cellSizes.Add(new Vector2(column.resolvedStyle.width, row.resolvedStyle.height));
+                    cellSizes.Add(new Vector2(column.style.width.value.value, row.style.height.value.value));
                 }
             }
             
@@ -288,11 +288,32 @@ namespace TableForge.UI
         private static Vector2 CalculateSize(SubTableCellControl subTableCellControl)
         {
             float width = UiConstants.CellContentPadding, height = UiConstants.CellContentPadding;
-
-            Vector2 tableSize = subTableCellControl.SubTableControl != null ?
-                CalculateSize(subTableCellControl.SubTableControl) 
-                : CalculateSize(subTableCellControl.Cell, 0);
             
+            Vector2 tableSize = Vector2.zero;
+
+            if (subTableCellControl is ExpandableSubTableCellControl expandableSubTableCellControl)
+            {
+                if (!expandableSubTableCellControl.IsFoldoutOpen)
+                {
+                    tableSize.y = 0;
+                    tableSize.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(subTableCellControl.Cell.Column.Name)).x + EditorStyles.foldoutHeaderIcon.fixedWidth;
+                }
+                else
+                {
+                    tableSize = subTableCellControl.SubTableControl != null ?
+                        CalculateSize(subTableCellControl.SubTableControl) 
+                        : CalculateSize(subTableCellControl.Cell, 0);
+                }
+                
+                height += UiConstants.FoldoutHeight;
+            }
+            else
+            {
+                tableSize = subTableCellControl.SubTableControl != null ?
+                    CalculateSize(subTableCellControl.SubTableControl) 
+                    : CalculateSize(subTableCellControl.Cell, 0);
+            }
+
             return new Vector2(width + tableSize.x, height + tableSize.y);
         }
         

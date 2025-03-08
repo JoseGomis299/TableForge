@@ -19,8 +19,14 @@ namespace TableForge.UI
         }
         public TableControl SubTableControl { get; protected set; }
 
+        protected SubTableCell Cell;
+        protected TableControl ParentTableControl;
+
         protected SubTableCellControl(SubTableCell cell, TableControl tableControl) : base(cell, tableControl)
         {
+            Cell = cell;
+            ParentTableControl = tableControl;
+            
             OnRefresh = () =>
             {
                 // if(SubTableControl != null && !SubTableControl.PageManager.IsCurrentPageComplete)
@@ -30,7 +36,7 @@ namespace TableForge.UI
             };
         }
         
-        protected void RecalculateSize()
+        protected virtual void RecalculateSize()
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);
 

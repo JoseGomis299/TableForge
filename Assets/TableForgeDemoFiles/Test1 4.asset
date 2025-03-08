@@ -51,8 +51,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  intField: 0
-  floatField: 0
+  intField: 89
+  floatField: 23
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:

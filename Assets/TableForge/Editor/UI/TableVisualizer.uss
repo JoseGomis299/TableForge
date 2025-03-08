@@ -8,6 +8,7 @@
     
     --cell-width: 100px;
     --cell-height: 25px;
+    --foldout-height: 20px;
     --cell-content-height: 20px;
     --cell-content-padding: 5px;
     --header-padding: 10px;
@@ -164,6 +165,17 @@
     border-radius: var(--border-radius);
     background-color: var(--background-color);
     overflow: hidden;
+}
+
+.table__subtable__foldout {
+    width: 100%;
+    height: var(--foldout-height);
+    -unity-text-align: middle-center;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    flex-shrink: 0;
 }
 
 .add-row__button {

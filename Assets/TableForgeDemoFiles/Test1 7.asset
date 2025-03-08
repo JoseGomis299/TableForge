@@ -51,8 +51,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  intField: 0
-  floatField: 0
+  intField: 16
+  floatField: 15
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -64,7 +64,7 @@ MonoBehaviour:
     number: 0
     text: 
   innerClass:
-    rid: -2
+    rid: 854088731625783369
   inheritorClassAsInnerClass2:
     rid: -2
   innerClasses: []
@@ -133,3 +133,8 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 854088731625783369
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 

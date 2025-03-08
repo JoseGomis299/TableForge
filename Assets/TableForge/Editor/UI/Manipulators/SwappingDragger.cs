@@ -52,6 +52,9 @@ namespace TableForge.UI
         {
             if (!_isDragging) return;
 
+            if (e.pressedButtons != 1)
+                return;
+            
             MoveElements(e);
         }
         

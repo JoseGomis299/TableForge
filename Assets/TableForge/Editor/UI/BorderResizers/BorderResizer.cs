@@ -16,7 +16,7 @@ namespace TableForge.UI
         protected readonly TableControl TableControl;
         
         //The headers that are currently being targeted for resizing
-        protected readonly HashSet<HeaderControl> ResizingHeaders = new HashSet<HeaderControl>();
+        protected readonly Dictionary<int, HeaderControl> ResizingHeaders = new Dictionary<int, HeaderControl>();
         
         //The header that is currently being resized
         protected HeaderControl ResizingHeader;
@@ -42,29 +42,44 @@ namespace TableForge.UI
         protected abstract void MovePreview(Vector3 startPosition, Vector3 initialSize, Vector3 newSize);
         public abstract bool IsResizingArea(Vector3 position, out HeaderControl headerControl);
 
+        public void ResizeCell(CellControl cellControl)
+        {
+            float delta = 0;
+            if (ResizingHeaders.TryGetValue(cellControl.Cell.Row.Id, out var row))
+            {
+                delta += InstantResize(row);
+            }
+            
+            if(ResizingHeaders.TryGetValue(cellControl.Cell.Column.Id, out var column))
+            {
+                delta += InstantResize(column);
+            }
+            
+            OnResize?.Invoke(delta);
+        }
 
         public float ResizeAll()
         {
             if(ResizingHeaders.Count == 0) return 0;
 
             float delta = 0;
-            foreach (var header in ResizingHeaders)
+            foreach (var header in ResizingHeaders.Values)
             {
                 delta += InstantResize(header);
             }
             
-            InvokeResize(ResizingHeaders.First(), delta);
+            InvokeResize(ResizingHeaders.Values.First(), delta);
             return delta;
         }
 
         public void HandleResize(HeaderControl target)
         {
-            ResizingHeaders.Add(target);
+            ResizingHeaders.Add(target.Id, target);
         }
         
         public void Dispose(HeaderControl target)
         {
-            ResizingHeaders.Remove(target);
+            ResizingHeaders.Remove(target.Id);
         }
         
         protected void InvokeResize(HeaderControl target, float delta)

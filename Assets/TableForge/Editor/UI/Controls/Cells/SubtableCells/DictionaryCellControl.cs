@@ -4,22 +4,26 @@ namespace TableForge.UI
 {
     [CellControlUsage(typeof(DictionaryCell), CellSizeCalculationMethod.AutoSize)] 
     [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.None, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
-    internal class DictionaryCellControl : SubTableCellControl
+    internal class DictionaryCellControl : ExpandableSubTableCellControl
     {
         public DictionaryCellControl(DictionaryCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            SubTableControl = new TableControl(tableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this);
-            SubTableControl.SetTable(cell.SubTable);
+        }
+        
+        protected override void InitializeSubTable()
+        {
+            SubTableControl = new TableControl(
+                ParentTableControl.Root,
+                CellStaticData.GetSubTableCellAttributes(GetType()), 
+                this
+            );
             
-            VisualElement container = new VisualElement();
-            container.AddToClassList(USSClasses.SubTableContainer);
-            container.Add(SubTableControl);
-            Add(container);
-            
-            IsSelected = false;
+            SubTableControl.SetTable(Cell.SubTable);
+            ContentContainer.Add(SubTableControl);
             
             SubTableControl.HorizontalResizer.OnResize += _ => RecalculateSize();
             SubTableControl.VerticalResizer.OnResize += _ => RecalculateSize();
+            IsSelected = false;
             InitializeSize();
         }
     }

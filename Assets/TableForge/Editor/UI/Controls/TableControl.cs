@@ -249,7 +249,7 @@ namespace TableForge.UI
                     VerticalResizer.Dispose(rowHeaderControl);
             }
             _rowHeaderContainer.Clear();
-            
+
             PageManager.RecalculatePage();
             BuildRows();
             
