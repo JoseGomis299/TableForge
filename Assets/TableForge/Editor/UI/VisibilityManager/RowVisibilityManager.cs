@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -41,8 +42,8 @@ namespace TableForge.UI
         protected override void NotifyHeaderBecameVisible(RowHeaderControl header)
         {
             header.RowControl.RefreshColumnWidths();
-            header.RemoveFromClassList(USSClasses.Hidden);
-            header.RowControl.RemoveFromClassList(USSClasses.Hidden);
+            // header.RemoveFromClassList(USSClasses.Hidden);
+            // header.RowControl.RemoveFromClassList(USSClasses.Hidden);
 
             //Debug.Log($"Row {header.Name} became visible");
             base.NotifyHeaderBecameVisible(header);
@@ -50,8 +51,8 @@ namespace TableForge.UI
 
         protected override void NotifyHeaderBecameInvisible(RowHeaderControl header)
         {
-            header.AddToClassList(USSClasses.Hidden);
-            header.RowControl.AddToClassList(USSClasses.Hidden);
+            // header.AddToClassList(USSClasses.Hidden);
+            // header.RowControl.AddToClassList(USSClasses.Hidden);
 
             //Debug.Log($"Row {header.Name} became invisible");
             base.NotifyHeaderBecameInvisible(header);
@@ -59,8 +60,11 @@ namespace TableForge.UI
 
         public override void RefreshVisibility(float value)
         {
-            if(_tableControl.TableData.Rows.Count == 0) return;
+            if(_tableControl.RowData.Count == 0) return;
             bool isScrollingDown = value > 0;
+            
+            _startingIndex = _tableControl.RowData.Values.OrderBy(x => x.Position).First(x => x.Position > 0).Position;
+            _endingIndex = _startingIndex + _tableControl.RowData.Count - 2;
 
             // Update visibility of rows that were previously visible based on scroll direction.
             UpdatePreviouslyVisibleRows(isScrollingDown);
@@ -78,9 +82,9 @@ namespace TableForge.UI
 
             // Find all visible rows above the found row.
             int margin = isScrollingDown ? 0 : SECURITY_MARGIN;
-            for (int i = position - 1; i >= _tableControl.PageManager.FirstRowPosition ; i--)
+            for (int i = position - 1; i >= _startingIndex ; i--)
             {
-                int rowId = _tableControl.TableData.Rows[i].Id;
+                int rowId = _tableControl.GetRowAtPosition(i).Id;
                 var header = _tableControl.RowHeaders[rowId];
                 if (header.IsVisible || IsHeaderVisible(header) || margin-- > 0)
                     MakeHeaderVisible(header, insertAtTop: true);
@@ -90,9 +94,9 @@ namespace TableForge.UI
 
             // Find all visible rows below the found row.
             margin = isScrollingDown ? SECURITY_MARGIN : 0;
-            for (int i = position + 1; i <= _tableControl.PageManager.LastRowPosition; i++)
+            for (int i = position + 1; i <= _endingIndex; i++)
             {
-                int rowId = _tableControl.TableData.Rows[i].Id;
+                int rowId = _tableControl.GetRowAtPosition(i).Id;
                 var header = _tableControl.RowHeaders[rowId];
                 if (header.IsVisible || IsHeaderVisible(header) || margin-- > 0)
                     MakeHeaderVisible(header, insertAtTop: false);
@@ -164,7 +168,7 @@ namespace TableForge.UI
             if (_visibleHeaders.Count > 0 && IsHeaderVisible(_visibleHeaders[_visibleHeaders.Count / 2]))
             {
                 int position = _tableControl.RowData[_visibleHeaders[_visibleHeaders.Count / 2].Id].Position;
-                int rowId = _tableControl.TableData.Rows[position].Id;
+                int rowId = _tableControl.GetRowAtPosition(position).Id;
                 var midHeader = _tableControl.RowHeaders[rowId];
                 MakeHeaderVisible(midHeader, insertAtTop: false);
                 return position;
@@ -178,12 +182,12 @@ namespace TableForge.UI
         /// </summary>
         private int FindAndAddMiddleVisibleRow()
         {
-            int low = _tableControl.PageManager.FirstRowPosition; // Row positions are 1-based.
-            int high = _tableControl.PageManager.LastRowPosition;
+            int low = _startingIndex; // Row positions are 1-based.
+            int high = _endingIndex;
             while (low <= high)
             {
                 int mid = (low + high) / 2;
-                int rowId = _tableControl.TableData.Rows[mid].Id;
+                int rowId = _tableControl.GetRowAtPosition(mid).Id;
                 var midHeader = _tableControl.RowHeaders[rowId];
 
                 if (midHeader.IsVisible || IsHeaderVisible(midHeader))

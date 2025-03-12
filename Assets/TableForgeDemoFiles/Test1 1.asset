@@ -42,16 +42,34 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.57232696, g: 0.3005616, b: 0.3005616, a: 0}
   animationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
   B: 0
-  intField: 1553
+  intField: 423
   floatField: 15
   <PublicLongProperty>k__BackingField: 15
   <PublicDoubleProperty>k__BackingField: 15
@@ -157,7 +175,7 @@ MonoBehaviour:
   - number: 0
     text: 
   intArray: 02000000020000000200000002000000020000000c0000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000
-  vector2: {x: 4, y: 8}
+  vector2: {x: 0, y: 8}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 3, w: 0}
   testEnum: 0
@@ -185,7 +203,7 @@ MonoBehaviour:
     m_Keys:
     - number: 14
       boolean: 1
-    - number: 123
+    - number: 154
       boolean: 1
     m_Values:
     - {x: 1, y: 1}
@@ -223,7 +241,7 @@ MonoBehaviour:
   sbyteValue: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 52
   references:
     version: 2
     RefIds:

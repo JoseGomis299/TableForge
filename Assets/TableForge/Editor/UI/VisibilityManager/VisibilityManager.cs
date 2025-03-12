@@ -15,6 +15,8 @@ namespace TableForge.UI
         protected readonly ScrollView _scrollView;
         protected readonly List<THeader> _visibleHeaders = new List<THeader>();
         protected readonly HashSet<THeader> _lockedVisibleHeaders = new HashSet<THeader>(); 
+        protected int _startingIndex = -1;
+        protected int _endingIndex = -1;
         
         public IReadOnlyList<THeader> VisibleHeaders => _visibleHeaders;
 

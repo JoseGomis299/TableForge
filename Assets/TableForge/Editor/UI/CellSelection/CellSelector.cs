@@ -65,8 +65,10 @@ namespace TableForge.UI
                     continue;
 
                 cell.IsSelected = true;
-                _selectedHeaders.Add(_tableControl.ColumnHeaders[cell.Cell.Column.Id]);
-                _selectedHeaders.Add(_tableControl.RowHeaders[cell.Cell.Row.Id]);
+                int columnId = _tableControl.Inverted ? cell.Cell.Row.Id : cell.Cell.Column.Id;
+                int rowId = _tableControl.Inverted ? cell.Cell.Column.Id : cell.Cell.Row.Id;
+                _selectedHeaders.Add(_tableControl.ColumnHeaders[columnId]);
+                _selectedHeaders.Add(_tableControl.RowHeaders[rowId]);
             }
 
             foreach (var header in _selectedHeaders)
@@ -168,10 +170,10 @@ namespace TableForge.UI
             // Determine the range from the first selected cell to the cell under the cursor.
             CellControl firstCell = FirstSelectedCell;
             CellControl lastCell = selectedCell;
-            var firstRow = firstCell.Cell.Row;
-            var lastRow = lastCell.Cell.Row;
-            var firstColumn = firstCell.Cell.Column;
-            var lastColumn = lastCell.Cell.Column;
+            var firstRow = _tableControl.GetCellRow(firstCell);
+            var lastRow = _tableControl.GetCellRow(lastCell);
+            var firstColumn = _tableControl.GetCellColumn(firstCell);
+            var lastColumn = _tableControl.GetCellColumn(lastCell);
             var cells = CellLocator.GetCellRange(_tableControl, firstRow.Id, firstColumn.Id, lastRow.Id, lastColumn.Id);
 
             // Mark all cells currently selected for potential deselection.

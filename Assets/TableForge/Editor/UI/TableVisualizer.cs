@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -45,14 +46,24 @@ namespace TableForge.UI
             mainTable.Add(_tableControl);
             
             EditorApplication.update += Update;
+            InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
             UiConstants.OnStylesInitialized -= OnStylesInitialized;
+        }
+        
+        private void OnScriptableObjectModified(ScriptableObject scriptableObject)
+        {
+            Debug.Log(scriptableObject.name);
+            Row row = _tableControl.TableData.Rows.Values.FirstOrDefault(r => r.SerializedObject.RootObject == scriptableObject);
+            if(row == null) return;
+            
+            _tableControl.UpdateRow(row.Id);
         }
 
         private void Update()
         {
-            if(_lastUpdateTime >= EditorApplication.timeSinceStartup - ToolbarData.RefreshRate)
+            if(ToolbarData.EnablePolling && _lastUpdateTime >= EditorApplication.timeSinceStartup - ToolbarData.RefreshRate)
                 return;
-
+        
             _lastUpdateTime = EditorApplication.timeSinceStartup;
             _tableControl?.Update();
         }

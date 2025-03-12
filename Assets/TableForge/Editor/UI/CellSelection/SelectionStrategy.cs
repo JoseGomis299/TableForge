@@ -84,10 +84,10 @@ namespace TableForge.UI
                 lastSelectedCell = cellsAtPosition.LastOrDefault();
                 if (firstCell != null && lastSelectedCell != null)
                 {
-                    var firstRow = firstCell.Cell.Row;
-                    var lastRow = lastSelectedCell.Cell.Row;
-                    var firstColumn = firstCell.Cell.Column;
-                    var lastColumn = lastSelectedCell.Cell.Column;
+                    var firstRow = selector.TableControl.GetCellRow(firstCell);
+                    var lastRow = selector.TableControl.GetCellRow(lastSelectedCell);
+                    var firstColumn = selector.TableControl.GetCellColumn(firstCell);
+                    var lastColumn = selector.TableControl.GetCellColumn(lastSelectedCell);
                     var cells = CellLocator.GetCellRange(selector.TableControl,
                                                          firstRow.Id, firstColumn.Id,
                                                          lastRow.Id, lastColumn.Id);

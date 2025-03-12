@@ -4,6 +4,7 @@ namespace TableForge.UI
 {
     internal class CornerContainerControl : HeaderContainerControl
     {
+        public TableCornerControl CornerControl => this[0] as TableCornerControl;
         public CornerContainerControl(ScrollView cellContainer) : base(cellContainer)
         {
             AddToClassList(USSClasses.TableCornerContainer);

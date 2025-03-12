@@ -17,7 +17,8 @@ namespace TableForge.UI
             }
         }
         public static int PageStep { get; set; } = 1;
-        public static double RefreshRate { get; set; } = 0.4;
+        public static double RefreshRate { get; set; } = 0.5;
 
+        public static bool EnablePolling { get; set; } = false;
     }
 }

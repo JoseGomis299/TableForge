@@ -40,7 +40,7 @@ namespace TableForge.UI
             
             for (int i = startingRowPosition; i <= endingRowPosition; i++)
             {
-                rows.Add(tableControl.RowHeaders[table.Rows[i].Id].RowControl);
+                rows.Add(tableControl.RowHeaders[tableControl.GetRowAtPosition(i).Id].RowControl);
             }
             
             foreach (var row in rows)
@@ -81,11 +81,13 @@ namespace TableForge.UI
         
         public static List<CellControl> GetCellsAtColumn(TableControl tableControl, int columnId)
         {
-            if (!tableControl.ColumnData.TryGetValue(columnId, out var columnAnchor)) return new List<CellControl>();
+            int columnPosition = tableControl.GetColumnPosition(columnId);
+            if(columnPosition == -1) return new List<CellControl>();
+            
             return tableControl.RowHeaders.Values.Select
             (r => 
                 r.RowControl.Children().Any() ? 
-                    r.RowControl.Children().ElementAt(columnAnchor.Position - 1) 
+                    r.RowControl.Children().ElementAt(columnPosition - 1) 
                     : null
             ).OfType<CellControl>().ToList();
         }

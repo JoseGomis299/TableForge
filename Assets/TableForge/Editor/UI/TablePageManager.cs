@@ -57,12 +57,14 @@ namespace TableForge.UI
         {
             _page = 1 + (_page - 1 + ToolbarData.PageStep) % _pageNumber;
             _tableControl.RebuildPage();
+            RecalculatePage();
         }
         
         public void PreviousPage()
         {
             _page = 1 + (_page - 1 - ToolbarData.PageStep + _pageNumber) % (_pageNumber);
             _tableControl.RebuildPage();
+            RecalculatePage();
         }
     }
 }

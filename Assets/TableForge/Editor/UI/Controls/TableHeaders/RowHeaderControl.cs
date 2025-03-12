@@ -5,13 +5,14 @@ namespace TableForge.UI
 {
     internal class RowHeaderControl : HeaderControl
     {
-        private readonly Label _headerLabel;
         public RowControl RowControl { get; }
+
+        private readonly Label _headerLabel;
 
         public RowHeaderControl(CellAnchor cellAnchor, TableControl tableControl, RowControl rowControl) : base(cellAnchor, tableControl)
         {
             AddToClassList(USSClasses.TableHeaderCellVertical);
-            AddToClassList(USSClasses.Hidden);
+            //AddToClassList(USSClasses.Hidden);
             RowControl = rowControl;
 
             float preferredWidth = SizeCalculator.CalculateHeaderSize(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility).x;

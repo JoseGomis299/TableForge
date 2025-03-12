@@ -15,7 +15,7 @@ namespace TableForge.UI
         
         public void HandleSwapping(HeaderControl headerControl)
         {
-            if(headerControl is RowHeaderControl 
+            if(headerControl is RowHeaderControl && headerControl.CellAnchor is Row
                && _tableControl.TableAttributes.RowReorderMode != TableReorderMode.None
                && _swappingDraggers.TryAdd(headerControl, new RowSwappingDragger(_tableControl)))
             {
@@ -29,14 +29,9 @@ namespace TableForge.UI
             
             if(_swappingDraggers.TryGetValue(headerControl, out var dragger))
             {
-                headerControl.RemoveManipulator(dragger);
+                dragger.Dispose();
                 _swappingDraggers.Remove(headerControl);
             }
         }
-        
-        
-        
-        
-        
     }
 }

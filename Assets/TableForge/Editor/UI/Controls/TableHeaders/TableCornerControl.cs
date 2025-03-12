@@ -30,6 +30,9 @@ namespace TableForge.UI
         {
             evt.menu.AppendAction("Next page", NextPage, DropdownMenuAction.AlwaysEnabled);
             evt.menu.AppendAction("Prev page", PrevPage, DropdownMenuAction.AlwaysEnabled);
+            
+            if(_tableControl.Parent == null)
+                evt.menu.AppendAction("Invert table", InvertTable, DropdownMenuAction.AlwaysEnabled);
         }
 
         void NextPage(DropdownMenuAction action)
@@ -40,6 +43,12 @@ namespace TableForge.UI
         void PrevPage(DropdownMenuAction action)
         {
             _tableControl.PageManager.PreviousPage();
+        }
+        
+        void InvertTable(DropdownMenuAction action)
+        {
+            _tableControl.Invert();
+            _tableControl.RebuildPage();
         }
 
         public void UpdateCornerText()

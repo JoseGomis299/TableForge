@@ -29,6 +29,12 @@ namespace TableForge.UI
             target.UnregisterCallback<MouseMoveEvent>(OnMouseMove);
         }
         
+        public void Dispose()
+        {
+            UnregisterCallbacksFromTarget();
+            target.RemoveManipulator(this);
+        }
+        
         private void OnMouseDown(MouseDownEvent e)
         {
             _isDragging = true;

@@ -45,17 +45,17 @@ namespace TableForge.UI
         public void ResizeCell(CellControl cellControl)
         {
             float delta = 0;
-            if (ResizingHeaders.TryGetValue(cellControl.Cell.Row.Id, out var row))
+
+            if (ResizingHeaders.TryGetValue(cellControl.Cell.Row.Id, out var header))
             {
-                delta += InstantResize(row);
+                delta += InstantResize(header);
             }
-            
-            if(ResizingHeaders.TryGetValue(cellControl.Cell.Column.Id, out var column))
+            else if(ResizingHeaders.TryGetValue(cellControl.Cell.Column.Id, out header))
             {
-                delta += InstantResize(column);
+                delta += InstantResize(header);
             }
-            
-            OnResize?.Invoke(delta);
+         
+            InvokeResize(header, delta);
         }
 
         public float ResizeAll()
@@ -68,7 +68,7 @@ namespace TableForge.UI
                 delta += InstantResize(header);
             }
             
-            InvokeResize(ResizingHeaders.Values.First(), delta);
+            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta);
             return delta;
         }
 

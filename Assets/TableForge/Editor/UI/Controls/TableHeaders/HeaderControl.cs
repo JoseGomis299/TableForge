@@ -5,6 +5,7 @@ namespace TableForge.UI
     internal abstract class HeaderControl : VisualElement
     {
         public CellAnchor CellAnchor { get; protected set; }
+        
 
         protected readonly TableControl TableControl;
 

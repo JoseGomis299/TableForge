@@ -8,18 +8,16 @@ namespace TableForge.UI
     internal class RowControl : VisualElement
     {
         private readonly Dictionary<int, CellControl> _cells = new Dictionary<int, CellControl>();
-        public IReadOnlyDictionary<int, CellControl> Cells => _cells;
-        public Row Row { get; }
-        public TableControl TableControl { get; }
+        private TableControl TableControl { get; }
         
-        public RowControl(Row row, TableControl tableControl)
+        public RowControl(CellAnchor anchor, TableControl tableControl)
         {
-            Row = row;
             TableControl = tableControl;
-            InitializeRow();
+            
+            if (anchor is Row row) InitializeRow(row);
+            else InitializeRow(anchor);
 
             AddToClassList(USSClasses.TableRow);
-            AddToClassList(USSClasses.Hidden);
         }
 
         public void RefreshColumnWidths()
@@ -27,8 +25,9 @@ namespace TableForge.UI
             foreach (var columnEntry in TableControl.ColumnData)
             {
                 if (!TableControl.ColumnHeaders.TryGetValue(columnEntry.Key, out var header)) continue;
-                if(childCount <= columnEntry.Value.Position - 1) continue;
-                this[columnEntry.Value.Position - 1].style.width = header.style.width;
+
+                int columnPosition = TableControl.GetColumnPosition(columnEntry.Key);
+                this[columnPosition - 1].style.width = header.style.width;
             }
         }
         
@@ -40,7 +39,7 @@ namespace TableForge.UI
             }
         }
 
-        private void InitializeRow()
+        private void InitializeRow(Row row)
         {
             Clear();
 
@@ -49,20 +48,37 @@ namespace TableForge.UI
                         
             foreach (var columnEntry in columnsByPosition)
             {
-                if (!Row.Cells.TryGetValue(columnEntry.Key, out var cell)) continue;
+                if (!row.Cells.TryGetValue(columnEntry.Key, out var cell)) continue;
 
-                var cellField = CreateCellField(cell, columnEntry.Value.PreferredWidth);
+                var cellField = CreateCellField(cell);
                 if(cellField is CellControl cellControl)
                     _cells.Add(columnEntry.Key, cellControl);
                 Add(cellField);
             }
         }
+        
+        private void InitializeRow(CellAnchor column)
+        {
+            Clear();
 
-        private VisualElement CreateCellField(Cell cell, float columnWidth)
+            var orderedRows = TableControl.TableData.OrderedRows;
+                        
+            for (int i = TableControl.PageManager.FirstRowPosition - 1; i < orderedRows.Count && i < TableControl.PageManager.LastRowPosition; i++)
+            {
+                var row = orderedRows[i];
+                if (!row.Cells.TryGetValue(column.Position, out var cell)) continue;
+                
+                var cellField = CreateCellField(cell);
+                if(cellField is CellControl cellControl)
+                    _cells.Add(row.Id, cellControl);
+                Add(cellField);
+            }
+        }
+
+        private VisualElement CreateCellField(Cell cell)
         {
             if(cell == null) return new Label {text = ""};
             var cellControl = CellControlFactory.Create(cell, TableControl);
-            cellControl.style.width = columnWidth;
             return cellControl;
         }
 

@@ -44,6 +44,12 @@ namespace TableForge.UI
             AddToClassList(USSClasses.TableCell);
         }
         
+        ~CellControl()
+        {
+            OnValueChange = null;
+            OnRefresh = null;
+        }
+        
         public void Refresh()
         {
             Cell.RefreshData();
@@ -52,8 +58,8 @@ namespace TableForge.UI
         
         protected void SetDesiredSize(float width, float height)
         {
-            int columnId = Cell.Column.Id;
-            int rowId = Cell.Row.Id;
+            int columnId = TableControl.Inverted ? Cell.Row.Id : Cell.Column.Id;
+            int rowId = TableControl.Inverted ? Cell.Column.Id : Cell.Row.Id;
             
             TableControl.ColumnData[columnId].AddPreferredWidth(rowId, width);
             TableControl.RowData[rowId].AddPreferredHeight(columnId, height);
