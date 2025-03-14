@@ -19,6 +19,11 @@ namespace TableForge
         /// The root object from which the serialized object hierarchy originates.
         /// </summary>
         UnityEngine.Object RootObject { get; }
+        
+        /// <summary>
+        /// The type of the serialized object.
+        /// </summary>
+        TFSerializedType SerializedType { get; }
 
         #endregion
 

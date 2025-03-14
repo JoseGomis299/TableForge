@@ -21,20 +21,31 @@ namespace TableForge.UI
             InitializeSize();
         }
 
+        public override void Refresh(Cell cell, TableControl tableControl)
+        {
+            base.Refresh(cell, tableControl);
+            
+            FoldoutHeaderText = cell.Column.Name;
+            HeaderFoldout.text = FoldoutHeaderText;
+            
+            HeaderFoldout.value = false;
+            ContentContainer.style.display = DisplayStyle.None;
+
+            InitializeSize();            
+        }
+
         private void CreateContainerStructure()
         {
-            var container = new VisualElement();
-            container.AddToClassList(USSClasses.SubTableContainer);
-            
             HeaderFoldout = new Foldout { text = FoldoutHeaderText };
             HeaderFoldout.AddToClassList("table__subtable__foldout");
             
             ContentContainer = new VisualElement();
+            ContentContainer.AddToClassList(USSClasses.SubTableContainer);
+
             ContentContainer.style.display = DisplayStyle.None;
 
-            container.Add(ContentContainer);
             Add(HeaderFoldout);
-            Add(container);
+            Add(ContentContainer);
             
             IsSelected = false;
         }

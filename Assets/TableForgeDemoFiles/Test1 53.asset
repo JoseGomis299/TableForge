@@ -64,7 +64,7 @@ MonoBehaviour:
     number: 0
     text: 
   innerClass:
-    rid: -2
+    rid: 854088849389781079
   inheritorClassAsInnerClass2:
     rid: -2
   innerClasses: []
@@ -122,3 +122,8 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 854088849389781079
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 

@@ -7,57 +7,56 @@ namespace TableForge.UI
 {
     internal static class CellLocator
     {
-        public static CellControl GetCell(TableControl tableControl, int rowId, int columnId)
+        public static Cell GetCell(TableControl tableControl, int rowId, int columnId)
         {
             if (!tableControl.RowHeaders.TryGetValue(rowId, out var rowHeader) 
                 || !tableControl.ColumnData.TryGetValue(columnId, out var columnAnchor)) return null;
+
+            int rowPos = rowHeader.RowControl.Anchor.Position;
+            int columnPos = columnAnchor.Position;
             
-            VisualElement row = rowHeader.RowControl;
-            if(row.Children().Count() <= columnAnchor.Position - 1) return null;
-            
-            return row.Children().ElementAt(columnAnchor.Position - 1) as CellControl;
+            return tableControl.TableData.Rows[rowPos].Cells[columnPos];
         }
         
-        public static List<CellControl> GetCellRange(TableControl tableControl, int startRowId, int startColumnId, int endRowId, int endColumnId)
+        public static List<Cell> GetCellRange(TableControl tableControl, int startRowId, int startColumnId, int endRowId, int endColumnId)
         {
-            var cells = new List<CellControl>();
+            var cells = new List<Cell>();
             
             int startingRowPosition = tableControl.RowData[startRowId].Position;
             int endingRowPosition = tableControl.RowData[endRowId].Position;
 
-            int startingColumnPosition = tableControl.ColumnData[startColumnId].Position - 1;
-            int endingColumnPosition = tableControl.ColumnData[endColumnId].Position - 1;
+            int startingColumnPosition = tableControl.ColumnData[startColumnId].Position;
+            int endingColumnPosition = tableControl.ColumnData[endColumnId].Position;
 
             if(startingRowPosition > endingRowPosition)
                 (startingRowPosition, endingRowPosition) = (endingRowPosition, startingRowPosition);
             if(startingColumnPosition > endingColumnPosition)
                 (startingColumnPosition, endingColumnPosition) = (endingColumnPosition, startingColumnPosition);
             
-            List<VisualElement> rows = new List<VisualElement>();
-            if(startingRowPosition < 0 || endingRowPosition > tableControl.RowHeaders.Count) return new List<CellControl>();
+            List<Row> rows = new List<Row>();
+            if(startingRowPosition < 0 || endingRowPosition > tableControl.RowHeaders.Count) return new List<Cell>();
 
             Table table = tableControl.TableData;
             
             for (int i = startingRowPosition; i <= endingRowPosition; i++)
             {
-                rows.Add(tableControl.RowHeaders[tableControl.GetRowAtPosition(i).Id].RowControl);
+                rows.Add(table.Rows[i]);
             }
             
             foreach (var row in rows)
             {
-                if(startingColumnPosition < 0 || endingColumnPosition >= row.Children().Count()) return  new List<CellControl>();
+                if(startingColumnPosition < 0 || endingColumnPosition >= row.Cells.Count) return  new List<Cell>();
                 
                 for (int i = startingColumnPosition; i <= endingColumnPosition; i++)
                 {
-                    if(row.Children().ElementAt(i) is CellControl cell)
-                        cells.Add(cell);
+                    cells.Add(row.Cells[i]);
                 }
             }
 
             return cells;
         }
 
-        public static CellControl GetContiguousCell(TableControl tableControl, int rowId, int columnId, Vector2 direction)
+        public static Cell GetContiguousCell(TableControl tableControl, int rowId, int columnId, Vector2 direction)
         {
             int rowPosition = tableControl.RowData[rowId].Position - 1;
             int columnPosition = tableControl.ColumnData[columnId].Position - 1;
@@ -65,31 +64,38 @@ namespace TableForge.UI
             int newRowPosition = rowPosition + (int)direction.y;
             int newColumnPosition = columnPosition + (int)direction.x;
             
-            if (newRowPosition < 0 || newRowPosition >= tableControl.RowHeaders.Count) return null;
-            int newRowId = tableControl.TableData.Rows[newRowPosition].Id;
-            RowControl row = tableControl.RowHeaders[newRowId].RowControl;
+            if (newRowPosition < 0 || newRowPosition >= tableControl.TableData.Rows.Count) return null;
             
-            if (newColumnPosition < 0 || newColumnPosition >= row.Children().Count()) return null;
-            return row.Children().ElementAt(newColumnPosition) as CellControl;
+            return tableControl.TableData.Rows[newRowPosition].Cells[newColumnPosition]; 
         }
         
-        public static List<CellControl> GetCellsAtRow(TableControl tableControl, int rowId)
+        public static List<Cell> GetCellsAtRow(TableControl tableControl, int rowId)
         {
-            VisualElement row = tableControl.RowHeaders[rowId].RowControl;
-            return row.Children().OfType<CellControl>().ToList();
+            CellAnchorData anchorData = tableControl.RowData[rowId];
+            if(anchorData.CellAnchor is Row row)
+                return GetCellsAtRow(row);
+            
+            return GetCellsAtColumn(anchorData.CellAnchor);
         }
         
-        public static List<CellControl> GetCellsAtColumn(TableControl tableControl, int columnId)
+        public static List<Cell> GetCellsAtColumn(TableControl tableControl, int columnId)
         {
-            int columnPosition = tableControl.GetColumnPosition(columnId);
-            if(columnPosition == -1) return new List<CellControl>();
+            CellAnchorData anchorData = tableControl.ColumnData[columnId];
+            if(anchorData.CellAnchor is Row row)
+                return GetCellsAtRow(row);
             
-            return tableControl.RowHeaders.Values.Select
-            (r => 
-                r.RowControl.Children().Any() ? 
-                    r.RowControl.Children().ElementAt(columnPosition - 1) 
-                    : null
-            ).OfType<CellControl>().ToList();
+            return GetCellsAtColumn(anchorData.CellAnchor);
+        }
+        
+        private static List<Cell> GetCellsAtRow(Row row)
+        {
+            return row.Cells.Values.ToList();
+        }
+        
+        private static List<Cell> GetCellsAtColumn(CellAnchor column)
+        {
+            int columnPosition = column.Position;
+            return column.Table.Rows.Values.Select(r => r.Cells[columnPosition]).ToList();
         }
 
         public static (RowHeaderControl row, ColumnHeaderControl column) GetHeadersAtPosition(TableControl tableControl, Vector3 position)

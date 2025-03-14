@@ -13,7 +13,7 @@ namespace TableForge.UI
         /// Executes preselection using the given mouse event and the cells under the mouse position.
         /// Returns the "last selected cell" for further actions.
         /// </summary>
-        CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition);
+        Cell Preselect(CellSelector selector, PointerDownEvent evt, List<Cell> cellsAtPosition);
     }
 
     /// <summary>
@@ -38,9 +38,9 @@ namespace TableForge.UI
     /// </summary>
     internal class CtrlSelectionStrategy : ISelectionStrategy
     {
-        public CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition)
+        public Cell Preselect(CellSelector selector, PointerDownEvent evt, List<Cell> cellsAtPosition)
         {
-            CellControl lastSelectedCell = null;
+            Cell lastSelectedCell = null;
             foreach (var cell in cellsAtPosition)
             {
                 if (selector.SelectedCells.Contains(cell))
@@ -66,9 +66,9 @@ namespace TableForge.UI
     /// </summary>
     internal class ShiftSelectionStrategy : ISelectionStrategy
     {
-        public CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition)
+        public Cell Preselect(CellSelector selector, PointerDownEvent evt, List<Cell> cellsAtPosition)
         {
-            CellControl lastSelectedCell = null;
+            Cell lastSelectedCell = null;
             if (selector.SelectedCells.Count == 0)
             {
                 selector.FirstSelectedCell = cellsAtPosition.FirstOrDefault();
@@ -92,7 +92,7 @@ namespace TableForge.UI
                                                          firstRow.Id, firstColumn.Id,
                                                          lastRow.Id, lastColumn.Id);
                     // Mark cells outside the new range for deselection.
-                    selector.CellsToDeselect = new HashSet<CellControl>(selector.SelectedCells);
+                    selector.CellsToDeselect = new HashSet<Cell>(selector.SelectedCells);
                     foreach (var cell in cells)
                     {
                         selector.SelectedCells.Add(cell);
@@ -110,11 +110,11 @@ namespace TableForge.UI
     /// </summary>
     internal class NormalSelectionStrategy : ISelectionStrategy
     {
-        public CellControl Preselect(CellSelector selector, PointerDownEvent evt, List<CellControl> cellsAtPosition)
+        public Cell Preselect(CellSelector selector, PointerDownEvent evt, List<Cell> cellsAtPosition)
         {
-            CellControl lastSelectedCell = null;
+            Cell lastSelectedCell = null;
             // Mark all currently selected cells for deselection.
-            selector.CellsToDeselect = new HashSet<CellControl>(selector.SelectedCells);
+            selector.CellsToDeselect = new HashSet<Cell>(selector.SelectedCells);
             selector.FirstSelectedCell = cellsAtPosition.FirstOrDefault();
             if (cellsAtPosition.Count == 1)
             {

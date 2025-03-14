@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 
@@ -7,21 +8,33 @@ namespace TableForge.UI
 {
     internal class RowControl : VisualElement
     {
-        private readonly Dictionary<int, CellControl> _cells = new Dictionary<int, CellControl>();
+        public CellAnchor Anchor { get; }
         private TableControl TableControl { get; }
         
         public RowControl(CellAnchor anchor, TableControl tableControl)
         {
             TableControl = tableControl;
+            Anchor = anchor;
             
-            if (anchor is Row row) InitializeRow(row);
-            else InitializeRow(anchor);
-
             AddToClassList(USSClasses.TableRow);
+           // AddToClassList(USSClasses.Hidden);
+        }
+        
+        public void ClearRow()
+        {
+            foreach (var child in Children())
+            {
+                if (child is CellControl cell)
+                    CellControlFactory.Release(cell);
+            }
+            
+            Clear();
         }
 
         public void RefreshColumnWidths()
         {
+            if(!Children().Any()) return;
+            
             foreach (var columnEntry in TableControl.ColumnData)
             {
                 if (!TableControl.ColumnHeaders.TryGetValue(columnEntry.Key, out var header)) continue;
@@ -33,16 +46,25 @@ namespace TableForge.UI
         
         public void Refresh()
         {
-            foreach (var cell in _cells)
+            foreach (var child in Children())
             {
-                cell.Value.Refresh();
+                if (child is CellControl cell)
+                    cell.Refresh();
             }
+        }
+
+        public void Refresh(CellAnchor anchor)
+        {
+            ClearRow();
+            
+            if (anchor is Row row) InitializeRow(row);
+            else InitializeRow(anchor);
+            
+            RefreshColumnWidths();
         }
 
         private void InitializeRow(Row row)
         {
-            Clear();
-
             var columnsByPosition = TableControl.ColumnData.ToDictionary(c => c.Value.Position, c => c.Value);
             columnsByPosition = columnsByPosition.OrderBy(c => c.Key).ToDictionary(c => c.Key, c => c.Value);
                         
@@ -51,16 +73,12 @@ namespace TableForge.UI
                 if (!row.Cells.TryGetValue(columnEntry.Key, out var cell)) continue;
 
                 var cellField = CreateCellField(cell);
-                if(cellField is CellControl cellControl)
-                    _cells.Add(columnEntry.Key, cellControl);
                 Add(cellField);
             }
         }
         
         private void InitializeRow(CellAnchor column)
         {
-            Clear();
-
             var orderedRows = TableControl.TableData.OrderedRows;
                         
             for (int i = TableControl.PageManager.FirstRowPosition - 1; i < orderedRows.Count && i < TableControl.PageManager.LastRowPosition; i++)
@@ -69,8 +87,6 @@ namespace TableForge.UI
                 if (!row.Cells.TryGetValue(column.Position, out var cell)) continue;
                 
                 var cellField = CreateCellField(cell);
-                if(cellField is CellControl cellControl)
-                    _cells.Add(row.Id, cellControl);
                 Add(cellField);
             }
         }

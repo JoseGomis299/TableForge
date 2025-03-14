@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.23564017, g: 0.20291914, b: 0.6792453, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
     number: 0
     text: 
   innerClass:
-    rid: -2
+    rid: 854088849389781076
   inheritorClassAsInnerClass2:
     rid: -2
   innerClasses: []
@@ -122,3 +122,8 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 854088849389781076
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 

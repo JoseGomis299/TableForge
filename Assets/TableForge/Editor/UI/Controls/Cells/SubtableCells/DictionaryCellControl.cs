@@ -18,7 +18,7 @@ namespace TableForge.UI
                 this
             );
             
-            SubTableControl.SetTable(Cell.SubTable);
+            SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             ContentContainer.Add(SubTableControl);
             
             SubTableControl.HorizontalResizer.OnResize += _ => RecalculateSize();

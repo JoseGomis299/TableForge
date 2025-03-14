@@ -3,23 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
     internal static class CellControlFactory
     {
         private static Dictionary<Type, ConstructorInfo> _cellControlConstructors = new Dictionary<Type, ConstructorInfo>();
+        private static CellControlPool _cellControlPools = new CellControlPool();
 
-        public static VisualElement Create(Cell cell, TableControl tableControl)
+        public static CellControl Create(Cell cell, TableControl tableControl)
+        {
+            return _cellControlPools.GetCellControl(cell, tableControl);
+        }
+        
+        public static void Release(CellControl cellControl)
+        {
+            _cellControlPools.Release(cellControl);
+        }
+        
+        public static CellControl CreateCellControl(Cell cell, TableControl tableControl)
         {
             var cellControlType = CellStaticData.GetCellControlType(cell.GetType());
-            
             var constructor = GetCellControlConstructor(cell.GetType(), new object[] {cell, tableControl});
-
             if (constructor != null)
                 return (CellControl)constructor.Invoke(new object[] { cell, tableControl});
-
+            
             Debug.LogError($"{cellControlType.Name} lacks required constructor.");
             return null;
         }

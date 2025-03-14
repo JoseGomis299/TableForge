@@ -7,14 +7,15 @@ namespace TableForge.UI
     /// <summary>
     /// Abstract base class that defines common behavior for managing header visibility.
     /// </summary>
-    internal abstract class VisibilityManager<THeader> where THeader : HeaderControl
+    internal abstract class VisibilityManager<THeader> : IHeaderVisibilityNotifier where THeader : HeaderControl 
     {
-        public event Action<HeaderControl> OnHeaderBecameVisible;
-        public event Action<HeaderControl> OnHeaderBecameInvisible;
+        public event Action<HeaderControl, int> OnHeaderBecameVisible;
+        public event Action<HeaderControl, int> OnHeaderBecameInvisible;
 
         protected readonly ScrollView _scrollView;
         protected readonly List<THeader> _visibleHeaders = new List<THeader>();
         protected readonly HashSet<THeader> _lockedVisibleHeaders = new HashSet<THeader>(); 
+        protected int _lastDirection = 0;
         protected int _startingIndex = -1;
         protected int _endingIndex = -1;
         
@@ -30,7 +31,7 @@ namespace TableForge.UI
             foreach (var header in _visibleHeaders)
             {
                 header.IsVisible = false;
-                NotifyHeaderBecameInvisible(header);
+                NotifyHeaderBecameInvisible(header, 0);
             }
             _visibleHeaders.Clear();
             _lockedVisibleHeaders.Clear();
@@ -40,7 +41,7 @@ namespace TableForge.UI
         {
             _lockedVisibleHeaders.Add(header);
             if(!header.IsVisible)
-                MakeHeaderVisible(header, false);
+                MakeHeaderVisible(header, false, 0);
         }
         
         public void UnlockHeaderVisibility(THeader header)
@@ -51,7 +52,7 @@ namespace TableForge.UI
         /// <summary>
         /// Shows a header by marking it as visible, adding it to the list, and notifying listeners.
         /// </summary>
-        protected void MakeHeaderVisible(THeader header, bool insertAtTop)
+        protected void MakeHeaderVisible(THeader header, bool insertAtTop, int direction)
         {
             if (insertAtTop)
                 _visibleHeaders.Insert(0, header);
@@ -61,17 +62,17 @@ namespace TableForge.UI
             bool wasVisible = header.IsVisible;
             header.IsVisible = true;
             if (!wasVisible)
-                NotifyHeaderBecameVisible(header);
+                NotifyHeaderBecameVisible(header, direction);
         }
 
-        protected virtual void NotifyHeaderBecameVisible(THeader header)
+        protected virtual void NotifyHeaderBecameVisible(THeader header, int direction)
         {
-            OnHeaderBecameVisible?.Invoke(header);
+            OnHeaderBecameVisible?.Invoke(header, direction);
         }
 
-        protected virtual void NotifyHeaderBecameInvisible(THeader header)
+        protected virtual void NotifyHeaderBecameInvisible(THeader header, int direction)
         {
-            OnHeaderBecameInvisible?.Invoke(header);
+            OnHeaderBecameInvisible?.Invoke(header, direction);
         }
 
         /// <summary>
@@ -82,6 +83,6 @@ namespace TableForge.UI
         /// <summary>
         /// Refreshes the visibility based on the current scroll position.
         /// </summary>
-        public abstract void RefreshVisibility(float value);
+        public abstract void RefreshVisibility(float value, float delta);
     }
 }

@@ -45,11 +45,29 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   animationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
+  reference: {fileID: 11500000, guid: 75c601255e8a4d75a9f75410e9d9fd22, type: 3}
   B: 0
   intField: 89
   floatField: 23

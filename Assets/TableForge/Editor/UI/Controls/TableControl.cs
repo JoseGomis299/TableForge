@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -24,7 +25,6 @@ namespace TableForge.UI
 
         private float _scrollViewHeight;
         private float _scrollViewWidth;
-        
         
         public IReadOnlyDictionary<int, CellAnchorData> ColumnData => _columnData;
         public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
@@ -62,15 +62,19 @@ namespace TableForge.UI
             VerticalResizer = new VerticalBorderResizer(this);
             ColumnVisibilityManager = new ColumnVisibilityManager(this, ScrollView);
             RowVisibilityManager = new RowVisibilityManager(this, ScrollView);
-            CellSelector = new CellSelector(this);
+            CellSelector = parent != null ? parent.TableControl.CellSelector : new CellSelector(this);
             HeaderSwapper = new HeaderSwapper(this);
-
+            
             // Initialize sub-containers
             _rowsContainer = CreateRowsContainer();
             _columnHeaderContainer = new ColumnHeaderContainerControl(ScrollView);
             _rowHeaderContainer = new RowHeaderContainerControl(ScrollView);
             _cornerContainer = new CornerContainerControl(ScrollView);
-
+            
+            RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
+            RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
+            
+            
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
         }
@@ -148,6 +152,7 @@ namespace TableForge.UI
             var bottomContainer = new VisualElement();
             bottomContainer.AddToClassList(USSClasses.TableScrollViewContentBottom);
             scrollviewContentContainer.Add(bottomContainer);
+            
             bottomContainer.Add(_rowsContainer);
             bottomContainer.Add(_rowHeaderContainer);
             
@@ -243,13 +248,14 @@ namespace TableForge.UI
                     var row = rows[i];
                     _rowData.Add(row.Id, new CellAnchorData(row));
 
-                    var rowControl = new RowControl(row, this);
-                    _rowsContainer.Add(rowControl);
-
-                    var header = new RowHeaderControl(row, this, rowControl);
+                    var header = new RowHeaderControl(row, this);
                     _rowHeaders.Add(row.Id, header);
                     _rowHeaderContainer.Add(header);
                     HeaderSwapper.HandleSwapping(header);
+                    
+                    var rowControl = new RowControl(row, this);
+                    _rowsContainer.Add(rowControl);
+                    header.RowControl = rowControl;
                 }
             }
             else
@@ -258,13 +264,14 @@ namespace TableForge.UI
                 {
                     _rowData.Add(column.Id, new CellAnchorData(column));
 
-                    var rowControl = new RowControl(column, this);
-                    _rowsContainer.Add(rowControl);
-
-                    var header = new RowHeaderControl(column, this, rowControl);
+                    var header = new RowHeaderControl(column, this);
                     _rowHeaders.Add(column.Id, header);
                     _rowHeaderContainer.Add(header);
                     HeaderSwapper.HandleSwapping(header);
+                    
+                    var rowControl = new RowControl(column, this);
+                    _rowsContainer.Add(rowControl);
+                    header.RowControl = rowControl;
                 }
             }
         }
@@ -276,6 +283,7 @@ namespace TableForge.UI
             _scrollViewHeight += delta;
             ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
             ScrollView.contentContainer.style.height = _scrollViewHeight;
+            _rowsContainer.style.height = _scrollViewHeight;
         }
         
         private void RefreshScrollViewWidth(float delta)
@@ -285,6 +293,7 @@ namespace TableForge.UI
             _scrollViewWidth += delta;
             ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
             ScrollView.contentContainer.style.width = _scrollViewWidth;
+            _rowsContainer.style.width = _scrollViewWidth;
         }
 
         public CellControl GetCell(int rowId, int columnId)
@@ -314,6 +323,7 @@ namespace TableForge.UI
                 {
                     VerticalResizer.Dispose(rowHeaderControl);
                     HeaderSwapper.Dispose(rowHeaderControl);
+                    rowHeaderControl.RowControl.ClearRow();
                 }
             }
             _rowHeaders.Clear();
@@ -347,6 +357,8 @@ namespace TableForge.UI
             _cornerContainer.CornerControl.style.width = 0;
             HorizontalResizer.ResizeAll();
             VerticalResizer.ResizeAll();
+            
+            _rowsContainer.Clear();
         }
         
         public void RefreshPage()
@@ -422,14 +434,14 @@ namespace TableForge.UI
             return null;
         }
 
-        public CellAnchor GetCellRow(CellControl cell)
+        public CellAnchor GetCellRow(Cell cell)
         {
-            return !Inverted ? cell.Cell.Row : cell.Cell.Column;
+            return !Inverted ? cell.Row : cell.Column;
         }
         
-        public CellAnchor GetCellColumn(CellControl cell)
+        public CellAnchor GetCellColumn(Cell cell)
         {
-            return !Inverted ? cell.Cell.Column : cell.Cell.Row;
+            return !Inverted ? cell.Column : cell.Row;
         }
 
         public int GetColumnPosition(int columnId)
@@ -438,6 +450,22 @@ namespace TableForge.UI
                 return -1;
 
             return Inverted ? _columnData[columnId].Position - PageManager.FirstRowPosition + 1 : _columnData[columnId].Position;
+        }
+        
+        private void OnRowHeaderBecameVisible(HeaderControl header, int direction)
+        {
+            if (header is RowHeaderControl rowHeaderControl)
+            {
+                rowHeaderControl.RowControl.Refresh(rowHeaderControl.RowControl.Anchor);
+            }
+        }
+        
+        private void OnRowHeaderBecameInvisible(HeaderControl header, int direction)
+        {
+            if (header is RowHeaderControl rowHeaderControl)
+            {
+                rowHeaderControl.RowControl.ClearRow();
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ namespace TableForge
             Name = name;
             Position = position;
             
-            Id = HashCode.Combine(name, position);
+            Id = HashCode.Combine(name, position, GetType() == typeof(Row));
         }
         
     }

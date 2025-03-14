@@ -13,10 +13,13 @@ namespace TableForge
         public IReadOnlyList<TFFieldInfo> Fields => _fields;
         public bool IsStruct {get;}
         
+        public Type Type { get; }
+        
         public TFSerializedType(Type type, FieldInfo parentField)
         {
             _fields = SerializationUtil.GetSerializableFields(type, parentField);
             IsStruct = type.IsValueType;
+            Type = type;
         }
 
         public void GenerateColumns(List<CellAnchor> columns, Table table)

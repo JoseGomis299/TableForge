@@ -12,14 +12,10 @@ namespace TableForge.UI
             {
                 base.IsSelected = value;
                 SubTableControl?.ShowScrollbars(value);
-                
-                if(!value)
-                    SubTableControl?.CellSelector.ClearSelection();
             }
         }
         public TableControl SubTableControl { get; protected set; }
 
-        protected SubTableCell Cell;
         protected TableControl ParentTableControl;
 
         protected SubTableCellControl(SubTableCell cell, TableControl tableControl) : base(cell, tableControl)

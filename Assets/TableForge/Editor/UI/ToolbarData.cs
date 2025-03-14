@@ -6,7 +6,7 @@ namespace TableForge.UI
     {
         public static event Action OnPageSizeChanged;
         
-        private static int _pageSize = 50;
+        private static int _pageSize = 5000;
         public static int PageSize 
         {
             get => _pageSize;

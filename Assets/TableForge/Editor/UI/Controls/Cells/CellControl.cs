@@ -33,13 +33,18 @@ namespace TableForge.UI
             }
         }
         public bool IsVisible => TableControl.ColumnHeaders[Cell.Column.Id].IsVisible && TableControl.RowHeaders[Cell.Row.Id].IsVisible;
-        public TableControl TableControl { get; }
-        public Cell Cell { get; set; }
+        public TableControl TableControl { get; protected set; }
+        public Cell Cell { get; protected set; }
 
         protected CellControl(Cell cell, TableControl tableControl)
         {
             TableControl = tableControl;
             Cell = cell;
+            
+            tableControl.CellSelector.OnSelectionChanged += () =>
+            {
+                IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
+            };
             
             AddToClassList(USSClasses.TableCell);
         }
@@ -54,6 +59,17 @@ namespace TableForge.UI
         {
             Cell.RefreshData();
             OnRefresh?.Invoke();
+        }
+        
+        public virtual void Refresh(Cell cell, TableControl tableControl)
+        {
+            TableControl = tableControl;
+            Cell = cell;
+            
+            IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
+            
+            Refresh();
+            InitializeSize();
         }
         
         protected void SetDesiredSize(float width, float height)
@@ -85,6 +101,7 @@ namespace TableForge.UI
         
         protected virtual void SetCellValue(object value)
         {
+            Debug.Log("VALUE CHANGED: " + value);
             Cell.SetValue(value);
         }
 

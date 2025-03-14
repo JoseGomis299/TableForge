@@ -52,7 +52,6 @@ namespace TableForge.UI
         
         private void OnScriptableObjectModified(ScriptableObject scriptableObject)
         {
-            Debug.Log(scriptableObject.name);
             Row row = _tableControl.TableData.Rows.Values.FirstOrDefault(r => r.SerializedObject.RootObject == scriptableObject);
             if(row == null) return;
             
@@ -61,7 +60,7 @@ namespace TableForge.UI
 
         private void Update()
         {
-            if(ToolbarData.EnablePolling && _lastUpdateTime >= EditorApplication.timeSinceStartup - ToolbarData.RefreshRate)
+            if(!ToolbarData.EnablePolling || _lastUpdateTime >= EditorApplication.timeSinceStartup - ToolbarData.RefreshRate)
                 return;
         
             _lastUpdateTime = EditorApplication.timeSinceStartup;

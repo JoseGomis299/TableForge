@@ -13,8 +13,17 @@ namespace TableForge.UI
             {
                 value = (AnimationCurve)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            OnRefresh = () => field.value = (AnimationCurve)Cell.GetValue();
+            field.RegisterValueChangedCallback(evt =>
+            {
+                //We need to create a new AnimationCurve to avoid the reference being shared between cells when re-utilizing this cellControl
+                var cachedEvt = ChangeEvent<AnimationCurve>.GetPooled(evt.previousValue, new AnimationCurve(evt.newValue.keys));
+                OnChange(cachedEvt, field);
+            });
+            
+            OnRefresh = () =>
+            {
+                field.value = (AnimationCurve)Cell.GetValue();
+            };
             Add(field);
             
             field.AddToClassList(USSClasses.TableCellContent);

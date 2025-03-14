@@ -13,12 +13,12 @@ namespace TableForge
     /// </summary>
     internal class TFSerializedObject : ITFSerializedObject
     {
-        protected TFSerializedType SerializedType;
         protected IColumnGenerator ColumnGenerator;
         
         public Object RootObject { get; }
         public string Name { get; protected set; }
         public object TargetInstance { get; protected set; }
+        public TFSerializedType SerializedType { get; protected set; }
         
 
         public TFSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string name = null)

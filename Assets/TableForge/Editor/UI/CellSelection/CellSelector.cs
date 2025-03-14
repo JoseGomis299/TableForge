@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,19 +8,21 @@ namespace TableForge.UI
 {
     internal class CellSelector : ICellSelector
     {
+        public event Action OnSelectionChanged;
+        
         private readonly TableControl _tableControl;
-        private readonly HashSet<CellControl> _selectedCells = new HashSet<CellControl>();
-        private HashSet<CellControl> _cellsToDeselect = new HashSet<CellControl>();
+        private readonly HashSet<Cell> _selectedCells = new HashSet<Cell>();
+        private HashSet<Cell> _cellsToDeselect = new HashSet<Cell>();
         private readonly HashSet<HeaderControl> _selectedHeaders = new HashSet<HeaderControl>();
         private Vector3 _lastMousePosition;
         
-        public HashSet<CellControl> SelectedCells => _selectedCells;
-        public HashSet<CellControl> CellsToDeselect
+        public HashSet<Cell> SelectedCells => _selectedCells;
+        public HashSet<Cell> CellsToDeselect
         {
             get => _cellsToDeselect;
             set => _cellsToDeselect = value;
         }
-        public CellControl FirstSelectedCell { get; set; }
+        public Cell FirstSelectedCell { get; set; }
 
         public TableControl TableControl => _tableControl;
 
@@ -64,9 +67,8 @@ namespace TableForge.UI
                 if (_cellsToDeselect.Contains(cell))
                     continue;
 
-                cell.IsSelected = true;
-                int columnId = _tableControl.Inverted ? cell.Cell.Row.Id : cell.Cell.Column.Id;
-                int rowId = _tableControl.Inverted ? cell.Cell.Column.Id : cell.Cell.Row.Id;
+                int columnId = _tableControl.Inverted ? cell.Row.Id : cell.Column.Id;
+                int rowId = _tableControl.Inverted ? cell.Column.Id : cell.Row.Id;
                 _selectedHeaders.Add(_tableControl.ColumnHeaders[columnId]);
                 _selectedHeaders.Add(_tableControl.RowHeaders[rowId]);
             }
@@ -79,9 +81,11 @@ namespace TableForge.UI
             // Deselect cells marked for removal.
             foreach (var cell in _cellsToDeselect)
             {
-                DeselectCell(cell);
+                _selectedCells.Remove(cell);
             }
             _cellsToDeselect.Clear();
+            
+            OnSelectionChanged?.Invoke();
         }
 
         private void PreselectCells(PointerDownEvent evt)
@@ -89,19 +93,19 @@ namespace TableForge.UI
             if (!IsValidClick(evt))
                 return;
 
-            List<CellControl> cellsAtPosition = GetCellsAtPosition(evt.position);
+            List<Cell> cellsAtPosition = GetCellsAtPosition(evt.position);
             _lastMousePosition = evt.position;
 
             // Use the proper selection strategy based on modifier keys.
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(evt);
-            CellControl lastSelectedCell = strategy.Preselect(this, evt, cellsAtPosition);
+            Cell lastSelectedCell = strategy.Preselect(this, evt, cellsAtPosition);
 
             if(evt.clickCount == 2)
             {
                 foreach (var selectedCell in _selectedCells)
                 {
-                    if(selectedCell is SubTableCellControl subCell)
-                        subCell.SubTableControl?.CellSelector?.SelectAllRecursively();
+                   if(selectedCell is SubTableCell subCell)
+                       SelectAll(subCell.Table);
                 }
             }
             
@@ -112,13 +116,13 @@ namespace TableForge.UI
             }
         }
 
-        private List<CellControl> GetCellsAtPosition(Vector3 position)
+        private List<Cell> GetCellsAtPosition(Vector3 position)
         {
-            var selectedCells = new List<CellControl>();
+            var selectedCells = new List<Cell>();
             if (_tableControl.CornerContainer.worldBound.Contains(position))
             {
-                foreach (var row in _tableControl.RowHeaders.Values)
-                    selectedCells.AddRange(row.RowControl.Children().OfType<CellControl>());
+                foreach (var row in _tableControl.TableData.Rows)
+                    selectedCells.AddRange(row.Value.Cells.Values);
                 
                 return selectedCells;
             }
@@ -158,7 +162,7 @@ namespace TableForge.UI
             _lastMousePosition = evt.mousePosition;
 
             var headers = CellLocator.GetHeadersAtPosition(_tableControl, evt.mousePosition);
-            CellControl selectedCell = null;
+            Cell selectedCell = null;
             if (headers.row != null && headers.column != null)
             {
                 selectedCell = CellLocator.GetCell(_tableControl, headers.row.Id, headers.column.Id);
@@ -168,8 +172,8 @@ namespace TableForge.UI
                 return;
 
             // Determine the range from the first selected cell to the cell under the cursor.
-            CellControl firstCell = FirstSelectedCell;
-            CellControl lastCell = selectedCell;
+            Cell firstCell = FirstSelectedCell;
+            Cell lastCell = selectedCell;
             var firstRow = _tableControl.GetCellRow(firstCell);
             var lastRow = _tableControl.GetCellRow(lastCell);
             var firstColumn = _tableControl.GetCellColumn(firstCell);
@@ -177,7 +181,7 @@ namespace TableForge.UI
             var cells = CellLocator.GetCellRange(_tableControl, firstRow.Id, firstColumn.Id, lastRow.Id, lastColumn.Id);
 
             // Mark all cells currently selected for potential deselection.
-            _cellsToDeselect = new HashSet<CellControl>(_selectedCells);
+            _cellsToDeselect = new HashSet<Cell>(_selectedCells);
             foreach (var cell in cells)
             {
                 _selectedCells.Add(cell);
@@ -187,43 +191,17 @@ namespace TableForge.UI
             ConfirmSelection();
         }
 
-        public void SelectCell(CellControl cellControl)
-        {
-            _selectedCells.Add(cellControl);
-            cellControl.IsSelected = true;
-        }
-
-        public void DeselectCell(CellControl cellControl)
-        {
-            _selectedCells.Remove(cellControl);
-            cellControl.IsSelected = false;
-        }
-
-        public void SelectAll()
+        private void SelectAll(Table table)
         {
             _selectedCells.Clear();
-            foreach (var row in _tableControl.RowHeaders.Values)
+            foreach (var row in table.Rows.Values)
             {
-                foreach (var cell in row.RowControl.Children().OfType<CellControl>())
-                {
-                    _selectedCells.Add(cell);
-                }
-            }
-            
-            ConfirmSelection();
-        }
-
-        public void SelectAllRecursively()
-        {
-            _selectedCells.Clear();
-            foreach (var row in _tableControl.RowHeaders.Values)
-            {
-                foreach (var cell in row.RowControl.Children().OfType<CellControl>())
+                foreach (var cell in row.Cells.Values)
                 {
                     _selectedCells.Add(cell);
                     
-                    if(cell is SubTableCellControl subCell)
-                        subCell.SubTableControl?.CellSelector?.SelectAllRecursively();
+                    if(cell is SubTableCell subCell)
+                        SelectAll(subCell.SubTable);
                 }
             }
             
@@ -232,11 +210,6 @@ namespace TableForge.UI
 
         public void ClearSelection()
         {
-            foreach (var cell in _selectedCells)
-            {
-                cell.IsSelected = false;
-            }
-
             foreach (var header in _selectedHeaders)
             {
                 header.IsSelected = false;
@@ -245,6 +218,8 @@ namespace TableForge.UI
             _selectedHeaders.Clear();
             _selectedCells.Clear();
             _cellsToDeselect.Clear();
+            
+            OnSelectionChanged?.Invoke();
         }
     }
 }
