@@ -13,7 +13,7 @@ namespace TableForge
         #region Fields
 
         private readonly Dictionary<int, Row> _rows = new Dictionary<int, Row>();
-        private readonly Dictionary<int, CellAnchor> _columns = new Dictionary<int, CellAnchor>();
+        private readonly Dictionary<int, Column> _columns = new Dictionary<int, Column>();
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace TableForge
         /// <summary>
         /// Gets read-only access to the table's columns by their numeric position.
         /// </summary>
-        public IReadOnlyDictionary<int, CellAnchor> Columns => _columns;
+        public IReadOnlyDictionary<int, Column> Columns => _columns;
         
         /// <summary>
         /// Gets the rows of the table in order of their position.
@@ -63,7 +63,7 @@ namespace TableForge
         
         public Table(string name, Cell parentCell)
         {
-            Name = name;
+            Name = parentCell == null ? name : $"{parentCell.Table.Name}({parentCell.GetPosition()}).{name}";
             ParentCell = parentCell;
         }
         
@@ -80,8 +80,6 @@ namespace TableForge
         {
             if (!_rows.TryAdd(row.Position, row))
                 throw new ArgumentException("Row already exists in table");
-
-            row.Table = this;
         }
         
         /// <summary>
@@ -89,12 +87,10 @@ namespace TableForge
         /// </summary>
         /// <param name="column">The column to add to the table.</param>
         /// <exception cref="ArgumentException">Throws for already existing columns.</exception>
-        public void AddColumn(CellAnchor column)
+        public void AddColumn(Column column)
         {
             if (!_columns.TryAdd(column.Position, column))
                 throw new ArgumentException("Column already exists in table");
-
-            column.Table = this;
         }
         
         /// <summary>
@@ -111,12 +107,10 @@ namespace TableForge
             {
                 collectionCell.RemoveItem(position - 1);
                 _rows.Remove(position);
-                row.Table = null;
             }
             else
             {
                 _rows.Remove(position);
-                row.Table = null;
                 
                 List<Row> orderedRows = new List<Row>(_rows.Values.OrderBy(x => x.Position));
                 for (int i = position - 1; i < orderedRows.Count; i++)

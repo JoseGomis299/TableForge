@@ -77,7 +77,7 @@ namespace TableForge
             return _dictionary.GetType().GetGenericArguments()[1];
         }
         
-        public override void PopulateRow(List<CellAnchor> columns, Table table, Row row)
+        public override void PopulateRow(List<Column> columns, Table table, Row row)
         {
             ColumnGenerator.GenerateColumns(columns, table);
             row.SerializedObject = this;

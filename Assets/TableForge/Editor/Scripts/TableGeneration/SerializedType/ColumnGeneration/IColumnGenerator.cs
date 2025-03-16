@@ -13,6 +13,6 @@ namespace TableForge
         /// </summary>
         /// <param name="columns">The list to store the generated columns.</param>
         /// <param name="table">The table where the columns will be placed.</param>
-        void GenerateColumns(List<CellAnchor> columns, Table table);
+        void GenerateColumns(List<Column> columns, Table table);
     }
 }

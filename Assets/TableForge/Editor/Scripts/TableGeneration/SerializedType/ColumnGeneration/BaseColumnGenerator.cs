@@ -8,7 +8,7 @@ namespace TableForge
     /// </summary>
     internal class BaseColumnGenerator : IColumnGenerator
     {
-        public void GenerateColumns(List<CellAnchor> columns, Table table)
+        public void GenerateColumns(List<Column> columns, Table table)
         {
             Debug.Log("VAR");
             // Do nothing

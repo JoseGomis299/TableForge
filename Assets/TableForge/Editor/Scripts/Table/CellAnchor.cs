@@ -5,18 +5,18 @@ namespace TableForge
     /// <summary>
     /// Represents a spreadsheet-style cell anchor (column or row), providing functionality for manipulating cell positions.
     /// </summary>
-    internal class CellAnchor
+    internal abstract class CellAnchor
     {
         /// <summary>
         /// The table to which the cell anchor belongs.
         /// </summary>
-        public Table Table { get; set; }
+        public Table Table { get; }
         
         /// <summary>
         /// The unique identifier of the cell anchor.
         /// </summary>
         /// <remarks>The id is unique only inside its table scope.</remarks>
-        public int Id { get; }
+        public int Id { get; protected set; }
         
         /// <summary>
         /// The name of the cell anchor.
@@ -40,14 +40,12 @@ namespace TableForge
         /// </example>
         /// </summary>
         public string LetterPosition => PositionUtil.ConvertToLetters(Position);
-        
-        public CellAnchor(string name, int position)
+
+        protected CellAnchor(string name, int position, Table table)
         {
             Name = name;
             Position = position;
-            
-            Id = HashCode.Combine(name, position, GetType() == typeof(Row));
+            Table = table;
         }
-        
     }
 }

@@ -21,9 +21,8 @@ namespace TableForge.UI
 
             // Subscribe to vertical scroll changes.
             _scrollView.verticalScroller.valueChanged += OnVerticalScroll;
-            _tableControl.OnScrollviewHeightChanged += () => RefreshVisibility(_scrollView.verticalScroller.value, 0);
-            _tableControl.RegisterCallback<GeometryChangedEvent>(_ => RefreshVisibility(_scrollView.verticalScroller.value, 0));
-            _tableControl.VerticalResizer.OnResize += delta => RefreshVisibility(_scrollView.verticalScroller.value, delta > 0 ? -1 : 1);
+            _tableControl.OnScrollviewHeightChanged += () => RefreshVisibility(_scrollView.verticalScroller.value, 1);
+            _tableControl.VerticalResizer.OnResize += delta => RefreshVisibility(_scrollView.verticalScroller.value, delta);
         }
 
         public override void Clear()
@@ -49,7 +48,7 @@ namespace TableForge.UI
 
             if (_sendNotifications)
             {
-                Debug.Log($"Row {header.Name} became visible");
+                //Debug.Log($"Row {header.Name} became visible");
                 base.NotifyHeaderBecameVisible(header, direction);
             }
         }
@@ -60,7 +59,7 @@ namespace TableForge.UI
 
             if (_sendNotifications)
             {
-                Debug.Log($"Row {header.Name} became invisible");
+                //Debug.Log($"Row {header.Name} became invisible");
                 base.NotifyHeaderBecameInvisible(header, direction);
             }
                 
@@ -131,9 +130,10 @@ namespace TableForge.UI
                 {
                     if (!firstVisibleFound)
                     {
+                        bool wasVisible = header.IsVisible;
                         header.IsVisible = IsHeaderVisible(header);
                         firstVisibleFound = header.IsVisible;
-                        if (!firstVisibleFound)
+                        if (!firstVisibleFound && wasVisible)
                             NotifyHeaderBecameInvisible(header, _lastDirection);
                     }
                     else
@@ -155,9 +155,10 @@ namespace TableForge.UI
                     var header = _visibleHeaders[i];
                     if (!lastVisibleFound)
                     {
+                        bool wasVisible = header.IsVisible;
                         header.IsVisible = IsHeaderVisible(header);
                         lastVisibleFound = header.IsVisible;
-                        if (!lastVisibleFound)
+                        if (!lastVisibleFound && wasVisible)
                             NotifyHeaderBecameInvisible(header, _lastDirection);
                     }
                     else

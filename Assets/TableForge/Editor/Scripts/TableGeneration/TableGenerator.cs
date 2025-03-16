@@ -20,13 +20,12 @@ namespace TableForge
                 return null; 
             
             int rowCount = items.Count;
-            List<CellAnchor> columns = new List<CellAnchor>();
+            List<Column> columns = new List<Column>();
             table.Clear();
             
             for (int i = 0; i < rowCount; i++)
             {
-                Row row = new Row(items[i].Name, i + 1);
-                table.AddRow(row);
+                Row row = new Row(items[i].Name, i + 1, table);
                 items[i].PopulateRow(columns, table, row);
             }
             
@@ -59,7 +58,7 @@ namespace TableForge
             if (columnGenerator == null)
                 return null;
 
-            List<CellAnchor> columns = new List<CellAnchor>();
+            List<Column> columns = new List<Column>();
             Table table = new Table(tableName, parentCell);
             columnGenerator.GenerateColumns(columns, table);
             return table;
@@ -76,9 +75,8 @@ namespace TableForge
             if (item == null)
                 return null;
 
-            List<CellAnchor> columns = table.Columns.Values.ToList();
-            Row row = new Row(item.Name, table.Rows.Count + 1);
-            table.AddRow(row);
+            List<Column> columns = table.Columns.Values.ToList();
+            Row row = new Row(item.Name, table.Rows.Count + 1, table);
             item.PopulateRow(columns, table, row);
             return row;
         }

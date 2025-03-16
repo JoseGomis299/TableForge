@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace TableForge
@@ -19,7 +20,11 @@ namespace TableForge
         /// The serialized object associated with the row.
         /// </summary>
         public ITFSerializedObject SerializedObject { get; set; }
-        
-        public Row(string name, int position) : base(name, position) { }
+
+        public Row(string name, int position, Table table) : base(name, position, table)
+        { 
+            Id = HashCode.Combine(name, position, true, table.Name);
+            table.AddRow(this);
+        }
     }
 }

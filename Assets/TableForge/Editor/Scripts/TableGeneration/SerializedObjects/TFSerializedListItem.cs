@@ -97,7 +97,7 @@ namespace TableForge
             return base.GetValueType(cell);
         }
         
-        public override void PopulateRow(List<CellAnchor> columns, Table table, Row row)
+        public override void PopulateRow(List<Column> columns, Table table, Row row)
         {
             if (!_isSimpleValue)
             {

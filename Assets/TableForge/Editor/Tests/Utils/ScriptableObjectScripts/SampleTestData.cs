@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using TableForge.UI;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace TableForge.Tests
 {

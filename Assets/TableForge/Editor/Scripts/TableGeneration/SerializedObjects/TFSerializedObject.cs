@@ -90,7 +90,7 @@ namespace TableForge
             return TargetInstance == null ? null : cell.FieldInfo.Type;
         }
         
-        public virtual void PopulateRow(List<CellAnchor> columns, Table table, Row row)
+        public virtual void PopulateRow(List<Column> columns, Table table, Row row)
         {
             ColumnGenerator.GenerateColumns(columns, table);
             row.SerializedObject = this;

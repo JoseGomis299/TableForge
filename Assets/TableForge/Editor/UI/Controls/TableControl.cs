@@ -283,7 +283,7 @@ namespace TableForge.UI
             _scrollViewHeight += delta;
             ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
             ScrollView.contentContainer.style.height = _scrollViewHeight;
-            _rowsContainer.style.height = _scrollViewHeight;
+            _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
         }
         
         private void RefreshScrollViewWidth(float delta)
@@ -293,7 +293,7 @@ namespace TableForge.UI
             _scrollViewWidth += delta;
             ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
             ScrollView.contentContainer.style.width = _scrollViewWidth;
-            _rowsContainer.style.width = _scrollViewWidth;
+            _rowsContainer.style.width = _scrollViewWidth - _cornerContainer.CornerControl.style.width.value.value;
         }
 
         public CellControl GetCell(int rowId, int columnId)

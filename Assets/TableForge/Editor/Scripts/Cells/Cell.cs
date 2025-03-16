@@ -48,6 +48,11 @@ namespace TableForge
         /// </summary>
         public Table Table => Column.Table;
 
+        /// <summary>
+        /// Unique identifier of the cell in the table.
+        /// </summary>
+        public int Id { get; }
+
         #endregion
 
         #region Constructors
@@ -57,8 +62,9 @@ namespace TableForge
             Row = row;
             FieldInfo = fieldInfo;
             Type = GetFieldType();
-            
             Value = GetFieldValue();
+            
+            Id = HashCode.Combine(Column.Id, Row.Id);
         }
         #endregion
 

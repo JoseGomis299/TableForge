@@ -8,6 +8,7 @@ namespace TableForge.UI
         public event Action OnSelectionChanged;
         
         HashSet<Cell> SelectedCells { get; }
+        HashSet<CellAnchor> SelectedAnchors { get; }
         void ClearSelection();
     }
 }

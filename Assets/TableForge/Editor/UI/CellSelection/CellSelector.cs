@@ -13,9 +13,10 @@ namespace TableForge.UI
         private readonly TableControl _tableControl;
         private readonly HashSet<Cell> _selectedCells = new HashSet<Cell>();
         private HashSet<Cell> _cellsToDeselect = new HashSet<Cell>();
-        private readonly HashSet<HeaderControl> _selectedHeaders = new HashSet<HeaderControl>();
+        private readonly HashSet<CellAnchor> _selectedAnchors = new HashSet<CellAnchor>();
         private Vector3 _lastMousePosition;
         
+        public HashSet<CellAnchor> SelectedAnchors => _selectedAnchors;
         public HashSet<Cell> SelectedCells => _selectedCells;
         public HashSet<Cell> CellsToDeselect
         {
@@ -55,27 +56,16 @@ namespace TableForge.UI
         private void ConfirmSelection()
         {
             // Deselect previously selected headers.
-            foreach (var header in _selectedHeaders)
-            {
-                header.IsSelected = false;
-            }
-            _selectedHeaders.Clear();
+            _selectedAnchors.Clear();
 
             // For each selected cell, if it is not marked for deselection, mark it and its headers as selected.
             foreach (var cell in _selectedCells)
             {
                 if (_cellsToDeselect.Contains(cell))
                     continue;
-
-                int columnId = _tableControl.Inverted ? cell.Row.Id : cell.Column.Id;
-                int rowId = _tableControl.Inverted ? cell.Column.Id : cell.Row.Id;
-                _selectedHeaders.Add(_tableControl.ColumnHeaders[columnId]);
-                _selectedHeaders.Add(_tableControl.RowHeaders[rowId]);
-            }
-
-            foreach (var header in _selectedHeaders)
-            {
-                header.IsSelected = true;
+                
+                _selectedAnchors.Add(cell.Row);
+                _selectedAnchors.Add(cell.Column);
             }
 
             // Deselect cells marked for removal.
@@ -99,13 +89,14 @@ namespace TableForge.UI
             // Use the proper selection strategy based on modifier keys.
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(evt);
             Cell lastSelectedCell = strategy.Preselect(this, evt, cellsAtPosition);
-
+            
             if(evt.clickCount == 2)
             {
-                foreach (var selectedCell in _selectedCells)
+                var cachedSelectedCells = new HashSet<Cell>(_selectedCells);
+                foreach (var selectedCell in cachedSelectedCells)
                 {
                    if(selectedCell is SubTableCell subCell)
-                       SelectAll(subCell.Table);
+                       SelectAll(subCell.SubTable);
                 }
             }
             
@@ -193,7 +184,6 @@ namespace TableForge.UI
 
         private void SelectAll(Table table)
         {
-            _selectedCells.Clear();
             foreach (var row in table.Rows.Values)
             {
                 foreach (var cell in row.Cells.Values)
@@ -210,12 +200,7 @@ namespace TableForge.UI
 
         public void ClearSelection()
         {
-            foreach (var header in _selectedHeaders)
-            {
-                header.IsSelected = false;
-            }
-            
-            _selectedHeaders.Clear();
+            _selectedAnchors.Clear();
             _selectedCells.Clear();
             _cellsToDeselect.Clear();
             

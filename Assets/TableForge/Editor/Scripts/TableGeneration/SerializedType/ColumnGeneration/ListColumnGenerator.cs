@@ -7,12 +7,11 @@ namespace TableForge
     /// </summary>
     internal class ListColumnGenerator : IColumnGenerator
     {
-        public void GenerateColumns(List<CellAnchor> columns, Table table)
+        public void GenerateColumns(List<Column> columns, Table table)
         {
             if (columns.Count == 0)
             {
-                columns.Add(new CellAnchor("Values", 1));
-                table.AddColumn(columns[0]);
+                columns.Add(new Column("Values", 1, table));
             }
         }
     }

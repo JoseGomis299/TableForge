@@ -22,7 +22,7 @@ namespace TableForge
             Type = type;
         }
 
-        public void GenerateColumns(List<CellAnchor> columns, Table table)
+        public void GenerateColumns(List<Column> columns, Table table)
         {
             if(columns.Count == _fields.Count) return;
             
@@ -31,8 +31,7 @@ namespace TableForge
                 var member = _fields[j];
                 if (columns.Count < _fields.Count)
                 {
-                    columns.Add(new CellAnchor(member.FriendlyName, columns.Count + 1));
-                    table.AddColumn(columns[j]);
+                    columns.Add(new Column(member.FriendlyName, columns.Count + 1, table));
                 }
             }
         }

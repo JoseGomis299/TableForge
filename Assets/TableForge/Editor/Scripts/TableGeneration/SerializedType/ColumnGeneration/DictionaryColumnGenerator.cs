@@ -7,21 +7,16 @@ namespace TableForge
     /// </summary>
     internal class DictionaryColumnGenerator : IColumnGenerator
     {
-        public void GenerateColumns(List<CellAnchor> columns, Table table)
+        public void GenerateColumns(List<Column> columns, Table table)
         {
-            CellAnchor keyColumn = new CellAnchor("Key", 1);
-            CellAnchor valueColumn = new CellAnchor("Value", 2);
+            if (columns.Count != 0) return;
+            Column keyColumn = new Column("Key", 1, table);
+            Column valueColumn = new Column("Value", 2, table);
             keyColumn.IsStatic = true;
             valueColumn.IsStatic = true;
-            
-            if(columns.Count == 0)
-            {
-                columns.Add(keyColumn);
-                columns.Add(valueColumn);
                 
-                table.AddColumn(keyColumn);
-                table.AddColumn(valueColumn);
-            }
+            columns.Add(keyColumn);
+            columns.Add(valueColumn);
         }
     }
 }

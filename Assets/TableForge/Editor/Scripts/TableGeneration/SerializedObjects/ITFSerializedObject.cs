@@ -56,7 +56,7 @@ namespace TableForge
         /// <param name="columns">The list where columns will be stored.</param>
         /// <param name="table">The table that contains the row.</param>
         /// <param name="row">The row to be populated.</param>
-        void PopulateRow(List<CellAnchor> columns, Table table, Row row);
+        void PopulateRow(List<Column> columns, Table table, Row row);
 
         #endregion
     }
