@@ -21,10 +21,16 @@ namespace TableForge.UI
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             ContentContainer.Add(SubTableControl);
             
-            SubTableControl.HorizontalResizer.OnResize += _ => RecalculateSize();
-            SubTableControl.VerticalResizer.OnResize += _ => RecalculateSize();
-            IsSelected = false;
-            InitializeSize();
+            SubTableControl.HorizontalResizer.OnResize += _ =>
+            {
+                RecalculateSize();
+                TableControl.HorizontalResizer.ResizeCell(this);
+            };
+            SubTableControl.VerticalResizer.OnResize += _ =>
+            {
+                RecalculateSize();
+                TableControl.VerticalResizer.ResizeCell(this);
+            };
         }
     }
 }

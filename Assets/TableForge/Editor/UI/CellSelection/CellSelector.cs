@@ -64,6 +64,9 @@ namespace TableForge.UI
                 if (_cellsToDeselect.Contains(cell))
                     continue;
                 
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
+                if(cellControl != null) cellControl.IsSelected = true;
+                
                 _selectedAnchors.Add(cell.Row);
                 _selectedAnchors.Add(cell.Column);
             }
@@ -71,6 +74,9 @@ namespace TableForge.UI
             // Deselect cells marked for removal.
             foreach (var cell in _cellsToDeselect)
             {
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
+                if(cellControl != null) cellControl.IsSelected = false;
+                
                 _selectedCells.Remove(cell);
             }
             _cellsToDeselect.Clear();
@@ -101,7 +107,7 @@ namespace TableForge.UI
             }
             
             // If the last selected cell is a reference cell, immediately confirm the selection.
-            else if (lastSelectedCell is ReferenceCellControl)
+            else if (lastSelectedCell is ReferenceCell)
             {
                 ConfirmSelection();
             }

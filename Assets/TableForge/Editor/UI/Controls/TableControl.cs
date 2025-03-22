@@ -35,8 +35,9 @@ namespace TableForge.UI
         public CornerContainerControl CornerContainer => _cornerContainer;
 
         public Table TableData { get; private set; }
+        public TableSize TableSize { get; private set; }
+        public TableMetadata Metadata { get; private set; }
         public ScrollView ScrollView { get; }
-        public TablePageManager PageManager { get; private set; }
         public TableAttributes TableAttributes { get; private set; }
         public BorderResizer HorizontalResizer { get; }
         public BorderResizer VerticalResizer { get; }
@@ -45,7 +46,6 @@ namespace TableForge.UI
         public SubTableCellControl Parent { get; }
         public VisibilityManager<ColumnHeaderControl> ColumnVisibilityManager { get; }
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
-        public bool[] VisibleColumns { get; private set; }
         public bool Inverted { get; private set; }
         
         public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent)
@@ -74,16 +74,41 @@ namespace TableForge.UI
             RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
             RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
             
-            
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
+        }
+        
+        public void SetTable(Table table)
+        {
+            TableData = table;
+            Metadata = Parent == null ? TableMetadataManager.GetMetadata(table, table.Name) : Parent.TableControl.Metadata;
+            
+            
+            TableSize = SizeCalculator.CalculateSize(table, TableAttributes, Metadata);
+            _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
+
+            _columnData.Clear();
+            _rowData.Clear();
+            _rowHeaders.Clear();
+            _columnHeaders.Clear();
+            _columnHeaderContainer.Clear();
+            _rowsContainer.Clear();
+            
+            // Add empty data for the corner cell
+            _rowData.Add(0, new CellAnchorData(null));
+            _columnData.Add(0, new CellAnchorData(null));
+            
+            BuildHeader();
+            BuildRows();
+            
+            this.RegisterSingleUseCallback<GeometryChangedEvent>(OnGeometryInitialized);
         }
 
         public void Update()
         {
-            foreach (var rowHeader in RowVisibilityManager.VisibleHeaders)
+            foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
-                foreach (var columnHeader in ColumnVisibilityManager.VisibleHeaders)
+                foreach (var columnHeader in ColumnVisibilityManager.CurrentVisibleHeaders)
                 { 
                     var cell = GetCell(rowHeader.Id, columnHeader.Id);
                     cell?.Refresh();
@@ -166,36 +191,6 @@ namespace TableForge.UI
             topContainer.Add(_cornerContainer);
         }
         
-        public void SetTable(Table table)
-        {
-            TableData = table;
-            _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
-
-            _columnData.Clear();
-            _rowData.Clear();
-            _rowHeaders.Clear();
-            _columnHeaders.Clear();
-            _columnHeaderContainer.Clear();
-            _rowsContainer.Clear();
-            
-            PageManager = new TablePageManager(this);
-            PageManager.RecalculatePage();
-            
-            VisibleColumns = new bool[TableData.Columns.Count];
-            for (int i = 0; i < VisibleColumns.Length; i++)
-                VisibleColumns[i] = true;
-            
-
-            // Add empty data for the corner cell
-            _rowData.Add(0, new CellAnchorData(null));
-            _columnData.Add(0, new CellAnchorData(null));
-            
-            BuildHeader();
-            BuildRows();
-            
-            this.RegisterSingleUseCallback<GeometryChangedEvent>(OnGeometryInitialized);
-        }
-        
         private void OnGeometryInitialized()
         {
             VerticalResizer.OnResize += RefreshScrollViewHeight;
@@ -222,9 +217,8 @@ namespace TableForge.UI
             else
             {
                 IReadOnlyList<Row> rows = TableData.OrderedRows;
-                for (int i = PageManager.FirstRowPosition - 1; i < rows.Count && i < PageManager.LastRowPosition; i++)
+                foreach (var row in rows)
                 {
-                    var row = rows[i];
                     _columnData.Add(row.Id, new CellAnchorData(row));
 
                     var headerCell = new ColumnHeaderControl(row, this);
@@ -237,15 +231,14 @@ namespace TableForge.UI
 
         private void BuildRows()
         {
-            IReadOnlyList<Row> rows = TableData.OrderedRows;
-            if(rows.Count == 0)
-                return;
-
             if (!Inverted)
             {
-                for (int i = PageManager.FirstRowPosition - 1; i < rows.Count && i < PageManager.LastRowPosition; i++)
+                IReadOnlyList<Row> rows = TableData.OrderedRows;
+                if(rows.Count == 0)
+                    return;
+                
+                foreach (var row in rows)
                 {
-                    var row = rows[i];
                     _rowData.Add(row.Id, new CellAnchorData(row));
 
                     var header = new RowHeaderControl(row, this);
@@ -278,12 +271,16 @@ namespace TableForge.UI
         
         private void RefreshScrollViewHeight(float delta)
         {
-            ScrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewHeightChanged?.Invoke());
+            ScrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ =>
+            {
+                OnScrollviewHeightChanged?.Invoke();
+            });
 
             _scrollViewHeight += delta;
             ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
             ScrollView.contentContainer.style.height = _scrollViewHeight;
             _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
+            
         }
         
         private void RefreshScrollViewWidth(float delta)
@@ -301,12 +298,17 @@ namespace TableForge.UI
             if (!_rowData.ContainsKey(rowId) || !_columnData.ContainsKey(columnId))
                 return null;
 
-            int rowIndex = _rowData[rowId].Position - PageManager.FirstRowPosition;
+            int rowIndex = _rowData[rowId].Position - 1;
             int columnIndex = _columnData[columnId].Position - 1;
 
             if (rowIndex < 0 || columnIndex < 0)
                 return null;
-            
+
+            if (_rowsContainer[rowIndex] is RowControl rowControl && rowControl.childCount <= columnIndex)
+            {
+                rowControl.Refresh(_rowData[rowId].CellAnchor);
+            }
+
             return _rowsContainer[rowIndex].ElementAt(columnIndex) as CellControl;
         }
 
@@ -342,10 +344,6 @@ namespace TableForge.UI
             
             RowVisibilityManager.Clear();
             ColumnVisibilityManager.Clear();
-            PageManager.RecalculatePage();
-                        
-            GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-            GC.Collect();
 
             // Add empty data for the corner cell
             _rowData.Add(0, new CellAnchorData(null));
@@ -357,8 +355,6 @@ namespace TableForge.UI
             _cornerContainer.CornerControl.style.width = 0;
             HorizontalResizer.ResizeAll();
             VerticalResizer.ResizeAll();
-            
-            _rowsContainer.Clear();
         }
         
         public void RefreshPage()
@@ -402,55 +398,7 @@ namespace TableForge.UI
             RefreshPage();
         }
         
-        public CellAnchor GetRowAtPosition(int position)
-        {
-            if (!Inverted)
-            {
-                if (TableData.Rows.TryGetValue(position, out var row))
-                    return row;
-            }
-            else
-            {
-                if (TableData.Columns.TryGetValue(position, out var column))
-                    return column;
-            }
-
-            return null;
-        }
-        
-        public CellAnchor GetColumnAtPosition(int position)
-        {
-            if (!Inverted)
-            {
-                if (TableData.Columns.TryGetValue(position, out var column))
-                    return column;
-            }
-            else
-            {
-                if (TableData.Rows.TryGetValue(position, out var row))
-                    return row;
-            }
-
-            return null;
-        }
-
-        public CellAnchor GetCellRow(Cell cell)
-        {
-            return !Inverted ? cell.Row : cell.Column;
-        }
-        
-        public CellAnchor GetCellColumn(Cell cell)
-        {
-            return !Inverted ? cell.Column : cell.Row;
-        }
-
-        public int GetColumnPosition(int columnId)
-        {
-            if (!_columnData.ContainsKey(columnId))
-                return -1;
-
-            return Inverted ? _columnData[columnId].Position - PageManager.FirstRowPosition + 1 : _columnData[columnId].Position;
-        }
+    
         
         private void OnRowHeaderBecameVisible(HeaderControl header, int direction)
         {
@@ -466,6 +414,14 @@ namespace TableForge.UI
             {
                 rowHeaderControl.RowControl.ClearRow();
             }
+        }
+
+        public Vector2 GetCellSize(Cell cell)
+        {
+            if (cell == null)
+                return Vector2.zero;
+
+            return TableSize.GetCellSize(cell, Inverted);
         }
     }
 }

@@ -22,13 +22,22 @@ namespace TableForge.UI
 
         #region Properties
 
-        public string Name => tableName;
-        public bool IsInverted => isInverted;
-        public List<int> VisibleFields => visibleFields;
+        public string Name
+        {
+            get => tableName;
+            set
+            {
+                name = value;
+                tableName = value;
+            }
+        }
 
-        public Dictionary<int, CellAnchorMetadata> RowMetadata => rowMetadata;
-        public Dictionary<int, CellAnchorMetadata> ColumnMetadata => columnMetadata;
-        public Dictionary<int, CellMetadata> CellMetadata => cellMetadata;
+        public bool IsInverted { get => isInverted; set => isInverted = value; }
+        public List<int> VisibleFields { get => visibleFields; set => visibleFields = value; }
+
+        public SerializedDictionary<int, CellAnchorMetadata> RowMetadata { get => rowMetadata; set => rowMetadata = value; }
+        public SerializedDictionary<int, CellAnchorMetadata> ColumnMetadata { get => columnMetadata; set => columnMetadata = value; }
+        public SerializedDictionary<int, CellMetadata> CellMetadata { get => cellMetadata; set => cellMetadata = value; }
 
         #endregion
     }

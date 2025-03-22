@@ -80,10 +80,9 @@ namespace TableForge.UI
         private void InitializeRow(CellAnchor column)
         {
             var orderedRows = TableControl.TableData.OrderedRows;
-                        
-            for (int i = TableControl.PageManager.FirstRowPosition - 1; i < orderedRows.Count && i < TableControl.PageManager.LastRowPosition; i++)
+
+            foreach (var row in orderedRows)
             {
-                var row = orderedRows[i];
                 if (!row.Cells.TryGetValue(column.Position, out var cell)) continue;
                 
                 var cellField = CreateCellField(cell);

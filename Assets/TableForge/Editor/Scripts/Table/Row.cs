@@ -23,7 +23,7 @@ namespace TableForge
 
         public Row(string name, int position, Table table) : base(name, position, table)
         { 
-            Id = HashCode.Combine(name, position, true, table.Name);
+            Id = HashCodeUtil.CombineHashes(name, position, true, table.Name);
             table.AddRow(this);
         }
     }

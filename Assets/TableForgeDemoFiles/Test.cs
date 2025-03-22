@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using TableForge;
+using TableForge.UI;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
 [CreateAssetMenu(fileName = "Test1", menuName = "Test1")]
@@ -50,7 +50,7 @@ public class Test1 : ScriptableObject
     
     public Vector3[] vector3Array;
     public Dictionary<InnerClass, int> innerClassIntDictionary = new Dictionary<InnerClass, int>() { { new InnerClass(1, "text1"), 1 }, { new InnerClass(2, "text2"), 2 } };
-    public Dictionary<string, int> stringIntDictionary = new Dictionary<string, int>() { { "key1", 1 }, { "key2", 2 } };
+    public SerializedDictionary<string, int> stringIntDictionary = new SerializedDictionary<string, int>() { { "key1", 1 }, { "key2", 2 } };
     public Dictionary<string, InnerClass> stringInnerClassDictionary = new Dictionary<string, InnerClass>() { { "key1", null }, { "key2", new InnerClass(1, "") } };
     public Dictionary<Vector3, Vector2> structDictionary = new Dictionary<Vector3, Vector2>() { { new Vector3(1, 2, 3), new Vector2(1, 2) }, { new Vector3(4, 5, 6), new Vector2(3, 4) } };
     public SerializedDictionary<StructTest, Vector2> structDictionary2 = new SerializedDictionary<StructTest, Vector2>() { { new StructTest() { number = 1, boolean = true }, new Vector2(1, 2) }, { new StructTest() { number = 2, boolean = false }, new Vector2(3, 4) } };

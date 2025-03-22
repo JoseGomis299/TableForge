@@ -14,7 +14,7 @@ namespace TableForge
 
         private readonly Dictionary<int, Row> _rows = new Dictionary<int, Row>();
         private readonly Dictionary<int, Column> _columns = new Dictionary<int, Column>();
-
+        
         #endregion
 
         #region Properties

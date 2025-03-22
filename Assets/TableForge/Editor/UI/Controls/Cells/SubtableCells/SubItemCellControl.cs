@@ -1,3 +1,5 @@
+using UnityEngine.UIElements;
+
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(SubItemCell), CellSizeCalculationMethod.AutoSize)]
@@ -17,17 +19,22 @@ namespace TableForge.UI
                 CellStaticData.GetSubTableCellAttributes(GetType()), 
                 this
             );
-            
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             ContentContainer.Add(SubTableControl);
-
+            
             if (Cell.GetValue() == null)
                 ContentContainer.Add(new NullItemAddRowControl(SubTableControl));
 
-            SubTableControl.HorizontalResizer.OnResize += _ => RecalculateSize();
-            SubTableControl.VerticalResizer.OnResize += _ => RecalculateSize();
-            IsSelected = false;
-            InitializeSize();
+            SubTableControl.HorizontalResizer.OnResize += _ =>
+            {
+                RecalculateSize();
+                TableControl.HorizontalResizer.ResizeCell(this);
+            };
+            SubTableControl.VerticalResizer.OnResize += _ =>
+            {
+                RecalculateSize();
+                TableControl.VerticalResizer.ResizeCell(this);
+            };
         }
     }
 }

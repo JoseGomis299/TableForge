@@ -36,8 +36,7 @@ namespace TableForge.UI
 
         protected override float InstantResize(HeaderControl target)
         {
-            var columnData = TableControl.ColumnData[target.Id];
-            float delta = UpdateSize(target, new Vector3(columnData.PreferredWidth, 0));
+            float delta = UpdateSize(target, new Vector3(TableControl.TableSize.GetHeaderSize(target.CellAnchor).x, 0));
             UpdateChildrenSize(target);
             return delta;
         }
@@ -122,7 +121,7 @@ namespace TableForge.UI
             }
             else
             {
-                foreach (var child in TableControl.RowVisibilityManager.VisibleHeaders)
+                foreach (var child in TableControl.RowVisibilityManager.CurrentVisibleHeaders)
                 {
                     child.RowControl.RefreshColumnWidths();
                 }
@@ -132,10 +131,9 @@ namespace TableForge.UI
         protected override Vector3 CalculateNewSize(Vector2 initialSize, Vector3 startPosition, Vector3 currentPosition)
         {
             var delta = currentPosition.x - startPosition.x;
-            var columnData = TableControl.ColumnData[ResizingHeader.Id];
 
             float scaledWidth = initialSize.x + delta;
-            float desiredWidth = columnData.PreferredWidth;
+            float desiredWidth = TableControl.TableSize.GetHeaderSize(ResizingHeader.CellAnchor).x;
             
             if(scaledWidth >= desiredWidth - UiConstants.SnappingThreshold && scaledWidth <= desiredWidth + UiConstants.SnappingThreshold)
             {

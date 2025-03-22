@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,8 +29,14 @@ namespace TableForge.UI
             FoldoutHeaderText = cell.Column.Name;
             HeaderFoldout.text = FoldoutHeaderText;
             
-            HeaderFoldout.value = false;
-            ContentContainer.style.display = DisplayStyle.None;
+            bool isExpanded = TableControl.Metadata.CellMetadata.TryGetValue(Cell.Id, out CellMetadata metadata) && metadata.isExpanded;
+            if(isExpanded && !HasSubTableInitialized)
+            {
+                InitializeSubTable();
+                HasSubTableInitialized = true;
+            }
+            HeaderFoldout.value = isExpanded;
+            ContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
 
             InitializeSize();            
         }
@@ -59,6 +66,8 @@ namespace TableForge.UI
         protected virtual void OnFoldoutToggled(ChangeEvent<bool> evt)
         {
             ContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            bool wasSubTableInitialized = HasSubTableInitialized;
+            TableMetadataManager.SetCellExpandedState(TableControl.Metadata, Cell.Id, evt.newValue);
             
             if (evt.newValue && !HasSubTableInitialized)
             {
@@ -66,7 +75,7 @@ namespace TableForge.UI
                 HasSubTableInitialized = true;
             }
 
-            if (!evt.newValue)
+            if (!evt.newValue || !wasSubTableInitialized)
             {
                 InitializeSize();
                 TableControl.HorizontalResizer.ResizeCell(this);
@@ -75,6 +84,8 @@ namespace TableForge.UI
             else
             {
                 RecalculateSize();
+                TableControl.HorizontalResizer.ResizeCell(this);
+                TableControl.VerticalResizer.ResizeCell(this);
             }
         }
 
@@ -84,9 +95,6 @@ namespace TableForge.UI
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);
             SetDesiredSize(size.x, size.y + UiConstants.FoldoutHeight);
-
-            TableControl.HorizontalResizer.ResizeCell(this);
-            TableControl.VerticalResizer.ResizeCell(this);
         }
     }
 }

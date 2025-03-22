@@ -11,18 +11,15 @@ namespace TableForge.UI
 
         private readonly TableControl _tableControl;
         private float _lastVerticalScroll;
-
-        private bool _sendNotifications;
-
+        
         public RowVisibilityManager(TableControl tableControl, ScrollView scrollView) : base(scrollView)
         {
             _tableControl = tableControl;
             _lastVerticalScroll = float.MinValue;
 
             // Subscribe to vertical scroll changes.
-            _scrollView.verticalScroller.valueChanged += OnVerticalScroll;
-            _tableControl.OnScrollviewHeightChanged += () => RefreshVisibility(_scrollView.verticalScroller.value, 1);
-            _tableControl.VerticalResizer.OnResize += delta => RefreshVisibility(_scrollView.verticalScroller.value, delta);
+            ScrollView.verticalScroller.valueChanged += OnVerticalScroll;
+            _tableControl.OnScrollviewHeightChanged += () => RefreshVisibility(1);
         }
 
         public override void Clear()
@@ -37,42 +34,31 @@ namespace TableForge.UI
             if (delta * delta < SQUARE_VERTICAL_STEP)
                 return;
 
-            _lastDirection = delta > 0 ? -1 : 1;
+            LastDirection = delta > 0 ? -1 : 1;
             _lastVerticalScroll = value;
-            RefreshVisibility(value, delta);
+            RefreshVisibility(delta);
         }
 
         protected override void NotifyHeaderBecameVisible(RowHeaderControl header, int direction)
         {
-            //header.RowControl.RemoveFromClassList(USSClasses.Hidden);
-
-            if (_sendNotifications)
-            {
-                //Debug.Log($"Row {header.Name} became visible");
-                base.NotifyHeaderBecameVisible(header, direction);
-            }
+//            Debug.Log($"Row {header.Name} became visible");
+            base.NotifyHeaderBecameVisible(header, direction);
         }
 
         protected override void NotifyHeaderBecameInvisible(RowHeaderControl header, int direction)
         {
-            //header.RowControl.AddToClassList(USSClasses.Hidden);
-
-            if (_sendNotifications)
-            {
-                //Debug.Log($"Row {header.Name} became invisible");
-                base.NotifyHeaderBecameInvisible(header, direction);
-            }
-                
+    //        Debug.Log($"Row {header.Name} became invisible");
+            base.NotifyHeaderBecameInvisible(header, direction);
         }
 
-        public override void RefreshVisibility(float value, float delta)
+        public override void RefreshVisibility(float delta)
         {
             if(_tableControl.RowData.Count <= 1) return;
-            bool isScrollingDown = delta > 0;
-            _sendNotifications = delta != 0;
             
-            _startingIndex = _tableControl.RowData.Values.OrderBy(x => x.Position).First(x => x.Position > 0).Position;
-            _endingIndex = _startingIndex + _tableControl.RowData.Count - 2;
+            bool isScrollingDown = delta > 0;
+            
+            StartingIndex = _tableControl.RowData.Values.OrderBy(x => x.Position).First(x => x.Position > 0).Position;
+            EndingIndex = StartingIndex + _tableControl.RowData.Count - 2;
 
             // Update visibility of rows that were previously visible based on scroll direction.
             UpdatePreviouslyVisibleRows(isScrollingDown);
@@ -90,24 +76,24 @@ namespace TableForge.UI
 
             // Find all visible rows above the found row.
             int margin = isScrollingDown ? 0 : SECURITY_MARGIN;
-            for (int i = position - 1; i >= _startingIndex ; i--)
+            for (int i = position - 1; i >= StartingIndex ; i--)
             {
                 int rowId = _tableControl.GetRowAtPosition(i).Id;
                 var header = _tableControl.RowHeaders[rowId];
                 if (header.IsVisible || IsHeaderVisible(header) || margin-- > 0)
-                    MakeHeaderVisible(header, insertAtTop: true, _lastDirection);
+                    MakeHeaderVisible(header, insertAtTop: true, LastDirection);
                 else
                     break;
             }
 
             // Find all visible rows below the found row.
             margin = isScrollingDown ? SECURITY_MARGIN : 0;
-            for (int i = position + 1; i <= _endingIndex; i++)
+            for (int i = position + 1; i <= EndingIndex; i++)
             {
                 int rowId = _tableControl.GetRowAtPosition(i).Id;
                 var header = _tableControl.RowHeaders[rowId];
                 if (header.IsVisible || IsHeaderVisible(header) || margin-- > 0)
-                    MakeHeaderVisible(header, insertAtTop: false, _lastDirection);
+                    MakeHeaderVisible(header, insertAtTop: false, LastDirection);
                 else
                     break;
             }
@@ -126,7 +112,7 @@ namespace TableForge.UI
                  */
                 
                 bool firstVisibleFound = false;
-                foreach (var header in _visibleHeaders)
+                foreach (var header in VisibleHeaders)
                 {
                     if (!firstVisibleFound)
                     {
@@ -134,7 +120,7 @@ namespace TableForge.UI
                         header.IsVisible = IsHeaderVisible(header);
                         firstVisibleFound = header.IsVisible;
                         if (!firstVisibleFound && wasVisible)
-                            NotifyHeaderBecameInvisible(header, _lastDirection);
+                            NotifyHeaderBecameInvisible(header, LastDirection);
                     }
                     else
                     {
@@ -150,16 +136,16 @@ namespace TableForge.UI
                  */
 
                 bool lastVisibleFound = false;
-                for (int i = _visibleHeaders.Count - 1; i >= 0; i--)
+                for (int i = VisibleHeaders.Count - 1; i >= 0; i--)
                 {
-                    var header = _visibleHeaders[i];
+                    var header = VisibleHeaders[i];
                     if (!lastVisibleFound)
                     {
                         bool wasVisible = header.IsVisible;
                         header.IsVisible = IsHeaderVisible(header);
                         lastVisibleFound = header.IsVisible;
                         if (!lastVisibleFound && wasVisible)
-                            NotifyHeaderBecameInvisible(header, _lastDirection);
+                            NotifyHeaderBecameInvisible(header, LastDirection);
                     }
                     else
                     {
@@ -167,7 +153,7 @@ namespace TableForge.UI
                     }
                 }
             }
-            _visibleHeaders.Clear();
+            VisibleHeaders.Clear();
         }
 
         /// <summary>
@@ -175,12 +161,12 @@ namespace TableForge.UI
         /// </summary>
         private int GetAndAddMiddleVisibleRowPosition()
         {
-            if (_visibleHeaders.Count > 0 && IsHeaderVisible(_visibleHeaders[_visibleHeaders.Count / 2]))
+            if (VisibleHeaders.Count > 0 && IsHeaderVisible(VisibleHeaders[VisibleHeaders.Count / 2]))
             {
-                int position = _tableControl.RowData[_visibleHeaders[_visibleHeaders.Count / 2].Id].Position;
+                int position = _tableControl.RowData[VisibleHeaders[VisibleHeaders.Count / 2].Id].Position;
                 int rowId = _tableControl.GetRowAtPosition(position).Id;
                 var midHeader = _tableControl.RowHeaders[rowId];
-                MakeHeaderVisible(midHeader, insertAtTop: false, _lastDirection);
+                MakeHeaderVisible(midHeader, insertAtTop: false, LastDirection);
                 return position;
             }
             return -1;
@@ -192,8 +178,8 @@ namespace TableForge.UI
         /// </summary>
         private int FindAndAddMiddleVisibleRow()
         {
-            int low = _startingIndex; // Row positions are 1-based.
-            int high = _endingIndex;
+            int low = StartingIndex; // Row positions are 1-based.
+            int high = EndingIndex;
             while (low <= high)
             {
                 int mid = (low + high) / 2;
@@ -202,11 +188,11 @@ namespace TableForge.UI
 
                 if (midHeader.IsVisible || IsHeaderVisible(midHeader))
                 {
-                    MakeHeaderVisible(midHeader, insertAtTop: false, _lastDirection);
+                    MakeHeaderVisible(midHeader, insertAtTop: false, LastDirection);
                     return mid;
                 }
 
-                if (midHeader.worldBound.yMax < _scrollView.worldBound.yMin)
+                if (midHeader.worldBound.yMax < ScrollView.worldBound.yMin)
                 {
                     // The 'mid' row is above the visible area; search further down.
                     low = mid + 1;
@@ -222,8 +208,8 @@ namespace TableForge.UI
 
         protected override bool IsHeaderVisible(RowHeaderControl header)
         {
-            if(_lockedVisibleHeaders.Contains(header)) return true;
-            var viewBounds = _scrollView.worldBound;
+            if(LockedVisibleHeaders.Contains(header)) return true;
+            var viewBounds = ScrollView.worldBound.height == 0 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
 
             // Check if the top of the header is visible.
             if (header.worldBound.yMax <= viewBounds.yMax &&

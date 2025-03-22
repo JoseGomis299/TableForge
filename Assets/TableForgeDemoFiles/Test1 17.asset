@@ -64,10 +64,12 @@ MonoBehaviour:
     number: 0
     text: 
   innerClass:
-    rid: -2
+    rid: 854089000327315524
   inheritorClassAsInnerClass2:
     rid: 854088849389781072
-  innerClasses: []
+  innerClasses:
+  - number: 0
+    text: 
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
@@ -120,9 +122,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 854088849389781072
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+    - rid: 854089000327315524
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0

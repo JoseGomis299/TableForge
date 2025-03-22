@@ -8,16 +8,28 @@ namespace TableForge.UI
 {
     internal static class CellControlFactory
     {
+        private static Dictionary<int, CellControl> _idToCellControl = new Dictionary<int, CellControl>();
         private static Dictionary<Type, ConstructorInfo> _cellControlConstructors = new Dictionary<Type, ConstructorInfo>();
         private static CellControlPool _cellControlPools = new CellControlPool();
+        
+        public static CellControl GetCellControlFromId(int id)
+        {
+            return _idToCellControl.TryGetValue(id, out var cellControl) ? cellControl : null;
+        }
 
         public static CellControl Create(Cell cell, TableControl tableControl)
         {
-            return _cellControlPools.GetCellControl(cell, tableControl);
+            CellControl cellControl = _cellControlPools.GetCellControl(cell, tableControl);
+            
+            if(!_idToCellControl.TryAdd(cell.Id, cellControl))
+                _idToCellControl[cell.Id] = cellControl;
+            
+            return cellControl;
         }
         
         public static void Release(CellControl cellControl)
         {
+            _idToCellControl.Remove(cellControl.Cell.Id);
             _cellControlPools.Release(cellControl);
         }
         

@@ -64,7 +64,7 @@ namespace TableForge
             Type = GetFieldType();
             Value = GetFieldValue();
             
-            Id = HashCode.Combine(Column.Id, Row.Id);
+            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id);
         }
         #endregion
 
@@ -97,7 +97,7 @@ namespace TableForge
         /// If the cell is in the first row and the first column, the position would be "A1".
         /// </example>
         /// <returns>A string representing the cell's position .</returns>
-        public string GetPosition() => $"{Row.LetterPosition}{Column.Position}";
+        public string GetPosition() => $"{Column.LetterPosition}{Row.Position}";
         
 
         /// <summary>

@@ -41,11 +41,6 @@ namespace TableForge.UI
             TableControl = tableControl;
             Cell = cell;
             
-            tableControl.CellSelector.OnSelectionChanged += () =>
-            {
-                IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
-            };
-            
             AddToClassList(USSClasses.TableCell);
         }
         
@@ -74,11 +69,7 @@ namespace TableForge.UI
         
         protected void SetDesiredSize(float width, float height)
         {
-            int columnId = TableControl.Inverted ? Cell.Row.Id : Cell.Column.Id;
-            int rowId = TableControl.Inverted ? Cell.Column.Id : Cell.Row.Id;
-            
-            TableControl.ColumnData[columnId].AddPreferredWidth(rowId, width);
-            TableControl.RowData[rowId].AddPreferredHeight(columnId, height);
+            TableControl.TableSize.AddCellSize(Cell, new Vector2(width, height));
         }
         
         protected void OnChange<T>(ChangeEvent<T> evt, BaseField<T> field)
@@ -101,13 +92,12 @@ namespace TableForge.UI
         
         protected virtual void SetCellValue(object value)
         {
-            Debug.Log("VALUE CHANGED: " + value);
             Cell.SetValue(value);
         }
 
         protected void InitializeSize()
         {
-            Vector2 size = SizeCalculator.CalculateSize(this);
+            Vector2 size = SizeCalculator.CalculateSize(Cell, TableControl.Metadata);
             SetDesiredSize(size.x, size.y);
         }
     }

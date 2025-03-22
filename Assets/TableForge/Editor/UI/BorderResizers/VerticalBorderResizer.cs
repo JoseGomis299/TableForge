@@ -37,8 +37,7 @@ namespace TableForge.UI
 
         protected override float InstantResize(HeaderControl target)
         {
-            var rowData = TableControl.RowData[target.Id];
-            float delta = UpdateSize(target, new Vector3(0, rowData.PreferredHeight));
+            float delta = UpdateSize(target, new Vector3(0, TableControl.TableSize.GetHeaderSize(target.CellAnchor).y));
             UpdateChildrenSize(target);
             return delta;
         }
@@ -124,10 +123,9 @@ namespace TableForge.UI
         protected override Vector3 CalculateNewSize(Vector2 initialSize, Vector3 startPosition, Vector3 currentPosition)
         {
             var delta = currentPosition.y - startPosition.y;
-            var rowData = TableControl.RowData[ResizingHeader.Id];
             
             float scaledHeight = initialSize.y + delta;
-            float desiredHeight = rowData.PreferredHeight;
+            float desiredHeight = TableControl.TableSize.GetHeaderSize(ResizingHeader.CellAnchor).y;
             
             if(scaledHeight >= desiredHeight - UiConstants.SnappingThreshold && scaledHeight <= desiredHeight + UiConstants.SnappingThreshold)
             {

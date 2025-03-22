@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -17,10 +18,8 @@ namespace TableForge.UI
             _lastHorizontalScroll = float.MinValue;
 
             // Subscribe to horizontal scroll changes.
-            _scrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
-            _tableControl.OnScrollviewWidthChanged += () => RefreshVisibility(_scrollView.horizontalScroller.value, 0);
-            _tableControl.RegisterCallback<GeometryChangedEvent>(_ => RefreshVisibility(_scrollView.horizontalScroller.value, 0));
-            _tableControl.HorizontalResizer.OnResize +=  delta => RefreshVisibility(_scrollView.horizontalScroller.value, delta > 0 ? 1 : -1);
+            ScrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
+            _tableControl.OnScrollviewWidthChanged += () => RefreshVisibility(-1);
         }
 
         public override void Clear()
@@ -29,20 +28,21 @@ namespace TableForge.UI
             _lastHorizontalScroll = float.MinValue;
         }
 
-        public override void RefreshVisibility(float value, float delta)
+        public override void RefreshVisibility(float delta)
         {
             if(_tableControl.TableData.Columns.Count == 0) return;
+            
             bool isScrollingRight = delta > 0;
 
             // Update visibility of columns that were previously visible.
-            foreach (var header in _visibleHeaders)
+            foreach (var header in VisibleHeaders)
             {
                 header.IsVisible = IsHeaderVisible(header);
                 if (!header.IsVisible)
-                    NotifyHeaderBecameInvisible(header, _lastDirection);
+                    NotifyHeaderBecameInvisible(header, LastDirection);
             }
 
-            _visibleHeaders.Clear();
+            VisibleHeaders.Clear();
             int margin = isScrollingRight ? SECURITY_MARGIN : 0;
 
             // Loop through all column headers.
@@ -50,7 +50,7 @@ namespace TableForge.UI
             {
                 if (IsHeaderVisible(header) || margin-- > 0)
                 {
-                    MakeHeaderVisible(header, insertAtTop: false, _lastDirection);
+                    MakeHeaderVisible(header, insertAtTop: false, LastDirection);
                 }
             }
         }
@@ -62,14 +62,14 @@ namespace TableForge.UI
                 return;
 
             _lastHorizontalScroll = value;
-            _lastDirection = delta > 0 ? 1 : -1;
-            RefreshVisibility(value, delta);
+            LastDirection = delta > 0 ? 1 : -1;
+            RefreshVisibility(delta);
         }
 
         protected override bool IsHeaderVisible(ColumnHeaderControl header)
         {
-            if(_lockedVisibleHeaders.Contains(header)) return true;
-            var viewBounds = _scrollView.worldBound;
+            if(LockedVisibleHeaders.Contains(header)) return true;
+            var viewBounds = ScrollView.worldBound.width == 0 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
 
             // Check if the left side of the header is visible.
             if (header.worldBound.xMin <= viewBounds.xMax &&
