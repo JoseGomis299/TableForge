@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -55,10 +54,12 @@ namespace TableForge.UI
                 tableSize.AddHeaderSize(column.CellAnchor, new Vector2(column.style.width.value.value, UiConstants.CellHeight));
             }
             
-            return GetClampedSize(tableSize.GetTotalSize(false) + Vector2.one * (UiConstants.CellContentPadding * 1.5f + UiConstants.BorderWidth));
+            return GetClampedSize(tableSize.GetTotalSize(false) + 
+                                  Vector2.one * (UiConstants.CellContentPadding * 1.5f + UiConstants.BorderWidth) +
+                                  Vector2.up * GetAddRowButtonHeight(tableControl.TableData, tableControl.TableAttributes));
         }
         
-        public static TableSize CalculateSize(Table table, TableAttributes tableAttributes, TableMetadata tableMetadata)
+        public static TableSize CalculateTableSize(Table table, TableAttributes tableAttributes, TableMetadata tableMetadata)
         {
             TableSize tableSize = new TableSize(table, tableAttributes);
             IReadOnlyList<Row> rows = table.OrderedRows;
@@ -83,11 +84,15 @@ namespace TableForge.UI
 
                 tableSize.AddHeaderSize(column, CalculateHeaderSize(column, tableAttributes.ColumnHeaderVisibility));
             }
-
+            
             return tableSize;
         }
+
+        #endregion
         
-        public static Vector2 CalculateHeaderSize(CellAnchor header, TableHeaderVisibility visibility)
+        #region Private Methods
+
+        private static Vector2 CalculateHeaderSize(CellAnchor header, TableHeaderVisibility visibility)
         {
             if (visibility == TableHeaderVisibility.Hidden)
                 return Vector2.zero;
@@ -102,86 +107,14 @@ namespace TableForge.UI
             
             return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + padding, UiConstants.CellHeight + padding);
         }
-
-        #endregion
         
-        #region Private Methods
-        
-        private static Vector2 CalculateSize(Table table, TableAttributes tableAttributes, List<Vector2> cellSizes, List<int> visibleColumns)
+        private static float GetAddRowButtonHeight(Table table, TableAttributes tableAttributes)
         {
-            float width = UiConstants.CellContentPadding / 2f, height = UiConstants.CellContentPadding / 2f;
+            if (tableAttributes.TableType == TableType.Dynamic
+                || (tableAttributes.TableType == TableType.DynamicIfEmpty && table.Rows.Count == 0))
+                return UiConstants.CellHeight;
             
-            if(tableAttributes.TableType == TableType.Dynamic || table.Rows.Count == 0)
-                height += UiConstants.CellHeight; //Add the AddRowButton height
-            
-            bool hasRowHeaders = tableAttributes.RowHeaderVisibility != TableHeaderVisibility.Hidden;
-            bool hasColumnHeaders = tableAttributes.ColumnHeaderVisibility != TableHeaderVisibility.Hidden;
-
-            IReadOnlyList<Row> rows = table.OrderedRows;
-            
-            if(rows.Count == 0)
-            {
-                //Empty table
-                if((table.Columns.Count == 0 || !visibleColumns.Any()) && !hasColumnHeaders)
-                    return new Vector2(UiConstants.MinCellWidth, UiConstants.MinCellHeight);
-                
-                if(hasRowHeaders)
-                    width += UiConstants.CellWidth; //Corner cell
-                
-                foreach (var column in table.Columns.Values)
-                {
-                    if(!visibleColumns.Contains(column.Id)) continue;
-                    width += CalculateHeaderSize(column, tableAttributes.ColumnHeaderVisibility).x;
-                }
-                
-                //The table has no rows, but has columns, so we need to return the width of the headers
-                return new Vector2(width, UiConstants.CellHeight + UiConstants.HeaderPadding);
-            }
-            
-            //Add the row headers width
-            if(hasRowHeaders)
-                width += rows
-                    .Select(row => CalculateHeaderSize(row, tableAttributes.RowHeaderVisibility).x).Max();
-            
-            //If there are no columns the table will be just the row headers or empty if there are no row headers
-            if (table.Columns.Count == 0 || !visibleColumns.Any())
-            {
-                width = hasRowHeaders ? width : UiConstants.MinCellWidth;
-                height = hasRowHeaders ? UiConstants.CellHeight * rows.Count : UiConstants.MinCellHeight;
-                
-                return new Vector2(width, height);
-            }
-
-            //Calculate the table height
-            for (int i = 0; i < rows.Count; i++)
-            {
-                float maxRowHeight = 0;
-                for (int j = 0; j < table.Columns.Count; j++)
-                {
-                    if(!visibleColumns.Contains(table.Columns[j+1].Id)) continue;
-                    maxRowHeight = Mathf.Max(maxRowHeight, cellSizes[i * table.Columns.Count + j].y);
-                }
-
-                height += maxRowHeight;
-            }
-
-            if(hasColumnHeaders)
-                height += UiConstants.CellHeight; //Add the header row height
-            
-            //Add columns width
-            for (int i = 0; i < table.Columns.Count; i++)
-            {
-                if(!visibleColumns.Contains(table.Columns[i+1].Id)) continue;
-                float maxColumnWidth = CalculateHeaderSize(table.Columns[i + 1], tableAttributes.ColumnHeaderVisibility).x;
-                for (int j = 0; j < rows.Count; j++)
-                {
-                    maxColumnWidth = Mathf.Max(maxColumnWidth, cellSizes[j*table.Columns.Count + i].x);
-                }
-                
-                width += maxColumnWidth;
-            }
-
-            return new Vector2(width, height);
+            return 0;
         }
         
         private static Vector2 CalculateAutoSize(Cell cell)
@@ -238,8 +171,9 @@ namespace TableForge.UI
                 }
                 else
                 {
-                    var tableSize = CalculateSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
+                    var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
                     localSize = tableSize.GetTotalSize(false);
+                    localSize.y += GetAddRowButtonHeight(subTableCell.SubTable, subTableAttributes);
                 }
             }
             else

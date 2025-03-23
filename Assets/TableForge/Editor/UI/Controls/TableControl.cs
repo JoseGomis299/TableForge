@@ -84,7 +84,7 @@ namespace TableForge.UI
             Metadata = Parent == null ? TableMetadataManager.GetMetadata(table, table.Name) : Parent.TableControl.Metadata;
             
             
-            TableSize = SizeCalculator.CalculateSize(table, TableAttributes, Metadata);
+            TableSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
             _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
 
             _columnData.Clear();
@@ -198,6 +198,13 @@ namespace TableForge.UI
 
             HorizontalResizer.ResizeAll();
             VerticalResizer.ResizeAll();
+            
+            if(Parent != null) return;
+            Root.RegisterCallback<GeometryChangedEvent>(_ =>
+            {
+                OnScrollviewHeightChanged?.Invoke();
+                OnScrollviewWidthChanged?.Invoke();
+            });
         }
         
         private void BuildHeader()
@@ -317,8 +324,6 @@ namespace TableForge.UI
             _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
             _scrollViewWidth = 0;
             
-            CellSelector.ClearSelection();
-
             foreach (var rowHeader in _rowHeaderContainer.Children())
             {
                 if (rowHeader is RowHeaderControl rowHeaderControl)
@@ -351,6 +356,8 @@ namespace TableForge.UI
             
             BuildHeader();
             BuildRows();
+            
+            TableSize = SizeCalculator.CalculateTableSize(TableData, TableAttributes, Metadata);
 
             _cornerContainer.CornerControl.style.width = 0;
             HorizontalResizer.ResizeAll();
@@ -393,7 +400,6 @@ namespace TableForge.UI
                 }
             }
 
-            CellSelector.ClearSelection();
             TableData.MoveRow(rowStartPos, rowEndPos);
             RefreshPage();
         }

@@ -18,13 +18,13 @@ namespace TableForge.UI
             {
                 if (!value)
                 {
-                    this[0].SetEnabled(false);
+                    this.SetImmediateChildrenEnabled(false);
                     this.RemoveFromChildrenClassList(disabledUssClassName);
                     RemoveFromClassList(USSClasses.Selected);
                 }
                 else
                 {
-                    this[0].SetEnabled(true);
+                    this.SetImmediateChildrenEnabled(true);
                     AddToClassList(USSClasses.Selected);
                     this.RemoveFromChildrenClassList(disabledUssClassName);
                 }
@@ -64,7 +64,6 @@ namespace TableForge.UI
             IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
             
             Refresh();
-            InitializeSize();
         }
         
         protected void SetDesiredSize(float width, float height)
@@ -86,7 +85,7 @@ namespace TableForge.UI
             }
             finally
             {
-                InitializeSize();
+                RecalculateSize();
             }
         }
         
@@ -95,7 +94,7 @@ namespace TableForge.UI
             Cell.SetValue(value);
         }
 
-        protected void InitializeSize()
+        protected void RecalculateSize()
         {
             Vector2 size = SizeCalculator.CalculateSize(Cell, TableControl.Metadata);
             SetDesiredSize(size.x, size.y);

@@ -30,9 +30,9 @@ namespace TableForge.UI
         public CellSelector(TableControl tableControl)
         {
             _tableControl = tableControl;
-            _tableControl.RegisterCallback<PointerDownEvent>(PreselectCells, TrickleDown.TrickleDown);
-            _tableControl.RegisterCallback<PointerDownEvent>(ConfirmSelection, TrickleDown.NoTrickleDown);
-            _tableControl.RegisterCallback<MouseMoveEvent>(OnMouseMove);
+            _tableControl.ScrollView.contentContainer.RegisterCallback<PointerDownEvent>(PreselectCells, TrickleDown.TrickleDown);
+            _tableControl.ScrollView.contentContainer.RegisterCallback<PointerDownEvent>(ConfirmSelection, TrickleDown.NoTrickleDown);
+            _tableControl.ScrollView.contentContainer.RegisterCallback<MouseMoveEvent>(OnMouseMove);
         }
 
         private bool IsValidClick(PointerDownEvent evt)

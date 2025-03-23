@@ -26,9 +26,6 @@ namespace TableForge.UI
             }
             
             this[0].AddToClassList(USSClasses.TableCellContent);
-            IsSelected = false;
-            
-            InitializeSize();
         }
     }
 }

@@ -7,11 +7,11 @@
     --selected-header-color: rgb(83, 83, 83);
     
     --cell-width: 100px;
-    --cell-height: 25px;
+    --cell-height: 20px;
     --foldout-height: 20px;
     --cell-content-height: 20px;
     --cell-content-padding: 5px;
-    --header-padding: 10px;
+    --header-padding: 5px;
     --border-width: 1px;
     --resizable-border-span: 5px;
     --resize-preview-width: 3px;
@@ -217,11 +217,11 @@
     align-content: center;
 }
 
-.cursor__resize--horizontal {
+.cursor__resize--horizontal:enabled {
     cursor: resize-horizontal;
 }
 
-.cursor__resize--vertical {
+.cursor__resize--vertical:enabled {
     cursor: resize-vertical;
 }
 

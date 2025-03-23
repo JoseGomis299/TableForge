@@ -10,6 +10,8 @@ namespace TableForge.UI
         protected AddRowControl(TableControl tableControl)
         {
             TableControl = tableControl;
+            
+            this.AddManipulator(new Clickable(AddRow));
         }
         
         protected virtual void AddRow()

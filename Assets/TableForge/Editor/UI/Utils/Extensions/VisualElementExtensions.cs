@@ -23,6 +23,23 @@ namespace TableForge.UI
                 child.RemoveFromChildrenClassList(className);
             }
         }
+        
+        public static void SetImmediateChildrenEnabled(this VisualElement element, bool enabled)
+        {
+            foreach (var child in element.Children())
+            {
+                child.SetEnabled(enabled);
+            }
+        }
+        
+        public static void SetChildrenEnabled(this VisualElement element, bool enabled)
+        {
+            element.SetEnabled(enabled);
+            foreach (var child in element.Children())
+            {
+                child.SetChildrenEnabled(enabled);
+            }
+        }
      
         
         /// <summary>

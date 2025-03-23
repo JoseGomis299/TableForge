@@ -10,7 +10,6 @@ namespace TableForge
     {
         public void GenerateColumns(List<Column> columns, Table table)
         {
-            Debug.Log("VAR");
             // Do nothing
         }
     }

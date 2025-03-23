@@ -12,7 +12,6 @@ namespace TableForge.UI
             Label label = new Label("Add Row +");
             label.AddToClassList(USSClasses.AddRowButtonLabel);
             Add(label);
-            this.AddManipulator(new Clickable(AddRow));
         }
     }
 }

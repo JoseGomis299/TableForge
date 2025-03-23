@@ -27,7 +27,7 @@ namespace TableForge.UI
         public const float BigCellDesiredWidth = 120;
         public const float SmallCellDesiredWidth = 50;
         public const float MinCellWidth = 20;
-        public const float MinCellHeight = 25;
+        public const float MinCellHeight = 20;
         
         public const float SnappingThreshold = 3.5f;
         public const float MoveSelectionStep = 7.5f;
@@ -56,8 +56,8 @@ namespace TableForge.UI
             // ResizableBorderSpan = evt.customStyle.TryGetValue(_resizableBorderSpan, out var span) ? span : 5;
 
             CellWidth = 100;
-            CellHeight = 25;
-            HeaderPadding = 10*2f;
+            CellHeight = 20;
+            HeaderPadding = 10;
             BorderWidth = 1;
             ResizableBorderSpan = 5;
             CellContentPadding = 5*2f;

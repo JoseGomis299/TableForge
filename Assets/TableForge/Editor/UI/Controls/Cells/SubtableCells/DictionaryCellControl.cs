@@ -10,7 +10,7 @@ namespace TableForge.UI
         {
         }
         
-        protected override void InitializeSubTable()
+        protected override void BuildSubTable()
         {
             SubTableControl = new TableControl(
                 ParentTableControl.Root,
@@ -23,12 +23,12 @@ namespace TableForge.UI
             
             SubTableControl.HorizontalResizer.OnResize += _ =>
             {
-                RecalculateSize();
+                RecalculateSizeWithCurrentValues();
                 TableControl.HorizontalResizer.ResizeCell(this);
             };
             SubTableControl.VerticalResizer.OnResize += _ =>
             {
-                RecalculateSize();
+                RecalculateSizeWithCurrentValues();
                 TableControl.VerticalResizer.ResizeCell(this);
             };
         }

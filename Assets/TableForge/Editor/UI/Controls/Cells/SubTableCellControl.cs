@@ -22,20 +22,12 @@ namespace TableForge.UI
         {
             Cell = cell;
             ParentTableControl = tableControl;
-            
-            OnRefresh = () =>
-            {
-                // if(SubTableControl != null && !SubTableControl.PageManager.IsCurrentPageComplete)
-                //     SubTableControl?.RebuildPage();
-                // else
-                    SubTableControl?.RefreshPage();
-            };
+            OnRefresh = () => SubTableControl?.RefreshPage(); 
         }
         
-        protected virtual void RecalculateSize()
+        protected virtual void RecalculateSizeWithCurrentValues()
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);
-
             SetDesiredSize(size.x, size.y);
         }
     }

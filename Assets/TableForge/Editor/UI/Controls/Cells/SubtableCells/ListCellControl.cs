@@ -11,7 +11,7 @@ namespace TableForge.UI
           
         }
 
-        protected override void InitializeSubTable()
+        protected override void BuildSubTable()
         {
             SubTableControl = new TableControl(ParentTableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this);
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
@@ -21,12 +21,12 @@ namespace TableForge.UI
             
             SubTableControl.HorizontalResizer.OnResize += _ =>
             {
-                RecalculateSize();
+                RecalculateSizeWithCurrentValues();
                 TableControl.HorizontalResizer.ResizeCell(this);
             };
             SubTableControl.VerticalResizer.OnResize += _ =>
             {
-                RecalculateSize();
+                RecalculateSizeWithCurrentValues();
                 TableControl.VerticalResizer.ResizeCell(this);
             };
         }

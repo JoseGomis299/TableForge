@@ -89,7 +89,7 @@ namespace TableForge.UI
         
         private void StartResize(PointerDownEvent downEvent)
         {
-            if (ResizingHeader == null || downEvent.button != 0) return;
+            if (ResizingHeader == null || downEvent.button != 0 || TableControl is { enabledInHierarchy: false }) return;
             
             IsResizing = true;
             var initialSize = new Vector2(ResizingHeader.resolvedStyle.width, ResizingHeader.resolvedStyle.height);

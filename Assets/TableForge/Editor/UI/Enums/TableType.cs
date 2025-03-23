@@ -4,5 +4,6 @@ namespace TableForge.UI
     {
         Static,
         Dynamic,
+        DynamicIfEmpty
     }
 }

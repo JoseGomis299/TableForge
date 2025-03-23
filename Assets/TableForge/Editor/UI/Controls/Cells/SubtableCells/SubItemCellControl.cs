@@ -3,8 +3,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(SubItemCell), CellSizeCalculationMethod.AutoSize)]
-    [SubTableCellControlUsage(TableType.Static, TableReorderMode.ExplicitReorder, 
-        TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
+    [SubTableCellControlUsage(TableType.DynamicIfEmpty, TableReorderMode.ExplicitReorder, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
     internal class SubItemCellControl : ExpandableSubTableCellControl
     {
         public SubItemCellControl(SubItemCell cell, TableControl tableControl) : base(cell, tableControl)
@@ -12,7 +11,7 @@ namespace TableForge.UI
            
         }
 
-        protected override void InitializeSubTable()
+        protected override void BuildSubTable()
         {
             SubTableControl = new TableControl(
                 ParentTableControl.Root,
@@ -27,12 +26,12 @@ namespace TableForge.UI
 
             SubTableControl.HorizontalResizer.OnResize += _ =>
             {
-                RecalculateSize();
+                RecalculateSizeWithCurrentValues();
                 TableControl.HorizontalResizer.ResizeCell(this);
             };
             SubTableControl.VerticalResizer.OnResize += _ =>
             {
-                RecalculateSize();
+                RecalculateSizeWithCurrentValues();
                 TableControl.VerticalResizer.ResizeCell(this);
             };
         }

@@ -17,9 +17,6 @@ namespace TableForge.UI
             
             field.AddToClassList(USSClasses.TableCellContent);
             field.AddToClassList(USSClasses.MultilineCell);
-            IsSelected = false;
-            
-            InitializeSize();
         }
     }
 }

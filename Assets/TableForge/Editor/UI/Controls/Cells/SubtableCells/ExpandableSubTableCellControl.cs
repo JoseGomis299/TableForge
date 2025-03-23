@@ -19,7 +19,6 @@ namespace TableForge.UI
 
             CreateContainerStructure();
             InitializeFoldout();
-            InitializeSize();
         }
 
         public override void Refresh(Cell cell, TableControl tableControl)
@@ -33,12 +32,10 @@ namespace TableForge.UI
             if(isExpanded && !HasSubTableInitialized)
             {
                 InitializeSubTable();
-                HasSubTableInitialized = true;
             }
             HeaderFoldout.value = isExpanded;
             ContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
-
-            InitializeSize();            
+            
         }
 
         private void CreateContainerStructure()
@@ -53,14 +50,19 @@ namespace TableForge.UI
 
             Add(HeaderFoldout);
             Add(ContentContainer);
-            
-            IsSelected = false;
         }
 
         private void InitializeFoldout()
         {
             HeaderFoldout.RegisterValueChangedCallback(OnFoldoutToggled);
             HeaderFoldout.value = false;
+        }
+        
+        private void InitializeSubTable()
+        {
+            BuildSubTable();
+            HasSubTableInitialized = true;
+            IsSelected = TableControl.CellSelector.SelectedCells.Contains(Cell);
         }
 
         protected virtual void OnFoldoutToggled(ChangeEvent<bool> evt)
@@ -72,26 +74,27 @@ namespace TableForge.UI
             if (evt.newValue && !HasSubTableInitialized)
             {
                 InitializeSubTable();
-                HasSubTableInitialized = true;
             }
 
             if (!evt.newValue || !wasSubTableInitialized)
-            {
-                InitializeSize();
-                TableControl.HorizontalResizer.ResizeCell(this);
-                TableControl.VerticalResizer.ResizeCell(this);
-            }
-            else
             {
                 RecalculateSize();
                 TableControl.HorizontalResizer.ResizeCell(this);
                 TableControl.VerticalResizer.ResizeCell(this);
             }
+            else
+            {
+                RecalculateSizeWithCurrentValues();
+                TableControl.HorizontalResizer.ResizeCell(this);
+                TableControl.VerticalResizer.ResizeCell(this);
+            }
+            
+            IsSelected = TableControl.CellSelector.SelectedCells.Contains(Cell);
         }
+        
+        protected abstract void BuildSubTable();
 
-        protected abstract void InitializeSubTable();
-
-        protected override void RecalculateSize()
+        protected override void RecalculateSizeWithCurrentValues()
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);
             SetDesiredSize(size.x, size.y + UiConstants.FoldoutHeight);
