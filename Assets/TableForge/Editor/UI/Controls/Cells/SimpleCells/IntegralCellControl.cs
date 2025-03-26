@@ -3,13 +3,14 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(IntegralCell), CellSizeCalculationMethod.AutoSize)]
-    internal class IntegralCellControl : CellControl
+    internal class IntegralCellControl : SimpleCellControl
     {
         public IntegralCellControl(IntegralCell cell, TableControl tableControl) : base(cell, tableControl)
         {
             var field = GetField();
             Add(field);
-            
+            Field = field;
+
             field.AddToClassList(USSClasses.TableCellContent);
         }
         

@@ -24,6 +24,7 @@ namespace TableForge.UI
             set => _cellsToDeselect = value;
         }
         public Cell FirstSelectedCell { get; set; }
+        public Cell FocusedCell { get; set; }
 
         public TableControl TableControl => _tableControl;
 
@@ -101,7 +102,8 @@ namespace TableForge.UI
                 var cachedSelectedCells = new HashSet<Cell>(_selectedCells);
                 foreach (var selectedCell in cachedSelectedCells)
                 {
-                   if(selectedCell is SubTableCell subCell)
+                   if(selectedCell is SubTableCell subCell &&
+                      TableControl.Metadata.IsTableExpanded(subCell.Id))
                        SelectAll(subCell.SubTable);
                 }
             }
@@ -196,12 +198,11 @@ namespace TableForge.UI
                 {
                     _selectedCells.Add(cell);
                     
-                    if(cell is SubTableCell subCell)
+                    if(cell is SubTableCell subCell &&
+                       TableControl.Metadata.IsTableExpanded(subCell.Id))
                         SelectAll(subCell.SubTable);
                 }
             }
-            
-            ConfirmSelection();
         }
 
         public void ClearSelection()

@@ -28,14 +28,13 @@ namespace TableForge.UI
             FoldoutHeaderText = cell.Column.Name;
             HeaderFoldout.text = FoldoutHeaderText;
             
-            bool isExpanded = TableControl.Metadata.CellMetadata.TryGetValue(Cell.Id, out CellMetadata metadata) && metadata.isExpanded;
+            bool isExpanded = TableControl.Metadata.IsTableExpanded(cell.Id);
             if(isExpanded && !HasSubTableInitialized)
             {
                 InitializeSubTable();
             }
             HeaderFoldout.value = isExpanded;
             ContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
-            
         }
 
         private void CreateContainerStructure()
@@ -69,7 +68,7 @@ namespace TableForge.UI
         {
             ContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
             bool wasSubTableInitialized = HasSubTableInitialized;
-            TableMetadataManager.SetCellExpandedState(TableControl.Metadata, Cell.Id, evt.newValue);
+            TableControl.Metadata.SetTableExpanded(Cell.Id, evt.newValue);
             
             if (evt.newValue && !HasSubTableInitialized)
             {

@@ -51,5 +51,20 @@ namespace TableForge.UI
 
             return tableControl.ColumnData[columnId].Position;
         }
+        
+        public static RowHeaderControl GetRowHeaderControl(this TableControl tableControl, CellAnchor row)
+        {
+            return tableControl.RowHeaders[row.Id];
+        }
+        
+        public static ColumnHeaderControl GetColumnHeaderControl(this TableControl tableControl, CellAnchor column)
+        {
+            return tableControl.ColumnHeaders[column.Id];
+        }
+        
+        public static TableControl GetRootTableControl(this TableControl tableControl)
+        {
+            return tableControl.Parent == null ? tableControl : tableControl.Parent.TableControl.GetRootTableControl();
+        }
     }
 }

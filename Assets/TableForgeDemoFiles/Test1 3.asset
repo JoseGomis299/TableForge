@@ -107,6 +107,11 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 1

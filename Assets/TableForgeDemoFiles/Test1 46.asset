@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.9685534, g: 0.9685534, b: 0.9685534, a: 0}
   animationCurve:
     serializedVersion: 2
     m_Curve: []
@@ -74,6 +74,11 @@ MonoBehaviour:
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 1
   vector3Array: []
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 1

@@ -3,12 +3,13 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(FloatingPointCell), CellSizeCalculationMethod.AutoSize)]
-    internal class FloatingPointCellControl : CellControl
+    internal class FloatingPointCellControl : SimpleCellControl
     {
         public FloatingPointCellControl(FloatingPointCell cell, TableControl tableControl) : base(cell, tableControl)
         {
             var field = GetField();
             Add(field);
+            Field = field;
             
             field.AddToClassList(USSClasses.TableCellContent);
         }

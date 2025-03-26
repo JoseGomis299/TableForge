@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime;
 using UnityEditor;
 using UnityEngine;
@@ -83,16 +84,8 @@ namespace TableForge.UI
             TableData = table;
             Metadata = Parent == null ? TableMetadataManager.GetMetadata(table, table.Name) : Parent.TableControl.Metadata;
             
-            
             TableSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
-            _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
-
-            _columnData.Clear();
-            _rowData.Clear();
-            _rowHeaders.Clear();
-            _columnHeaders.Clear();
-            _columnHeaderContainer.Clear();
-            _rowsContainer.Clear();
+            if(_columnData.Any()) ClearTable();
             
             // Add empty data for the corner cell
             _rowData.Add(0, new CellAnchorData(null));
@@ -126,6 +119,56 @@ namespace TableForge.UI
                 var cell = GetCell(rowId, columnId);
                 cell?.Refresh();
             }
+        }
+        
+        public void ClearTable()
+        {
+            foreach (var rowHeader in _rowHeaderContainer.Children())
+            {
+                if (rowHeader is RowHeaderControl rowHeaderControl)
+                {
+                    VerticalResizer.Dispose(rowHeaderControl);
+                    HeaderSwapper.Dispose(rowHeaderControl);
+                    rowHeaderControl.RowControl.ClearRow();
+                }
+                
+                rowHeader.style.height = 0;
+            }
+            _rowHeaders.Clear();
+            _rowHeaderContainer.Clear();
+            _rowData.Clear();
+            _rowsContainer.Clear();
+
+            foreach (var columnHeader in _columnHeaderContainer.Children())
+            {
+                if(columnHeader is ColumnHeaderControl columnHeaderControl)
+                    HorizontalResizer.Dispose(columnHeaderControl);
+                
+                columnHeader.style.width = 0;
+            }
+            _columnHeaderContainer.Clear();
+            _columnData.Clear();
+            _columnHeaders.Clear();
+            
+            _cornerContainer.CornerControl.style.width = 0;
+            ScrollView.contentContainer.style.width = 0;
+            ScrollView.contentContainer.style.height = 0;
+            
+            RowVisibilityManager.Clear();
+            ColumnVisibilityManager.Clear();
+            
+            _scrollViewHeight = UiConstants.CellHeight;
+            _scrollViewWidth = 0;
+            
+            VerticalResizer.OnResize -= RefreshScrollViewHeight;
+            HorizontalResizer.OnResize -= RefreshScrollViewWidth;
+            
+            if(Parent != null) return;
+            Root.UnregisterCallback<GeometryChangedEvent>(_ =>
+            {
+                OnScrollviewHeightChanged?.Invoke();
+                OnScrollviewWidthChanged?.Invoke();
+            });
         }
 
         public void Invert()
@@ -193,14 +236,19 @@ namespace TableForge.UI
         
         private void OnGeometryInitialized()
         {
+            VerticalResizer.OnResize -= RefreshScrollViewHeight;
+            HorizontalResizer.OnResize -= RefreshScrollViewWidth;
             VerticalResizer.OnResize += RefreshScrollViewHeight;
             HorizontalResizer.OnResize += RefreshScrollViewWidth;
-
-            HorizontalResizer.ResizeAll();
-            VerticalResizer.ResizeAll();
+            
+            _scrollViewHeight = UiConstants.CellHeight;
+            _scrollViewWidth = 0;
+            
+            HorizontalResizer.ResizeAll(true);
+            VerticalResizer.ResizeAll(true);
             
             if(Parent != null) return;
-            Root.RegisterCallback<GeometryChangedEvent>(_ =>
+            Root.RegisterCallbackOnce<GeometryChangedEvent>(_ =>
             {
                 OnScrollviewHeightChanged?.Invoke();
                 OnScrollviewWidthChanged?.Invoke();
@@ -282,6 +330,7 @@ namespace TableForge.UI
             {
                 OnScrollviewHeightChanged?.Invoke();
             });
+            
 
             _scrollViewHeight += delta;
             ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
@@ -321,47 +370,7 @@ namespace TableForge.UI
 
         public void RebuildPage()
         {
-            _scrollViewHeight = UiConstants.CellHeight; //This is the column header height
-            _scrollViewWidth = 0;
-            
-            foreach (var rowHeader in _rowHeaderContainer.Children())
-            {
-                if (rowHeader is RowHeaderControl rowHeaderControl)
-                {
-                    VerticalResizer.Dispose(rowHeaderControl);
-                    HeaderSwapper.Dispose(rowHeaderControl);
-                    rowHeaderControl.RowControl.ClearRow();
-                }
-            }
-            _rowHeaders.Clear();
-            _rowHeaderContainer.Clear();
-            _rowData.Clear();
-            _rowsContainer.Clear();
-
-            foreach (var columnHeader in _columnHeaderContainer.Children())
-            {
-                if(columnHeader is ColumnHeaderControl columnHeaderControl)
-                    HorizontalResizer.Dispose(columnHeaderControl);
-            }
-            _columnHeaderContainer.Clear();
-            _columnData.Clear();
-            _columnHeaders.Clear();
-            
-            RowVisibilityManager.Clear();
-            ColumnVisibilityManager.Clear();
-
-            // Add empty data for the corner cell
-            _rowData.Add(0, new CellAnchorData(null));
-            _columnData.Add(0, new CellAnchorData(null));
-            
-            BuildHeader();
-            BuildRows();
-            
-            TableSize = SizeCalculator.CalculateTableSize(TableData, TableAttributes, Metadata);
-
-            _cornerContainer.CornerControl.style.width = 0;
-            HorizontalResizer.ResizeAll();
-            VerticalResizer.ResizeAll();
+            SetTable(TableData);
         }
         
         public void RefreshPage()
@@ -420,14 +429,6 @@ namespace TableForge.UI
             {
                 rowHeaderControl.RowControl.ClearRow();
             }
-        }
-
-        public Vector2 GetCellSize(Cell cell)
-        {
-            if (cell == null)
-                return Vector2.zero;
-
-            return TableSize.GetCellSize(cell, Inverted);
         }
     }
 }

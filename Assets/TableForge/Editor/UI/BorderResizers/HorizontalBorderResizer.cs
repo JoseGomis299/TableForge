@@ -28,15 +28,24 @@ namespace TableForge.UI
 
                 if (downEvent.position.x >= leftBound && downEvent.position.x <= rightBound)
                 {
-                    float delta = InstantResize(headerControl);
-                    InvokeResize(headerControl, delta);
+                    float delta = InstantResize(headerControl, false);
+                    InvokeResize(headerControl, delta, true);
                 }
             }
         }
 
-        protected override float InstantResize(HeaderControl target)
+        protected override float InstantResize(HeaderControl target, bool adjustToStoredSize)
         {
-            float delta = UpdateSize(target, new Vector3(TableControl.TableSize.GetHeaderSize(target.CellAnchor).x, 0));
+            float targetWidth = TableControl.TableSize.GetHeaderSize(target.CellAnchor).x;
+
+            if (adjustToStoredSize)
+            {
+                int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
+                float storedWidth = TableControl.Metadata.GetAnchorSize(anchorId).x;
+                if(storedWidth != 0) targetWidth = storedWidth;
+            }
+
+            float delta = UpdateSize(target, new Vector3(targetWidth, 0));
             UpdateChildrenSize(target);
             return delta;
         }

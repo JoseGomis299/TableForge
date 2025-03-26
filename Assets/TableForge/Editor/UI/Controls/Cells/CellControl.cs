@@ -19,21 +19,19 @@ namespace TableForge.UI
                 if (!value)
                 {
                     this.SetImmediateChildrenEnabled(false);
-                    this.RemoveFromChildrenClassList(disabledUssClassName);
                     RemoveFromClassList(USSClasses.Selected);
                 }
                 else
                 {
                     this.SetImmediateChildrenEnabled(true);
                     AddToClassList(USSClasses.Selected);
-                    this.RemoveFromChildrenClassList(disabledUssClassName);
                 }
 
                 _isSelected = value;
             }
         }
         public bool IsVisible => TableControl.ColumnHeaders[Cell.Column.Id].IsVisible && TableControl.RowHeaders[Cell.Row.Id].IsVisible;
-        public TableControl TableControl { get; protected set; }
+        public TableControl TableControl { get; private set; }
         public Cell Cell { get; protected set; }
 
         protected CellControl(Cell cell, TableControl tableControl)
@@ -43,6 +41,7 @@ namespace TableForge.UI
             
             AddToClassList(USSClasses.TableCell);
         }
+        
         
         ~CellControl()
         {
@@ -61,9 +60,9 @@ namespace TableForge.UI
             TableControl = tableControl;
             Cell = cell;
             
-            IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
-            
             Refresh();
+
+            IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
         }
         
         protected void SetDesiredSize(float width, float height)

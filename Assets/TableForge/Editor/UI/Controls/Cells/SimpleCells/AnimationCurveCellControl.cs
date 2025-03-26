@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(AnimationCurveCell), CellSizeCalculationMethod.FixedBigCell)]
-    internal class AnimationCurveCellControl : CellControl
+    internal class AnimationCurveCellControl : SimpleCellControl
     {
         public AnimationCurveCellControl(AnimationCurveCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -26,6 +26,7 @@ namespace TableForge.UI
             };
             Add(field);
             
+            Field = field;
             field.AddToClassList(USSClasses.TableCellContent);
         }
         

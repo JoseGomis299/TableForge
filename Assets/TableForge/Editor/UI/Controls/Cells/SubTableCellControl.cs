@@ -22,7 +22,16 @@ namespace TableForge.UI
         {
             Cell = cell;
             ParentTableControl = tableControl;
-            OnRefresh = () => SubTableControl?.RefreshPage(); 
+            OnRefresh = () =>
+            {
+                if(SubTableControl == null) return;
+                SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+                // int pos = 1;
+                // foreach (RowHeaderControl rowHeaderControl in SubTableControl.RowHeaders.Values)
+                // {
+                //     rowHeaderControl.Refresh(((SubTableCell)Cell).SubTable.Rows[pos++]);
+                // }
+            }; 
         }
         
         protected virtual void RecalculateSizeWithCurrentValues()

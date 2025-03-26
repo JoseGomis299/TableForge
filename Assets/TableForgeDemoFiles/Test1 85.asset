@@ -53,7 +53,7 @@ MonoBehaviour:
   B: 0
   intField: 0
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 2147483647
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0
@@ -74,6 +74,11 @@ MonoBehaviour:
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 1
   vector3Array: []
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 1

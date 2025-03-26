@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(ReferenceCell), CellSizeCalculationMethod.ReferenceAutoSize)]
-    internal class ReferenceCellControl : CellControl
+    internal class ReferenceCellControl : SimpleCellControl
     {
         public ReferenceCellControl(ReferenceCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -16,7 +16,8 @@ namespace TableForge.UI
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             OnRefresh = () => field.value = (Object)Cell.GetValue();
             Add(field);
-            
+            Field = field;
+
             field.AddToClassList(USSClasses.TableCellContent);
         }
     }

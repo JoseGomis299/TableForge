@@ -283,3 +283,8 @@
     border-color: var(--border-color);
     background-color: var(--background-color);
 }
+
+/*Override disabled state*/
+.unity-disabled{
+    opacity: 1;
+}

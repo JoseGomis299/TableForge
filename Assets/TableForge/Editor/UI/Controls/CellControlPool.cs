@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.Pool;
+using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
@@ -25,14 +26,12 @@ namespace TableForge.UI
             if(_cellControlPools.TryGetValue(cell.Type, out var pool))
             {
                 var cellControl = pool.Get();
-                cellControl.Refresh(cell, tableControl);
                 return cellControl;
             }
 
             pool = new ObjectPool<CellControl>(CreateCellControl, _ => { }, _ => {});
             _cellControlPools.Add(cell.Type, pool);
             var control = pool.Get();
-            control.Refresh(cell, tableControl);
             return control;
         }
         
@@ -46,6 +45,7 @@ namespace TableForge.UI
             {
                 if (subTableCellPools.TryGetValue(((SubTableCell)cellControl.Cell).SubTable.Rows.Count, out var subTableCellPool))
                 {
+                    ((SubTableCellControl)cellControl).SubTableControl?.ClearTable();
                     subTableCellPool.Release(cellControl);
                 }
             }
@@ -66,7 +66,6 @@ namespace TableForge.UI
             }
 
             var control = pool.Get();
-            control.Refresh(subTableCell, tableControl);
             return control;
         }
         

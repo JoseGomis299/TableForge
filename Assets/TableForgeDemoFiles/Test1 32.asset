@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.2905661, g: 0.120064095, b: 0.26879278, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -76,11 +76,23 @@ MonoBehaviour:
   inheritorClass:
     number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
     number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   innerClass:
     rid: -2
   inheritorClassAsInnerClass2:
@@ -92,6 +104,11 @@ MonoBehaviour:
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 1
   vector3Array: []
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 1

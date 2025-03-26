@@ -39,7 +39,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_ColorSpace: 0
+    m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -69,7 +69,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   B: 1
-  intField: 1232
+  intField: 2147483647
   floatField: 312
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
@@ -103,6 +103,11 @@ MonoBehaviour:
   - {x: 1, y: 2, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 5

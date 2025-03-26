@@ -69,8 +69,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
   B: 0
-  intField: 423
-  floatField: 15
+  intField: 23
+  floatField: 124556
   <PublicLongProperty>k__BackingField: 15
   <PublicDoubleProperty>k__BackingField: 15
   inheritorClass:
@@ -199,6 +199,11 @@ MonoBehaviour:
   - {x: 3, y: 1, z: 0}
   - {x: 3, y: 1, z: 0}
   - {x: 3, y: 1, z: 0}
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 14

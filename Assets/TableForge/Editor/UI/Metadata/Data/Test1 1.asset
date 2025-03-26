@@ -13,52 +13,12 @@ MonoBehaviour:
   m_Name: Test1 1
   m_EditorClassIdentifier: 
   tableName: Test1 1
-  isInverted: 0
-  visibleFields: e78633255c447788eccbb937441e0e92cb67b363426a6e207fa9ad8ed92738d4d4947aedbf6995b7c19e2e62f7799877b39fd9c7c54f4b2a910fac979c903fdabe943fda28f157d49612a592bf8d3a5eec037742341a8253f5a7a1525be89b517c06de5922edb23a
-  rowMetadata:
+  expandedTables:
+    values: 
+  invertedTables:
+    values: 
+  hiddenFields:
+    values: 
+  cellAnchorMetadata:
     m_Keys: 
     m_Values: []
-  columnMetadata:
-    m_Keys: 
-    m_Values: []
-  cellMetadata:
-    m_Keys: 1bf42ea5b3252fa54b572fa5e3882fa57bba2fa57bf6059e8694741f2ce3ff14ea4377c2fb4577c23de5ff141ec6741f14fa2f25d25aa7d2b6f7741ffc106035ba71d7e2cb73d7e20d136035
-    m_Values:
-    - id: -1523649509
-      isExpanded: 0
-    - id: -1523636813
-      isExpanded: 0
-    - id: -1523624117
-      isExpanded: 0
-    - id: -1523611421
-      isExpanded: 0
-    - id: -1523598725
-      isExpanded: 0
-    - id: -1643776389
-      isExpanded: 0
-    - id: 527733894
-      isExpanded: 0
-    - id: 352314156
-      isExpanded: 1
-    - id: -1032371222
-      isExpanded: 1
-    - id: -1032370693
-      isExpanded: 1
-    - id: 352314685
-      isExpanded: 1
-    - id: 527746590
-      isExpanded: 0
-    - id: 623901204
-      isExpanded: 1
-    - id: -760784174
-      isExpanded: 1
-    - id: 527759286
-      isExpanded: 0
-    - id: 895488252
-      isExpanded: 1
-    - id: -489197126
-      isExpanded: 1
-    - id: -489196597
-      isExpanded: 1
-    - id: 895488781
-      isExpanded: 1

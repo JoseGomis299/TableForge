@@ -76,11 +76,23 @@ MonoBehaviour:
   inheritorClass:
     number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
     number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   innerClass:
     rid: 617020005463621706
   inheritorClassAsInnerClass2:
@@ -88,6 +100,12 @@ MonoBehaviour:
   innerClasses:
   - number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   intArray: 1500000001000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
@@ -95,6 +113,19 @@ MonoBehaviour:
   testEnum: 1
   vector3Array:
   - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 1
@@ -148,3 +179,9 @@ MonoBehaviour:
       data:
         number: 0
         text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4

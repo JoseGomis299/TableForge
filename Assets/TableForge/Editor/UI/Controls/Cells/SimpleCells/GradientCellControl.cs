@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(GradientCell), CellSizeCalculationMethod.FixedBigCell)]
-    internal class GradientCellControl : CellControl
+    internal class GradientCellControl : SimpleCellControl
     {
         public GradientCellControl(GradientCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -26,7 +26,8 @@ namespace TableForge.UI
             });            
             OnRefresh = () => field.value = (Gradient)Cell.GetValue();
             Add(field);
-            
+            Field = field;
+
             field.AddToClassList(USSClasses.TableCellContent);
         }
     }

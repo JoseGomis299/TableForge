@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(LayerMaskCell), CellSizeCalculationMethod.EnumAutoSize)]
-    internal class LayerMaskCellControl : CellControl
+    internal class LayerMaskCellControl : SimpleCellControl
     {
         public LayerMaskCellControl(LayerMaskCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -16,7 +16,8 @@ namespace TableForge.UI
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             OnRefresh = () => field.value = (LayerMask)Cell.GetValue();
             Add(field);
-            
+            Field = field;
+
             field.AddToClassList(USSClasses.TableCellContent);
         }
 

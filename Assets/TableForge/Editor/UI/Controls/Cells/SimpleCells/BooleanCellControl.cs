@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(BoolCell), CellSizeCalculationMethod.FixedSmallCell)]
-    internal class BooleanCellControl : CellControl
+    internal class BooleanCellControl : SimpleCellControl
     {
         
         public BooleanCellControl(BoolCell cell, TableControl tableControl) : base(cell, tableControl)
@@ -15,6 +15,7 @@ namespace TableForge.UI
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             OnRefresh = () => field.value = (bool)Cell.GetValue();
             Add(field);
+            Field = field;
             
             field.AddToClassList(USSClasses.Fill);
             field.AddToChildrenClassList(USSClasses.Center); 

@@ -9,6 +9,7 @@ namespace TableForge.UI
         
         HashSet<Cell> SelectedCells { get; }
         HashSet<CellAnchor> SelectedAnchors { get; }
+        public Cell FocusedCell {get; set;}
         void ClearSelection();
     }
 }

@@ -75,12 +75,24 @@ MonoBehaviour:
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0
-    text: 
+    text: w
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
     number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   innerClass:
     rid: -2
   inheritorClassAsInnerClass2:
@@ -92,6 +104,11 @@ MonoBehaviour:
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 1
   vector3Array: []
+  stringIntDictionary:
+    m_Keys:
+    - key1
+    - key2
+    m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
     - number: 1

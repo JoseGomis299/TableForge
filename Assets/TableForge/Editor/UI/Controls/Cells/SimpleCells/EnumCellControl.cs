@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(EnumCell), CellSizeCalculationMethod.EnumAutoSize)]
-    internal class EnumCellControl : CellControl
+    internal class EnumCellControl : SimpleCellControl
     {
         public EnumCellControl(EnumCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -16,6 +16,7 @@ namespace TableForge.UI
                 field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 OnRefresh += () => field.value = Cell.GetValue() as Enum;
                 Add(field);
+                Field = field;
             }
             else
             {
@@ -23,8 +24,9 @@ namespace TableForge.UI
                 field.RegisterValueChangedCallback(evt => OnChange(evt, field));
                 OnRefresh += () => field.value = Cell.GetValue() as Enum;
                 Add(field);
+                Field = field;
             }
-            
+
             this[0].AddToClassList(USSClasses.TableCellContent);
         }
     }

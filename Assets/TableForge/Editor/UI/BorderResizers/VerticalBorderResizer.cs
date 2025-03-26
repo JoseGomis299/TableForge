@@ -28,16 +28,25 @@ namespace TableForge.UI
 
                 if (downEvent.position.y >= bottomBound && downEvent.position.y <= upperBound)
                 {
-                    float delta = InstantResize(headerControl);
-                    InvokeResize(headerControl, delta);
+                    float delta = InstantResize(headerControl, false);
+                    InvokeResize(headerControl, delta, true);
                     return;
                 }
             }
         }
 
-        protected override float InstantResize(HeaderControl target)
+        protected override float InstantResize(HeaderControl target, bool adjustToStoredSize)
         {
-            float delta = UpdateSize(target, new Vector3(0, TableControl.TableSize.GetHeaderSize(target.CellAnchor).y));
+            float targetHeight = TableControl.TableSize.GetHeaderSize(target.CellAnchor).y;
+
+            if (adjustToStoredSize)
+            {
+                int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
+                float storedHeight = TableControl.Metadata.GetAnchorSize(anchorId).y;
+                if (storedHeight != 0) targetHeight = storedHeight;
+            }
+            
+            float delta = UpdateSize(target, new Vector3(0, targetHeight));
             UpdateChildrenSize(target);
             return delta;
         }

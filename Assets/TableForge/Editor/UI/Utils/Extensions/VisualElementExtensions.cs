@@ -24,11 +24,29 @@ namespace TableForge.UI
             }
         }
         
+        public static bool HasChildrenClass(this VisualElement element, string className)
+        {
+            foreach (var child in element.Children())
+            {
+                if (child.ClassListContains(className) || child.HasChildrenClass(className))
+                    return true;
+            }
+
+            return false;
+        }
+        
         public static void SetImmediateChildrenEnabled(this VisualElement element, bool enabled)
         {
             foreach (var child in element.Children())
             {
                 child.SetEnabled(enabled);
+
+                // if (!enabled)
+                // {
+                //     child.RemoveFromClassList(VisualElement.disabledUssClassName);
+                //     child.RegisterSingleUseCallbackOnce<CustomStyleResolvedEvent>(() =>
+                //         child.RemoveFromClassList(VisualElement.disabledUssClassName));
+                // }
             }
         }
         
@@ -57,6 +75,16 @@ namespace TableForge.UI
             void OnEventPerformed(T evt)
             {
                 element.UnregisterCallback<T>(OnEventPerformed);
+                actionToPerform?.Invoke();
+            }
+        }
+        
+        public static void RegisterSingleUseCallbackOnce<T>(this VisualElement element, Action actionToPerform, TrickleDown trickleDown = TrickleDown.NoTrickleDown) where T : EventBase<T>, new()
+        {
+            element.RegisterCallbackOnce<T>(OnEventPerformed, trickleDown);
+            
+            void OnEventPerformed(T evt)
+            {
                 actionToPerform?.Invoke();
             }
         }

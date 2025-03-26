@@ -86,6 +86,7 @@ public class InnerClass
     public string text;
     public List<List<int>> intlList2D = new List<List<int>>() { new List<int>() { 1, 2, 3 }, new List<int>() { 4, 5, 6 } };
     public InnerClass innerClass;
+    public AnimationCurve animationCurve;
     
     private int _privateNumber;
     

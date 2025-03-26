@@ -80,7 +80,7 @@ namespace TableForge.UI
             for (int i = 0; i < table.Columns.Count; i++)
             {
                 Column column = table.Columns[i + 1];
-                if (!tableMetadata.VisibleFields.Contains(column.Id) && tableMetadata.Name == table.Name) continue;
+                if (!tableMetadata.IsFieldVisible(column.Id)) continue;
 
                 tableSize.AddHeaderSize(column, CalculateHeaderSize(column, tableAttributes.ColumnHeaderVisibility));
             }
@@ -161,20 +161,11 @@ namespace TableForge.UI
             
             Vector2 localSize = Vector2.zero;
 
-            if(parentMetadata.CellMetadata.TryGetValue(subTableCell.Id, out var cellMetadata))
+            if(parentMetadata.IsTableExpanded(subTableCell.Id))
             {
-                if (!cellMetadata.isExpanded)
-                {
-                    localSize.y = 0;
-                    localSize.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(subTableCell.Column.Name)).x +
-                                  EditorStyles.foldoutHeaderIcon.fixedWidth;
-                }
-                else
-                {
-                    var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
-                    localSize = tableSize.GetTotalSize(false);
-                    localSize.y += GetAddRowButtonHeight(subTableCell.SubTable, subTableAttributes);
-                }
+                var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
+                localSize = tableSize.GetTotalSize(false);
+                localSize.y += GetAddRowButtonHeight(subTableCell.SubTable, subTableAttributes);
             }
             else
             {

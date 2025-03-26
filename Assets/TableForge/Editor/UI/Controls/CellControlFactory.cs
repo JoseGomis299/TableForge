@@ -14,13 +14,16 @@ namespace TableForge.UI
         
         public static CellControl GetCellControlFromId(int id)
         {
+            if(!_idToCellControl.ContainsKey(id))
+                Debug.Log("CellControl not found for id: " + id);
             return _idToCellControl.TryGetValue(id, out var cellControl) ? cellControl : null;
         }
 
         public static CellControl Create(Cell cell, TableControl tableControl)
         {
             CellControl cellControl = _cellControlPools.GetCellControl(cell, tableControl);
-            
+            cellControl.Refresh(cell, tableControl);
+
             if(!_idToCellControl.TryAdd(cell.Id, cellControl))
                 _idToCellControl[cell.Id] = cellControl;
             

@@ -10,7 +10,7 @@ namespace TableForge.UI
     internal static class TableMetadataManager
     {
         #region Metadata Management
-        
+
         public static TableMetadata GetMetadata(Table table, string tableName)
         {
             return LoadMetadata(tableName) ?? CreateMetadata(table, tableName);
@@ -23,23 +23,19 @@ namespace TableForge.UI
             {
                 return null;
             }
-            
+
             TableMetadata metadata = ScriptableObject.CreateInstance<TableMetadata>();
             metadata.Name = tableName;
             metadata.IsInverted = false;
-            metadata.VisibleFields = table.Columns.Values.Select(c => c.Id).ToList();
-            metadata.RowMetadata = new SerializedDictionary<int, CellAnchorMetadata>();
-            metadata.ColumnMetadata = new SerializedDictionary<int, CellAnchorMetadata>();
-            metadata.CellMetadata = new SerializedDictionary<int, CellMetadata>();
 
             string assetPath = Path.Combine(path, tableName + ".asset");
             AssetDatabase.CreateAsset(metadata, assetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            
+
             return metadata;
         }
-        
+
         private static TableMetadata LoadMetadata(string tableName)
         {
             string path = GetDataPath();
@@ -68,9 +64,10 @@ namespace TableForge.UI
                     return Path.GetDirectoryName(path)?.Replace("\\", "/");
                 }
             }
+
             return string.Empty;
         }
-        
+
         private static string GetDataPath()
         {
             string path = GetPathToAssembly();
@@ -83,16 +80,5 @@ namespace TableForge.UI
         }
 
         #endregion
-        
-        public static void SetCellExpandedState(TableMetadata metadata, int cellId, bool value)
-        {
-            if (!metadata.CellMetadata.TryAdd(cellId, new CellMetadata { id = cellId, isExpanded = value }))
-            {
-                metadata.CellMetadata[cellId].isExpanded = value;
-            }
-            
-            if (!EditorUtility.IsDirty(metadata))
-                EditorUtility.SetDirty(metadata);
-        }
     }
 }
