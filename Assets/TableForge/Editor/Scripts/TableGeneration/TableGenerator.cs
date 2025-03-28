@@ -25,7 +25,7 @@ namespace TableForge
             
             for (int i = 0; i < rowCount; i++)
             {
-                Row row = new Row(items[i].Name, i + 1, table);
+                Row row = new Row(items[i].Name, i + 1, table, items[i]);
                 items[i].PopulateRow(columns, table, row);
             }
             
@@ -76,7 +76,7 @@ namespace TableForge
                 return null;
 
             List<Column> columns = table.Columns.Values.ToList();
-            Row row = new Row(item.Name, table.Rows.Count + 1, table);
+            Row row = new Row(item.Name, table.Rows.Count + 1, table, item);
             item.PopulateRow(columns, table, row);
             return row;
         }

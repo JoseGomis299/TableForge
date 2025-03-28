@@ -64,6 +64,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
@@ -75,6 +78,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   innerClass:
     rid: -2
   inheritorClassAsInnerClass2:
@@ -86,6 +92,10 @@ MonoBehaviour:
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 1
   vector3Array:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -164,3 +174,6 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

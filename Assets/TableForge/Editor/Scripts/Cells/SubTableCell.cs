@@ -25,6 +25,19 @@ namespace TableForge
 
         #endregion
         
+        #region Public Methods
+
+        public override void RefreshData()
+        {
+            object value = Value;
+            base.RefreshData();
+            
+            if (value != Value)
+                CreateSubTable();
+        }
+
+        #endregion
+        
         #region Protected Methods
 
         /// <summary>

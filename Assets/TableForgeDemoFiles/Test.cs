@@ -87,7 +87,8 @@ public class InnerClass
     public List<List<int>> intlList2D = new List<List<int>>() { new List<int>() { 1, 2, 3 }, new List<int>() { 4, 5, 6 } };
     public InnerClass innerClass;
     public AnimationCurve animationCurve;
-    
+    public StructTest structTest;
+
     private int _privateNumber;
     
     public InnerClass(int number, string text)
@@ -102,7 +103,6 @@ public class InheritorClass : InnerClass
 {
     public int inheritorNumber;
     public string inheritorText;
-    
     public InheritorClass(int number, string text, int inheritorNumber, string inheritorText) : base(number, text)
     {
         this.inheritorNumber = inheritorNumber;

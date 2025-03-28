@@ -64,6 +64,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
@@ -75,6 +78,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   innerClass:
     rid: 854088849389781076
   inheritorClassAsInnerClass2:
@@ -152,6 +158,9 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
     - rid: 854089000327315519
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
@@ -163,3 +172,6 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

@@ -57,6 +57,15 @@ namespace TableForge.UI
          
             InvokeResize(header, delta, false);
         }
+        
+        public void ResizeAnchor(CellAnchor anchor)
+        {
+            if (ResizingHeaders.TryGetValue(anchor.Id, out var header))
+            {
+                float delta = InstantResize(header, false);
+                InvokeResize(header, delta, false);
+            }
+        }
 
         public float ResizeAll(bool adjustToStoredSize)
         {

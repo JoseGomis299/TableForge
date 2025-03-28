@@ -82,6 +82,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
@@ -93,6 +96,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   innerClass:
     rid: -2
   inheritorClassAsInnerClass2:
@@ -122,7 +128,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: aaaaaaaaaaaaa123
   matrix:
     e00: 0
     e01: 0
@@ -172,3 +178,6 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

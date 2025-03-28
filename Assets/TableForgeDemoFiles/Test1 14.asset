@@ -64,6 +64,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
@@ -75,6 +78,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   innerClass:
     rid: 854088849389781073
   inheritorClassAsInnerClass2:
@@ -153,3 +159,6 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

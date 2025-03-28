@@ -21,7 +21,7 @@ namespace TableForge
         /// <summary>
         /// The name of the cell anchor.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; protected set; }
         
         /// <summary>
         /// The position of the cell anchor in the table in a 1-based index.

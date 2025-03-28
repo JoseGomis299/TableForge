@@ -83,6 +83,7 @@ namespace TableForge.UI
         {
             TableData = table;
             Metadata = Parent == null ? TableMetadataManager.GetMetadata(table, table.Name) : Parent.TableControl.Metadata;
+            if(Metadata.IsInverted) Invert();
             
             TableSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
             if(_columnData.Any()) ClearTable();
@@ -173,6 +174,8 @@ namespace TableForge.UI
 
         public void Invert()
         {
+            if(Parent != null) return;
+            
             Inverted = !Inverted;
 
             TableAttributes reversedAttributes = new TableAttributes
@@ -185,6 +188,7 @@ namespace TableForge.UI
             };  
  
             TableAttributes = reversedAttributes;
+            Metadata.IsInverted = Inverted;
         }
         
         private ScrollView CreateScrollView()
@@ -286,12 +290,15 @@ namespace TableForge.UI
 
         private void BuildRows()
         {
+            SortedList<int, Row> rowPositions = new SortedList<int, Row>();
+            int lastPosition = 0;
+            
             if (!Inverted)
             {
                 IReadOnlyList<Row> rows = TableData.OrderedRows;
                 if(rows.Count == 0)
                     return;
-                
+
                 foreach (var row in rows)
                 {
                     _rowData.Add(row.Id, new CellAnchorData(row));
@@ -300,10 +307,23 @@ namespace TableForge.UI
                     _rowHeaders.Add(row.Id, header);
                     _rowHeaderContainer.Add(header);
                     HeaderSwapper.HandleSwapping(header);
-                    
+
                     var rowControl = new RowControl(row, this);
                     _rowsContainer.Add(rowControl);
                     header.RowControl = rowControl;
+
+                    int storedPosition = Metadata.GetAnchorPosition(row.Id);
+                    if (storedPosition != 0)
+                    {
+                        rowPositions.Add(storedPosition, row);
+                        lastPosition = Math.Max(lastPosition, storedPosition);
+                    }
+                }
+
+                foreach (var row in rowPositions)
+                {
+                    Debug.Log(row.Key == lastPosition);
+                    MoveRow(row.Value.Position, row.Key, row.Key == lastPosition);
                 }
             }
             else
@@ -322,6 +342,7 @@ namespace TableForge.UI
                     header.RowControl = rowControl;
                 }
             }
+            
         }
         
         private void RefreshScrollViewHeight(float delta)
@@ -387,7 +408,7 @@ namespace TableForge.UI
             ScrollView.verticalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
         }
 
-        public void MoveRow(int rowStartPos, int rowEndPos)
+        public void MoveRow(int rowStartPos, int rowEndPos, bool refresh = true)
         {
             if (rowStartPos == rowEndPos)
                 return;
@@ -401,20 +422,45 @@ namespace TableForge.UI
                 while (currentIndex != endIndex)
                 {
                     var nextIndex = isMovingUp ? currentIndex - 1 : currentIndex + 1;
-
+                    
+                    CellAnchor nextRow = this.GetRowAtPosition(nextIndex + 1);
+                    
+                    Metadata.SetAnchorPosition(nextRow.Id, currentIndex + 1);
+                    
                     _rowsContainer.SwapChildren(currentIndex, nextIndex);
                     _rowHeaderContainer.SwapChildren(currentIndex, nextIndex);
 
                     currentIndex = nextIndex;
                 }
+                
+                CellAnchor startRow = this.GetRowAtPosition(rowStartPos);
+                Metadata.SetAnchorPosition(startRow.Id, rowEndPos);
+                
+                TableData.MoveRow(rowStartPos, rowEndPos);
+                if(refresh) RefreshPage();
             }
+            else
+            {
+                bool isMovingUp = rowStartPos > rowEndPos;
+                int currentPos = rowStartPos;
+                
+                while (currentPos != rowEndPos)
+                {
+                    var nextPos = isMovingUp ? currentPos - 1 : currentPos + 1;
+                    
+                    CellAnchor currentRow = this.GetRowAtPosition(currentPos);
+                    CellAnchor nextRow = this.GetRowAtPosition(nextPos);
+                    Metadata.SwapMetadata(currentRow, nextRow);
 
-            TableData.MoveRow(rowStartPos, rowEndPos);
-            RefreshPage();
+                    currentPos = nextPos;
+                }
+                
+                TableData.MoveRow(rowStartPos, rowEndPos);
+                if(refresh) RebuildPage();
+            }
         }
-        
-    
-        
+
+
         private void OnRowHeaderBecameVisible(HeaderControl header, int direction)
         {
             if (header is RowHeaderControl rowHeaderControl)

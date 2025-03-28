@@ -45,11 +45,6 @@ namespace TableForge
             base.SetValue(value);
             CreateSubTable();
         }
-        
-        public override void RefreshData()
-        {
-        
-        }
 
         protected sealed override void CreateSubTable()
         {

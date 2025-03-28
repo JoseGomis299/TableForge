@@ -91,6 +91,25 @@ namespace TableForge.UI
             AddColumnSize(cell.Column.Id, cell.Id, size);
         }
         
+        public void RemoveHeaderSize(CellAnchor cellAnchor)
+        {
+            switch (cellAnchor)
+            {
+                case Row row:
+                    RemoveColumnSize(0, row.Id);
+                    RemoveRowSize(row.Id, 0);
+                    break;
+                case Column column:
+                    RemoveRowSize(0, column.Id);
+                    RemoveColumnSize(column.Id, 0);
+                    break;
+                default:
+                    RemoveRowSize(0, 0);
+                    RemoveColumnSize(0, 0);
+                    break;
+            }
+        }
+        
         private void AddColumnSize(int columnId, int cellId, Vector2 size)
         {
            AddAnchorSize(columnId, cellId, size, _columnSizes, _columnPreferredSizes);

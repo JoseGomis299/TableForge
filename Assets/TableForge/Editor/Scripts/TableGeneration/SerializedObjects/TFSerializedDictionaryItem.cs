@@ -19,7 +19,7 @@ namespace TableForge
         public TFSerializedDictionaryItem(IDictionary dictionary, object itemKey, Object rootObject) : base(dictionary, null, rootObject)
         {
             TargetInstance = dictionary;
-            Name = "";
+            Name = itemKey.GetType().IsPrimitive ? itemKey.ToString() : itemKey.GetHashCode().ToString();
             _dictionary = dictionary;
             _itemKey = itemKey;
             ColumnGenerator = new DictionaryColumnGenerator();
@@ -57,6 +57,8 @@ namespace TableForge
                 _dictionary.Remove(_itemKey);
                 _dictionary.Add(data, value);
                 _itemKey = data;
+                
+                cell.Row.SetName(data.ToString());
             }
             else
             {
@@ -80,7 +82,6 @@ namespace TableForge
         public override void PopulateRow(List<Column> columns, Table table, Row row)
         {
             ColumnGenerator.GenerateColumns(columns, table);
-            row.SerializedObject = this;
             
             Cell keyCell = CellFactory.CreateCell(columns[0], row, _dictionary.GetType().GetGenericArguments()[0]);
             row.Cells.Add(1, keyCell);

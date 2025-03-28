@@ -106,7 +106,6 @@ namespace TableForge
             }
            
             ColumnGenerator.GenerateColumns(columns, table);
-            row.SerializedObject = this;
 
             Type memberType = _collection.GetType().IsArray ?
                 _collection.GetType().GetElementType() 
@@ -140,6 +139,7 @@ namespace TableForge
             
             if(!_isSimpleValue)
                 (TargetInstance, other.TargetInstance) = (other.TargetInstance, TargetInstance);
+            
             
             if (!EditorUtility.IsDirty(RootObject))
                 EditorUtility.SetDirty(RootObject);

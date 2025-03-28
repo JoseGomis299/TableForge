@@ -82,6 +82,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
@@ -93,10 +96,13 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   innerClass:
     rid: 854088731625783369
   inheritorClassAsInnerClass2:
-    rid: -2
+    rid: 854089136813637704
   innerClasses: []
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
@@ -182,8 +188,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 854088731625783369
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
@@ -195,3 +199,20 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 854089136813637704
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

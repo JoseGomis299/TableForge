@@ -42,7 +42,7 @@ namespace TableForge
         /// <summary>
         /// Gets the columns of the table in order of their position.
         /// </summary>
-        public IReadOnlyList<CellAnchor> OrderedColumns => _columns.Values.OrderBy(x => x.Position).ToList();
+        public IReadOnlyList<Column> OrderedColumns => _columns.Values.OrderBy(x => x.Position).ToList();
         
         /// <summary>
         /// Gets the parent cell of the table, if any.
@@ -63,7 +63,7 @@ namespace TableForge
         
         public Table(string name, Cell parentCell)
         {
-            Name = parentCell == null ? name : $"{parentCell.Table.Name}({parentCell.GetPosition()}).{name}";
+            Name = parentCell != null ? $"{name}({parentCell.GetPosition()})" : name;
             ParentCell = parentCell;
         }
         

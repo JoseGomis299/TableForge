@@ -93,7 +93,6 @@ namespace TableForge
         public virtual void PopulateRow(List<Column> columns, Table table, Row row)
         {
             ColumnGenerator.GenerateColumns(columns, table);
-            row.SerializedObject = this;
             
             for (var j = 0; j < SerializedType.Fields.Count; j++)
             {

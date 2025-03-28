@@ -20,11 +20,6 @@ namespace TableForge
             CreateSubTable();
         }
 
-        public override void RefreshData()
-        {
-        
-        }
-
         protected sealed override void CreateSubTable()
         {
             List<ITFSerializedObject> rowsData = new List<ITFSerializedObject>();

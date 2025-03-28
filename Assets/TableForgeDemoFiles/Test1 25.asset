@@ -75,16 +75,52 @@ MonoBehaviour:
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0
-    text: 
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
     inheritorNumber: 0
     inheritorText: 
   inheritorClassAsInnerClass:
     number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   innerClass:
     rid: 854089074991693887
   inheritorClassAsInnerClass2:
-    rid: -2
+    rid: 854089136813637705
   innerClasses: []
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
@@ -143,10 +179,31 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 854089074991693887
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
         text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 854089136813637705
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
