@@ -1,5 +1,3 @@
-using System;
-
 namespace TableForge
 {
     public static class HashCodeUtil

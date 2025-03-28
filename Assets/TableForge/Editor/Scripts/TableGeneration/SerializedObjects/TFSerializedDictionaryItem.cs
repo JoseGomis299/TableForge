@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TableForge.Exceptions;
 using UnityEditor;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TableForge

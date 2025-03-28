@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -74,6 +71,8 @@ namespace TableForge.UI
             
             RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
             RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
+            ColumnVisibilityManager.OnHeaderBecameVisible += OnColumnHeaderBecameVisible;
+            ColumnVisibilityManager.OnHeaderBecameInvisible += OnColumnHeaderBecameInvisible;
             
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
@@ -83,7 +82,7 @@ namespace TableForge.UI
         {
             TableData = table;
             Metadata = Parent == null ? TableMetadataManager.GetMetadata(table, table.Name) : Parent.TableControl.Metadata;
-            if(Metadata.IsInverted) Invert();
+            if(!Inverted && Metadata.IsInverted) Invert();
             
             TableSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
             if(_columnData.Any()) ClearTable();
@@ -104,7 +103,7 @@ namespace TableForge.UI
             {
                 foreach (var columnHeader in ColumnVisibilityManager.CurrentVisibleHeaders)
                 { 
-                    var cell = GetCell(rowHeader.Id, columnHeader.Id);
+                    var cell = GetCellControl(rowHeader.Id, columnHeader.Id);
                     cell?.Refresh();
                 }
             }
@@ -117,7 +116,7 @@ namespace TableForge.UI
 
             foreach (var columnId in _columnHeaders.Keys)
             {
-                var cell = GetCell(rowId, columnId);
+                var cell = GetCellControl(rowId, columnId);
                 cell?.Refresh();
             }
         }
@@ -322,7 +321,6 @@ namespace TableForge.UI
 
                 foreach (var row in rowPositions)
                 {
-                    Debug.Log(row.Key == lastPosition);
                     MoveRow(row.Value.Position, row.Key, row.Key == lastPosition);
                 }
             }
@@ -347,7 +345,8 @@ namespace TableForge.UI
         
         private void RefreshScrollViewHeight(float delta)
         {
-            ScrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ =>
+            ScrollView.contentContainer.UnregisterCallback<GeometryChangedEvent>(_ => OnScrollviewHeightChanged?.Invoke());
+            ScrollView.contentContainer.RegisterCallback<GeometryChangedEvent>(_ =>
             {
                 OnScrollviewHeightChanged?.Invoke();
             });
@@ -357,20 +356,19 @@ namespace TableForge.UI
             ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
             ScrollView.contentContainer.style.height = _scrollViewHeight;
             _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
-            
         }
         
         private void RefreshScrollViewWidth(float delta)
         {
-            ScrollView.contentContainer.RegisterCallbackOnce<GeometryChangedEvent>(_ => OnScrollviewWidthChanged?.Invoke());
+            ScrollView.contentContainer.UnregisterCallback<GeometryChangedEvent>(_ => OnScrollviewWidthChanged?.Invoke());
+            ScrollView.contentContainer.RegisterCallback<GeometryChangedEvent>(_ => OnScrollviewWidthChanged?.Invoke());
 
             _scrollViewWidth += delta;
             ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
             ScrollView.contentContainer.style.width = _scrollViewWidth;
-            _rowsContainer.style.width = _scrollViewWidth - _cornerContainer.CornerControl.style.width.value.value;
         }
 
-        public CellControl GetCell(int rowId, int columnId)
+        public CellControl GetCellControl(int rowId, int columnId)
         {
             if (!_rowData.ContainsKey(rowId) || !_columnData.ContainsKey(columnId))
                 return null;
@@ -387,6 +385,25 @@ namespace TableForge.UI
             }
 
             return _rowsContainer[rowIndex].ElementAt(columnIndex) as CellControl;
+        }
+
+        public Cell GetCell(int rowId, int columnId)
+        {
+            if (!_rowData.ContainsKey(rowId) || !_columnData.ContainsKey(columnId))
+                return null;
+
+            if (_rowData[rowId].CellAnchor is Row row)
+            {
+                if (row.Cells.TryGetValue(_columnData[columnId].Position, out var cell))
+                    return cell;
+            }
+            else if (_columnData[columnId].CellAnchor is Row column)
+            {
+                if (column.Cells.TryGetValue(_rowData[rowId].CellAnchor.Position, out var cell))
+                    return cell;
+            }
+
+            return null;
         }
 
         public void RebuildPage()
@@ -474,6 +491,42 @@ namespace TableForge.UI
             if (header is RowHeaderControl rowHeaderControl)
             {
                 rowHeaderControl.RowControl.ClearRow();
+            }
+        }
+        
+        private void OnColumnHeaderBecameVisible(HeaderControl header, int direction)
+        {
+            if(direction < 0)
+            {
+                float offset = _cornerContainer.CornerControl.style.width.value.value;
+                for (int i = 1; i < header.CellAnchor.Position; i++)
+                {
+                    offset += _columnHeaders[this.GetColumnAtPosition(i).Id].style.width.value.value;
+                }
+                _rowsContainer.style.left = offset;
+            }
+            
+            foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
+            {
+                rowHeader.RowControl.SetColumnVisibility(header.Id, true, direction);
+            }
+        }
+        
+        private void OnColumnHeaderBecameInvisible(HeaderControl header, int direction)
+        {
+            if(direction > 0)
+            {
+                float offset = _cornerContainer.CornerControl.style.width.value.value;
+                for (int i = 1; i <= header.CellAnchor.Position; i++)
+                {
+                    offset += _columnHeaders[this.GetColumnAtPosition(i).Id].style.width.value.value;
+                }
+                _rowsContainer.style.left = offset;
+            }
+            
+            foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
+            {
+                rowHeader.RowControl.SetColumnVisibility(header.Id, false, direction);
             }
         }
     }

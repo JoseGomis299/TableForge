@@ -1,5 +1,3 @@
-using UnityEngine.UIElements;
-
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(SubItemCell), CellSizeCalculationMethod.AutoSize)]

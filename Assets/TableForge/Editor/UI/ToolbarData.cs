@@ -1,5 +1,3 @@
-using System;
-
 namespace TableForge.UI
 {
     internal class ToolbarData

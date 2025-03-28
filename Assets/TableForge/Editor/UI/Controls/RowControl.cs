@@ -10,6 +10,7 @@ namespace TableForge.UI
     {
         public CellAnchor Anchor { get; }
         private TableControl TableControl { get; }
+        private float _offset;
         
         public RowControl(CellAnchor anchor, TableControl tableControl)
         {
@@ -34,13 +35,14 @@ namespace TableForge.UI
         public void RefreshColumnWidths()
         {
             if(!Children().Any()) return;
-            
-            foreach (var columnEntry in TableControl.ColumnData)
-            {
-                if (!TableControl.ColumnHeaders.TryGetValue(columnEntry.Key, out var header)) continue;
 
-                int columnPosition = TableControl.GetColumnPosition(columnEntry.Key);
-                this[columnPosition - 1].style.width = header.style.width;
+            foreach (var child in Children())
+            {
+                if (child is CellControl cellControl)
+                {
+                    var column = TableControl.GetColumnHeaderControl(cellControl.Cell.Column);
+                    cellControl.style.width = column.style.width;
+                }
             }
         }
         
@@ -70,7 +72,7 @@ namespace TableForge.UI
                         
             foreach (var columnEntry in columnsByPosition)
             {
-                if (!row.Cells.TryGetValue(columnEntry.Key, out var cell)) continue;
+                if (!row.Cells.TryGetValue(columnEntry.Key, out var cell) || !TableControl.ColumnHeaders[columnEntry.Value.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
                 Add(cellField);
@@ -83,7 +85,7 @@ namespace TableForge.UI
 
             foreach (var row in orderedRows)
             {
-                if (!row.Cells.TryGetValue(column.Position, out var cell)) continue;
+                if (!row.Cells.TryGetValue(column.Position, out var cell)  || !TableControl.ColumnHeaders[row.Id].IsVisible) continue;
                 
                 var cellField = CreateCellField(cell);
                 Add(cellField);
@@ -97,6 +99,57 @@ namespace TableForge.UI
             return cellControl;
         }
 
-     
+
+        public void SetColumnVisibility(int columnId, bool isVisible, int direction)
+        {
+            int columnPosition = TableControl.GetColumnPosition(columnId);
+            
+            Cell cell = TableControl.GetCell(Anchor.Id, columnId);
+            // List<CellControl> visibleCells = Children().OfType<CellControl>().ToList();
+            //
+            // if (isVisible)
+            // {
+            //     visibleCells.Add(CreateCellField(cell) as CellControl);
+            //     visibleCells = visibleCells.OrderBy(c => c.Cell.Column.Position).ToList();
+            //     
+            //     Clear();
+            //     foreach (var cellControl in visibleCells)
+            //     {
+            //         Add(cellControl);
+            //     }
+            // }
+            // else
+            // {
+            //     visibleCells = visibleCells.Where(c => c.Cell.Column.Position != columnPosition).ToList();
+            //     visibleCells = visibleCells.OrderBy(c => c.Cell.Column.Position).ToList();
+            //     
+            //     Clear();
+            //     foreach (var cellControl in visibleCells)
+            //     {
+            //         Add(cellControl);
+            //     }
+            // }
+            
+            if (isVisible)
+            {
+                var cellField = CreateCellField(cell);
+                
+                if(direction == 1)
+                    Add(cellField);
+                else
+                    Insert(0, cellField);
+            }
+            else
+            {
+                var cellControl = Children().OfType<CellControl>().FirstOrDefault(c => c.Cell.Column.Position == columnPosition);
+                if (cellControl != null)
+                {
+                    CellControlFactory.Release(cellControl);
+                    Remove(cellControl);
+                }
+            }
+            
+            RefreshColumnWidths();
+        }
     }
 }

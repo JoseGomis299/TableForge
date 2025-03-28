@@ -14,8 +14,6 @@ namespace TableForge.UI
         
         public static CellControl GetCellControlFromId(int id)
         {
-            if(!_idToCellControl.ContainsKey(id))
-                Debug.Log("CellControl not found for id: " + id);
             return _idToCellControl.TryGetValue(id, out var cellControl) ? cellControl : null;
         }
 

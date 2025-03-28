@@ -66,5 +66,6 @@ namespace TableForge.UI
         {
             return tableControl.Parent == null ? tableControl : tableControl.Parent.TableControl.GetRootTableControl();
         }
+        
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -11,6 +12,8 @@ namespace TableForge.UI
     {
         public event Action<HeaderControl, int> OnHeaderBecameVisible;
         public event Action<HeaderControl, int> OnHeaderBecameInvisible;
+        
+        protected Vector2 SecurityExtraSize = new Vector2(UiConstants.CellWidth * 2, UiConstants.CellHeight * 4);
         
         protected readonly ScrollView ScrollView;
         protected readonly List<THeader> VisibleHeaders = new List<THeader>();

@@ -1,4 +1,5 @@
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -6,7 +7,6 @@ namespace TableForge.UI
     internal class ColumnVisibilityManager : VisibilityManager<ColumnHeaderControl>
     {
         private const float SQUARE_HORIZONTAL_STEP = UiConstants.MinCellWidth * UiConstants.MinCellWidth;
-        private const int SECURITY_MARGIN = 1;
 
         private readonly TableControl _tableControl;
         private float _lastHorizontalScroll;
@@ -19,7 +19,9 @@ namespace TableForge.UI
 
             // Subscribe to horizontal scroll changes.
             ScrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
-            _tableControl.OnScrollviewWidthChanged += () => RefreshVisibility(-1);
+            _tableControl.OnScrollviewWidthChanged += () => RefreshVisibility(0);
+            
+            LastDirection = 1;
         }
 
         public override void Clear()
@@ -27,28 +29,42 @@ namespace TableForge.UI
             base.Clear();
             _lastHorizontalScroll = float.MinValue;
         }
+        
+        // protected override void NotifyHeaderBecameVisible(ColumnHeaderControl header, int direction)
+        // {
+        //     Debug.Log($"Column {header.Name} became visible");
+        //     base.NotifyHeaderBecameVisible(header, direction);
+        // }
+        //
+        // protected override void NotifyHeaderBecameInvisible(ColumnHeaderControl header, int direction)
+        // {
+        //     Debug.Log($"Column {header.Name} became invisible");
+        //     base.NotifyHeaderBecameInvisible(header, direction);
+        // }
 
         public override void RefreshVisibility(float delta)
         {
             if(_tableControl.TableData.Columns.Count == 0) return;
             
-            bool isScrollingRight = delta > 0;
-
             // Update visibility of columns that were previously visible.
             foreach (var header in VisibleHeaders)
             {
+                bool wasVisible = header.IsVisible;
                 header.IsVisible = IsHeaderVisible(header);
-                if (!header.IsVisible)
+                if (!header.IsVisible && wasVisible)
                     NotifyHeaderBecameInvisible(header, LastDirection);
             }
 
             VisibleHeaders.Clear();
-            int margin = isScrollingRight ? SECURITY_MARGIN : 0;
+
+            var orderedColumnHeaders = LastDirection == 1 ?
+                _tableControl.ColumnHeaders.Values.OrderBy(x => x.CellAnchor.Position) : 
+                _tableControl.ColumnHeaders.Values.OrderByDescending(x => x.CellAnchor.Position);
 
             // Loop through all column headers.
-            foreach (var header in _tableControl.ColumnHeaders.Values)
+            foreach (var header in orderedColumnHeaders)
             {
-                if (IsHeaderVisible(header) || margin-- > 0)
+                if (header.IsVisible || IsHeaderVisible(header))
                 {
                     MakeHeaderVisible(header, insertAtTop: false, LastDirection);
                 }
@@ -69,7 +85,8 @@ namespace TableForge.UI
         protected override bool IsHeaderVisible(ColumnHeaderControl header)
         {
             if(LockedVisibleHeaders.Contains(header)) return true;
-            var viewBounds = ScrollView.worldBound.width == 0 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
+            var viewBounds = ScrollView.worldBound.width <= 1 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
+            viewBounds.size = new Vector2(viewBounds.size.x + SecurityExtraSize.x, viewBounds.size.y);
 
             // Check if the left side of the header is visible.
             if (header.worldBound.xMin <= viewBounds.xMax &&
