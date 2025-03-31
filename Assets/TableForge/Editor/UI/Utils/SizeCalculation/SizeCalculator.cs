@@ -25,11 +25,11 @@ namespace TableForge.UI
 
             size = method switch
             {
-                CellSizeCalculationMethod.FixedBigCell => new Vector2(UiConstants.BigCellDesiredWidth,
+                CellSizeCalculationMethod.FixedBigCell => new Vector2(UiConstants.BigCellPreferredWidth,
                     UiConstants.CellHeight),
                 CellSizeCalculationMethod.FixedRegularCell =>
                     new Vector2(UiConstants.CellWidth, UiConstants.CellHeight),
-                CellSizeCalculationMethod.FixedSmallCell => new Vector2(UiConstants.SmallCellDesiredWidth,
+                CellSizeCalculationMethod.FixedSmallCell => new Vector2(UiConstants.SmallCellPreferredWidth,
                     UiConstants.CellHeight),
                 CellSizeCalculationMethod.AutoSize => CalculateAutoSize(cell),
                 CellSizeCalculationMethod.EnumAutoSize => CalculateEnumAutoSize(cell),
@@ -42,26 +42,16 @@ namespace TableForge.UI
         
         public static Vector2 CalculateSizeWithCurrentCellSizes(TableControl tableControl)
         {
-            TableSize tableSize = tableControl.TableSize;
+            TableSize tableSize = tableControl.PreferredSize;
             
-            foreach (var row in  tableControl.RowHeaders.Values)
-            {
-                tableSize.AddHeaderSize(row.CellAnchor, new Vector2(row.style.width.value.value, row.style.height.value.value));
-            }
-            
-            foreach (var column in tableControl.ColumnHeaders.Values)
-            {
-                tableSize.AddHeaderSize(column.CellAnchor, new Vector2(column.style.width.value.value, UiConstants.CellHeight));
-            }
-            
-            return GetClampedSize(tableSize.GetTotalSize(false) + 
+            return GetClampedSize(tableSize.GetTotalSize(false, true) + 
                                   Vector2.one * (UiConstants.CellContentPadding * 1.5f + UiConstants.BorderWidth) +
                                   Vector2.up * GetAddRowButtonHeight(tableControl.TableData, tableControl.TableAttributes));
         }
         
         public static TableSize CalculateTableSize(Table table, TableAttributes tableAttributes, TableMetadata tableMetadata)
         {
-            TableSize tableSize = new TableSize(table, tableAttributes);
+            TableSize tableSize = new TableSize(table, tableMetadata, tableAttributes);
             IReadOnlyList<Row> rows = table.OrderedRows;
 
             foreach (var row in  rows)
@@ -119,9 +109,9 @@ namespace TableForge.UI
         
         private static Vector2 CalculateAutoSize(Cell cell)
         {
-            float width = cell.GetValue() == null ? UiConstants.SmallCellDesiredWidth : EditorStyles.label.CalcSize(new GUIContent(cell.GetValue().ToString())).x;
-            if(width < UiConstants.SmallCellDesiredWidth)
-                width = UiConstants.SmallCellDesiredWidth;
+            float width = cell.GetValue() == null ? UiConstants.SmallCellPreferredWidth : EditorStyles.label.CalcSize(new GUIContent(cell.GetValue().ToString())).x;
+            if(width < UiConstants.SmallCellPreferredWidth)
+                width = UiConstants.SmallCellPreferredWidth;
             
             return new Vector2(width + UiConstants.CellContentPadding, UiConstants.CellHeight + UiConstants.CellContentPadding);
         }
@@ -164,7 +154,7 @@ namespace TableForge.UI
             if(parentMetadata.IsTableExpanded(subTableCell.Id))
             {
                 var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
-                localSize = tableSize.GetTotalSize(false);
+                localSize = tableSize.GetTotalSize(false, false);
                 localSize.y += GetAddRowButtonHeight(subTableCell.SubTable, subTableAttributes);
             }
             else

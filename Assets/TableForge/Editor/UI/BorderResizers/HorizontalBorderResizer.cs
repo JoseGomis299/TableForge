@@ -30,13 +30,15 @@ namespace TableForge.UI
                 {
                     float delta = InstantResize(headerControl, false);
                     InvokeResize(headerControl, delta, true);
+                    InvokeManualResize(headerControl, delta);
+                    return;
                 }
             }
         }
 
         protected override float InstantResize(HeaderControl target, bool adjustToStoredSize)
         {
-            float targetWidth = TableControl.TableSize.GetHeaderSize(target.CellAnchor).x;
+            float targetWidth = TableControl.PreferredSize.GetHeaderSize(target.CellAnchor).x;
 
             if (adjustToStoredSize)
             {
@@ -126,7 +128,7 @@ namespace TableForge.UI
             {
                 cornerControl.RowHeaderContainer.style.width = cornerControl.style.width;
                 cornerControl.ColumnHeaderContainer.style.left = cornerControl.style.width;
-                cornerControl.RowsContainer.style.left = cornerControl.style.width;                
+                cornerControl.RowsContainer.style.left = cornerControl.style.width.value.value + TableControl.RowsContainerOffset;                
             }
             else
             {
@@ -142,11 +144,11 @@ namespace TableForge.UI
             var delta = currentPosition.x - startPosition.x;
 
             float scaledWidth = initialSize.x + delta;
-            float desiredWidth = TableControl.TableSize.GetHeaderSize(ResizingHeader.CellAnchor).x;
+            float preferredWidth = TableControl.PreferredSize.GetHeaderSize(ResizingHeader.CellAnchor).x;
             
-            if(scaledWidth >= desiredWidth - UiConstants.SnappingThreshold && scaledWidth <= desiredWidth + UiConstants.SnappingThreshold)
+            if(scaledWidth >= preferredWidth - UiConstants.SnappingThreshold && scaledWidth <= preferredWidth + UiConstants.SnappingThreshold)
             {
-                return new Vector3(desiredWidth, 0);
+                return new Vector3(preferredWidth, 0);
             }
             
             return new Vector3(Mathf.Max(UiConstants.MinCellWidth, scaledWidth), 0);

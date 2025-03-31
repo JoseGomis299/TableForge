@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,9 +20,12 @@ namespace TableForge.UI
 
             // Subscribe to horizontal scroll changes.
             ScrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
-            _tableControl.OnScrollviewWidthChanged += () => RefreshVisibility(0);
+            _tableControl.OnScrollviewSizeChanged += delta =>
+            {
+                LastDirection = 1;
+                RefreshVisibility(0);
+            };
             
-            LastDirection = 1;
         }
 
         public override void Clear()
@@ -52,7 +56,7 @@ namespace TableForge.UI
                 bool wasVisible = header.IsVisible;
                 header.IsVisible = IsHeaderVisible(header);
                 if (!header.IsVisible && wasVisible)
-                    NotifyHeaderBecameInvisible(header, LastDirection);
+                    MakeHeaderInvisible(header);
             }
 
             VisibleHeaders.Clear();
@@ -69,6 +73,8 @@ namespace TableForge.UI
                     MakeHeaderVisible(header, insertAtTop: false, LastDirection);
                 }
             }
+            
+            SendVisibilityNotifications();
         }
 
         private void OnHorizontalScroll(float value)
@@ -85,9 +91,11 @@ namespace TableForge.UI
         protected override bool IsHeaderVisible(ColumnHeaderControl header)
         {
             if(LockedVisibleHeaders.Contains(header)) return true;
+            
             var viewBounds = ScrollView.worldBound.width <= 1 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
-            viewBounds.size = new Vector2(viewBounds.size.x + SecurityExtraSize.x, viewBounds.size.y);
-
+            viewBounds.size = new Vector2(viewBounds.size.x + SecurityExtraSize.x - _tableControl.CornerContainer.worldBound.width, viewBounds.size.y);
+            viewBounds.x += _tableControl.CornerContainer.worldBound.width;
+            
             // Check if the left side of the header is visible.
             if (header.worldBound.xMin <= viewBounds.xMax &&
                 header.worldBound.xMin >= viewBounds.xMin)

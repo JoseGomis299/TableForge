@@ -35,12 +35,12 @@ namespace TableForge.UI
         public void RefreshColumnWidths()
         {
             if(!Children().Any()) return;
-
+            
             foreach (var child in Children())
             {
                 if (child is CellControl cellControl)
                 {
-                    var column = TableControl.GetColumnHeaderControl(cellControl.Cell.Column);
+                    var column = TableControl.GetColumnHeaderControl(TableControl.GetCellColumn(cellControl.Cell));
                     cellControl.style.width = column.style.width;
                 }
             }
@@ -86,7 +86,8 @@ namespace TableForge.UI
             foreach (var row in orderedRows)
             {
                 if (!row.Cells.TryGetValue(column.Position, out var cell)  || !TableControl.ColumnHeaders[row.Id].IsVisible) continue;
-                
+
+                Debug.Log("VAR");
                 var cellField = CreateCellField(cell);
                 Add(cellField);
             }
@@ -105,30 +106,6 @@ namespace TableForge.UI
             int columnPosition = TableControl.GetColumnPosition(columnId);
             
             Cell cell = TableControl.GetCell(Anchor.Id, columnId);
-            // List<CellControl> visibleCells = Children().OfType<CellControl>().ToList();
-            //
-            // if (isVisible)
-            // {
-            //     visibleCells.Add(CreateCellField(cell) as CellControl);
-            //     visibleCells = visibleCells.OrderBy(c => c.Cell.Column.Position).ToList();
-            //     
-            //     Clear();
-            //     foreach (var cellControl in visibleCells)
-            //     {
-            //         Add(cellControl);
-            //     }
-            // }
-            // else
-            // {
-            //     visibleCells = visibleCells.Where(c => c.Cell.Column.Position != columnPosition).ToList();
-            //     visibleCells = visibleCells.OrderBy(c => c.Cell.Column.Position).ToList();
-            //     
-            //     Clear();
-            //     foreach (var cellControl in visibleCells)
-            //     {
-            //         Add(cellControl);
-            //     }
-            // }
             
             if (isVisible)
             {
@@ -141,7 +118,8 @@ namespace TableForge.UI
             }
             else
             {
-                var cellControl = Children().OfType<CellControl>().FirstOrDefault(c => c.Cell.Column.Position == columnPosition);
+                var cellControl = Children().OfType<CellControl>().FirstOrDefault(c => TableControl.GetCellColumn(c.Cell).Position == columnPosition);
+                
                 if (cellControl != null)
                 {
                     CellControlFactory.Release(cellControl);

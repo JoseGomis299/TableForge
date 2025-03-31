@@ -77,14 +77,13 @@ namespace TableForge.UI
             if (!evt.newValue || !wasSubTableInitialized)
             {
                 RecalculateSize();
-                TableControl.HorizontalResizer.ResizeCell(this);
-                TableControl.VerticalResizer.ResizeCell(this);
+                TableControl.Resizer.ResizeCell(this);
             }
             else
             {
+                
                 RecalculateSizeWithCurrentValues();
-                TableControl.HorizontalResizer.ResizeCell(this);
-                TableControl.VerticalResizer.ResizeCell(this);
+                TableControl.Resizer.ResizeCell(this);
             }
             
             IsSelected = TableControl.CellSelector.SelectedCells.Contains(Cell);
@@ -95,7 +94,12 @@ namespace TableForge.UI
         protected override void RecalculateSizeWithCurrentValues()
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);
-            SetDesiredSize(size.x, size.y + UiConstants.FoldoutHeight);
+            SetPreferredSize(size.x, size.y + UiConstants.FoldoutHeight);
+            
+            if(TableControl.Parent is ExpandableSubTableCellControl expandableSubTableCellControl)
+            {
+                expandableSubTableCellControl.RecalculateSizeWithCurrentValues();
+            }
         }
     }
 }

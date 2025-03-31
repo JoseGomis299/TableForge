@@ -11,16 +11,18 @@ namespace TableForge.UI
         private readonly Dictionary<int, Vector2> _rowPreferredSizes = new();
         private readonly Dictionary<int, Vector2> _columnPreferredSizes = new();
         
-        private readonly Table _table;
+        private readonly TableMetadata _tableMetadata;
         private readonly TableAttributes _tableAttributes;
+        private readonly Table _table;
 
-        public TableSize(Table table, TableAttributes tableAttributes)
+        public TableSize(Table table, TableMetadata tableMetadata, TableAttributes tableAttributes)
         {
             _table = table;
+            _tableMetadata = tableMetadata;
             _tableAttributes = tableAttributes;
         }
 
-        public Vector2 GetTotalSize(bool inverted)
+        public Vector2 GetTotalSize(bool inverted, bool useStoredValues)
         {
             float width = 0, height = 0;
             
@@ -28,11 +30,18 @@ namespace TableForge.UI
             {
                 if (_tableAttributes.ColumnHeaderVisibility == TableHeaderVisibility.Hidden && row.Key == 0) 
                     continue;
-                
-                if(inverted)
-                    width += row.Value.x;
+
+                int rowId = row.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : row.Key;
+                if (inverted)
+                {
+                    float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(rowId).x : 0;
+                    width += storedValue != 0 ? storedValue : row.Value.x;
+                }
                 else
-                    height += row.Value.y;
+                {
+                    float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(rowId).y : 0;
+                    height += storedValue != 0 ? storedValue : row.Value.y;
+                }
             }
             
             foreach (var column in _columnPreferredSizes)
@@ -40,10 +49,17 @@ namespace TableForge.UI
                 if (_tableAttributes.RowHeaderVisibility == TableHeaderVisibility.Hidden && column.Key == 0)
                     continue;
                 
-                if(inverted)
-                    height += column.Value.y;
+                int columnId = column.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : column.Key;
+                if (inverted)
+                {
+                    float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(columnId).y : 0;
+                    height += storedValue != 0 ? storedValue : column.Value.y;
+                }
                 else
-                    width += column.Value.x;
+                {
+                    float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(columnId).x : 0;
+                    width += storedValue != 0 ? storedValue : column.Value.x;
+                }
             }
             
             return new Vector2(width, height);

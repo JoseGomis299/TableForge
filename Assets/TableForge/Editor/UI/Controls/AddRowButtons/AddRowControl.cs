@@ -1,9 +1,12 @@
+using System;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
     internal abstract class AddRowControl : VisualElement
     {
+        public event Action OnRowAdded;
+        
         protected IRowAdditionStrategy RowAdditionStrategy;
         protected readonly TableControl TableControl; 
         
@@ -17,6 +20,7 @@ namespace TableForge.UI
         protected virtual void AddRow()
         {
             RowAdditionStrategy.AddRow();
+            OnRowAdded?.Invoke();
         }
         
     }

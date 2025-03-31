@@ -19,12 +19,12 @@ namespace TableForge.UI
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             ContentContainer.Add(SubTableControl);
             
-            SubTableControl.HorizontalResizer.OnResize += _ =>
+            SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {
                 RecalculateSizeWithCurrentValues();
                 TableControl.HorizontalResizer.ResizeCell(this);
             };
-            SubTableControl.VerticalResizer.OnResize += _ =>
+            SubTableControl.VerticalResizer.OnManualResize += _ =>
             {
                 RecalculateSizeWithCurrentValues();
                 TableControl.VerticalResizer.ResizeCell(this);

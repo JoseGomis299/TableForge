@@ -32,8 +32,8 @@ namespace TableForge.UI
             if (focusedCell != null)
             {
                 var rootCell = focusedCell.GetRootCell();
-                var rootRowHeaderControl = rootTableControl.GetRowHeaderControl(rootCell.Row);
-                var rootColumnHeaderControl = rootTableControl.GetColumnHeaderControl(rootCell.Column);
+                var rootRowHeaderControl = rootTableControl.GetRowHeaderControl(rootTableControl.GetCellRow(rootCell));
+                var rootColumnHeaderControl = rootTableControl.GetColumnHeaderControl(rootTableControl.GetCellColumn(rootCell));
                 
                 rootTableControl.RowVisibilityManager.UnlockHeaderVisibility(rootRowHeaderControl);
                 rootTableControl.ColumnVisibilityManager.UnlockHeaderVisibility(rootColumnHeaderControl);
@@ -41,8 +41,8 @@ namespace TableForge.UI
             
             rootTableControl.CellSelector.FocusedCell = Cell.GetRootCell();
             focusedCell = rootTableControl.CellSelector.FocusedCell;
-            rootTableControl.RowVisibilityManager.LockHeaderVisibility(rootTableControl.GetRowHeaderControl(focusedCell.Row));
-            rootTableControl.ColumnVisibilityManager.LockHeaderVisibility(rootTableControl.GetColumnHeaderControl(focusedCell.Column));
+            rootTableControl.RowVisibilityManager.LockHeaderVisibility(rootTableControl.GetRowHeaderControl(rootTableControl.GetCellRow(focusedCell)));
+            rootTableControl.ColumnVisibilityManager.LockHeaderVisibility(rootTableControl.GetColumnHeaderControl(rootTableControl.GetCellColumn(focusedCell)));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace TableForge.UI
         }
         public TableControl SubTableControl { get; protected set; }
 
-        protected TableControl ParentTableControl;
+        protected readonly TableControl ParentTableControl;
 
         protected SubTableCellControl(SubTableCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -37,7 +37,12 @@ namespace TableForge.UI
         protected virtual void RecalculateSizeWithCurrentValues()
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);
-            SetDesiredSize(size.x, size.y);
+            SetPreferredSize(size.x, size.y);
+            
+            if(TableControl.Parent is { } subTableCellControl)
+            {
+                subTableCellControl.RecalculateSizeWithCurrentValues();
+            }
         }
     }
 }

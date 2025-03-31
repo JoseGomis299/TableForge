@@ -9,6 +9,7 @@ namespace TableForge.UI
     internal abstract class BorderResizer
     {
         public event Action<float> OnResize; 
+        public event Action<float> OnManualResize; 
         
         public bool IsResizing { get; private set; }
         protected abstract string ResizingPreviewClass { get; }
@@ -42,7 +43,7 @@ namespace TableForge.UI
         protected abstract void MovePreview(Vector3 startPosition, Vector3 initialSize, Vector3 newSize);
         public abstract bool IsResizingArea(Vector3 position, out HeaderControl headerControl);
 
-        public void ResizeCell(CellControl cellControl)
+        public float ResizeCell(CellControl cellControl, bool storeSize = true)
         {
             float delta = 0;
 
@@ -55,16 +56,8 @@ namespace TableForge.UI
                 delta += InstantResize(header, false);
             }
          
-            InvokeResize(header, delta, false);
-        }
-        
-        public void ResizeAnchor(CellAnchor anchor)
-        {
-            if (ResizingHeaders.TryGetValue(anchor.Id, out var header))
-            {
-                float delta = InstantResize(header, false);
-                InvokeResize(header, delta, false);
-            }
+            InvokeResize(header, delta, storeSize);
+            return delta;
         }
 
         public float ResizeAll(bool adjustToStoredSize)
@@ -93,6 +86,8 @@ namespace TableForge.UI
         
         protected void InvokeResize(HeaderControl target, float delta, bool storeSize)
         {
+            if(delta == 0) return;
+            
             target.RegisterSingleUseCallback<GeometryChangedEvent>(() =>
             {
                 if (storeSize)
@@ -103,6 +98,16 @@ namespace TableForge.UI
                 }
 
                 OnResize?.Invoke(delta);
+            });
+        }
+        
+        protected void InvokeManualResize(HeaderControl target, float delta)
+        {
+            if(delta == 0) return;
+            
+            target.RegisterSingleUseCallback<GeometryChangedEvent>(() =>
+            {
+                OnManualResize?.Invoke(delta);
             });
         }
         
@@ -146,6 +151,7 @@ namespace TableForge.UI
                 float delta = UpdateSize(ResizingHeader, _newSize);
                 UpdateChildrenSize(ResizingHeader);
                 InvokeResize(ResizingHeader, delta, true);
+                InvokeManualResize(ResizingHeader, delta);
                 ResizingPreview.RemoveFromHierarchy();
                 
                 TableControl.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);

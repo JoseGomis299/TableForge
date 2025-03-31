@@ -30,6 +30,7 @@ namespace TableForge.UI
                 {
                     float delta = InstantResize(headerControl, false);
                     InvokeResize(headerControl, delta, true);
+                    InvokeManualResize(headerControl, delta);
                     return;
                 }
             }
@@ -37,7 +38,7 @@ namespace TableForge.UI
 
         protected override float InstantResize(HeaderControl target, bool adjustToStoredSize)
         {
-            float targetHeight = TableControl.TableSize.GetHeaderSize(target.CellAnchor).y;
+            float targetHeight = TableControl.PreferredSize.GetHeaderSize(target.CellAnchor).y;
 
             if (adjustToStoredSize)
             {
@@ -134,11 +135,11 @@ namespace TableForge.UI
             var delta = currentPosition.y - startPosition.y;
             
             float scaledHeight = initialSize.y + delta;
-            float desiredHeight = TableControl.TableSize.GetHeaderSize(ResizingHeader.CellAnchor).y;
+            float preferredHeight = TableControl.PreferredSize.GetHeaderSize(ResizingHeader.CellAnchor).y;
             
-            if(scaledHeight >= desiredHeight - UiConstants.SnappingThreshold && scaledHeight <= desiredHeight + UiConstants.SnappingThreshold)
+            if(scaledHeight >= preferredHeight - UiConstants.SnappingThreshold && scaledHeight <= preferredHeight + UiConstants.SnappingThreshold)
             {
-                return new Vector3(0, desiredHeight);
+                return new Vector3(0, preferredHeight);
             }
             
             return new Vector3(0, Mathf.Max(UiConstants.MinCellHeight, scaledHeight));

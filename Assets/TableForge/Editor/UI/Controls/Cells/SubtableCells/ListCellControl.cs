@@ -14,15 +14,22 @@ namespace TableForge.UI
             SubTableControl = new TableControl(ParentTableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this);
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
 
-            ContentContainer.Add(SubTableControl);
-            ContentContainer.Add(new ListAddRowControl(SubTableControl));
+            ListAddRowControl listAddRowControl = new ListAddRowControl(SubTableControl);
+            listAddRowControl.OnRowAdded += () =>
+            {
+                RecalculateSizeWithCurrentValues();
+                TableControl.Resizer.ResizeCell(this);
+            };
             
-            SubTableControl.HorizontalResizer.OnResize += _ =>
+            ContentContainer.Add(SubTableControl);
+            ContentContainer.Add(listAddRowControl);
+            
+            SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {
                 RecalculateSizeWithCurrentValues();
                 TableControl.HorizontalResizer.ResizeCell(this);
             };
-            SubTableControl.VerticalResizer.OnResize += _ =>
+            SubTableControl.VerticalResizer.OnManualResize += _ =>
             {
                 RecalculateSizeWithCurrentValues();
                 TableControl.VerticalResizer.ResizeCell(this);

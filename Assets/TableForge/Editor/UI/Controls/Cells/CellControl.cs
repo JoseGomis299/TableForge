@@ -30,7 +30,7 @@ namespace TableForge.UI
                 _isSelected = value;
             }
         }
-        public bool IsVisible => TableControl.ColumnHeaders[Cell.Column.Id].IsVisible && TableControl.RowHeaders[Cell.Row.Id].IsVisible;
+        public bool IsVisible => TableControl.ColumnHeaders[TableControl.GetCellColumn(Cell).Id].IsVisible && TableControl.RowHeaders[TableControl.GetCellRow(Cell).Id].IsVisible;
         public TableControl TableControl { get; private set; }
         public Cell Cell { get; protected set; }
 
@@ -65,9 +65,9 @@ namespace TableForge.UI
             IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
         }
         
-        protected void SetDesiredSize(float width, float height)
+        protected void SetPreferredSize(float width, float height)
         {
-            TableControl.TableSize.AddCellSize(Cell, new Vector2(width, height));
+            TableControl.PreferredSize.AddCellSize(Cell, new Vector2(width, height));
         }
         
         protected void OnChange<T>(ChangeEvent<T> evt, BaseField<T> field)
@@ -96,7 +96,12 @@ namespace TableForge.UI
         protected void RecalculateSize()
         {
             Vector2 size = SizeCalculator.CalculateSize(Cell, TableControl.Metadata);
-            SetDesiredSize(size.x, size.y);
+            SetPreferredSize(size.x, size.y);
+            
+            if(TableControl.Parent is {} parentCellControl)
+            {
+                parentCellControl.RecalculateSize();
+            }
         }
     }
 }

@@ -11,10 +11,7 @@ namespace TableForge.UI
             if (!tableControl.RowHeaders.TryGetValue(rowId, out var rowHeader) 
                 || !tableControl.ColumnData.TryGetValue(columnId, out var columnAnchor)) return null;
 
-            int rowPos = rowHeader.RowControl.Anchor.Position;
-            int columnPos = columnAnchor.Position;
-            
-            return tableControl.TableData.Rows[rowPos].Cells[columnPos];
+            return tableControl.GetCell(rowHeader.RowControl.Anchor.Id, columnAnchor.Id);
         }
         
         public static List<Cell> GetCellRange(TableControl tableControl, int startRowId, int startColumnId, int endRowId, int endColumnId)
@@ -32,11 +29,16 @@ namespace TableForge.UI
             if(startingColumnPosition > endingColumnPosition)
                 (startingColumnPosition, endingColumnPosition) = (endingColumnPosition, startingColumnPosition);
             
+            if(tableControl.Inverted)
+            {
+                (startingRowPosition, startingColumnPosition) = (startingColumnPosition, startingRowPosition);
+                (endingRowPosition, endingColumnPosition) = (endingColumnPosition, endingRowPosition);
+            }
+            
             List<Row> rows = new List<Row>();
             if(startingRowPosition < 0 || endingRowPosition > tableControl.RowHeaders.Count) return new List<Cell>();
-
-            Table table = tableControl.TableData;
             
+            Table table = tableControl.TableData;
             for (int i = startingRowPosition; i <= endingRowPosition; i++)
             {
                 rows.Add(table.Rows[i]);

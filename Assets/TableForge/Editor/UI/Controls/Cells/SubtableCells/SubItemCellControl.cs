@@ -18,16 +18,25 @@ namespace TableForge.UI
             );
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             ContentContainer.Add(SubTableControl);
-            
-            if (Cell.GetValue() == null)
-                ContentContainer.Add(new NullItemAddRowControl(SubTableControl));
 
-            SubTableControl.HorizontalResizer.OnResize += _ =>
+            if (Cell.GetValue() == null)
+            {
+                NullItemAddRowControl nullItemAddRow = new NullItemAddRowControl(SubTableControl);
+                nullItemAddRow.OnRowAdded += () =>
+                {
+                    RecalculateSizeWithCurrentValues();
+                    TableControl.VerticalResizer.ResizeCell(this);
+                };
+                
+                ContentContainer.Add(nullItemAddRow);
+            }
+
+            SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {
                 RecalculateSizeWithCurrentValues();
                 TableControl.HorizontalResizer.ResizeCell(this);
             };
-            SubTableControl.VerticalResizer.OnResize += _ =>
+            SubTableControl.VerticalResizer.OnManualResize += _ =>
             {
                 RecalculateSizeWithCurrentValues();
                 TableControl.VerticalResizer.ResizeCell(this);

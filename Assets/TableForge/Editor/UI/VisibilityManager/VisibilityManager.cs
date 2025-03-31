@@ -13,6 +13,8 @@ namespace TableForge.UI
         public event Action<HeaderControl, int> OnHeaderBecameVisible;
         public event Action<HeaderControl, int> OnHeaderBecameInvisible;
         
+        public THeader FirstVisibleHeader {get; private set;}
+        
         protected Vector2 SecurityExtraSize = new Vector2(UiConstants.CellWidth * 2, UiConstants.CellHeight * 4);
         
         protected readonly ScrollView ScrollView;
@@ -21,6 +23,10 @@ namespace TableForge.UI
         protected int LastDirection = 0;
         protected int StartingIndex = -1;
         protected int EndingIndex = -1;
+        
+        private readonly List<THeader> _invisibleHeadersThisFrame = new List<THeader>();
+        private readonly List<THeader> _visibleHeadersThisFrame = new List<THeader>();
+        
         
         public IReadOnlyList<THeader> CurrentVisibleHeaders => VisibleHeaders;
 
@@ -64,8 +70,43 @@ namespace TableForge.UI
 
             bool wasVisible = header.IsVisible;
             header.IsVisible = true;
+            
+            int invisibleIndex = _invisibleHeadersThisFrame.IndexOf(header);
+            if(invisibleIndex != -1) _invisibleHeadersThisFrame.RemoveAt(invisibleIndex);
+            
+            if(FirstVisibleHeader == null)
+                FirstVisibleHeader = header;
+            else
+            {
+                if(!FirstVisibleHeader.IsVisible)
+                    FirstVisibleHeader = header;
+                else if(FirstVisibleHeader.CellAnchor.Position > header.CellAnchor.Position)
+                    FirstVisibleHeader = header;
+            }
+            
             if (!wasVisible)
-                NotifyHeaderBecameVisible(header, direction);
+                _visibleHeadersThisFrame.Add(header);
+        }
+        
+        protected void MakeHeaderInvisible(THeader header)
+        {
+            _invisibleHeadersThisFrame.Add(header);
+        }
+        
+        protected void SendVisibilityNotifications()
+        {
+            foreach (var header in _invisibleHeadersThisFrame)
+            {
+                NotifyHeaderBecameInvisible(header, LastDirection);
+            }
+            
+            foreach (var header in _visibleHeadersThisFrame)
+            {
+                NotifyHeaderBecameVisible(header, LastDirection);
+            }
+            
+            _visibleHeadersThisFrame.Clear();
+            _invisibleHeadersThisFrame.Clear();
         }
 
         protected virtual void NotifyHeaderBecameVisible(THeader header, int direction)

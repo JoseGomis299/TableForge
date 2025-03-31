@@ -24,8 +24,8 @@ namespace TableForge.UI
         public static float BorderWidth { get; private set; }
         public static float ResizableBorderSpan { get; private set; }
 
-        public const float BigCellDesiredWidth = 120;
-        public const float SmallCellDesiredWidth = 50;
+        public const float BigCellPreferredWidth = 120;
+        public const float SmallCellPreferredWidth = 50;
         public const float MinCellWidth = 20;
         public const float MinCellHeight = 20;
         

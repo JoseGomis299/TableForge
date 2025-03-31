@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,7 +19,10 @@ namespace TableForge.UI
 
             // Subscribe to vertical scroll changes.
             ScrollView.verticalScroller.valueChanged += OnVerticalScroll;
-            _tableControl.OnScrollviewHeightChanged += () => RefreshVisibility(1);
+            _tableControl.OnScrollviewSizeChanged += delta =>
+            {
+                RefreshVisibility(delta.y);
+            };
         }
 
         public override void Clear()
@@ -55,7 +59,7 @@ namespace TableForge.UI
             if(_tableControl.RowData.Count <= 1) return;
             
             bool isScrollingDown = delta > 0;
-            
+
             StartingIndex = _tableControl.RowData.Values.OrderBy(x => x.Position).First(x => x.Position > 0).Position;
             EndingIndex = StartingIndex + _tableControl.RowData.Count - 2;
 
@@ -70,7 +74,11 @@ namespace TableForge.UI
             {
                 position = FindAndAddMiddleVisibleRow();
                 // If still not found, then no row is visible.
-                if (position == -1) return;
+                if (position == -1)
+                {
+                    SendVisibilityNotifications();
+                    return;
+                }
             }
 
             // Find all visible rows above the found row.
@@ -94,6 +102,8 @@ namespace TableForge.UI
                 else
                     break;
             }
+            
+            SendVisibilityNotifications();
         }
 
         /// <summary>
@@ -117,7 +127,7 @@ namespace TableForge.UI
                         header.IsVisible = IsHeaderVisible(header);
                         firstVisibleFound = header.IsVisible;
                         if (!firstVisibleFound && wasVisible)
-                            NotifyHeaderBecameInvisible(header, LastDirection);
+                            MakeHeaderInvisible(header);
                     }
                     else
                     {
@@ -142,7 +152,7 @@ namespace TableForge.UI
                         header.IsVisible = IsHeaderVisible(header);
                         lastVisibleFound = header.IsVisible;
                         if (!lastVisibleFound && wasVisible)
-                            NotifyHeaderBecameInvisible(header, LastDirection);
+                            MakeHeaderInvisible(header);
                     }
                     else
                     {
@@ -208,7 +218,7 @@ namespace TableForge.UI
             if(LockedVisibleHeaders.Contains(header)) return true;
             var viewBounds = ScrollView.worldBound.height == 0 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
             viewBounds.size = new Vector2(viewBounds.size.x, viewBounds.size.y + SecurityExtraSize.y);
-            
+
             // Check if the top of the header is visible.
             if (header.worldBound.yMax <= viewBounds.yMax &&
                 header.worldBound.yMax >= viewBounds.yMin)
