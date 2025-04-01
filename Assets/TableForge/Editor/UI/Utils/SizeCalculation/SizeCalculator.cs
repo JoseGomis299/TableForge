@@ -44,7 +44,7 @@ namespace TableForge.UI
         {
             TableSize tableSize = tableControl.PreferredSize;
             
-            return GetClampedSize(tableSize.GetTotalSize(false, true) + 
+            return GetClampedSize(tableSize.GetTotalSize(true) + 
                                   Vector2.one * (UiConstants.CellContentPadding * 1.5f + UiConstants.BorderWidth) +
                                   Vector2.up * GetAddRowButtonHeight(tableControl.TableData, tableControl.TableAttributes));
         }
@@ -87,14 +87,14 @@ namespace TableForge.UI
             if (visibility == TableHeaderVisibility.Hidden)
                 return Vector2.zero;
 
-            if (header == null)
-                return new Vector2(UiConstants.MinCellWidth, UiConstants.MinCellHeight);
-            
-            string headerName = NameResolver.ResolveHeaderName(header, visibility);
             float padding = visibility is TableHeaderVisibility.ShowHeaderNumber or TableHeaderVisibility.ShowHeaderLetter or TableHeaderVisibility.ShowHeaderNumberBase0 ? 
                 UiConstants.SmallHeaderPadding 
                 : UiConstants.HeaderPadding;
             
+            if (header == null)
+                return new Vector2(UiConstants.MinCellWidth, UiConstants.CellHeight + padding);
+            
+            string headerName = NameResolver.ResolveHeaderName(header, visibility);
             return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + padding, UiConstants.CellHeight + padding);
         }
         
@@ -154,7 +154,7 @@ namespace TableForge.UI
             if(parentMetadata.IsTableExpanded(subTableCell.Id))
             {
                 var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
-                localSize = tableSize.GetTotalSize(false, false);
+                localSize = tableSize.GetTotalSize(false);
                 localSize.y += GetAddRowButtonHeight(subTableCell.SubTable, subTableAttributes);
             }
             else

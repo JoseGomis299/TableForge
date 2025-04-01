@@ -84,6 +84,11 @@ namespace TableForge.UI
             ResizingHeaders.Remove(target.Id);
         }
         
+        public void Clear()
+        {
+            ResizingHeaders.Clear();
+        }
+        
         protected void InvokeResize(HeaderControl target, float delta, bool storeSize)
         {
             if(delta == 0) return;

@@ -8,14 +8,12 @@ namespace TableForge.UI
 {
     internal class TableControl : VisualElement
     {
-        // public event Action OnScrollviewHeightChanged;
-        // public event Action OnScrollviewWidthChanged;
         public event Action<Vector2> OnScrollviewSizeChanged; 
         
-        private readonly Dictionary<int, CellAnchorData> _columnData = new Dictionary<int, CellAnchorData>();
-        private readonly Dictionary<int, CellAnchorData> _rowData = new Dictionary<int, CellAnchorData>();
-        private readonly Dictionary<int, RowHeaderControl> _rowHeaders = new Dictionary<int, RowHeaderControl>();
-        private readonly Dictionary<int, ColumnHeaderControl> _columnHeaders = new Dictionary<int, ColumnHeaderControl>();
+        private readonly Dictionary<int, CellAnchorData> _columnData = new();
+        private readonly Dictionary<int, CellAnchorData> _rowData = new();
+        private readonly Dictionary<int, RowHeaderControl> _rowHeaders = new();
+        private readonly Dictionary<int, ColumnHeaderControl> _columnHeaders = new();
         
         private readonly ColumnHeaderContainerControl _columnHeaderContainer;
         private readonly RowHeaderContainerControl _rowHeaderContainer;
@@ -71,11 +69,6 @@ namespace TableForge.UI
             _rowHeaderContainer = new RowHeaderContainerControl(ScrollView);
             _cornerContainer = new CornerContainerControl(ScrollView);
             
-            RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
-            RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
-            ColumnVisibilityManager.OnHeaderBecameVisible += OnColumnHeaderBecameVisible;
-            ColumnVisibilityManager.OnHeaderBecameInvisible += OnColumnHeaderBecameInvisible;
-            
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
         }
@@ -86,8 +79,8 @@ namespace TableForge.UI
             Metadata = Parent == null ? TableMetadataManager.GetMetadata(table, table.Name) : Parent.TableControl.Metadata;
             if(!Inverted && Metadata.IsInverted) Invert();
             
-            PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
             if(_columnData.Any()) ClearTable();
+            PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
             
             // Add empty data for the corner cell
             _rowData.Add(0, new CellAnchorData(null));
@@ -96,7 +89,7 @@ namespace TableForge.UI
             BuildHeader();
             BuildRows();
             
-            this.RegisterSingleUseCallback<GeometryChangedEvent>(OnGeometryInitialized);
+            InitializeGeometry();
         }
 
         public void Update()
@@ -125,7 +118,6 @@ namespace TableForge.UI
         
         public void ClearTable()
         {
-            Debug.Log("Clearing table " + TableData.Name);
             foreach (var rowHeader in _rowHeaderContainer.Children())
             {
                 if (rowHeader is RowHeaderControl rowHeaderControl)
@@ -157,6 +149,7 @@ namespace TableForge.UI
             ScrollView.contentContainer.style.width = 0;
             ScrollView.contentContainer.style.height = 0;
             
+            Resizer.Clear();
             RowVisibilityManager.Clear();
             ColumnVisibilityManager.Clear();
             
@@ -164,6 +157,11 @@ namespace TableForge.UI
             _scrollViewWidth = 0;
             
             Resizer.OnResize -= RefreshScrollViewSize;
+            RowVisibilityManager.OnHeaderBecameVisible -= OnRowHeaderBecameVisible;
+            RowVisibilityManager.OnHeaderBecameInvisible -= OnRowHeaderBecameInvisible;
+            ColumnVisibilityManager.OnHeaderBecameVisible -= OnColumnHeaderBecameVisible;
+            ColumnVisibilityManager.OnHeaderBecameInvisible -= OnColumnHeaderBecameInvisible;
+            
             ScrollView.contentContainer.UnregisterCallback<GeometryChangedEvent>(evt =>
             {
                 Vector2 delta = new Vector2(evt.newRect.width - evt.oldRect.width, evt.newRect.height - evt.oldRect.height);
@@ -248,13 +246,18 @@ namespace TableForge.UI
             topContainer.Add(_cornerContainer);
         }
         
-        private void OnGeometryInitialized()
+        private void InitializeGeometry()
         {
             Resizer.OnResize -= RefreshScrollViewSize;
             Resizer.OnResize += RefreshScrollViewSize;
             
             _scrollViewHeight = UiConstants.CellHeight;
             _scrollViewWidth = 0;
+            
+            RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
+            RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
+            ColumnVisibilityManager.OnHeaderBecameVisible += OnColumnHeaderBecameVisible;
+            ColumnVisibilityManager.OnHeaderBecameInvisible += OnColumnHeaderBecameInvisible;
             
             Resizer.ResizeAll(true);
             
@@ -380,28 +383,6 @@ namespace TableForge.UI
         {
             OnScrollviewSizeChanged?.Invoke(delta);
         }
-        
-        // private void RefreshScrollViewHeight(float delta)
-        // {
-        //     ScrollView.contentContainer.UnregisterCallback<GeometryChangedEvent>(_ =>  OnScrollviewHeightChanged?.Invoke());
-        //     ScrollView.contentContainer.RegisterCallback<GeometryChangedEvent>(_ =>  OnScrollviewHeightChanged?.Invoke());
-        //
-        //     
-        //     _scrollViewHeight += delta;
-        //     ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
-        //     ScrollView.contentContainer.style.height = _scrollViewHeight;
-        //     _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
-        // }
-        //
-        // private void RefreshScrollViewWidth(float delta)
-        // {
-        //     ScrollView.contentContainer.UnregisterCallback<GeometryChangedEvent>(_ =>  OnScrollviewWidthChanged?.Invoke());
-        //     ScrollView.contentContainer.RegisterCallback<GeometryChangedEvent>(_ =>  OnScrollviewWidthChanged?.Invoke());
-        //     
-        //     _scrollViewWidth += delta;
-        //     ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
-        //     ScrollView.contentContainer.style.width = _scrollViewWidth;
-        // }
 
         public CellControl GetCellControl(int rowId, int columnId)
         {

@@ -87,7 +87,6 @@ namespace TableForge.UI
             {
                 if (!row.Cells.TryGetValue(column.Position, out var cell)  || !TableControl.ColumnHeaders[row.Id].IsVisible) continue;
 
-                Debug.Log("VAR");
                 var cellField = CreateCellField(cell);
                 Add(cellField);
             }

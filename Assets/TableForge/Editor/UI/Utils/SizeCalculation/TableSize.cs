@@ -22,8 +22,9 @@ namespace TableForge.UI
             _tableAttributes = tableAttributes;
         }
 
-        public Vector2 GetTotalSize(bool inverted, bool useStoredValues)
+        public Vector2 GetTotalSize(bool useStoredValues)
         {
+            bool inverted = !_table.IsSubTable && _tableMetadata.IsInverted;
             float width = 0, height = 0;
             
             foreach (var row in _rowPreferredSizes)
@@ -67,11 +68,23 @@ namespace TableForge.UI
         
         public Vector2 GetHeaderSize(CellAnchor cellAnchor)
         {
+            bool inverted = !_table.IsSubTable && _tableMetadata.IsInverted;
+
+            if (!inverted)
+            {
+                return cellAnchor switch
+                {
+                    Row row => new Vector2(_columnPreferredSizes[0].x, _rowPreferredSizes[row.Id].y),
+                    Column column => new Vector2(_columnPreferredSizes[column.Id].x, _rowPreferredSizes[0].y),
+                    _ => new Vector2(_columnPreferredSizes[0].x, _rowPreferredSizes[0].y)
+                };
+            }
+            
             return cellAnchor switch
             {
-                Row row => new Vector2(_columnPreferredSizes[0].x, _rowPreferredSizes[row.Id].y),
-                Column column => new Vector2(_columnPreferredSizes[column.Id].x, _rowPreferredSizes[0].y),
-                _ => new Vector2(_columnPreferredSizes[0].x, _rowPreferredSizes[0].y)
+                Row row => new Vector2(_rowPreferredSizes[row.Id].x, _columnPreferredSizes[0].y),
+                Column column => new Vector2(_rowPreferredSizes[0].x, _columnPreferredSizes[column.Id].y),
+                _ => new Vector2(_rowPreferredSizes[0].x, _columnPreferredSizes[0].y)
             };
         }
         
@@ -87,11 +100,11 @@ namespace TableForge.UI
             switch (cellAnchor)
             {
                 case Row row:
-                    AddColumnSize(0, row.Id,new Vector2(size.x, 0));
+                    AddColumnSize(0, row.Id, size);
                     AddRowSize(row.Id, 0, size);
                     break;
                 case Column column:
-                    AddRowSize(0, column.Id,new Vector2(0, size.y));
+                    AddRowSize(0, column.Id, size);
                     AddColumnSize(column.Id, 0, size);
                     break;
                 default:

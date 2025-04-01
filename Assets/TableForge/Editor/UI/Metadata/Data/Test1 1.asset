@@ -14,17 +14,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tableName: Test1 1
   expandedTables:
-    values: b704d05b
-  invertedTables:
     values: 
+  invertedTables:
+    values: 00000000
   hiddenFields:
     values: 
   cellAnchorMetadata:
-    m_Keys: 1c36fb2e9612a5929905f8ab
+    m_Keys: 7e406e0ebe943fda9905f8ab9c903fda910fac97f7799877426a6e2000000000c19e2e62e786332522edb23abf6995b745816ceb023f3e2504cd4f9eb39fd9c7277a55fa220ee30bcda90b7722ad70d9
     m_Values:
     - position: 0
-      size: {x: 103, y: 520}
+      size: {x: 212, y: 31}
     - position: 0
-      size: {x: 241, y: 20}
+      size: {x: 212, y: 31}
+    - position: 0
+      size: {x: 220, y: 20}
+    - position: 0
+      size: {x: 212, y: 31}
+    - position: 0
+      size: {x: 212, y: 31}
+    - position: 0
+      size: {x: 212, y: 31}
+    - position: 0
+      size: {x: 212, y: 31}
+    - position: 0
+      size: {x: 212, y: 20}
+    - position: 0
+      size: {x: 210, y: 20}
+    - position: 0
+      size: {x: 121, y: 20}
+    - position: 0
+      size: {x: 212, y: 42}
+    - position: 0
+      size: {x: 123, y: 20}
+    - position: 0
+      size: {x: 220, y: 20}
+    - position: 0
+      size: {x: 220, y: 20}
+    - position: 0
+      size: {x: 220, y: 20}
+    - position: 0
+      size: {x: 212, y: 31}
+    - position: 0
+      size: {x: 219, y: 20}
     - position: 0
       size: {x: 103, y: 31}
+    - position: 0
+      size: {x: 103, y: 31}
+    - position: 0
+      size: {x: 220, y: 20}

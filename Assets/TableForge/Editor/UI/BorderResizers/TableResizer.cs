@@ -15,7 +15,7 @@ namespace TableForge.UI
         
         private Queue<Action> _resizeQueue = new Queue<Action>();
         
-        private bool IsResizing => _horizontalIsResizing || _verticalIsResizing;
+        public bool IsResizing => _horizontalIsResizing || _verticalIsResizing;
         
         private Vector2 _currentDelta;
         private bool _horizontalIsResizing;
@@ -31,6 +31,12 @@ namespace TableForge.UI
             HorizontalResizer.OnManualResize += InvokeManualResizeFromHorizontal;
             VerticalResizer.OnResize += InvokeResizeFromVertical;
             VerticalResizer.OnManualResize += InvokeManualResizeFromVertical;
+        }
+
+        public void Clear()
+        {
+            _resizeQueue.Clear();
+            _verticalIsResizing = _horizontalIsResizing = false;
         }
         
         public void ResizeAll(bool adjustToStoredSize)
@@ -114,6 +120,7 @@ namespace TableForge.UI
                 
                 if(_resizeQueue.Count > 0)
                 {
+                    Debug.Log("Invoking next resize");
                     _resizeQueue.Dequeue().Invoke();
                 }
             }
@@ -131,6 +138,7 @@ namespace TableForge.UI
                 
                 if(_resizeQueue.Count > 0)
                 {
+                    Debug.Log("Invoking next resize");
                     _resizeQueue.Dequeue().Invoke();
                 }
             }
