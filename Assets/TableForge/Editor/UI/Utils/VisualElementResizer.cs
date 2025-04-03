@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,73 +6,78 @@ namespace TableForge.UI
 {
     internal static class VisualElementResizer
     {
-        private static HashSet<VisualElement> _resizingElements = new();
-        private static Dictionary<VisualElement, Queue<Action>> _resizeQueue = new();
-        
-        public static void ChangeSize(VisualElement element, float width, float height, Action<SizeChangedEvent> callback)
+        private const int MaxAttempts = 3;
+        private const long RetryDelay = 0;
+
+        public static void ChangeSize(
+            VisualElement element, 
+            float width, 
+            float height, 
+            Action<GeometryChangedEvent> onSuccess,
+            Action<string> onError = null)
         {
-            if (_resizingElements.Contains(element))
+            width = Mathf.Round(width);
+            height = Mathf.Round(height);
+
+            var initialWidth = Mathf.Round(element.resolvedStyle.width);
+            var initialHeight = Mathf.Round(element.resolvedStyle.height);
+
+            if (Mathf.Approximately(initialWidth, width) && 
+                Mathf.Approximately(initialHeight, height))
             {
-                Debug.Log(element + " is resizing");
-                if (!_resizeQueue.ContainsKey(element))
-                    _resizeQueue.Add(element, new Queue<Action>());
-                
-                _resizeQueue[element].Enqueue(() => ChangeSize(element, width, height, callback));
+                onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
                 return;
             }
 
-            var prevSize = new Vector2(element.style.width.value.value, element.style.height.value.value);
-            var newSize = new Vector2(width, height);
-            SizeChangedEvent sizeChangedEvent = new SizeChangedEvent(element, prevSize, newSize);
-            
-            if (!Mathf.Approximately(prevSize.x, newSize.x))
-            {
-                _resizingElements.Add(element);
+            var targetSize = new Vector2(width, height);
+            var attempts = 0;
 
-                element.style.width = width;
-                element.RegisterSingleUseCallback<GeometryChangedEvent>(() =>
+            void CheckAndApplySize()
+            {
+                var currentWidth = Mathf.Round(element.resolvedStyle.width);
+                var currentHeight = Mathf.Round(element.resolvedStyle.height);
+                var currentSize = new Vector2(currentWidth, currentHeight);
+
+                // Check if we need to apply width
+                if (!Mathf.Approximately(currentWidth, width))
                 {
-                    if (!Mathf.Approximately(prevSize.y, newSize.y))
-                    {
-                        element.style.height = height;
-                        element.RegisterSingleUseCallback<GeometryChangedEvent>(() => OnSizeChangeCompleted(sizeChangedEvent, callback));
-                    }
-                    else OnSizeChangeCompleted(sizeChangedEvent, callback);
-                });
+                    element.style.width = width;
+                    attempts++;
+                    element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
+                    return;
+                }
+
+                // Check if we need to apply height
+                if (!Mathf.Approximately(currentHeight, height))
+                {
+                    element.style.height = height;
+                    attempts++;
+                    element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
+                    return;
+                }
+
+                // Success case
+                if (currentSize == targetSize)
+                {
+                    onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
+                    return;
+                }
+
+                // Failure case
+                if (attempts >= MaxAttempts)
+                {
+                    onError?.Invoke($"Failed to resize after {MaxAttempts} attempts");
+                    return;
+                }
+
+                attempts++;
+                element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
             }
-            else if (!Mathf.Approximately(prevSize.y, newSize.y))
-            {
-                _resizingElements.Add(element);
 
-                element.style.height = height;
-                element.RegisterSingleUseCallback<GeometryChangedEvent>(() => OnSizeChangeCompleted(sizeChangedEvent, callback));
-            }
-        }
-
-        private static void OnSizeChangeCompleted(SizeChangedEvent evt, Action<SizeChangedEvent> callback)
-        {
-            _resizingElements.Remove(evt.Target);
-            callback?.Invoke(evt);
-
-            if (_resizeQueue.ContainsKey(evt.Target) && _resizeQueue[evt.Target].Count > 0)
-            {
-                _resizeQueue[evt.Target].Dequeue()?.Invoke();
-            }
-        }
-    }
-    
-    
-    internal readonly struct SizeChangedEvent
-    {
-        public VisualElement Target { get; }
-        public Vector2 PrevSize { get; }
-        public Vector2 NewSize { get; }
-
-        public SizeChangedEvent(VisualElement target, Vector2 prevSize, Vector2 newSize)
-        {
-            Target = target;
-            PrevSize = prevSize;
-            NewSize = newSize;
+            // Initial application
+            element.style.width = width;
+            element.style.height = height;
+            element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TableForge.UI
             
             if (cell is SubTableCell subTableCell)
             {
-                return GetSubTableCellControl(subTableCell, tableControl);
+                return GetSubTableCellControl(subTableCell);
             }
             
             if(_cellControlPools.TryGetValue(cell.Type, out var pool))
@@ -50,7 +50,7 @@ namespace TableForge.UI
             }
         }
         
-        private CellControl GetSubTableCellControl(SubTableCell subTableCell, TableControl tableControl)
+        private CellControl GetSubTableCellControl(SubTableCell subTableCell)
         {
             if (!_subTableCellControlPools.TryGetValue(subTableCell.Type, out var subTableCellPools))
             {

@@ -24,7 +24,6 @@ namespace TableForge.UI
         
         private Vector3 _newSize;
         protected VisualElement ResizingPreview;
-
         
         protected BorderResizer(TableControl tableControl)
         {
@@ -93,13 +92,27 @@ namespace TableForge.UI
         {
             if(delta == 0) return;
             
-            target.RegisterSingleUseCallback<GeometryChangedEvent>(() =>
+            target.RegisterSingleUseCallback<GeometryChangedEvent>(_ =>
             {
                 if (storeSize)
                 {
                     int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
-                    TableControl.Metadata.SetAnchorSize(anchorId,
-                        new Vector2(target.resolvedStyle.width, target.resolvedStyle.height));
+                    float width = target.resolvedStyle.width;
+                    float height = target.resolvedStyle.height;
+                    Vector2 sizeToStore = TableControl.Metadata.GetAnchorSize(anchorId);
+                    
+                    bool isRow = target is RowHeaderControl;
+
+                    if (isRow)
+                    {
+                        sizeToStore.y = height;
+                    }
+                    else
+                    {
+                        sizeToStore.x = width;
+                    }
+                    
+                    TableControl.Metadata.SetAnchorSize(anchorId, sizeToStore);
                 }
 
                 OnResize?.Invoke(delta);
@@ -110,7 +123,7 @@ namespace TableForge.UI
         {
             if(delta == 0) return;
             
-            target.RegisterSingleUseCallback<GeometryChangedEvent>(() =>
+            target.RegisterSingleUseCallback<GeometryChangedEvent>(_ =>
             {
                 OnManualResize?.Invoke(delta);
             });

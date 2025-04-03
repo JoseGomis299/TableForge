@@ -22,6 +22,8 @@ namespace TableForge.UI
             ScrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
             _tableControl.OnScrollviewSizeChanged += delta =>
             {
+                if(delta.x == 0 && delta.y != 0) return;
+                
                 LastDirection = 1;
                 RefreshVisibility(0);
             };
@@ -70,7 +72,7 @@ namespace TableForge.UI
             {
                 if (header.IsVisible || IsHeaderVisible(header))
                 {
-                    MakeHeaderVisible(header, insertAtTop: false, LastDirection);
+                    MakeHeaderVisible(header, insertAtTop: false);
                 }
             }
             
@@ -92,7 +94,7 @@ namespace TableForge.UI
         {
             if(LockedVisibleHeaders.Contains(header)) return true;
             
-            var viewBounds = ScrollView.worldBound.width <= 1 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
+            var viewBounds = ScrollView.contentViewport.worldBound;
             viewBounds.size = new Vector2(viewBounds.size.x + SecurityExtraSize.x - _tableControl.CornerContainer.worldBound.width, viewBounds.size.y);
             viewBounds.x += _tableControl.CornerContainer.worldBound.width;
             

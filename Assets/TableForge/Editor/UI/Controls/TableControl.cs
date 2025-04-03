@@ -69,6 +69,12 @@ namespace TableForge.UI
             _rowHeaderContainer = new RowHeaderContainerControl(ScrollView);
             _cornerContainer = new CornerContainerControl(ScrollView);
             
+            // Subscribe to visibility events
+            RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
+            RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
+            ColumnVisibilityManager.OnHeaderBecameVisible += OnColumnHeaderBecameVisible;
+            ColumnVisibilityManager.OnHeaderBecameInvisible += OnColumnHeaderBecameInvisible;
+            
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
         }
@@ -145,28 +151,16 @@ namespace TableForge.UI
             _columnData.Clear();
             _columnHeaders.Clear();
             
-            _cornerContainer.CornerControl.style.width = 0;
-            ScrollView.contentContainer.style.width = 0;
-            ScrollView.contentContainer.style.height = 0;
-            
             Resizer.Clear();
             RowVisibilityManager.Clear();
             ColumnVisibilityManager.Clear();
+            
+            _cornerContainer.CornerControl.style.width = 0;
             
             _scrollViewHeight = UiConstants.CellHeight;
             _scrollViewWidth = 0;
             
             Resizer.OnResize -= RefreshScrollViewSize;
-            RowVisibilityManager.OnHeaderBecameVisible -= OnRowHeaderBecameVisible;
-            RowVisibilityManager.OnHeaderBecameInvisible -= OnRowHeaderBecameInvisible;
-            ColumnVisibilityManager.OnHeaderBecameVisible -= OnColumnHeaderBecameVisible;
-            ColumnVisibilityManager.OnHeaderBecameInvisible -= OnColumnHeaderBecameInvisible;
-            
-            ScrollView.contentContainer.UnregisterCallback<GeometryChangedEvent>(evt =>
-            {
-                Vector2 delta = new Vector2(evt.newRect.width - evt.oldRect.width, evt.newRect.height - evt.oldRect.height);
-                OnScrollviewSizeChanged?.Invoke(delta);
-            });
             
             if(Parent != null)
             {
@@ -203,6 +197,7 @@ namespace TableForge.UI
         {
             var scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
             scrollView.AddToClassList(USSClasses.Fill);
+            scrollView.contentContainer.AddToClassList(USSClasses.TableScrollViewContent);
             Add(scrollView);
             
             return scrollView;
@@ -254,11 +249,6 @@ namespace TableForge.UI
             _scrollViewHeight = UiConstants.CellHeight;
             _scrollViewWidth = 0;
             
-            RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
-            RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
-            ColumnVisibilityManager.OnHeaderBecameVisible += OnColumnHeaderBecameVisible;
-            ColumnVisibilityManager.OnHeaderBecameInvisible += OnColumnHeaderBecameInvisible;
-            
             Resizer.ResizeAll(true);
             
             if(Parent != null)
@@ -268,7 +258,7 @@ namespace TableForge.UI
                 return;
             }
             
-            Root.RegisterCallbackOnce<GeometryChangedEvent>(evt =>
+            Root.RegisterCallback<GeometryChangedEvent>(evt =>
             {
                 Vector2 delta = new Vector2(evt.newRect.width - evt.oldRect.width, evt.newRect.height - evt.oldRect.height);
                 OnScrollviewSizeChanged?.Invoke(delta);
@@ -363,7 +353,6 @@ namespace TableForge.UI
         
         private void RefreshScrollViewSize(Vector2 sizeDelta)
         {
-            
             _scrollViewWidth += sizeDelta.x;
             ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
             
@@ -371,10 +360,11 @@ namespace TableForge.UI
             ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
             _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
             
+
             VisualElementResizer.ChangeSize(ScrollView.contentContainer, _scrollViewWidth, _scrollViewHeight,
                 evt =>
                 {
-                    Vector2 delta = new Vector2(evt.NewSize.x - evt.PrevSize.x, evt.NewSize.y - evt.PrevSize.y);
+                    Vector2 delta = new Vector2(evt.newRect.size.x - evt.oldRect.size.x, evt.newRect.size.y - evt.oldRect.size.y);
                     OnScrollviewSizeChanged?.Invoke(delta);
                 });
         }

@@ -31,5 +31,6 @@ namespace TableForge.UI
         public const string AddRowButton = "add-row__button";
         public const string AddRowButtonLabel = "add-row__button__label";
         public const string CornerText = "table__corner__text";
+        public const string TableScrollViewContent = "table__scroll-view-content";
     }
 }

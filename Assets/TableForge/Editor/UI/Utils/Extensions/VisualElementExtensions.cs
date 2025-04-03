@@ -68,14 +68,14 @@ namespace TableForge.UI
         /// <param name="actionToPerform">The action that will be performed whe the callback is triggered.</param>
         /// <param name="trickleDown">Whether the callback will be called during the trickle down phase.</param>
         /// <typeparam name="T">The type of the callback to be registered.</typeparam>
-        public static void RegisterSingleUseCallback<T>(this VisualElement element, Action actionToPerform, TrickleDown trickleDown = TrickleDown.NoTrickleDown) where T : EventBase<T>, new()
+        public static void RegisterSingleUseCallback<T>(this VisualElement element, Action<T> actionToPerform, TrickleDown trickleDown = TrickleDown.NoTrickleDown) where T : EventBase<T>, new()
         {
             element.RegisterCallback<T>(OnEventPerformed, trickleDown);
             
             void OnEventPerformed(T evt)
             {
                 element.UnregisterCallback<T>(OnEventPerformed);
-                actionToPerform?.Invoke();
+                actionToPerform?.Invoke(evt);
             }
         }
         

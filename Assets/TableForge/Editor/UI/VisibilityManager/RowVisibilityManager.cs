@@ -21,6 +21,8 @@ namespace TableForge.UI
             ScrollView.verticalScroller.valueChanged += OnVerticalScroll;
             _tableControl.OnScrollviewSizeChanged += delta =>
             {
+                if(delta.y == 0 && delta.x != 0) return;
+
                 RefreshVisibility(delta.y);
             };
         }
@@ -87,7 +89,7 @@ namespace TableForge.UI
                 int rowId = _tableControl.GetRowAtPosition(i).Id;
                 var header = _tableControl.RowHeaders[rowId];
                 if (header.IsVisible || IsHeaderVisible(header))
-                    MakeHeaderVisible(header, insertAtTop: true, LastDirection);
+                    MakeHeaderVisible(header, insertAtTop: true);
                 else
                     break;
             }
@@ -98,7 +100,7 @@ namespace TableForge.UI
                 int rowId = _tableControl.GetRowAtPosition(i).Id;
                 var header = _tableControl.RowHeaders[rowId];
                 if (header.IsVisible || IsHeaderVisible(header))
-                    MakeHeaderVisible(header, insertAtTop: false, LastDirection);
+                    MakeHeaderVisible(header, insertAtTop: false);
                 else
                     break;
             }
@@ -173,7 +175,7 @@ namespace TableForge.UI
                 int position = _tableControl.RowData[VisibleHeaders[VisibleHeaders.Count / 2].Id].Position;
                 int rowId = _tableControl.GetRowAtPosition(position).Id;
                 var midHeader = _tableControl.RowHeaders[rowId];
-                MakeHeaderVisible(midHeader, insertAtTop: false, LastDirection);
+                MakeHeaderVisible(midHeader, insertAtTop: false);
                 return position;
             }
             return -1;
@@ -195,7 +197,7 @@ namespace TableForge.UI
 
                 if (midHeader.IsVisible || IsHeaderVisible(midHeader))
                 {
-                    MakeHeaderVisible(midHeader, insertAtTop: false, LastDirection);
+                    MakeHeaderVisible(midHeader, insertAtTop: false);
                     return mid;
                 }
 
@@ -216,8 +218,8 @@ namespace TableForge.UI
         protected override bool IsHeaderVisible(RowHeaderControl header)
         {
             if(LockedVisibleHeaders.Contains(header)) return true;
-            var viewBounds = ScrollView.worldBound.height == 0 ? ScrollView.contentContainer.worldBound : ScrollView.worldBound;
-            viewBounds.size = new Vector2(viewBounds.size.x, viewBounds.size.y + SecurityExtraSize.y);
+            var viewBounds = ScrollView.contentViewport.worldBound;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height + SecurityExtraSize.y);
 
             // Check if the top of the header is visible.
             if (header.worldBound.yMax <= viewBounds.yMax &&

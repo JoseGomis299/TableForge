@@ -32,7 +32,7 @@ namespace TableForge.UI
             VerticalResizer.OnResize += InvokeResizeFromVertical;
             VerticalResizer.OnManualResize += InvokeManualResizeFromVertical;
         }
-
+        
         public void Clear()
         {
             _resizeQueue.Clear();
@@ -43,24 +43,45 @@ namespace TableForge.UI
         {
             if (IsResizing)
             {
-                Debug.Log(TableControl.TableData.Name + " is resizing");
                 _resizeQueue.Enqueue(() => ResizeAll(adjustToStoredSize));
                 return;
             };
-            
+
             float horizontalDelta = HorizontalResizer.ResizeAll(adjustToStoredSize);
-            float verticalDelta = VerticalResizer.ResizeAll(adjustToStoredSize);
-            _currentDelta = new Vector2(horizontalDelta, verticalDelta);
+            _currentDelta = new Vector2(horizontalDelta, 0);
 
             if(horizontalDelta != 0)
             {
                 HorizontalResizer.OnResize += OnHorizontalResizeComplete;
                 _horizontalIsResizing = true;
             }
-            if(verticalDelta != 0)
+            else
             {
-                VerticalResizer.OnResize += OnVerticalResizeComplete;
-                _verticalIsResizing = true;
+                _horizontalIsResizing = true;
+                OnHorizontalResizeComplete(0);
+            }
+            
+            void OnHorizontalResizeComplete(float delta)
+            {
+                if(!_horizontalIsResizing) return;
+                HorizontalResizer.OnResize -= OnHorizontalResizeComplete;
+                _horizontalIsResizing = false;
+                
+                _currentDelta.y = VerticalResizer.ResizeAll(adjustToStoredSize);
+                if(_currentDelta.y != 0)
+                {
+                    VerticalResizer.OnResize += OnVerticalResizeComplete;
+                    _verticalIsResizing = true;
+                }
+                else
+                {
+                    OnResize?.Invoke(_currentDelta);
+                
+                    if(_resizeQueue.Count > 0)
+                    {
+                        _resizeQueue.Dequeue().Invoke();
+                    }
+                }
             }
         }
         
@@ -68,27 +89,49 @@ namespace TableForge.UI
         {
             if(IsResizing) 
             {
-                Debug.Log(TableControl.TableData.Name + " is resizing");
                 _resizeQueue.Enqueue(() => ResizeCell(cellControl, storeSize));
                 return;
             }
-            
+
             float horizontalDelta = HorizontalResizer.ResizeCell(cellControl, storeSize);
-            float verticalDelta = VerticalResizer.ResizeCell(cellControl, storeSize);
-            _currentDelta = new Vector2(horizontalDelta, verticalDelta);
-            
+            _currentDelta = new Vector2(horizontalDelta, 0);
+
             if(horizontalDelta != 0)
             {
                 HorizontalResizer.OnResize += OnHorizontalResizeComplete;
                 _horizontalIsResizing = true;
             }
-            if(verticalDelta != 0)
+            else
             {
-                VerticalResizer.OnResize += OnVerticalResizeComplete;
-                _verticalIsResizing = true;
+                _horizontalIsResizing = true;
+                OnHorizontalResizeComplete(0);
             }
 
             TableControl.Parent?.TableControl.Resizer.ResizeCell(cellControl.TableControl.Parent, storeSize);
+            
+            void OnHorizontalResizeComplete(float delta)
+            {
+                if(!_horizontalIsResizing) return;
+
+                HorizontalResizer.OnResize -= OnHorizontalResizeComplete;
+                _horizontalIsResizing = false;
+                _currentDelta.y = VerticalResizer.ResizeCell(cellControl, storeSize);
+                
+                if(_currentDelta.y != 0)
+                {
+                    VerticalResizer.OnResize += OnVerticalResizeComplete;
+                    _verticalIsResizing = true;
+                }
+                else
+                {
+                    OnResize?.Invoke(_currentDelta);
+                
+                    if(_resizeQueue.Count > 0)
+                    {
+                        _resizeQueue.Dequeue().Invoke();
+                    }
+                }
+            }
         }
         
         private void InvokeResizeFromVertical(float delta)
@@ -110,41 +153,18 @@ namespace TableForge.UI
         {
             InvokeManualResize( new Vector2(delta, 0));
         }
-
+        
         private void OnVerticalResizeComplete(float delta)
         {
-            if (!_horizontalIsResizing)
-            {
-                _horizontalIsResizing = _verticalIsResizing = false;
-                OnResize?.Invoke(_currentDelta);
-                
-                if(_resizeQueue.Count > 0)
-                {
-                    Debug.Log("Invoking next resize");
-                    _resizeQueue.Dequeue().Invoke();
-                }
-            }
-               
             VerticalResizer.OnResize -= OnVerticalResizeComplete;
             _verticalIsResizing = false;
-        }
 
-        private void OnHorizontalResizeComplete(float delta)
-        {
-            if (!_verticalIsResizing)
+            OnResize?.Invoke(_currentDelta);
+                
+            if(_resizeQueue.Count > 0)
             {
-                _horizontalIsResizing = _verticalIsResizing = false;
-                OnResize?.Invoke(_currentDelta);
-                
-                if(_resizeQueue.Count > 0)
-                {
-                    Debug.Log("Invoking next resize");
-                    _resizeQueue.Dequeue().Invoke();
-                }
+                _resizeQueue.Dequeue().Invoke();
             }
-                
-            HorizontalResizer.OnResize -= OnHorizontalResizeComplete;
-            _horizontalIsResizing = false;
         }
         
         private void InvokeResize(Vector2 delta)

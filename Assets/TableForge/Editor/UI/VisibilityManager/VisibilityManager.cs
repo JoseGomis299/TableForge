@@ -24,8 +24,8 @@ namespace TableForge.UI
         protected int StartingIndex = -1;
         protected int EndingIndex = -1;
         
-        private readonly List<THeader> _invisibleHeadersThisFrame = new List<THeader>();
-        private readonly List<THeader> _visibleHeadersThisFrame = new List<THeader>();
+        private readonly HashSet<THeader> _invisibleHeadersThisFrame = new HashSet<THeader>();
+        private readonly HashSet<THeader> _visibleHeadersThisFrame = new HashSet<THeader>();
         
         
         public IReadOnlyList<THeader> CurrentVisibleHeaders => VisibleHeaders;
@@ -40,7 +40,6 @@ namespace TableForge.UI
             foreach (var header in VisibleHeaders)
             {
                 header.IsVisible = false;
-                NotifyHeaderBecameInvisible(header, 0);
             }
             VisibleHeaders.Clear();
             LockedVisibleHeaders.Clear();
@@ -50,7 +49,7 @@ namespace TableForge.UI
         {
             LockedVisibleHeaders.Add(header);
             if(!header.IsVisible)
-                MakeHeaderVisible(header, false, 0);
+                MakeHeaderVisible(header, false);
         }
         
         public void UnlockHeaderVisibility(THeader header)
@@ -61,7 +60,7 @@ namespace TableForge.UI
         /// <summary>
         /// Shows a header by marking it as visible, adding it to the list, and notifying listeners.
         /// </summary>
-        protected void MakeHeaderVisible(THeader header, bool insertAtTop, int direction)
+        protected void MakeHeaderVisible(THeader header, bool insertAtTop)
         {
             if (insertAtTop)
                 VisibleHeaders.Insert(0, header);
@@ -71,8 +70,7 @@ namespace TableForge.UI
             bool wasVisible = header.IsVisible;
             header.IsVisible = true;
             
-            int invisibleIndex = _invisibleHeadersThisFrame.IndexOf(header);
-            if(invisibleIndex != -1) _invisibleHeadersThisFrame.RemoveAt(invisibleIndex);
+            _invisibleHeadersThisFrame.Remove(header);
             
             if(FirstVisibleHeader == null)
                 FirstVisibleHeader = header;

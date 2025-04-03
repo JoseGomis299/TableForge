@@ -39,14 +39,18 @@ namespace TableForge.UI
                 ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
                 RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
             };
-            
+
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
             _tableControl.SetTable(table);
-            mainTable.Add(_tableControl);
             
-            EditorApplication.update += Update;
-            InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
-            UiConstants.OnStylesInitialized -= OnStylesInitialized;
+            mainTable.schedule.Execute(() =>
+            {
+                mainTable.Add(_tableControl);
+            
+                EditorApplication.update += Update;
+                InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
+                UiConstants.OnStylesInitialized -= OnStylesInitialized;
+            }).ExecuteLater(0);
         }
         
         private void OnScriptableObjectModified(ScriptableObject scriptableObject)

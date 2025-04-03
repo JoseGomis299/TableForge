@@ -33,14 +33,6 @@ namespace TableForge.UI
         {
             _tableControl.Invert();
             _tableControl.RebuildPage();
-            
-            _tableControl.OnScrollviewSizeChanged += ResizeTable;
-        }
-        
-        private void ResizeTable(Vector2 _)
-        {
-            _tableControl.OnScrollviewSizeChanged -= ResizeTable;
-            _tableControl.Resizer.ResizeAll(false);
         }
     }
 }
