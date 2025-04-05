@@ -78,7 +78,7 @@ namespace TableForge
 
             if (constructor != null)
             {
-                _cellConstructors.Add(cellType, constructor);
+                _cellConstructors.TryAdd(cellType, constructor);
                 return (Cell)constructor.Invoke(new object[] { column, row, fieldInfo });
             }
 

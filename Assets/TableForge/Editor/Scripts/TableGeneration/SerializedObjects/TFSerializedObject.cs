@@ -15,17 +15,19 @@ namespace TableForge
         protected IColumnGenerator ColumnGenerator;
         
         public Object RootObject { get; }
+        public string RootObjectGuid { get; }
         public string Name { get; protected set; }
         public object TargetInstance { get; protected set; }
         public TFSerializedType SerializedType { get; protected set; }
         
 
-        public TFSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string name = null)
+        public TFSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string guid, string name = null)
         {
             TargetInstance = targetInstance;
             SerializedType = new TFSerializedType(targetInstance.GetType(), parentField);
             ColumnGenerator = SerializedType;
             RootObject = rootObject;
+            RootObjectGuid = guid;
             
             if (name == null)
             {

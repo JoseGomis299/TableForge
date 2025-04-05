@@ -17,7 +17,7 @@ namespace TableForge
         private readonly IList _collection;
         public int CollectionIndex { get; set; }
         
-        public TFSerializedListItem(IList collection, object itemFromCollection, int collectionIndex, Object rootObject) : base(itemFromCollection, null, rootObject)
+        public TFSerializedListItem(IList collection, object itemFromCollection, int collectionIndex, Object rootObject, string guid) : base(itemFromCollection, null, rootObject, guid)
         {
             TargetInstance = collection;
             Name = "Element " + collectionIndex;

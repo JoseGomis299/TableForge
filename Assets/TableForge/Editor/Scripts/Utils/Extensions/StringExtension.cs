@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace TableForge
 {
-    internal static class StringExtensions
+    internal static class StringExtension
     {
         private static readonly Regex UnderscorePrefixRegex = new(@"^m_|^_", RegexOptions.Compiled);
         private static readonly Regex CamelCaseRegex = new(@"([a-z])([A-Z])", RegexOptions.Compiled);

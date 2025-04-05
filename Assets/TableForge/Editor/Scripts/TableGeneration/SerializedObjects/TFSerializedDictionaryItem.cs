@@ -15,7 +15,7 @@ namespace TableForge
         private readonly IDictionary _dictionary;
         private object _itemKey;
         
-        public TFSerializedDictionaryItem(IDictionary dictionary, object itemKey, Object rootObject) : base(dictionary, null, rootObject)
+        public TFSerializedDictionaryItem(IDictionary dictionary, object itemKey, Object rootObject, string guid) : base(dictionary, null, rootObject, guid)
         {
             TargetInstance = dictionary;
             Name = itemKey.GetType().IsPrimitive ? itemKey.ToString() : itemKey.GetHashCode().ToString();

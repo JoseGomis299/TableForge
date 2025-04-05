@@ -46,7 +46,7 @@ namespace TableForge
             
             for (var i = 0; i < ((IList)Value).Count; i++)
             {
-                rowsData.Add(new TFSerializedListItem((IList)Value, ((IList)Value)[i], i, TfSerializedObject.RootObject));
+                rowsData.Add(new TFSerializedListItem((IList)Value, ((IList)Value)[i], i, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid));
             }
             
             if(SubTable != null)
@@ -75,7 +75,7 @@ namespace TableForge
             else if (Value is IList list)
             {
                 list.Add(item);
-                TFSerializedListItem listItem = new TFSerializedListItem(list, item, list.Count - 1, TfSerializedObject.RootObject);
+                TFSerializedListItem listItem = new TFSerializedListItem(list, item, list.Count - 1, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid);
                 TableGenerator.GenerateRow(SubTable, listItem);
             }
         }
@@ -99,7 +99,7 @@ namespace TableForge
             else if (Value is IList list)
             {
                 list.Add(item);
-                TFSerializedListItem listItem = new TFSerializedListItem(list, list[^1], list.Count - 1, TfSerializedObject.RootObject);
+                TFSerializedListItem listItem = new TFSerializedListItem(list, list[^1], list.Count - 1, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid);
                 TableGenerator.GenerateRow(SubTable, listItem);
             }
         }

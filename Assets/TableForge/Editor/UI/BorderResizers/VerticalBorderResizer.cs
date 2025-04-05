@@ -29,7 +29,7 @@ namespace TableForge.UI
                 if (downEvent.position.y >= bottomBound && downEvent.position.y <= upperBound)
                 {
                     float delta = InstantResize(headerControl, false);
-                    InvokeResize(headerControl, delta, true);
+                    InvokeResize(headerControl, delta, true, false);
                     InvokeManualResize(headerControl, delta);
                     return;
                 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,6 +23,7 @@ namespace TableForge.UI
             get => _cellsToDeselect;
             set => _cellsToDeselect = value;
         }
+        
         public Cell FirstSelectedCell { get; set; }
         public Cell FocusedCell { get; set; }
 
@@ -94,21 +96,10 @@ namespace TableForge.UI
 
             // Use the proper selection strategy based on modifier keys.
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(evt);
-            Cell lastSelectedCell = strategy.Preselect(this, evt, cellsAtPosition);
-            
-            if(evt.clickCount == 2)
-            {
-                var cachedSelectedCells = new HashSet<Cell>(_selectedCells);
-                foreach (var selectedCell in cachedSelectedCells)
-                {
-                   if(selectedCell is SubTableCell subCell &&
-                      TableControl.Metadata.IsTableExpanded(subCell.Id))
-                       SelectAll(subCell.SubTable);
-                }
-            }
+            Cell lastSelectedCell = strategy.Preselect(this, cellsAtPosition);
             
             // If the last selected cell is a reference cell, immediately confirm the selection.
-            else if (lastSelectedCell is ReferenceCell)
+            if (lastSelectedCell is ReferenceCell)
             {
                 ConfirmSelection();
             }
@@ -117,30 +108,54 @@ namespace TableForge.UI
         private List<Cell> GetCellsAtPosition(Vector3 position)
         {
             var selectedCells = new List<Cell>();
-            if (_tableControl.CornerContainer.worldBound.Contains(position))
+            GetCellsAtPosition(position, _tableControl, selectedCells);
+            return selectedCells;
+        }
+
+        private void GetCellsAtPosition(Vector3 position, TableControl tableControl, List<Cell> outputCells)
+        {
+            if(!tableControl.ScrollView.contentContainer.worldBound.Contains(position))
+                return;
+            
+            if (tableControl.CornerContainer.worldBound.Contains(position))
             {
-                foreach (var row in _tableControl.TableData.Rows)
-                    selectedCells.AddRange(row.Value.Cells.Values);
+                foreach (var row in tableControl.TableData.Rows)
+                    outputCells.AddRange(row.Value.Cells.Values);
                 
-                return selectedCells;
+                return;
             }
             
-            var headers = CellLocator.GetHeadersAtPosition(_tableControl, position);
-
+            var headers = CellLocator.GetHeadersAtPosition(tableControl, position);
             if (headers.row == null && headers.column == null)
-                return selectedCells;
+                return;
 
             if (headers.row == null)
-                return CellLocator.GetCellsAtColumn(_tableControl, headers.column.Id);
+            {
+                outputCells.AddRange(CellLocator.GetCellsAtColumn(tableControl, headers.column.Id));
+                return;
+            }
 
             if (headers.column == null)
-                return CellLocator.GetCellsAtRow(_tableControl, headers.row.Id);
+            {
+                outputCells.AddRange(CellLocator.GetCellsAtRow(tableControl, headers.row.Id));
+                return;
+            }
 
-            var cell = CellLocator.GetCell(_tableControl, headers.row.Id, headers.column.Id);
-            if (cell != null)
-                selectedCells.Add(cell);
-
-            return selectedCells;
+            var cell = CellLocator.GetCell(tableControl, headers.row.Id, headers.column.Id);
+            int count = outputCells.Count, prevCount = outputCells.Count;
+            
+            if(cell is SubTableCell subTableCell && _selectedCells.Contains(subTableCell))
+            {
+                TableControl subTable = (CellControlFactory.GetCellControlFromId(subTableCell.Id) as SubTableCellControl)?.SubTableControl;
+                if(subTable != null)
+                {
+                    GetCellsAtPosition(position, subTable, outputCells);
+                    count = outputCells.Count;
+                }
+            }
+            
+            if((cell != null && cell is not SubTableCell) || count == prevCount)
+                outputCells.Add(cell);
         }
 
         private void OnMouseMove(MouseMoveEvent evt)
@@ -158,13 +173,7 @@ namespace TableForge.UI
                 return;
 
             _lastMousePosition = evt.mousePosition;
-
-            var headers = CellLocator.GetHeadersAtPosition(_tableControl, evt.mousePosition);
-            Cell selectedCell = null;
-            if (headers.row != null && headers.column != null)
-            {
-                selectedCell = CellLocator.GetCell(_tableControl, headers.row.Id, headers.column.Id);
-            }
+            Cell selectedCell = GetCellsAtPosition(_lastMousePosition).FirstOrDefault();
 
             if (selectedCell == null || FirstSelectedCell == null)
                 return;
@@ -172,11 +181,7 @@ namespace TableForge.UI
             // Determine the range from the first selected cell to the cell under the cursor.
             Cell firstCell = FirstSelectedCell;
             Cell lastCell = selectedCell;
-            var firstRow = _tableControl.GetCellRow(firstCell);
-            var lastRow = _tableControl.GetCellRow(lastCell);
-            var firstColumn = _tableControl.GetCellColumn(firstCell);
-            var lastColumn = _tableControl.GetCellColumn(lastCell);
-            var cells = CellLocator.GetCellRange(_tableControl, firstRow.Id, firstColumn.Id, lastRow.Id, lastColumn.Id);
+            var cells = CellLocator.GetCellRange(firstCell, lastCell, _tableControl);
 
             // Mark all cells currently selected for potential deselection.
             _cellsToDeselect = new HashSet<Cell>(_selectedCells);

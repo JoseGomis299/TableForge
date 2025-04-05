@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace TableForge
 {
-    public static class ObjectExtensions
+    public static class ObjectExtension
     {
         
         /// <summary>

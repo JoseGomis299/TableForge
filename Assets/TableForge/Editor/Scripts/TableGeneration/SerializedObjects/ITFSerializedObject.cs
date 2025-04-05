@@ -21,6 +21,11 @@ namespace TableForge
         UnityEngine.Object RootObject { get; }
         
         /// <summary>
+        /// The GUID of the root object.
+        /// </summary>
+        string RootObjectGuid { get; }
+        
+        /// <summary>
         /// The type of the serialized object.
         /// </summary>
         TFSerializedType SerializedType { get; }

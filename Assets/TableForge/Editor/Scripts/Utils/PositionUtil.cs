@@ -96,14 +96,11 @@ namespace TableForge
                 columnEndIndex++;
             }
             
-            if(columnEndIndex == 0)
-                throw new ArgumentException("Invalid position");
-            
             string columnSubstring = position.Substring(0, columnEndIndex);
             int column = ConvertToNumber(columnSubstring);
             
-            if(!int.TryParse(position.Substring(columnEndIndex), out int row) || !IsValidNumericPosition(row))
-                throw new ArgumentException("Invalid position");
+            if(!int.TryParse(position.Substring(columnEndIndex), out int row))
+                throw new ArgumentException($"Invalid position {position} - row is invalid");
             
             return (column, row);
         }

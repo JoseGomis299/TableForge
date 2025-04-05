@@ -33,7 +33,7 @@ namespace TableForge
                     foreach (string guid in guids)
                     {
                         string p = AssetDatabase.GUIDToAssetPath(guid);     
-                        GroupData(AssetDatabase.LoadAssetAtPath<ScriptableObject>(p));
+                        GroupData(AssetDatabase.LoadAssetAtPath<ScriptableObject>(p), guid);
                     }
                     
                     continue;
@@ -47,20 +47,20 @@ namespace TableForge
                     continue;
                 }
                 
-                GroupData(scriptableObject);
+                GroupData(scriptableObject,AssetDatabase.AssetPathToGUID(path));
             }
             
             return _selectedData.Values.ToList();
         }
 
-        private void GroupData(ScriptableObject scriptableObject)
+        private void GroupData(ScriptableObject scriptableObject, string guid)
         {
             if (scriptableObject == null) return;
             
             if(_selectedData.ContainsKey(scriptableObject.GetType()))
-                _selectedData[scriptableObject.GetType()].Add(new TFSerializedObject(scriptableObject, null, scriptableObject));
+                _selectedData[scriptableObject.GetType()].Add(new TFSerializedObject(scriptableObject, null, scriptableObject, guid));
             else
-                _selectedData.Add(scriptableObject.GetType(), new List<ITFSerializedObject> {new TFSerializedObject(scriptableObject, null, scriptableObject)});
+                _selectedData.Add(scriptableObject.GetType(), new List<ITFSerializedObject> {new TFSerializedObject(scriptableObject, null, scriptableObject, guid)});
         }
     }
 }

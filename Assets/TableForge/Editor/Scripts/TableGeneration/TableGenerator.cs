@@ -32,6 +32,7 @@ namespace TableForge
             return table;
         }
         
+        
         /// <summary>
         /// Generates a table from a list of serialized objects.
         /// </summary>

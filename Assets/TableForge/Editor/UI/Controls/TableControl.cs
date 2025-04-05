@@ -359,7 +359,6 @@ namespace TableForge.UI
             _scrollViewHeight += sizeDelta.y;
             ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
             _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
-            
 
             VisualElementResizer.ChangeSize(ScrollView.contentContainer, _scrollViewWidth, _scrollViewHeight,
                 evt =>

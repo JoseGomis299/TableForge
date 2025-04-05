@@ -32,7 +32,7 @@ namespace TableForge
 
             foreach (var key in ((IDictionary)Value).Keys)
             {
-                rowsData.Add(new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject));
+                rowsData.Add(new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid));
             }
             
             if(SubTable != null)
@@ -50,7 +50,7 @@ namespace TableForge
                 return;
             
             ((IDictionary)Value).Add(key, null);
-            TFSerializedDictionaryItem item = new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject);
+            TFSerializedDictionaryItem item = new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid);
             TableGenerator.GenerateRow(SubTable, item);
         }
 

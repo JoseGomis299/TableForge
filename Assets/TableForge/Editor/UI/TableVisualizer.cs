@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace TableForge.UI
 {
@@ -26,8 +28,11 @@ namespace TableForge.UI
 
         private void OnStylesInitialized()
         {
+            Stopwatch sw = new Stopwatch();
+
             var root = rootVisualElement;
             var mainTable = root.Q<VisualElement>("MainTable");
+            sw.Start();
             var table = TableManager.GenerateTables()[1];
 
                         
@@ -39,6 +44,10 @@ namespace TableForge.UI
                 ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
                 RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
             };
+            sw.Stop();
+            float timeToGenerate = sw.ElapsedMilliseconds;
+            sw.Reset();
+            sw.Start();
 
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
             _tableControl.SetTable(table);
@@ -50,6 +59,11 @@ namespace TableForge.UI
                 EditorApplication.update += Update;
                 InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
                 UiConstants.OnStylesInitialized -= OnStylesInitialized;
+                
+                sw.Stop();
+                Debug.Log($"Time to generate table: {timeToGenerate}ms");
+                Debug.Log($"Time to initialize table: {sw.ElapsedMilliseconds}ms");
+                Debug.Log($"Total time: {timeToGenerate + sw.ElapsedMilliseconds}ms");
             }).ExecuteLater(0);
         }
         

@@ -159,7 +159,7 @@ namespace TableForge
         /// <exception cref="ArgumentException">Thrown for invalid position format</exception>
         public Cell GetCell(string position)
         {
-            var (rowKey, columnKey) = PositionUtil.GetPosition(position);
+            var (columnKey, rowKey) = PositionUtil.GetPosition(position);
             return Rows.TryGetValue(rowKey, out Row row) 
                 ? row.Cells.GetValueOrDefault(columnKey) 
                 : null;

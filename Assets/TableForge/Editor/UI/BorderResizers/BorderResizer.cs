@@ -55,7 +55,7 @@ namespace TableForge.UI
                 delta += InstantResize(header, false);
             }
          
-            InvokeResize(header, delta, storeSize);
+            InvokeResize(header, delta, storeSize, false);
             return delta;
         }
 
@@ -69,7 +69,7 @@ namespace TableForge.UI
                 delta += InstantResize(header, adjustToStoredSize);
             }
             
-            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false);
+            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false, adjustToStoredSize);
             return delta;
         }
 
@@ -88,11 +88,38 @@ namespace TableForge.UI
             ResizingHeaders.Clear();
         }
         
-        protected void InvokeResize(HeaderControl target, float delta, bool storeSize)
+        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool adjustedToStoredSize)
         {
             if(delta == 0) return;
             
-            target.RegisterSingleUseCallback<GeometryChangedEvent>(_ =>
+            Vector2 targetSize = adjustedToStoredSize
+                ? TableControl.Metadata.GetAnchorSize(target.CellAnchor.Id)
+                : TableControl.PreferredSize.GetHeaderSize(target.CellAnchor);
+
+            bool sizeIsSet;
+            if (target is RowHeaderControl)
+            {
+                sizeIsSet = Mathf.Approximately(Mathf.Round(target.worldBound.height), Mathf.Round(targetSize.y));
+            }
+            else
+            {
+                sizeIsSet = Mathf.Approximately(Mathf.Round(target.worldBound.width), Mathf.Round(targetSize.x));
+            }
+            
+            if(sizeIsSet)
+            {
+                Invoke();
+            }
+            else
+            {
+                target.RegisterSingleUseCallback<GeometryChangedEvent>(_ =>
+                {
+                    Invoke();
+                });
+            }
+            
+            
+            void Invoke()
             {
                 if (storeSize)
                 {
@@ -116,12 +143,13 @@ namespace TableForge.UI
                 }
 
                 OnResize?.Invoke(delta);
-            });
+            }
         }
         
         protected void InvokeManualResize(HeaderControl target, float delta)
         {
             if(delta == 0) return;
+            
             
             target.RegisterSingleUseCallback<GeometryChangedEvent>(_ =>
             {
@@ -168,7 +196,7 @@ namespace TableForge.UI
             {
                 float delta = UpdateSize(ResizingHeader, _newSize);
                 UpdateChildrenSize(ResizingHeader);
-                InvokeResize(ResizingHeader, delta, true);
+                InvokeResize(ResizingHeader, delta, true, false);
                 InvokeManualResize(ResizingHeader, delta);
                 ResizingPreview.RemoveFromHierarchy();
                 
