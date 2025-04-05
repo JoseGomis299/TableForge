@@ -20,6 +20,7 @@ namespace TableForge.UI
         public void CreateGUI()
         {
             var root = rootVisualElement;
+            root.focusable = true;
             root.Add(visualTreeAsset.Instantiate());
 
             UiConstants.InitializeStyles(root[0]);
@@ -51,7 +52,7 @@ namespace TableForge.UI
 
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
             _tableControl.SetTable(table);
-            
+
             mainTable.schedule.Execute(() =>
             {
                 mainTable.Add(_tableControl);
@@ -66,6 +67,7 @@ namespace TableForge.UI
                 Debug.Log($"Total time: {timeToGenerate + sw.ElapsedMilliseconds}ms");
             }).ExecuteLater(0);
         }
+        
         
         private void OnScriptableObjectModified(ScriptableObject scriptableObject)
         {

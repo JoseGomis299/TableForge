@@ -115,9 +115,9 @@ namespace TableForge.UI
             if (!_rowHeaders.ContainsKey(rowId))
                 return;
 
-            foreach (var columnId in _columnHeaders.Keys)
+            foreach (var columnHeader in ColumnVisibilityManager.CurrentVisibleHeaders)
             {
-                var cell = GetCellControl(rowId, columnId);
+                var cell = GetCellControl(rowId, columnHeader.Id);
                 cell?.Refresh();
             }
         }

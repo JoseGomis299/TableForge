@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(StringCell), CellSizeCalculationMethod.AutoSize)]
-    internal class StringCellControl : SimpleCellControl
+    internal class StringCellControl : TextBasedCellControl<string>
     {
         public StringCellControl(StringCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -14,7 +14,7 @@ namespace TableForge.UI
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
             OnRefresh = () => field.value = (string)Cell.GetValue();
             Add(field);
-            Field = field;
+            TextField = field;
 
             field.AddToClassList(USSClasses.TableCellContent);
             field.AddToClassList(USSClasses.MultilineCell);

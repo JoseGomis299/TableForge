@@ -122,18 +122,48 @@ namespace TableForge.UI
                 }
             }
         }
-
-        public static Cell GetContiguousCell(TableControl tableControl, int rowId, int columnId, Vector2 direction)
+        
+        public static Cell GetContiguousCell(Cell currentCell, Vector2 direction, Vector2 wrappingMinBounds, Vector2 wrappingMaxBounds)
         {
-            int rowPosition = tableControl.RowData[rowId].Position - 1;
-            int columnPosition = tableControl.ColumnData[columnId].Position - 1;
+            int rowPosition = currentCell.Row.Position;
+            int columnPosition = currentCell.Column.Position;
             
-            int newRowPosition = rowPosition + (int)direction.y;
+            int newRowPosition = rowPosition - (int)direction.y;
             int newColumnPosition = columnPosition + (int)direction.x;
             
-            if (newRowPosition < 0 || newRowPosition >= tableControl.TableData.Rows.Count) return null;
+            if (newRowPosition < wrappingMinBounds.y)
+            {
+                newRowPosition = (int)wrappingMaxBounds.y;
+                newColumnPosition--;
+            }
+            else if (newRowPosition > wrappingMaxBounds.y)
+            {
+                newRowPosition = (int)wrappingMinBounds.y;
+                newColumnPosition++;
+            }
             
-            return tableControl.TableData.Rows[newRowPosition].Cells[newColumnPosition]; 
+            if (newColumnPosition < wrappingMinBounds.x)
+            {
+                newColumnPosition = (int)wrappingMaxBounds.x;
+                newRowPosition--;
+                
+                if(newRowPosition < wrappingMinBounds.y)
+                {
+                    newRowPosition = (int)wrappingMaxBounds.y;
+                }
+            }
+            else if (newColumnPosition > wrappingMaxBounds.x)
+            {
+                newColumnPosition = (int)wrappingMinBounds.x;
+                newRowPosition++;
+                
+                if(newRowPosition > wrappingMaxBounds.y)
+                {
+                    newRowPosition = (int)wrappingMinBounds.y;
+                }
+            }
+
+            return currentCell.Table.GetCell($"{PositionUtil.ConvertToLetters(newColumnPosition)}{newRowPosition}");
         }
         
         public static List<Cell> GetCellsAtRow(TableControl tableControl, int rowId)

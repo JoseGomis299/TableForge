@@ -22,7 +22,7 @@ namespace TableForge.UI
     /// </summary>
     internal static class SelectionStrategyFactory
     {
-        public static ISelectionStrategy GetSelectionStrategy(PointerDownEvent evt)
+        public static ISelectionStrategy GetSelectionStrategy(IMouseEvent evt)
         {
             if (evt.ctrlKey)
                 return new CtrlSelectionStrategy();
@@ -124,11 +124,11 @@ namespace TableForge.UI
             Cell lastSelectedCell = null;
             // Mark all currently selected cells for deselection.
             selector.CellsToDeselect = new HashSet<Cell>(selector.SelectedCells);
-            selector.FirstSelectedCell = cellsAtPosition.FirstOrDefault();
             if (cellsAtPosition.Count == 1)
             {
                 lastSelectedCell = selector.FirstSelectedCell;
             }
+            
             foreach (var cell in cellsAtPosition)
             {
                 selector.SelectedCells.Add(cell);
@@ -141,6 +141,9 @@ namespace TableForge.UI
                 
                 lastSelectedCell = cell;
             }
+            
+            selector.FirstSelectedCell = cellsAtPosition.FirstOrDefault();
+
             return lastSelectedCell;
         }
     }

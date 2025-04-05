@@ -161,8 +161,8 @@ namespace TableForge.Tests
 
             // Check that the cell types for the first row are correct
             var firstRow = table.Rows[1];
-            Assert.AreEqual(typeof(FloatingPointCell), firstRow.Cells[1].GetType());
-            Assert.AreEqual(typeof(FloatingPointCell), firstRow.Cells[2].GetType());
+            Assert.AreEqual(typeof(FloatCell), firstRow.Cells[1].GetType());
+            Assert.AreEqual(typeof(FloatCell), firstRow.Cells[2].GetType());
 
             // Cleanup
             AssetDatabase.DeleteAsset(path);
@@ -216,10 +216,10 @@ namespace TableForge.Tests
 
             // Check that the cell types for the first row are correct
             var firstRow = table.Rows[1];
-            Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[1].GetType());
-            Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[2].GetType());
-            Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[3].GetType());
-            Assert.AreEqual(typeof(IntegralCell), firstRow.Cells[4].GetType());
+            Assert.AreEqual(typeof(IntCell), firstRow.Cells[1].GetType());
+            Assert.AreEqual(typeof(IntCell), firstRow.Cells[2].GetType());
+            Assert.AreEqual(typeof(IntCell), firstRow.Cells[3].GetType());
+            Assert.AreEqual(typeof(IntCell), firstRow.Cells[4].GetType());
 
             // Cleanup
             AssetDatabase.DeleteAsset(path);

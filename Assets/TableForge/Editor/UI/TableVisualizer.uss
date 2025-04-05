@@ -4,6 +4,7 @@
     --background-color: rgb(56, 56, 56);
     --resize-preview-color: rgba(255, 255, 255, 0.5);
     --selected-color: rgb(114, 114, 114);
+    --selected-first-color: rgb(140, 140, 140);
     --selected-header-color: rgb(83, 83, 83);
     
     --cell-width: 100px;
@@ -256,6 +257,10 @@
 
 .selectedHeader {
     background-color: var(--selected-header-color);
+}
+
+.selected-first{
+    background-color: var(--selected-first-color);
 }
 
 .table__scroll-view-content__container {

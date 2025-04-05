@@ -96,16 +96,16 @@ namespace TableForge.UI
                 return;
             }
 
+            HorizontalResizer.OnResize += OnHorizontalResizeComplete;
+            _horizontalIsResizing = true;
+            
             float horizontalDelta = HorizontalResizer.ResizeCell(cellControl, storeSize);
             _currentDelta = new Vector2(horizontalDelta, 0);
 
-            if(horizontalDelta != 0)
+            if(horizontalDelta == 0)
             {
-                HorizontalResizer.OnResize += OnHorizontalResizeComplete;
-                _horizontalIsResizing = true;
-            }
-            else
-            {
+                HorizontalResizer.OnResize -= OnHorizontalResizeComplete;
+                
                 _horizontalIsResizing = true;
                 OnHorizontalResizeComplete(0);
             }

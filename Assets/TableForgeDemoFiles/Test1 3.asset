@@ -69,10 +69,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  intField: 16
-  floatField: 21
-  <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  intField: 1232
+  floatField: 234
+  <PublicLongProperty>k__BackingField: 343
+  <PublicDoubleProperty>k__BackingField: 342
   inheritorClass:
     number: 0
     text: 

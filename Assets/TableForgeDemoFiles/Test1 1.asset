@@ -69,13 +69,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
   B: 0
-  intField: 23
-  floatField: 124556
-  <PublicLongProperty>k__BackingField: 15
-  <PublicDoubleProperty>k__BackingField: 15
+  intField: 12
+  floatField: 123
+  <PublicLongProperty>k__BackingField: 2323
+  <PublicDoubleProperty>k__BackingField: 2323
   inheritorClass:
-    number: 0
-    text: 
+    number: 12
+    text: 32
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -84,9 +84,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
-    inheritorNumber: 0
-    inheritorText: 
+      boolean: 1
+    inheritorNumber: 23
+    inheritorText: 132
   inheritorClassAsInnerClass:
     number: 34
     text: aaaa

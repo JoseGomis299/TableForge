@@ -9,9 +9,17 @@ namespace TableForge.UI
     internal abstract class BorderResizer
     {
         public event Action<float> OnResize; 
-        public event Action<float> OnManualResize; 
-        
-        public bool IsResizing { get; private set; }
+        public event Action<float> OnManualResize;
+
+        public bool IsResizing
+        {
+            get => _isResizing;
+            private set
+            {
+                _isResizing = value;
+                TableControl.CellSelector.SelectionEnabled = !value;
+            }
+        }
         protected abstract string ResizingPreviewClass { get; }
         
         protected readonly TableControl TableControl;
@@ -22,8 +30,11 @@ namespace TableForge.UI
         //The header that is currently being resized
         protected HeaderControl ResizingHeader;
         
-        private Vector3 _newSize;
         protected VisualElement ResizingPreview;
+        
+        private Vector3 _newSize;
+        private bool _isResizing;
+    
         
         protected BorderResizer(TableControl tableControl)
         {
@@ -105,7 +116,7 @@ namespace TableForge.UI
             {
                 sizeIsSet = Mathf.Approximately(Mathf.Round(target.worldBound.width), Mathf.Round(targetSize.x));
             }
-            
+
             if(sizeIsSet)
             {
                 Invoke();

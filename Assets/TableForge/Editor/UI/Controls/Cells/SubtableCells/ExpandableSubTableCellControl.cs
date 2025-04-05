@@ -35,6 +35,11 @@ namespace TableForge.UI
             HeaderFoldout.value = isExpanded;
             ContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
         }
+        
+        public void OpenFoldout()
+        {
+            OnFoldoutToggled(ChangeEvent<bool>.GetPooled(false, true));
+        }
 
         private void CreateContainerStructure()
         {
@@ -54,6 +59,7 @@ namespace TableForge.UI
         {
             HeaderFoldout.RegisterValueChangedCallback(OnFoldoutToggled);
             HeaderFoldout.value = false;
+            HeaderFoldout.focusable = false;
         }
         
         private void InitializeSubTable()
@@ -81,8 +87,8 @@ namespace TableForge.UI
             }
             else
             {
-                
                 RecalculateSizeWithCurrentValues();
+                SubTableControl.Resizer.ResizeAll(false);
                 TableControl.Resizer.ResizeCell(this);
             }
             
