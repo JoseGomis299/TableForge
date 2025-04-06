@@ -7,7 +7,7 @@ namespace TableForge.UI
         public CellAnchor CellAnchor { get; protected set; }
         
 
-        protected readonly TableControl TableControl;
+        public readonly TableControl TableControl;
 
         private bool _isSelected;
         

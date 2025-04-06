@@ -10,7 +10,5 @@ namespace TableForge.UI
         public bool SelectionEnabled {get; set;}
         HashSet<Cell> SelectedCells { get; }
         HashSet<CellAnchor> SelectedAnchors { get; }
-        public Cell FocusedCell {get; set;}
-        Cell FirstSelectedCell { get; set; }
     }
 }

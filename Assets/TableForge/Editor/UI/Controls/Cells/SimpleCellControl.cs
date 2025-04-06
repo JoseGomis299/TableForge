@@ -13,10 +13,13 @@ namespace TableForge.UI
             {
                 _field = value;
                 _field.focusable = false;
-                _field.RegisterCallback<FocusInEvent>(_ =>
+                _field.RegisterCallback<MouseDownEvent>(evt =>
                 {
-                    OnFocusIn();
-                });
+                    if(evt.button == (int)MouseButton.LeftMouse && !IsFieldFocused())
+                    {
+                        FocusField();
+                    }
+                }, TrickleDown.TrickleDown);
                 _field.RegisterCallback<FocusOutEvent>(_ =>
                 {
                    BlurField();
@@ -47,28 +50,6 @@ namespace TableForge.UI
         public bool IsFieldFocused()
         {
            return Field?.focusController?.focusedElement == Field;
-        }
-
-        private void OnFocusIn()
-        {
-            var focusedCell = TableControl.CellSelector.FocusedCell;
-            var rootTableControl = TableControl.GetRootTableControl();
-            
-            if (focusedCell != null)
-            {
-                var rootCell = focusedCell.GetRootCell();
-                var rootRowHeaderControl = rootTableControl.GetRowHeaderControl(rootTableControl.GetCellRow(rootCell));
-                var rootColumnHeaderControl = rootTableControl.GetColumnHeaderControl(rootTableControl.GetCellColumn(rootCell));
-                
-                rootTableControl.RowVisibilityManager.UnlockHeaderVisibility(rootRowHeaderControl);
-                rootTableControl.ColumnVisibilityManager.UnlockHeaderVisibility(rootColumnHeaderControl);
-            }
-            
-            rootTableControl.CellSelector.FocusedCell = Cell.GetRootCell();
-            rootTableControl.CellSelector.FirstSelectedCell = Cell;
-            focusedCell = rootTableControl.CellSelector.FocusedCell;
-            rootTableControl.RowVisibilityManager.LockHeaderVisibility(rootTableControl.GetRowHeaderControl(rootTableControl.GetCellRow(focusedCell)));
-            rootTableControl.ColumnVisibilityManager.LockHeaderVisibility(rootTableControl.GetColumnHeaderControl(rootTableControl.GetCellColumn(focusedCell)));
         }
     }
 }

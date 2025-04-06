@@ -66,6 +66,11 @@ namespace TableForge.UI
         {
             return tableControl.Parent == null ? tableControl : tableControl.Parent.TableControl.GetRootTableControl();
         }
+
+        public static int GetId(this TableControl tableControl)
+        {
+           return tableControl.TableData.IsSubTable ? tableControl.TableData.ParentCell.Id : 0;
+        }
         
     }
 }

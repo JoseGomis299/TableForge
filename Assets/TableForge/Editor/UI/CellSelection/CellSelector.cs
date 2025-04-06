@@ -16,7 +16,6 @@ namespace TableForge.UI
         private readonly HashSet<CellAnchor> _selectedAnchors = new HashSet<CellAnchor>();
         private Vector3 _lastMousePosition;
         private Cell _firstSelectedCell;
-        private Cell _focusedCell;
         private List<Cell> _orderedSelectedCells = new List<Cell>();
         
         public HashSet<CellAnchor> SelectedAnchors => _selectedAnchors;
@@ -61,19 +60,17 @@ namespace TableForge.UI
                     cellControl.focusable = true;
                     cellControl?.Focus();
                     cellControl.AddToClassList(USSClasses.FirstSelected);
+
+                    foreach (var ancestor in cellControl.GetAncestors(true))
+                    {
+                        
+                    }
                 }
+                
+               
                 
                 _selectedCells.Add(value);
                 _cellsToDeselect.Remove(value);
-            }
-        }
-
-        public Cell FocusedCell
-        {
-            get => _focusedCell;
-            set
-            {
-                _focusedCell = value;
             }
         }
 
@@ -276,8 +273,8 @@ namespace TableForge.UI
             _cellsToDeselect.Clear();
             
             _orderedSelectedCells = _selectedCells
-                .OrderBy(cell => cell.GetRootCell().Row.Position)
-                .ThenBy(cell => cell.GetRootCell().Column.Position)
+                .OrderBy(cell => cell.GetHighestAncestor().Row.Position)
+                .ThenBy(cell => cell.GetHighestAncestor().Column.Position)
                 .ThenBy(cell => cell.GetLevel())
                 .ThenBy(cell => cell.Row.Position)
                 .ThenBy(cell => cell.Column.Position)
