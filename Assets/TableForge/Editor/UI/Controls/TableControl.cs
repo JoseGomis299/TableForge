@@ -156,6 +156,7 @@ namespace TableForge.UI
             ColumnVisibilityManager.Clear();
             
             _cornerContainer.CornerControl.style.width = 0;
+            _rowsContainer.style.left = 0;
             
             _scrollViewHeight = UiConstants.CellHeight;
             _scrollViewWidth = 0;
@@ -502,13 +503,40 @@ namespace TableForge.UI
         private void OnColumnHeaderBecameVisible(HeaderControl header, int direction)
         {
             RowsContainerOffset = 0;
-            for (int i = 1; i < ColumnVisibilityManager.FirstVisibleHeader.CellAnchor.Position; i++)
+            int index = 0;
+            
+            if (direction == 1)
             {
-                RowsContainerOffset += _columnHeaders[this.GetColumnAtPosition(i).Id].style.width.value.value;
+                while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1
+                       && ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index])
+                       && !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+                {
+                    index++;
+                }
             }
+            else
+            {
+                index = ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1;
+
+                while (index > 0
+                       && ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) 
+                       && !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+                {
+                    index--;
+                }
+            }
+
+            for (int i = 1; i < ColumnVisibilityManager.CurrentVisibleHeaders[index].CellAnchor.Position; i++)
+            {
+                ColumnHeaderControl columnHeader = _columnHeaders[this.GetColumnAtPosition(i).Id];
+                if(ColumnVisibilityManager.IsHeaderVisibilityLocked(columnHeader)) continue;
+                RowsContainerOffset += columnHeader.style.width.value.value;
+            }
+
             _rowsContainer.style.left = RowsContainerOffset + _cornerContainer.CornerControl.style.width.value.value;
             
-            
+
+            if(ColumnVisibilityManager.IsHeaderVisibilityLocked(header as ColumnHeaderControl)) return;
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
                 rowHeader.RowControl.SetColumnVisibility(header.Id, true, direction);
@@ -517,14 +545,33 @@ namespace TableForge.UI
         
         private void OnColumnHeaderBecameInvisible(HeaderControl header, int direction)
         {
-            RowsContainerOffset = 0;
-            for (int i = 1; i < ColumnVisibilityManager.FirstVisibleHeader.CellAnchor.Position; i++)
+            if (direction == 1 && ColumnVisibilityManager.CurrentVisibleHeaders.Any())
             {
-                RowsContainerOffset += _columnHeaders[this.GetColumnAtPosition(i).Id].style.width.value.value;
-            }
-            _rowsContainer.style.left = RowsContainerOffset + _cornerContainer.CornerControl.style.width.value.value;
+                RowsContainerOffset = 0;
+                int index = 0;
+                
+                while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1
+                       && ColumnVisibilityManager.IsHeaderVisibilityLocked(
+                           ColumnVisibilityManager.CurrentVisibleHeaders[index])
+                       && !ColumnVisibilityManager.IsHeaderInBounds(
+                           ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+                {
+                    index++;
+                }
 
-            
+
+                for (int i = 1; i < ColumnVisibilityManager.CurrentVisibleHeaders[index].CellAnchor.Position; i++)
+                {
+                    ColumnHeaderControl columnHeader = _columnHeaders[this.GetColumnAtPosition(i).Id];
+                    if (ColumnVisibilityManager.IsHeaderVisibilityLocked(columnHeader)) continue;
+                    RowsContainerOffset += columnHeader.style.width.value.value;
+                }
+
+                _rowsContainer.style.left =
+                    RowsContainerOffset + _cornerContainer.CornerControl.style.width.value.value;
+            }
+
+            if(ColumnVisibilityManager.IsHeaderVisibilityLocked(header as ColumnHeaderControl)) return;
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
                 rowHeader.RowControl.SetColumnVisibility(header.Id, false, direction);

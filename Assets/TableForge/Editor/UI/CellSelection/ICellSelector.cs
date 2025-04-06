@@ -10,5 +10,6 @@ namespace TableForge.UI
         public bool SelectionEnabled {get; set;}
         HashSet<Cell> SelectedCells { get; }
         HashSet<CellAnchor> SelectedAnchors { get; }
+        void ClearSelection();
     }
 }

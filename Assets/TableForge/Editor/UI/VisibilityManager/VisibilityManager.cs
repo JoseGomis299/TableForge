@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,29 +14,35 @@ namespace TableForge.UI
         public event Action<HeaderControl, int> OnHeaderBecameVisible;
         public event Action<HeaderControl, int> OnHeaderBecameInvisible;
         
-        public THeader FirstVisibleHeader {get; private set;}
-        
         protected Vector2 SecurityExtraSize = new Vector2(UiConstants.CellWidth * 2, UiConstants.CellHeight * 4);
         
         protected readonly ScrollView ScrollView;
         protected readonly List<THeader> VisibleHeaders = new List<THeader>();
         protected readonly HashSet<THeader> LockedVisibleHeaders = new HashSet<THeader>(); 
-        protected int LastDirection = 0;
-        protected int StartingIndex = -1;
-        protected int EndingIndex = -1;
+        protected float LastScrollValue;
+        protected readonly TableControl TableControl;
         
+        private readonly List<THeader> _orderedLockedHeaders = new List<THeader>();
         private readonly HashSet<THeader> _invisibleHeadersThisFrame = new HashSet<THeader>();
         private readonly HashSet<THeader> _visibleHeadersThisFrame = new HashSet<THeader>();
         
         
         public IReadOnlyList<THeader> CurrentVisibleHeaders => VisibleHeaders;
-
-        protected VisibilityManager(ScrollView scrollView)
+        public IReadOnlyList<THeader> OrderedLockedHeaders => _orderedLockedHeaders;
+        protected VisibilityManager(TableControl tableControl, ScrollView scrollView)
         {
+            TableControl = tableControl;
             ScrollView = scrollView;
+            
+            LastScrollValue = float.MinValue;
         }
         
-        public virtual void Clear()
+        public bool IsHeaderVisibilityLocked(THeader header)
+        {
+            return LockedVisibleHeaders.Contains(header);
+        }
+        
+        public void Clear()
         {
             foreach (var header in VisibleHeaders)
             {
@@ -43,18 +50,24 @@ namespace TableForge.UI
             }
             VisibleHeaders.Clear();
             LockedVisibleHeaders.Clear();
+            
+            LastScrollValue = float.MinValue;
         }
         
         public void LockHeaderVisibility(THeader header)
         {
             LockedVisibleHeaders.Add(header);
             if(!header.IsVisible)
-                MakeHeaderVisible(header, false);
+                MakeHeaderInvisible(header);
+            
+            _orderedLockedHeaders.Add(header);
+            _orderedLockedHeaders.Sort((x, y) => x.CellAnchor.Position.CompareTo(y.CellAnchor.Position));
         }
         
         public void UnlockHeaderVisibility(THeader header)
         {
             LockedVisibleHeaders.Remove(header);
+            _orderedLockedHeaders.Remove(header);
         }
         
         /// <summary>
@@ -72,16 +85,6 @@ namespace TableForge.UI
             
             _invisibleHeadersThisFrame.Remove(header);
             
-            if(FirstVisibleHeader == null)
-                FirstVisibleHeader = header;
-            else
-            {
-                if(!FirstVisibleHeader.IsVisible)
-                    FirstVisibleHeader = header;
-                else if(FirstVisibleHeader.CellAnchor.Position > header.CellAnchor.Position)
-                    FirstVisibleHeader = header;
-            }
-            
             if (!wasVisible)
                 _visibleHeadersThisFrame.Add(header);
         }
@@ -91,16 +94,16 @@ namespace TableForge.UI
             _invisibleHeadersThisFrame.Add(header);
         }
         
-        protected void SendVisibilityNotifications()
+        protected void SendVisibilityNotifications(int direction)
         {
             foreach (var header in _invisibleHeadersThisFrame)
             {
-                NotifyHeaderBecameInvisible(header, LastDirection);
+                NotifyHeaderBecameInvisible(header, direction);
             }
             
             foreach (var header in _visibleHeadersThisFrame)
             {
-                NotifyHeaderBecameVisible(header, LastDirection);
+                NotifyHeaderBecameVisible(header, direction);
             }
             
             _visibleHeadersThisFrame.Clear();
@@ -116,11 +119,16 @@ namespace TableForge.UI
         {
             OnHeaderBecameInvisible?.Invoke(header, direction);
         }
+        
+        public bool IsHeaderVisible(THeader header)
+        {
+            return LockedVisibleHeaders.Contains(header) || IsHeaderInBounds(header);
+        }
 
         /// <summary>
         /// Checks whether the given header is visible within the bounds of the ScrollView.
         /// </summary>
-        protected abstract bool IsHeaderVisible(THeader header);
+        public abstract bool IsHeaderInBounds(THeader header);
 
         /// <summary>
         /// Refreshes the visibility based on the current scroll position.

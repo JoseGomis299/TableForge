@@ -31,6 +31,8 @@ namespace TableForge.UI
         
         void InvertTable(DropdownMenuAction action)
         {
+            _tableControl.CellSelector.ClearSelection();
+
             _tableControl.Invert();
             _tableControl.RebuildPage();
         }

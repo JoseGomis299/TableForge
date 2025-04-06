@@ -50,6 +50,16 @@ namespace TableForge.UI
                     {
                         previousCellControl.focusable = false;
                         previousCellControl.RemoveFromClassList(USSClasses.FirstSelected);
+                        
+                        foreach (var ancestor in previousCellControl.GetAncestors(true))
+                        {
+                            var ancestorTableControl = ancestor.TableControl;
+                            var ancestorRow = ancestorTableControl.GetCellRow(ancestor.Cell);
+                            var ancestorColumn = ancestorTableControl.GetCellColumn(ancestor.Cell);
+                        
+                            ancestorTableControl.RowVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id]);
+                            ancestorTableControl.ColumnVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id]);
+                        }
                     }
                 }
 
@@ -63,7 +73,12 @@ namespace TableForge.UI
 
                     foreach (var ancestor in cellControl.GetAncestors(true))
                     {
+                        var ancestorTableControl = ancestor.TableControl;
+                        var ancestorRow = ancestorTableControl.GetCellRow(ancestor.Cell);
+                        var ancestorColumn = ancestorTableControl.GetCellColumn(ancestor.Cell);
                         
+                        ancestorTableControl.RowVisibilityManager.LockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id]);
+                        ancestorTableControl.ColumnVisibilityManager.LockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id]);
                     }
                 }
                 
@@ -387,19 +402,14 @@ namespace TableForge.UI
             ConfirmSelection();
         }
 
-        private void SelectAll(Table table)
+        public void ClearSelection()
         {
-            foreach (var row in table.Rows.Values)
-            {
-                foreach (var cell in row.Cells.Values)
-                {
-                    _selectedCells.Add(cell);
-                    
-                    if(cell is SubTableCell subCell &&
-                       TableControl.Metadata.IsTableExpanded(subCell.Id))
-                        SelectAll(subCell.SubTable);
-                }
-            }
+            _selectedCells.Clear();
+            _cellsToDeselect.Clear();
+            _orderedSelectedCells.Clear();
+            
+            FirstSelectedCell = null;
+            ConfirmSelection();
         }
     }
 }

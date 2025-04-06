@@ -63,7 +63,7 @@ namespace TableForge
                 currentCell = currentCell.Table.ParentCell;
             }
 
-            return currentCell;
+            return currentCell ?? cell;
         }
         
         

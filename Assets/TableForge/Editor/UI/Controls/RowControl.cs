@@ -109,11 +109,35 @@ namespace TableForge.UI
             if (isVisible)
             {
                 var cellField = CreateCellField(cell);
+
+                int targetIndex = direction == 1 ? childCount : 0;
+                foreach (var column in  TableControl.ColumnVisibilityManager.OrderedLockedHeaders)
+                {
+                    CellControl correspondingCell = 
+                        Children()
+                        .OfType<CellControl>()
+                        .FirstOrDefault(c => TableControl.GetCellColumn(c.Cell).Id == column.Id);
+
+                    int lockedIndex = Children().ToList().IndexOf(correspondingCell);
+                    int lockedPosition = column.CellAnchor.Position;
+                    //If the current column should be in the right of the locked column
+                    if(lockedPosition < columnPosition && targetIndex <= lockedIndex)
+                    {
+                        targetIndex = lockedIndex + 1;
+                    }
+                    //If the current column should be in the left of the locked column
+                    else if(lockedPosition > columnPosition && targetIndex > lockedIndex)
+                    {
+                        targetIndex = lockedIndex;
+                    }
+                }
+
+                Debug.Log($"Adding column {columnPosition} at index {targetIndex}");
                 
-                if(direction == 1)
+                if(targetIndex >= childCount)
                     Add(cellField);
                 else
-                    Insert(0, cellField);
+                    Insert(targetIndex, cellField);
             }
             else
             {

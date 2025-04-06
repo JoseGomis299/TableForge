@@ -9,31 +9,16 @@ namespace TableForge.UI
     {
         private const float SQUARE_HORIZONTAL_STEP = UiConstants.MinCellWidth * UiConstants.MinCellWidth;
 
-        private readonly TableControl _tableControl;
-        private float _lastHorizontalScroll;
-
-        public ColumnVisibilityManager(TableControl tableControl, ScrollView scrollView)
-            : base(scrollView)
+        public ColumnVisibilityManager(TableControl tableControl, ScrollView scrollView) : base(tableControl, scrollView)
         {
-            _tableControl = tableControl;
-            _lastHorizontalScroll = float.MinValue;
-
-            // Subscribe to horizontal scroll changes.
             ScrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
-            _tableControl.OnScrollviewSizeChanged += delta =>
+            TableControl.OnScrollviewSizeChanged += delta =>
             {
                 if(delta.x == 0 && delta.y != 0) return;
                 
-                LastDirection = 1;
-                RefreshVisibility(0);
+                RefreshVisibility(1);
             };
             
-        }
-
-        public override void Clear()
-        {
-            base.Clear();
-            _lastHorizontalScroll = float.MinValue;
         }
         
         // protected override void NotifyHeaderBecameVisible(ColumnHeaderControl header, int direction)
@@ -50,7 +35,8 @@ namespace TableForge.UI
 
         public override void RefreshVisibility(float delta)
         {
-            if(_tableControl.TableData.Columns.Count == 0) return;
+            if(TableControl.TableData.Columns.Count == 0) return;
+            int direction = delta > 0 ? 1 : -1;
             
             // Update visibility of columns that were previously visible.
             foreach (var header in VisibleHeaders)
@@ -62,10 +48,10 @@ namespace TableForge.UI
             }
 
             VisibleHeaders.Clear();
-
-            var orderedColumnHeaders = LastDirection == 1 ?
-                _tableControl.ColumnHeaders.Values.OrderBy(x => x.CellAnchor.Position) : 
-                _tableControl.ColumnHeaders.Values.OrderByDescending(x => x.CellAnchor.Position);
+            
+            var orderedColumnHeaders = direction == 1 ?
+                TableControl.ColumnHeaders.Values.OrderBy(x => x.CellAnchor.Position) : 
+                TableControl.ColumnHeaders.Values.OrderByDescending(x => x.CellAnchor.Position);
 
             // Loop through all column headers.
             foreach (var header in orderedColumnHeaders)
@@ -76,27 +62,24 @@ namespace TableForge.UI
                 }
             }
             
-            SendVisibilityNotifications();
+            SendVisibilityNotifications(direction);
         }
 
         private void OnHorizontalScroll(float value)
         {
-            float delta = value - _lastHorizontalScroll;
+            float delta = value - LastScrollValue;
             if (delta * delta < SQUARE_HORIZONTAL_STEP)
                 return;
 
-            _lastHorizontalScroll = value;
-            LastDirection = delta > 0 ? 1 : -1;
+            LastScrollValue = value;
             RefreshVisibility(delta);
         }
 
-        protected override bool IsHeaderVisible(ColumnHeaderControl header)
+        public override bool IsHeaderInBounds(ColumnHeaderControl header)
         {
-            if(LockedVisibleHeaders.Contains(header)) return true;
-            
             var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.size.x + SecurityExtraSize.x - _tableControl.CornerContainer.worldBound.width, viewBounds.size.y);
-            viewBounds.x += _tableControl.CornerContainer.worldBound.width;
+            viewBounds.size = new Vector2(viewBounds.size.x + SecurityExtraSize.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y);
+            viewBounds.x += TableControl.CornerContainer.worldBound.width;
             
             // Check if the left side of the header is visible.
             if (header.worldBound.xMin <= viewBounds.xMax &&
