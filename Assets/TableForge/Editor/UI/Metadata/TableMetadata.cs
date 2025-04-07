@@ -15,7 +15,7 @@ namespace TableForge.UI
         [SerializeField, HideInInspector] private SerializedHashSet<int> invertedTables = new();
         [SerializeField, HideInInspector] private SerializedHashSet<int> hiddenFields = new();
         
-        [SerializeField, HideInInspector] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
+        [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
 
         #endregion
 

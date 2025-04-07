@@ -393,7 +393,11 @@ namespace TableForge.UI
             }
 
             TableData.MoveRow(rowStartPos, rowEndPos);
-            if (refresh) RebuildPage();
+            if (refresh)
+            {
+                CellSelector.ClearSelection();
+                RebuildPage();
+            }
         }
         #endregion
 

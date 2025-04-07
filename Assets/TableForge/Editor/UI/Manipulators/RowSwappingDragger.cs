@@ -6,9 +6,9 @@ namespace TableForge.UI
 {
     internal class RowSwappingDragger : SwappingDragger
     {
-        private int _lastHeaderIndex;
         private readonly List<RowHeaderControl> _orderedHeaders = new List<RowHeaderControl>();
-
+        private int _lastHeaderIndex;
+        
         public RowSwappingDragger(TableControl tableControl) : base(tableControl)
         {
         }
@@ -22,14 +22,14 @@ namespace TableForge.UI
             }
             
             _orderedHeaders.Sort((a, b) => TableControl.RowData[a.Id].Position.CompareTo(TableControl.RowData[b.Id].Position));
-            TableControl.RowVisibilityManager.LockHeaderVisibility(target as RowHeaderControl);
+            TableControl.RowVisibilityManager.LockHeaderVisibility(target as RowHeaderControl, this);
             
             _lastHeaderIndex = -1;
         }
 
         protected override void OnRelease()
         {
-            TableControl.RowVisibilityManager.UnlockHeaderVisibility(target as RowHeaderControl);
+            TableControl.RowVisibilityManager.UnlockHeaderVisibility(target as RowHeaderControl, this);
         }
 
         protected override void MoveElements(MouseMoveEvent e)

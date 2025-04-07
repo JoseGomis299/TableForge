@@ -57,8 +57,8 @@ namespace TableForge.UI
                             var ancestorRow = ancestorTableControl.GetCellRow(ancestor.Cell);
                             var ancestorColumn = ancestorTableControl.GetCellColumn(ancestor.Cell);
                         
-                            ancestorTableControl.RowVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id]);
-                            ancestorTableControl.ColumnVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id]);
+                            ancestorTableControl.RowVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id], this);
+                            ancestorTableControl.ColumnVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id], this);
                         }
                     }
                 }
@@ -77,12 +77,10 @@ namespace TableForge.UI
                         var ancestorRow = ancestorTableControl.GetCellRow(ancestor.Cell);
                         var ancestorColumn = ancestorTableControl.GetCellColumn(ancestor.Cell);
                         
-                        ancestorTableControl.RowVisibilityManager.LockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id]);
-                        ancestorTableControl.ColumnVisibilityManager.LockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id]);
+                        ancestorTableControl.RowVisibilityManager.LockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id], this);
+                        ancestorTableControl.ColumnVisibilityManager.LockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id], this);
                     }
                 }
-                
-               
                 
                 _selectedCells.Add(value);
                 _cellsToDeselect.Remove(value);
@@ -185,7 +183,7 @@ namespace TableForge.UI
                 }
             }
 
-            else if (evt.keyCode is KeyCode.LeftShift or KeyCode.RightShift or KeyCode.Backspace && FirstSelectedCell.Table.IsSubTable)
+            else if (evt.keyCode is KeyCode.Backspace && FirstSelectedCell.Table.IsSubTable)
             {
                 FirstSelectedCell = FirstSelectedCell.Table.ParentCell;
                 foreach (var descendants in FirstSelectedCell.GetDescendants())
