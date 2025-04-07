@@ -355,16 +355,22 @@ namespace TableForge.UI
         private void RefreshScrollViewSize(Vector2 sizeDelta)
         {
             _scrollViewWidth += sizeDelta.x;
-            ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
-            
             _scrollViewHeight += sizeDelta.y;
-            ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
             _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
 
             VisualElementResizer.ChangeSize(ScrollView.contentContainer, _scrollViewWidth, _scrollViewHeight,
                 evt =>
                 {
                     Vector2 delta = new Vector2(evt.newRect.size.x - evt.oldRect.size.x, evt.newRect.size.y - evt.oldRect.size.y);
+                    
+                    ScrollView.horizontalScroller.highValue = _scrollViewWidth - ScrollView.contentViewport.resolvedStyle.width;
+                    ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
+                    ScrollView.horizontalScroller.Adjust(ScrollView.contentViewport.resolvedStyle.width / ScrollView.horizontalScroller.highValue);
+
+                    ScrollView.verticalScroller.highValue = _scrollViewHeight - ScrollView.contentViewport.resolvedStyle.height;
+                    ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
+                    ScrollView.verticalScroller.Adjust(ScrollView.contentViewport.resolvedStyle.height / ScrollView.verticalScroller.highValue);
+
                     OnScrollviewSizeChanged?.Invoke(delta);
                 });
         }
@@ -391,25 +397,6 @@ namespace TableForge.UI
             }
 
             return _rowsContainer[rowIndex].ElementAt(columnIndex) as CellControl;
-        }
-
-        public Cell GetCell(int rowId, int columnId)
-        {
-            if (!_rowData.ContainsKey(rowId) || !_columnData.ContainsKey(columnId))
-                return null;
-
-            if (_rowData[rowId].CellAnchor is Row row)
-            {
-                if (row.Cells.TryGetValue(_columnData[columnId].Position, out var cell))
-                    return cell;
-            }
-            else if (_columnData[columnId].CellAnchor is Row column)
-            {
-                if (column.Cells.TryGetValue(_rowData[rowId].CellAnchor.Position, out var cell))
-                    return cell;
-            }
-
-            return null;
         }
 
         public void RebuildPage()

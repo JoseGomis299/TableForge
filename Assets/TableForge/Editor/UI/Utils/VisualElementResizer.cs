@@ -32,52 +32,47 @@ namespace TableForge.UI
             var targetSize = new Vector2(width, height);
             var attempts = 0;
 
-            void CheckAndApplySize()
-            {
-                var currentWidth = Mathf.Round(element.resolvedStyle.width);
-                var currentHeight = Mathf.Round(element.resolvedStyle.height);
-                var currentSize = new Vector2(currentWidth, currentHeight);
-
-                // Check if we need to apply width
-                if (!Mathf.Approximately(currentWidth, width))
-                {
-                    element.style.width = width;
-                    attempts++;
-                    element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
-                    return;
-                }
-
-                // Check if we need to apply height
-                if (!Mathf.Approximately(currentHeight, height))
-                {
-                    element.style.height = height;
-                    attempts++;
-                    element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
-                    return;
-                }
-
-                // Success case
-                if (currentSize == targetSize)
-                {
-                    onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
-                    return;
-                }
-
-                // Failure case
-                if (attempts >= MaxAttempts)
-                {
-                    onError?.Invoke($"Failed to resize after {MaxAttempts} attempts");
-                    return;
-                }
-
-                attempts++;
-                element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
-            }
-
             // Initial application
             element.style.width = width;
             element.style.height = height;
-            element.schedule.Execute(CheckAndApplySize).ExecuteLater(RetryDelay);
+            element.schedule.Execute(() => CheckAndApplySize(element, width, height, targetSize, attempts, onSuccess, onError)).ExecuteLater(RetryDelay);
         }
+        
+        private static void CheckAndApplySize(VisualElement element, float width, float height, Vector2 targetSize, int attempts, Action<GeometryChangedEvent> onSuccess, Action<string> onError)
+        {
+            var currentWidth = Mathf.Round(element.resolvedStyle.width);
+            var currentHeight = Mathf.Round(element.resolvedStyle.height);
+            var currentSize = new Vector2(currentWidth, currentHeight);
+            
+            // Failure case
+            if (attempts++ >= MaxAttempts)
+            {
+                onError?.Invoke($"Failed to resize after {MaxAttempts} attempts");
+                return;
+            }
+
+            // Check if we need to apply width
+            if (!Mathf.Approximately(currentWidth, width))
+            {
+                element.style.width = width;
+                element.schedule.Execute(() => CheckAndApplySize(element, width, height, targetSize, attempts, onSuccess, onError)).ExecuteLater(RetryDelay);
+                return;
+            }
+
+            // Check if we need to apply height
+            if (!Mathf.Approximately(currentHeight, height))
+            {
+                element.style.height = height;
+                element.schedule.Execute(() => CheckAndApplySize(element, width, height, targetSize, attempts, onSuccess, onError)).ExecuteLater(RetryDelay);
+                return;
+            }
+
+            // Success case
+            if (currentSize == targetSize)
+            {
+                onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
+            }
+        }
+        
     }
 }

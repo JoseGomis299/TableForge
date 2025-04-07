@@ -72,5 +72,24 @@ namespace TableForge.UI
            return tableControl.TableData.IsSubTable ? tableControl.TableData.ParentCell.Id : 0;
         }
         
+        public static Cell GetCell(this TableControl tableControl, int rowId, int columnId)
+        {
+            if (!tableControl.RowData.ContainsKey(rowId) || !tableControl.ColumnData.ContainsKey(columnId))
+                return null;
+
+            if (tableControl.RowData[rowId].CellAnchor is Row row)
+            {
+                if (row.Cells.TryGetValue(tableControl.ColumnData[columnId].Position, out var cell))
+                    return cell;
+            }
+            else if (tableControl.ColumnData[columnId].CellAnchor is Row column)
+            {
+                if (column.Cells.TryGetValue(tableControl.RowData[rowId].CellAnchor.Position, out var cell))
+                    return cell;
+            }
+
+            return null;
+        }
+        
     }
 }
