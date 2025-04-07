@@ -9,7 +9,7 @@ namespace TableForge.UI
     {
         private const float SQUARE_VERTICAL_STEP = UiConstants.MinCellHeight * UiConstants.MinCellHeight;
         
-        public RowVisibilityManager(TableControl tableControl, ScrollView scrollView) : base(tableControl, scrollView)
+        public RowVisibilityManager(TableControl tableControl) : base(tableControl)
         {
             ScrollView.verticalScroller.valueChanged += OnVerticalScroll;
             TableControl.OnScrollviewSizeChanged += delta =>

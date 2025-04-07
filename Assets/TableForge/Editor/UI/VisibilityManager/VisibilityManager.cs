@@ -29,10 +29,10 @@ namespace TableForge.UI
         
         public IReadOnlyList<THeader> CurrentVisibleHeaders => VisibleHeaders;
         public IReadOnlyList<THeader> OrderedLockedHeaders => _orderedLockedHeaders;
-        protected VisibilityManager(TableControl tableControl, ScrollView scrollView)
+        protected VisibilityManager(TableControl tableControl)
         {
             TableControl = tableControl;
-            ScrollView = scrollView;
+            ScrollView = tableControl.ScrollView;
             
             LastScrollValue = float.MinValue;
         }

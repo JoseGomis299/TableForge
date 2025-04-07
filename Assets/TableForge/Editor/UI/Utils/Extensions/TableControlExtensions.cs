@@ -90,6 +90,14 @@ namespace TableForge.UI
 
             return null;
         }
+
+        public static CellControl GetCellControl(this TableControl tableControl, int rowId, int columnId)
+        {
+            Cell cell = tableControl.GetCell(rowId, columnId);
+            return CellControlFactory.GetCellControlFromId(cell.Id);
+        }
+        
+        
         
     }
 }

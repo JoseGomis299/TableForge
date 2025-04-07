@@ -8,13 +8,15 @@ namespace TableForge.UI
 {
     internal class TableControl : VisualElement
     {
-        public event Action<Vector2> OnScrollviewSizeChanged; 
-        
+        #region Fields
+
+        public event Action<Vector2> OnScrollviewSizeChanged;
+
         private readonly Dictionary<int, CellAnchorData> _columnData = new();
         private readonly Dictionary<int, CellAnchorData> _rowData = new();
         private readonly Dictionary<int, RowHeaderControl> _rowHeaders = new();
         private readonly Dictionary<int, ColumnHeaderControl> _columnHeaders = new();
-        
+
         private readonly ColumnHeaderContainerControl _columnHeaderContainer;
         private readonly RowHeaderContainerControl _rowHeaderContainer;
         private readonly CornerContainerControl _cornerContainer;
@@ -22,12 +24,16 @@ namespace TableForge.UI
 
         private float _scrollViewHeight;
         private float _scrollViewWidth;
-        
+
+        #endregion
+
+        #region Properties
+
         public IReadOnlyDictionary<int, CellAnchorData> ColumnData => _columnData;
         public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
         public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
         public IReadOnlyDictionary<int, ColumnHeaderControl> ColumnHeaders => _columnHeaders;
-        
+
         public VisualElement Root { get; }
         public CornerContainerControl CornerContainer => _cornerContainer;
 
@@ -46,192 +52,198 @@ namespace TableForge.UI
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
         public bool Inverted { get; private set; }
         public float RowsContainerOffset { get; private set; }
-        
+
+        #endregion
+
+        #region Constructor
+
         public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent)
         {
             // Basic initialization
             Root = root;
-            AddToClassList(USSClasses.Table);
             TableAttributes = attributes;
             Parent = parent;
+            AddToClassList(USSClasses.Table);
 
             // Initialize main components
             ScrollView = CreateScrollView();
             Resizer = new TableResizer(this);
-            ColumnVisibilityManager = new ColumnVisibilityManager(this, ScrollView);
-            RowVisibilityManager = new RowVisibilityManager(this, ScrollView);
+            ColumnVisibilityManager = new ColumnVisibilityManager(this);
+            RowVisibilityManager = new RowVisibilityManager(this);
             CellSelector = parent != null ? parent.TableControl.CellSelector : new CellSelector(this);
             HeaderSwapper = new HeaderSwapper(this);
-            
+
             // Initialize sub-containers
             _rowsContainer = CreateRowsContainer();
             _columnHeaderContainer = new ColumnHeaderContainerControl(ScrollView);
             _rowHeaderContainer = new RowHeaderContainerControl(ScrollView);
             _cornerContainer = new CornerContainerControl(ScrollView);
-            
+
             // Subscribe to visibility events
-            RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
-            RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
-            ColumnVisibilityManager.OnHeaderBecameVisible += OnColumnHeaderBecameVisible;
-            ColumnVisibilityManager.OnHeaderBecameInvisible += OnColumnHeaderBecameInvisible;
-            
+            SubscribeToVisibilityEvents();
+
             // Build UI hierarchy (styles defined in USS)
             BuildLayoutHierarchy();
         }
-        
+
+        #endregion
+
+        #region Public Methods
+
+        #region Table Setup
+
         public void SetTable(Table table)
         {
             TableData = table;
-            Metadata = Parent == null ? TableMetadataManager.GetMetadata(table, table.Name) : Parent.TableControl.Metadata;
-            if(!Inverted && Metadata.IsInverted) Invert();
+            Metadata = Parent == null
+                ? TableMetadataManager.GetMetadata(table, table.Name)
+                : Parent.TableControl.Metadata;
             
-            if(_columnData.Any()) ClearTable();
+            if (!Inverted && Metadata.IsInverted)
+                Invert();
+
+            if (_columnData.Any())
+                ClearTable();
+
             PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
-            
+
             // Add empty data for the corner cell
             _rowData.Add(0, new CellAnchorData(null));
             _columnData.Add(0, new CellAnchorData(null));
-            
-            BuildHeader();
+
+            BuildColumns();
             BuildRows();
-            
             InitializeGeometry();
         }
 
+        public void ClearTable()
+        {
+            ClearRows();
+            ClearColumns();
+            Resizer.Clear();
+            RowVisibilityManager.Clear();
+            ColumnVisibilityManager.Clear();
+
+            _cornerContainer.CornerControl.style.width = 0;
+            _rowsContainer.style.left = 0;
+
+            ResetScrollViewStoredSize();
+            UnsubscribeFromResizingMethods();
+        }
+
+        #endregion
+
+        #region Update Methods
+
+        /// <summary>
+        /// Updates the data of the visible rows.
+        /// </summary>
         public void Update()
         {
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
-                foreach (var columnHeader in ColumnVisibilityManager.CurrentVisibleHeaders)
-                { 
-                    var cell = GetCellControl(rowHeader.Id, columnHeader.Id);
-                    cell?.Refresh();
-                }
+               rowHeader.Refresh();
             }
         }
         
+        /// <summary>
+        /// Updates the data of all rows but only updating visible cells values.
+        /// </summary>
+        public void UpdateAll()
+        {
+            foreach (var row in _rowHeaders.Values)
+            {
+                row.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Updates the data of this row and its visible cells.
+        /// </summary>
         public void UpdateRow(int rowId)
         {
-            if (!_rowHeaders.ContainsKey(rowId))
+            if (!_rowHeaders.TryGetValue(rowId, out var header))
                 return;
 
-            foreach (var columnHeader in ColumnVisibilityManager.CurrentVisibleHeaders)
-            {
-                var cell = GetCellControl(rowId, columnHeader.Id);
-                cell?.Refresh();
-            }
+            header.Refresh();
         }
         
-        public void ClearTable()
-        {
-            foreach (var rowHeader in _rowHeaderContainer.Children())
-            {
-                if (rowHeader is RowHeaderControl rowHeaderControl)
-                {
-                    VerticalResizer.Dispose(rowHeaderControl);
-                    HeaderSwapper.Dispose(rowHeaderControl);
-                    rowHeaderControl.RowControl.ClearRow();
-                }
-                
-                rowHeader.style.height = 0;
-            }
-            _rowHeaders.Clear();
-            _rowHeaderContainer.Clear();
-            _rowData.Clear();
-            _rowsContainer.Clear();
+        public void RebuildPage() => SetTable(TableData);
+        #endregion
 
-            foreach (var columnHeader in _columnHeaderContainer.Children())
-            {
-                if(columnHeader is ColumnHeaderControl columnHeaderControl)
-                    HorizontalResizer.Dispose(columnHeaderControl);
-                
-                columnHeader.style.width = 0;
-            }
-            _columnHeaderContainer.Clear();
-            _columnData.Clear();
-            _columnHeaders.Clear();
-            
-            Resizer.Clear();
-            RowVisibilityManager.Clear();
-            ColumnVisibilityManager.Clear();
-            
-            _cornerContainer.CornerControl.style.width = 0;
-            _rowsContainer.style.left = 0;
-            
-            _scrollViewHeight = UiConstants.CellHeight;
-            _scrollViewWidth = 0;
-            
-            Resizer.OnResize -= RefreshScrollViewSize;
-            
-            if(Parent != null)
-            {
-                Parent.TableControl.OnScrollviewSizeChanged -= InvokeOnScrollviewSizeChanged;
-                return;
-            };
-            Root.UnregisterCallback<GeometryChangedEvent>(evt =>
-            {
-                Vector2 delta = new Vector2(evt.newRect.width - evt.oldRect.width, evt.newRect.height - evt.oldRect.height);
-                OnScrollviewSizeChanged?.Invoke(delta);
-            });
-        }
+        #region Utilities
 
         public void Invert()
         {
-            if(Parent != null) return;
-            
-            Inverted = !Inverted;
+            if (Parent != null)
+                return;
 
-            TableAttributes reversedAttributes = new TableAttributes
+            Inverted = !Inverted;
+            TableAttributes = new TableAttributes
             {
                 ColumnHeaderVisibility = TableAttributes.RowHeaderVisibility,
                 RowHeaderVisibility = TableAttributes.ColumnHeaderVisibility,
                 RowReorderMode = TableAttributes.ColumnReorderMode,
                 ColumnReorderMode = TableAttributes.RowReorderMode,
                 TableType = TableAttributes.TableType
-            };  
- 
-            TableAttributes = reversedAttributes;
+            };
+            
             Metadata.IsInverted = Inverted;
         }
-        
+
+
+        public void MoveRow(int rowStartPos, int rowEndPos, bool refresh = true)
+        {
+            if (rowStartPos == rowEndPos)
+                return;
+
+            if (TableAttributes.RowReorderMode == TableReorderMode.ExplicitReorder)
+            {
+                PerformExplicitRowReorder(rowStartPos, rowEndPos, refresh);
+            }
+            else
+            {
+                PerformImplicitRowReorder(rowStartPos, rowEndPos, refresh);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Private Methods
+
+        #region Layout Initialization
+
         private ScrollView CreateScrollView()
         {
             var scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
             scrollView.AddToClassList(USSClasses.Fill);
             scrollView.contentContainer.AddToClassList(USSClasses.TableScrollViewContent);
             Add(scrollView);
-            
             return scrollView;
         }
-        
+
         private VisualElement CreateRowsContainer()
         {
             var container = new VisualElement();
             container.AddToClassList(USSClasses.TableRowContainer);
             return container;
         }
-        
+
         private void BuildLayoutHierarchy()
         {
-            // Container for all scroll view content
             var scrollviewContentContainer = new VisualElement();
             scrollviewContentContainer.AddToClassList(USSClasses.TableScrollViewContentContainer);
             ScrollView.Add(scrollviewContentContainer);
-            
-            /*
-             Note that the bottom container is added first, as the scrollviewContentContainer flex-direction is columnReverse.
-             This is done to ensure that the bottom container is rendered first and the top container is rendered last
-             while still maintaining the correct order
-            */
-             
+
             // Bottom container for rows and row headers
             var bottomContainer = new VisualElement();
             bottomContainer.AddToClassList(USSClasses.TableScrollViewContentBottom);
             scrollviewContentContainer.Add(bottomContainer);
-            
             bottomContainer.Add(_rowsContainer);
             bottomContainer.Add(_rowHeaderContainer);
-            
+
             // Top container for column headers and corner cell
             var topContainer = new VisualElement();
             topContainer.AddToClassList(USSClasses.TableScrollViewContentTop);
@@ -241,235 +253,250 @@ namespace TableForge.UI
             topContainer.Add(_columnHeaderContainer);
             topContainer.Add(_cornerContainer);
         }
-        
+
         private void InitializeGeometry()
         {
-            Resizer.OnResize -= RefreshScrollViewSize;
-            Resizer.OnResize += RefreshScrollViewSize;
-            
-            _scrollViewHeight = UiConstants.CellHeight;
-            _scrollViewWidth = 0;
-            
+            SubscribeToResizingMethods();
+            ResetScrollViewStoredSize();
             Resizer.ResizeAll(true);
-            
-            if(Parent != null)
-            {
-                Parent.TableControl.OnScrollviewSizeChanged -= InvokeOnScrollviewSizeChanged;
-                Parent.TableControl.OnScrollviewSizeChanged += InvokeOnScrollviewSizeChanged;
-                return;
-            }
-            
-            Root.RegisterCallback<GeometryChangedEvent>(evt =>
-            {
-                Vector2 delta = new Vector2(evt.newRect.width - evt.oldRect.width, evt.newRect.height - evt.oldRect.height);
-                OnScrollviewSizeChanged?.Invoke(delta);
-            });
         }
         
-        private void BuildHeader()
+        private void ResetScrollViewStoredSize()
         {
+            _scrollViewHeight = UiConstants.CellHeight;
+            _scrollViewWidth = 0;
+        }
 
+        #endregion
+        
+        #region Table structure building
+
+        private void BuildColumns()
+        {
             if (!Inverted)
             {
                 foreach (var column in TableData.OrderedColumns)
                 {
-                    _columnData.Add(column.Id, new CellAnchorData(column));
-
-                    var headerCell = new ColumnHeaderControl(column, this);
-                    _columnHeaderContainer.Add(headerCell);
-                    _columnHeaders.Add(column.Id, headerCell);
+                    BuildColumn(column);
                 }
             }
             else
             {
-                IReadOnlyList<Row> rows = TableData.OrderedRows;
-                foreach (var row in rows)
+                foreach (var column in TableData.OrderedRows)
                 {
-                    _columnData.Add(row.Id, new CellAnchorData(row));
-
-                    var headerCell = new ColumnHeaderControl(row, this);
-                    _columnHeaderContainer.Add(headerCell);
-                    _columnHeaders.Add(row.Id, headerCell);
+                    BuildColumn(column);
                 }
             }
-            
+        }
+
+        private void BuildColumn<T>(T column) where T : CellAnchor
+        {
+            _columnData.Add(column.Id, new CellAnchorData(column));
+                
+            var headerCell = new ColumnHeaderControl(column, this);
+            _columnHeaderContainer.Add(headerCell);
+            _columnHeaders.Add(column.Id, headerCell);
         }
 
         private void BuildRows()
         {
             SortedList<int, Row> rowPositions = new SortedList<int, Row>();
-            int lastPosition = 0;
-            
+
             if (!Inverted)
             {
-                IReadOnlyList<Row> rows = TableData.OrderedRows;
-                if(rows.Count == 0)
+                var rows = TableData.OrderedRows;
+                if (rows.Count == 0)
                     return;
 
                 foreach (var row in rows)
                 {
-                    _rowData.Add(row.Id, new CellAnchorData(row));
+                    BuildRow(row);
 
-                    var header = new RowHeaderControl(row, this);
-                    _rowHeaders.Add(row.Id, header);
-                    _rowHeaderContainer.Add(header);
-                    HeaderSwapper.HandleSwapping(header);
-
-                    var rowControl = new RowControl(row, this);
-                    _rowsContainer.Add(rowControl);
-                    header.RowControl = rowControl;
-
+                    //If the row position is not 0, it means it has been moved during other sessions
                     int storedPosition = Metadata.GetAnchorPosition(row.Id);
                     if (storedPosition != 0)
-                    {
                         rowPositions.Add(storedPosition, row);
-                    }
                 }
 
+                // Move rows to their stored positions
                 foreach (var row in rowPositions)
                 {
                     MoveRow(row.Value.Position, row.Key, false);
                 }
-                
-                RefreshPage();
+
+                UpdateAll();
             }
             else
             {
                 foreach (var column in TableData.OrderedColumns)
                 {
-                    _rowData.Add(column.Id, new CellAnchorData(column));
-
-                    var header = new RowHeaderControl(column, this);
-                    _rowHeaders.Add(column.Id, header);
-                    _rowHeaderContainer.Add(header);
-                    HeaderSwapper.HandleSwapping(header);
-                    
-                    var rowControl = new RowControl(column, this);
-                    _rowsContainer.Add(rowControl);
-                    header.RowControl = rowControl;
+                    BuildRow(column);
                 }
             }
-            
         }
         
-        private void RefreshScrollViewSize(Vector2 sizeDelta)
+        private void BuildRow<T>(T row) where T : CellAnchor
         {
-            _scrollViewWidth += sizeDelta.x;
-            _scrollViewHeight += sizeDelta.y;
-            _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
+            _rowData.Add(row.Id, new CellAnchorData(row));
+            var header = new RowHeaderControl(row, this);
+            _rowHeaders.Add(row.Id, header);
+            _rowHeaderContainer.Add(header);
+            HeaderSwapper.HandleSwapping(header);
 
-            VisualElementResizer.ChangeSize(ScrollView.contentContainer, _scrollViewWidth, _scrollViewHeight,
-                evt =>
-                {
-                    Vector2 delta = new Vector2(evt.newRect.size.x - evt.oldRect.size.x, evt.newRect.size.y - evt.oldRect.size.y);
-                    
-                    ScrollView.horizontalScroller.highValue = _scrollViewWidth - ScrollView.contentViewport.resolvedStyle.width;
-                    ScrollView.horizontalScroller.value = Mathf.Min(_scrollViewWidth, ScrollView.horizontalScroller.value);
-                    ScrollView.horizontalScroller.Adjust(ScrollView.contentViewport.resolvedStyle.width / ScrollView.horizontalScroller.highValue);
-
-                    ScrollView.verticalScroller.highValue = _scrollViewHeight - ScrollView.contentViewport.resolvedStyle.height;
-                    ScrollView.verticalScroller.value = Mathf.Min(_scrollViewHeight, ScrollView.verticalScroller.value);
-                    ScrollView.verticalScroller.Adjust(ScrollView.contentViewport.resolvedStyle.height / ScrollView.verticalScroller.highValue);
-
-                    OnScrollviewSizeChanged?.Invoke(delta);
-                });
+            var rowControl = new RowControl(row, this);
+            _rowsContainer.Add(rowControl);
+            header.RowControl = rowControl;
         }
+
+        #endregion
+
+        #region Helper methods
+
+        #region Row reordering helpers
+        private void PerformExplicitRowReorder(int rowStartPos, int rowEndPos, bool refresh)
+        {
+            int startIndex = rowStartPos - 1;
+            int endIndex = rowEndPos - 1;
+            bool isMovingUp = rowStartPos > rowEndPos;
+            int currentIndex = startIndex;
+
+            while (currentIndex != endIndex)
+            {
+                int nextIndex = isMovingUp ? currentIndex - 1 : currentIndex + 1;
+                var nextRow = this.GetRowAtPosition(nextIndex + 1);
+                Metadata.SetAnchorPosition(nextRow.Id, currentIndex + 1);
+
+                _rowsContainer.SwapChildren(currentIndex, nextIndex);
+                _rowHeaderContainer.SwapChildren(currentIndex, nextIndex);
+
+                currentIndex = nextIndex;
+            }
+
+            var startRow = this.GetRowAtPosition(rowStartPos);
+            Metadata.SetAnchorPosition(startRow.Id, rowEndPos);
+            TableData.MoveRow(rowStartPos, rowEndPos);
+            if (refresh) UpdateAll();
+        }
+
+        private void PerformImplicitRowReorder(int rowStartPos, int rowEndPos, bool refresh)
+        {
+            bool isMovingUp = rowStartPos > rowEndPos;
+            int currentPos = rowStartPos;
+
+            while (currentPos != rowEndPos)
+            {
+                int nextPos = isMovingUp ? currentPos - 1 : currentPos + 1;
+                var currentRow = this.GetRowAtPosition(currentPos);
+                var nextRow = this.GetRowAtPosition(nextPos);
+                Metadata.SwapMetadata(currentRow, nextRow);
+                currentPos = nextPos;
+            }
+
+            TableData.MoveRow(rowStartPos, rowEndPos);
+            if (refresh) RebuildPage();
+        }
+        #endregion
+
+        #region Clearing helpers
+        private void ClearRows()
+        {
+            foreach (var rowHeader in _rowHeaderContainer.Children())
+            {
+                if (rowHeader is RowHeaderControl rowHeaderControl)
+                {
+                    VerticalResizer.Dispose(rowHeaderControl);
+                    HeaderSwapper.Dispose(rowHeaderControl);
+                    rowHeaderControl.RowControl.ClearRow();
+                }
+                rowHeader.style.height = 0;
+            }
+            _rowHeaders.Clear();
+            _rowHeaderContainer.Clear();
+            _rowData.Clear();
+            _rowsContainer.Clear();
+        }
+
+        private void ClearColumns()
+        {
+            foreach (var columnHeader in _columnHeaderContainer.Children())
+            {
+                if (columnHeader is ColumnHeaderControl columnHeaderControl)
+                    HorizontalResizer.Dispose(columnHeaderControl);
+                columnHeader.style.width = 0;
+            }
+            _columnHeaderContainer.Clear();
+            _columnData.Clear();
+            _columnHeaders.Clear();
+        }
+        #endregion
         
+        #region Subscription helpers
+        private void SubscribeToVisibilityEvents()
+        {
+            RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
+            RowVisibilityManager.OnHeaderBecameInvisible += OnRowHeaderBecameInvisible;
+            ColumnVisibilityManager.OnHeaderBecameVisible += OnColumnHeaderBecameVisible;
+            ColumnVisibilityManager.OnHeaderBecameInvisible += OnColumnHeaderBecameInvisible;
+        }
+
         private void InvokeOnScrollviewSizeChanged(Vector2 delta)
         {
             OnScrollviewSizeChanged?.Invoke(delta);
         }
-
-        public CellControl GetCellControl(int rowId, int columnId)
-        {
-            if (!_rowData.ContainsKey(rowId) || !_columnData.ContainsKey(columnId))
-                return null;
-
-            int rowIndex = _rowData[rowId].Position - 1;
-            int columnIndex = _columnData[columnId].Position - 1;
-
-            if (rowIndex < 0 || columnIndex < 0)
-                return null;
-
-            if (_rowsContainer[rowIndex] is RowControl rowControl && rowControl.childCount <= columnIndex)
-            {
-                rowControl.Refresh(_rowData[rowId].CellAnchor);
-            }
-
-            return _rowsContainer[rowIndex].ElementAt(columnIndex) as CellControl;
-        }
-
-        public void RebuildPage()
-        {
-            SetTable(TableData);
-        }
         
-        public void RefreshPage()
+        private void SubscribeToResizingMethods()
         {
-            foreach (var row in _rowHeaders.Values)
-            {
-                row.Refresh();
-            }
-        }
-        
-        public void ShowScrollbars(bool value)
-        {
-            ScrollView.horizontalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
-            ScrollView.verticalScrollerVisibility = value ? ScrollerVisibility.Auto : ScrollerVisibility.Hidden;
-        }
+            Resizer.OnResize -= OnTableResize;
+            Resizer.OnResize += OnTableResize;
 
-        public void MoveRow(int rowStartPos, int rowEndPos, bool refresh = true)
-        {
-            if (rowStartPos == rowEndPos)
+            if (Parent != null)
+            {
+                Parent.TableControl.OnScrollviewSizeChanged -= InvokeOnScrollviewSizeChanged;
+                Parent.TableControl.OnScrollviewSizeChanged += InvokeOnScrollviewSizeChanged;
                 return;
-
-            if (TableAttributes.RowReorderMode == TableReorderMode.ExplicitReorder)
-            {
-                int startIndex = rowStartPos - 1;
-                int endIndex = rowEndPos - 1;
-                bool isMovingUp = rowStartPos > rowEndPos;
-                int currentIndex = startIndex;
-                while (currentIndex != endIndex)
-                {
-                    var nextIndex = isMovingUp ? currentIndex - 1 : currentIndex + 1;
-                    
-                    CellAnchor nextRow = this.GetRowAtPosition(nextIndex + 1);
-                    
-                    Metadata.SetAnchorPosition(nextRow.Id, currentIndex + 1);
-                    
-                    _rowsContainer.SwapChildren(currentIndex, nextIndex);
-                    _rowHeaderContainer.SwapChildren(currentIndex, nextIndex);
-
-                    currentIndex = nextIndex;
-                }
-                
-                CellAnchor startRow = this.GetRowAtPosition(rowStartPos);
-                Metadata.SetAnchorPosition(startRow.Id, rowEndPos);
-                
-                TableData.MoveRow(rowStartPos, rowEndPos);
-                if (refresh) RefreshPage(); 
             }
-            else
-            {
-                bool isMovingUp = rowStartPos > rowEndPos;
-                int currentPos = rowStartPos;
-                
-                while (currentPos != rowEndPos)
-                {
-                    var nextPos = isMovingUp ? currentPos - 1 : currentPos + 1;
-                    
-                    CellAnchor currentRow = this.GetRowAtPosition(currentPos);
-                    CellAnchor nextRow = this.GetRowAtPosition(nextPos);
-                    Metadata.SwapMetadata(currentRow, nextRow);
-
-                    currentPos = nextPos;
-                }
-                
-                TableData.MoveRow(rowStartPos, rowEndPos);
-                if(refresh) RebuildPage();
-            }
+            Root.RegisterCallback<GeometryChangedEvent>(OnRootGeometryChanged);
         }
 
+        private void UnsubscribeFromResizingMethods()
+        {
+            Resizer.OnResize -= OnTableResize;
+
+            if (Parent != null)
+            {
+                Parent.TableControl.OnScrollviewSizeChanged -= InvokeOnScrollviewSizeChanged;
+                return;
+            }
+            Root.UnregisterCallback<GeometryChangedEvent>(OnRootGeometryChanged);
+        }
+        #endregion
+
+        // Helper for calculating offset based on visible columns
+        private float CalculateRowsContainerOffset(int direction)
+        {
+            float offset = 0;
+            int index = direction == 1 ? 0 : ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1;
+
+            while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1 &&
+                   ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) &&
+                   !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+            {
+                index++;
+            }
+
+            for (int i = 1; i < ColumnVisibilityManager.CurrentVisibleHeaders[index].CellAnchor.Position; i++)
+            {
+                ColumnHeaderControl columnHeader = _columnHeaders[this.GetColumnAtPosition(i).Id];
+                if (ColumnVisibilityManager.IsHeaderVisibilityLocked(columnHeader))
+                    continue;
+                offset += columnHeader.style.width.value.value;
+            }
+            return offset;
+        }
+
+        #endregion
+
+        #region Event Handlers
 
         private void OnRowHeaderBecameVisible(HeaderControl header, int direction)
         {
@@ -478,7 +505,7 @@ namespace TableForge.UI
                 rowHeaderControl.RowControl.Refresh(rowHeaderControl.RowControl.Anchor);
             }
         }
-        
+
         private void OnRowHeaderBecameInvisible(HeaderControl header, int direction)
         {
             if (header is RowHeaderControl rowHeaderControl)
@@ -486,83 +513,66 @@ namespace TableForge.UI
                 rowHeaderControl.RowControl.ClearRow();
             }
         }
-        
+
         private void OnColumnHeaderBecameVisible(HeaderControl header, int direction)
         {
-            RowsContainerOffset = 0;
-            int index = 0;
-            
-            if (direction == 1)
-            {
-                while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1
-                       && ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index])
-                       && !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
-                {
-                    index++;
-                }
-            }
-            else
-            {
-                index = ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1;
-
-                while (index > 0
-                       && ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) 
-                       && !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
-                {
-                    index--;
-                }
-            }
-
-            for (int i = 1; i < ColumnVisibilityManager.CurrentVisibleHeaders[index].CellAnchor.Position; i++)
-            {
-                ColumnHeaderControl columnHeader = _columnHeaders[this.GetColumnAtPosition(i).Id];
-                if(ColumnVisibilityManager.IsHeaderVisibilityLocked(columnHeader)) continue;
-                RowsContainerOffset += columnHeader.style.width.value.value;
-            }
-
+            RowsContainerOffset = CalculateRowsContainerOffset(direction);
             _rowsContainer.style.left = RowsContainerOffset + _cornerContainer.CornerControl.style.width.value.value;
-            
 
-            if(ColumnVisibilityManager.IsHeaderVisibilityLocked(header as ColumnHeaderControl)) return;
+            if (ColumnVisibilityManager.IsHeaderVisibilityLocked(header as ColumnHeaderControl))
+                return;
+
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
                 rowHeader.RowControl.SetColumnVisibility(header.Id, true, direction);
             }
         }
-        
+
         private void OnColumnHeaderBecameInvisible(HeaderControl header, int direction)
         {
             if (direction == 1 && ColumnVisibilityManager.CurrentVisibleHeaders.Any())
             {
-                RowsContainerOffset = 0;
-                int index = 0;
-                
-                while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1
-                       && ColumnVisibilityManager.IsHeaderVisibilityLocked(
-                           ColumnVisibilityManager.CurrentVisibleHeaders[index])
-                       && !ColumnVisibilityManager.IsHeaderInBounds(
-                           ColumnVisibilityManager.CurrentVisibleHeaders[index]))
-                {
-                    index++;
-                }
-
-
-                for (int i = 1; i < ColumnVisibilityManager.CurrentVisibleHeaders[index].CellAnchor.Position; i++)
-                {
-                    ColumnHeaderControl columnHeader = _columnHeaders[this.GetColumnAtPosition(i).Id];
-                    if (ColumnVisibilityManager.IsHeaderVisibilityLocked(columnHeader)) continue;
-                    RowsContainerOffset += columnHeader.style.width.value.value;
-                }
-
-                _rowsContainer.style.left =
-                    RowsContainerOffset + _cornerContainer.CornerControl.style.width.value.value;
+                RowsContainerOffset = CalculateRowsContainerOffset(direction);
+                _rowsContainer.style.left = RowsContainerOffset + _cornerContainer.CornerControl.style.width.value.value;
             }
 
-            if(ColumnVisibilityManager.IsHeaderVisibilityLocked(header as ColumnHeaderControl)) return;
+            if (ColumnVisibilityManager.IsHeaderVisibilityLocked(header as ColumnHeaderControl))
+                return;
+
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
                 rowHeader.RowControl.SetColumnVisibility(header.Id, false, direction);
             }
         }
+        
+        private void OnTableResize(Vector2 sizeDelta)
+        {
+            _scrollViewWidth += sizeDelta.x;
+            _scrollViewHeight += sizeDelta.y;
+            _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
+
+            VisualElementResizer.ChangeSize(ScrollView.contentContainer, _scrollViewWidth, _scrollViewHeight, OnContentContainerResized);
+        }
+
+        private void OnContentContainerResized(GeometryChangedEvent evt)
+        {
+            Vector2 delta = new Vector2(evt.newRect.size.x - evt.oldRect.size.x, evt.newRect.size.y - evt.oldRect.size.y);
+
+            //Adjust scrollers
+            ScrollView.SetHorizontalScrollerValue(_scrollViewWidth);
+            ScrollView.SetVerticalScrollerValue(_scrollViewHeight);
+
+            OnScrollviewSizeChanged?.Invoke(delta);
+        }
+        
+        private void OnRootGeometryChanged(GeometryChangedEvent evt)
+        {
+            Vector2 delta = new Vector2(evt.newRect.width - evt.oldRect.width, evt.newRect.height - evt.oldRect.height);
+            OnScrollviewSizeChanged?.Invoke(delta);
+        }
+
+        #endregion
+
+        #endregion
     }
 }

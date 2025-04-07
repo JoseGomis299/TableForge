@@ -11,7 +11,7 @@ namespace TableForge.UI
             set
             {
                 base.IsSelected = value;
-                SubTableControl?.ShowScrollbars(value);
+                SubTableControl?.ScrollView.SetScrollbarsVisibility(value);
             }
         }
         public TableControl SubTableControl { get; protected set; }

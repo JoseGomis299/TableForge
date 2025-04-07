@@ -9,7 +9,7 @@ namespace TableForge.UI
     {
         private const float SQUARE_HORIZONTAL_STEP = UiConstants.MinCellWidth * UiConstants.MinCellWidth;
 
-        public ColumnVisibilityManager(TableControl tableControl, ScrollView scrollView) : base(tableControl, scrollView)
+        public ColumnVisibilityManager(TableControl tableControl) : base(tableControl)
         {
             ScrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
             TableControl.OnScrollviewSizeChanged += delta =>

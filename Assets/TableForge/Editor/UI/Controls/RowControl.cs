@@ -18,7 +18,6 @@ namespace TableForge.UI
             Anchor = anchor;
             
             AddToClassList(USSClasses.TableRow);
-           // AddToClassList(USSClasses.Hidden);
         }
         
         public void ClearRow()
@@ -132,8 +131,6 @@ namespace TableForge.UI
                     }
                 }
 
-                Debug.Log($"Adding column {columnPosition} at index {targetIndex}");
-                
                 if(targetIndex >= childCount)
                     Add(cellField);
                 else
