@@ -164,6 +164,16 @@ namespace TableForge
                 ? row.Cells.GetValueOrDefault(columnKey) 
                 : null;
         }
+        
+        /// <summary>
+        /// Retrieves a cell from the table using numeric column and row positions.
+        /// </summary>
+        public Cell GetCell(int columnPos, int rowPos)
+        {
+            return Rows.TryGetValue(rowPos, out Row rowObj) 
+                ? rowObj.Cells.GetValueOrDefault(columnPos) 
+                : null;
+        }
 
         /// <summary>
         /// Placeholder for serialization functionality. Currently not implemented.

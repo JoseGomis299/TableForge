@@ -98,6 +98,8 @@ namespace TableForge.UI
             _tableControl.Root.RegisterCallback<KeyDownEvent>(HandleKeyDown);
             
             SelectionEnabled = true;
+            
+            
         }
 
         private bool IsValidClick(IMouseEvent evt)
@@ -131,7 +133,7 @@ namespace TableForge.UI
             {
                 if (FirstSelectedCell == null)
                 {
-                    if (TableControl.TableData.GetCell("A1") is not { } cell) return;
+                    if (TableControl.TableData.GetFirstCell() is not { } cell) return;
                 
                     FirstSelectedCell = cell;
                     ConfirmSelection();
@@ -143,6 +145,11 @@ namespace TableForge.UI
                 Cell firstCell = FirstSelectedCell;
                 Vector2 wrappingMinBounds = new Vector2(1, 1);
                 Vector2 wrappingMaxBounds = new Vector2(firstCell.Table.Columns.Count, firstCell.Table.Rows.Count);
+
+                //Transpose direction if table is transposed
+                if (firstCell.Table == TableControl.TableData && TableControl.Transposed)
+                    direction = new Vector2(-direction.y, -direction.x);
+                
                 FirstSelectedCell = CellLocator.GetContiguousCell(firstCell, direction, wrappingMinBounds, wrappingMaxBounds);
 
                 foreach (var ancestor in FirstSelectedCell.GetAncestors())
@@ -165,7 +172,7 @@ namespace TableForge.UI
                             expandableSubTable.OpenFoldout();
                         }
                         
-                        Cell first = subTableCell.SubTable.GetCell("A1");
+                        Cell first = subTableCell.SubTable.GetFirstCell();
                         if (first != null)
                         {
                             FirstSelectedCell = first;
@@ -183,7 +190,7 @@ namespace TableForge.UI
                 }
             }
 
-            else if (evt.keyCode is KeyCode.Backspace && FirstSelectedCell.Table.IsSubTable)
+            else if (evt.keyCode is KeyCode.Backspace or KeyCode.Escape && FirstSelectedCell.Table.IsSubTable)
             {
                 FirstSelectedCell = FirstSelectedCell.Table.ParentCell;
                 foreach (var descendants in FirstSelectedCell.GetDescendants())
@@ -208,7 +215,7 @@ namespace TableForge.UI
             {
                 if (FirstSelectedCell == null)
                 {
-                    if (TableControl.TableData.GetCell("A1") is not { } cell) return;
+                    if (TableControl.TableData.GetFirstCell() is not { } cell) return;
                 
                     FirstSelectedCell = cell;
                     ConfirmSelection();
@@ -217,6 +224,8 @@ namespace TableForge.UI
                 
                 CellControl cellControl = CellControlFactory.GetCellControlFromId(FirstSelectedCell.Id);
                 if (cellControl is ISimpleCellControl simpleCellControl && simpleCellControl.IsFieldFocused()) return;
+                
+                int orientation = evt.shiftKey ? -1 : 1;
 
                 var ancestors = FirstSelectedCell.GetAncestors();
                 if (_selectedCells.Count(x => !ancestors.Contains(x)) <= 1)
@@ -226,7 +235,8 @@ namespace TableForge.UI
                     Vector2Int wrappingMinBounds = new Vector2Int(1, 1);
                     Vector2Int wrappingMaxBounds = new Vector2Int(FirstSelectedCell.Table.Columns.Count, FirstSelectedCell.Table.Rows.Count);
                     
-                    FirstSelectedCell = CellLocator.GetContiguousCell(FirstSelectedCell, Vector2.right, wrappingMinBounds, wrappingMaxBounds);
+                    direction = FirstSelectedCell.Table == TableControl.TableData && TableControl.Transposed ? Vector2.down : Vector2.right;
+                    FirstSelectedCell = CellLocator.GetContiguousCell(FirstSelectedCell, direction * orientation, wrappingMinBounds, wrappingMaxBounds);
                     
                     foreach (var ancestor in FirstSelectedCell.GetAncestors())
                     {
@@ -238,9 +248,23 @@ namespace TableForge.UI
                 else
                 {
                     int index = _orderedSelectedCells.IndexOf(FirstSelectedCell);
-                    index = (index + 1) % _orderedSelectedCells.Count;
+                    index += 1 * orientation;
+                    
+                    if (index < 0)
+                        index = _orderedSelectedCells.Count - 1;
+                    else if (index >= _orderedSelectedCells.Count)
+                        index = 0;
                     
                     FirstSelectedCell = _orderedSelectedCells[index];
+
+                    if (_orderedSelectedCells[index].Table.ParentCell is SubTableCell parentCell && !TableControl.Metadata.IsTableExpanded(parentCell.Id))
+                    {
+                        CellControl parentCellControl = CellControlFactory.GetCellControlFromId(parentCell.Id);
+                        if (parentCellControl is ExpandableSubTableCellControl subTableCellControl)
+                        {
+                            subTableCellControl.OpenFoldout();
+                        }
+                    }
                 }
             }
             
@@ -284,14 +308,27 @@ namespace TableForge.UI
                 _selectedCells.Remove(cell);
             }
             _cellsToDeselect.Clear();
-            
-            _orderedSelectedCells = _selectedCells
-                .OrderBy(cell => cell.GetHighestAncestor().Row.Position)
-                .ThenBy(cell => cell.GetHighestAncestor().Column.Position)
-                .ThenBy(cell => cell.GetLevel())
-                .ThenBy(cell => cell.Row.Position)
-                .ThenBy(cell => cell.Column.Position)
-                .ToList();
+
+            if (TableControl.Transposed)
+            {
+                _orderedSelectedCells = _selectedCells
+                    .OrderBy(cell => cell.GetHighestAncestor().Column.Position)
+                    .ThenBy(cell => cell.GetHighestAncestor().Row.Position)
+                    .ThenBy(cell => cell.GetDepth())
+                    .ThenBy(cell => cell.Row.Position)
+                    .ThenBy(cell => cell.Column.Position)
+                    .ToList();
+            }
+            else
+            {
+                _orderedSelectedCells = _selectedCells
+                    .OrderBy(cell => cell.GetHighestAncestor().Row.Position)
+                    .ThenBy(cell => cell.GetHighestAncestor().Column.Position)
+                    .ThenBy(cell => cell.GetDepth())
+                    .ThenBy(cell => cell.Row.Position)
+                    .ThenBy(cell => cell.Column.Position)
+                    .ToList();
+            }
             
             OnSelectionChanged?.Invoke();
         }

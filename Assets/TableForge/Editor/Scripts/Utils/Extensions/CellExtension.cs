@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using TableForge.UI;
+using UnityEngine;
 
 namespace TableForge
 {
@@ -9,27 +12,33 @@ namespace TableForge
         /// Gets the ascendants of a cell in the table hierarchy. (not including itself)
         /// </summary>
         /// <returns></returns>
-        public static List<Cell> GetAncestors(this Cell cell)
+        public static List<Cell> GetAncestors(this Cell cell, bool includeSelf = false)
         {
-            List<Cell> ascendants = new List<Cell>();
+            List<Cell> ancestors = new List<Cell>();
+            if(includeSelf)
+                ancestors.Add(cell);
+            
             Cell currentCell = cell.Table.ParentCell;
 
             while (currentCell != null)
             {
-                ascendants.Add(currentCell);
+                ancestors.Add(currentCell);
                 currentCell = currentCell.Table.ParentCell;
             }
 
-            return ascendants;
+            return ancestors;
         }
         
         /// <summary>
         /// Gets the descendants of a cell in the table hierarchy. (not including itself)
         /// </summary>
         /// <returns></returns>
-        public static List<Cell> GetDescendants(this Cell cell)
+        public static List<Cell> GetDescendants(this Cell cell, int maxDepth = -1)
         {
             List<Cell> descendants = new List<Cell>();
+            int currentDepth = cell.GetDepth();
+            if(currentDepth >= maxDepth && maxDepth != -1)
+                return descendants;
             
             if(cell is SubTableCell subTableCell)
             {
@@ -37,8 +46,11 @@ namespace TableForge
                 {
                     foreach (var descendantCell in row.Cells.Values)
                     {
-                        if(descendantCell is SubTableCell subTableCellDescendant)
-                            descendants.AddRange(subTableCellDescendant.GetDescendants());
+                        if (descendantCell is SubTableCell subTableCellDescendant)
+                        {
+                            if (maxDepth == -1 || currentDepth + 1 < maxDepth)
+                                descendants.AddRange(subTableCellDescendant.GetDescendants(maxDepth));
+                        }
                         
                         descendants.Add(descendantCell);
                     }
@@ -85,20 +97,65 @@ namespace TableForge
         }
         
         /// <summary>
-        /// Gets the level of a cell in the table hierarchy. The level is defined as the number of ascendants of the cell.
+        /// Get the Table which contains the two nearest ancestors of the two cells.
         /// </summary>
-        public static int GetLevel(this Cell cell)
+        public static Table GetNearestCommonTable(this Cell cell1, Cell cell2, out Cell cell1Ancestor, out Cell cell2Ancestor)
         {
-            int level = 0;
+            Dictionary<Table, Cell> cell1Ancestors = cell1.GetAncestors(true).Select(x => new KeyValuePair<Table, Cell>(x.Table, x)).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<Table, Cell> cell2Ancestors = cell2.GetAncestors(true).Select(x => new KeyValuePair<Table, Cell>(x.Table, x)).ToDictionary(x => x.Key, x => x.Value);
+            
+            foreach (var ancestor in cell1Ancestors)
+            {
+                Table table = ancestor.Key;
+                if (cell2Ancestors.ContainsKey(table))
+                {
+                    cell1Ancestor = cell1Ancestors[table];
+                    cell2Ancestor = cell2Ancestors[table];
+                    return table;
+                }
+            }
+            
+            cell1Ancestor = null;
+            cell2Ancestor = null;
+            return null;
+        }
+        
+        /// <summary>
+        /// Gets the depth of a cell in the table hierarchy. The depth is defined as the number of ascendants of the cell.
+        /// </summary>
+        public static int GetDepth(this Cell cell)
+        {
+            int depth = 0;
             Cell currentCell = cell.Table.ParentCell;
 
             while (currentCell != null)
             {
-                level++;
+                depth++;
                 currentCell = currentCell.Table.ParentCell;
             }
 
-            return level;
+            return depth;
+        }
+        
+        /// <summary>
+        /// Gets the direction from one cell to another in the table hierarchy.
+        /// </summary>
+        public static Vector2 GetDirectionTo(this Cell from, Cell to, TableMetadata metadata = null)
+        {
+            if (from == null || to == null)
+                return Vector2.zero;
+            
+            Table commonTable = from.GetNearestCommonTable(to, out from, out to);
+            (int col, int row) fromPosition = PositionUtil.GetPosition(from.GetPosition());
+            (int col, int row) toPosition = PositionUtil.GetPosition(to.GetPosition());
+            
+            if (metadata != null && !commonTable.IsSubTable && metadata.IsTransposed)
+            {
+                fromPosition = (fromPosition.row, fromPosition.col);
+                toPosition = (toPosition.row, toPosition.col);
+            }
+
+            return new Vector2(Mathf.Clamp(toPosition.col - fromPosition.col, -1, 1), -Mathf.Clamp(toPosition.row - fromPosition.row, -1, 1));
         }
     }
 }

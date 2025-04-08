@@ -39,6 +39,7 @@ namespace TableForge.UI
             TableControl = tableControl;
             Cell = cell;
             
+            IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
             AddToClassList(USSClasses.TableCell);
         }
         

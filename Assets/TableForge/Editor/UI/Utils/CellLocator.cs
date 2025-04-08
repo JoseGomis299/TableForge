@@ -17,60 +17,110 @@ namespace TableForge.UI
         public static List<Cell> GetCellRange(Cell firstCell, Cell lastCell, TableControl rootTableControl)
         {
             var cells = new List<Cell>();
-            while (firstCell.GetLevel() >  lastCell.GetLevel())
-            {
-                firstCell = firstCell.Table.ParentCell;
-            }
             
-            List<Cell> firstCellAncestors = firstCell.GetAncestors();
-            List<Cell> lastCellAncestors = lastCell.GetAncestors();
-            firstCellAncestors.Insert(0, firstCell);
-            lastCellAncestors.Insert(0, lastCell);
+            List<Cell> firstCellHierarchy = firstCell.GetAncestors(true);
+            List<Cell> lastCellHierarchy = lastCell.GetAncestors(true);
             
-            Cell firstCellFurthestAncestor = firstCellAncestors[^1];
-            Cell lastCellFurthestAncestor = lastCellAncestors[^1];
-            
-            firstCellAncestors.RemoveAt(firstCellAncestors.Count - 1);
-            lastCellAncestors.RemoveAt(lastCellAncestors.Count - 1);
-            
-            GetCellRange(firstCellFurthestAncestor, lastCellFurthestAncestor, firstCellAncestors, lastCellAncestors, cells, rootTableControl, true);
+            GetCellRange(firstCell, lastCell, firstCellHierarchy, lastCellHierarchy, rootTableControl, cells);
 
             return cells;
         }
 
-        private static void GetCellRange(Cell firstCell, Cell lastCell, List<Cell> firstCellAncestors, List<Cell> lastCellAncestors, List<Cell> result, TableControl rootTableControl, bool isRightmost)
+        private static void GetCellRange(Cell firstCell, Cell lastCell, List<Cell> firstCellHierarchy, List<Cell> lastCellHierarchy, TableControl rootTableControl, List<Cell> result)
         {
-            Cell firstCellFurthestAncestor = null;
-            Cell lastCellFurthestAncestor = null;
+            if(firstCell.GetDepth() > lastCell.GetDepth())
+            { 
+                result.Add(firstCell);
 
-            if (firstCellAncestors.Any())
+                Vector2 direction = firstCell.GetDirectionTo(lastCell, rootTableControl.Metadata);
+                Cell last = direction.x switch
+                {
+                    < 0 => firstCell.Table.GetFirstCell(),
+                    > 0 => firstCell.Table.GetLastCell(),
+                    _ => direction.y < 0 ? firstCell.Table.GetLastCell() : firstCell.Table.GetFirstCell()
+                };
+
+                //Select the corresponding cells in the first cell's table
+                GetCellRange(firstCell, last, firstCellHierarchy, lastCellHierarchy, rootTableControl, result);
+                //Select the corresponding cells in the first cell's parent table
+                GetCellRange(firstCell.Table.ParentCell, lastCell, firstCellHierarchy, lastCellHierarchy, rootTableControl, result);
+                
+                //Select the corresponding cells in the last cell's table
+                result.AddRange(lastCell.GetDescendants(firstCell.GetDepth()));
+                return;
+            }
+            
+            if (lastCell.GetDepth() > firstCell.GetDepth())
             {
-                firstCellFurthestAncestor = firstCellAncestors.Last();
-                firstCellAncestors.RemoveAt(firstCellAncestors.Count - 1);
+                result.Add(lastCell);
+
+                Vector2 direction = lastCell.GetDirectionTo(firstCell, rootTableControl.Metadata);
+                Cell first = direction.x switch
+                {
+                    < 0 => lastCell.Table.GetFirstCell(),
+                    > 0 => lastCell.Table.GetLastCell(),
+                    _ => direction.y < 0 ? lastCell.Table.GetLastCell() : lastCell.Table.GetFirstCell()
+                };
+
+                //Select the corresponding cells in the last cell's table
+                GetCellRange(first, lastCell, firstCellHierarchy, lastCellHierarchy, rootTableControl, result);
+                //Select the corresponding cells in the last cell's parent table
+                GetCellRange(firstCell, lastCell.Table.ParentCell, firstCellHierarchy, lastCellHierarchy, rootTableControl, result);
+                
+                //Select the corresponding cells in the first cell's table
+                result.AddRange(firstCell.GetDescendants(lastCell.GetDepth()));
+                return;
             }
 
-            if (lastCellAncestors.Any())
+            if (firstCell.Table != lastCell.Table)
             {
-                lastCellFurthestAncestor = lastCellAncestors.Last();
-                lastCellAncestors.RemoveAt(lastCellAncestors.Count - 1);
+                Vector2 direction = firstCell.GetDirectionTo(lastCell, rootTableControl.Metadata);
+                Cell last = direction.x switch
+                {
+                    < 0 => firstCell.Table.GetFirstCell(),
+                    > 0 => firstCell.Table.GetLastCell(),
+                    _ => direction.y < 0 ? firstCell.Table.GetLastCell() : firstCell.Table.GetFirstCell()
+                };
+                
+                Cell first = direction.x switch
+                {
+                    > 0 => lastCell.Table.GetFirstCell(),
+                    < 0 => lastCell.Table.GetLastCell(),
+                    _ => direction.y >= 0 ? lastCell.Table.GetLastCell() : lastCell.Table.GetFirstCell()
+                };
+
+                //Select the corresponding cells in the first cell's table
+                GetCellRange(firstCell, last, firstCellHierarchy, lastCellHierarchy, rootTableControl, result);
+                //Select the corresponding cells in the last cell's table
+                GetCellRange(first, lastCell, firstCellHierarchy, lastCellHierarchy, rootTableControl, result);
+                
+                //Select the corresponding cells in the common parent table
+                GetCellRange(firstCell.Table.ParentCell, lastCell.Table.ParentCell, firstCellHierarchy, lastCellHierarchy, rootTableControl, result);
+                return;
+            }
+
+            if (firstCell.Table == lastCell.Table)
+            {
+                //Select the ancestor cells if selecting inside a subtable
+                result.AddRange(firstCell.GetAncestors());
             }
 
             Table table = firstCell.Table;
             bool isMainTable = table == rootTableControl.TableData;
-            bool isInverted = isMainTable && rootTableControl.Inverted;
+            bool isTransposed = isMainTable && rootTableControl.Transposed;
 
-            int startingRowPosition = isInverted ? firstCell.Column.Position : firstCell.Row.Position;
-            int endingRowPosition = isInverted ? lastCell.Column.Position : lastCell.Row.Position;
+            int startingRowPosition = isTransposed ? firstCell.Column.Position : firstCell.Row.Position;
+            int endingRowPosition = isTransposed ? lastCell.Column.Position : lastCell.Row.Position;
 
-            int startingColumnPosition = isInverted ? firstCell.Row.Position : firstCell.Column.Position;
-            int endingColumnPosition = isInverted ? lastCell.Row.Position : lastCell.Column.Position;
-
+            int startingColumnPosition = isTransposed ? firstCell.Row.Position : firstCell.Column.Position;
+            int endingColumnPosition = isTransposed ? lastCell.Row.Position : lastCell.Column.Position;
+            
             if(startingRowPosition > endingRowPosition)
                 (startingRowPosition, endingRowPosition) = (endingRowPosition, startingRowPosition);
             if(startingColumnPosition > endingColumnPosition)
                 (startingColumnPosition, endingColumnPosition) = (endingColumnPosition, startingColumnPosition);
             
-            if(isInverted)
+            if(isTransposed)
             {
                 (startingRowPosition, startingColumnPosition) = (startingColumnPosition, startingRowPosition);
                 (endingRowPosition, endingColumnPosition) = (endingColumnPosition, endingRowPosition);
@@ -87,37 +137,16 @@ namespace TableForge.UI
                 for (int i = startingColumnPosition; i <= endingColumnPosition; i++)
                 {
                     result.Add(row.Cells[i]);
-                    
-                    if(row.Cells[i] is SubTableCell subTableCell)
+
+                    if (row.Cells[i] is SubTableCell subTableCell)
                     {
-                        bool isLocalRightmost = rootTableControl.Inverted ?
-                            row.Position == endingRowPosition 
-                            : i == endingColumnPosition;
+                        if(firstCellHierarchy.Contains(subTableCell))
+                            continue;
                         
-                        string firstCellPosition = firstCellFurthestAncestor != null ? 
-                            firstCellFurthestAncestor.GetPosition() :
-                            "A1";
-
-                        string lastCellPosition = 
-                            $"{PositionUtil.ConvertToLetters(subTableCell.SubTable.Columns.Count)}{subTableCell.SubTable.Rows.Count}";
-
-                        if (isLocalRightmost && lastCellFurthestAncestor != null)
-                        {
-                            var positionTuple = PositionUtil.GetPosition(lastCellFurthestAncestor.GetPosition());
+                        if(lastCellHierarchy.Contains(subTableCell))
+                            continue;
                         
-                            positionTuple.column = Mathf.Clamp(positionTuple.column, 1, subTableCell.SubTable.Columns.Count);
-                            positionTuple.row = Mathf.Clamp(positionTuple.row, 1, subTableCell.SubTable.Rows.Count);
-                        
-                            lastCellPosition = PositionUtil.ConvertToLetters(positionTuple.column) + positionTuple.row;
-                        }
-                        
-                        Table subTable = subTableCell.SubTable;
-                        Cell subTableFirstCell = subTable.GetCell(firstCellPosition);
-                        Cell subTableLastCell = subTable.GetCell(lastCellPosition);
-                        if (subTableFirstCell != null && subTableLastCell != null)
-                        {
-                            GetCellRange(subTableFirstCell, subTableLastCell, firstCellAncestors.ToList(), lastCellAncestors.ToList(), result, rootTableControl, isLocalRightmost);
-                        }
+                        result.AddRange(subTableCell.GetDescendants(Mathf.Max(firstCellHierarchy.Count - 1, lastCellHierarchy.Count - 1)));
                     }
                 }
             }
@@ -163,7 +192,7 @@ namespace TableForge.UI
                 }
             }
 
-            return currentCell.Table.GetCell($"{PositionUtil.ConvertToLetters(newColumnPosition)}{newRowPosition}");
+            return currentCell.Table.GetCell(newColumnPosition, newRowPosition);
         }
         
         public static List<Cell> GetCellsAtRow(TableControl tableControl, int rowId)

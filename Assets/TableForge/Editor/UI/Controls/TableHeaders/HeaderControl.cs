@@ -36,6 +36,7 @@ namespace TableForge.UI
             CellAnchor = cellAnchor;
             TableControl = tableControl;
             
+            IsSelected = tableControl.CellSelector.SelectedAnchors.Contains(CellAnchor);
             tableControl.CellSelector.OnSelectionChanged += () =>
             {
                 IsSelected = tableControl.CellSelector.SelectedAnchors.Contains(CellAnchor);

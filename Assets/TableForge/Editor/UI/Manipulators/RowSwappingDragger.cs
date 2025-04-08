@@ -22,14 +22,16 @@ namespace TableForge.UI
             }
             
             _orderedHeaders.Sort((a, b) => TableControl.RowData[a.Id].Position.CompareTo(TableControl.RowData[b.Id].Position));
-            TableControl.RowVisibilityManager.LockHeaderVisibility(target as RowHeaderControl, this);
+            if(target is RowHeaderControl rowHeaderControl) 
+                TableControl.RowVisibilityManager.LockHeaderVisibility(rowHeaderControl, this);
             
             _lastHeaderIndex = -1;
         }
 
         protected override void OnRelease()
         {
-            TableControl.RowVisibilityManager.UnlockHeaderVisibility(target as RowHeaderControl, this);
+            if(target is not RowHeaderControl rowHeaderControl) return;
+            TableControl.RowVisibilityManager.UnlockHeaderVisibility(rowHeaderControl, this);
         }
 
         protected override void MoveElements(MouseMoveEvent e)

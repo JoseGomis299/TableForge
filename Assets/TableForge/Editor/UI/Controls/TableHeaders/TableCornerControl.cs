@@ -25,15 +25,15 @@ namespace TableForge.UI
         void BuildContextMenu(ContextualMenuPopulateEvent evt)
         {
             if(_tableControl.Parent == null)
-                evt.menu.AppendAction("Invert table", InvertTable, DropdownMenuAction.AlwaysEnabled);
+                evt.menu.AppendAction("Transpose table", TransposeTable, DropdownMenuAction.AlwaysEnabled);
         }
         
         
-        void InvertTable(DropdownMenuAction action)
+        void TransposeTable(DropdownMenuAction action)
         {
             _tableControl.CellSelector.ClearSelection();
 
-            _tableControl.Invert();
+            _tableControl.Transpose();
             _tableControl.RebuildPage();
         }
     }

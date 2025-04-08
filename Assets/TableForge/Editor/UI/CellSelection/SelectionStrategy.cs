@@ -46,7 +46,14 @@ namespace TableForge.UI
             
             foreach (var cell in cellsAtPosition)
             {
-                if (selector.SelectedCells.Contains(cell))
+                if (selector.SelectedCells.Add(cell))
+                {
+                    lastSelectedCell = cell;
+                    
+                    selectedFirstCell = true;
+                    selector.FirstSelectedCell = cell;
+                }
+                else
                 {
                     selector.CellsToDeselect.Add(cell);
                     foreach (var descendant in cell.GetDescendants())
@@ -56,18 +63,10 @@ namespace TableForge.UI
                     
                     lastSelectedCell = cell;
                 }
-                else
-                {
-                    selector.SelectedCells.Add(cell);
-                    lastSelectedCell = cell;
-                    
-                    selectedFirstCell = true;
-                    selector.FirstSelectedCell = cell;
-                }
             }
             
             if(!selectedFirstCell)
-             selector.FirstSelectedCell = selector.SelectedCells.FirstOrDefault();
+             selector.FirstSelectedCell = selector.SelectedCells.FirstOrDefault(x => !selector.CellsToDeselect.Contains(x));
             return lastSelectedCell;
         }
     }

@@ -24,7 +24,7 @@ namespace TableForge.UI
 
         public Vector2 GetTotalSize(bool useStoredValues)
         {
-            bool inverted = !_table.IsSubTable && _tableMetadata.IsInverted;
+            bool transposed = !_table.IsSubTable && _tableMetadata.IsTransposed;
             float width = 0, height = 0;
             
             foreach (var row in _rowPreferredSizes)
@@ -33,7 +33,7 @@ namespace TableForge.UI
                     continue;
 
                 int rowId = row.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : row.Key;
-                if (inverted)
+                if (transposed)
                 {
                     float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(rowId).x : 0;
                     width += storedValue != 0 ? storedValue : row.Value.x;
@@ -51,7 +51,7 @@ namespace TableForge.UI
                     continue;
                 
                 int columnId = column.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : column.Key;
-                if (inverted)
+                if (transposed)
                 {
                     float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(columnId).y : 0;
                     height += storedValue != 0 ? storedValue : column.Value.y;
@@ -68,9 +68,9 @@ namespace TableForge.UI
         
         public Vector2 GetHeaderSize(CellAnchor cellAnchor)
         {
-            bool inverted = !_table.IsSubTable && _tableMetadata.IsInverted;
+            bool transposed = !_table.IsSubTable && _tableMetadata.IsTransposed;
 
-            if (!inverted)
+            if (!transposed)
             {
                 return cellAnchor switch
                 {
@@ -88,9 +88,9 @@ namespace TableForge.UI
             };
         }
         
-        public Vector2 GetCellSize(Cell cell, bool inverted)
+        public Vector2 GetCellSize(Cell cell, bool transposed)
         {
-            return inverted ? 
+            return transposed ? 
                 new Vector2(_rowPreferredSizes[cell.Row.Id].x, _columnPreferredSizes[cell.Column.Id].y)
                 : new Vector2(_columnPreferredSizes[cell.Column.Id].x, _rowPreferredSizes[cell.Row.Id].y);
         }

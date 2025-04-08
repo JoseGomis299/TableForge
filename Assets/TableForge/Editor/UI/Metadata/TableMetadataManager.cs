@@ -24,7 +24,7 @@ namespace TableForge.UI
 
             TableMetadata metadata = ScriptableObject.CreateInstance<TableMetadata>();
             metadata.Name = tableName;
-            metadata.IsInverted = false;
+            metadata.IsTransposed = false;
 
             string assetPath = Path.Combine(path, tableName + ".asset");
             AssetDatabase.CreateAsset(metadata, assetPath);

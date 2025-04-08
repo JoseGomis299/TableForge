@@ -104,8 +104,8 @@ MonoBehaviour:
   inheritorClassAsInnerClass2:
     rid: 617020005463621699
   innerClasses:
-  - number: 2
-    text: 
+  - number: 0
+    text: 334
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -116,17 +116,35 @@ MonoBehaviour:
       number: 0
       boolean: 0
   - number: 4
-    text: 
+    text: 123
     animationCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
       number: 0
       boolean: 0
-  - number: 1
+  - number: 0
     text: 
     animationCurve:
       serializedVersion: 2
@@ -174,7 +192,25 @@ MonoBehaviour:
     text: 
     animationCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -203,7 +239,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
+  - number: 1
     text: 
     animationCurve:
       serializedVersion: 2
@@ -655,9 +691,9 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 12, y: 32, z: 54}
     m_Extent: {x: 12, y: 123, z: 35}
-  byteValue: 0
-  shortValue: 0
-  sbyteValue: 0
+  byteValue: 12
+  shortValue: 32767
+  sbyteValue: 20
   layerMask:
     serializedVersion: 2
     m_Bits: 52

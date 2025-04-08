@@ -50,7 +50,7 @@ namespace TableForge.UI
         public SubTableCellControl Parent { get; }
         public VisibilityManager<ColumnHeaderControl> ColumnVisibilityManager { get; }
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
-        public bool Inverted { get; private set; }
+        public bool Transposed { get; private set; }
         public float RowsContainerOffset { get; private set; }
 
         #endregion
@@ -99,8 +99,8 @@ namespace TableForge.UI
                 ? TableMetadataManager.GetMetadata(table, table.Name)
                 : Parent.TableControl.Metadata;
             
-            if (!Inverted && Metadata.IsInverted)
-                Invert();
+            if (!Transposed && Metadata.IsTransposed)
+                Transpose();
 
             if (_columnData.Any())
                 ClearTable();
@@ -173,12 +173,12 @@ namespace TableForge.UI
 
         #region Utilities
 
-        public void Invert()
+        public void Transpose()
         {
             if (Parent != null)
                 return;
 
-            Inverted = !Inverted;
+            Transposed = !Transposed;
             TableAttributes = new TableAttributes
             {
                 ColumnHeaderVisibility = TableAttributes.RowHeaderVisibility,
@@ -188,7 +188,7 @@ namespace TableForge.UI
                 TableType = TableAttributes.TableType
             };
             
-            Metadata.IsInverted = Inverted;
+            Metadata.IsTransposed = Transposed;
         }
 
 
@@ -273,7 +273,7 @@ namespace TableForge.UI
 
         private void BuildColumns()
         {
-            if (!Inverted)
+            if (!Transposed)
             {
                 foreach (var column in TableData.OrderedColumns)
                 {
@@ -302,7 +302,7 @@ namespace TableForge.UI
         {
             SortedList<int, Row> rowPositions = new SortedList<int, Row>();
 
-            if (!Inverted)
+            if (!Transposed)
             {
                 var rows = TableData.OrderedRows;
                 if (rows.Count == 0)
@@ -481,11 +481,23 @@ namespace TableForge.UI
             float offset = 0;
             int index = direction == 1 ? 0 : ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1;
 
-            while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1 &&
-                   ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) &&
-                   !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+            if (direction == 1)
             {
-                index++;
+                while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1 &&
+                       ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) &&
+                       !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+                {
+                    index++;
+                }
+            }
+            else
+            {
+                while (index > 0 &&
+                       ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) &&
+                       !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+                {
+                    index--;
+                }
             }
 
             for (int i = 1; i < ColumnVisibilityManager.CurrentVisibleHeaders[index].CellAnchor.Position; i++)

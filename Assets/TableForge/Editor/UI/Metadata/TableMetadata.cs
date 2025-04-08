@@ -12,7 +12,7 @@ namespace TableForge.UI
         [SerializeField, HideInInspector] private string tableName;
         
         [SerializeField, HideInInspector] private SerializedHashSet<int> expandedTables = new();
-        [SerializeField, HideInInspector] private SerializedHashSet<int> invertedTables = new();
+        [SerializeField, HideInInspector] private SerializedHashSet<int> transposedTables = new();
         [SerializeField, HideInInspector] private SerializedHashSet<int> hiddenFields = new();
         
         [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
@@ -33,13 +33,13 @@ namespace TableForge.UI
             }
         }
         
-        public bool IsInverted
+        public bool IsTransposed
         {
-            get => invertedTables.Contains(0);
+            get => transposedTables.Contains(0);
             set
             {
-                if (value) invertedTables.Add(0);
-                else invertedTables.Remove(0);
+                if (value) transposedTables.Add(0);
+                else transposedTables.Remove(0);
                 
                 SetDirtyIfNecessary();
             }

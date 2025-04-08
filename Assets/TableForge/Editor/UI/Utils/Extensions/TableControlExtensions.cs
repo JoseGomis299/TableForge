@@ -4,7 +4,7 @@ namespace TableForge.UI
     {
         public static CellAnchor GetRowAtPosition(this TableControl tableControl, int position)
         {
-            if (!tableControl.Inverted)
+            if (!tableControl.Transposed)
             {
                 if (tableControl.TableData.Rows.TryGetValue(position, out var row))
                     return row;
@@ -20,7 +20,7 @@ namespace TableForge.UI
         
         public static CellAnchor GetColumnAtPosition(this TableControl tableControl, int position)
         {
-            if (!tableControl.Inverted)
+            if (!tableControl.Transposed)
             {
                 if (tableControl.TableData.Columns.TryGetValue(position, out var column))
                     return column;
@@ -36,12 +36,12 @@ namespace TableForge.UI
 
         public static CellAnchor GetCellRow(this TableControl tableControl, Cell cell)
         {
-            return !tableControl.Inverted ? cell.Row : cell.Column;
+            return !tableControl.Transposed ? cell.Row : cell.Column;
         }
         
         public static CellAnchor GetCellColumn(this TableControl tableControl, Cell cell)
         {
-            return !tableControl.Inverted ? cell.Column : cell.Row;
+            return !tableControl.Transposed ? cell.Column : cell.Row;
         }
 
         public static int GetColumnPosition(this TableControl tableControl, int columnId)
