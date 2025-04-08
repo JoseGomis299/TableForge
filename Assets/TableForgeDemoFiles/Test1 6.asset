@@ -98,7 +98,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
+      boolean: 1
   innerClass:
     rid: 617020005463621707
   inheritorClassAsInnerClass2:

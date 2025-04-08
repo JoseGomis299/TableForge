@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
-    internal static class VisualElementExtensions
+    internal static class VisualElementExtension
     {
         public static void AddToChildrenClassList(this VisualElement element, string className)
         {

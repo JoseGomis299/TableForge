@@ -1,6 +1,6 @@
 namespace TableForge.UI
 {
-    internal static class TableControlExtensions
+    internal static class TableControlExtension
     {
         public static CellAnchor GetRowAtPosition(this TableControl tableControl, int position)
         {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TableForge.UI
 {
-    internal static class CellControlExtensions
+    internal static class CellControlExtension
     {
         /// <summary>
         ///  Gets the highest ancestor of a cell in the table hierarchy. If there is not, it returns itself.

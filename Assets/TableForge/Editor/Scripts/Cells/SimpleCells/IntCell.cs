@@ -1,5 +1,3 @@
-using TableForge.Exceptions;
-
 namespace TableForge
 {
     /// <summary>

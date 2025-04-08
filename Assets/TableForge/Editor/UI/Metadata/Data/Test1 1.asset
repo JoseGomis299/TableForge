@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tableName: Test1 1
   expandedTables:
-    values: 
+    values: 66d967ad
   transposedTables:
     values: 
   hiddenFields:
     values: 
   cellAnchorMetadata:
-    m_Keys: 
-    m_Values: []
+    m_Keys: bf6995b71c36fb2e
+    m_Values:
+    - position: 0
+      size: {x: 500, y: 0}
+    - position: 0
+      size: {x: 0, y: 109}
