@@ -68,7 +68,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 75c601255e8a4d75a9f75410e9d9fd22, type: 3}
-  B: 0
+  B: 1
   intField: 1
   floatField: 32
   <PublicLongProperty>k__BackingField: 0

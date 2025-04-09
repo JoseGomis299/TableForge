@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -22,39 +23,63 @@ namespace TableForge.UI
     /// </summary>
     internal static class SelectionStrategyFactory
     {
+        private static ToggleSelectionStrategy _toggleSelectionStrategy;
+        private static MultipleSelectionStrategy _multipleSelectionStrategy;
+        private static DefaultSelectionStrategy _defaultSelectionStrategy;
+        
         public static ISelectionStrategy GetSelectionStrategy(IMouseEvent evt)
         {
-            if (evt.ctrlKey)
-                return new CtrlSelectionStrategy();
+            if (evt.ctrlKey) 
+                return _toggleSelectionStrategy ??= new ToggleSelectionStrategy();
             if (evt.shiftKey)
-                return new ShiftSelectionStrategy();
-            return new NormalSelectionStrategy();
+                return _multipleSelectionStrategy ??= new MultipleSelectionStrategy();
+            
+            return _defaultSelectionStrategy ??= new DefaultSelectionStrategy();
+        }
+
+        public static ISelectionStrategy GetSelectionStrategy<T>() where T :ISelectionStrategy
+        {
+            if(typeof(T) == typeof(ToggleSelectionStrategy))
+                return _toggleSelectionStrategy ??= new ToggleSelectionStrategy();
+            if(typeof(T) == typeof(MultipleSelectionStrategy))
+                return _multipleSelectionStrategy ??= new MultipleSelectionStrategy();
+            
+            return _defaultSelectionStrategy ??= new DefaultSelectionStrategy();
+        }
+        
+        public static ISelectionStrategy GetSelectionStrategy(bool isCtrl, bool isShift)
+        {
+            if (isCtrl) 
+                return _toggleSelectionStrategy ??= new ToggleSelectionStrategy();
+            if (isShift)
+                return _multipleSelectionStrategy ??= new MultipleSelectionStrategy();
+            
+            return _defaultSelectionStrategy ??= new DefaultSelectionStrategy();
         }
     }
 
     /// <summary>
-    /// Strategy for CTRL key:
     /// - If a cell is already selected, mark it for deselection.
     /// - Otherwise, add the cell.
     /// </summary>
-    internal class CtrlSelectionStrategy : ISelectionStrategy
+    internal class ToggleSelectionStrategy : ISelectionStrategy
     {
         public Cell Preselect(CellSelector selector, List<Cell> cellsAtPosition)
         {
             Cell lastSelectedCell = null;
-            bool selectedFirstCell = false;
+            bool firstSelectedCellHasChanged = false;
             
             foreach (var cell in cellsAtPosition)
             {
                 if (selector.SelectedCells.Add(cell))
                 {
                     lastSelectedCell = cell;
-                    
-                    selectedFirstCell = true;
                     selector.FirstSelectedCell = cell;
                 }
                 else
                 {
+                    if(cellsAtPosition.Count > 1) continue;
+                    
                     selector.CellsToDeselect.Add(cell);
                     foreach (var descendant in cell.GetDescendants())
                     {
@@ -62,21 +87,25 @@ namespace TableForge.UI
                     }
                     
                     lastSelectedCell = cell;
+                    if(!firstSelectedCellHasChanged && cell == selector.FirstSelectedCell)
+                    {
+                        firstSelectedCellHasChanged = true;
+                    }
                 }
             }
             
-            if(!selectedFirstCell)
-             selector.FirstSelectedCell = selector.SelectedCells.FirstOrDefault(x => !selector.CellsToDeselect.Contains(x));
+            if(firstSelectedCellHasChanged)
+                selector.FirstSelectedCell = selector.SelectedCells.FirstOrDefault(x => !selector.CellsToDeselect.Contains(x));
+            
             return lastSelectedCell;
         }
     }
 
     /// <summary>
-    /// Strategy for SHIFT key:
     /// - If no cell was previously selected, the clicked cell becomes the first selection.
     /// - Otherwise, select the range from the first selected cell to the current cell.
     /// </summary>
-    internal class ShiftSelectionStrategy : ISelectionStrategy
+    internal class MultipleSelectionStrategy : ISelectionStrategy
     {
         public Cell Preselect(CellSelector selector, List<Cell> cellsAtPosition)
         {
@@ -96,8 +125,7 @@ namespace TableForge.UI
                 lastSelectedCell = cellsAtPosition.LastOrDefault();
                 
                 if (firstCell != null && lastSelectedCell != null)
-                {                Debug.Log($"First cell: {firstCell.GetPosition()}, last cell: {lastSelectedCell.GetPosition()}");
-
+                {              
                     var cells = CellLocator.GetCellRange(firstCell, lastSelectedCell, selector.TableControl);
                     // Mark cells outside the new range for deselection.
                     selector.CellsToDeselect = new HashSet<Cell>(selector.SelectedCells);
@@ -113,10 +141,9 @@ namespace TableForge.UI
     }
 
     /// <summary>
-    /// Default selection strategy (no modifier keys):
     /// - Clears previous selection and selects only the clicked cell(s).
     /// </summary>
-    internal class NormalSelectionStrategy : ISelectionStrategy
+    internal class DefaultSelectionStrategy : ISelectionStrategy
     {
         public Cell Preselect(CellSelector selector, List<Cell> cellsAtPosition)
         {

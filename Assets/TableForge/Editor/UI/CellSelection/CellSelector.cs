@@ -2,33 +2,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
     internal class CellSelector : ICellSelector
     {
         public event Action OnSelectionChanged;
-        
+
+        #region Fields
+
         private readonly TableControl _tableControl;
-        private readonly HashSet<Cell> _selectedCells = new HashSet<Cell>();
-        private HashSet<Cell> _cellsToDeselect = new HashSet<Cell>();
-        private readonly HashSet<CellAnchor> _selectedAnchors = new HashSet<CellAnchor>();
-        private Vector3 _lastMousePosition;
+        private readonly HashSet<Cell> _selectedCells = new();
+        private HashSet<Cell> _cellsToDeselect = new();
+        private readonly HashSet<CellAnchor> _selectedAnchors = new();
         private Cell _firstSelectedCell;
-        private List<Cell> _orderedSelectedCells = new List<Cell>();
-        
+        private List<Cell> _orderedSelectedCells = new();
+        private CellSelectorInputManager _inputManager;
+
+        #endregion
+
+        #region Properties
+
+        public bool SelectionEnabled { get; set; }
         public HashSet<CellAnchor> SelectedAnchors => _selectedAnchors;
         public HashSet<Cell> SelectedCells => _selectedCells;
-        public HashSet<Cell> CellsToDeselect
+        internal List<Cell> OrderedSelectedCells => _orderedSelectedCells;
+        internal TableControl TableControl => _tableControl;
+
+        internal HashSet<Cell> CellsToDeselect
         {
             get => _cellsToDeselect;
             set => _cellsToDeselect = value;
         }
-        
-        public bool SelectionEnabled {get; set;}
 
-        public Cell FirstSelectedCell
+        internal Cell FirstSelectedCell
         {
             get => _firstSelectedCell;
             set
@@ -40,338 +47,98 @@ namespace TableForge.UI
                     _cellsToDeselect.Remove(value);
                     return;
                 }
-                Cell previousFirstSelectedCell = _firstSelectedCell;
+
+                UpdatePreviousFirstSelected(_firstSelectedCell);
                 _firstSelectedCell = value;
-                
-                if(previousFirstSelectedCell != null)
+                if (_firstSelectedCell != null)
                 {
-                    CellControl previousCellControl = CellControlFactory.GetCellControlFromId(previousFirstSelectedCell.Id);
-                    if(previousCellControl != null)
-                    {
-                        previousCellControl.focusable = false;
-                        previousCellControl.RemoveFromClassList(USSClasses.FirstSelected);
-                        
-                        foreach (var ancestor in previousCellControl.GetAncestors(true))
-                        {
-                            var ancestorTableControl = ancestor.TableControl;
-                            var ancestorRow = ancestorTableControl.GetCellRow(ancestor.Cell);
-                            var ancestorColumn = ancestorTableControl.GetCellColumn(ancestor.Cell);
-                        
-                            ancestorTableControl.RowVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id], this);
-                            ancestorTableControl.ColumnVisibilityManager.UnlockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id], this);
-                        }
-                    }
+                    UpdateNewFirstSelected(_firstSelectedCell);
+                    _selectedCells.Add(_firstSelectedCell);
+                    _cellsToDeselect.Remove(_firstSelectedCell);
                 }
-
-                if (value == null) return;
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(value.Id);
-                if(cellControl != null)
-                {
-                    cellControl.focusable = true;
-                    cellControl?.Focus();
-                    cellControl.AddToClassList(USSClasses.FirstSelected);
-
-                    foreach (var ancestor in cellControl.GetAncestors(true))
-                    {
-                        var ancestorTableControl = ancestor.TableControl;
-                        var ancestorRow = ancestorTableControl.GetCellRow(ancestor.Cell);
-                        var ancestorColumn = ancestorTableControl.GetCellColumn(ancestor.Cell);
-                        
-                        ancestorTableControl.RowVisibilityManager.LockHeaderVisibility(ancestor.TableControl.RowHeaders[ancestorRow.Id], this);
-                        ancestorTableControl.ColumnVisibilityManager.LockHeaderVisibility(ancestor.TableControl.ColumnHeaders[ancestorColumn.Id], this);
-                    }
-                }
-                
-                _selectedCells.Add(value);
-                _cellsToDeselect.Remove(value);
             }
         }
+        
+        #endregion
 
-        public TableControl TableControl => _tableControl;
+        #region Constructor
 
         public CellSelector(TableControl tableControl)
         {
             _tableControl = tableControl;
-            _tableControl.ScrollView.contentContainer.RegisterCallback<MouseDownEvent>(PreselectCells, TrickleDown.TrickleDown);
-            _tableControl.ScrollView.contentContainer.RegisterCallback<MouseDownEvent>(ConfirmSelection, TrickleDown.NoTrickleDown);
-            _tableControl.ScrollView.contentContainer.RegisterCallback<MouseMoveEvent>(OnMouseMove);
-            _tableControl.Root.RegisterCallback<KeyDownEvent>(HandleKeyDown);
-            
             SelectionEnabled = true;
-            
-            
+            _inputManager = new CellSelectorInputManager(this);
         }
 
-        private bool IsValidClick(IMouseEvent evt)
+        #endregion
+
+        #region FirstSelected Helpers
+
+        private void UpdatePreviousFirstSelected(Cell previous)
         {
-            return evt.button == 0 
-                   && SelectionEnabled;
+            if (previous == null) return;
+
+            CellControl previousControl = CellControlFactory.GetCellControlFromId(previous.Id);
+            if (previousControl != null)
+            {
+                previousControl.focusable = false;
+                previousControl.RemoveFromClassList(USSClasses.FirstSelected);
+                foreach (var ancestor in previousControl.GetAncestors(true))
+                {
+                    UnlockAncestorHeaders(ancestor);
+                }
+            }
         }
+
+        private void UpdateNewFirstSelected(Cell newCell)
+        {
+            CellControl newControl = CellControlFactory.GetCellControlFromId(newCell.Id);
+            if (newControl != null)
+            {
+                newControl.focusable = true;
+                newControl.Focus();
+                newControl.AddToClassList(USSClasses.FirstSelected);
+                foreach (var ancestor in newControl.GetAncestors(true))
+                {
+                    LockAncestorHeaders(ancestor);
+                }
+            }
+        }
+
+        private void UnlockAncestorHeaders(CellControl ancestor)
+        {
+            var tableControl = ancestor.TableControl;
+            CellAnchor ancestorRow = tableControl.GetCellRow(ancestor.Cell);
+            CellAnchor ancestorColumn = tableControl.GetCellColumn(ancestor.Cell);
+            tableControl.RowVisibilityManager.UnlockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], this);
+            tableControl.ColumnVisibilityManager.UnlockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], this);
+        }
+
+        private void LockAncestorHeaders(CellControl ancestor)
+        {
+            var tableControl = ancestor.TableControl;
+            CellAnchor ancestorRow = tableControl.GetCellRow(ancestor.Cell);
+            CellAnchor ancestorColumn = tableControl.GetCellColumn(ancestor.Cell);
+            tableControl.RowVisibilityManager.LockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], this);
+            tableControl.ColumnVisibilityManager.LockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], this);
+        }
+
+        #endregion
         
-        private void HandleKeyDown(KeyDownEvent evt)
+        #region Selection helpers
+        
+        private void CollectCellsAtPosition(Vector3 position, TableControl tableControl, List<Cell> outputCells)
         {
-            if(!SelectionEnabled) return;
-            
-            Vector2 direction = Vector2.zero;
-            switch (evt.keyCode)
-            {
-                case KeyCode.UpArrow:
-                    direction = Vector2.up;
-                    break;
-                case KeyCode.DownArrow:
-                    direction = Vector2.down;
-                    break;
-                case KeyCode.LeftArrow:
-                    direction = Vector2.left;
-                    break;
-                case KeyCode.RightArrow:
-                    direction = Vector2.right;
-                    break;
-            }
-            
-            if (direction != Vector2.zero)
-            {
-                if (FirstSelectedCell == null)
-                {
-                    if (TableControl.TableData.GetFirstCell() is not { } cell) return;
-                
-                    FirstSelectedCell = cell;
-                    ConfirmSelection();
-                    return;
-                }
-                
-                _cellsToDeselect = new HashSet<Cell>(_selectedCells);
-                
-                Cell firstCell = FirstSelectedCell;
-                Vector2 wrappingMinBounds = new Vector2(1, 1);
-                Vector2 wrappingMaxBounds = new Vector2(firstCell.Table.Columns.Count, firstCell.Table.Rows.Count);
-
-                //Transpose direction if table is transposed
-                if (firstCell.Table == TableControl.TableData && TableControl.Transposed)
-                    direction = new Vector2(-direction.y, -direction.x);
-                
-                FirstSelectedCell = CellLocator.GetContiguousCell(firstCell, direction, wrappingMinBounds, wrappingMaxBounds);
-
-                foreach (var ancestor in FirstSelectedCell.GetAncestors())
-                {
-                    _cellsToDeselect.Remove(ancestor);
-                }
-                
-                ConfirmSelection();
-            }
-            
-            else if(evt.keyCode is KeyCode.KeypadEnter or KeyCode.Return)
-            {
-                if (FirstSelectedCell is SubTableCell subTableCell)
-                {
-                    CellControl cellControl = CellControlFactory.GetCellControlFromId(FirstSelectedCell.Id);
-                    if (cellControl is ExpandableSubTableCellControl expandableSubTable)
-                    {
-                        if (!expandableSubTable.IsFoldoutOpen)
-                        {
-                            expandableSubTable.OpenFoldout();
-                        }
-                        
-                        Cell first = subTableCell.SubTable.GetFirstCell();
-                        if (first != null)
-                        {
-                            FirstSelectedCell = first;
-                            ConfirmSelection();
-                        }
-                    }
-                }
-                else if (FirstSelectedCell is {})
-                {
-                    CellControl cellControl = CellControlFactory.GetCellControlFromId(FirstSelectedCell.Id);
-                    if (cellControl is ISimpleCellControl simpleCellControl && !simpleCellControl.IsFieldFocused())
-                    {
-                        simpleCellControl.FocusField();
-                    }
-                }
-            }
-
-            else if (evt.keyCode is KeyCode.Backspace or KeyCode.Escape && FirstSelectedCell.Table.IsSubTable)
-            {
-                FirstSelectedCell = FirstSelectedCell.Table.ParentCell;
-                foreach (var descendants in FirstSelectedCell.GetDescendants())
-                {
-                    _cellsToDeselect.Add(descendants);
-                }
-                
-                ConfirmSelection();
-            }
-
-            else if(FirstSelectedCell is {} && evt.character is >= '!' and <= '~')
-            {
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(FirstSelectedCell.Id);
-                if (cellControl is ITextBasedCellControl textBasedCellControl && !textBasedCellControl.IsFieldFocused())
-                {
-                    textBasedCellControl.SetValue(evt.character.ToString(), true);
-                    
-                }
-            }
-
-            else if(evt.keyCode == KeyCode.Tab)
-            {
-                if (FirstSelectedCell == null)
-                {
-                    if (TableControl.TableData.GetFirstCell() is not { } cell) return;
-                
-                    FirstSelectedCell = cell;
-                    ConfirmSelection();
-                    return;
-                }
-                
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(FirstSelectedCell.Id);
-                if (cellControl is ISimpleCellControl simpleCellControl && simpleCellControl.IsFieldFocused()) return;
-                
-                int orientation = evt.shiftKey ? -1 : 1;
-
-                var ancestors = FirstSelectedCell.GetAncestors();
-                if (_selectedCells.Count(x => !ancestors.Contains(x)) <= 1)
-                {
-                    _cellsToDeselect = new HashSet<Cell>(_selectedCells);
-
-                    Vector2Int wrappingMinBounds = new Vector2Int(1, 1);
-                    Vector2Int wrappingMaxBounds = new Vector2Int(FirstSelectedCell.Table.Columns.Count, FirstSelectedCell.Table.Rows.Count);
-                    
-                    direction = FirstSelectedCell.Table == TableControl.TableData && TableControl.Transposed ? Vector2.down : Vector2.right;
-                    FirstSelectedCell = CellLocator.GetContiguousCell(FirstSelectedCell, direction * orientation, wrappingMinBounds, wrappingMaxBounds);
-                    
-                    foreach (var ancestor in FirstSelectedCell.GetAncestors())
-                    {
-                        _cellsToDeselect.Remove(ancestor);
-                    }
-
-                    ConfirmSelection();
-                }
-                else
-                {
-                    int index = _orderedSelectedCells.IndexOf(FirstSelectedCell);
-                    index += 1 * orientation;
-                    
-                    if (index < 0)
-                        index = _orderedSelectedCells.Count - 1;
-                    else if (index >= _orderedSelectedCells.Count)
-                        index = 0;
-                    
-                    FirstSelectedCell = _orderedSelectedCells[index];
-
-                    if (_orderedSelectedCells[index].Table.ParentCell is SubTableCell parentCell && !TableControl.Metadata.IsTableExpanded(parentCell.Id))
-                    {
-                        CellControl parentCellControl = CellControlFactory.GetCellControlFromId(parentCell.Id);
-                        if (parentCellControl is ExpandableSubTableCellControl subTableCellControl)
-                        {
-                            subTableCellControl.OpenFoldout();
-                        }
-                    }
-                }
-            }
-            
-            evt.StopPropagation();
-            
-        }
-
-        private void ConfirmSelection(MouseDownEvent evt)
-        {
-            if (!IsValidClick(evt))
+            if (!tableControl.ScrollView.contentContainer.worldBound.Contains(position))
                 return;
 
-            ConfirmSelection();
-            evt.StopPropagation();
-        }
-
-        private void ConfirmSelection()
-        {
-            // Deselect previously selected headers.
-            _selectedAnchors.Clear();
-
-            // For each selected cell, if it is not marked for deselection, mark it and its headers as selected.
-            foreach (var cell in _selectedCells)
-            {
-                if (_cellsToDeselect.Contains(cell))
-                    continue;
-                
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
-                if(cellControl != null) cellControl.IsSelected = true;
-                
-                _selectedAnchors.Add(cell.Row);
-                _selectedAnchors.Add(cell.Column);
-            }
-
-            // Deselect cells marked for removal.
-            foreach (var cell in _cellsToDeselect)
-            {
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
-                if(cellControl != null) cellControl.IsSelected = false;
-                
-                _selectedCells.Remove(cell);
-            }
-            _cellsToDeselect.Clear();
-
-            if (TableControl.Transposed)
-            {
-                _orderedSelectedCells = _selectedCells
-                    .OrderBy(cell => cell.GetHighestAncestor().Column.Position)
-                    .ThenBy(cell => cell.GetHighestAncestor().Row.Position)
-                    .ThenBy(cell => cell.GetDepth())
-                    .ThenBy(cell => cell.Row.Position)
-                    .ThenBy(cell => cell.Column.Position)
-                    .ToList();
-            }
-            else
-            {
-                _orderedSelectedCells = _selectedCells
-                    .OrderBy(cell => cell.GetHighestAncestor().Row.Position)
-                    .ThenBy(cell => cell.GetHighestAncestor().Column.Position)
-                    .ThenBy(cell => cell.GetDepth())
-                    .ThenBy(cell => cell.Row.Position)
-                    .ThenBy(cell => cell.Column.Position)
-                    .ToList();
-            }
-            
-            OnSelectionChanged?.Invoke();
-        }
-
-        private void PreselectCells(MouseDownEvent evt)
-        {
-            if (!IsValidClick(evt))
-                return;
-
-            List<Cell> cellsAtPosition = GetCellsAtPosition(evt.mousePosition);
-            _lastMousePosition = evt.mousePosition;
-
-            // Use the proper selection strategy based on modifier keys.
-            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(evt);
-            Cell lastSelectedCell = strategy.Preselect(this, cellsAtPosition);
-            
-            // If the last selected cell is a reference cell, immediately confirm the selection.
-            if (lastSelectedCell is ReferenceCell)
-            {
-                ConfirmSelection();
-            }
-        }
-
-        private List<Cell> GetCellsAtPosition(Vector3 position)
-        {
-            var selectedCells = new List<Cell>();
-            GetCellsAtPosition(position, _tableControl, selectedCells);
-            return selectedCells;
-        }
-
-        private void GetCellsAtPosition(Vector3 position, TableControl tableControl, List<Cell> outputCells)
-        {
-            if(!tableControl.ScrollView.contentContainer.worldBound.Contains(position))
-                return;
-            
             if (tableControl.CornerContainer.worldBound.Contains(position))
             {
                 foreach (var row in tableControl.TableData.Rows)
                     outputCells.AddRange(row.Value.Cells.Values);
-                
                 return;
             }
-            
+
             var headers = CellLocator.GetHeadersAtPosition(tableControl, position);
             if (headers.row == null && headers.column == null)
                 return;
@@ -381,7 +148,6 @@ namespace TableForge.UI
                 outputCells.AddRange(CellLocator.GetCellsAtColumn(tableControl, headers.column.Id));
                 return;
             }
-
             if (headers.column == null)
             {
                 outputCells.AddRange(CellLocator.GetCellsAtRow(tableControl, headers.row.Id));
@@ -389,62 +155,112 @@ namespace TableForge.UI
             }
 
             var cell = CellLocator.GetCell(tableControl, headers.row.Id, headers.column.Id);
-            int count = outputCells.Count, prevCount = outputCells.Count;
-            
-            if(cell is SubTableCell subTableCell && _selectedCells.Contains(subTableCell))
+            int prevCount = outputCells.Count;
+
+            if (cell is SubTableCell subTableCell && _selectedCells.Contains(subTableCell))
             {
                 TableControl subTable = (CellControlFactory.GetCellControlFromId(subTableCell.Id) as SubTableCellControl)?.SubTableControl;
-                if(subTable != null)
+                if (subTable != null)
                 {
-                    GetCellsAtPosition(position, subTable, outputCells);
-                    count = outputCells.Count;
+                    CollectCellsAtPosition(position, subTable, outputCells);
                 }
             }
-            
-            if((cell != null && cell is not SubTableCell) || count == prevCount)
-                outputCells.Add(cell);
-        }
-
-        private void OnMouseMove(MouseMoveEvent evt)
-        {
-            if (evt.pressedButtons != 1 || !IsValidClick(evt))
-                return;
-
-            // Only proceed if the mouse has moved a minimum distance.
-            float distance = Vector3.Distance(evt.mousePosition, _lastMousePosition);
-            if (distance < UiConstants.MoveSelectionStep)
-                return;
-
-            _lastMousePosition = evt.mousePosition;
-            Cell selectedCell = GetCellsAtPosition(_lastMousePosition).FirstOrDefault();
-
-            if (selectedCell == null || FirstSelectedCell == null)
-                return;
-
-            // Determine the range from the first selected cell to the cell under the cursor.
-            Cell firstCell = FirstSelectedCell;
-            Cell lastCell = selectedCell;
-            var cells = CellLocator.GetCellRange(firstCell, lastCell, _tableControl);
-
-            // Mark all cells currently selected for potential deselection.
-            _cellsToDeselect = new HashSet<Cell>(_selectedCells);
-            foreach (var cell in cells)
+            if ((cell != null && cell is not SubTableCell) || outputCells.Count == prevCount)
             {
-                _selectedCells.Add(cell);
-                _cellsToDeselect.Remove(cell);
+                outputCells.Add(cell);
+            }
+        }
+        
+        #endregion
+        
+        #region Internal Methods
+
+        internal List<Cell> GetCellsAtPosition(Vector3 position)
+        {
+            var output = new List<Cell>();
+            CollectCellsAtPosition(position, _tableControl, output);
+            return output;
+        }
+        internal void ConfirmSelection()
+        {
+            _selectedAnchors.Clear();
+
+            // Mark selected cells and record their anchors.
+            foreach (var cell in _selectedCells)
+            {
+                if (_cellsToDeselect.Contains(cell))
+                    continue;
+
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
+                if (cellControl != null)
+                    cellControl.IsSelected = true;
+
+                _selectedAnchors.Add(cell.Row);
+                _selectedAnchors.Add(cell.Column);
             }
 
+            // Deselect cells that should be removed.
+            foreach (var cell in _cellsToDeselect)
+            {
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
+                if (cellControl != null)
+                    cellControl.IsSelected = false;
+                _selectedCells.Remove(cell);
+            }
+            _cellsToDeselect.Clear();
+            
+            // Order the selection differently if table is transposed.
+            _orderedSelectedCells = TableControl.Transposed 
+                ? _selectedCells.OrderBy(c => c.GetHighestAncestor().Column.Position)
+                                .ThenBy(c => c.GetHighestAncestor().Row.Position)
+                                .ThenBy(c => c.GetDepth())
+                                .ThenBy(c => c.Row.Position)
+                                .ThenBy(c => c.Column.Position)
+                                .ToList()
+                : _selectedCells.OrderBy(c => c.GetHighestAncestor().Row.Position)
+                                .ThenBy(c => c.GetHighestAncestor().Column.Position)
+                                .ThenBy(c => c.GetDepth())
+                                .ThenBy(c => c.Row.Position)
+                                .ThenBy(c => c.Column.Position)
+                                .ToList();
+
+            OnSelectionChanged?.Invoke();
+        }
+
+        internal void PreselectCells(Vector2 mousePosition, bool ctrlKey, bool shiftKey)
+        {
+            List<Cell> cellsAtPos = GetCellsAtPosition(mousePosition);
+
+            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(ctrlKey, shiftKey);
+            Cell lastSelected = strategy.Preselect(this, cellsAtPos);
+
+            // Immediately confirm selection if a reference cell was involved.
+            if (lastSelected is ReferenceCell)
+                ConfirmSelection();
+        }
+        
+        internal void SelectFirstCellFromTable()
+        {
+            if (_tableControl.TableData.GetFirstCell() is not { } cell)
+                return;
+            
+            FirstSelectedCell = cell;
             ConfirmSelection();
         }
+
+        #endregion
+        
+        #region Public Methods
 
         public void ClearSelection()
         {
             _selectedCells.Clear();
             _cellsToDeselect.Clear();
             _orderedSelectedCells.Clear();
-            
             FirstSelectedCell = null;
             ConfirmSelection();
         }
+
+        #endregion
     }
 }
