@@ -15,7 +15,7 @@ namespace TableForge.UI
         private readonly HashSet<Cell> _selectedCells = new();
         private HashSet<Cell> _cellsToDeselect = new();
         private readonly HashSet<CellAnchor> _selectedAnchors = new();
-        private Cell _firstSelectedCell;
+        private Cell _focusedCell;
         private List<Cell> _orderedSelectedCells = new();
         private CellSelectorInputManager _inputManager;
 
@@ -35,12 +35,12 @@ namespace TableForge.UI
             set => _cellsToDeselect = value;
         }
 
-        internal Cell FirstSelectedCell
+        public Cell FocusedCell
         {
-            get => _firstSelectedCell;
+            get => _focusedCell;
             set
             {
-                if (_firstSelectedCell == value)
+                if (_focusedCell == value)
                 {
                     if (value == null) return;
                     _selectedCells.Add(value);
@@ -48,13 +48,15 @@ namespace TableForge.UI
                     return;
                 }
 
-                UpdatePreviousFirstSelected(_firstSelectedCell);
-                _firstSelectedCell = value;
-                if (_firstSelectedCell != null)
+                _focusedCell?.SetFocused(false);
+                _focusedCell = value;
+                if (_focusedCell != null)
                 {
-                    UpdateNewFirstSelected(_firstSelectedCell);
-                    _selectedCells.Add(_firstSelectedCell);
-                    _cellsToDeselect.Remove(_firstSelectedCell);
+                    _focusedCell.BringToView(TableControl);
+                    _focusedCell.SetFocused(true);
+                    
+                    _selectedCells.Add(_focusedCell);
+                    _cellsToDeselect.Remove(_focusedCell);
                 }
             }
         }
@@ -71,65 +73,12 @@ namespace TableForge.UI
         }
 
         #endregion
-
-        #region FirstSelected Helpers
-
-        private void UpdatePreviousFirstSelected(Cell previous)
-        {
-            if (previous == null) return;
-
-            CellControl previousControl = CellControlFactory.GetCellControlFromId(previous.Id);
-            if (previousControl != null)
-            {
-                previousControl.focusable = false;
-                previousControl.RemoveFromClassList(USSClasses.FirstSelected);
-                foreach (var ancestor in previousControl.GetAncestors(true))
-                {
-                    UnlockAncestorHeaders(ancestor);
-                }
-            }
-        }
-
-        private void UpdateNewFirstSelected(Cell newCell)
-        {
-            CellControl newControl = CellControlFactory.GetCellControlFromId(newCell.Id);
-            if (newControl != null)
-            {
-                newControl.focusable = true;
-                newControl.Focus();
-                newControl.AddToClassList(USSClasses.FirstSelected);
-                foreach (var ancestor in newControl.GetAncestors(true))
-                {
-                    LockAncestorHeaders(ancestor);
-                }
-            }
-        }
-
-        private void UnlockAncestorHeaders(CellControl ancestor)
-        {
-            var tableControl = ancestor.TableControl;
-            CellAnchor ancestorRow = tableControl.GetCellRow(ancestor.Cell);
-            CellAnchor ancestorColumn = tableControl.GetCellColumn(ancestor.Cell);
-            tableControl.RowVisibilityManager.UnlockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], this);
-            tableControl.ColumnVisibilityManager.UnlockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], this);
-        }
-
-        private void LockAncestorHeaders(CellControl ancestor)
-        {
-            var tableControl = ancestor.TableControl;
-            CellAnchor ancestorRow = tableControl.GetCellRow(ancestor.Cell);
-            CellAnchor ancestorColumn = tableControl.GetCellColumn(ancestor.Cell);
-            tableControl.RowVisibilityManager.LockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], this);
-            tableControl.ColumnVisibilityManager.LockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], this);
-        }
-
-        #endregion
         
         #region Selection helpers
         
         private void CollectCellsAtPosition(Vector3 position, TableControl tableControl, List<Cell> outputCells)
         {
-            if (!tableControl.ScrollView.contentContainer.worldBound.Contains(position))
+            if (!tableControl.ScrollView.contentViewport.worldBound.Contains(position))
                 return;
 
             if (tableControl.CornerContainer.worldBound.Contains(position))
@@ -244,7 +193,7 @@ namespace TableForge.UI
             if (_tableControl.TableData.GetFirstCell() is not { } cell)
                 return;
             
-            FirstSelectedCell = cell;
+            FocusedCell = cell;
             ConfirmSelection();
         }
 
@@ -257,7 +206,7 @@ namespace TableForge.UI
             _selectedCells.Clear();
             _cellsToDeselect.Clear();
             _orderedSelectedCells.Clear();
-            FirstSelectedCell = null;
+            FocusedCell = null;
             ConfirmSelection();
         }
 

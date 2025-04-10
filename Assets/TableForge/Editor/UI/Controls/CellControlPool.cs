@@ -70,7 +70,7 @@ namespace TableForge.UI
         
         private CellControl CreateCellControl()
         {
-            return CellControlFactory.CreateCellControl(_cell, _tableControl);
+            return CellControlFactory.Create(_cell, _tableControl);
         }
     }
 }

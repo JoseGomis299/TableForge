@@ -35,5 +35,46 @@ namespace TableForge.UI
                 currentCell = currentCell.TableControl.Parent;
             }
         }
+        
+        public static void SetFocused(this CellControl cellControl, bool focused)
+        {
+            if (focused)
+            {
+                cellControl.focusable = true;
+                cellControl.Focus();
+                cellControl.AddToClassList(USSClasses.Focused);
+                foreach (var ancestor in cellControl.GetAncestors(true))
+                {
+                    ancestor.LockHeadersVisibility();
+                }
+            }
+            else
+            {
+                cellControl.focusable = false;
+                cellControl.RemoveFromClassList(USSClasses.Focused);
+                foreach (var ancestor in cellControl.GetAncestors(true))
+                {
+                    ancestor.UnlockHeadersVisibility();
+                }
+            }
+        }
+        
+        private static void UnlockHeadersVisibility(this CellControl cellControl)
+        {
+            var tableControl = cellControl.TableControl;
+            CellAnchor ancestorRow = tableControl.GetCellRow(cellControl.Cell);
+            CellAnchor ancestorColumn = tableControl.GetCellColumn(cellControl.Cell);
+            tableControl.RowVisibilityManager.UnlockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], tableControl.CellSelector);
+            tableControl.ColumnVisibilityManager.UnlockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], tableControl.CellSelector);
+        }
+
+        private static void LockHeadersVisibility(this CellControl cellControl)
+        {
+            var tableControl = cellControl.TableControl;
+            CellAnchor ancestorRow = tableControl.GetCellRow(cellControl.Cell);
+            CellAnchor ancestorColumn = tableControl.GetCellColumn(cellControl.Cell);
+            tableControl.RowVisibilityManager.LockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], tableControl.CellSelector);
+            tableControl.ColumnVisibilityManager.LockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], tableControl.CellSelector);
+        }
     }
 }

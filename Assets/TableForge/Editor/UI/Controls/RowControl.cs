@@ -72,7 +72,7 @@ namespace TableForge.UI
                 if (!row.Cells.TryGetValue(columnEntry.Key, out var cell) || !TableControl.ColumnHeaders[columnEntry.Value.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
-                Add(cellField);
+                AddCell(cellField as CellControl);
             }
         }
         
@@ -85,14 +85,14 @@ namespace TableForge.UI
                 if (!row.Cells.TryGetValue(column.Position, out var cell)  || !TableControl.ColumnHeaders[row.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
-                Add(cellField);
+                AddCell(cellField as CellControl);
             }
         }
 
         private VisualElement CreateCellField(Cell cell)
         {
             if(cell == null) return new Label {text = ""};
-            var cellControl = CellControlFactory.Create(cell, TableControl);
+            var cellControl = CellControlFactory.GetPooled(cell, TableControl);
             return cellControl;
         }
 
@@ -129,10 +129,7 @@ namespace TableForge.UI
                     }
                 }
 
-                if(targetIndex >= childCount)
-                    Add(cellField);
-                else
-                    Insert(targetIndex, cellField);
+                AddCell(cellField as CellControl, targetIndex);
             }
             else
             {
@@ -146,6 +143,18 @@ namespace TableForge.UI
             }
             
             RefreshColumnWidths();
+        }
+        
+        private void AddCell(CellControl cell, int index = -1)
+        {
+            if (cell == null) return;
+            
+            if (index >= childCount || index == -1)
+                Add(cell);
+            else
+                Insert(index, cell);
+            
+            cell.SetFocused(cell.TableControl.CellSelector.FocusedCell == cell.Cell);
         }
     }
 }

@@ -31,5 +31,6 @@ namespace TableForge.UI
             scrollView.horizontalScroller.highValue = value - scrollView.contentViewport.resolvedStyle.width;
             scrollView.horizontalScroller.value = Mathf.Min(value, scrollView.horizontalScroller.value);
             scrollView.horizontalScroller.Adjust(scrollView.contentViewport.resolvedStyle.width / scrollView.horizontalScroller.highValue);
-        }    }
+        }
+    }
 }

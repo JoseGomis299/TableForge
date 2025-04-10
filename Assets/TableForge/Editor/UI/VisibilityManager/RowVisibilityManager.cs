@@ -40,6 +40,8 @@ namespace TableForge.UI
 //             base.NotifyHeaderBecameInvisible(header, direction);
 //         }
 
+
+
         public override void RefreshVisibility(float delta)
         {
             if(TableControl.RowData.Count <= 1) return;
@@ -200,10 +202,11 @@ namespace TableForge.UI
             return -1;
         }
 
-        public override bool IsHeaderInBounds(RowHeaderControl header)
+        public override bool IsHeaderInBounds(RowHeaderControl header, bool addSecuritySize)
         {
+            Vector2 securitySize = addSecuritySize ? new Vector2(0, SecurityExtraSize.y) : Vector2.zero;
             var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height + SecurityExtraSize.y);
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height) + securitySize;
 
             // Check if the top of the header is visible.
             if (header.worldBound.yMax <= viewBounds.yMax &&
@@ -218,6 +221,32 @@ namespace TableForge.UI
             // Check if the header completely covers the visible area.
             return header.worldBound.yMax >= viewBounds.yMax &&
                    header.worldBound.yMin <= viewBounds.yMin;
+        }
+        
+        public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out float delta)
+        {
+            Vector2 securitySize = addSecuritySize ? new Vector2(0, SecurityExtraSize.y) : Vector2.zero;
+            var viewBounds = ScrollView.contentViewport.worldBound;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height) + securitySize;
+            
+            bool isTopSideVisible = header.worldBound.yMax <= viewBounds.yMax &&
+                                    header.worldBound.yMax >= viewBounds.yMin;
+            
+            bool isBottomSideVisible = header.worldBound.yMin >= viewBounds.yMin &&
+                                       header.worldBound.yMin <= viewBounds.yMax;
+
+            delta = 0;
+            if (!isBottomSideVisible)
+            {
+                delta = header.worldBound.yMin - viewBounds.yMin;
+            }
+            
+            if (!isTopSideVisible)
+            {
+                delta = header.worldBound.yMax - viewBounds.yMax;
+            }
+            
+            return isTopSideVisible && isBottomSideVisible;
         }
     }
 }

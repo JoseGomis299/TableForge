@@ -60,8 +60,6 @@ namespace TableForge.UI
             {
                 _orderedLockedHeaders.Add(header);
                 _orderedLockedHeaders.Sort((x, y) => x.CellAnchor.Position.CompareTo(y.CellAnchor.Position));
-                
-                if(!header.IsVisible) MakeHeaderInvisible(header);
             }
            
             LockedVisibleHeaders[header].Add(keyOwner);
@@ -130,13 +128,15 @@ namespace TableForge.UI
         
         public bool IsHeaderVisible(THeader header)
         {
-            return LockedVisibleHeaders.ContainsKey(header) || IsHeaderInBounds(header);
+            return LockedVisibleHeaders.ContainsKey(header) || IsHeaderInBounds(header, true);
         }
 
         /// <summary>
         /// Checks whether the given header is visible within the bounds of the ScrollView.
         /// </summary>
-        public abstract bool IsHeaderInBounds(THeader header);
+        public abstract bool IsHeaderInBounds(THeader header, bool addSecuritySize);
+
+        public abstract bool IsHeaderCompletelyInBounds(THeader header, bool addSecuritySize, out float delta);
 
         /// <summary>
         /// Refreshes the visibility based on the current scroll position.

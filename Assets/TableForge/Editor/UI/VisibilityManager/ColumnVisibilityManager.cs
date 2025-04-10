@@ -73,10 +73,11 @@ namespace TableForge.UI
             RefreshVisibility(delta);
         }
 
-        public override bool IsHeaderInBounds(ColumnHeaderControl header)
+        public override bool IsHeaderInBounds(ColumnHeaderControl header, bool addSecuritySize)
         {
+            Vector2 securitySize = addSecuritySize ? new Vector2(SecurityExtraSize.x, 0) : Vector2.zero;
             var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.size.x + SecurityExtraSize.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y);
+            viewBounds.size = new Vector2(viewBounds.size.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y) + securitySize;
             viewBounds.x += TableControl.CornerContainer.worldBound.width;
             
             // Check if the left side of the header is visible.
@@ -92,6 +93,33 @@ namespace TableForge.UI
             // Check if the header completely covers the visible area.
             return header.worldBound.xMax >= viewBounds.xMax &&
                    header.worldBound.xMin <= viewBounds.xMin;
+        }
+        
+        public override bool IsHeaderCompletelyInBounds(ColumnHeaderControl header, bool addSecuritySize, out float delta)
+        {
+            Vector2 securitySize = addSecuritySize ? new Vector2(SecurityExtraSize.x, 0) : Vector2.zero;
+            var viewBounds = ScrollView.contentViewport.worldBound;
+            viewBounds.size = new Vector2(viewBounds.size.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y) + securitySize;
+            viewBounds.x += TableControl.CornerContainer.worldBound.width;
+
+            bool isLeftSideVisible = header.worldBound.xMin <= viewBounds.xMax &&
+                                     header.worldBound.xMin >= viewBounds.xMin;
+
+            bool isRightSideVisible = header.worldBound.xMax >= viewBounds.xMin &&
+                                      header.worldBound.xMax <= viewBounds.xMax;
+
+            delta = 0;
+            if (!isRightSideVisible)
+            {
+                delta = header.worldBound.xMax - viewBounds.xMax;
+            }
+            
+            if (!isLeftSideVisible)
+            {
+                delta = header.worldBound.xMin - viewBounds.xMin;
+            }
+
+            return isLeftSideVisible && isRightSideVisible;
         }
     }
 }

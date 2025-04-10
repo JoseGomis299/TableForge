@@ -8,39 +8,44 @@ namespace TableForge.UI
 {
     internal static class CellControlFactory
     {
-        private static Dictionary<int, CellControl> _idToCellControl = new Dictionary<int, CellControl>();
-        private static Dictionary<Type, ConstructorInfo> _cellControlConstructors = new Dictionary<Type, ConstructorInfo>();
-        private static CellControlPool _cellControlPools = new CellControlPool();
+        private static readonly Dictionary<int, CellControl> _idToCellControl = new Dictionary<int, CellControl>();
+        private static readonly Dictionary<Type, ConstructorInfo> _cellControlConstructors = new Dictionary<Type, ConstructorInfo>();
+        private static readonly CellControlPool _cellControlPool = new CellControlPool();
         
         public static CellControl GetCellControlFromId(int id)
         {
-            return _idToCellControl.TryGetValue(id, out var cellControl) ? cellControl : null;
+            return _idToCellControl.GetValueOrDefault(id);
         }
 
-        public static CellControl Create(Cell cell, TableControl tableControl)
+        public static CellControl GetPooled(Cell cell, TableControl tableControl)
         {
-            CellControl cellControl = _cellControlPools.GetCellControl(cell, tableControl);
-            cellControl.Refresh(cell, tableControl);
+            CellControl cellControl = _cellControlPool.GetCellControl(cell, tableControl);
 
-            if(!_idToCellControl.TryAdd(cell.Id, cellControl))
+            if (!_idToCellControl.TryAdd(cell.Id, cellControl))
+            {
                 _idToCellControl[cell.Id] = cellControl;
-            
+            }
+
+            cellControl.Refresh(cell, tableControl);
             return cellControl;
         }
         
         public static void Release(CellControl cellControl)
         {
             _idToCellControl.Remove(cellControl.Cell.Id);
-            _cellControlPools.Release(cellControl);
+            _cellControlPool.Release(cellControl);
         }
         
-        public static CellControl CreateCellControl(Cell cell, TableControl tableControl)
+        public static CellControl Create(Cell cell, TableControl tableControl)
         {
             var cellControlType = CellStaticData.GetCellControlType(cell.GetType());
             var constructor = GetCellControlConstructor(cell.GetType(), new object[] {cell, tableControl});
             if (constructor != null)
-                return (CellControl)constructor.Invoke(new object[] { cell, tableControl});
-            
+            {
+                CellControl result = (CellControl)constructor.Invoke(new object[] { cell, tableControl });
+                return result;
+            }
+
             Debug.LogError($"{cellControlType.Name} lacks required constructor.");
             return null;
         }

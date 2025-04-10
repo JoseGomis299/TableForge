@@ -72,7 +72,7 @@ namespace TableForge.UI
             _lastMousePosition = evt.mousePosition;
             List<Cell> cells = _selector.GetCellsAtPosition(_lastMousePosition);
             Cell selected = cells.FirstOrDefault();
-            if (selected == null || _selector.FirstSelectedCell == null)
+            if (selected == null || _selector.FocusedCell == null)
                 return;
 
             // For mouse move, use the Shift selection strategy.
@@ -103,7 +103,7 @@ namespace TableForge.UI
             {
                 ProcessBackspaceOrEscape();
             }
-            else if (_selector.FirstSelectedCell != null && evt.character is >= '!' and <= '~')
+            else if (_selector.FocusedCell != null && evt.character is >= '!' and <= '~')
             {
                 ProcessCharacterKey(evt);
             }
@@ -120,7 +120,7 @@ namespace TableForge.UI
         
         private void ProcessArrowKey(Vector2 direction)
         {
-            if (_selector.FirstSelectedCell == null)
+            if (_selector.FocusedCell == null)
             {
                 _selector.SelectFirstCellFromTable();
                 return;
@@ -134,10 +134,10 @@ namespace TableForge.UI
 
         private void ProcessEnterKey()
         {
-            if (_selector.FirstSelectedCell is SubTableCell subTableCell)
+            if (_selector.FocusedCell is SubTableCell subTableCell)
             {
                 //If the subtable is not expanded, open it
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FirstSelectedCell.Id);
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FocusedCell.Id);
                 if (cellControl is ExpandableSubTableCellControl { IsFoldoutOpen: false } expandable)
                 {
                     expandable.OpenFoldout();
@@ -147,14 +147,14 @@ namespace TableForge.UI
                 Cell firstSubCell = subTableCell.SubTable.GetFirstCell();
                 if (firstSubCell != null)
                 {
-                    _selector.FirstSelectedCell = firstSubCell;
+                    _selector.FocusedCell = firstSubCell;
                     _selector.ConfirmSelection();
                 }
             }
-            else if (_selector.FirstSelectedCell != null)
+            else if (_selector.FocusedCell != null)
             {
                 //If the cell is not a subtable, focus the field
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FirstSelectedCell.Id);
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FocusedCell.Id);
                 if (cellControl is ISimpleCellControl simpleCell && !simpleCell.IsFieldFocused())
                 {
                     simpleCell.FocusField();
@@ -164,10 +164,10 @@ namespace TableForge.UI
 
         private void ProcessBackspaceOrEscape()
         {
-            if(!_selector.FirstSelectedCell.Table.IsSubTable) return;
+            if(!_selector.FocusedCell.Table.IsSubTable) return;
             
-            _selector.FirstSelectedCell = _selector.FirstSelectedCell.Table.ParentCell;
-            foreach (var descendant in _selector.FirstSelectedCell.GetDescendants())
+            _selector.FocusedCell = _selector.FocusedCell.Table.ParentCell;
+            foreach (var descendant in _selector.FocusedCell.GetDescendants())
             {
                 _selector.CellsToDeselect.Add(descendant);
             }
@@ -176,7 +176,7 @@ namespace TableForge.UI
 
         private void ProcessCharacterKey(KeyDownEvent evt)
         {
-            CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FirstSelectedCell.Id);
+            CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FocusedCell.Id);
             if (cellControl is ITextBasedCellControl textBased && !textBased.IsFieldFocused())
             {
                 textBased.SetValue(evt.character.ToString(), true);
@@ -185,19 +185,19 @@ namespace TableForge.UI
 
         private void ProcessTabKey(KeyDownEvent evt)
         {
-            if (_selector.FirstSelectedCell == null)
+            if (_selector.FocusedCell == null)
             {
                 _selector.SelectFirstCellFromTable();
                 return;
             }
             
             //If the user is focusing a field, do not change the selection
-            CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FirstSelectedCell.Id);
+            CellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FocusedCell.Id);
             if (cellControl is ISimpleCellControl simpleCell && simpleCell.IsFieldFocused())
                 return;
 
             int orientation = evt.shiftKey ? -1 : 1;
-            var ancestors = _selector.FirstSelectedCell.GetAncestors();
+            var ancestors = _selector.FocusedCell.GetAncestors();
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<DefaultSelectionStrategy>();
 
             if (_selector.SelectedCells.Count(x => !ancestors.Contains(x)) <= 1)
@@ -208,14 +208,14 @@ namespace TableForge.UI
             }
             else
             {
-                int index = _selector.OrderedSelectedCells.IndexOf(_selector.FirstSelectedCell) + orientation;
+                int index = _selector.OrderedSelectedCells.IndexOf(_selector.FocusedCell) + orientation;
                 if (index < 0) index = _selector.OrderedSelectedCells.Count - 1;
                 else if (index >= _selector.OrderedSelectedCells.Count) index = 0;
                 
-                _selector.FirstSelectedCell = _selector.OrderedSelectedCells[index];
+                _selector.FocusedCell = _selector.OrderedSelectedCells[index];
                 
                 //If the cell is a subtable and its closed, open the foldout
-                if (_selector.FirstSelectedCell.Table.ParentCell is SubTableCell parentCell &&
+                if (_selector.FocusedCell.Table.ParentCell is SubTableCell parentCell &&
                     !_tableControl.Metadata.IsTableExpanded(parentCell.Id))
                 {
                     CellControl parentControl = CellControlFactory.GetCellControlFromId(parentCell.Id);
@@ -250,7 +250,7 @@ namespace TableForge.UI
         
         private Cell GetContiguousCell(Vector2 direction)
         {
-            Cell firstCell = _selector.FirstSelectedCell;
+            Cell firstCell = _selector.FocusedCell;
             Vector2 minBounds = new(1, 1);
             Vector2 maxBounds = new(firstCell.Table.Columns.Count, firstCell.Table.Rows.Count);
 

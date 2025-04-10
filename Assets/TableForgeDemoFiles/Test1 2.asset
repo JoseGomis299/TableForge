@@ -115,17 +115,6 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 1
-  - number: 234
-    text: a
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 24
-      boolean: 0
   - number: 0
     text: 
     animationCurve:
@@ -188,7 +177,18 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 0100000000000000150000000000000000000000000000000000000000000000
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  intArray: 1500000000000000000000000100000000000000000000000000000000000000
   vector2: {x: 3, y: 3}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 4, z: 0, w: 0}

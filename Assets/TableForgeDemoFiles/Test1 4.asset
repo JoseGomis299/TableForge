@@ -71,8 +71,8 @@ MonoBehaviour:
   B: 1
   intField: 1
   floatField: 32
-  <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 123453
+  <PublicDoubleProperty>k__BackingField: 32
   inheritorClass:
     number: 3
     text: 

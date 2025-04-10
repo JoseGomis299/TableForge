@@ -691,7 +691,7 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 12, y: 32, z: 54}
     m_Extent: {x: 12, y: 123, z: 35}
-  byteValue: 12
+  byteValue: 122
   shortValue: 32767
   sbyteValue: 20
   layerMask:

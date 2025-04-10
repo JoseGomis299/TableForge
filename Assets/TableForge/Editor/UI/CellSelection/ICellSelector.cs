@@ -7,6 +7,7 @@ namespace TableForge.UI
     {
         event Action OnSelectionChanged;
         
+        Cell FocusedCell { get; }
         bool SelectionEnabled {get; set;}
         HashSet<Cell> SelectedCells { get; }
         HashSet<CellAnchor> SelectedAnchors { get; }

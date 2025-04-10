@@ -87,7 +87,7 @@ namespace TableForge.UI
             }
             else
             {
-                RecalculateSizeWithCurrentValues();
+                RecalculateSize();
                 SubTableControl.Resizer.ResizeAll(false);
                 TableControl.Resizer.ResizeCell(this);
             }

@@ -485,7 +485,7 @@ namespace TableForge.UI
             {
                 while (index < ColumnVisibilityManager.CurrentVisibleHeaders.Count - 1 &&
                        ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) &&
-                       !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+                       !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index], true))
                 {
                     index++;
                 }
@@ -494,7 +494,7 @@ namespace TableForge.UI
             {
                 while (index > 0 &&
                        ColumnVisibilityManager.IsHeaderVisibilityLocked(ColumnVisibilityManager.CurrentVisibleHeaders[index]) &&
-                       !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index]))
+                       !ColumnVisibilityManager.IsHeaderInBounds(ColumnVisibilityManager.CurrentVisibleHeaders[index], true))
                 {
                     index--;
                 }

@@ -67,14 +67,14 @@ namespace TableForge.UI
         public Cell Preselect(CellSelector selector, List<Cell> cellsAtPosition)
         {
             Cell lastSelectedCell = null;
-            bool firstSelectedCellHasChanged = false;
+            bool focusedCellHasChanged = false;
             
             foreach (var cell in cellsAtPosition)
             {
                 if (selector.SelectedCells.Add(cell))
                 {
                     lastSelectedCell = cell;
-                    selector.FirstSelectedCell = cell;
+                    selector.FocusedCell = cell;
                 }
                 else
                 {
@@ -87,15 +87,15 @@ namespace TableForge.UI
                     }
                     
                     lastSelectedCell = cell;
-                    if(!firstSelectedCellHasChanged && cell == selector.FirstSelectedCell)
+                    if(!focusedCellHasChanged && cell == selector.FocusedCell)
                     {
-                        firstSelectedCellHasChanged = true;
+                        focusedCellHasChanged = true;
                     }
                 }
             }
             
-            if(firstSelectedCellHasChanged)
-                selector.FirstSelectedCell = selector.SelectedCells.FirstOrDefault(x => !selector.CellsToDeselect.Contains(x));
+            if(focusedCellHasChanged)
+                selector.FocusedCell = selector.SelectedCells.FirstOrDefault(x => !selector.CellsToDeselect.Contains(x));
             
             return lastSelectedCell;
         }
@@ -112,16 +112,16 @@ namespace TableForge.UI
             Cell lastSelectedCell = null;
             if (selector.SelectedCells.Count == 0)
             {
-                selector.FirstSelectedCell = cellsAtPosition.FirstOrDefault();
+                selector.FocusedCell = cellsAtPosition.FirstOrDefault();
                 foreach (var cell in cellsAtPosition)
                 {
                     selector.SelectedCells.Add(cell);
                 }
-                lastSelectedCell = selector.FirstSelectedCell;
+                lastSelectedCell = selector.FocusedCell;
             }
             else
             {
-                var firstCell = selector.FirstSelectedCell;
+                var firstCell = selector.FocusedCell;
                 lastSelectedCell = cellsAtPosition.LastOrDefault();
                 
                 if (firstCell != null && lastSelectedCell != null)
@@ -152,7 +152,7 @@ namespace TableForge.UI
             selector.CellsToDeselect = new HashSet<Cell>(selector.SelectedCells);
             if (cellsAtPosition.Count == 1)
             {
-                lastSelectedCell = selector.FirstSelectedCell;
+                lastSelectedCell = selector.FocusedCell;
             }
             
             foreach (var cell in cellsAtPosition)
@@ -168,7 +168,7 @@ namespace TableForge.UI
                 lastSelectedCell = cell;
             }
             
-            selector.FirstSelectedCell = cellsAtPosition.FirstOrDefault();
+            selector.FocusedCell = cellsAtPosition.FirstOrDefault();
 
             return lastSelectedCell;
         }
