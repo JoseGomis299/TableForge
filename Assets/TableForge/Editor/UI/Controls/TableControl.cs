@@ -24,6 +24,12 @@ namespace TableForge.UI
 
         private float _scrollViewHeight;
         private float _scrollViewWidth;
+        
+        private List<ColumnHeaderControl> _orderedColumnHeaders = new();
+        private List<ColumnHeaderControl> _orderedDescColumnHeaders = new();
+        private List<RowHeaderControl> _orderedRowHeaders = new();
+        private List<RowHeaderControl> _orderedDescRowHeaders = new();
+        
 
         #endregion
 
@@ -33,6 +39,10 @@ namespace TableForge.UI
         public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
         public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
         public IReadOnlyDictionary<int, ColumnHeaderControl> ColumnHeaders => _columnHeaders;
+        public IReadOnlyList<ColumnHeaderControl> OrderedColumnHeaders => _orderedColumnHeaders;
+        public IReadOnlyList<RowHeaderControl> OrderedRowHeaders => _orderedRowHeaders;
+        public IReadOnlyList<RowHeaderControl> OrderedDescRowHeaders => _orderedDescRowHeaders;
+        public IReadOnlyList<ColumnHeaderControl> OrderedDescColumnHeaders => _orderedDescColumnHeaders;
 
         public VisualElement Root { get; }
         public CornerContainerControl CornerContainer => _cornerContainer;
@@ -205,6 +215,9 @@ namespace TableForge.UI
             {
                 PerformImplicitRowReorder(rowStartPos, rowEndPos, refresh);
             }
+            
+            _orderedRowHeaders = RowHeaders.Values.OrderBy(x => x.CellAnchor.Position).ToList();
+            _orderedDescRowHeaders = RowHeaders.Values.OrderByDescending(x => x.CellAnchor.Position).ToList();
         }
 
         #endregion
@@ -287,6 +300,9 @@ namespace TableForge.UI
                     BuildColumn(column);
                 }
             }
+            
+            _orderedColumnHeaders = ColumnHeaders.Values.OrderBy(x => x.CellAnchor.Position).ToList();
+            _orderedDescColumnHeaders = ColumnHeaders.Values.OrderByDescending(x => x.CellAnchor.Position).ToList();
         }
 
         private void BuildColumn<T>(T column) where T : CellAnchor
@@ -333,6 +349,9 @@ namespace TableForge.UI
                     BuildRow(column);
                 }
             }
+            
+            _orderedRowHeaders = RowHeaders.Values.OrderBy(x => x.CellAnchor.Position).ToList();
+            _orderedDescRowHeaders = RowHeaders.Values.OrderByDescending(x => x.CellAnchor.Position).ToList();
         }
         
         private void BuildRow<T>(T row) where T : CellAnchor

@@ -39,7 +39,7 @@ namespace TableForge.UI
             // Update visibility of columns that were previously visible.
             foreach (var header in VisibleHeaders)
             {
-                bool wasVisible = header.IsVisible;
+                bool wasVisible = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
                 header.IsVisible = IsHeaderVisible(header);
                 if (!header.IsVisible && wasVisible)
                     MakeHeaderInvisible(header);
@@ -48,8 +48,8 @@ namespace TableForge.UI
             VisibleHeaders.Clear();
             
             var orderedColumnHeaders = direction == 1 ?
-                TableControl.ColumnHeaders.Values.OrderBy(x => x.CellAnchor.Position) : 
-                TableControl.ColumnHeaders.Values.OrderByDescending(x => x.CellAnchor.Position);
+                TableControl.OrderedColumnHeaders : 
+                TableControl.OrderedDescColumnHeaders;
 
             // Loop through all column headers.
             foreach (var header in orderedColumnHeaders)
@@ -77,8 +77,8 @@ namespace TableForge.UI
         {
             Vector2 securitySize = addSecuritySize ? new Vector2(SecurityExtraSize.x, 0) : Vector2.zero;
             var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.size.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y) + securitySize;
-            viewBounds.x += TableControl.CornerContainer.worldBound.width;
+            viewBounds.size = new Vector2(viewBounds.size.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y) + securitySize / 2f;
+            viewBounds.x += TableControl.CornerContainer.worldBound.width - securitySize.x / 2f;
             
             // Check if the left side of the header is visible.
             if (header.worldBound.xMin <= viewBounds.xMax &&
@@ -95,12 +95,12 @@ namespace TableForge.UI
                    header.worldBound.xMin <= viewBounds.xMin;
         }
         
-        public override bool IsHeaderCompletelyInBounds(ColumnHeaderControl header, bool addSecuritySize, out float delta)
+        public override bool IsHeaderCompletelyInBounds(ColumnHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
         {
             Vector2 securitySize = addSecuritySize ? new Vector2(SecurityExtraSize.x, 0) : Vector2.zero;
             var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.size.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y) + securitySize;
-            viewBounds.x += TableControl.CornerContainer.worldBound.width;
+            viewBounds.size = new Vector2(viewBounds.size.x - TableControl.CornerContainer.worldBound.width, viewBounds.size.y) + securitySize / 2f;
+            viewBounds.x += TableControl.CornerContainer.worldBound.width - securitySize.x / 2f;
 
             bool isLeftSideVisible = header.worldBound.xMin <= viewBounds.xMax &&
                                      header.worldBound.xMin >= viewBounds.xMin;
@@ -108,16 +108,9 @@ namespace TableForge.UI
             bool isRightSideVisible = header.worldBound.xMax >= viewBounds.xMin &&
                                       header.worldBound.xMax <= viewBounds.xMax;
 
-            delta = 0;
-            if (!isRightSideVisible)
-            {
-                delta = header.worldBound.xMax - viewBounds.xMax;
-            }
-            
-            if (!isLeftSideVisible)
-            {
-                delta = header.worldBound.xMin - viewBounds.xMin;
-            }
+            visibleBounds = 0;
+            if (isLeftSideVisible) visibleBounds += 1;
+            if (isRightSideVisible) visibleBounds += 2;
 
             return isLeftSideVisible && isRightSideVisible;
         }

@@ -14,7 +14,16 @@ namespace TableForge.UI
         
         public static CellControl GetCellControlFromId(int id)
         {
-            return _idToCellControl.GetValueOrDefault(id);
+            if (!_idToCellControl.TryGetValue(id, out var cellControl)) return null;
+            if(cellControl.Cell.Id != id)
+            {
+                _idToCellControl.Remove(id);
+                _idToCellControl.Add(cellControl.Cell.Id, cellControl);
+                return null;
+            }
+                
+            return cellControl;
+
         }
 
         public static CellControl GetPooled(Cell cell, TableControl tableControl)

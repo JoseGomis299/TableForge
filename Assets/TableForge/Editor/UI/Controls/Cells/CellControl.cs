@@ -63,7 +63,7 @@ namespace TableForge.UI
             
             Refresh();
 
-            IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
+            IsSelected = tableControl.CellSelector.SelectedCells.Contains(cell);
         }
         
         protected void SetPreferredSize(float width, float height)

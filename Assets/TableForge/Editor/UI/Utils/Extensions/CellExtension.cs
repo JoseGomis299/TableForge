@@ -61,12 +61,72 @@ namespace TableForge.UI
                 RowHeaderControl rowHeader = tableControl.RowHeaders[rowId];
                 ColumnHeaderControl columnHeader = tableControl.ColumnHeaders[columnId];
 
-                if (!tableControl.RowVisibilityManager.IsHeaderCompletelyInBounds(rowHeader, false, out var deltaY))
-                    tableControl.ScrollView.verticalScroller.value += deltaY;
+                if (!tableControl.RowVisibilityManager.IsHeaderCompletelyInBounds(rowHeader, false, out var visibleBoundsY))
+                {
+                    MoveVerticalScroll(visibleBoundsY, tableControl, rowHeader);
+                }
 
-                if (!tableControl.ColumnVisibilityManager.IsHeaderCompletelyInBounds(columnHeader, false, out var deltaX))
-                    tableControl.ScrollView.horizontalScroller.value += deltaX;
+                if (!tableControl.ColumnVisibilityManager.IsHeaderCompletelyInBounds(columnHeader, false, out var visibleBoundsX))
+                {
+                    MoveHorizontalScroll(visibleBoundsX, tableControl, columnHeader);
+                }
             }
+        }
+
+        private static void MoveHorizontalScroll(sbyte visibleBoundsX, TableControl tableControl, ColumnHeaderControl columnHeader)
+        {
+            bool isRightVisible = (visibleBoundsX & 2) == 2;
+            bool isLeftVisible = (visibleBoundsX & 1) == 1;
+            float delta;
+
+            float scrollviewLeft = tableControl.ScrollView.contentViewport.worldBound.xMin + tableControl.CornerContainer.CornerControl.resolvedStyle.width;
+            float scrollviewRight = tableControl.ScrollView.contentViewport.worldBound.xMax;
+
+            float widthDiff = columnHeader.worldBound.width - (tableControl.ScrollView.contentViewport.worldBound.width - tableControl.CornerContainer.CornerControl.resolvedStyle.width);
+            if(widthDiff >= 0)
+                delta = columnHeader.worldBound.xMin + widthDiff / 2 - scrollviewLeft;
+            else if (!isLeftVisible && isRightVisible)
+                delta = columnHeader.worldBound.xMin - scrollviewLeft;
+            else if(!isRightVisible && isLeftVisible)
+                delta = columnHeader.worldBound.xMax - scrollviewRight;
+            else
+            {
+                bool isOverViewport = columnHeader.worldBound.xMax >= scrollviewLeft;
+                if(isOverViewport)
+                    delta = columnHeader.worldBound.xMax - scrollviewRight;
+                else
+                    delta = columnHeader.worldBound.xMin - scrollviewLeft;
+            }
+                    
+            tableControl.ScrollView.horizontalScroller.value += delta;
+        }
+
+        private static void MoveVerticalScroll(sbyte visibleBoundsY, TableControl tableControl, RowHeaderControl rowHeader)
+        {
+            bool isTopVisible = (visibleBoundsY & 2) == 2;
+            bool isBottomVisible = (visibleBoundsY & 1) == 1;
+            float delta;
+                    
+            float scrollviewTop = tableControl.ScrollView.contentViewport.worldBound.yMin + tableControl.CornerContainer.CornerControl.resolvedStyle.height;
+            float scrollviewBottom = tableControl.ScrollView.contentViewport.worldBound.yMax;
+
+            float heightDiff = rowHeader.worldBound.height - (tableControl.ScrollView.contentViewport.worldBound.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height);
+            if(heightDiff >= 0)
+                delta = rowHeader.worldBound.yMin + heightDiff / 2 - scrollviewTop;
+            else if (!isTopVisible && isBottomVisible)
+                delta = rowHeader.worldBound.yMin - scrollviewTop;
+            else if(!isBottomVisible && isTopVisible)
+                delta = rowHeader.worldBound.yMax - scrollviewBottom;
+            else
+            {
+                bool isOverViewport = rowHeader.worldBound.yMax <= scrollviewTop;
+                if(isOverViewport)
+                    delta = rowHeader.worldBound.yMin - scrollviewTop;
+                else
+                    delta = rowHeader.worldBound.yMax - scrollviewBottom;
+            }
+                    
+            tableControl.ScrollView.verticalScroller.value += delta;
         }
     }
 }

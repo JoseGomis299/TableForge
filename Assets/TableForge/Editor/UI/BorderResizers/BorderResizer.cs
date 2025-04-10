@@ -66,7 +66,7 @@ namespace TableForge.UI
                 delta += InstantResize(header, false);
             }
          
-            InvokeResize(header, delta, storeSize, false);
+            InvokeResize(header, delta, storeSize, false, Vector2.zero);
             return delta;
         }
 
@@ -79,8 +79,8 @@ namespace TableForge.UI
             {
                 delta += InstantResize(header, adjustToStoredSize);
             }
-            
-            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false, adjustToStoredSize);
+
+            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false, adjustToStoredSize, Vector2.zero);
             return delta;
         }
 
@@ -99,22 +99,25 @@ namespace TableForge.UI
             ResizingHeaders.Clear();
         }
         
-        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool adjustedToStoredSize)
+        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool adjustedToStoredSize, Vector2 targetSize)
         {
             if(delta == 0) return;
-            
-            Vector2 targetSize = adjustedToStoredSize
-                ? TableControl.Metadata.GetAnchorSize(target.CellAnchor.Id)
-                : TableControl.PreferredSize.GetHeaderSize(target.CellAnchor);
+
+            if (targetSize == Vector2.zero)
+            {
+                targetSize = adjustedToStoredSize
+                    ? TableControl.Metadata.GetAnchorSize(target.CellAnchor.Id)
+                    : TableControl.PreferredSize.GetHeaderSize(target.CellAnchor);
+            }
 
             bool sizeIsSet;
             if (target is RowHeaderControl)
             {
-                sizeIsSet = Mathf.Approximately(Mathf.Round(target.worldBound.height), Mathf.Round(targetSize.y));
+                sizeIsSet = Mathf.Approximately(Mathf.Round(target.resolvedStyle.height), Mathf.Round(targetSize.y));
             }
             else
             {
-                sizeIsSet = Mathf.Approximately(Mathf.Round(target.worldBound.width), Mathf.Round(targetSize.x));
+                sizeIsSet = Mathf.Approximately(Mathf.Round(target.resolvedStyle.width), Mathf.Round(targetSize.x));
             }
 
             if(sizeIsSet)
@@ -207,7 +210,7 @@ namespace TableForge.UI
             {
                 float delta = UpdateSize(ResizingHeader, _newSize);
                 UpdateChildrenSize(ResizingHeader);
-                InvokeResize(ResizingHeader, delta, true, false);
+                InvokeResize(ResizingHeader, delta, true, false, _newSize);
                 InvokeManualResize(ResizingHeader, delta);
                 ResizingPreview.RemoveFromHierarchy();
                 

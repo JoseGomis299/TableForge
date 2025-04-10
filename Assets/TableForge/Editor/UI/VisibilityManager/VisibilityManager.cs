@@ -41,6 +41,13 @@ namespace TableForge.UI
             return LockedVisibleHeaders.ContainsKey(header);
         }
         
+        public bool IsHeaderVisibilityLockedBy(THeader header, object keyOwner)
+        {
+            if (!LockedVisibleHeaders.TryGetValue(header, out var owners)) return false;
+            
+            return owners.Contains(keyOwner);
+        }
+        
         public void Clear()
         {
             foreach (var header in VisibleHeaders)
@@ -63,6 +70,9 @@ namespace TableForge.UI
             }
            
             LockedVisibleHeaders[header].Add(keyOwner);
+            
+            if (!header.IsVisible) 
+                MakeHeaderVisible(header, insertAtTop: false); 
         }
         
         public void UnlockHeaderVisibility(THeader header, object keyOwner)
@@ -136,7 +146,14 @@ namespace TableForge.UI
         /// </summary>
         public abstract bool IsHeaderInBounds(THeader header, bool addSecuritySize);
 
-        public abstract bool IsHeaderCompletelyInBounds(THeader header, bool addSecuritySize, out float delta);
+        /// <summary>
+        /// Checks whether the given header is completely within the bounds of the ScrollView.
+        /// </summary>
+        /// <param name="header">The header to check.</param>
+        /// <param name="addSecuritySize">If some security extra size should be added.</param>
+        /// <param name="visibleBounds">Binary values representing the visible bounds 2^1 meaning right or top and 2^0 meaning left or bottom</param>
+        /// <returns></returns>
+        public abstract bool IsHeaderCompletelyInBounds(THeader header, bool addSecuritySize, out sbyte visibleBounds);
 
         /// <summary>
         /// Refreshes the visibility based on the current scroll position.

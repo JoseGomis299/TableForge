@@ -49,48 +49,56 @@ namespace TableForge.UI
             int direction = delta > 0 ? -1 : 1;
             bool isScrollingDown = direction == -1;
 
-            int startingIndex = TableControl.RowData.Values.OrderBy(x => x.Position).First(x => x.Position > 0).Position;
+            int startingIndex = TableControl.OrderedRowHeaders[0].CellAnchor.Position;
             int endingIndex = startingIndex + TableControl.RowData.Count - 2;
 
             // Update visibility of rows that were previously visible based on scroll direction.
             UpdatePreviouslyVisibleRows(isScrollingDown);
 
-            // Try to get the position of a middle visible row and add it.
-            int position = GetAndAddMiddleVisibleRowPosition();
-
-            // If no middle row is found, try to find one using binary search.
-            if (position == -1)
+            foreach (var rowHeader in TableControl.OrderedRowHeaders)
             {
-                position = FindAndAddMiddleVisibleRow(startingIndex, endingIndex);
-                // If still not found, then no row is visible.
-                if (position == -1)
+                if (rowHeader.IsVisible || IsHeaderVisible(rowHeader))
                 {
-                    SendVisibilityNotifications(direction);
-                    return;
+                    MakeHeaderVisible(rowHeader, insertAtTop: false);
                 }
             }
-
-            // Find all visible rows above the found row.
-            for (int i = position - 1; i >= startingIndex ; i--)
-            {
-                int rowId = TableControl.GetRowAtPosition(i).Id;
-                var header = TableControl.RowHeaders[rowId];
-                if (header.IsVisible || IsHeaderVisible(header))
-                    MakeHeaderVisible(header, insertAtTop: true);
-                else
-                    break;
-            }
-
-            // Find all visible rows below the found row.
-            for (int i = position + 1; i <= endingIndex; i++)
-            {
-                int rowId = TableControl.GetRowAtPosition(i).Id;
-                var header = TableControl.RowHeaders[rowId];
-                if (header.IsVisible || IsHeaderVisible(header))
-                    MakeHeaderVisible(header, insertAtTop: false);
-                else
-                    break;
-            }
+            
+            // // Try to get the position of a middle visible row and add it.
+            // int position = GetAndAddMiddleVisibleRowPosition();
+            //
+            // // If no middle row is found, try to find one using binary search.
+            // if (position == -1)
+            // {
+            //     position = FindAndAddMiddleVisibleRow(startingIndex, endingIndex);
+            //     // If still not found, then no row is visible.
+            //     if (position == -1)
+            //     {
+            //         SendVisibilityNotifications(direction);
+            //         return;
+            //     }
+            // }
+            //
+            // // Find all visible rows above the found row.
+            // for (int i = position - 1; i >= startingIndex ; i--)
+            // {
+            //     int rowId = TableControl.GetRowAtPosition(i).Id;
+            //     var header = TableControl.RowHeaders[rowId];
+            //     if (header.IsVisible || IsHeaderVisible(header))
+            //         MakeHeaderVisible(header, insertAtTop: true);
+            //     else
+            //         break;
+            // }
+            //
+            // // Find all visible rows below the found row.
+            // for (int i = position + 1; i <= endingIndex; i++)
+            // {
+            //     int rowId = TableControl.GetRowAtPosition(i).Id;
+            //     var header = TableControl.RowHeaders[rowId];
+            //     if (header.IsVisible || IsHeaderVisible(header))
+            //         MakeHeaderVisible(header, insertAtTop: false);
+            //     else
+            //         break;
+            // }
             
             SendVisibilityNotifications(direction);
         }
@@ -112,9 +120,9 @@ namespace TableForge.UI
                 {
                     if (!firstVisibleFound)
                     {
-                        bool wasVisible = header.IsVisible;
+                        bool wasVisible = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
                         header.IsVisible = IsHeaderVisible(header);
-                        firstVisibleFound = header.IsVisible;
+                        firstVisibleFound = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
                         if (!firstVisibleFound && wasVisible)
                             MakeHeaderInvisible(header);
                     }
@@ -137,9 +145,9 @@ namespace TableForge.UI
                     var header = VisibleHeaders[i];
                     if (!lastVisibleFound)
                     {
-                        bool wasVisible = header.IsVisible;
+                        bool wasVisible = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
                         header.IsVisible = IsHeaderVisible(header);
-                        lastVisibleFound = header.IsVisible;
+                        lastVisibleFound = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
                         if (!lastVisibleFound && wasVisible)
                             MakeHeaderInvisible(header);
                     }
@@ -182,7 +190,7 @@ namespace TableForge.UI
                 int rowId = TableControl.GetRowAtPosition(mid).Id;
                 var midHeader = TableControl.RowHeaders[rowId];
 
-                if (midHeader.IsVisible || IsHeaderVisible(midHeader))
+                if ((midHeader.IsVisible || IsHeaderInBounds(midHeader, true)) && !LockedVisibleHeaders.ContainsKey(midHeader))
                 {
                     MakeHeaderVisible(midHeader, insertAtTop: false);
                     return mid;
@@ -206,7 +214,8 @@ namespace TableForge.UI
         {
             Vector2 securitySize = addSecuritySize ? new Vector2(0, SecurityExtraSize.y) : Vector2.zero;
             var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height) + securitySize;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - TableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
+            viewBounds.y += TableControl.CornerContainer.CornerControl.resolvedStyle.height;
 
             // Check if the top of the header is visible.
             if (header.worldBound.yMax <= viewBounds.yMax &&
@@ -223,28 +232,22 @@ namespace TableForge.UI
                    header.worldBound.yMin <= viewBounds.yMin;
         }
         
-        public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out float delta)
+        public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
         {
             Vector2 securitySize = addSecuritySize ? new Vector2(0, SecurityExtraSize.y) : Vector2.zero;
             var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height) + securitySize;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - TableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
+            viewBounds.y += TableControl.CornerContainer.CornerControl.resolvedStyle.height;
             
-            bool isTopSideVisible = header.worldBound.yMax <= viewBounds.yMax &&
-                                    header.worldBound.yMax >= viewBounds.yMin;
+            bool isBottomSideVisible = header.worldBound.yMax < viewBounds.yMax &&
+                                    header.worldBound.yMax > viewBounds.yMin;
             
-            bool isBottomSideVisible = header.worldBound.yMin >= viewBounds.yMin &&
-                                       header.worldBound.yMin <= viewBounds.yMax;
+            bool isTopSideVisible = header.worldBound.yMin > viewBounds.yMin &&
+                                       header.worldBound.yMin < viewBounds.yMax;
 
-            delta = 0;
-            if (!isBottomSideVisible)
-            {
-                delta = header.worldBound.yMin - viewBounds.yMin;
-            }
-            
-            if (!isTopSideVisible)
-            {
-                delta = header.worldBound.yMax - viewBounds.yMax;
-            }
+            visibleBounds = 0;
+            if (isBottomSideVisible) visibleBounds += 1;
+            if (isTopSideVisible) visibleBounds += 2;
             
             return isTopSideVisible && isBottomSideVisible;
         }

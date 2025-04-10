@@ -54,7 +54,8 @@ namespace TableForge.UI
 
         public void Refresh(CellAnchor anchor)
         {
-            ClearRow();
+            if(childCount > 0)
+                ClearRow();
             
             if (anchor is Row row) InitializeRow(row);
             else InitializeRow(anchor);
@@ -64,12 +65,9 @@ namespace TableForge.UI
 
         private void InitializeRow(Row row)
         {
-            var columnsByPosition = TableControl.ColumnData.ToDictionary(c => c.Value.Position, c => c.Value);
-            columnsByPosition = columnsByPosition.OrderBy(c => c.Key).ToDictionary(c => c.Key, c => c.Value);
-                        
-            foreach (var columnEntry in columnsByPosition)
+            foreach (var columnHeader in TableControl.OrderedColumnHeaders)
             {
-                if (!row.Cells.TryGetValue(columnEntry.Key, out var cell) || !TableControl.ColumnHeaders[columnEntry.Value.Id].IsVisible) continue;
+                if (!row.Cells.TryGetValue(columnHeader.CellAnchor.Position, out var cell) || !TableControl.ColumnHeaders[columnHeader.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
                 AddCell(cellField as CellControl);
@@ -113,7 +111,7 @@ namespace TableForge.UI
                     CellControl correspondingCell = 
                         Children()
                         .OfType<CellControl>()
-                        .FirstOrDefault(c => TableControl.GetCellColumn(c.Cell).Id == column.Id);
+                        .FirstOrDefault(c => TableControl.GetCellColumn(c.Cell).Position == column.CellAnchor.Position);
 
                     int lockedIndex = Children().ToList().IndexOf(correspondingCell);
                     int lockedPosition = column.CellAnchor.Position;

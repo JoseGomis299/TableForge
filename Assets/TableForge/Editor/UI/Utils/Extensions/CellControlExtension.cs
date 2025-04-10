@@ -52,7 +52,19 @@ namespace TableForge.UI
             {
                 cellControl.focusable = false;
                 cellControl.RemoveFromClassList(USSClasses.Focused);
-                foreach (var ancestor in cellControl.GetAncestors(true))
+                
+                var tableControl = cellControl.TableControl;
+                RowHeaderControl row = tableControl.GetRowHeaderControl(tableControl.GetCellRow(cellControl.Cell));
+                ColumnHeaderControl column = tableControl.GetColumnHeaderControl(tableControl.GetCellColumn(cellControl.Cell));
+                
+                if(!cellControl.TableControl.RowVisibilityManager.IsHeaderVisibilityLockedBy(row, cellControl.Cell)
+                   && !cellControl.TableControl.ColumnVisibilityManager.IsHeaderVisibilityLockedBy(column, cellControl.Cell))
+                    return;
+                
+                tableControl.RowVisibilityManager.UnlockHeaderVisibility(row, cellControl.Cell);
+                tableControl.ColumnVisibilityManager.UnlockHeaderVisibility(column, cellControl.Cell);
+                
+                foreach (var ancestor in cellControl.GetAncestors())
                 {
                     ancestor.UnlockHeadersVisibility();
                 }
@@ -64,8 +76,8 @@ namespace TableForge.UI
             var tableControl = cellControl.TableControl;
             CellAnchor ancestorRow = tableControl.GetCellRow(cellControl.Cell);
             CellAnchor ancestorColumn = tableControl.GetCellColumn(cellControl.Cell);
-            tableControl.RowVisibilityManager.UnlockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], tableControl.CellSelector);
-            tableControl.ColumnVisibilityManager.UnlockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], tableControl.CellSelector);
+            tableControl.RowVisibilityManager.UnlockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], cellControl.Cell);
+            tableControl.ColumnVisibilityManager.UnlockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], cellControl.Cell);
         }
 
         private static void LockHeadersVisibility(this CellControl cellControl)
@@ -73,8 +85,8 @@ namespace TableForge.UI
             var tableControl = cellControl.TableControl;
             CellAnchor ancestorRow = tableControl.GetCellRow(cellControl.Cell);
             CellAnchor ancestorColumn = tableControl.GetCellColumn(cellControl.Cell);
-            tableControl.RowVisibilityManager.LockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], tableControl.CellSelector);
-            tableControl.ColumnVisibilityManager.LockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], tableControl.CellSelector);
+            tableControl.RowVisibilityManager.LockHeaderVisibility(tableControl.RowHeaders[ancestorRow.Id], cellControl.Cell);
+            tableControl.ColumnVisibilityManager.LockHeaderVisibility(tableControl.ColumnHeaders[ancestorColumn.Id], cellControl.Cell);
         }
     }
 }

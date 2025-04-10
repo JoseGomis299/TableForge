@@ -34,8 +34,8 @@ namespace TableForge.UI
         public const float EnumArrowSize = 14;
         public const float ScrollerWidth = 18;
         public const float ReferenceTypeExtraSpace = 32;
-        public const float MaxRecommendedWidth = 500;
-        public const float MaxRecommendedHeight = 500;
+        public const float MaxRecommendedWidth = 800;
+        public const float MaxRecommendedHeight = 300;
         public const float SmallHeaderPadding = 5;
 
         public static void InitializeStyles(VisualElement root)

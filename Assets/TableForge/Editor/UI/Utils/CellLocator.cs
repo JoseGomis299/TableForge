@@ -159,36 +159,45 @@ namespace TableForge.UI
             
             int newRowPosition = rowPosition - (int)direction.y;
             int newColumnPosition = columnPosition + (int)direction.x;
-            
+
+            bool rowChanged = false;
             if (newRowPosition < wrappingMinBounds.y)
             {
                 newRowPosition = (int)wrappingMaxBounds.y;
                 newColumnPosition--;
+                rowChanged = true;
             }
             else if (newRowPosition > wrappingMaxBounds.y)
             {
                 newRowPosition = (int)wrappingMinBounds.y;
                 newColumnPosition++;
+                rowChanged = true;
             }
             
             if (newColumnPosition < wrappingMinBounds.x)
             {
                 newColumnPosition = (int)wrappingMaxBounds.x;
-                newRowPosition--;
-                
-                if(newRowPosition < wrappingMinBounds.y)
+                if (!rowChanged)
                 {
-                    newRowPosition = (int)wrappingMaxBounds.y;
+                    newRowPosition--;
+
+                    if (newRowPosition < wrappingMinBounds.y)
+                    {
+                        newRowPosition = (int)wrappingMaxBounds.y;
+                    }
                 }
             }
             else if (newColumnPosition > wrappingMaxBounds.x)
             {
                 newColumnPosition = (int)wrappingMinBounds.x;
-                newRowPosition++;
-                
-                if(newRowPosition > wrappingMaxBounds.y)
+                if(!rowChanged)
                 {
-                    newRowPosition = (int)wrappingMinBounds.y;
+                    newRowPosition++;
+
+                    if (newRowPosition > wrappingMaxBounds.y)
+                    {
+                        newRowPosition = (int)wrappingMinBounds.y;
+                    }
                 }
             }
 
