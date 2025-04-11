@@ -25,7 +25,7 @@ namespace TableForge.UI
         protected readonly TableControl TableControl;
         
         //The headers that are currently being targeted for resizing
-        protected readonly Dictionary<string, HeaderControl> ResizingHeaders = new Dictionary<string, HeaderControl>();
+        protected readonly Dictionary<int, HeaderControl> ResizingHeaders = new Dictionary<int, HeaderControl>();
         
         //The header that is currently being resized
         protected HeaderControl ResizingHeader;
@@ -80,7 +80,7 @@ namespace TableForge.UI
                 delta += InstantResize(header, fitStoredSize);
             }
 
-            InvokeResize(ResizingHeaders.Values.First(x => x.Id != ""), delta, false, fitStoredSize, Vector2.zero);
+            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
             return delta;
         }
 
@@ -137,7 +137,7 @@ namespace TableForge.UI
             {
                 if (storeSize)
                 {
-                    string anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? "";
+                    int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
                     float width = target.resolvedStyle.width;
                     float height = target.resolvedStyle.height;
                     Vector2 sizeToStore = TableControl.Metadata.GetAnchorSize(anchorId);

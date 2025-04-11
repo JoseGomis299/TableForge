@@ -28,7 +28,7 @@ namespace TableForge.UI
         public bool IsVisible { get; set; }
         
         public string Name => CellAnchor?.Name ?? string.Empty;
-        public string Id => CellAnchor?.Id ?? "";
+        public int Id => CellAnchor?.Id ?? 0;
 
 
         protected HeaderControl(CellAnchor cellAnchor, TableControl tableControl)

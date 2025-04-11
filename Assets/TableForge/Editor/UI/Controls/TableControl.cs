@@ -12,10 +12,10 @@ namespace TableForge.UI
 
         public event Action<Vector2> OnScrollviewSizeChanged;
 
-        private readonly Dictionary<string, CellAnchorData> _columnData = new();
-        private readonly Dictionary<string, CellAnchorData> _rowData = new();
-        private readonly Dictionary<string, RowHeaderControl> _rowHeaders = new();
-        private readonly Dictionary<string, ColumnHeaderControl> _columnHeaders = new();
+        private readonly Dictionary<int, CellAnchorData> _columnData = new();
+        private readonly Dictionary<int, CellAnchorData> _rowData = new();
+        private readonly Dictionary<int, RowHeaderControl> _rowHeaders = new();
+        private readonly Dictionary<int, ColumnHeaderControl> _columnHeaders = new();
 
         private readonly ColumnHeaderContainerControl _columnHeaderContainer;
         private readonly RowHeaderContainerControl _rowHeaderContainer;
@@ -35,10 +35,10 @@ namespace TableForge.UI
 
         #region Properties
 
-        public IReadOnlyDictionary<string, CellAnchorData> ColumnData => _columnData;
-        public IReadOnlyDictionary<string, CellAnchorData> RowData => _rowData;
-        public IReadOnlyDictionary<string, RowHeaderControl> RowHeaders => _rowHeaders;
-        public IReadOnlyDictionary<string, ColumnHeaderControl> ColumnHeaders => _columnHeaders;
+        public IReadOnlyDictionary<int, CellAnchorData> ColumnData => _columnData;
+        public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
+        public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
+        public IReadOnlyDictionary<int, ColumnHeaderControl> ColumnHeaders => _columnHeaders;
         public IReadOnlyList<ColumnHeaderControl> OrderedColumnHeaders => _orderedColumnHeaders;
         public IReadOnlyList<RowHeaderControl> OrderedRowHeaders => _orderedRowHeaders;
         public IReadOnlyList<RowHeaderControl> OrderedDescRowHeaders => _orderedDescRowHeaders;
@@ -118,8 +118,8 @@ namespace TableForge.UI
             PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
 
             // Add empty data for the corner cell
-            _rowData.Add("", new CellAnchorData(null));
-            _columnData.Add("", new CellAnchorData(null));
+            _rowData.Add(0, new CellAnchorData(null));
+            _columnData.Add(0, new CellAnchorData(null));
 
             BuildColumns();
             BuildRows();
@@ -170,7 +170,7 @@ namespace TableForge.UI
         /// <summary>
         /// Updates the data of this row and its visible cells.
         /// </summary>
-        public void UpdateRow(string rowId)
+        public void UpdateRow(int rowId)
         {
             if (!_rowHeaders.TryGetValue(rowId, out var header))
                 return;

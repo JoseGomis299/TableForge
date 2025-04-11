@@ -95,7 +95,7 @@ namespace TableForge.UI
         }
 
 
-        public void SetColumnVisibility(string columnId, bool isVisible, int direction)
+        public void SetColumnVisibility(int columnId, bool isVisible, int direction)
         {
             int columnPosition = TableControl.GetColumnPosition(columnId);
             
