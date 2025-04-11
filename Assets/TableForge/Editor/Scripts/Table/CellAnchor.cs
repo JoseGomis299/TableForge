@@ -14,7 +14,7 @@ namespace TableForge
         /// The unique identifier of the cell anchor.
         /// </summary>
         /// <remarks>The id is unique only inside its table scope.</remarks>
-        public int Id { get; protected set; }
+        public string Id { get; protected set; }
         
         /// <summary>
         /// The name of the cell anchor.

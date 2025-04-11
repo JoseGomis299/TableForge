@@ -51,7 +51,7 @@ namespace TableForge
         /// <summary>
         /// Unique identifier of the cell in the table.
         /// </summary>
-        public int Id { get; }
+        public string Id { get; }
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace TableForge
             Type = GetFieldType();
             Value = GetFieldValue();
             
-            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id);
+            Id = $"c:{Column.Id}, r:{Row.Id}";
         }
         #endregion
 

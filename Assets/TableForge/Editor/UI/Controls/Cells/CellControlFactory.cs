@@ -8,13 +8,14 @@ namespace TableForge.UI
 {
     internal static class CellControlFactory
     {
-        private static readonly Dictionary<int, CellControl> _idToCellControl = new Dictionary<int, CellControl>();
+        private static readonly Dictionary<string, CellControl> _idToCellControl = new Dictionary<string, CellControl>();
         private static readonly Dictionary<Type, ConstructorInfo> _cellControlConstructors = new Dictionary<Type, ConstructorInfo>();
         private static readonly CellControlPool _cellControlPool = new CellControlPool();
         
-        public static CellControl GetCellControlFromId(int id)
+        public static CellControl GetCellControlFromId(string id)
         {
             if (!_idToCellControl.TryGetValue(id, out var cellControl)) return null;
+            
             if(cellControl.Cell.Id != id)
             {
                 _idToCellControl.Remove(id);
@@ -32,6 +33,7 @@ namespace TableForge.UI
 
             if (!_idToCellControl.TryAdd(cell.Id, cellControl))
             {
+                CellControl previouslyUsedCellControl = _idToCellControl[cell.Id];
                 _idToCellControl[cell.Id] = cellControl;
             }
 

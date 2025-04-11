@@ -7,7 +7,7 @@ namespace TableForge
     {
         public Column(string name, int position, Table table) : base(name, position, table)
         {
-            Id = HashCodeUtil.CombineHashes(name, false, table.Name);
+            Id = $"c:{name}, t:{table.Name}";
             table.AddColumn(this);
         }
     }

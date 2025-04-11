@@ -81,7 +81,7 @@ namespace TableForge.UI
             // // Find all visible rows above the found row.
             // for (int i = position - 1; i >= startingIndex ; i--)
             // {
-            //     int rowId = TableControl.GetRowAtPosition(i).Id;
+            //     string rowId = TableControl.GetRowAtPosition(i).Id;
             //     var header = TableControl.RowHeaders[rowId];
             //     if (header.IsVisible || IsHeaderVisible(header))
             //         MakeHeaderVisible(header, insertAtTop: true);
@@ -92,7 +92,7 @@ namespace TableForge.UI
             // // Find all visible rows below the found row.
             // for (int i = position + 1; i <= endingIndex; i++)
             // {
-            //     int rowId = TableControl.GetRowAtPosition(i).Id;
+            //     string rowId = TableControl.GetRowAtPosition(i).Id;
             //     var header = TableControl.RowHeaders[rowId];
             //     if (header.IsVisible || IsHeaderVisible(header))
             //         MakeHeaderVisible(header, insertAtTop: false);
@@ -168,7 +168,7 @@ namespace TableForge.UI
             if (VisibleHeaders.Count > 0 && IsHeaderVisible(VisibleHeaders[VisibleHeaders.Count / 2]))
             {
                 int position = TableControl.RowData[VisibleHeaders[VisibleHeaders.Count / 2].Id].Position;
-                int rowId = TableControl.GetRowAtPosition(position).Id;
+                string rowId = TableControl.GetRowAtPosition(position).Id;
                 var midHeader = TableControl.RowHeaders[rowId];
                 MakeHeaderVisible(midHeader, insertAtTop: false);
                 return position;
@@ -187,7 +187,7 @@ namespace TableForge.UI
             while (low <= high)
             {
                 int mid = (low + high) / 2;
-                int rowId = TableControl.GetRowAtPosition(mid).Id;
+                string rowId = TableControl.GetRowAtPosition(mid).Id;
                 var midHeader = TableControl.RowHeaders[rowId];
 
                 if ((midHeader.IsVisible || IsHeaderInBounds(midHeader, true)) && !LockedVisibleHeaders.ContainsKey(midHeader))

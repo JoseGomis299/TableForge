@@ -6,7 +6,7 @@ namespace TableForge.UI
 {
     internal static class CellLocator
     {
-        public static Cell GetCell(TableControl tableControl, int rowId, int columnId)
+        public static Cell GetCell(TableControl tableControl, string rowId, string columnId)
         {
             if (!tableControl.RowHeaders.TryGetValue(rowId, out var rowHeader) 
                 || !tableControl.ColumnData.TryGetValue(columnId, out var columnAnchor)) return null;
@@ -204,7 +204,7 @@ namespace TableForge.UI
             return currentCell.Table.GetCell(newColumnPosition, newRowPosition);
         }
         
-        public static List<Cell> GetCellsAtRow(TableControl tableControl, int rowId)
+        public static List<Cell> GetCellsAtRow(TableControl tableControl, string rowId)
         {
             CellAnchorData anchorData = tableControl.RowData[rowId];
             if(anchorData.CellAnchor is Row row)
@@ -213,7 +213,7 @@ namespace TableForge.UI
             return GetCellsAtColumn(anchorData.CellAnchor);
         }
         
-        public static List<Cell> GetCellsAtColumn(TableControl tableControl, int columnId)
+        public static List<Cell> GetCellsAtColumn(TableControl tableControl, string columnId)
         {
             CellAnchorData anchorData = tableControl.ColumnData[columnId];
             if(anchorData.CellAnchor is Row row)

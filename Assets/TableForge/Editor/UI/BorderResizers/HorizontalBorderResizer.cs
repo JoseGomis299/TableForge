@@ -42,7 +42,7 @@ namespace TableForge.UI
 
             if (fitStoredSize)
             {
-                int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
+                string anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? "";
                 float storedWidth = TableControl.Metadata.GetAnchorSize(anchorId).x;
                 if(storedWidth != 0) targetWidth = storedWidth;
             }
