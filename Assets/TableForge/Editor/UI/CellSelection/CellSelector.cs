@@ -166,7 +166,7 @@ namespace TableForge.UI
             _cellsToDeselect.Clear();
             
             // Order the selection differently if table is transposed.
-            CellNavigator.SetNavigationSpace(_selectedCells.ToList(), _tableControl.Metadata);
+            CellNavigator.SetNavigationSpace(_selectedCells.ToList(), _tableControl.Metadata, _focusedCell);
             OnSelectionChanged?.Invoke();
         }
 

@@ -23,14 +23,14 @@ namespace TableForge.UI
         {
             scrollView.verticalScroller.highValue = value - scrollView.contentViewport.resolvedStyle.height;
             scrollView.verticalScroller.value = Mathf.Min(value, scrollView.verticalScroller.value);
-            scrollView.verticalScroller.Adjust(scrollView.contentViewport.resolvedStyle.height / scrollView.verticalScroller.highValue);
+            scrollView.verticalScroller.Adjust(scrollView.contentViewport.resolvedStyle.height / value);
         }
         
         public static void SetHorizontalScrollerValue(this ScrollView scrollView, float value)
         {
             scrollView.horizontalScroller.highValue = value - scrollView.contentViewport.resolvedStyle.width;
             scrollView.horizontalScroller.value = Mathf.Min(value, scrollView.horizontalScroller.value);
-            scrollView.horizontalScroller.Adjust(scrollView.contentViewport.resolvedStyle.width / scrollView.horizontalScroller.highValue);
+            scrollView.horizontalScroller.Adjust(scrollView.contentViewport.resolvedStyle.width / value);
         }
     }
 }

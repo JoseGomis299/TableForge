@@ -8,14 +8,12 @@ namespace TableForge.UI
         private readonly List<Cell> _cells = new();
         private int _currentIndex;
         
-        public void SetNavigationSpace(IReadOnlyList<Cell> cells, TableMetadata metadata)
+        public void SetNavigationSpace(IReadOnlyList<Cell> cells, TableMetadata metadata, Cell focusedCell)
         {
             if (cells == null || cells.Count == 0)
                 return;
         
             var cellGroups = new Dictionary<int, List<Cell>>();
-            _currentIndex = 0;
-
             var sortedCells = cells.OrderBy(cell => TableForge.CellExtension.GetDepth(cell)).ToList();
 
             // Create groups for cells.
@@ -59,6 +57,15 @@ namespace TableForge.UI
             // Clear the current cells and add the sorted cells.
             _cells.Clear();
             AddCellsFromId(0, cellGroups);
+        
+            //Set the current index to the focused cell.
+            if (focusedCell != null)
+            {
+                _currentIndex = _cells.IndexOf(focusedCell);
+                if (_currentIndex == -1)
+                    _currentIndex = 0;
+            }
+            else _currentIndex = 0;
         
             void AddCellsFromId(int id, Dictionary<int, List<Cell>> groups)
             {
