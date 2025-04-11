@@ -6,6 +6,6 @@ namespace TableForge
     [CellType(typeof(int))]
     internal class IntCell : Cell
     {
-        public IntCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public IntCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

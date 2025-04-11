@@ -6,6 +6,6 @@ namespace TableForge
     [CellType(typeof(float))]
     internal class FloatCell : Cell
     {
-        public FloatCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public FloatCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

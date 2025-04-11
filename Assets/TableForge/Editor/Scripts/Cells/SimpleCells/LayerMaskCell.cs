@@ -8,6 +8,6 @@ namespace TableForge
     [CellType(typeof(LayerMask))]
     internal class LayerMaskCell : Cell
     {
-        public LayerMaskCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public LayerMaskCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

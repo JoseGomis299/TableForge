@@ -8,6 +8,6 @@ namespace TableForge
     [CellType(typeof(Color))]
     internal class ColorCell : Cell
     {
-        public ColorCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public ColorCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

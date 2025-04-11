@@ -8,6 +8,6 @@ namespace TableForge
     [CellType(TypeMatchMode.Assignable, typeof(Object))]
     internal class ReferenceCell : Cell
     {
-        public ReferenceCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public ReferenceCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

@@ -6,6 +6,6 @@ namespace TableForge
     [CellType(typeof(bool))]
     internal class BoolCell : Cell
     {
-        public BoolCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public BoolCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

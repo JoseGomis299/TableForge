@@ -6,6 +6,6 @@ namespace TableForge
     [CellType(typeof(double))]
     internal class DoubleCell : Cell
     {
-        public DoubleCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public DoubleCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

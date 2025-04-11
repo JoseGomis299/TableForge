@@ -49,7 +49,7 @@ namespace TableForge.UI
         protected abstract float UpdateSize(HeaderControl headerControl, Vector3 newSize);
         protected abstract Vector3 CalculateNewSize(Vector2 initialSize, Vector3 startPosition, Vector3 currentPosition);
         protected abstract void HandleDoubleClick(PointerDownEvent downEvent);
-        protected abstract float InstantResize(HeaderControl target, bool adjustToStoredSize);
+        protected abstract float InstantResize(HeaderControl target, bool fitStoredSize);
         protected abstract void MovePreview(Vector3 startPosition, Vector3 initialSize, Vector3 newSize);
         public abstract bool IsResizingArea(Vector3 position, out HeaderControl headerControl);
 
@@ -70,17 +70,17 @@ namespace TableForge.UI
             return delta;
         }
 
-        public float ResizeAll(bool adjustToStoredSize)
+        public float ResizeAll(bool fitStoredSize)
         {
             if(ResizingHeaders.Count == 0) return 0;
 
             float delta = 0;
             foreach (var header in ResizingHeaders.Values)
             {
-                delta += InstantResize(header, adjustToStoredSize);
+                delta += InstantResize(header, fitStoredSize);
             }
 
-            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false, adjustToStoredSize, Vector2.zero);
+            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
             return delta;
         }
 
@@ -99,13 +99,13 @@ namespace TableForge.UI
             ResizingHeaders.Clear();
         }
         
-        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool adjustedToStoredSize, Vector2 targetSize)
+        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize)
         {
             if(delta == 0) return;
 
             if (targetSize == Vector2.zero)
             {
-                targetSize = adjustedToStoredSize
+                targetSize = fitStoredSize
                     ? TableControl.Metadata.GetAnchorSize(target.CellAnchor.Id)
                     : TableControl.PreferredSize.GetHeaderSize(target.CellAnchor);
             }

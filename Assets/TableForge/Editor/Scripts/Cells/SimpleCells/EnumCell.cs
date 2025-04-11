@@ -5,6 +5,6 @@ namespace TableForge
     /// </summary>
     internal class EnumCell : Cell
     {
-        public EnumCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public EnumCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

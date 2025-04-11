@@ -12,7 +12,7 @@ namespace TableForge
         /// <summary>
         /// The column in which this cell belongs.
         /// </summary>
-        public readonly CellAnchor Column;
+        public readonly Column Column;
 
         /// <summary>
         /// The row in which this cell belongs.
@@ -56,7 +56,7 @@ namespace TableForge
         #endregion
 
         #region Constructors
-        protected Cell(CellAnchor column, Row row, TFFieldInfo fieldInfo)
+        protected Cell(Column column, Row row, TFFieldInfo fieldInfo)
         {
             Column = column;
             Row = row;

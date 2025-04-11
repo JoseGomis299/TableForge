@@ -42,11 +42,28 @@ namespace TableForge.UI
         
         public static Vector2 CalculateSizeWithCurrentCellSizes(TableControl tableControl)
         {
-            TableSize tableSize = tableControl.PreferredSize;
+            Vector2 size = Vector2.zero;
+            if (tableControl.Parent is ExpandableSubTableCellControl { IsFoldoutOpen: false })
+            {
+                size.y = 0;
+                size.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(tableControl.Parent.Cell.Column.Name)).x +
+                         EditorStyles.foldoutHeaderIcon.fixedWidth;
+            }
+            else
+            {
+                TableSize tableSize = tableControl.PreferredSize;
+                size = tableSize.GetTotalSize(true);
+                
+                if (tableControl.Parent is ExpandableSubTableCellControl)
+                {
+                    size.y += UiConstants.FoldoutHeight;
+                }
+                
+                size.y += GetAddRowButtonHeight(tableControl.TableData, tableControl.TableAttributes);
+            }
             
-            return GetClampedSize(tableSize.GetTotalSize(true) + 
-                                  Vector2.one * (UiConstants.CellContentPadding * 1.5f + UiConstants.BorderWidth) +
-                                  Vector2.up * GetAddRowButtonHeight(tableControl.TableData, tableControl.TableAttributes));
+            Vector2 clampedSize = GetClampedSize(size + Vector2.one * (UiConstants.CellContentPadding * 1.5f + UiConstants.BorderWidth));
+            return clampedSize;
         }
         
         public static TableSize CalculateTableSize(Table table, TableAttributes tableAttributes, TableMetadata tableMetadata)

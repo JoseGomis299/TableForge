@@ -8,6 +8,6 @@ namespace TableForge
     [CellType(typeof(Gradient))]
     internal class GradientCell : Cell
     {
-        public GradientCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public GradientCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

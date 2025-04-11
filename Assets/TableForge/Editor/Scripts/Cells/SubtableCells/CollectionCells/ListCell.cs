@@ -11,7 +11,7 @@ namespace TableForge
     [CellType(TypeMatchMode.GenericArgument,typeof(IList<>))]
     internal class ListCell : SubTableCell, ICollectionCell
     {
-        public ListCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        public ListCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
             CreateSubTable();
         }
@@ -19,6 +19,12 @@ namespace TableForge
         public override void SetValue(object value)
         {
             base.SetValue(value);
+            CreateSubTable();
+        }
+
+        public override void RefreshData()
+        {
+            base.RefreshData();
             CreateSubTable();
         }
 

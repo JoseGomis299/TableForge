@@ -36,11 +36,11 @@ namespace TableForge.UI
             }
         }
 
-        protected override float InstantResize(HeaderControl target, bool adjustToStoredSize)
+        protected override float InstantResize(HeaderControl target, bool fitStoredSize)
         {
             float targetHeight = TableControl.PreferredSize.GetHeaderSize(target.CellAnchor).y;
 
-            if (adjustToStoredSize)
+            if (fitStoredSize)
             {
                 int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
                 float storedHeight = TableControl.Metadata.GetAnchorSize(anchorId).y;

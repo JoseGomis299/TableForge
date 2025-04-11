@@ -8,6 +8,6 @@ namespace TableForge
     [CellType(typeof(AnimationCurve))]
     internal class AnimationCurveCell : Cell
     {
-        public AnimationCurveCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public AnimationCurveCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

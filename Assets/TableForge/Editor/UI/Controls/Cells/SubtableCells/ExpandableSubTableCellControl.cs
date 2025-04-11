@@ -69,7 +69,7 @@ namespace TableForge.UI
             IsSelected = TableControl.CellSelector.SelectedCells.Contains(Cell);
         }
 
-        protected virtual void OnFoldoutToggled(ChangeEvent<bool> evt)
+        private void OnFoldoutToggled(ChangeEvent<bool> evt)
         {
             ContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
             bool wasSubTableInitialized = HasSubTableInitialized;
@@ -82,13 +82,13 @@ namespace TableForge.UI
 
             if (!evt.newValue || !wasSubTableInitialized)
             {
-                RecalculateSize();
+                RecalculateSizeWithCurrentValues();
                 TableControl.Resizer.ResizeCell(this);
             }
             else
             {
-                RecalculateSize();
-                SubTableControl.Resizer.ResizeAll(false);
+                RecalculateSizeWithCurrentValues();
+                SubTableControl.Resizer.ResizeAll(true);
                 TableControl.Resizer.ResizeCell(this);
             }
             
@@ -100,7 +100,8 @@ namespace TableForge.UI
         protected override void RecalculateSizeWithCurrentValues()
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);
-            SetPreferredSize(size.x, size.y + UiConstants.FoldoutHeight);
+            SetPreferredSize(size.x, size.y);
+            TableControl.PreferredSize.StoreCellSizeInMetadata(Cell);
             
             if(TableControl.Parent is ExpandableSubTableCellControl expandableSubTableCellControl)
             {

@@ -10,7 +10,7 @@ namespace TableForge
     /// </summary>
     internal class SubItemCell : SubTableCell
     {
-        public SubItemCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        public SubItemCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
             if (Value == null)
             {

@@ -39,18 +39,18 @@ namespace TableForge.UI
             _verticalIsResizing = _horizontalIsResizing = false;
         }
         
-        public void ResizeAll(bool adjustToStoredSize)
+        public void ResizeAll(bool fitStoredSize)
         {
             if (IsResizing)
             {
-                _resizeQueue.Enqueue(() => ResizeAll(adjustToStoredSize));
+                _resizeQueue.Enqueue(() => ResizeAll(fitStoredSize));
                 return;
             };
 
             HorizontalResizer.OnResize += OnHorizontalResizeComplete;
             _horizontalIsResizing = true;
 
-            float horizontalDelta = HorizontalResizer.ResizeAll(adjustToStoredSize);
+            float horizontalDelta = HorizontalResizer.ResizeAll(fitStoredSize);
             _currentDelta = new Vector2(horizontalDelta, 0);
 
             if(horizontalDelta == 0)
@@ -71,7 +71,7 @@ namespace TableForge.UI
                 
                 VerticalResizer.OnResize += OnVerticalResizeComplete;
                 _verticalIsResizing = true;
-                _currentDelta.y = VerticalResizer.ResizeAll(adjustToStoredSize);
+                _currentDelta.y = VerticalResizer.ResizeAll(fitStoredSize);
                 
                 if(_currentDelta.y == 0)
                 {

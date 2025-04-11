@@ -6,6 +6,6 @@ namespace TableForge
     [CellType(typeof(long))]
     internal class LongCell : Cell
     {
-        public LongCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public LongCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

@@ -20,7 +20,7 @@ namespace TableForge
         #endregion
 
         #region Constructors
-        protected SubTableCell(CellAnchor column, Row row, TFFieldInfo fieldInfo)
+        protected SubTableCell(Column column, Row row, TFFieldInfo fieldInfo)
             : base(column, row, fieldInfo) { }
 
         #endregion

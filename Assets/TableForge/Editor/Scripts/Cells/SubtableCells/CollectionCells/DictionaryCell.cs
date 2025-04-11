@@ -9,7 +9,7 @@ namespace TableForge
     [CellType(TypeMatchMode.Assignable,typeof(IDictionary))]
     internal class DictionaryCell : SubTableCell, ICollectionCell
     {
-        public DictionaryCell(CellAnchor column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        public DictionaryCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
             CreateSubTable();
         }

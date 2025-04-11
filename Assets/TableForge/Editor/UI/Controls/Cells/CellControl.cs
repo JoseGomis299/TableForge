@@ -98,11 +98,6 @@ namespace TableForge.UI
         {
             Vector2 size = SizeCalculator.CalculateSize(Cell, TableControl.Metadata);
             SetPreferredSize(size.x, size.y);
-            
-            if(TableControl.Parent is {} parentCellControl)
-            {
-                parentCellControl.RecalculateSize();
-            }
         }
     }
 }

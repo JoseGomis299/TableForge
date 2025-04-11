@@ -94,6 +94,25 @@ namespace TableForge.UI
                 new Vector2(_rowPreferredSizes[cell.Row.Id].x, _columnPreferredSizes[cell.Column.Id].y)
                 : new Vector2(_columnPreferredSizes[cell.Column.Id].x, _rowPreferredSizes[cell.Row.Id].y);
         }
+
+        public void StoreCellSizeInMetadata(Cell cell)
+        {
+            StoreRowSizeInMetadata(cell.Row);
+            StoreColumnSizeInMetadata(cell.Column);
+        }
+        
+        public void StoreHeaderSizeInMetadata(CellAnchor cellAnchor)
+        {
+            switch (cellAnchor)
+            {
+                case Row row:
+                    StoreRowSizeInMetadata(row);
+                    break;
+                case Column column:
+                    StoreColumnSizeInMetadata(column);
+                    break;
+            }
+        }
         
         public void AddHeaderSize(CellAnchor cellAnchor, Vector2 size)
         {
@@ -137,6 +156,40 @@ namespace TableForge.UI
                     RemoveColumnSize(0, 0);
                     break;
             }
+        }
+
+        private void StoreColumnSizeInMetadata(Column column)
+        {
+            if(column.Table != _table) return;
+            Vector2 size = _tableMetadata.GetAnchorSize(column.Id);
+
+            if (!_table.IsSubTable && _tableMetadata.IsTransposed)
+            {
+                size.y = GetHeaderSize(column).y;
+            }
+            else
+            {
+                size.x = GetHeaderSize(column).x;
+            }
+            
+            _tableMetadata.SetAnchorSize(column.Id, size);
+        }
+        
+        private void StoreRowSizeInMetadata(Row row)
+        {
+            if(row.Table != _table) return;
+            Vector2 size = _tableMetadata.GetAnchorSize(row.Id);
+
+            if (!_table.IsSubTable && _tableMetadata.IsTransposed)
+            {
+                size.x = GetHeaderSize(row).x;
+            }
+            else
+            {
+                size.y = GetHeaderSize(row).y;
+            }
+            
+            _tableMetadata.SetAnchorSize(row.Id, size);
         }
         
         private void AddColumnSize(int columnId, int cellId, Vector2 size)
