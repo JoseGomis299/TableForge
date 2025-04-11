@@ -32,6 +32,12 @@ namespace TableForge.UI
 
             if (!_idToCellControl.TryAdd(cell.Id, cellControl))
             {
+                CellControl existingCellControl = _idToCellControl[cell.Id];
+                if (tableControl.CellSelector.IsCellFocused(existingCellControl.Cell))
+                {
+                    existingCellControl.SetFocused(false);
+                }
+                
                 _idToCellControl[cell.Id] = cellControl;
             }
 

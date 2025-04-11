@@ -152,7 +152,7 @@ namespace TableForge.UI
             else
                 Insert(index, cell);
             
-            cell.SetFocused(cell.TableControl.CellSelector.FocusedCell == cell.Cell);
+            cell.SetFocused(cell.TableControl.CellSelector.IsCellFocused(cell.Cell));
         }
     }
 }

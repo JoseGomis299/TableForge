@@ -64,15 +64,7 @@ namespace TableForge
             Type = GetFieldType();
             Value = GetFieldValue();
             
-            string position = $"{Column.LetterPosition}{Row.Position}";
-            Cell parentCell = Table.ParentCell;
-            while (parentCell != null)
-            {
-                position = $"{Table.ParentCell.GetPosition()}.{position}";
-                parentCell = parentCell.Table.ParentCell;
-            }
-            
-            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id, position);
+            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id, GetPosition());
         }
         #endregion
 

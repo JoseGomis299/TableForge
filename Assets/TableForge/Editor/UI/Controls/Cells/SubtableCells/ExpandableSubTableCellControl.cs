@@ -38,7 +38,12 @@ namespace TableForge.UI
         
         public void OpenFoldout()
         {
-            OnFoldoutToggled(ChangeEvent<bool>.GetPooled(false, true));
+            HeaderFoldout.value = true;
+        }
+        
+        public void CloseFoldout()
+        {
+            HeaderFoldout.value = false;
         }
 
         private void CreateContainerStructure()
@@ -66,13 +71,12 @@ namespace TableForge.UI
         {
             BuildSubTable();
             HasSubTableInitialized = true;
-            IsSelected = TableControl.CellSelector.SelectedCells.Contains(Cell);
+            IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
         }
 
         private void OnFoldoutToggled(ChangeEvent<bool> evt)
         {
             ContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
-            bool wasSubTableInitialized = HasSubTableInitialized;
             TableControl.Metadata.SetTableExpanded(Cell.Id, evt.newValue);
             
             if (evt.newValue && !HasSubTableInitialized)
@@ -80,19 +84,11 @@ namespace TableForge.UI
                 InitializeSubTable();
             }
 
-            if (!evt.newValue || !wasSubTableInitialized)
-            {
-                RecalculateSizeWithCurrentValues();
-                TableControl.Resizer.ResizeCell(this);
-            }
-            else
-            {
-                RecalculateSizeWithCurrentValues();
-                SubTableControl.Resizer.ResizeAll(true);
-                TableControl.Resizer.ResizeCell(this);
-            }
+            RecalculateSizeWithCurrentValues();
+            SubTableControl.Resizer.ResizeAll(true);
+            TableControl.Resizer.ResizeCell(this);
             
-            IsSelected = TableControl.CellSelector.SelectedCells.Contains(Cell);
+            IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
         }
         
         protected abstract void BuildSubTable();

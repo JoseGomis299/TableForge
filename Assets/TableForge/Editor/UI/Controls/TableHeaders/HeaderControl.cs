@@ -36,10 +36,10 @@ namespace TableForge.UI
             CellAnchor = cellAnchor;
             TableControl = tableControl;
             
-            IsSelected = tableControl.CellSelector.SelectedAnchors.Contains(CellAnchor);
+            IsSelected = tableControl.CellSelector.IsAnchorSelected(cellAnchor);
             tableControl.CellSelector.OnSelectionChanged += () =>
             {
-                IsSelected = tableControl.CellSelector.SelectedAnchors.Contains(CellAnchor);
+                IsSelected = tableControl.CellSelector.IsAnchorSelected(cellAnchor);
             };
         }
     }

@@ -59,6 +59,11 @@ namespace TableForge.UI
             return expandedTables.Contains(subTableCellId);
         }
         
+        public bool IsTableTransposed(int subTableCellId)
+        {
+            return transposedTables.Contains(subTableCellId);
+        }
+        
         public int GetAnchorPosition(int anchorId)
         {
             return cellAnchorMetadata.TryGetValue(anchorId, out var metadata) ? metadata.position : 0;

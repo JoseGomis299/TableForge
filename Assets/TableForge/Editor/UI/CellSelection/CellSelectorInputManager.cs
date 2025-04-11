@@ -101,7 +101,7 @@ namespace TableForge.UI
             }
             else if (evt.keyCode is KeyCode.Backspace or KeyCode.Escape)
             {
-                ProcessBackspaceOrEscape();
+                ProcessBackspaceOrEscape(evt);
             }
             else if (_selector.FocusedCell != null && evt.character is >= '!' and <= '~')
             {
@@ -162,9 +162,24 @@ namespace TableForge.UI
             }
         }
 
-        private void ProcessBackspaceOrEscape()
+        private void ProcessBackspaceOrEscape(KeyDownEvent evt)
         {
-            if(!_selector.FocusedCell.Table.IsSubTable) return;
+            if (!_selector.FocusedCell.Table.IsSubTable)
+            {
+                if (evt.shiftKey)
+                {
+                    ExpandableSubTableCellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FocusedCell.Id) as ExpandableSubTableCellControl;
+                    cellControl?.CloseFoldout();
+                }
+
+                return;
+            }
+            
+            if(evt.shiftKey)
+            {
+                ExpandableSubTableCellControl cellControl = CellControlFactory.GetCellControlFromId(_selector.FocusedCell.Id) as ExpandableSubTableCellControl;
+                cellControl?.CloseFoldout();
+            }
             
             _selector.FocusedCell = _selector.FocusedCell.Table.ParentCell;
             foreach (var descendant in _selector.FocusedCell.GetDescendants())
@@ -208,14 +223,10 @@ namespace TableForge.UI
             }
             else
             {
-                int index = _selector.OrderedSelectedCells.IndexOf(_selector.FocusedCell) + orientation;
-                if (index < 0) index = _selector.OrderedSelectedCells.Count - 1;
-                else if (index >= _selector.OrderedSelectedCells.Count) index = 0;
-                
-                _selector.FocusedCell = _selector.OrderedSelectedCells[index];
+                Cell nextCell = _selector.CellNavigator.GetNextCell(orientation);
                 
                 //If the cell is a subtable and its closed, open the foldout
-                if (_selector.FocusedCell.Table.ParentCell is SubTableCell parentCell &&
+                if (nextCell.Table.ParentCell is SubTableCell parentCell &&
                     !_tableControl.Metadata.IsTableExpanded(parentCell.Id))
                 {
                     CellControl parentControl = CellControlFactory.GetCellControlFromId(parentCell.Id);
@@ -224,6 +235,8 @@ namespace TableForge.UI
                         expandable.OpenFoldout();
                     }
                 }
+                
+                _selector.FocusedCell = nextCell;
             }
         }
         

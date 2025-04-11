@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TableForge.Exceptions;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -39,7 +40,6 @@ namespace TableForge.UI
             TableControl = tableControl;
             Cell = cell;
             
-            IsSelected = tableControl.CellSelector.SelectedCells.Contains(Cell);
             AddToClassList(USSClasses.TableCell);
         }
         
@@ -63,7 +63,7 @@ namespace TableForge.UI
             
             Refresh();
 
-            IsSelected = tableControl.CellSelector.SelectedCells.Contains(cell);
+            IsSelected = tableControl.CellSelector.IsCellSelected(cell);
         }
         
         protected void SetPreferredSize(float width, float height)

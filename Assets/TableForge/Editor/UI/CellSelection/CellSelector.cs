@@ -16,7 +16,8 @@ namespace TableForge.UI
         private HashSet<Cell> _cellsToDeselect = new();
         private readonly HashSet<CellAnchor> _selectedAnchors = new();
         private Cell _focusedCell;
-        private List<Cell> _orderedSelectedCells = new();
+        private readonly HashSet<int> _selectedCellIds = new();
+        private readonly HashSet<int> _selectedAnchorIds  = new();
         private CellSelectorInputManager _inputManager;
 
         #endregion
@@ -26,7 +27,7 @@ namespace TableForge.UI
         public bool SelectionEnabled { get; set; }
         public HashSet<CellAnchor> SelectedAnchors => _selectedAnchors;
         public HashSet<Cell> SelectedCells => _selectedCells;
-        internal List<Cell> OrderedSelectedCells => _orderedSelectedCells;
+        internal CellNavigator CellNavigator { get; } = new();
         internal TableControl TableControl => _tableControl;
 
         internal HashSet<Cell> CellsToDeselect
@@ -133,6 +134,8 @@ namespace TableForge.UI
         internal void ConfirmSelection()
         {
             _selectedAnchors.Clear();
+            _selectedCellIds.Clear();
+            _selectedAnchorIds.Clear();
 
             // Mark selected cells and record their anchors.
             foreach (var cell in _selectedCells)
@@ -146,6 +149,10 @@ namespace TableForge.UI
 
                 _selectedAnchors.Add(cell.Row);
                 _selectedAnchors.Add(cell.Column);
+                
+                _selectedCellIds.Add(cell.Id);
+                _selectedAnchorIds.Add(cell.Row.Id);
+                _selectedAnchorIds.Add(cell.Column.Id);
             }
 
             // Deselect cells that should be removed.
@@ -159,20 +166,7 @@ namespace TableForge.UI
             _cellsToDeselect.Clear();
             
             // Order the selection differently if table is transposed.
-            _orderedSelectedCells = TableControl.Transposed 
-                ? _selectedCells.OrderBy(c => c.GetHighestAncestor().Column.Position)
-                                .ThenBy(c => c.GetHighestAncestor().Row.Position)
-                                .ThenBy(c => c.GetDepth())
-                                .ThenBy(c => c.Row.Position)
-                                .ThenBy(c => c.Column.Position)
-                                .ToList()
-                : _selectedCells.OrderBy(c => c.GetHighestAncestor().Row.Position)
-                                .ThenBy(c => c.GetHighestAncestor().Column.Position)
-                                .ThenBy(c => c.GetDepth())
-                                .ThenBy(c => c.Row.Position)
-                                .ThenBy(c => c.Column.Position)
-                                .ToList();
-
+            CellNavigator.SetNavigationSpace(_selectedCells.ToList(), _tableControl.Metadata);
             OnSelectionChanged?.Invoke();
         }
 
@@ -201,11 +195,26 @@ namespace TableForge.UI
         
         #region Public Methods
 
+        public bool IsCellSelected(Cell cell)
+        {
+            return cell != null && _selectedCellIds.Contains(cell.Id);
+        }
+
+        public bool IsAnchorSelected(CellAnchor cellAnchor)
+        {
+            return cellAnchor != null && _selectedAnchorIds.Contains(cellAnchor.Id);
+        }
+
+        public bool IsCellFocused(Cell cell)
+        {
+            return _focusedCell != null && _focusedCell.Id == cell.Id;
+        }
+        
         public void ClearSelection()
         {
             _selectedCells.Clear();
             _cellsToDeselect.Clear();
-            _orderedSelectedCells.Clear();
+            CellNavigator.Clear();
             FocusedCell = null;
             ConfirmSelection();
         }
