@@ -5,15 +5,6 @@ namespace TableForge.UI
 {
     internal abstract class SubTableCellControl : CellControl
     {
-        public override bool IsSelected
-        {
-            get => base.IsSelected;
-            set
-            {
-                base.IsSelected = value;
-                SubTableControl?.ScrollView.SetScrollbarsVisibility(value);
-            }
-        }
         public TableControl SubTableControl { get; protected set; }
 
         protected readonly TableControl ParentTableControl;

@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0.57232696, g: 0.3005616, b: 0.3005616, a: 0}
+  color: {r: 0.27727836, g: 0.44970298, b: 0.6320754, a: 1}
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -69,8 +69,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
   B: 0
-  intField: 12
-  floatField: 12
+  intField: 2343
+  floatField: 1000
   <PublicLongProperty>k__BackingField: 123
   <PublicDoubleProperty>k__BackingField: 123
   inheritorClass:

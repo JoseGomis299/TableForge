@@ -17,6 +17,7 @@ namespace TableForge.UI
                 this
             );
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+            SubTableControl.ScrollView.SetScrollbarsVisibility(false);
             ContentContainer.Add(SubTableControl);
 
             if (Cell.GetValue() == null)

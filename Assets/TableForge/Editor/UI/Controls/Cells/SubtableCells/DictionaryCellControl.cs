@@ -17,6 +17,7 @@ namespace TableForge.UI
             );
             
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+            SubTableControl.ScrollView.SetScrollbarsVisibility(false);
             ContentContainer.Add(SubTableControl);
             
             SubTableControl.HorizontalResizer.OnManualResize += _ =>

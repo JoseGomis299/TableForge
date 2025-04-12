@@ -46,6 +46,11 @@ namespace TableForge.UI
                 foreach (var ancestor in cellControl.GetAncestors(true))
                 {
                     ancestor.LockHeadersVisibility();
+                    
+                    if(ancestor is SubTableCellControl subTableCellControl)
+                    {
+                        subTableCellControl.SubTableControl?.ScrollView.SetScrollbarsVisibility(true);
+                    }
                 }
             }
             else
@@ -61,12 +66,14 @@ namespace TableForge.UI
                    && !cellControl.TableControl.ColumnVisibilityManager.IsHeaderVisibilityLockedBy(column, cellControl.Cell))
                     return;
                 
-                tableControl.RowVisibilityManager.UnlockHeaderVisibility(row, cellControl.Cell);
-                tableControl.ColumnVisibilityManager.UnlockHeaderVisibility(column, cellControl.Cell);
-                
-                foreach (var ancestor in cellControl.GetAncestors())
+                foreach (var ancestor in cellControl.GetAncestors(true))
                 {
                     ancestor.UnlockHeadersVisibility();
+                    
+                    if(ancestor is SubTableCellControl subTableCellControl)
+                    {
+                        subTableCellControl.SubTableControl?.ScrollView.SetScrollbarsVisibility(false);
+                    }
                 }
             }
         }
