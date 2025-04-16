@@ -13,7 +13,8 @@ public class Test1 : ScriptableObject
     public AnimationCurve animationCurve;
     public Object reference;
     public bool B;
-    
+    public char charValue;
+        
     [SerializeField] private int intField;
     [SerializeField] private float floatField;
     

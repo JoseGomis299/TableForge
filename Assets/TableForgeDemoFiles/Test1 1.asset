@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.19811308, b: 0.19811308, a: 1}
+    key0: {r: 0.7735849, g: 0.7256151, b: 0.29921672, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0.27727836, g: 0.44970298, b: 0.6320754, a: 1}
+  color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -67,15 +67,48 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
+  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   B: 0
-  intField: 2343
-  floatField: 1000
-  <PublicLongProperty>k__BackingField: 123
-  <PublicDoubleProperty>k__BackingField: 123
+  charValue: 0
+  intField: 190
+  floatField: 29
+  <PublicLongProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 12
-    text: 32
+    number: 343
+    text: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+    animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 124
+      boolean: 0
+    inheritorNumber: 343
+    inheritorText: 
+  inheritorClassAsInnerClass:
+    number: 0
+    text: '{"colorKeys":[{"time":0.0,"color":{"r":0.7735849022865295,"g":0.7256150841712952,"b":0.29921671748161318,"a":1.0}},{"time":1.0,"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0}}],"alphaKeys":[{"time":0.0,"alpha":1.0},{"time":1.0,"alpha":1.0}],"mode":0}'
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -85,27 +118,13 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 1
-    inheritorNumber: 23
-    inheritorText: 132
-  inheritorClassAsInnerClass:
-    number: 34
-    text: aaaa
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
   innerClass:
     rid: 617020005463621698
   inheritorClassAsInnerClass2:
     rid: 617020005463621699
   innerClasses:
-  - number: 0
-    text: 334
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -114,9 +133,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
-  - number: 4
-    text: 123
+      boolean: 1
+  - number: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -143,9 +162,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
-  - number: 0
-    text: 
+      boolean: 1
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -155,8 +174,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 5
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -166,8 +185,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -177,8 +196,19 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -187,7 +217,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
+      boolean: 1
   - number: 0
     text: 
     animationCurve:
@@ -196,18 +226,18 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -216,11 +246,95 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
+      boolean: 1
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
       boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
   - number: 0
     text: 
     animationCurve:
       serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -228,19 +342,81 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
   - number: 0
     text: 
     animationCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
-  - number: 1
-    text: 
+      boolean: 1
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -250,19 +426,81 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
   - number: 0
     text: 
     animationCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
-  - number: 0
-    text: 
+      boolean: 1
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -272,8 +510,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -283,8 +521,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -294,8 +532,59 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
   - number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -305,8 +594,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -316,8 +605,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -327,8 +616,59 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  - number: 234
+    text: asd
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
   - number: 0
     text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 1
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -338,8 +678,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -349,8 +689,8 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -360,8 +700,19 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  - number: 0
-    text: 
+  - number: 234
+    text: a
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 24
+      boolean: 0
+  - number: 234
+    text: asd
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -370,300 +721,76 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
+      boolean: 1
   - number: 0
     text: 
     animationCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  intArray: 02000000020000000200000002000000020000000c00000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000020000000200000002000000
-  vector2: {x: 0, y: 8}
+      boolean: 1
+  intArray: 15000000000000000000000001000000000000000000000000000000000000001500000000000000000000000100000000000000000000000000000000000000150000000000000000000000010000000000000000000000000000000000000015000000000000000000000001000000000000000000000000000000000000001500000000000000
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 3, w: 0}
+  vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
   vector3Array:
-  - {x: 3, y: 1, z: 0}
-  - {x: 1, y: 3, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 4, y: 2, z: 3}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
+  - {x: 1, y: 2, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 2, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 2, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 2, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 2, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
     - key1
-    - key2
+    - 12
     m_Values: 0100000002000000
   structDictionary2:
     m_Keys:
-    - number: 14
+    - number: 5
       boolean: 1
-    - number: 154
+    - number: 35
       boolean: 1
     m_Values:
-    - {x: 1, y: 1}
-    - {x: 1, y: 14}
-  text: 
+    - {x: 1, y: 2}
+    - {x: 3, y: 4}
+  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
   matrix:
     e00: 1
     e01: 3
@@ -684,19 +811,19 @@ MonoBehaviour:
   Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
-    x: 12
-    y: 3
-    width: 13
-    height: 15
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   bounds:
-    m_Center: {x: 12, y: 32, z: 54}
-    m_Extent: {x: 12, y: 123, z: 35}
-  byteValue: 122
-  shortValue: 32767
-  sbyteValue: 20
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  byteValue: 0
+  shortValue: 156
+  sbyteValue: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 52
+    m_Bits: 0
   references:
     version: 2
     RefIds:
@@ -712,13 +839,13 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         structTest:
-          number: 0
+          number: 13
           boolean: 0
     - rid: 617020005463621699
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: False
         animationCurve:
           serializedVersion: 2
           m_Curve: []

@@ -39,68 +39,12 @@ namespace TableForge.UI
         
         public static string ResolveLayerMaskName(LayerMask mask)
         {
-            if (mask.value == ~0) 
-            {
-                return "Everything";
-            }
-
-            if (mask.value == 0) 
-            {
-                return "Nothing";
-            }
-
-            var res = string.Empty;
-            for (int i = 0; i < 32; i++)
-            {
-                int layerBit = 1 << i;
-                if ((mask.value & layerBit) != 0)
-                {
-                    string layerName = LayerMask.LayerToName(i);
-                    if (!string.IsNullOrEmpty(layerName))
-                    {
-                        if (!string.IsNullOrEmpty(res))
-                        {
-                            res += ", ";
-                        }
-                        res += layerName;
-                    }
-                }
-            }
-
-            return res;
+            return mask.ResolveName();
         }
         
         public static string ResolveFlagsEnumName(Type enumType, int value)
         {
-            if (value == -1)
-            {
-                return "Everything";
-            }
-
-            if (value == 0)
-            {
-                if(Enum.IsDefined(enumType, 0))
-                {
-                    return Enum.GetName(enumType, 0);
-                }
-                return "Nothing";
-            }
-
-            string res = string.Empty;
-            foreach (var name in Enum.GetNames(enumType))
-            {
-                int enumValue = (int)Enum.Parse(enumType, name);
-                if ((value & enumValue) != 0)
-                {
-                    if (!string.IsNullOrEmpty(res))
-                    {
-                        res += ", ";
-                    }
-                    res += name.ConvertToProperCase();
-                }
-            }
-
-            return res;
+            return enumType.ResolveFlaggedEnumName(value);
         }
         
     }

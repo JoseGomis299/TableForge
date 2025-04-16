@@ -1,0 +1,31 @@
+namespace TableForge
+{
+    [CellType(typeof(char))]
+    internal class CharCell : PrimitiveBasedCell<char>
+    {
+        public CharCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        
+        public override string Serialize()
+        {
+            if (Value is char typedValue && typedValue != '\0')
+            {
+                return "\'" + Serializer.Serialize(typedValue) + "\'";
+            }
+            return "\'\'";
+        }
+        
+        public override void Deserialize(string data)
+        {
+            data = data.Trim('\'');
+            
+            if (string.IsNullOrEmpty(data))
+            {
+                SetValue('\0');
+                return;
+            }
+            
+            char value = Serializer.Deserialize<char>(data);
+            SetValue(value);
+        }
+    }
+}

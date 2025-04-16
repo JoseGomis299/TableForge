@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace TableForge.UI
 {
@@ -110,6 +112,18 @@ namespace TableForge.UI
             else if (evt.keyCode == KeyCode.Tab)
             {
                 ProcessTabKey(evt);
+            }
+            else if(evt.ctrlKey && evt.keyCode == KeyCode.C)
+            {
+                ProcessCopyKey();
+            }
+            else if(evt.ctrlKey && evt.keyCode == KeyCode.V)
+            {
+                ProcessPasteKey();
+            }
+            else if(evt.ctrlKey && evt.keyCode == KeyCode.X)
+            {
+                ProcessCutKey();
             }
             evt.StopPropagation();
         }
@@ -239,6 +253,30 @@ namespace TableForge.UI
                 _selector.FocusedCell = nextCell;
             }
         }
+        
+        private void ProcessCopyKey()
+        {
+            if (_selector.FocusedCell == null)
+                return;
+
+            CopyBuffer.Copy(_selector.SelectedCells.ToList(), _tableControl.Metadata);
+        }
+        
+        private void ProcessPasteKey()
+        {
+            if (_selector.FocusedCell == null)
+                return;
+            
+            CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl.Metadata);
+            _tableControl.Update();
+        }
+        
+        private void ProcessCutKey()
+        {
+            if (_selector.FocusedCell == null)
+                return;
+        }
+        
         
         #endregion
 

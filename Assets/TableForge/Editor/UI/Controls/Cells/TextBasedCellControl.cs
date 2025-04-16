@@ -8,7 +8,7 @@ namespace TableForge.UI
 
         private TextInputBaseField<T> _textField;
         
-        protected TextInputBaseField<T> TextField
+        public TextInputBaseField<T> TextField
         {
             get => _textField;
             set
@@ -46,7 +46,7 @@ namespace TableForge.UI
             _textField.focusable = false;
             _textField.Blur();
         }
-        
+
         public void SetValue(string value, bool focus)
         {
             if (_textField == null) return;
@@ -65,6 +65,17 @@ namespace TableForge.UI
                     _textField.selectIndex = value.Length;
                 }).ExecuteLater(0);
             }
+        }
+
+        public string GetValue()
+        {
+            if (_textField == null) return string.Empty;
+            
+            var value = _textField.text;
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            return value;
         }
     }
 }

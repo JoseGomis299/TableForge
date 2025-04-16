@@ -521,7 +521,10 @@ namespace TableForge.UI
 
             for (int i = 1; i < ColumnVisibilityManager.CurrentVisibleHeaders[index].CellAnchor.Position; i++)
             {
-                ColumnHeaderControl columnHeader = _columnHeaders[this.GetColumnAtPosition(i).Id];
+                CellAnchor column = this.GetColumnAtPosition(i);
+                if (column == null || !_columnHeaders.TryGetValue(column.Id, out var columnHeader))
+                    continue;
+                
                 if (ColumnVisibilityManager.IsHeaderVisibilityLocked(columnHeader))
                     continue;
                 offset += columnHeader.style.width.value.value;

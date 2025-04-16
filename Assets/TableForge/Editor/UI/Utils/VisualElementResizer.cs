@@ -42,6 +42,5 @@ namespace TableForge.UI
                 onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
             }
         }
-        
     }
 }

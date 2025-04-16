@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace TableForge.UI
 {
@@ -8,13 +9,17 @@ namespace TableForge.UI
         private readonly List<Cell> _cells = new();
         private int _currentIndex;
         
+        public IReadOnlyList<Cell> Cells => _cells;
+        
         public void SetNavigationSpace(IReadOnlyList<Cell> cells, TableMetadata metadata, Cell focusedCell)
         {
             if (cells == null || cells.Count == 0)
                 return;
         
-            var cellGroups = new Dictionary<int, List<Cell>>();
-            var sortedCells = cells.OrderBy(cell => TableForge.CellExtension.GetDepth(cell)).ToList();
+            Dictionary<int, List<Cell>> cellGroups = new Dictionary<int, List<Cell>>();
+            List<Cell> sortedCells = cells.OrderBy(cell => cell.GetDepth()).ToList();
+            HashSet<int> pointedGroups = new HashSet<int>();
+            LinkedList<int> notPointedGroups = new LinkedList<int>();
 
             // Create groups for cells.
             foreach (var cell in sortedCells)
@@ -34,6 +39,7 @@ namespace TableForge.UI
                         cellGroups[0] = new List<Cell>();
                     }
                     cellGroups[0].Add(cell);
+                    pointedGroups.Add(cell.Id);
                 }
                 else
                 {
@@ -43,6 +49,16 @@ namespace TableForge.UI
                         cellGroups[parentId] = new List<Cell>();
                     }
                     cellGroups[parentId].Add(cell);
+                    pointedGroups.Add(cell.Id);
+                }
+            }
+            
+            //Get the groups that are not pointed by any cell.
+            foreach (var key in cellGroups.Keys)
+            {
+                if (!pointedGroups.Contains(key))
+                {
+                    notPointedGroups.AddLast(key);
                 }
             }
         
@@ -56,7 +72,10 @@ namespace TableForge.UI
 
             // Clear the current cells and add the sorted cells.
             _cells.Clear();
-            AddCellsFromId(0, cellGroups);
+            foreach (var key in notPointedGroups)
+            {
+                AddCellsFromId(key, cellGroups);
+            }
         
             //Set the current index to the focused cell.
             if (focusedCell != null)

@@ -18,8 +18,8 @@ namespace TableForge.UI
         {
             var cells = new List<Cell>();
             
-            List<Cell> firstCellHierarchy = firstCell.GetAncestors(true);
-            List<Cell> lastCellHierarchy = lastCell.GetAncestors(true);
+            List<Cell> firstCellHierarchy = firstCell.GetAncestors(true).ToList();
+            List<Cell> lastCellHierarchy = lastCell.GetAncestors(true).ToList();
             
             GetCellRange(firstCell, lastCell, firstCellHierarchy, lastCellHierarchy, rootTableControl, cells);
 

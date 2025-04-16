@@ -42,22 +42,41 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
+  reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
   B: 0
-  intField: 0
-  floatField: 0
+  charValue: 0
+  intField: 2343
+  floatField: 124
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0
-    text: 
+    text: True
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -68,10 +87,11 @@ MonoBehaviour:
       number: 0
       boolean: 0
     inheritorNumber: 0
-    inheritorText: 
+    inheritorText: False
   inheritorClassAsInnerClass:
     number: 0
-    text: 
+    text: '\Array: {13}, {21}, {21}, {21}, {21}, {21}, {21}, {21}, {21}, {21}, {21},
+      {21}, {21}, {21}, {21}, {21}'
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -90,7 +110,7 @@ MonoBehaviour:
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 1
+  testEnum: 0
   vector3Array: []
   stringIntDictionary:
     m_Keys:
@@ -106,7 +126,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
   matrix:
     e00: 0
     e01: 0
@@ -133,10 +153,10 @@ MonoBehaviour:
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 2343, z: 2343}
   byteValue: 0
   shortValue: 0
-  sbyteValue: 0
+  sbyteValue: 32
   layerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -147,7 +167,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []
@@ -161,7 +181,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: '\Keys: {1 || True}, {2 || False} \Values: {1 || 2}, {3 || 4}'
         animationCurve:
           serializedVersion: 2
           m_Curve: []

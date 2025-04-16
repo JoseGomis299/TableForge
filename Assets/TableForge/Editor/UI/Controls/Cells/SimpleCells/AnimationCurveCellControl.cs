@@ -1,6 +1,6 @@
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using CurveField = UnityEditor.UIElements.CurveField;
 
 namespace TableForge.UI
 {
@@ -29,7 +29,5 @@ namespace TableForge.UI
             Field = field;
             field.AddToClassList(USSClasses.TableCellContent);
         }
-        
-        
     }
 }

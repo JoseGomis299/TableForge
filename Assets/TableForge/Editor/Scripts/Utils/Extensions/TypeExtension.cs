@@ -182,5 +182,45 @@ namespace TableForge
         }
 
         #endregion
+
+        #region Other Methods
+
+        public static string ResolveFlaggedEnumName(this Type enumType, int value, bool makePretty = true)
+        {
+            if (value == -1)
+            {
+                return "Everything";
+            }
+
+            if (value == 0)
+            {
+                if(Enum.IsDefined(enumType, 0))
+                {
+                    return Enum.GetName(enumType, 0);
+                }
+                return "Nothing";
+            }
+
+            string res = string.Empty;
+            foreach (var name in Enum.GetNames(enumType))
+            {
+                int enumValue = (int)Enum.Parse(enumType, name);
+                if ((value & enumValue) != 0)
+                {
+                    if (!string.IsNullOrEmpty(res))
+                    {
+                        res += ", ";
+                    }
+                    if (makePretty)
+                        res += name.ConvertToProperCase();
+                    else
+                        res += name;
+                }
+            }
+
+            return res;
+        }
+
+        #endregion
     }
 }

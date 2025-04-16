@@ -5,7 +5,7 @@ namespace TableForge
     /// <summary>
     /// Represents an abstract cell within a table, storing and managing field values.
     /// </summary>
-    internal abstract class Cell
+    internal abstract class Cell : ISerializableCell
     {
         #region Fields
 
@@ -33,6 +33,11 @@ namespace TableForge
         /// The cached value of the cell.
         /// </summary>
         protected object Value;
+
+        /// <summary>
+        /// The serializer used to serialize and deserialize the cell's data.
+        /// </summary>
+        protected ISerializer Serializer;
 
         #endregion
 
@@ -63,6 +68,7 @@ namespace TableForge
             FieldInfo = fieldInfo;
             Type = GetFieldType();
             Value = GetFieldValue();
+            Serializer = new JsonSerializer();
             
             Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id, GetPosition());
         }
@@ -99,14 +105,20 @@ namespace TableForge
         /// <returns>A string representing the cell's position .</returns>
         public string GetPosition() => $"{Column.LetterPosition}{Row.Position}";
         
-
-        /// <summary>
-        /// Sets the field value in the serialized object.
-        /// </summary>
-        /// <param name="value">The new value to be stored.</param>
-        protected void SetFieldValue(object value)
+        public abstract string Serialize();
+        public abstract void Deserialize(string data);
+        
+        public bool TryDeserialize(string data)
         {
-            TfSerializedObject.SetValue(this, value);
+            try
+            {
+                Deserialize(data);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
         
         #endregion
@@ -127,6 +139,14 @@ namespace TableForge
             return TfSerializedObject.GetValue(this);
         }
         
+        /// <summary>
+        /// Sets the field value in the serialized object.
+        /// </summary>
+        /// <param name="value">The new value to be stored.</param>
+        protected void SetFieldValue(object value)
+        {
+            TfSerializedObject.SetValue(this, value);
+        }
         #endregion
     }
 }

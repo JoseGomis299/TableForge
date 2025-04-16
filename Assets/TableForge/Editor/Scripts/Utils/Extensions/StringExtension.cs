@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace TableForge
@@ -40,5 +42,64 @@ namespace TableForge
             TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
             return textInfo.ToTitleCase(spaced.ToLower());
         }
+        
+        /// <summary>
+        /// Splits the input string into segments enclosed by specified open and close strings at a given nesting level.
+        /// </summary>
+        /// <param name="input">The input string to process.</param>
+        /// <param name="desiredLevel">The target closure level (0-based). Level 0 corresponds to the content within the first occurrence of the open string.</param>
+        /// <param name="openStr">The string used to denote the start of a closure (e.g., "{").</param>
+        /// <param name="closeStr">The string used to denote the end of a closure (e.g., "}").</param>
+        /// <returns>A list of strings representing the segments captured at the specified level.</returns>
+        public static List<string> SplitByLevel(this string input, int desiredLevel, string openStr, string closeStr)
+        {
+            List<string> segments = new List<string>();
+            StringBuilder currentSegment = new StringBuilder();
+            int depth = -1;
+            bool capturing = false;
+            int i = 0;
+
+            while (i < input.Length)
+            {
+                if (i <= input.Length - openStr.Length && input.Substring(i, openStr.Length) == openStr)
+                {
+                    depth++;
+                    if (depth == desiredLevel)
+                    {
+                        currentSegment.Clear();
+                        capturing = true;
+                    }
+                    else if (capturing && depth > desiredLevel)
+                    {
+                        currentSegment.Append(openStr);
+                    }
+                    i += openStr.Length;
+                }
+                else if (i <= input.Length - closeStr.Length && input.Substring(i, closeStr.Length) == closeStr)
+                {
+                    if (capturing && depth == desiredLevel)
+                    {
+                        segments.Add(currentSegment.ToString().Trim());
+                        currentSegment.Clear();
+                        capturing = false;
+                    }
+                    else if (capturing && depth > desiredLevel)
+                    {
+                        currentSegment.Append(closeStr);
+                    }
+                    depth--;
+                    i += closeStr.Length;
+                }
+                else
+                {
+                    if (capturing)
+                        currentSegment.Append(input[i]);
+                    i++;
+                }
+            }
+
+            return segments;
+        }
+
     }
 }

@@ -4,7 +4,7 @@ namespace TableForge
     /// Cell that contains a signed byte value.
     /// </summary>
     [CellType(typeof(sbyte))]
-    internal class SByteCell : Cell
+    internal class SByteCell : PrimitiveBasedCell<sbyte>
     {
         public SByteCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }

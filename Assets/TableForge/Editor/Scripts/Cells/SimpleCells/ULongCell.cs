@@ -4,7 +4,7 @@ namespace TableForge
     /// Cell for unsigned long values.
     /// </summary>
     [CellType(typeof(ulong))]
-    internal class ULongCell : Cell
+    internal class ULongCell : PrimitiveBasedCell<ulong>
     {
         public ULongCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }

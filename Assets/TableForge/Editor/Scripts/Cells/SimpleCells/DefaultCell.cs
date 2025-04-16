@@ -6,5 +6,15 @@ namespace TableForge
     internal class DefaultCell : Cell
     {
         public DefaultCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+
+        public override string Serialize()
+        {
+            return "NULL";
+        }
+        
+        public override void Deserialize(string data)
+        {
+            // No implementation needed for default cell
+        }
     }
 }

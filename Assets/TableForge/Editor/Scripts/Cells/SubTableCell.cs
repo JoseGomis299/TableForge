@@ -35,6 +35,15 @@ namespace TableForge
             if (value != Value)
                 CreateSubTable();
         }
+        
+        public override string Serialize()
+        {
+            return string.Empty;
+        }
+
+        public override void Deserialize(string data)
+        {
+        }
 
         #endregion
         

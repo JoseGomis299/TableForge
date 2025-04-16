@@ -6,7 +6,7 @@ namespace TableForge.UI
     {
         private VisualElement _field;
         
-        protected VisualElement Field
+        public VisualElement Field
         {
             get => _field;
             set
@@ -27,8 +27,11 @@ namespace TableForge.UI
             }
         }
         
+        protected ISerializer Serializer { get; }
+        
         protected SimpleCellControl(Cell cell, TableControl tableControl) : base(cell, tableControl)
         {
+            Serializer = new JsonSerializer();
         }
         
         public virtual void FocusField()

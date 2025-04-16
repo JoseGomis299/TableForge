@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
     m_Curve: []
@@ -51,13 +51,14 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
+  charValue: 0
   intField: 0
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0
-    text: 
+    text: False
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -83,13 +84,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 0
-      boolean: 0
-    inheritorNumber: 0
-    inheritorText: 
+      number: 29
+      boolean: 1
+    inheritorNumber: 32
+    inheritorText: '{"keys":[],"preWrapMode":8,"postWrapMode":8}'
   inheritorClassAsInnerClass:
     number: 0
-    text: 
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -104,11 +105,11 @@ MonoBehaviour:
   inheritorClassAsInnerClass2:
     rid: 854089074991693898
   innerClasses: []
-  intArray: 01000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000
+  intArray: 0d000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 1
+  testEnum: 0
   vector3Array: []
   stringIntDictionary:
     m_Keys:
@@ -124,7 +125,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
   matrix:
     e00: 0
     e01: 0
@@ -151,9 +152,9 @@ MonoBehaviour:
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 32}
   byteValue: 0
-  shortValue: 0
+  shortValue: 23
   sbyteValue: 0
   layerMask:
     serializedVersion: 2
@@ -164,8 +165,8 @@ MonoBehaviour:
     - rid: 854089000327315523
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
-        number: 0
-        text: 
+        number: 124
+        text: '{}'
         animationCurve:
           serializedVersion: 2
           m_Curve: []
@@ -179,7 +180,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []
@@ -187,5 +188,5 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         structTest:
-          number: 0
+          number: 1
           boolean: 0

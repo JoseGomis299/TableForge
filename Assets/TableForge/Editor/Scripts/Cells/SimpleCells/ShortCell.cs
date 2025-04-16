@@ -4,7 +4,7 @@ namespace TableForge
     /// Represents a cell that contains a short integer value.
     /// </summary> 
     [CellType(typeof(short))]
-    internal class ShortCell : Cell
+    internal class ShortCell : PrimitiveBasedCell<short>
     {
         public ShortCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
