@@ -83,5 +83,41 @@ namespace TableForge
                     $"Failed to create instance of {FieldInfo.Type} for {FieldInfo.FriendlyName} in table {Column.Table.Name}, row {Row.Position}.\n{e.Message}");
             }
         }
+        
+        protected override void DeserializeModifying(string[]values, ref int index)
+        {
+            if(Value != null && values[0].Equals(SerializationConstants.EmptyColumn))
+            {
+                SetValue(null);
+                return;
+            }
+            
+            if(Value == null && !values[0].Equals(SerializationConstants.EmptyColumn))
+            {
+                CreateDefaultValue();
+            }
+            
+            DeserializeSubItem(values, ref index);
+        }
+
+        protected override void DeserializeWithoutModifying(string[]values, ref int index)
+        {
+            DeserializeSubItem(values, ref index);
+        }
+
+        private void DeserializeSubItem(string[] values, ref int index)
+        {
+            foreach (var descendant in this.GetImmediateDescendants())
+            {
+                if (index >= values.Length)
+                {
+                    if(SerializationConstants.ModifySubTables)
+                        break;
+                    index = 0;
+                }
+                
+                DeserializeCell(values, ref index, descendant);
+            }
+        }
     }
 }

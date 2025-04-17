@@ -1,9 +1,10 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
 namespace TableForge
 {
-    [System.Serializable]
+    [Serializable]
     internal class SerializableCurve
     {
         public SerializableKeyframe[] keys;
@@ -12,6 +13,14 @@ namespace TableForge
 
         public SerializableCurve(AnimationCurve curve)
         {
+            if (curve == null)
+            {
+                keys = Array.Empty<SerializableKeyframe>();
+                preWrapMode = WrapMode.Default;
+                postWrapMode = WrapMode.Default;
+                return;
+            }
+            
             keys = curve.keys.Select(x => new SerializableKeyframe(x)).ToArray();
             preWrapMode = curve.preWrapMode;
             postWrapMode = curve.postWrapMode;
@@ -29,7 +38,7 @@ namespace TableForge
         }
     }
     
-    [System.Serializable]
+    [Serializable]
     internal struct SerializableKeyframe
     {
         public float time;

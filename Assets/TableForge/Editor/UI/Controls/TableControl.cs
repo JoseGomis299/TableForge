@@ -148,11 +148,14 @@ namespace TableForge.UI
         /// <summary>
         /// Updates the data of the visible rows.
         /// </summary>
-        public void Update()
+        public void Update(bool rebuildRows = false)
         {
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
-               rowHeader.Refresh();
+                if(rebuildRows)
+                    rowHeader.RowControl.Refresh(rowHeader.RowControl.Anchor);
+                else
+                   rowHeader.Refresh();
             }
         }
         

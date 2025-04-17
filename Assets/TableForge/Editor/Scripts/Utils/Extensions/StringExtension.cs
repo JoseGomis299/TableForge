@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -99,6 +101,32 @@ namespace TableForge
             }
 
             return segments;
+        }
+        
+        
+        /// <summary>
+        ///  Splits a string into a list of strings based on a specified separator, but only up to a given limit.
+        /// </summary>
+        public static List<string> SplitUntil(this string input, string separator, int limit, out string remaining)
+        {
+            var parts = input.Split(new[] { separator }, StringSplitOptions.None);
+            var result = new List<string>();
+            remaining = string.Empty;
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if (i < limit)
+                {
+                    result.Add(parts[i]);
+                }
+                else
+                {
+                    remaining = string.Join(separator, parts.Skip(i));
+                    break;
+                }
+            }
+
+            return result;
         }
 
     }

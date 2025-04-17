@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace TableForge
 {
@@ -9,7 +10,7 @@ namespace TableForge
     /// </summary>
     [CellType(TypeMatchMode.Assignable, typeof(IList))]
     [CellType(TypeMatchMode.GenericArgument,typeof(IList<>))]
-    internal class ListCell : SubTableCell, ICollectionCell
+    internal class ListCell : CollectionCell
     {
         public ListCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
@@ -61,7 +62,7 @@ namespace TableForge
                 SubTable = TableGenerator.GenerateTable(rowsData, $"{Column.Table.Name}.{Column.Name}", this);
         }
 
-        public void AddItem(object item)
+        public override void AddItem(object item)
         {
             Type itemType = Type.IsArray ? Type.GetElementType() : Type.GetGenericArguments()[0];
             if(!itemType.IsAssignableFrom(item.GetType()))
@@ -86,7 +87,7 @@ namespace TableForge
             }
         }
 
-        public void AddEmptyItem()
+        public override void AddEmptyItem()
         {
             Type itemType = Type.IsArray ? Type.GetElementType() : Type.GetGenericArguments()[0];
             object item = ((IList)Value).Count == 0 ? itemType.CreateInstanceWithDefaults() : ((IList)Value)[^1].CreateShallowCopy();
@@ -110,7 +111,7 @@ namespace TableForge
             }
         }
 
-        public void RemoveItem(int position)
+        public override void RemoveItem(int position)
         {
             if(position < 1 || position > ((IList)Value).Count)
                 throw new IndexOutOfRangeException($"Index {position} is out of range for list of length {((IList)Value).Count}");
@@ -137,6 +138,16 @@ namespace TableForge
                 
                 list.RemoveAt(position - 1);
             }
+        }
+
+        protected override string SerializeSubTable()
+        {
+            StringBuilder serializedData = new StringBuilder();
+            serializedData
+                .Append(SerializationConstants.ArrayStart)
+                .Append(base.SerializeSubTable());
+
+            return serializedData.ToString();
         }
     }
 }

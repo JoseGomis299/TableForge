@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace TableForge
 {
@@ -7,7 +10,7 @@ namespace TableForge
     /// Cell for dictionaries, which will create a subtable where each key-value pair is a row.
     /// </summary>
     [CellType(TypeMatchMode.Assignable,typeof(IDictionary))]
-    internal class DictionaryCell : SubTableCell, ICollectionCell
+    internal class DictionaryCell : CollectionCell
     {
         public DictionaryCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
@@ -41,7 +44,7 @@ namespace TableForge
                 SubTable = TableGenerator.GenerateTable(rowsData, $"{Column.Table.Name}.{Column.Name}", this);
         }
 
-        public void AddItem(object key)
+        public override void AddItem(object key)
         {
             if(Value == null ||key == null || !Type.GenericTypeArguments[0].IsAssignableFrom(key.GetType()))
                 return;
@@ -54,18 +57,61 @@ namespace TableForge
             TableGenerator.GenerateRow(SubTable, item);
         }
 
-        public void AddEmptyItem()
+        public override void AddEmptyItem()
         {
-            throw new System.NotSupportedException("Cannot add items to a dictionary without a key. Use AddItem(object key) instead.");
+            throw new NotSupportedException("Cannot add items to a dictionary without a key. Use AddItem(object key) instead.");
         }
 
-        public void RemoveItem(int position)
+        public override void RemoveItem(int position)
         {
             if(Value == null || position < 1 || position > SubTable.Rows.Count)
                 return;
             
             var key = SubTable.Rows[position].Cells[1].GetValue();
             ((IDictionary)Value).Remove(key);
+        }
+
+        protected override string SerializeSubTable()
+        {
+            StringBuilder serializedData = new StringBuilder();
+            serializedData
+                .Append(SerializationConstants.DictionaryKeysStart)
+                .Append(SerializeCollection(this.GetKeys()))
+                .Append(SerializationConstants.DictionaryValuesStart)
+                .Append(SerializeCollection(this.GetValues()));
+            
+            return serializedData.ToString();
+        }
+        
+        public override void Deserialize(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                return;
+            }
+
+            int index = 0;
+            int valuesIndex = data.IndexOf(SerializationConstants.DictionaryValuesStart, StringComparison.Ordinal);
+            string keysString = data.Substring(0, valuesIndex);
+            string valuesString = data.Substring(valuesIndex);
+        
+            List<string> keys = keysString.SplitByLevel(0, SerializationConstants.CollectionItemStart, SerializationConstants.CollectionItemEnd).ToList();
+            List<string> values = valuesString.SplitByLevel(0, SerializationConstants.CollectionItemStart, SerializationConstants.CollectionItemEnd).ToList();
+
+            //Merge the keys and values into a single collection
+            List<string> collectionData = new List<string>();
+            for (int i = 0; i < keys.Count; i++)
+            {
+                collectionData.AddRange(keys[i].Split(SerializationConstants.CollectionSubItemSeparator));
+                collectionData.AddRange(values[i].Split(SerializationConstants.CollectionSubItemSeparator));
+            }
+            
+            DeserializeSubTable(collectionData.ToArray(), ref index);
+        }
+
+        protected override void DeserializeModifying(string[] values, ref int index)
+        {
+            DeserializeWithoutModifying(values, ref index);
         }
     }
 }

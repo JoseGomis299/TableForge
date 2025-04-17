@@ -14,8 +14,8 @@ namespace TableForge
         public SerializableObject(string guid, string path, Object obj)
         {
             this.guid = guid;
-            this.name = obj.name;
-            this.instanceID = obj.GetInstanceID();
+            name = obj.name;
+            instanceID = obj.GetInstanceID();
         }
         
         public Object ToObject()

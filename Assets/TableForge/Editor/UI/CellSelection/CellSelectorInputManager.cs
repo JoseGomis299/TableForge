@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Debug = UnityEngine.Debug;
 
 namespace TableForge.UI
 {
@@ -268,7 +266,7 @@ namespace TableForge.UI
                 return;
             
             CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl.Metadata);
-            _tableControl.Update();
+            _tableControl.Update(true);
         }
         
         private void ProcessCutKey()

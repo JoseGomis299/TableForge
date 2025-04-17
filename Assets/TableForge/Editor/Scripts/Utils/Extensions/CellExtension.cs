@@ -58,7 +58,49 @@ namespace TableForge
                 }
             }
         }
+
+        /// <summary>
+        /// Retrieves the count of all descendants of a cell in the table hierarchy.
+        /// </summary>
+        /// <param name="cell">The parent cell</param>
+        /// <param name="countNulls">Whether the count should include null subTable columns</param>
+        /// <param name="countSubTables">Whether subTable cells should be counted or just its content</param>
+        /// <returns></returns>
+        public static int GetDescendantCount(this SubTableCell cell, bool countNulls, bool countSubTables)
+        {
+            int count = 0;
+            
+            if(cell.SubTable.Rows.Count == 0)
+            {
+                return !countNulls ? 0 : cell.GetSubTableColumnCount(true);
+            }
+            
+            foreach (var row in cell.SubTable.OrderedRows)
+            {
+                foreach (var descendantCell in row.OrderedCells)
+                {
+                    if (descendantCell is SubTableCell subTableCellDescendant and not ICollectionCell)
+                    {
+                        if (subTableCellDescendant.SubTable.Rows.Count == 0)
+                        {
+                            if(!countNulls) continue;
+                            count += subTableCellDescendant.GetSubTableColumnCount(true);
+                        }
+                        else count += subTableCellDescendant.GetDescendantCount(countNulls, countSubTables);
+
+                        if (countSubTables) count++;
+                    }
+                    else count++;
+                    
+                }
+            }
+            
+            return count;
+        }
         
+        /// <summary>
+        /// Retrieves the immediate descendants of a cell in the table hierarchy.
+        /// </summary>
         public static IEnumerable<Cell> GetImmediateDescendants(this Cell cell)
         {
             if (cell is SubTableCell subTableCell)
@@ -242,7 +284,5 @@ namespace TableForge
 
             return values;
         }
-        
-        
     }
 }

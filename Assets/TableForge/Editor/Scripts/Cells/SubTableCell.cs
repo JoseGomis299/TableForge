@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace TableForge
 {
     /// <summary>
@@ -38,13 +40,75 @@ namespace TableForge
         
         public override string Serialize()
         {
-            return string.Empty;
+            if (SubTable.Rows.Count == 0)
+            {
+                string emptyTable = "";
+                for (int i = 0; i < this.GetSubTableColumnCount(); i++)
+                {
+                    emptyTable += SerializationConstants.EmptyColumn;
+                    emptyTable += SerializationConstants.ColumnSeparator;
+                }
+                emptyTable += SerializationConstants.EmptyColumn;
+                return emptyTable;
+            }
+            
+            StringBuilder serializedData = new StringBuilder();
+            foreach (var descendant in this.GetImmediateDescendants())
+            {
+                serializedData.Append(descendant.Serialize()).Append(SerializationConstants.ColumnSeparator);
+            }
+            
+            // Remove the last column separator
+            if (serializedData.Length > 0)
+            {
+                serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+            }
+            
+            return serializedData.ToString();
         }
 
         public override void Deserialize(string data)
         {
+            if (string.IsNullOrEmpty(data))
+            {
+                return;
+            }
+
+            string[] values = data.Split(SerializationConstants.ColumnSeparator);
+            int index = 0;
+            
+            DeserializeSubTable(values, ref index);
         }
 
+        public void DeserializeSubTable(string[]values, ref int index)
+        {
+            if(Value == null && values[0].Equals(SerializationConstants.EmptyColumn))
+            {
+                index += SubTable.Columns.Count;
+                return;
+            }
+            
+            if(SerializationConstants.ModifySubTables) DeserializeModifying(values, ref index);
+            else DeserializeWithoutModifying(values, ref index);
+        }
+
+        protected abstract void DeserializeModifying(string[] values, ref int index);
+        protected abstract void DeserializeWithoutModifying(string[] values, ref int index);
+        
+        protected static void DeserializeCell(string[] values, ref int index, Cell cell)
+        {
+            if(cell is SubTableCell subTableCell and not ICollectionCell)
+            {
+                subTableCell.DeserializeSubTable(values, ref index);
+            }
+            else
+            {
+                string value = values[index].Replace(SerializationConstants.EmptyColumn, string.Empty);
+                cell.Deserialize(value);
+                index++;
+            }
+        }
+        
         #endregion
         
         #region Protected Methods

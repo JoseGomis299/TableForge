@@ -1,9 +1,10 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
 namespace TableForge
 {
-    [System.Serializable]
+    [Serializable]
     internal class SerializableGradient
     {
         public SerializableColorKey[] colorKeys;
@@ -12,6 +13,14 @@ namespace TableForge
 
         public SerializableGradient(Gradient gradient)
         {
+            if (gradient == null)
+            {
+                colorKeys = Array.Empty<SerializableColorKey>();
+                alphaKeys = Array.Empty<SerializableAlphaKey>();
+                mode = GradientMode.Blend;
+                return;
+            }
+            
             colorKeys = gradient.colorKeys.Select(x => new SerializableColorKey(x)).ToArray();
             alphaKeys = gradient.alphaKeys.Select(x => new SerializableAlphaKey(x)).ToArray();
             mode = gradient.mode;
@@ -31,7 +40,7 @@ namespace TableForge
         }
     }
     
-    [System.Serializable]
+    [Serializable]
     internal struct SerializableAlphaKey
     {
         public float time;
@@ -49,7 +58,7 @@ namespace TableForge
         }
     }
     
-    [System.Serializable]
+    [Serializable]
     internal struct SerializableColorKey
     {
         public float time;
