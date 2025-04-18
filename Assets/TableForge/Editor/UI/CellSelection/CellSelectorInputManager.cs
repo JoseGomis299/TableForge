@@ -265,7 +265,13 @@ namespace TableForge.UI
             if (_selector.FocusedCell == null)
                 return;
             
-            CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl.Metadata);
+            (Cell first, Cell last) = CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl.Metadata);
+            if (first != null && last != null)
+            {
+                _selector.ClearSelection();
+                _selector.SelectRange(first, last);
+            }
+            
             _tableControl.Update(true);
         }
         

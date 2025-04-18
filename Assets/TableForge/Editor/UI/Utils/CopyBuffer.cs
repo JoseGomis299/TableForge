@@ -1,53 +1,83 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace TableForge.UI
 {
     internal static class CopyBuffer
     {
-        #region Fields
-
-        private static readonly CellNavigator _cellNavigator = new();
-        
-       
-        #endregion
-
         #region Public Methods
 
-        public static void Paste(List<Cell> pasteTo, TableMetadata tableMetadata)
+        public static (Cell firstCell, Cell lastCell) Paste(List<Cell> pasteTo, TableMetadata tableMetadata)
         {
-            if (pasteTo == null || pasteTo.Count == 0) return;
+            if (pasteTo == null || pasteTo.Count == 0) return (null, null);
             string buffer = ClipboardUtility.PasteFromClipboard();
 
-            _cellNavigator.SetNavigationSpace(pasteTo, tableMetadata, null);
-            List<Cell> cells = FilterCells(_cellNavigator.Cells);
+            ConfinedSpaceNavigator confinedNavigator = new ConfinedSpaceNavigator(pasteTo, tableMetadata, null);
+            List<Cell> cells = FilterCells(confinedNavigator.Cells);
+            FreeSpaceNavigator navigator = new FreeSpaceNavigator(tableMetadata, cells[0]);
+
+            int cellCount = 0;
+            foreach (var cell in cells)
+            {
+                if (cell is SubTableCell subTableCell and not ICollectionCell)
+                {
+                    cellCount += subTableCell.GetDescendantCount(true, false);
+                }
+                else cellCount++;
+            }
 
             List<string> splitBuffer = new List<string>();
+            List<List<string>> rowSplitBuffer = new List<List<string>>();
             string[] rows = buffer.Split(SerializationConstants.RowSeparator);
             foreach (string row in rows)
             {
-                splitBuffer.AddRange(row.Split(SerializationConstants.ColumnSeparator));
+                string[] splitRow = row.Split(SerializationConstants.ColumnSeparator);
+                splitBuffer.AddRange(splitRow);
+
+                List<string> rowBuffer = new List<string>();
+                rowBuffer.AddRange(splitRow);
+                rowSplitBuffer.Add(rowBuffer);
+            }
+
+            Debug.Log($"Cell count: {cellCount}, Buffer count: {splitBuffer.Count}");
+            if (cellCount >= splitBuffer.Count || splitBuffer.Count > 1000)
+                Paste(cells, splitBuffer);
+            else
+            {
+                Paste(navigator, rowSplitBuffer);
+                return (cells[0], navigator.GetCurrentCell());
             }
             
-            Paste(cells, splitBuffer, 0);
+            return (cells[0], cells[^1]);
         }
 
         public static void Copy(List<Cell> cellsToCopy, TableMetadata tableMetadata)
         {
             if (cellsToCopy == null || cellsToCopy.Count == 0) return;
-            _cellNavigator.SetNavigationSpace(cellsToCopy, tableMetadata, null);
-            List<Cell> cells = FilterCells(_cellNavigator.Cells);
+            
+            ConfinedSpaceNavigator navigator = new ConfinedSpaceNavigator(cellsToCopy, tableMetadata, null);
+            List<Cell> cells = FilterCells(navigator.Cells);
             
             StringBuilder buffer = new();
             for (int i = 0; i < cells.Count; i++)
             {
                 var cell = cells[i];
-                if (i > 0 && cell.GetNearestCommonRow(cells[i - 1]) != null)
+                if (i > 0)
                 {
-                    if (buffer.ToString().EndsWith(SerializationConstants.ColumnSeparator))
-                        buffer.Length -= SerializationConstants.ColumnSeparator.Length;
-                    buffer.Append(SerializationConstants.RowSeparator);
+                    Table commonTable = cell.GetNearestCommonTable(cells[i - 1], out var cell1Ancestor, out var cell2Ancestor);
+                    bool isTransposed = !commonTable.IsSubTable && tableMetadata.IsTransposed;
+                    bool isSameRow = isTransposed
+                        ? cell1Ancestor.Column == cell2Ancestor.Column
+                        : cell1Ancestor.Row == cell2Ancestor.Row;
+
+                    if (!isSameRow)
+                    {
+                        if (buffer.ToString().EndsWith(SerializationConstants.ColumnSeparator))
+                            buffer.Length -= SerializationConstants.ColumnSeparator.Length;
+                        buffer.Append(SerializationConstants.RowSeparator);
+                    }
                 }
 
                 string formattedValue = cell.Serialize();
@@ -68,8 +98,9 @@ namespace TableForge.UI
 
         #region Private Methods
 
-        private static void Paste(IList<Cell> cells, IList<string> buffer, int bufferIndex)
+        private static void Paste(IList<Cell> cells,  List<string> buffer)
         {
+            int bufferIndex = 0;
             foreach (var cell in cells)
             {
                 string data = buffer[bufferIndex];
@@ -92,11 +123,10 @@ namespace TableForge.UI
                     }
                     
                     subTableCell.TryDeserialize(serializedData.ToString());
-                    bufferIndex += count;
+                    bufferIndex = (bufferIndex + count) % buffer.Count;
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(data)) continue;
                     if (cell is StringCell)
                         data = data
                             .Replace(SerializationConstants.CancelledRowSeparator, SerializationConstants.RowSeparator)
@@ -108,6 +138,75 @@ namespace TableForge.UI
             }
         }
 
+        private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer)
+        {
+            int bufferIndex = 0;
+            int cellIndex = 0;
+            Cell currentCell = navigator.GetCurrentCell();
+            
+            while (bufferIndex < buffer.Count)
+            {
+                if (currentCell == null) break;
+                string data = buffer[bufferIndex][cellIndex];
+
+                if(currentCell is SubTableCell subTableCell and not ICollectionCell && data != SerializationConstants.EmptyColumn)
+                {
+                    //Get the corresponding cells for this subTable
+                    StringBuilder serializedData = new StringBuilder();
+                    int count = 0;
+                    for (int i = cellIndex; i < buffer[bufferIndex].Count && i < cellIndex + subTableCell.GetDescendantCount(true, false); i++)
+                    {
+                        serializedData.Append(buffer[bufferIndex][i]).Append(SerializationConstants.ColumnSeparator);
+                        count++;
+                    }
+                        
+                    // Remove the last column separator
+                    if (serializedData.Length > 0)
+                    {
+                        serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+                    }
+                        
+                    bool subTableWasEmpty = subTableCell.SubTable.Rows.Count == 0;
+                    subTableCell.TryDeserialize(serializedData.ToString());
+                    
+                    if(subTableWasEmpty) navigator.GetNextCell(0);
+                    for (int i = 0; i < count - 1; i++)
+                    {
+                        navigator.GetNextCell(1);
+                    }
+
+                    cellIndex += count;
+                    while (cellIndex > buffer[bufferIndex].Count)
+                    {
+                        cellIndex -= buffer[bufferIndex].Count;
+                        bufferIndex++;
+                        if (bufferIndex >= buffer.Count) break;
+                    }
+                }
+                else if (data != SerializationConstants.EmptyColumn)
+                {
+                    if (currentCell is StringCell)
+                        data = data
+                            .Replace(SerializationConstants.CancelledRowSeparator, SerializationConstants.RowSeparator)
+                            .Replace(SerializationConstants.CancelledColumnSeparator,
+                                SerializationConstants.ColumnSeparator);
+
+                    currentCell.TryDeserialize(data);
+                    cellIndex++;
+                }
+                
+                if(cellIndex >= buffer[bufferIndex].Count)
+                {
+                    cellIndex = 0;
+                    bufferIndex++;
+                    if (bufferIndex >= buffer.Count) break;
+                    
+                    currentCell = navigator.GetCellAtNextRow(1);
+                }
+                else currentCell = navigator.GetNextCell(1);
+            }
+        }
+        
         private static List<Cell> FilterCells(IEnumerable<Cell> cells)
         {
             List<Cell> filteredCells = new();

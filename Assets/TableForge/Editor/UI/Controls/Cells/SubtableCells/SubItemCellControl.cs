@@ -4,9 +4,38 @@ namespace TableForge.UI
     [SubTableCellControlUsage(TableType.DynamicIfEmpty, TableReorderMode.ExplicitReorder, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
     internal class SubItemCellControl : ExpandableSubTableCellControl
     {
+        private NullItemAddRowControl _nullItemAddRow;
+        
         public SubItemCellControl(SubItemCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-           
+        }
+
+        public override void ClearSubTable()
+        {
+            base.ClearSubTable();
+            
+            if(Cell.Table.Rows.Count != 0 && _nullItemAddRow != null)
+            {
+                _nullItemAddRow.RemoveFromHierarchy();
+                _nullItemAddRow = null;
+            }
+        }
+
+        public override void Refresh(Cell cell, TableControl tableControl)
+        {
+            base.Refresh(cell, tableControl);
+            
+            if(IsSubTableInitialized && ((SubTableCell)Cell).SubTable.Rows.Count == 0 && _nullItemAddRow == null)
+            {
+                _nullItemAddRow = new NullItemAddRowControl(SubTableControl);
+                _nullItemAddRow.OnRowAdded += () =>
+                {
+                    RecalculateSizeWithCurrentValues();
+                    TableControl.VerticalResizer.ResizeCell(this);
+                };
+                
+                ContentContainer.Add(_nullItemAddRow);
+            }
         }
 
         protected override void BuildSubTable()
@@ -19,17 +48,17 @@ namespace TableForge.UI
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             SubTableControl.ScrollView.SetScrollbarsVisibility(false);
             ContentContainer.Add(SubTableControl);
-
-            if (Cell.GetValue() == null)
+            
+            if(((SubTableCell)Cell).SubTable.Rows.Count == 0 && _nullItemAddRow == null)
             {
-                NullItemAddRowControl nullItemAddRow = new NullItemAddRowControl(SubTableControl);
-                nullItemAddRow.OnRowAdded += () =>
+                _nullItemAddRow = new NullItemAddRowControl(SubTableControl);
+                _nullItemAddRow.OnRowAdded += () =>
                 {
                     RecalculateSizeWithCurrentValues();
                     TableControl.VerticalResizer.ResizeCell(this);
                 };
                 
-                ContentContainer.Add(nullItemAddRow);
+                ContentContainer.Add(_nullItemAddRow);
             }
 
             SubTableControl.HorizontalResizer.OnManualResize += _ =>

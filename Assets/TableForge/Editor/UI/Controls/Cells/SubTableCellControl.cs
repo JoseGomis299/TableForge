@@ -13,15 +13,11 @@ namespace TableForge.UI
         {
             Cell = cell;
             ParentTableControl = tableControl;
+            
             OnRefresh = () =>
             {
                 if(SubTableControl == null) return;
                 SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
-                // int pos = 1;
-                // foreach (RowHeaderControl rowHeaderControl in SubTableControl.RowHeaders.Values)
-                // {
-                //     rowHeaderControl.Refresh(((SubTableCell)Cell).SubTable.Rows[pos++]);
-                // }
             }; 
         }
         
@@ -34,6 +30,11 @@ namespace TableForge.UI
             {
                 subTableCellControl.RecalculateSizeWithCurrentValues();
             }
+        }
+
+        public virtual void ClearSubTable()
+        {
+            SubTableControl?.ClearTable();
         }
     }
 }

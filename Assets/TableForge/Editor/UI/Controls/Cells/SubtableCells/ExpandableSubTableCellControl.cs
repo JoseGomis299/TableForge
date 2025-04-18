@@ -7,7 +7,7 @@ namespace TableForge.UI
     {
         protected VisualElement ContentContainer;
         protected Foldout HeaderFoldout;
-        protected bool HasSubTableInitialized;
+        protected bool IsSubTableInitialized;
         protected string FoldoutHeaderText ;
         
         public bool IsFoldoutOpen => HeaderFoldout.value;
@@ -28,7 +28,7 @@ namespace TableForge.UI
             HeaderFoldout.text = FoldoutHeaderText;
             
             bool isExpanded = TableControl.Metadata.IsTableExpanded(cell.Id);
-            if(isExpanded && !HasSubTableInitialized)
+            if(isExpanded && !IsSubTableInitialized)
             {
                 InitializeSubTable();
             }
@@ -70,7 +70,7 @@ namespace TableForge.UI
         private void InitializeSubTable()
         {
             BuildSubTable();
-            HasSubTableInitialized = true;
+            IsSubTableInitialized = true;
             IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
         }
 
@@ -79,7 +79,7 @@ namespace TableForge.UI
             ContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
             TableControl.Metadata.SetTableExpanded(Cell.Id, evt.newValue);
             
-            if (evt.newValue && !HasSubTableInitialized)
+            if (evt.newValue && !IsSubTableInitialized)
             {
                 InitializeSubTable();
             }

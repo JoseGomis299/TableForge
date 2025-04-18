@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace TableForge.UI
 {
-    internal class CellNavigator
+    internal class ConfinedSpaceNavigator : ICellNavigator
     {
         private readonly List<Cell> _cells = new();
         private int _currentIndex;
         
         public IReadOnlyList<Cell> Cells => _cells;
         
-        public void SetNavigationSpace(IReadOnlyList<Cell> cells, TableMetadata metadata, Cell focusedCell)
+        public ConfinedSpaceNavigator(IReadOnlyList<Cell> cells, TableMetadata metadata, Cell focusedCell)
         {
             if (cells == null || cells.Count == 0)
                 return;
@@ -84,27 +84,21 @@ namespace TableForge.UI
                     _currentIndex = 0;
             }
             else _currentIndex = 0;
-        
-            void AddCellsFromId(int id, Dictionary<int, List<Cell>> groups)
-            {
-                if (!groups.TryGetValue(id, out var group))
-                    return;
-
-                foreach (var cell in group)
-                {
-                    _cells.Add(cell);
-                    if (cell is SubTableCell subTableCell)
-                    {
-                        AddCellsFromId(subTableCell.Id, groups);
-                    }
-                }
-            }
         }
         
-        public void Clear()
+        private void AddCellsFromId(int id, Dictionary<int, List<Cell>> groups)
         {
-            _cells.Clear();
-            _currentIndex = 0;
+            if (!groups.TryGetValue(id, out var group))
+                return;
+
+            foreach (var cell in group)
+            {
+                _cells.Add(cell);
+                if (cell is SubTableCell subTableCell)
+                {
+                    AddCellsFromId(subTableCell.Id, groups);
+                }
+            }
         }
 
         public Cell GetNextCell(int orientation)
@@ -119,6 +113,14 @@ namespace TableForge.UI
             else if (_currentIndex < 0)
                 _currentIndex = _cells.Count - 1;
             
+            return _cells[_currentIndex];
+        }
+        
+        public Cell GetCurrentCell()
+        {
+            if (_cells == null || _cells.Count == 0)
+                return null;
+
             return _cells[_currentIndex];
         }
     }

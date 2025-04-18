@@ -19,15 +19,16 @@ namespace TableForge.UI
         private readonly HashSet<int> _selectedCellIds = new();
         private readonly HashSet<int> _selectedAnchorIds  = new();
         private CellSelectorInputManager _inputManager;
+        private ICellNavigator _cellNavigator;
 
         #endregion
 
         #region Properties
 
+        public ICellNavigator CellNavigator => _cellNavigator;
         public bool SelectionEnabled { get; set; }
         public HashSet<CellAnchor> SelectedAnchors => _selectedAnchors;
         public HashSet<Cell> SelectedCells => _selectedCells;
-        internal CellNavigator CellNavigator { get; } = new();
         internal TableControl TableControl => _tableControl;
 
         internal HashSet<Cell> CellsToDeselect
@@ -166,7 +167,7 @@ namespace TableForge.UI
             _cellsToDeselect.Clear();
             
             // Order the selection differently if table is transposed.
-            CellNavigator.SetNavigationSpace(_selectedCells.ToList(), _tableControl.Metadata, _focusedCell);
+            _cellNavigator = new ConfinedSpaceNavigator(_selectedCells.ToList(), _tableControl.Metadata, _focusedCell);
             OnSelectionChanged?.Invoke();
         }
 
@@ -188,6 +189,17 @@ namespace TableForge.UI
                 return;
             
             FocusedCell = cell;
+            ConfirmSelection();
+        }
+        
+        internal void SelectRange(Cell firstCell, Cell lastCell)
+        {
+            if (firstCell == null || lastCell == null)
+                return;
+
+            FocusedCell = firstCell;
+            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
+            strategy.Preselect(this, new List<Cell> { lastCell });
             ConfirmSelection();
         }
 
@@ -214,7 +226,6 @@ namespace TableForge.UI
         {
             _selectedCells.Clear();
             _cellsToDeselect.Clear();
-            CellNavigator.Clear();
             FocusedCell = null;
             ConfirmSelection();
         }

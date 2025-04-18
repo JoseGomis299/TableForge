@@ -192,14 +192,23 @@ namespace TableForge
         /// </summary>
         public static Row GetNearestCommonRow(this Cell cell1, Cell cell2)
         {
-            Table table = GetNearestCommonTable(cell1, cell2, out var cell1Ancestor, out var cell2Ancestor);
-            if (table == null)
-                return null;
-
-            if (cell1Ancestor.Row == cell2Ancestor.Row)
+            GetNearestCommonTable(cell1, cell2, out var cell1Ancestor, out var cell2Ancestor);
+            if (cell1Ancestor.Row != cell2Ancestor.Row)
                 return null;
 
             return cell1Ancestor.Row;
+        }
+        
+        /// <summary>
+        /// Gets the nearest column in the hierarchy that contains these cells or ancestors.
+        /// </summary>
+        public static Column GetNearestCommonColumn(this Cell cell1, Cell cell2)
+        {
+            GetNearestCommonTable(cell1, cell2, out var cell1Ancestor, out var cell2Ancestor);
+            if (cell1Ancestor.Column != cell2Ancestor.Column)
+                return null;
+
+            return cell1Ancestor.Column;
         }
         
         /// <summary>
