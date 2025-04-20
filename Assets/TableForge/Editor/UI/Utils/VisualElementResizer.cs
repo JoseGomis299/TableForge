@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,6 +7,8 @@ namespace TableForge.UI
 {
     internal static class VisualElementResizer
     {
+        private static readonly Dictionary<VisualElement, CheckSizeArguments> _checkSizeArguments = new();
+        
         public static void ChangeSize(VisualElement element, float width, float height, Action<GeometryChangedEvent> onSuccess)
         {
             width = Mathf.Round(width);
@@ -22,12 +25,32 @@ namespace TableForge.UI
                 return;
             }
             
-            element.UnregisterCallback<GeometryChangedEvent>(_ => CheckSize(element, targetSize, onSuccess));
-            element.RegisterCallback<GeometryChangedEvent>(_ => CheckSize(element, targetSize, onSuccess));
+            if (_checkSizeArguments.TryGetValue(element, out _))
+            {
+                element.UnregisterCallback<GeometryChangedEvent>(CheckSize);
+                _checkSizeArguments.Remove(element);
+            }
+            
+            _checkSizeArguments.Add(element, new CheckSizeArguments
+            {
+                Element = element,
+                TargetSize = targetSize,
+                OnSuccess = onSuccess
+            });
+            element.RegisterCallback<GeometryChangedEvent>(CheckSize);
             element.style.width = width;
             element.style.height = height;
-            
-            CheckSize(element, targetSize, onSuccess);
+        }
+        
+        private static void CheckSize(GeometryChangedEvent evt)
+        {
+            var element = evt.target as VisualElement;
+            if (element == null) return;
+
+            if (_checkSizeArguments.TryGetValue(element, out var args))
+            {
+                CheckSize(args.Element, args.TargetSize, args.OnSuccess);
+            }
         }
         
         private static void CheckSize(VisualElement element, Vector2 targetSize, Action<GeometryChangedEvent> onSuccess)
@@ -38,9 +61,16 @@ namespace TableForge.UI
 
             if (currentSize == targetSize)
             {
-                element.UnregisterCallback<GeometryChangedEvent>(_ => CheckSize(element, targetSize, onSuccess));
+                element.UnregisterCallback<GeometryChangedEvent>(CheckSize);
                 onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
             }
+        }
+        
+        private struct CheckSizeArguments
+        {
+            public VisualElement Element;
+            public Vector2 TargetSize;
+            public Action<GeometryChangedEvent> OnSuccess;
         }
     }
 }

@@ -67,7 +67,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 0
   charValue: 48
   intField: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   inheritorClassAsInnerClass2:
     rid: -2
   innerClasses: []
-  intArray: 1500000000000000
+  intArray: 150000000000000000000000
   vector2: {x: 0, y: 124}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}

@@ -28,10 +28,15 @@ namespace TableForge.UI
         public const string TableScrollViewContentTop = "table__scroll-view-content--top";
         public const string TableScrollViewContentBottom = "table__scroll-view-content--bottom";
         public const string Toolbar = "toolbar";
+        public const string SubTableContentContainer = "table__subtable-content-container";
         public const string SubTableContainer = "table__subtable-container";
         public const string AddRowButton = "add-row__button";
         public const string AddRowButtonLabel = "add-row__button__label";
         public const string CornerText = "table__corner__text";
         public const string TableScrollViewContent = "table__scroll-view-content";
+        public const string SubTableFoldout = "table__subtable__foldout";
+        public const string SubTableToolbarButton = "table__subtable-toolbar__button";
+        public const string SubTableToolbar = "table__subtable-toolbar";
+        public const string SubTableCellContent = "table__subtable-cell__content";
     }
 }

@@ -67,13 +67,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 0
-  charValue: 49
+  charValue: 0
   intField: 23245
-  floatField: 29
-  <PublicLongProperty>k__BackingField: 29
-  <PublicDoubleProperty>k__BackingField: 0
+  floatField: 23245
+  <PublicLongProperty>k__BackingField: 190
+  <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 343
     text: 156
@@ -107,8 +107,8 @@ MonoBehaviour:
     inheritorNumber: 343
     inheritorText: 1213
   inheritorClassAsInnerClass:
-    number: 0
-    text: 0
+    number: 343
+    text: 1213
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -119,7 +119,7 @@ MonoBehaviour:
       number: 0
       boolean: 1
   innerClass:
-    rid: 617020005463621700
+    rid: 4293495465320906833
   inheritorClassAsInnerClass2:
     rid: 617020005463621701
   innerClasses:
@@ -268,7 +268,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 617020005463621700
+    - rid: 617020005463621701
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
@@ -280,9 +280,9 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         structTest:
-          number: 13
+          number: 0
           boolean: 0
-    - rid: 617020005463621701
+    - rid: 4293495465320906833
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0

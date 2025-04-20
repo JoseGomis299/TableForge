@@ -1,3 +1,6 @@
+using UnityEngine;
+using UnityEngine.UIElements;
+
 namespace TableForge.UI
 {
     internal static class TableControlExtension
@@ -97,7 +100,95 @@ namespace TableForge.UI
             return CellControlFactory.GetCellControlFromId(cell.Id);
         }
         
+          public static void SetScrollbarsVisibility(this TableControl tableControl, bool show)
+        {
+            ScrollView scrollView = tableControl.ScrollView;
+            
+            if (show)
+            {
+                AdjustVerticalScroller(tableControl);
+                AdjustHorizontalScroller(tableControl);
+            }
+            else
+            {
+                scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+                scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
+            }
+        }
         
+        public static void SetVerticalScrollerMaxValue(this TableControl tableControl, float value)
+        {
+            ScrollView scrollView = tableControl.ScrollView;
+
+            scrollView.verticalScroller.highValue = value - scrollView.contentViewport.resolvedStyle.height;
+            scrollView.verticalScroller.value = Mathf.Min(value, scrollView.verticalScroller.value);
+            
+            AdjustVerticalScroller(tableControl);
+        }
+
+        public static void AdjustVerticalScroller(this TableControl tableControl)
+        {
+            ScrollView scrollView = tableControl.ScrollView;
+            int maxDiff = 0;
+            if (tableControl.Parent != null)
+                maxDiff = ToolbarData.SubTableMinScrollDiff;
+            
+            float viewportHeight = scrollView.contentViewport.resolvedStyle.height;
+            if(scrollView.horizontalScroller.visible && scrollView.horizontalScrollerVisibility != ScrollerVisibility.Hidden)
+                viewportHeight += scrollView.horizontalScroller.resolvedStyle.height;
+            
+            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.height - scrollView.contentViewport.resolvedStyle.height);
+            float scrollerFactor = viewportHeight / scrollView.contentContainer.resolvedStyle.height;
+            if (pixelDifference < maxDiff)
+            {
+                scrollView.verticalScroller.Adjust(1);
+                scrollView.verticalScroller.visible = false;
+                scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
+                scrollView.verticalScroller.style.display = DisplayStyle.None;
+            }
+            else 
+            {
+                scrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+                scrollView.verticalScroller.visible = true;
+                scrollView.verticalScroller.Adjust(scrollerFactor);
+                scrollView.verticalScroller.style.display = DisplayStyle.Flex;
+            }
+        }
+
+        public static void SetHorizontalScrollerMaxValue(this TableControl tableControl, float value)
+        {
+            ScrollView scrollView = tableControl.ScrollView;
+
+            scrollView.horizontalScroller.highValue = value - scrollView.contentViewport.resolvedStyle.width;
+            scrollView.horizontalScroller.value = Mathf.Min(value, scrollView.horizontalScroller.value);
+            
+            AdjustHorizontalScroller(tableControl);
+        }
+
+        public static void AdjustHorizontalScroller(this TableControl tableControl)
+        {
+            ScrollView scrollView = tableControl.ScrollView;
+            int maxDiff = 0;
+            if (tableControl.Parent != null)
+                maxDiff = ToolbarData.SubTableMinScrollDiff;
+
+            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.width - scrollView.contentViewport.resolvedStyle.width);
+            float scrollerFactor = scrollView.contentViewport.resolvedStyle.width / scrollView.contentContainer.resolvedStyle.width;
+            if (pixelDifference < maxDiff)
+            {
+                scrollView.horizontalScroller.Adjust(1);
+                scrollView.horizontalScroller.visible = false;
+                scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+                scrollView.horizontalScroller.style.display = DisplayStyle.None;
+            }
+            else 
+            {
+                scrollView.horizontalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+                scrollView.horizontalScroller.visible = true;
+                scrollView.horizontalScroller.Adjust(scrollerFactor);
+                scrollView.horizontalScroller.style.display = DisplayStyle.Flex;
+            }
+        }
         
     }
 }

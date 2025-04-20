@@ -26,6 +26,7 @@ namespace TableForge.UI
         
         //The headers that are currently being targeted for resizing
         protected readonly Dictionary<int, HeaderControl> ResizingHeaders = new Dictionary<int, HeaderControl>();
+        protected readonly HashSet<int> ExcludedFromManualResizing = new HashSet<int>();
         
         //The header that is currently being resized
         protected HeaderControl ResizingHeader;
@@ -84,19 +85,24 @@ namespace TableForge.UI
             return delta;
         }
 
-        public void HandleResize(HeaderControl target)
+        public void HandleResize(HeaderControl target, bool excludeFromManualResizing = false)
         {
             ResizingHeaders.Add(target.Id, target);
+            
+            if(excludeFromManualResizing) 
+                ExcludedFromManualResizing.Add(target.Id);
         }
         
         public void Dispose(HeaderControl target)
         {
             ResizingHeaders.Remove(target.Id);
+            ExcludedFromManualResizing.Remove(target.Id);
         }
         
         public void Clear()
         {
             ResizingHeaders.Clear();
+            ExcludedFromManualResizing.Clear();
         }
         
         protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize)
@@ -155,7 +161,11 @@ namespace TableForge.UI
                     
                     TableControl.Metadata.SetAnchorSize(anchorId, sizeToStore);
                 }
-
+                
+                if(target.TableControl.Parent != null)
+                {
+                    target.TableControl.Parent.TableControl.Resizer.ResizeCell(target.TableControl.Parent);
+                }
                 OnResize?.Invoke(delta);
             }
         }
@@ -173,7 +183,10 @@ namespace TableForge.UI
         
         private void StartResize(PointerDownEvent downEvent)
         {
-            if (ResizingHeader == null || downEvent.button != 0 || TableControl is { enabledInHierarchy: false }) return;
+            if (ResizingHeader == null 
+                || ExcludedFromManualResizing.Contains(ResizingHeader.Id) 
+                || downEvent.button != 0 || TableControl is { enabledInHierarchy: false })
+                return;
             
             IsResizing = true;
             var initialSize = new Vector2(ResizingHeader.resolvedStyle.width, ResizingHeader.resolvedStyle.height);

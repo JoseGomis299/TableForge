@@ -18,16 +18,19 @@ namespace TableForge.UI
         public static Color BorderColor { get; private set; }
         public static float CellWidth { get; private set; }
         public static float CellHeight { get; private set; }
+        public static float HeaderHeight { get; private set; }
         public static float FoldoutHeight { get; private set; }
         public static float CellContentPadding { get; private set; }
         public static float HeaderPadding { get; private set; }
         public static float BorderWidth { get; private set; }
         public static float ResizableBorderSpan { get; private set; }
+        public static float SubTableToolbarWidth { get; private set; }
+
 
         public const float BigCellPreferredWidth = 120;
         public const float SmallCellPreferredWidth = 50;
         public const float MinCellWidth = 20;
-        public const float MinCellHeight = 30;
+        public const float MinCellHeight = 25;
         
         public const float SnappingThreshold = 3.5f;
         public const float MoveSelectionStep = 7.5f;
@@ -35,7 +38,7 @@ namespace TableForge.UI
         public const float ScrollerWidth = 18;
         public const float ReferenceTypeExtraSpace = 32;
         public const float MaxRecommendedWidth = 800;
-        public const float MaxRecommendedHeight = 300;
+        public const float MaxRecommendedHeight = 200;
         public const float SmallHeaderPadding = 5;
 
         public static void InitializeStyles(VisualElement root)
@@ -56,12 +59,14 @@ namespace TableForge.UI
             // ResizableBorderSpan = evt.customStyle.TryGetValue(_resizableBorderSpan, out var span) ? span : 5;
 
             CellWidth = 100;
-            CellHeight = 20;
+            CellHeight = 25;
+            HeaderHeight = 20;
             HeaderPadding = 10;
             BorderWidth = 1;
             ResizableBorderSpan = 5;
-            CellContentPadding = 10;
-            FoldoutHeight = 20;
+            CellContentPadding = 6;
+            FoldoutHeight = 25;
+            SubTableToolbarWidth = 15;
 
             OnStylesInitialized?.Invoke();
         }

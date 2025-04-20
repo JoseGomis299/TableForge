@@ -67,7 +67,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 0
   charValue: 48
   intField: 0

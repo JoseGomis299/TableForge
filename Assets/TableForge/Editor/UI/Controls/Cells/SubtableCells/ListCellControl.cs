@@ -12,7 +12,7 @@ namespace TableForge.UI
         protected override void BuildSubTable()
         {
             SubTableControl = new TableControl(ParentTableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this);
-            SubTableControl.ScrollView.SetScrollbarsVisibility(false);
+            SubTableControl.SetScrollbarsVisibility(false);
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
 
             ListAddRowControl listAddRowControl = new ListAddRowControl(SubTableControl);
@@ -22,8 +22,8 @@ namespace TableForge.UI
                 TableControl.Resizer.ResizeCell(this);
             };
             
-            ContentContainer.Add(SubTableControl);
-            ContentContainer.Add(listAddRowControl);
+            SubTableContentContainer.Add(SubTableControl);
+            SubTableContentContainer.Add(listAddRowControl);
             
             SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {

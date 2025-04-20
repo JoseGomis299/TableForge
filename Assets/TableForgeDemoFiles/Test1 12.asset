@@ -58,7 +58,7 @@ MonoBehaviour:
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0
-    text: Ignore Raycast
+    text: a
     animationCurve:
       serializedVersion: 2
       m_Curve:

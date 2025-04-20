@@ -67,11 +67,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 0
   charValue: 0
   intField: 190
-  floatField: 29
+  floatField: 23245
   <PublicLongProperty>k__BackingField: 29
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -117,9 +117,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 1
+      boolean: 0
   innerClass:
-    rid: 617020005463621707
+    rid: 4293495465320906835
   inheritorClassAsInnerClass2:
     rid: 854089136813637703
   innerClasses: []
@@ -194,7 +194,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 617020005463621707
+    - rid: 854089136813637703
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
@@ -206,9 +206,9 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         structTest:
-          number: 13
+          number: 0
           boolean: 0
-    - rid: 854089136813637703
+    - rid: 4293495465320906835
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0

@@ -28,6 +28,8 @@ namespace TableForge.UI
 
                 if (downEvent.position.x >= leftBound && downEvent.position.x <= rightBound)
                 {
+                    if(ExcludedFromManualResizing.Contains(headerControl.Id)) return;
+
                     float delta = InstantResize(headerControl, false);
                     InvokeResize(headerControl, delta, true, false, Vector2.zero);
                     InvokeManualResize(headerControl, delta);
@@ -95,6 +97,7 @@ namespace TableForge.UI
 
             if(IsResizingArea(moveEvent.position, out var headerControl))
             {
+                if (ExcludedFromManualResizing.Contains(headerControl.Id)) return;
                 ResizingHeader = headerControl;
 
                 foreach (var header in ResizingHeaders.Values)

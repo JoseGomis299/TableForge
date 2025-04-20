@@ -49,7 +49,11 @@ namespace TableForge.UI
                     
                     if(ancestor is SubTableCellControl subTableCellControl)
                     {
-                        subTableCellControl.SubTableControl?.ScrollView.SetScrollbarsVisibility(true);
+                        subTableCellControl.SubTableControl?.SetScrollbarsVisibility(true);
+                        if (subTableCellControl is ExpandableSubTableCellControl expandableSubTableCellControl)
+                        {
+                            expandableSubTableCellControl.ShowToolbar(true, false);
+                        }
                     }
                 }
             }
@@ -72,7 +76,11 @@ namespace TableForge.UI
                     
                     if(ancestor is SubTableCellControl subTableCellControl)
                     {
-                        subTableCellControl.SubTableControl?.ScrollView.SetScrollbarsVisibility(false);
+                        subTableCellControl.SubTableControl?.SetScrollbarsVisibility(false);
+                        if (subTableCellControl is ExpandableSubTableCellControl expandableSubTableCellControl)
+                        {
+                            expandableSubTableCellControl.ShowToolbar(false, false);
+                        }
                     }
                 }
             }

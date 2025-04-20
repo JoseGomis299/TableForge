@@ -2,21 +2,28 @@
     --border-color: rgb(69, 69, 69);
     --dark-border-color: rgb(32, 32, 32);
     --background-color: rgb(56, 56, 56);
+    --header-background-color: rgb(53, 53, 53);
+    --background-color-dark: rgb(52, 52, 52);
     --resize-preview-color: rgba(255, 255, 255, 0.5);
     --selected-color: rgb(105, 105, 105);
     --selected-first-color: rgb(150, 150, 150);
     --selected-header-color: rgb(83, 83, 83);
     
     --cell-width: 100px;
-    --cell-height: 20px;
-    --foldout-height: 20px;
+    --cell-height: 25px;
+    --header-height: 20px;
+    --foldout-height: 25px;
     --cell-content-height: 20px;
-    --cell-content-padding: 5px;
+    --cell-content-padding: 3px;
     --header-padding: 5px;
     --border-width: 1px;
     --resizable-border-span: 5px;
     --resize-preview-width: 3px;
     --border-radius: 5px;
+    --subtable-toolbar-width: 15px;
+    
+    --foldout-open-image: url("./Assets/ClassicFoldoutArrow-Open.png");
+    --foldout-close-image: url("./Assets/ClassicFoldoutArrow-Close.png");
 }
 
 .fill {
@@ -40,7 +47,7 @@
 .table__corner {
     width: 100%;
     height: 100%;
-    background-color: var(--background-color);
+    background-color: var(--header-background-color);
     border-color: var(--border-color);
     border-right-width: var(--border-width);
     border-bottom-width: var(--border-width);
@@ -62,14 +69,14 @@
 
 .table__corner-container {
     width: auto;
-    height: var(--cell-height);
-    background-color: var(--background-color);
+    height: var(--header-height);
+    background-color: var(--header-background-color);
     border-color: var(--border-color);
 }
 
 .table__header-cell--vertical {
     width: 100%;
-    height: var(--cell-height);
+    height: var(--header-height);
     border-right-width: var(--border-width);
     border-bottom-width: var(--border-width);
 }
@@ -83,7 +90,7 @@
 
 .table__header-cell--vertical, .table__header-cell--horizontal {
     border-color: var(--border-color);
-    background-color: var(--background-color);
+    background-color: var(--header-background-color);
     padding: var(--header-padding);
     -unity-text-align: middle-center;
     align-items: stretch;
@@ -96,7 +103,7 @@
 }
 
 .table__header-container--horizontal {
-    height: var(--cell-height);
+    height: var(--header-height);
     flex-direction: row;
     flex-grow: 0;
     position: absolute;
@@ -165,10 +172,62 @@
     flex-shrink: 0;
 }
 
+.table__subtable-cell__content {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    flex-direction: row;
+}
+
 .table__subtable-container {
+    border-radius: var(--border-radius);
+    background-color: var(--background-color);
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.table__subtable-toolbar {
     border-width: var(--border-width);
     border-color: var(--dark-border-color);
     border-radius: var(--border-radius);
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right-width: 0;
+    background-color: var(--background-color-dark);
+    flex-direction: column;
+    overflow: hidden;
+    width: var(--subtable-toolbar-width);
+    height: var(--cell-height);
+}
+
+.table__subtable-toolbar__button {
+    width: 100%;
+    height: var(--cell-height);
+    background-color: var(--background-color-dark);
+    border-width: 0;
+    border-bottom-width: var(--border-width);
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+}
+
+.table__subtable-toolbar__foldout {
+    background-image: var(--foldout-open-image);
+    background-size: 60%;
+    background-position-y: center;
+    width: 100%;
+    height: 100%
+}
+
+.table__subtable-toolbar__button:enabled:hover {
+    cursor: link;
+    background-color: var(--selected-header-color);
+}
+
+.table__subtable-content-container {
+    border-width: var(--border-width);
+    border-color: var(--dark-border-color);
+    border-radius: var(--border-radius);
+    border-top-left-radius: 0;
     background-color: var(--background-color);
     overflow: hidden;
 }

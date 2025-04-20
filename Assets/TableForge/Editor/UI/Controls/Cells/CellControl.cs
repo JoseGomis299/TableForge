@@ -38,7 +38,7 @@ namespace TableForge.UI
         {
             TableControl = tableControl;
             Cell = cell;
-            
+
             AddToClassList(USSClasses.TableCell);
         }
         

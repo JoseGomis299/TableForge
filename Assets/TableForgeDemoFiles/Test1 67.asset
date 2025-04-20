@@ -89,8 +89,8 @@ MonoBehaviour:
     inheritorNumber: 32
     inheritorText: 23
   inheritorClassAsInnerClass:
-    number: 0
-    text: 
+    number: 32
+    text: '\Array: {1}, {21}'
     animationCurve:
       serializedVersion: 2
       m_Curve: []

@@ -76,7 +76,7 @@ MonoBehaviour:
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
-    text: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+    text: a
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -103,12 +103,12 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 124
-      boolean: 0
+      boolean: 1
     inheritorNumber: 343
     inheritorText: 
   inheritorClassAsInnerClass:
     number: 0
-    text: '{"colorKeys":[{"time":0.0,"color":{"r":0.7735849022865295,"g":0.7256150841712952,"b":0.29921671748161318,"a":1.0}},{"time":1.0,"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0}}],"alphaKeys":[{"time":0.0,"alpha":1.0},{"time":1.0,"alpha":1.0}],"mode":0}'
+    text: a
     animationCurve:
       serializedVersion: 2
       m_Curve: []

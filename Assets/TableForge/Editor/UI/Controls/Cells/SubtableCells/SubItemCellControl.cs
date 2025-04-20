@@ -34,7 +34,7 @@ namespace TableForge.UI
                     TableControl.VerticalResizer.ResizeCell(this);
                 };
                 
-                ContentContainer.Add(_nullItemAddRow);
+                SubTableContentContainer.Add(_nullItemAddRow);
             }
         }
 
@@ -46,8 +46,8 @@ namespace TableForge.UI
                 this
             );
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
-            SubTableControl.ScrollView.SetScrollbarsVisibility(false);
-            ContentContainer.Add(SubTableControl);
+            SubTableControl.SetScrollbarsVisibility(false);
+            SubTableContentContainer.Add(SubTableControl);
             
             if(((SubTableCell)Cell).SubTable.Rows.Count == 0 && _nullItemAddRow == null)
             {
@@ -58,7 +58,7 @@ namespace TableForge.UI
                     TableControl.VerticalResizer.ResizeCell(this);
                 };
                 
-                ContentContainer.Add(_nullItemAddRow);
+                SubTableContentContainer.Add(_nullItemAddRow);
             }
 
             SubTableControl.HorizontalResizer.OnManualResize += _ =>

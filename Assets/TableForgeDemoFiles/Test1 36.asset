@@ -53,7 +53,7 @@ MonoBehaviour:
   B: 0
   charValue: 0
   intField: 23
-  floatField: 0
+  floatField: 23
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:

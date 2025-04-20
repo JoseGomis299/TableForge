@@ -53,7 +53,7 @@ MonoBehaviour:
   B: 0
   charValue: 48
   intField: 32
-  floatField: 0
+  floatField: 32
   <PublicLongProperty>k__BackingField: 23
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -89,8 +89,8 @@ MonoBehaviour:
     inheritorNumber: 0
     inheritorText: 123
   inheritorClassAsInnerClass:
-    number: 0
-    text: 0
+    number: 32
+    text: '\Array: {1}, {21}'
     animationCurve:
       serializedVersion: 2
       m_Curve: []

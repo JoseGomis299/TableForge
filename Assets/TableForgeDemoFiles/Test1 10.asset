@@ -67,16 +67,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 0
   charValue: 48
   intField: 0
-  floatField: 156
+  floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
-    text: '{"name":"BorderResizer","path":"","guid":"5532989962c94fcd9d5260786d495011","instanceID":44492}'
+    text: a
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -105,10 +105,10 @@ MonoBehaviour:
       number: 124
       boolean: 1
     inheritorNumber: 343
-    inheritorText: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+    inheritorText: a
   inheritorClassAsInnerClass:
-    number: 29
-    text: 29
+    number: 0
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -116,10 +116,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 343
-      boolean: 1
+      number: 0
+      boolean: 0
   innerClass:
-    rid: 854088849389781076
+    rid: 4293495465320906841
   inheritorClassAsInnerClass2:
     rid: 854089000327315519
   innerClasses: []
@@ -197,38 +197,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 854088849389781076
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
-      data:
-        number: 343
-        text: 156
-        animationCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 2
-            outSlope: 2
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        structTest:
-          number: 124
-          boolean: 1
     - rid: 854089000327315519
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
@@ -243,3 +211,17 @@ MonoBehaviour:
         structTest:
           number: 0
           boolean: 1
+    - rid: 4293495465320906841
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 12
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,15 +7,20 @@ namespace TableForge.UI
     internal abstract class ExpandableSubTableCellControl : SubTableCellControl
     {
         protected VisualElement ContentContainer;
-        protected Foldout HeaderFoldout;
+        protected VisualElement SubTableContentContainer;
+        protected VisualElement SubTableToolbar;
         protected bool IsSubTableInitialized;
-        protected string FoldoutHeaderText ;
         
-        public bool IsFoldoutOpen => HeaderFoldout.value;
+        private Foldout _headerFoldout;
+        private string _foldoutHeaderText;
+        
+        private Button _collapseButton;
+        
+        public bool IsFoldoutOpen => _headerFoldout.value;
 
         protected ExpandableSubTableCellControl(SubTableCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            FoldoutHeaderText = cell.Column.Name;
+            _foldoutHeaderText = cell.Column.Name;
 
             CreateContainerStructure();
             InitializeFoldout();
@@ -24,47 +30,73 @@ namespace TableForge.UI
         {
             base.Refresh(cell, tableControl);
             
-            FoldoutHeaderText = cell.Column.Name;
-            HeaderFoldout.text = FoldoutHeaderText;
+            _foldoutHeaderText = cell.Column.Name;
+            _headerFoldout.text = _foldoutHeaderText;
             
             bool isExpanded = TableControl.Metadata.IsTableExpanded(cell.Id);
             if(isExpanded && !IsSubTableInitialized)
             {
                 InitializeSubTable();
             }
-            HeaderFoldout.value = isExpanded;
-            ContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
+
+            ShowToolbar(isExpanded, true);
+            ShowFoldout(!isExpanded);
+
+            _headerFoldout.value = isExpanded;
+            SubTableContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
         }
         
         public void OpenFoldout()
         {
-            HeaderFoldout.value = true;
+            _headerFoldout.value = true;
         }
         
         public void CloseFoldout()
         {
-            HeaderFoldout.value = false;
+            _headerFoldout.value = false;
         }
 
         private void CreateContainerStructure()
         {
-            HeaderFoldout = new Foldout { text = FoldoutHeaderText };
-            HeaderFoldout.AddToClassList("table__subtable__foldout");
+            _headerFoldout = new Foldout { text = _foldoutHeaderText };
+            _headerFoldout.AddToClassList(USSClasses.SubTableFoldout);
+            
+            _collapseButton = new Button();
+            _collapseButton.AddToClassList(USSClasses.SubTableToolbarButton);
+            var arrowElement = new VisualElement();
+            arrowElement.AddToClassList("table__subtable-toolbar__foldout");
+            _collapseButton.Add(arrowElement);
             
             ContentContainer = new VisualElement();
-            ContentContainer.AddToClassList(USSClasses.SubTableContainer);
+            ContentContainer.AddToClassList(USSClasses.SubTableCellContent);
+            
+            SubTableToolbar = new VisualElement();
+            SubTableToolbar.AddToClassList(USSClasses.SubTableToolbar);
+            
+            SubTableContentContainer = new VisualElement();
+            SubTableContentContainer.AddToClassList(USSClasses.SubTableContentContainer);
 
-            ContentContainer.style.display = DisplayStyle.None;
-
-            Add(HeaderFoldout);
+            SubTableContentContainer.style.display = DisplayStyle.None;
+            SubTableToolbar.style.display = DisplayStyle.None;
+            
+            Add(_headerFoldout);
             Add(ContentContainer);
+            ContentContainer.Add(SubTableToolbar);
+            ContentContainer.Add(SubTableContentContainer);
+            SubTableToolbar.Add(_collapseButton);
         }
 
         private void InitializeFoldout()
         {
-            HeaderFoldout.RegisterValueChangedCallback(OnFoldoutToggled);
-            HeaderFoldout.value = false;
-            HeaderFoldout.focusable = false;
+            _headerFoldout.RegisterValueChangedCallback(OnFoldoutToggled);
+            _headerFoldout.value = false;
+            _headerFoldout.focusable = false;
+            
+            _collapseButton.focusable = false;
+            _collapseButton.clicked += () =>
+            {
+                _headerFoldout.value = false;
+            };
         }
         
         private void InitializeSubTable()
@@ -76,7 +108,7 @@ namespace TableForge.UI
 
         private void OnFoldoutToggled(ChangeEvent<bool> evt)
         {
-            ContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            SubTableContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
             TableControl.Metadata.SetTableExpanded(Cell.Id, evt.newValue);
             
             if (evt.newValue && !IsSubTableInitialized)
@@ -89,6 +121,9 @@ namespace TableForge.UI
             TableControl.Resizer.ResizeCell(this);
             
             IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
+            
+            ShowToolbar(evt.newValue, true);
+            ShowFoldout(!evt.newValue);
         }
         
         protected abstract void BuildSubTable();
@@ -103,6 +138,31 @@ namespace TableForge.UI
             {
                 expandableSubTableCellControl.RecalculateSizeWithCurrentValues();
             }
+        }
+        
+        public void ShowToolbar(bool show, bool checkAncestors)
+        {
+            if(!_headerFoldout.value)
+            {
+                SubTableToolbar.style.display = DisplayStyle.None;
+                return;
+            }
+            
+            bool focused = !checkAncestors || Cell.GetAncestors(true).Any(x => TableControl.CellSelector.IsCellFocused(x));
+
+            if (show && focused)
+            {
+                SubTableToolbar.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                SubTableToolbar.style.display = DisplayStyle.None;
+            }
+        }
+        
+        private void ShowFoldout(bool show)
+        {
+            _headerFoldout.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }

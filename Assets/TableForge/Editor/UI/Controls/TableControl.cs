@@ -237,6 +237,13 @@ namespace TableForge.UI
             scrollView.AddToClassList(USSClasses.Fill);
             scrollView.contentContainer.AddToClassList(USSClasses.TableScrollViewContent);
             Add(scrollView);
+            
+            scrollView.contentViewport.RegisterCallback<GeometryChangedEvent>(_ =>
+            {
+                this.AdjustVerticalScroller();
+                this.AdjustHorizontalScroller();
+            });
+            
             return scrollView;
         }
 
@@ -275,11 +282,13 @@ namespace TableForge.UI
             SubscribeToResizingMethods();
             ResetScrollViewStoredSize();
             Resizer.ResizeAll(true);
+
+
         }
         
         private void ResetScrollViewStoredSize()
         {
-            _scrollViewHeight = UiConstants.CellHeight;
+            _scrollViewHeight = UiConstants.HeaderHeight;
             _scrollViewWidth = 0;
         }
 
@@ -590,7 +599,7 @@ namespace TableForge.UI
         {
             _scrollViewWidth += sizeDelta.x;
             _scrollViewHeight += sizeDelta.y;
-            _rowsContainer.style.height = _scrollViewHeight - UiConstants.CellHeight;
+            _rowsContainer.style.height = _scrollViewHeight - UiConstants.HeaderHeight;
 
             VisualElementResizer.ChangeSize(ScrollView.contentContainer, _scrollViewWidth, _scrollViewHeight, OnContentContainerResized);
         }
@@ -598,10 +607,10 @@ namespace TableForge.UI
         private void OnContentContainerResized(GeometryChangedEvent evt)
         {
             Vector2 delta = new Vector2(evt.newRect.size.x - evt.oldRect.size.x, evt.newRect.size.y - evt.oldRect.size.y);
-
+            
             //Adjust scrollers
-            ScrollView.SetHorizontalScrollerValue(_scrollViewWidth);
-            ScrollView.SetVerticalScrollerValue(_scrollViewHeight);
+            this.SetHorizontalScrollerMaxValue(_scrollViewWidth);
+            this.SetVerticalScrollerMaxValue(_scrollViewHeight);
 
             OnScrollviewSizeChanged?.Invoke(delta);
         }

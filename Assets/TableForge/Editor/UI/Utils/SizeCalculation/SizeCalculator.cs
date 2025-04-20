@@ -45,7 +45,7 @@ namespace TableForge.UI
             Vector2 size = Vector2.zero;
             if (tableControl.Parent is ExpandableSubTableCellControl { IsFoldoutOpen: false })
             {
-                size.y = 0;
+                size.y = UiConstants.FoldoutHeight;
                 size.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(tableControl.Parent.Cell.Column.Name)).x +
                          EditorStyles.foldoutHeaderIcon.fixedWidth;
             }
@@ -53,16 +53,15 @@ namespace TableForge.UI
             {
                 TableSize tableSize = tableControl.PreferredSize;
                 size = tableSize.GetTotalSize(true);
+                size.y += UiConstants.CellContentPadding + UiConstants.BorderWidth * 5;
                 
                 if (tableControl.Parent is ExpandableSubTableCellControl)
                 {
-                    size.y += UiConstants.FoldoutHeight;
+                    size.x += UiConstants.SubTableToolbarWidth;
                 }
-                
-                size.y += GetAddRowButtonHeight(tableControl.TableData, tableControl.TableAttributes);
             }
             
-            Vector2 clampedSize = GetClampedSize(size + Vector2.one * (UiConstants.CellContentPadding * 1.5f + UiConstants.BorderWidth));
+            Vector2 clampedSize = GetClampedSize(size + Vector2.right * UiConstants.CellContentPadding);
             return clampedSize;
         }
         
@@ -109,10 +108,10 @@ namespace TableForge.UI
                 : UiConstants.HeaderPadding;
             
             if (header == null)
-                return new Vector2(UiConstants.MinCellWidth, UiConstants.CellHeight + padding);
+                return new Vector2(UiConstants.MinCellWidth, UiConstants.HeaderHeight + padding);
             
             string headerName = NameResolver.ResolveHeaderName(header, visibility);
-            return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + padding, UiConstants.CellHeight + padding);
+            return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + padding, UiConstants.HeaderHeight);
         }
         
         private static float GetAddRowButtonHeight(Table table, TableAttributes tableAttributes)
@@ -130,7 +129,7 @@ namespace TableForge.UI
             if(width < UiConstants.SmallCellPreferredWidth)
                 width = UiConstants.SmallCellPreferredWidth;
             
-            return new Vector2(width + UiConstants.CellContentPadding, UiConstants.CellHeight + UiConstants.CellContentPadding);
+            return new Vector2(width + UiConstants.CellContentPadding, UiConstants.CellHeight);
         }
         
         private static Vector2 CalculateEnumAutoSize(Cell cell)
@@ -162,7 +161,7 @@ namespace TableForge.UI
         
         private static Vector2 CalculateSize(SubTableCell subTableCell, TableMetadata parentMetadata)
         {
-            float width = UiConstants.CellContentPadding * 1.5f, height = UiConstants.CellContentPadding + UiConstants.FoldoutHeight;
+            float width = UiConstants.CellContentPadding + UiConstants.BorderWidth * 4, height = UiConstants.BorderWidth * 4;
             Type cellControlType = CellStaticData.GetCellControlType(subTableCell.GetType()); 
             TableAttributes subTableAttributes = CellStaticData.GetSubTableCellAttributes(cellControlType);
             
@@ -172,11 +171,12 @@ namespace TableForge.UI
             {
                 var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
                 localSize = tableSize.GetTotalSize(false);
-                localSize.y += GetAddRowButtonHeight(subTableCell.SubTable, subTableAttributes);
+                localSize.x += UiConstants.SubTableToolbarWidth;
+                localSize.y += UiConstants.CellContentPadding;
             }
             else
             {
-                localSize.y = 0;
+                localSize.y = UiConstants.FoldoutHeight;
                 localSize.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(subTableCell.Column.Name)).x +
                               EditorStyles.foldoutHeaderIcon.fixedWidth;
             }

@@ -101,7 +101,7 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: 854089000327315523
+    rid: -2
   inheritorClassAsInnerClass2:
     rid: 854089074991693898
   innerClasses: []
@@ -162,20 +162,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 854089000327315523
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
-      data:
-        number: 124
-        text: '{}'
-        animationCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        structTest:
-          number: 0
-          boolean: 0
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 854089074991693898
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:

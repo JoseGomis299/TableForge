@@ -4,6 +4,6 @@
         <engine:VisualElement style="flex-grow: 1; width: 100%; height: 100%; background-size: 100% 100%;">
             <engine:VisualElement name="MainTable" style="height: 100%; width: 100%;" />
         </engine:VisualElement>
-        <engine:ScrollView name="Toolbar" class="toolbar" style="width: 100%; height: 150px;" />
+        <engine:ScrollView name="Toolbar" class="toolbar" style="width: 100%; height: 75px;" />
     </engine:VisualElement>
 </engine:UXML>

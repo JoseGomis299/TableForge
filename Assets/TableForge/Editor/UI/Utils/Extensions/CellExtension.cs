@@ -99,6 +99,7 @@ namespace TableForge.UI
             }
                     
             tableControl.ScrollView.horizontalScroller.value += delta;
+            tableControl.AdjustHorizontalScroller();
         }
 
         private static void MoveVerticalScroll(sbyte visibleBoundsY, TableControl tableControl, RowHeaderControl rowHeader)
@@ -127,6 +128,7 @@ namespace TableForge.UI
             }
                     
             tableControl.ScrollView.verticalScroller.value += delta;
+            tableControl.AdjustVerticalScroller();
         }
     }
 }

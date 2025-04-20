@@ -67,11 +67,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 1
   charValue: 0
   intField: 32
-  floatField: 0
+  floatField: 32
   <PublicLongProperty>k__BackingField: 23
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -107,8 +107,8 @@ MonoBehaviour:
     inheritorNumber: 32
     inheritorText: 23
   inheritorClassAsInnerClass:
-    number: 0
-    text: 
+    number: 32
+    text: 23
     animationCurve:
       serializedVersion: 2
       m_Curve: []
