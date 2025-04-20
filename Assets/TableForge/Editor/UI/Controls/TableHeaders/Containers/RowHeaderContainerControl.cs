@@ -4,10 +4,10 @@ namespace TableForge.UI
 {
     internal class RowHeaderContainerControl : HeaderContainerControl
     {
-        public RowHeaderContainerControl(ScrollView cellContainer) : base(cellContainer)
+        public RowHeaderContainerControl(TableControl tableControl) : base(tableControl)
         {
             AddToClassList(USSClasses.TableHeaderContainerVertical);
-            cellContainer.horizontalScroller.valueChanged += HandleOffset;
+            tableControl.ScrollView.horizontalScroller.valueChanged += HandleOffset;
         }
 
         private void HandleOffset(float offset)

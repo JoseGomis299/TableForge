@@ -10,17 +10,20 @@
     --selected-header-color: rgb(83, 83, 83);
     
     --cell-width: 100px;
-    --cell-height: 25px;
+    --cell-height: 20px;
     --header-height: 20px;
-    --foldout-height: 25px;
-    --cell-content-height: 20px;
+    --header-font-size: 12px;
+    --sub-table-header-font-size: 11px;
+    --sub-table-header-height: 16px;
+    --foldout-height: 20px;
+    --cell-content-height: 18px;
     --cell-content-padding: 3px;
     --header-padding: 5px;
     --border-width: 1px;
     --resizable-border-span: 5px;
     --resize-preview-width: 3px;
     --border-radius: 5px;
-    --subtable-toolbar-width: 15px;
+    --sub-table-toolbar-width: 13px;
     
     --foldout-open-image: url("./Assets/ClassicFoldoutArrow-Open.png");
     --foldout-close-image: url("./Assets/ClassicFoldoutArrow-Close.png");
@@ -52,19 +55,6 @@
     border-right-width: var(--border-width);
     border-bottom-width: var(--border-width);
     overflow: hidden;
-}
-
-.table__corner__text {
-    width: 100%;
-    height: 100%;
-    font-size: 10px;
-    -unity-text-align: middle-center;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    align-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
 }
 
 .table__corner-container {
@@ -100,6 +90,12 @@
     overflow: hidden;
     left: auto;
     flex-shrink: 0;
+}
+
+.table__header-text{
+    font-size: var(--header-font-size);
+    width: 100%;
+    height: 100%;
 }
 
 .table__header-container--horizontal {
@@ -172,67 +168,13 @@
     flex-shrink: 0;
 }
 
-.table__subtable-cell__content {
+.table__sub-table-cell__content {
     border-radius: var(--border-radius);
     overflow: hidden;
     flex-direction: row;
 }
 
-.table__subtable-container {
-    border-radius: var(--border-radius);
-    background-color: var(--background-color);
-    overflow: hidden;
-    flex-direction: column;
-}
-
-.table__subtable-toolbar {
-    border-width: var(--border-width);
-    border-color: var(--dark-border-color);
-    border-radius: var(--border-radius);
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-    border-right-width: 0;
-    background-color: var(--background-color-dark);
-    flex-direction: column;
-    overflow: hidden;
-    width: var(--subtable-toolbar-width);
-    height: var(--cell-height);
-}
-
-.table__subtable-toolbar__button {
-    width: 100%;
-    height: var(--cell-height);
-    background-color: var(--background-color-dark);
-    border-width: 0;
-    border-bottom-width: var(--border-width);
-    margin: 0;
-    padding: 0;
-    border-radius: 0;
-}
-
-.table__subtable-toolbar__foldout {
-    background-image: var(--foldout-open-image);
-    background-size: 60%;
-    background-position-y: center;
-    width: 100%;
-    height: 100%
-}
-
-.table__subtable-toolbar__button:enabled:hover {
-    cursor: link;
-    background-color: var(--selected-header-color);
-}
-
-.table__subtable-content-container {
-    border-width: var(--border-width);
-    border-color: var(--dark-border-color);
-    border-radius: var(--border-radius);
-    border-top-left-radius: 0;
-    background-color: var(--background-color);
-    overflow: hidden;
-}
-
-.table__subtable__foldout {
+.table__sub-table__foldout {
     width: 100%;
     height: var(--foldout-height);
     -unity-text-align: middle-center;
@@ -243,35 +185,85 @@
     flex-shrink: 0;
 }
 
-.add-row__button {
-    width: 100%;
-    height: var(--cell-height);
-    background-color: var(--background-color);
-    -unity-text-align: middle-center;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    align-content: center;
+.sub-table__toolbar {
+    border-width: var(--border-width);
+    border-color: var(--dark-border-color);
+    border-radius: var(--border-radius);
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right-width: 0;
+    background-color: var(--background-color-dark);
+    flex-direction: column;
+    overflow: hidden;
+    width: var(--sub-table-toolbar-width);
+    height: initial;
 }
 
-.add-row__button:enabled:hover {
-    cursor: arrow-plus;
+.sub-table__toolbar__button {
+    width: 100%;
+    height: var(--cell-height);
+    border-width: 0;
+    border-bottom-width: var(--border-width);
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background-color: var(--background-color-dark);
+}
+
+.sub-table__toolbar__foldout {
+    background-image: var(--foldout-open-image);
+    background-size: 60%;
+    background-position-y: center;
+    width: 100%;
+    height: 100%
+}
+
+.sub-table__toolbar__foldout:hover {
+    cursor: link;
     background-color: var(--selected-header-color);
 }
 
-.add-row__button__label {
-    width: 100%;
-    height: 100%;
-    padding-left: var(--header-padding);
-    -unity-text-align: middle-left;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    align-content: center;
+.sub-table__toolbar__button:hover {
+    cursor: link;
+    background-color: var(--selected-header-color);
 }
 
-.add-row__button__label:enabled {
-    cursor: arrow-plus;
+.sub-table__content-container {
+    border-width: var(--border-width);
+    border-color: var(--dark-border-color);
+    border-radius: var(--border-radius);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
+
+.sub-table__header-cell--vertical {
+    height: var(--sub-table-header-height);
+}
+
+.sub-table__header-text {
+    font-size: var(--sub-table-header-font-size);
+}
+
+.sub-table__header-container--horizontal {
+    height: var(--sub-table-header-height);
+}
+
+.sub-table__corner-container {
+    height: var(--sub-table-header-height);
+}
+
+
+.add-row__button__label {
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    height: 100%;
+    font-size: var(--header-font-size);
+}
+
+.add-row__button__label:hover {
+    cursor: link;
 }
 
 .center {
@@ -304,10 +296,6 @@
     background-color: var(--resize-preview-color);
     position: absolute;
     cursor: resize-vertical;
-}
-
-.hidden {
-    display: none;
 }
 
 .selected {

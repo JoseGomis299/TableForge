@@ -8,8 +8,7 @@ namespace TableForge.UI
         {
             RowAdditionStrategy = new NullItemRowAdditionStrategy(TableControl);
             
-            AddToClassList(USSClasses.AddRowButton);
-            Label label = new Label("Set Value +");
+            Label label = new Label("+");
             label.AddToClassList(USSClasses.AddRowButtonLabel);
             Add(label);
         }

@@ -64,7 +64,7 @@ namespace TableForge.UI
             _collapseButton = new Button();
             _collapseButton.AddToClassList(USSClasses.SubTableToolbarButton);
             var arrowElement = new VisualElement();
-            arrowElement.AddToClassList("table__subtable-toolbar__foldout");
+            arrowElement.AddToClassList(USSClasses.SubTableToolbarFoldout);
             _collapseButton.Add(arrowElement);
             
             ContentContainer = new VisualElement();
@@ -153,6 +153,7 @@ namespace TableForge.UI
             if (show && focused)
             {
                 SubTableToolbar.style.display = DisplayStyle.Flex;
+                SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
             }
             else
             {

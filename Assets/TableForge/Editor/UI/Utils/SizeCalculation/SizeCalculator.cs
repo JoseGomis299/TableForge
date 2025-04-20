@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace TableForge.UI
@@ -43,6 +44,7 @@ namespace TableForge.UI
         public static Vector2 CalculateSizeWithCurrentCellSizes(TableControl tableControl)
         {
             Vector2 size = Vector2.zero;
+            
             if (tableControl.Parent is ExpandableSubTableCellControl { IsFoldoutOpen: false })
             {
                 size.y = UiConstants.FoldoutHeight;
@@ -53,8 +55,9 @@ namespace TableForge.UI
             {
                 TableSize tableSize = tableControl.PreferredSize;
                 size = tableSize.GetTotalSize(true);
+                size.y = Mathf.Max(size.y, CalculateToolbarSize(tableControl.TableData).y);
                 size.y += UiConstants.CellContentPadding + UiConstants.BorderWidth * 5;
-                
+
                 if (tableControl.Parent is ExpandableSubTableCellControl)
                 {
                     size.x += UiConstants.SubTableToolbarWidth;
@@ -78,27 +81,51 @@ namespace TableForge.UI
                     tableSize.AddCellSize(cell, cellSize);
                 }
                 
-                tableSize.AddHeaderSize(row, CalculateHeaderSize(row, tableAttributes.RowHeaderVisibility));
+                tableSize.AddHeaderSize(row, CalculateHeaderSize(row, table, tableAttributes.RowHeaderVisibility));
             }
             
-            tableSize.AddHeaderSize(null, CalculateHeaderSize(null, tableAttributes.RowHeaderVisibility));
+            tableSize.AddHeaderSize(null, CalculateHeaderSize(null, table, tableAttributes.RowHeaderVisibility));
             
             for (int i = 0; i < table.Columns.Count; i++)
             {
                 Column column = table.Columns[i + 1];
                 if (!tableMetadata.IsFieldVisible(column.Id)) continue;
 
-                tableSize.AddHeaderSize(column, CalculateHeaderSize(column, tableAttributes.ColumnHeaderVisibility));
+                tableSize.AddHeaderSize(column, CalculateHeaderSize(column, table, tableAttributes.ColumnHeaderVisibility));
             }
             
             return tableSize;
+        }
+        
+        public static Vector2 CalculateToolbarSize(Table table)
+        {
+            if (!table.IsSubTable) return Vector2.zero;
+            
+            float width = UiConstants.SubTableToolbarWidth;
+            float height = UiConstants.CellHeight;
+
+            TableAttributes subTableAttributes = CellStaticData.GetSubTableCellAttributes(CellStaticData.GetCellControlType(table.ParentCell.GetType()));
+            if (table.ParentCell is ICollectionCell && subTableAttributes.TableType == TableType.Dynamic)
+            {
+                if(table.Rows.Count >= 1)
+                    height += UiConstants.CellHeight; //Remove button
+                
+                height += UiConstants.CellHeight; //Add button
+            }
+            else if(subTableAttributes.TableType == TableType.DynamicIfEmpty)
+            {
+                if (table.Rows.Count == 0)
+                    height += UiConstants.CellHeight; //Add button
+            }
+
+            return new Vector2(width, height);
         }
 
         #endregion
         
         #region Private Methods
 
-        private static Vector2 CalculateHeaderSize(CellAnchor header, TableHeaderVisibility visibility)
+        private static Vector2 CalculateHeaderSize(CellAnchor header, Table table, TableHeaderVisibility visibility)
         {
             if (visibility == TableHeaderVisibility.Hidden)
                 return Vector2.zero;
@@ -107,11 +134,12 @@ namespace TableForge.UI
                 UiConstants.SmallHeaderPadding 
                 : UiConstants.HeaderPadding;
             
+            float headerHeight = table.IsSubTable ? UiConstants.SubTableHeaderHeight : UiConstants.HeaderHeight;
             if (header == null)
-                return new Vector2(UiConstants.MinCellWidth, UiConstants.HeaderHeight + padding);
+                return new Vector2(UiConstants.MinCellWidth, headerHeight + padding);
             
             string headerName = NameResolver.ResolveHeaderName(header, visibility);
-            return new Vector2(Mathf.Max(EditorStyles.label.CalcSize(new GUIContent(headerName)).x, UiConstants.MinCellWidth) + padding, UiConstants.HeaderHeight);
+            return new Vector2(EditorStyles.label.CalcSize(new GUIContent(headerName)).x + padding, headerHeight);
         }
         
         private static float GetAddRowButtonHeight(Table table, TableAttributes tableAttributes)
@@ -171,6 +199,7 @@ namespace TableForge.UI
             {
                 var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
                 localSize = tableSize.GetTotalSize(false);
+                localSize.y = Mathf.Max(localSize.y, CalculateToolbarSize(subTableCell.SubTable).y);
                 localSize.x += UiConstants.SubTableToolbarWidth;
                 localSize.y += UiConstants.CellContentPadding;
             }

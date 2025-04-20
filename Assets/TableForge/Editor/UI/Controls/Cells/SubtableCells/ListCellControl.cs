@@ -23,7 +23,7 @@ namespace TableForge.UI
             };
             
             SubTableContentContainer.Add(SubTableControl);
-            SubTableContentContainer.Add(listAddRowControl);
+            SubTableToolbar.Add(listAddRowControl);
             
             SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {

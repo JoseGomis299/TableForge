@@ -15,6 +15,7 @@ namespace TableForge.UI
             TableControl = tableControl;
             
             this.AddManipulator(new Clickable(AddRow));
+            AddToClassList(USSClasses.SubTableToolbarButton);
         }
         
         protected virtual void AddRow()

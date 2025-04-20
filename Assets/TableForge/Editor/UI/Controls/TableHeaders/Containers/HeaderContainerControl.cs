@@ -4,11 +4,11 @@ namespace TableForge.UI
 {
     internal abstract class HeaderContainerControl : VisualElement
     {
-        protected ScrollView CellContainer;
+        protected TableControl TableControl;
         
-        protected HeaderContainerControl(ScrollView cellContainer)
+        protected HeaderContainerControl(TableControl tableControl)
         {
-            CellContainer = cellContainer;
+            TableControl = tableControl;
         }
         
     }

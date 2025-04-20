@@ -32,9 +32,10 @@ namespace TableForge.UI
                 {
                     RecalculateSizeWithCurrentValues();
                     TableControl.VerticalResizer.ResizeCell(this);
+                    SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
                 };
                 
-                SubTableContentContainer.Add(_nullItemAddRow);
+                SubTableToolbar.Add(_nullItemAddRow);
             }
         }
 
@@ -56,10 +57,14 @@ namespace TableForge.UI
                 {
                     RecalculateSizeWithCurrentValues();
                     TableControl.VerticalResizer.ResizeCell(this);
+                    SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
                 };
                 
-                SubTableContentContainer.Add(_nullItemAddRow);
+                SubTableToolbar.Add(_nullItemAddRow);
+                SubTableToolbar.style.height = UiConstants.CellHeight * 2;
             }
+            else SubTableToolbar.style.height = UiConstants.CellHeight;
+
 
             SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {

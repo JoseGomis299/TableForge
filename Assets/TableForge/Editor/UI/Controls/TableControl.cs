@@ -85,9 +85,9 @@ namespace TableForge.UI
 
             // Initialize sub-containers
             _rowsContainer = CreateRowsContainer();
-            _columnHeaderContainer = new ColumnHeaderContainerControl(ScrollView);
-            _rowHeaderContainer = new RowHeaderContainerControl(ScrollView);
-            _cornerContainer = new CornerContainerControl(ScrollView);
+            _columnHeaderContainer = new ColumnHeaderContainerControl(this);
+            _rowHeaderContainer = new RowHeaderContainerControl(this);
+            _cornerContainer = new CornerContainerControl(this);
 
             // Subscribe to visibility events
             SubscribeToVisibilityEvents();
@@ -288,7 +288,7 @@ namespace TableForge.UI
         
         private void ResetScrollViewStoredSize()
         {
-            _scrollViewHeight = UiConstants.HeaderHeight;
+            _scrollViewHeight = Parent == null ? UiConstants.HeaderHeight : UiConstants.SubTableHeaderHeight;
             _scrollViewWidth = 0;
         }
 
@@ -599,7 +599,8 @@ namespace TableForge.UI
         {
             _scrollViewWidth += sizeDelta.x;
             _scrollViewHeight += sizeDelta.y;
-            _rowsContainer.style.height = _scrollViewHeight - UiConstants.HeaderHeight;
+            float columnHeadersHeight = Parent == null ? UiConstants.HeaderHeight : UiConstants.SubTableHeaderHeight;
+            _rowsContainer.style.height = _scrollViewHeight - columnHeadersHeight;
 
             VisualElementResizer.ChangeSize(ScrollView.contentContainer, _scrollViewWidth, _scrollViewHeight, OnContentContainerResized);
         }

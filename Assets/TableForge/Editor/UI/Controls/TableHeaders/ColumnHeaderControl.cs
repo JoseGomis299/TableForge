@@ -8,9 +8,14 @@ namespace TableForge.UI
         {
             AddToClassList(USSClasses.TableHeaderCellHorizontal);
 
+            
             string title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.ColumnHeaderVisibility);
             var headerLabel = new Label(title);
-            headerLabel.AddToClassList(USSClasses.Fill);
+            headerLabel.AddToClassList(USSClasses.TableHeaderText);
+            if(tableControl.Parent != null)
+            {
+                headerLabel.AddToClassList(USSClasses.SubTableHeaderText);
+            }
             Add(headerLabel);
 
             TableControl.HorizontalResizer.HandleResize(this);

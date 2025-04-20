@@ -129,17 +129,13 @@ namespace TableForge.UI
         public static void AdjustVerticalScroller(this TableControl tableControl)
         {
             ScrollView scrollView = tableControl.ScrollView;
-            int maxDiff = 0;
-            if (tableControl.Parent != null)
-                maxDiff = ToolbarData.SubTableMinScrollDiff;
             
             float viewportHeight = scrollView.contentViewport.resolvedStyle.height;
             if(scrollView.horizontalScroller.visible && scrollView.horizontalScrollerVisibility != ScrollerVisibility.Hidden)
                 viewportHeight += scrollView.horizontalScroller.resolvedStyle.height;
             
-            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.height - scrollView.contentViewport.resolvedStyle.height);
             float scrollerFactor = viewportHeight / scrollView.contentContainer.resolvedStyle.height;
-            if (pixelDifference < maxDiff)
+            if (!VerticalScrollerShouldBeVisible(tableControl))
             {
                 scrollView.verticalScroller.Adjust(1);
                 scrollView.verticalScroller.visible = false;
@@ -153,6 +149,17 @@ namespace TableForge.UI
                 scrollView.verticalScroller.Adjust(scrollerFactor);
                 scrollView.verticalScroller.style.display = DisplayStyle.Flex;
             }
+        }
+        
+        public static bool VerticalScrollerShouldBeVisible(this TableControl tableControl)
+        {
+            ScrollView scrollView = tableControl.ScrollView;
+            int maxDiff = 0;
+            if (tableControl.Parent != null)
+                maxDiff = ToolbarData.SubTableMinScrollDiff;
+            
+            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.height - scrollView.contentViewport.resolvedStyle.height);
+            return pixelDifference >= maxDiff;
         }
 
         public static void SetHorizontalScrollerMaxValue(this TableControl tableControl, float value)
@@ -168,13 +175,8 @@ namespace TableForge.UI
         public static void AdjustHorizontalScroller(this TableControl tableControl)
         {
             ScrollView scrollView = tableControl.ScrollView;
-            int maxDiff = 0;
-            if (tableControl.Parent != null)
-                maxDiff = ToolbarData.SubTableMinScrollDiff;
-
-            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.width - scrollView.contentViewport.resolvedStyle.width);
             float scrollerFactor = scrollView.contentViewport.resolvedStyle.width / scrollView.contentContainer.resolvedStyle.width;
-            if (pixelDifference < maxDiff)
+            if (!HorizontalScrollerShouldBeVisible(tableControl))
             {
                 scrollView.horizontalScroller.Adjust(1);
                 scrollView.horizontalScroller.visible = false;
@@ -189,6 +191,17 @@ namespace TableForge.UI
                 scrollView.horizontalScroller.style.display = DisplayStyle.Flex;
             }
         }
-        
+
+        public static bool HorizontalScrollerShouldBeVisible(this TableControl tableControl)
+        {
+            ScrollView scrollView = tableControl.ScrollView;
+            int maxDiff = 0;
+            if (tableControl.Parent != null)
+                maxDiff = ToolbarData.SubTableMinScrollDiff;
+
+            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.width - scrollView.contentViewport.resolvedStyle.width);
+            return pixelDifference >= maxDiff;
+        }
+
     }
 }

@@ -5,11 +5,15 @@ namespace TableForge.UI
     internal class CornerContainerControl : HeaderContainerControl
     {
         public TableCornerControl CornerControl => this[0] as TableCornerControl;
-        public CornerContainerControl(ScrollView cellContainer) : base(cellContainer)
+        public CornerContainerControl(TableControl tableControl) : base(tableControl)
         {
             AddToClassList(USSClasses.TableCornerContainer);
-            cellContainer.horizontalScroller.valueChanged += HandleOffset;
-            cellContainer.verticalScroller.valueChanged += HandleVerticalOffset;
+            if (tableControl.Parent != null)
+            {
+                AddToClassList(USSClasses.SubTableCornerContainer);
+            }
+            tableControl.ScrollView.horizontalScroller.valueChanged += HandleOffset;
+            tableControl.ScrollView.verticalScroller.valueChanged += HandleVerticalOffset;
         }
 
         private void HandleOffset(float offset)
