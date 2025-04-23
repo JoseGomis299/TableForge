@@ -204,33 +204,28 @@ namespace TableForge.UI
             return currentCell.Table.GetCell(newColumnPosition, newRowPosition);
         }
         
-        public static List<Cell> GetCellsAtRow(TableControl tableControl, int rowId)
+        public static IReadOnlyList<Cell> GetCellsAtRow(TableControl tableControl, int rowId)
         {
             CellAnchorData anchorData = tableControl.RowData[rowId];
             if(anchorData.CellAnchor is Row row)
-                return GetCellsAtRow(row);
+                return row.OrderedCells;
             
             return GetCellsAtColumn(anchorData.CellAnchor);
         }
         
-        public static List<Cell> GetCellsAtColumn(TableControl tableControl, int columnId)
+        public static IReadOnlyList<Cell> GetCellsAtColumn(TableControl tableControl, int columnId)
         {
             CellAnchorData anchorData = tableControl.ColumnData[columnId];
             if(anchorData.CellAnchor is Row row)
-                return GetCellsAtRow(row);
+                return row.OrderedCells;
             
             return GetCellsAtColumn(anchorData.CellAnchor);
         }
-        
-        private static List<Cell> GetCellsAtRow(Row row)
-        {
-            return row.Cells.Values.ToList();
-        }
-        
+
         private static List<Cell> GetCellsAtColumn(CellAnchor column)
         {
             int columnPosition = column.Position;
-            return column.Table.Rows.Values.Select(r => r.Cells[columnPosition]).ToList();
+            return column.Table.OrderedRows.Select(r => r.Cells[columnPosition]).ToList();
         }
 
         public static (RowHeaderControl row, ColumnHeaderControl column) GetHeadersAtPosition(TableControl tableControl, Vector3 position)

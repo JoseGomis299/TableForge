@@ -83,10 +83,10 @@ namespace TableForge
             ColumnGenerator.GenerateColumns(columns, table);
             
             Cell keyCell = CellFactory.CreateCell(columns[0], row, _dictionary.GetType().GetGenericArguments()[0]);
-            row.Cells.Add(1, keyCell);
+            row.AddCell(1, keyCell);
             
             Cell valueCell = CellFactory.CreateCell(columns[1], row, _dictionary.GetType().GetGenericArguments()[1]);
-            row.Cells.Add(2, valueCell);
+            row.AddCell(2, valueCell);
         }
     }
 }

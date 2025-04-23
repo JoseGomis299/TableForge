@@ -1,5 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 
 namespace TableForge.UI
@@ -10,6 +17,8 @@ namespace TableForge.UI
         private TableControl TableControl { get; }
         private float _offset;
         
+        private Task _initializationTask;
+        private CancellationTokenSource _initializationCts;        
         public RowControl(CellAnchor anchor, TableControl tableControl)
         {
             TableControl = tableControl;
@@ -31,8 +40,6 @@ namespace TableForge.UI
 
         public void RefreshColumnWidths()
         {
-            if(!Children().Any()) return;
-            
             foreach (var child in Children())
             {
                 if (child is CellControl cellControl)
@@ -52,17 +59,17 @@ namespace TableForge.UI
             }
         }
 
-        public void Refresh(CellAnchor anchor)
+        public void ReBuild()
         {
             if(childCount > 0)
                 ClearRow();
             
-            if (anchor is Row row) InitializeRow(row);
-            else InitializeRow(anchor);
+            if (Anchor is Row row) InitializeRow(row);
+            else InitializeRow(Anchor);
             
             RefreshColumnWidths();
         }
-
+        
         private void InitializeRow(Row row)
         {
             foreach (var columnHeader in TableControl.OrderedColumnHeaders)
@@ -70,7 +77,7 @@ namespace TableForge.UI
                 if (!row.Cells.TryGetValue(columnHeader.CellAnchor.Position, out var cell) || !TableControl.ColumnHeaders[columnHeader.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
-                AddCell(cellField as CellControl);
+                AddCell(cellField);
             }
         }
         
@@ -83,13 +90,12 @@ namespace TableForge.UI
                 if (!row.Cells.TryGetValue(column.Position, out var cell)  || !TableControl.ColumnHeaders[row.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
-                AddCell(cellField as CellControl);
+                AddCell(cellField);
             }
         }
 
-        private VisualElement CreateCellField(Cell cell)
+        private CellControl CreateCellField(Cell cell)
         {
-            if(cell == null) return new Label {text = ""};
             var cellControl = CellControlFactory.GetPooled(cell, TableControl);
             return cellControl;
         }
@@ -98,50 +104,62 @@ namespace TableForge.UI
         public void SetColumnVisibility(int columnId, bool isVisible, int direction)
         {
             int columnPosition = TableControl.GetColumnPosition(columnId);
-            
-            Cell cell = TableControl.GetCell(Anchor.Id, columnId);
-            
+            var lockedHeaders = TableControl.ColumnVisibilityManager.OrderedLockedHeaders;
+            var cell = TableControl.GetCell(Anchor.Id, columnId);
+
             if (isVisible)
             {
-                var cellField = CreateCellField(cell);
+                // Determine initial insertion index based on direction
+                int insertIndex = (direction > 0) ? childCount : 0;
 
-                int targetIndex = direction == 1 ? childCount : 0;
-                foreach (var column in  TableControl.ColumnVisibilityManager.OrderedLockedHeaders)
+                if (lockedHeaders.Count > 0)
                 {
-                    CellControl correspondingCell = 
-                        Children()
-                        .OfType<CellControl>()
-                        .FirstOrDefault(c => TableControl.GetCellColumn(c.Cell).Position == column.CellAnchor.Position);
+                    // Build a quick lookup of current child positions
+                    var positionIndexMap = Children()
+                        .Select((ctrl, idx) => new { Pos = TableControl.GetCellColumn(((CellControl) ctrl).Cell).Position, Idx = idx })
+                        .ToDictionary(x => x.Pos, x => x.Idx);
 
-                    int lockedIndex = Children().ToList().IndexOf(correspondingCell);
-                    int lockedPosition = column.CellAnchor.Position;
-                    //If the current column should be in the right of the locked column
-                    if(lockedPosition < columnPosition && targetIndex <= lockedIndex)
+                    // Adjust insertion index relative to locked headers
+                    foreach (var locked in lockedHeaders)
                     {
-                        targetIndex = lockedIndex + 1;
-                    }
-                    //If the current column should be in the left of the locked column
-                    else if(lockedPosition > columnPosition && targetIndex > lockedIndex)
-                    {
-                        targetIndex = lockedIndex;
+                        if (!positionIndexMap.TryGetValue(locked.CellAnchor.Position, out var lockedIdx))
+                            continue;
+
+                        int lockedPos = locked.CellAnchor.Position;
+
+                        if (lockedPos < columnPosition && insertIndex <= lockedIdx)
+                        {
+                            insertIndex = lockedIdx + 1;
+                        }
+                        else if (lockedPos > columnPosition && insertIndex > lockedIdx)
+                        {
+                            insertIndex = lockedIdx;
+                        }
                     }
                 }
 
-                AddCell(cellField as CellControl, targetIndex);
+                // Create and insert the new cell
+                var newCell = CreateCellField(cell);
+                AddCell(newCell, insertIndex);
             }
             else
             {
-                var cellControl = Children().OfType<CellControl>().FirstOrDefault(c => TableControl.GetCellColumn(c.Cell).Position == columnPosition);
-                
-                if (cellControl != null)
+                // Remove the cell control if it exists
+                var toRemove = Children()
+                    .FirstOrDefault(ctrl => TableControl.GetCellColumn(((CellControl) ctrl).Cell).Position == columnPosition);
+
+                if (toRemove != null)
                 {
-                    CellControlFactory.Release(cellControl);
-                    Remove(cellControl);
+                    Remove(toRemove);
+                    CellControlFactory.Release((CellControl) toRemove);
                 }
             }
-            
-            RefreshColumnWidths();
+
+            // Ensure widths are correct and order is valid
+            if (!RefreshColumnWidthsWhileCheckingOrder())
+                ReBuild();
         }
+
         
         private void AddCell(CellControl cell, int index = -1)
         {
@@ -152,7 +170,32 @@ namespace TableForge.UI
             else
                 Insert(index, cell);
             
-            cell.SetFocused(cell.TableControl.CellSelector.IsCellFocused(cell.Cell));
+            if(cell.focusable)
+                cell.SetFocused(cell.TableControl.CellSelector.IsCellFocused(cell.Cell));
+        }
+
+        private bool RefreshColumnWidthsWhileCheckingOrder()
+        {
+            int lastPosition = -1;
+            foreach (var child in Children())
+            {
+                if (child is CellControl cell)
+                {
+                    var column = TableControl.GetColumnHeaderControl(TableControl.GetCellColumn(cell.Cell));
+                    cell.style.width = column.style.width;
+                    
+                    int currentPosition = TableControl.GetCellColumn(cell.Cell).Position;
+                    if(lastPosition >= currentPosition)
+                    {
+                        Debug.Log($"cell position: {currentPosition}, last position: {lastPosition}");
+                        return false;
+                    }
+                    
+                    lastPosition = currentPosition;
+                }
+            }
+            
+            return true;
         }
     }
 }

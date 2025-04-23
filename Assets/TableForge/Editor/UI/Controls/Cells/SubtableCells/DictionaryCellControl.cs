@@ -2,10 +2,16 @@ namespace TableForge.UI
 {
     [CellControlUsage(typeof(DictionaryCell), CellSizeCalculationMethod.AutoSize)] 
     [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.None, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
-    internal class DictionaryCellControl : ExpandableSubTableCellControl
+    internal class DictionaryCellControl : DynamicTableControl
     {
-        public DictionaryCellControl(DictionaryCell cell, TableControl tableControl) : base(cell, tableControl)
+        public DictionaryCellControl(DictionaryCell cell, TableControl tableControl) : base(cell, tableControl, new DefaultRowAdditionStrategy(), new DefaultRowDeletionStrategy())
         {
+        }
+        
+        public override void Refresh(Cell cell, TableControl tableControl)
+        {
+            base.Refresh(cell, tableControl);
+            ShowDeleteRowButton(SubTableControl?.TableData.Rows.Count > 0);
         }
         
         protected override void BuildSubTable()
@@ -19,6 +25,9 @@ namespace TableForge.UI
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             SubTableControl.SetScrollbarsVisibility(false);
             SubTableContentContainer.Add(SubTableControl);
+            
+            ShowAddRowButton(true);
+            ShowDeleteRowButton(SubTableControl.TableData.Rows.Count > 0);
             
             SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {

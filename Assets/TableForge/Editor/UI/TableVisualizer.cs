@@ -42,8 +42,8 @@ namespace TableForge.UI
                 TableType = TableType.Dynamic,
                 ColumnReorderMode = TableReorderMode.ExplicitReorder,
                 RowReorderMode = TableReorderMode.ExplicitReorder,
-                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
-                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
+                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
+                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
             };
             sw.Stop();
             float timeToGenerate = sw.ElapsedMilliseconds;

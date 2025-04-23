@@ -8,6 +8,9 @@
     --selected-color: rgb(105, 105, 105);
     --selected-first-color: rgb(150, 150, 150);
     --selected-header-color: rgb(83, 83, 83);
+
+    --selected-color-blue: rgb(72, 110, 201);
+    --selected-first-color-blue: rgb(54, 112, 255);
     
     --cell-width: 100px;
     --cell-height: 20px;
@@ -17,7 +20,7 @@
     --sub-table-header-height: 16px;
     --foldout-height: 20px;
     --cell-content-height: 18px;
-    --cell-content-padding: 3px;
+    --cell-content-padding: 2px;
     --header-padding: 5px;
     --border-width: 1px;
     --resizable-border-span: 5px;
@@ -81,7 +84,8 @@
 .table__header-cell--vertical, .table__header-cell--horizontal {
     border-color: var(--border-color);
     background-color: var(--header-background-color);
-    padding: var(--header-padding);
+    padding-left: var(--header-padding);
+    padding-right: var(--header-padding);
     -unity-text-align: middle-center;
     align-items: stretch;
     justify-content: center;
@@ -168,6 +172,15 @@
     flex-shrink: 0;
 }
 
+.table__cell__overlay {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    opacity: 0.2;
+    background-color: var(--selected-color);
+}
+
 .table__sub-table-cell__content {
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -177,12 +190,8 @@
 .table__sub-table__foldout {
     width: 100%;
     height: var(--foldout-height);
-    -unity-text-align: middle-center;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    align-self: center;
-    align-content: center;
-    flex-shrink: 0;
 }
 
 .sub-table__toolbar {

@@ -77,7 +77,7 @@ namespace TableForge.UI
             {
                 foreach (var cell in row.Cells.Values)
                 {
-                    Vector2 cellSize = CalculateSize(cell, tableMetadata) + Vector2.one * UiConstants.BorderWidth;
+                    Vector2 cellSize = CalculateSize(cell, tableMetadata);
                     tableSize.AddCellSize(cell, cellSize);
                 }
                 
@@ -189,7 +189,7 @@ namespace TableForge.UI
         
         private static Vector2 CalculateSize(SubTableCell subTableCell, TableMetadata parentMetadata)
         {
-            float width = UiConstants.CellContentPadding + UiConstants.BorderWidth * 4, height = UiConstants.BorderWidth * 4;
+            float width = UiConstants.CellContentPadding + UiConstants.BorderWidth * 4, height = 0;
             Type cellControlType = CellStaticData.GetCellControlType(subTableCell.GetType()); 
             TableAttributes subTableAttributes = CellStaticData.GetSubTableCellAttributes(cellControlType);
             
@@ -201,7 +201,7 @@ namespace TableForge.UI
                 localSize = tableSize.GetTotalSize(false);
                 localSize.y = Mathf.Max(localSize.y, CalculateToolbarSize(subTableCell.SubTable).y);
                 localSize.x += UiConstants.SubTableToolbarWidth;
-                localSize.y += UiConstants.CellContentPadding;
+                localSize.y += UiConstants.CellContentPadding + UiConstants.BorderWidth * 4;
             }
             else
             {

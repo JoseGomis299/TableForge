@@ -98,7 +98,7 @@ namespace TableForge
             for (var j = 0; j < SerializedType.Fields.Count; j++)
             {
                 Cell cell = CellFactory.CreateCell(columns[j], row, SerializedType.Fields[j].Type, SerializedType.Fields[j]);
-                row.Cells.Add(j + 1, cell);
+                row.AddCell(j + 1, cell);
             }
         }
     }

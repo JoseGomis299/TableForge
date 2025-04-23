@@ -83,10 +83,11 @@ namespace TableForge.UI
             if (!tableControl.ScrollView.contentViewport.worldBound.Contains(position))
                 return;
 
+            //If clicking on the corner of the table, select all cells.
             if (tableControl.CornerContainer.worldBound.Contains(position))
             {
-                foreach (var row in tableControl.TableData.Rows)
-                    outputCells.AddRange(row.Value.Cells.Values);
+                foreach (var row in tableControl.TableData.OrderedRows)
+                    outputCells.AddRange(row.OrderedCells);
                 return;
             }
 
@@ -94,17 +95,21 @@ namespace TableForge.UI
             if (headers.row == null && headers.column == null)
                 return;
 
+            //If clicking on a column header, select all cells in that column.
             if (headers.row == null)
             {
                 outputCells.AddRange(CellLocator.GetCellsAtColumn(tableControl, headers.column.Id));
                 return;
             }
+            
+            //If clicking on a row header, select all cells in that row.
             if (headers.column == null)
             {
                 outputCells.AddRange(CellLocator.GetCellsAtRow(tableControl, headers.row.Id));
                 return;
             }
 
+            //If clicking on a cell, select that cell.
             var cell = CellLocator.GetCell(tableControl, headers.row.Id, headers.column.Id);
             int prevCount = outputCells.Count;
 
@@ -176,11 +181,9 @@ namespace TableForge.UI
             List<Cell> cellsAtPos = GetCellsAtPosition(mousePosition);
 
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(ctrlKey, shiftKey);
-            Cell lastSelected = strategy.Preselect(this, cellsAtPos);
+            strategy.Preselect(this, cellsAtPos);
 
-            // Immediately confirm selection if a reference cell was involved.
-            if (lastSelected is ReferenceCell)
-                ConfirmSelection();
+            TableControl.schedule.Execute(ConfirmSelection).ExecuteLater(0);
         }
         
         internal void SelectFirstCellFromTable()

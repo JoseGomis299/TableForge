@@ -70,6 +70,7 @@ namespace TableForge.UI
             
             //If the mouse is touching the corner, we don't want to resize the columns behind it.
             if(position.x < TableControl.CornerContainer.worldBound.xMax - margin) return false;
+            if(!TableControl.ScrollView.contentViewport.worldBound.Contains(position)) return false;
 
             foreach (var header in ResizingHeaders.Values)
             {

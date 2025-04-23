@@ -2,41 +2,16 @@ namespace TableForge.UI
 {
     [CellControlUsage(typeof(SubItemCell), CellSizeCalculationMethod.AutoSize)]
     [SubTableCellControlUsage(TableType.DynamicIfEmpty, TableReorderMode.ExplicitReorder, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
-    internal class SubItemCellControl : ExpandableSubTableCellControl
+    internal class SubItemCellControl : DynamicTableControl
     {
-        private NullItemAddRowControl _nullItemAddRow;
-        
-        public SubItemCellControl(SubItemCell cell, TableControl tableControl) : base(cell, tableControl)
+        public SubItemCellControl(SubItemCell cell, TableControl tableControl) : base(cell, tableControl, new NullItemRowAdditionStrategy(), new DefaultRowDeletionStrategy())
         {
-        }
-
-        public override void ClearSubTable()
-        {
-            base.ClearSubTable();
-            
-            if(Cell.Table.Rows.Count != 0 && _nullItemAddRow != null)
-            {
-                _nullItemAddRow.RemoveFromHierarchy();
-                _nullItemAddRow = null;
-            }
         }
 
         public override void Refresh(Cell cell, TableControl tableControl)
         {
             base.Refresh(cell, tableControl);
-            
-            if(IsSubTableInitialized && ((SubTableCell)Cell).SubTable.Rows.Count == 0 && _nullItemAddRow == null)
-            {
-                _nullItemAddRow = new NullItemAddRowControl(SubTableControl);
-                _nullItemAddRow.OnRowAdded += () =>
-                {
-                    RecalculateSizeWithCurrentValues();
-                    TableControl.VerticalResizer.ResizeCell(this);
-                    SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
-                };
-                
-                SubTableToolbar.Add(_nullItemAddRow);
-            }
+            ShowAddRowButton(IsSubTableInitialized && ((SubTableCell)Cell).SubTable.Rows.Count == 0);
         }
 
         protected override void BuildSubTable()
@@ -50,21 +25,7 @@ namespace TableForge.UI
             SubTableControl.SetScrollbarsVisibility(false);
             SubTableContentContainer.Add(SubTableControl);
             
-            if(((SubTableCell)Cell).SubTable.Rows.Count == 0 && _nullItemAddRow == null)
-            {
-                _nullItemAddRow = new NullItemAddRowControl(SubTableControl);
-                _nullItemAddRow.OnRowAdded += () =>
-                {
-                    RecalculateSizeWithCurrentValues();
-                    TableControl.VerticalResizer.ResizeCell(this);
-                    SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
-                };
-                
-                SubTableToolbar.Add(_nullItemAddRow);
-                SubTableToolbar.style.height = UiConstants.CellHeight * 2;
-            }
-            else SubTableToolbar.style.height = UiConstants.CellHeight;
-
+            ShowAddRowButton(((SubTableCell)Cell).SubTable.Rows.Count == 0);
 
             SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {
@@ -76,6 +37,17 @@ namespace TableForge.UI
                 RecalculateSizeWithCurrentValues();
                 TableControl.VerticalResizer.ResizeCell(this);
             };
+        }
+
+        protected override void OnRowAdded()
+        {
+            RecalculateSizeWithCurrentValues();
+            TableControl.VerticalResizer.ResizeCell(this);
+            if(SubTableControl != null)
+            {
+                ShowAddRowButton(false);
+                SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
+            }
         }
     }
 }

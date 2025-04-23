@@ -127,7 +127,7 @@ MonoBehaviour:
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 13, y: 0, z: 0, w: 0}
-  testEnum: 1
+  testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}

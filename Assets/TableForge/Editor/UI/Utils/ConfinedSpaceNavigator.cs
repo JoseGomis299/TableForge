@@ -115,7 +115,16 @@ namespace TableForge.UI
             
             return _cells[_currentIndex];
         }
-        
+
+        public void SetCurrentCell(Cell cell)
+        {
+            if (_cells == null || _cells.Count == 0 || cell == _cells[_currentIndex])
+                return;
+
+            int index = _cells.IndexOf(cell);
+            _currentIndex = index != -1 ? index : 0;
+        }
+
         public Cell GetCurrentCell()
         {
             if (_cells == null || _cells.Count == 0)

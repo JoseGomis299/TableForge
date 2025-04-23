@@ -31,7 +31,7 @@ namespace TableForge.UI
         public const float BigCellPreferredWidth = 120;
         public const float SmallCellPreferredWidth = 50;
         public const float MinCellWidth = 20;
-        public const float MinCellHeight = 22;
+        public const float MinCellHeight = 25;
         
         public const float SnappingThreshold = 3.5f;
         public const float MoveSelectionStep = 7.5f;
@@ -66,7 +66,7 @@ namespace TableForge.UI
             HeaderPadding = 10;
             BorderWidth = 1;
             ResizableBorderSpan = 5;
-            CellContentPadding = 6;
+            CellContentPadding = 4;
             FoldoutHeight = 20;
             SubTableToolbarWidth = 13;
 

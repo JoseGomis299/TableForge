@@ -11,15 +11,30 @@ namespace TableForge
     /// </summary>
     internal class Row : CellAnchor
     {
+        private bool _isDirty;
+        private List<Cell> _orderedCells;
+        private Dictionary<int, Cell> _cells;
+
         /// <summary>
         /// Collection of cells in the row, indexed by their column position.
         /// </summary>
-        public IReadOnlyList<Cell> OrderedCells => Cells.OrderBy(x => x.Key).Select(x => x.Value).ToList();
+        public IReadOnlyList<Cell> OrderedCells
+        {
+            get
+            {
+                if (_isDirty)
+                {
+                    _orderedCells = _cells.Values.OrderBy(cell => cell.Column.Position).ToList();
+                    _isDirty = false;
+                }
+                return _orderedCells;
+            }
+        }
         
         /// <summary>
         /// Collection of cells in the row, indexed by their column position.
         /// </summary>
-        public Dictionary<int, Cell> Cells { get; } = new();
+        public IReadOnlyDictionary<int, Cell> Cells => _cells;
         
         /// <summary>
         /// The serialized object associated with the row.
@@ -28,6 +43,9 @@ namespace TableForge
         
         public Row(string name, int position, Table table, ITFSerializedObject serializedObject) : base(name, position, table)
         {
+            _cells = new Dictionary<int, Cell>();
+            _orderedCells = new List<Cell>();
+            
             SerializedObject = serializedObject;
             CalculateId();
             table.AddRow(this);
@@ -50,6 +68,22 @@ namespace TableForge
             {
                 Id = HashCodeUtil.CombineHashes(guid, Position, true, Table.Name);
             }
+        }
+        
+        public void AddCell(int column, Cell cell)
+        {
+            if (!_cells.TryAdd(column, cell))
+            {
+                _cells[column] = cell;
+            }
+            
+            _isDirty = true;
+        }
+        
+        public void RemoveCell(int column)
+        {
+            if (!_cells.Remove(column, out _)) return;
+            _isDirty = true;
         }
     }
 }

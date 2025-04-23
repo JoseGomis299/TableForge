@@ -153,7 +153,7 @@ namespace TableForge.UI
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
                 if(rebuildRows)
-                    rowHeader.RowControl.Refresh(rowHeader.RowControl.Anchor);
+                    rowHeader.RowControl.ReBuild();
                 else
                    rowHeader.Refresh();
             }
@@ -552,7 +552,7 @@ namespace TableForge.UI
         {
             if (header is RowHeaderControl rowHeaderControl)
             {
-                rowHeaderControl.RowControl.Refresh(rowHeaderControl.RowControl.Anchor);
+                rowHeaderControl.RowControl.ReBuild();
             }
         }
 

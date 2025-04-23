@@ -4,5 +4,6 @@ namespace TableForge.UI
     {
         public Cell GetCurrentCell();
         public Cell GetNextCell(int orientation);
+        public void SetCurrentCell(Cell cell);
     }
 }

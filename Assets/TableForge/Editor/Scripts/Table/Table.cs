@@ -14,6 +14,11 @@ namespace TableForge
 
         private readonly Dictionary<int, Row> _rows = new Dictionary<int, Row>();
         private readonly Dictionary<int, Column> _columns = new Dictionary<int, Column>();
+
+        private bool _rowsDirty;
+        private bool _columnsDirty;
+        private List<Row> _orderedRows = new List<Row>();
+        private List<Column> _orderedColumns = new List<Column>();
         
         #endregion
 
@@ -37,12 +42,36 @@ namespace TableForge
         /// <summary>
         /// Gets the rows of the table in order of their position.
         /// </summary>
-        public IReadOnlyList<Row> OrderedRows => _rows.Values.OrderBy(x => x.Position).ToList();
-        
+        public IReadOnlyList<Row> OrderedRows
+        {
+            get
+            {
+                if (_rowsDirty)
+                {
+                    _orderedRows = new List<Row>(_rows.Values.OrderBy(x => x.Position));
+                    _rowsDirty = false;
+                }
+                
+                return _orderedRows;
+            }
+        }
+
         /// <summary>
         /// Gets the columns of the table in order of their position.
         /// </summary>
-        public IReadOnlyList<Column> OrderedColumns => _columns.Values.OrderBy(x => x.Position).ToList();
+        public IReadOnlyList<Column> OrderedColumns
+        {
+            get
+            {
+                if (_columnsDirty)
+                {
+                    _orderedColumns = new List<Column>(_columns.Values.OrderBy(x => x.Position));
+                    _columnsDirty = false;
+                }
+                
+                return _orderedColumns;
+            }
+        }
         
         /// <summary>
         /// Gets the parent cell of the table, if any.
@@ -80,6 +109,8 @@ namespace TableForge
         {
             if (!_rows.TryAdd(row.Position, row))
                 throw new ArgumentException("Row already exists in table");
+            
+            _rowsDirty = true;
         }
         
         /// <summary>
@@ -91,6 +122,8 @@ namespace TableForge
         {
             if (!_columns.TryAdd(column.Position, column))
                 throw new ArgumentException("Column already exists in table");
+            
+            _columnsDirty = true;
         }
         
         /// <summary>
@@ -105,7 +138,7 @@ namespace TableForge
 
             if (ParentCell is ICollectionCell collectionCell)
             {
-                collectionCell.RemoveItem(position - 1);
+                collectionCell.RemoveItem(position);
                 _rows.Remove(position);
             }
             else
@@ -118,6 +151,8 @@ namespace TableForge
                     orderedRows[i].Position = i;
                 }
             }
+            
+            _rowsDirty = true;
         }
         
         /// <summary>
@@ -127,6 +162,10 @@ namespace TableForge
         {
             _rows.Clear();
             _columns.Clear();
+            _orderedRows.Clear();
+            _orderedColumns.Clear();
+            _rowsDirty = false;
+            _columnsDirty = false;
         }
         
         /// <summary>
@@ -138,6 +177,7 @@ namespace TableForge
         public void MoveRow(int fromPosition, int toPosition)
         {
             MoveAnchor(fromPosition, toPosition, _rows, true);
+            _rowsDirty = true;
         }
 
         /// <summary>
@@ -149,6 +189,7 @@ namespace TableForge
         public void MoveColumn(int fromPosition, int toPosition)
         {
             MoveAnchor(fromPosition, toPosition, _columns, false);
+            _columnsDirty = true;
         }
 
         /// <summary>
@@ -217,8 +258,8 @@ namespace TableForge
                 Cell fromCell = row.Cells[fromPosition];
                 Cell toCell = row.Cells[toPosition];
                 
-                row.Cells[fromPosition] = toCell;
-                row.Cells[toPosition] = fromCell;
+                row.AddCell(fromPosition, toCell);
+                row.AddCell(toPosition, fromCell);
             }
         }
 

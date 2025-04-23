@@ -68,6 +68,14 @@ namespace TableForge.UI
             return _currentCell;
         }
 
+        public void SetCurrentCell(Cell cell)
+        {
+            if (cell == null)
+                return;
+            
+            _currentCell = cell;
+        }
+
         public Cell GetCellAtNextRow(int orientation)
         {
             if (_currentCell == null)

@@ -7,11 +7,10 @@ namespace TableForge.UI
 {
     internal abstract class CellControl : VisualElement
     {
-        public event Action<object> OnValueChange; 
         protected Action OnRefresh;
         
         private bool _isSelected;
-        public virtual bool IsSelected
+        public bool IsSelected
         {
             get => _isSelected;
             set
@@ -30,7 +29,7 @@ namespace TableForge.UI
                 _isSelected = value;
             }
         }
-        public bool IsVisible => TableControl.ColumnHeaders[TableControl.GetCellColumn(Cell).Id].IsVisible && TableControl.RowHeaders[TableControl.GetCellRow(Cell).Id].IsVisible;
+
         public TableControl TableControl { get; private set; }
         public Cell Cell { get; protected set; }
 
@@ -45,7 +44,6 @@ namespace TableForge.UI
         
         ~CellControl()
         {
-            OnValueChange = null;
             OnRefresh = null;
         }
         
@@ -70,30 +68,12 @@ namespace TableForge.UI
             TableControl.PreferredSize.AddCellSize(Cell, new Vector2(width, height));
         }
         
-        protected void OnChange<T>(ChangeEvent<T> evt, BaseField<T> field)
-        {
-            try
-            {
-                SetCellValue(evt.newValue);
-                OnValueChange?.Invoke(evt.newValue);
-            }
-            catch(InvalidCellValueException e)
-            {
-                field.SetValueWithoutNotify(evt.previousValue);
-                Debug.LogWarning(e.Message);
-            }
-            finally
-            {
-                RecalculateSize();
-            }
-        }
-        
         protected virtual void SetCellValue(object value)
         {
             Cell.SetValue(value);
         }
 
-        protected void RecalculateSize()
+        public void RecalculateSize()
         {
             Vector2 size = SizeCalculator.CalculateSize(Cell, TableControl.Metadata);
             SetPreferredSize(size.x, size.y);

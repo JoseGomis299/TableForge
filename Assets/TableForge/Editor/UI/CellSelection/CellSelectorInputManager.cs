@@ -33,7 +33,6 @@ namespace TableForge.UI
         {
             VisualElement content = _tableControl.ScrollView.contentContainer;
             content.RegisterCallback<MouseDownEvent>(OnMouseDown, TrickleDown.TrickleDown);
-            content.RegisterCallback<MouseDownEvent>(OnMouseDown_NoTrickle, TrickleDown.NoTrickleDown);
             content.RegisterCallback<MouseMoveEvent>(OnMouseMove);
             _tableControl.Root.RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
@@ -51,15 +50,6 @@ namespace TableForge.UI
             _selector.PreselectCells(_lastMousePosition, evt.ctrlKey, evt.shiftKey);
         }
 
-        private void OnMouseDown_NoTrickle(MouseDownEvent evt)
-        {
-            if (!IsValidClick(evt))
-                return;
-            
-            _selector.ConfirmSelection();
-            evt.StopPropagation();
-        }
-        
         private void OnMouseMove(MouseMoveEvent evt)
         {
             if (evt.pressedButtons != 1 || !IsValidClick(evt))

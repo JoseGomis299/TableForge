@@ -185,7 +185,8 @@ namespace TableForge.UI
         {
             if (ResizingHeader == null 
                 || ExcludedFromManualResizing.Contains(ResizingHeader.Id) 
-                || downEvent.button != 0 || TableControl is { enabledInHierarchy: false })
+                || downEvent.button != 0 || TableControl is { enabledInHierarchy: false }
+                || !IsResizingArea(downEvent.position, out _))
                 return;
             
             IsResizing = true;

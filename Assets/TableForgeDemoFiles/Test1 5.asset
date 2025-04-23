@@ -51,13 +51,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
-  intField: 0
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  charValue: 49
+  intField: 123
+  floatField: 21
+  <PublicLongProperty>k__BackingField: 313
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 0
+    number: 12
     text: 0
     animationCurve:
       serializedVersion: 2
@@ -86,11 +86,11 @@ MonoBehaviour:
     structTest:
       number: 23
       boolean: 1
-    inheritorNumber: 0
-    inheritorText: 0
+    inheritorNumber: 12
+    inheritorText: 12
   inheritorClassAsInnerClass:
     number: 0
-    text: '{"keys":[{"time":0.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0},{"time":1.0,"value":1.0,"inTangent":2.0,"outTangent":2.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0}],"preWrapMode":8,"postWrapMode":8}'
+    text: a
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -116,11 +116,11 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 0100000015000000
+  intArray: 01000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 2
+  testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}

@@ -109,7 +109,7 @@ MonoBehaviour:
   vector2: {x: 23, y: 343}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 343, z: 0, w: 0}
-  testEnum: 23
+  testEnum: 0
   vector3Array: []
   stringIntDictionary:
     m_Keys:

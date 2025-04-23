@@ -41,7 +41,6 @@ namespace TableForge.UI
                 rowSplitBuffer.Add(rowBuffer);
             }
 
-            Debug.Log($"Cell count: {cellCount}, Buffer count: {splitBuffer.Count}");
             if (cellCount >= splitBuffer.Count || splitBuffer.Count > 1000)
                 Paste(cells, splitBuffer);
             else
@@ -133,6 +132,10 @@ namespace TableForge.UI
                             .Replace(SerializationConstants.CancelledColumnSeparator, SerializationConstants.ColumnSeparator);
                     
                     cell.TryDeserialize(data);
+                    if (cell is not SubTableCell) //Recalculate the cell size for the new value
+                    {
+                        CellControlFactory.GetCellControlFromId(cell.Id)?.RecalculateSize();
+                    }
                     bufferIndex = (bufferIndex + 1) % buffer.Count;
                 }
             }
@@ -192,6 +195,10 @@ namespace TableForge.UI
                                 SerializationConstants.ColumnSeparator);
 
                     currentCell.TryDeserialize(data);
+                    if (currentCell is not SubTableCell) //Recalculate the cell size for the new value
+                    {
+                        CellControlFactory.GetCellControlFromId(currentCell.Id)?.RecalculateSize();
+                    }
                     cellIndex++;
                 }
                 

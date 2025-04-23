@@ -1,9 +1,13 @@
+using System;
+using TableForge.Exceptions;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
     internal abstract class SimpleCellControl : CellControl, ISimpleCellControl
     {
+        public event Action<object> OnValueChange; 
         private VisualElement _field;
         
         public VisualElement Field
@@ -32,6 +36,24 @@ namespace TableForge.UI
         protected SimpleCellControl(Cell cell, TableControl tableControl) : base(cell, tableControl)
         {
             Serializer = new JsonSerializer();
+        }
+        
+        protected void OnChange<T>(ChangeEvent<T> evt, BaseField<T> field)
+        {
+            try
+            {
+                SetCellValue(evt.newValue);
+                OnValueChange?.Invoke(evt.newValue);
+            }
+            catch(InvalidCellValueException e)
+            {
+                field.SetValueWithoutNotify(evt.previousValue);
+                Debug.LogWarning(e.Message);
+            }
+            finally
+            {
+                RecalculateSize();
+            }
         }
         
         public virtual void FocusField()

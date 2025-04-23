@@ -68,11 +68,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 75c601255e8a4d75a9f75410e9d9fd22, type: 3}
-  B: 1
+  B: 0
   charValue: 0
-  intField: 0
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  intField: 1
+  floatField: 12
+  <PublicLongProperty>k__BackingField: 212
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
