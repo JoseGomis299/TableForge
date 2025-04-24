@@ -11,6 +11,9 @@ namespace TableForge.UI
     {
         private double _lastUpdateTime;
         private TableControl _tableControl;
+        private ToolbarController _toolbarController;
+        
+        public TableControl CurrentTable => _tableControl;
         
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
@@ -50,13 +53,16 @@ namespace TableForge.UI
             sw.Reset();
             sw.Start();
 
+            var toolbar = root.Q<VisualElement>("toolbar");
+            _toolbarController = new ToolbarController(toolbar, this);
+
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
             _tableControl.SetTable(table);
 
             mainTable.schedule.Execute(() =>
             {
                 mainTable.Add(_tableControl);
-            
+                
                 EditorApplication.update += Update;
                 InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
                 UiConstants.OnStylesInitialized -= OnStylesInitialized;

@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tableName: Test1 1
   expandedTables:
-    values: 
+    values: 2ccdb03f
   transposedTables:
     values: 
   hiddenFields:
     values: 
   cellAnchorMetadata:
-    m_Keys: 7e406e0ebf6995b722ad70d945816ceb277a55fa023f3e25300e887a7fa9ad8e9905f8ab1c36fb2e04cd4f9e220ee30bcda90b77a5a4d20e1a0d5dfdd4ca7a1728f157d43a761496
+    m_Keys: 7e406e0ebf6995b722ad70d945816ceb277a55fa023f3e25300e887a7fa9ad8e9905f8ab1c36fb2e04cd4f9e220ee30bcda90b77a5a4d20e1a0d5dfdd4ca7a1728f157d43a761496b39fd9c7c54f4b2a472c50f29612a592
     m_Values:
     - position: 0
       size: {x: 0, y: 24.666672}
@@ -41,7 +41,7 @@ MonoBehaviour:
     - position: 0
       size: {x: 0, y: 25.333328}
     - position: 7
-      size: {x: 0, y: 0}
+      size: {x: 0, y: 200}
     - position: 8
       size: {x: 0, y: 0}
     - position: 9
@@ -51,10 +51,18 @@ MonoBehaviour:
     - position: 12
       size: {x: 0, y: 0}
     - position: 13
-      size: {x: 0, y: 0}
+      size: {x: 0, y: 25.333344}
     - position: 15
       size: {x: 0, y: 0}
     - position: 0
       size: {x: 122.666504, y: 0}
     - position: 14
       size: {x: 0, y: 0}
+    - position: 0
+      size: {x: 212, y: 0}
+    - position: 0
+      size: {x: 108, y: 0}
+    - position: 0
+      size: {x: 0, y: 25.333313}
+    - position: 0
+      size: {x: 220.66675, y: 0}

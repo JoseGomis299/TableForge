@@ -25,23 +25,6 @@ namespace TableForge.UI
             }
             
             TableControl.HorizontalResizer.HandleResize(this, excludeFromManualResizing);
-            this.AddManipulator(new ContextualMenuManipulator(BuildContextMenu));
-        }
-
-        // Callback to build the context menu
-        void BuildContextMenu(ContextualMenuPopulateEvent evt)
-        {
-            if(TableControl.Parent == null)
-                evt.menu.AppendAction("Transpose table", TransposeTable, DropdownMenuAction.AlwaysEnabled);
-        }
-        
-        
-        void TransposeTable(DropdownMenuAction action)
-        {
-            TableControl.CellSelector.ClearSelection();
-
-            TableControl.Transpose();
-            TableControl.RebuildPage();
         }
     }
 }

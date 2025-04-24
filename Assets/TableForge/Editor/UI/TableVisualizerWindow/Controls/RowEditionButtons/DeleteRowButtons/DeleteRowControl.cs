@@ -3,26 +3,29 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
-    internal class DeleteRowControl : VisualElement
+    internal class DeleteRowControl : Button
     {
         public event Action OnRowDeleted;
         
         private readonly TableControl _tableControl;
         private readonly IRowDeletionStrategy _rowDeletionStrategy;
 
+        public sealed override string text
+        {
+            get => base.text;
+            set => base.text = value;
+        }
+
         public DeleteRowControl(TableControl tableControl, IRowDeletionStrategy rowDeletionStrategy)
         {
             _rowDeletionStrategy = rowDeletionStrategy;
             _tableControl = tableControl;
             
-            this.AddManipulator(new Clickable(DeleteRow));
+            clicked += DeleteRow;
             AddToClassList(USSClasses.SubTableToolbarButton);
-
-            Label text = new Label("-");
-            text.AddToClassList(USSClasses.RowEditionButtonLabel);
-            Add(text);
+            text = "-";
         }
-
+        
         private void DeleteRow()
         {
             _rowDeletionStrategy.DeleteRow(_tableControl);

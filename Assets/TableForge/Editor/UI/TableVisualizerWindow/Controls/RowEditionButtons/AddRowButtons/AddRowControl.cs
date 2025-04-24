@@ -3,25 +3,28 @@ using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
-    internal class AddRowControl : VisualElement
+    internal class AddRowControl : Button
     {
         public event Action OnRowAdded;
         private readonly IRowAdditionStrategy _rowAdditionStrategy;
         private readonly TableControl _tableControl;
 
+        public sealed override string text
+        {
+            get => base.text;
+            set => base.text = value;
+        }
+        
         public AddRowControl(TableControl tableControl, IRowAdditionStrategy rowAdditionStrategy)
         {
             _rowAdditionStrategy = rowAdditionStrategy;
             _tableControl = tableControl;
 
-            this.AddManipulator(new Clickable(AddRow));
+            clicked += AddRow;
             AddToClassList(USSClasses.SubTableToolbarButton);
-
-            Label text = new Label("+");
-            text.AddToClassList(USSClasses.RowEditionButtonLabel);
-            Add(text);
+            text = "+";
         }
-        
+
         private void AddRow()
         {
             _rowAdditionStrategy.AddRow(_tableControl);
