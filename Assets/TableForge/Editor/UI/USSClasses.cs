@@ -2,6 +2,8 @@ namespace TableForge.UI
 {
     internal static class USSClasses
     {
+        #region TableVisualize.uss
+
         public const string Fill = "fill";
         public const string Table = "table";
         public const string TableCorner = "table__corner";
@@ -26,10 +28,7 @@ namespace TableForge.UI
         public const string TableScrollViewContentContainer = "table__scroll-view-content__container";
         public const string TableScrollViewContentTop = "table__scroll-view-content--top";
         public const string TableScrollViewContentBottom = "table__scroll-view-content--bottom";
-        public const string Toolbar = "toolbar";
         public const string SubTableContentContainer = "sub-table__content-container";
-        public const string AddRowButton = "add-row__button";
-        public const string RowEditionButtonLabel = "add-row__button__label";
         public const string TableScrollViewContent = "table__scroll-view-content";
         public const string SubTableFoldout = "table__sub-table__foldout";
         public const string SubTableToolbarButton = "sub-table__toolbar__button";
@@ -41,7 +40,19 @@ namespace TableForge.UI
         public const string SubTableCornerContainer = "sub-table__corner-container";
         public const string SubTableHeaderText = "sub-table__header-text";
         public const string TableHeaderText = "table__header-text";
-        public const string CellOverlay = "table__cell__overlay";
+        public const string ToolbarTab = "toolbar__tab";
+        public const string ToolbarTabSelected = "toolbar__tab--selected";
+        public const string ToolbarTabContextButton = "toolbar__tab__context-button";
+        public const string ToolbarTabSelectButton = "toolbar__tab__select-button";
+        #endregion
+        
+        #region AddTabWindow.uss
+        
+        public const string TabButton = "tab-button";
+
+        #endregion
+        
+        
         
     }
 }

@@ -27,7 +27,11 @@ namespace TableForge.UI
         public static float ResizableBorderSpan { get; private set; }
         public static float SubTableToolbarWidth { get; private set; }
 
-
+        public const float TabMinWidth = 50f;
+        public const float TabMaxWidth = 400f;
+        public const float TabPadding = 20f;
+        public const float TabContextButtonWidth = 15f;
+        
         public const float BigCellPreferredWidth = 120;
         public const float SmallCellPreferredWidth = 50;
         public const float MinCellWidth = 20;

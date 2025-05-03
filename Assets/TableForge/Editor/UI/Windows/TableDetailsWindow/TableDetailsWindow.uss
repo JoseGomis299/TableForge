@@ -1,0 +1,19 @@
+.create-table-window {
+    padding: 10px;
+}
+
+.tree-container {
+    height: 500px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.type-selector {
+    margin-bottom: 10px;
+}
+
+.error-text {
+    color: rgb(176, 176, 176);
+    font-size: 12px;
+    -unity-text-align: middle-center;
+}

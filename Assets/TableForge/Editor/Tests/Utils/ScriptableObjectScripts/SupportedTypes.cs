@@ -127,7 +127,7 @@ namespace TableForge.Tests
         public NestedData complexTypeData;
 
         [System.Serializable]
-        public class NestedData
+        internal class NestedData
         {
             public int number;
             public string text;

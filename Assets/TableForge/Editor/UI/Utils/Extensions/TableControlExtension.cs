@@ -126,7 +126,7 @@ namespace TableForge.UI
             AdjustVerticalScroller(tableControl);
         }
 
-        public static void AdjustVerticalScroller(this TableControl tableControl)
+        public static void AdjustVerticalScroller(this TableControl tableControl, float scrollViewHeight = -1)
         {
             ScrollView scrollView = tableControl.ScrollView;
             
@@ -134,8 +134,11 @@ namespace TableForge.UI
             if(scrollView.horizontalScroller.visible && scrollView.horizontalScrollerVisibility != ScrollerVisibility.Hidden)
                 viewportHeight += scrollView.horizontalScroller.resolvedStyle.height;
             
-            float scrollerFactor = viewportHeight / scrollView.contentContainer.resolvedStyle.height;
-            if (!VerticalScrollerShouldBeVisible(tableControl))
+            if(scrollViewHeight == -1) 
+                scrollViewHeight = scrollView.contentContainer.resolvedStyle.height;
+            
+            float scrollerFactor = viewportHeight / scrollViewHeight;
+            if (!VerticalScrollerShouldBeVisible(tableControl, scrollViewHeight))
             {
                 scrollView.verticalScroller.Adjust(1);
                 scrollView.verticalScroller.visible = false;
@@ -151,15 +154,18 @@ namespace TableForge.UI
             }
         }
         
-        public static bool VerticalScrollerShouldBeVisible(this TableControl tableControl)
+        public static bool VerticalScrollerShouldBeVisible(this TableControl tableControl, float scrollViewHeight)
         {
+            if(scrollViewHeight == 0) 
+                return false;
+            
             ScrollView scrollView = tableControl.ScrollView;
             int maxDiff = 0;
             if (tableControl.Parent != null)
                 maxDiff = ToolbarData.SubTableMinScrollDiff;
             
-            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.height - scrollView.contentViewport.resolvedStyle.height);
-            return pixelDifference >= maxDiff;
+            int pixelDifference = (int)(scrollViewHeight - scrollView.contentViewport.resolvedStyle.height);
+            return pixelDifference > maxDiff;
         }
 
         public static void SetHorizontalScrollerMaxValue(this TableControl tableControl, float value)
@@ -172,11 +178,15 @@ namespace TableForge.UI
             AdjustHorizontalScroller(tableControl);
         }
 
-        public static void AdjustHorizontalScroller(this TableControl tableControl)
+        public static void AdjustHorizontalScroller(this TableControl tableControl, float scrollViewWidth = -1)
         {
             ScrollView scrollView = tableControl.ScrollView;
-            float scrollerFactor = scrollView.contentViewport.resolvedStyle.width / scrollView.contentContainer.resolvedStyle.width;
-            if (!HorizontalScrollerShouldBeVisible(tableControl))
+            
+            if(scrollViewWidth == -1) 
+                scrollViewWidth = scrollView.contentContainer.resolvedStyle.width;
+            
+            float scrollerFactor = scrollView.contentViewport.resolvedStyle.width / scrollViewWidth;
+            if (!HorizontalScrollerShouldBeVisible(tableControl, scrollViewWidth))
             {
                 scrollView.horizontalScroller.Adjust(1);
                 scrollView.horizontalScroller.visible = false;
@@ -192,15 +202,18 @@ namespace TableForge.UI
             }
         }
 
-        public static bool HorizontalScrollerShouldBeVisible(this TableControl tableControl)
+        public static bool HorizontalScrollerShouldBeVisible(this TableControl tableControl, float scrollViewWidth)
         {
+            if(scrollViewWidth == 0) 
+                return false;
+            
             ScrollView scrollView = tableControl.ScrollView;
             int maxDiff = 0;
             if (tableControl.Parent != null)
                 maxDiff = ToolbarData.SubTableMinScrollDiff;
 
-            int pixelDifference = (int)(scrollView.contentContainer.resolvedStyle.width - scrollView.contentViewport.resolvedStyle.width);
-            return pixelDifference >= maxDiff;
+            int pixelDifference = (int)(scrollViewWidth - scrollView.contentViewport.resolvedStyle.width);
+            return pixelDifference > maxDiff;
         }
 
     }

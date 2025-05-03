@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TableForge.Tests
 {
-    public class ItemSelectionTests
+    internal class ItemSelectionTests
     {
         [Test]
         public void ScriptableObjectSelection()

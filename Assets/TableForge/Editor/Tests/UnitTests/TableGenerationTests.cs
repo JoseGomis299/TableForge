@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TableForge.Tests
 {
-    public class TableGenerationTests
+    internal class TableGenerationTests
     {
         [Test]
         public void NoSerializableTypes_NoCellsGenerated()

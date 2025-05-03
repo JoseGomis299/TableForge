@@ -1,0 +1,13 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/TableForge/Editor/UI/CreateTableWindow/CreateTableWindow.uss?fileID=7433441132597879392&amp;guid=463e772740585cb40be64b579812e753&amp;type=3#CreateTableWindow" />
+    <engine:VisualElement class="create-table-window">
+        <engine:TextField label="Name" placeholder-text="table name" name="name-field" />
+        <engine:Label text="Selection Mode:" />
+        <engine:RadioButtonGroup name="mode-selector" choices="From Type,From Paths" value="2" />
+        <engine:DropdownField name="namespace-dropdown" label="Namespace" />
+        <engine:DropdownField name="type-dropdown" label="ScriptableObject Type" class="type-selector" />
+        <engine:VisualElement name="asset-tree-container" class="tree-container" style="display: flex;" />
+        <engine:Button name="confirm-button" text="Confirm" style="margin-bottom: 0;" />
+        <engine:Label text="Table with same name already exists!" name="error-text" class="error-text" style="color: rgb(180, 57, 57); margin-top: 0;" />
+    </engine:VisualElement>
+</engine:UXML>

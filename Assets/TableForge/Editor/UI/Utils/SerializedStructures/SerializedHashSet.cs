@@ -1,17 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TableForge.UI
 {
     [Serializable]
-    public class SerializedHashSet<T> : ISerializationCallbackReceiver, ISet<T>, IReadOnlyCollection<T>
+    internal class SerializedHashSet<T> : ISerializationCallbackReceiver, ISet<T>, IReadOnlyCollection<T>
     {
         [SerializeField]
         private List<T> values = new List<T>();
 
         private HashSet<T> _hashSet = new HashSet<T>();
+        
+        public IReadOnlyList<T> Values => _hashSet.ToList();
 
         #region Constructors
 

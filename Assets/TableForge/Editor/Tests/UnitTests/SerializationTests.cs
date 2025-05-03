@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace TableForge.Tests
 {
-    public class SerializationTests
+    internal class SerializationTests
     {
         [Test]
         public void GetSerializableFields()

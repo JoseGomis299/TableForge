@@ -1,21 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TableForge.UI
 {
     internal class TableMetadata : ScriptableObject
     {
         #region Fields
-
-        [SerializeField, HideInInspector] private string tableName;
         
-        [SerializeField, HideInInspector] private SerializedHashSet<int> expandedTables = new();
-        [SerializeField, HideInInspector] private SerializedHashSet<int> transposedTables = new();
-        [SerializeField, HideInInspector] private SerializedHashSet<int> hiddenFields = new();
+        [SerializeField] private SerializedHashSet<int> expandedTables = new();
+        [SerializeField] private SerializedHashSet<int> transposedTables = new();
+        [SerializeField] private SerializedHashSet<int> hiddenFields = new();
+            
+        [SerializeField] private string bindingTypeName;
+        [SerializeField] private SerializedHashSet<string> itemGUIDs = new();
         
         [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
+        
 
         #endregion
 
@@ -23,12 +28,12 @@ namespace TableForge.UI
 
         public string Name
         {
-            get => tableName;
+            get => name;
             set
             {
-                name = value;
-                tableName = value;
+                if (string.IsNullOrEmpty(value) || value == name) return;
                 
+                this.Rename(value);
                 SetDirtyIfNecessary();
             }
         }
@@ -44,7 +49,23 @@ namespace TableForge.UI
                 SetDirtyIfNecessary();
             }
         }
+
+        public IReadOnlyList<string> ItemGUIDs
+        {
+            get
+            {
+                RemoveNonExistingItemGUIDs();
+                return string.IsNullOrEmpty(bindingTypeName) ? 
+                    itemGUIDs.Values : 
+                    AssetDatabase.FindAssets($"t:{bindingTypeName}").ToList();
+            }
+        }
+           
         
+        public bool IsTypeBound => !string.IsNullOrEmpty(bindingTypeName);
+        
+        public string BindingTypeName => bindingTypeName;
+
         #endregion
         
         #region Getters
@@ -79,6 +100,52 @@ namespace TableForge.UI
         #endregion
         
         #region Setters
+        public void SetBindingType(Type type)
+        {
+            if (type == null)
+            {
+                bindingTypeName = null;
+                return;
+            }
+            
+            bindingTypeName = type.Name;
+            SetDirtyIfNecessary();
+        }
+        
+        public void SetItemGUIDs(Table table)
+        {
+            itemGUIDs.Clear();
+            foreach (var row in table.OrderedRows)
+            {
+                itemGUIDs.Add(row.SerializedObject.RootObjectGuid);
+            }
+            
+            SetDirtyIfNecessary();
+        }
+        
+        public void SetItemGUIDs(IEnumerable<string> guids)
+        {
+            itemGUIDs.Clear();
+            foreach (var guid in guids)
+            {
+                itemGUIDs.Add(guid);
+            }
+            
+            SetDirtyIfNecessary();
+        }
+        
+        public void AddItemGUID(string guid)
+        {
+            itemGUIDs.Add(guid);
+            SetDirtyIfNecessary();
+        }
+        
+        public void RemoveItemGUID(string guid)
+        {
+            itemGUIDs.Remove(guid);
+            SetDirtyIfNecessary();
+        }
+        
         public void SetFieldVisible(int anchorId, bool isVisible)
         {
             if(isVisible) hiddenFields.Remove(anchorId);
@@ -241,6 +308,26 @@ namespace TableForge.UI
             SetFieldVisible(anchor1, anchor2Visible);
             SetFieldVisible(anchor2, anchor1Visible);
         }
+        
+        private void RemoveNonExistingItemGUIDs()
+        {
+            if(IsTypeBound) return;
+            
+            var itemGUIDsToRemove = new List<string>();
+            foreach (var guid in itemGUIDs)
+            {
+                if (string.IsNullOrEmpty(guid) || string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid))
+                    || !AssetDatabase.AssetPathExists(AssetDatabase.GUIDToAssetPath(guid)))
+                {
+                    itemGUIDsToRemove.Add(guid);
+                }
+            }
+
+            foreach (var guid in itemGUIDsToRemove)
+            {
+                itemGUIDs.Remove(guid);
+            }
+        }
 
         #endregion
         
@@ -261,5 +348,4 @@ namespace TableForge.UI
         public int position;
         public Vector2 size;
     }
-    
 }

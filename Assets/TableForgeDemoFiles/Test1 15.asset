@@ -122,7 +122,18 @@ MonoBehaviour:
     rid: 4293495510529998918
   inheritorClassAsInnerClass2:
     rid: 854089074991693907
-  innerClasses: []
+  innerClasses:
+  - number: 0
+    text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   intArray: 1500000000000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 
 namespace TableForge
 {
@@ -8,25 +7,32 @@ namespace TableForge
     /// </summary>
     internal static class TableManager
     {
-        private static List<Table> _tables = new List<Table>();
-        
-        [MenuItem("TableForge/Generate Tables")]
         public static List<Table> GenerateTables()
         {
-            _tables.Clear();
-
+            List<Table> tables = new List<Table>();
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { "Assets/TableForgeDemoFiles" });
             List<List<ITFSerializedObject>> items = itemSelector.GetItemData();
             
             foreach (var item in items)
             {
-                //TODO: Add modal window to get table name
                 string tableName = item[0].Name;
                 Table table = TableGenerator.GenerateTable(item, tableName, null);
-                _tables.Add(table);
+                tables.Add(table);
             }
             
-            return _tables;
+            return tables;
+        }
+
+        public static Table GenerateTable(string[] paths, string tableName)
+        {
+            ItemSelector itemSelector = new ScriptableObjectSelector(paths);
+            List<List<ITFSerializedObject>> items = itemSelector.GetItemData();
+            
+            if (items.Count == 0)
+                return null;
+            
+            Table table = TableGenerator.GenerateTable(items[0], tableName, null);
+            return table;
         }
         
     }

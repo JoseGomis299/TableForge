@@ -1,0 +1,100 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.UIElements;
+
+namespace TableForge.UI
+{
+    internal class AddTabViewModel
+    {
+        public event Action<TabSelectionButton, bool> OnTabSelectionChanged;
+        
+        private readonly ToolbarController _toolbarController;
+        private readonly Dictionary<TableMetadata, TabSelectionButton> _tabButtons = new();
+
+        private HashSet<TableMetadata> OpenTables { get; } = new();
+
+        public AddTabViewModel(ToolbarController toolbarController)
+        {
+            _toolbarController = toolbarController;
+        }
+        
+        public void PopulateTabContainers(VisualElement existingTablesContainer, VisualElement openTabsContainer)
+        {
+            existingTablesContainer.Clear();
+            openTabsContainer.Clear();
+            List<TableMetadata> existingTables = TableMetadataManager.GetAllMetadata();
+            IEnumerable<TableMetadata> openedTables = _toolbarController.OpenTabs;
+
+            foreach (var table in openedTables)
+            {
+                openTabsContainer.Add(CreateTabButton(table, openTabsContainer));
+                OpenTables.Add(table);  
+            }
+            
+            foreach (var table in existingTables)
+            {
+                if (OpenTables.Contains(table)) continue;
+                CreateTabButton(table, existingTablesContainer);
+            }
+        }
+
+        public void ClearTabs()
+        {
+            List<TableMetadata> tablesToRemove = OpenTables.ToList();
+            foreach (var table in tablesToRemove)
+            {
+                OpenTables.Remove(table);
+            }
+        }
+
+        public void CreateNewTable(VisualElement container)
+        {
+            CreateTableViewModel viewModel = new CreateTableViewModel();
+            viewModel.OnTableCreated += (table) => CreateTabButton(table, container);
+            CreateTableWindow.ShowWindow(viewModel);
+        }
+
+        public void AddCurrentTabs()
+        {
+            // Close all tabs that are not in the OpenTables list
+            IEnumerable<TableMetadata> tabsToCheck = _toolbarController.OpenTabs.ToList();
+            foreach (var openTab in tabsToCheck)
+            {
+                if (OpenTables.Contains(openTab)) continue;
+                _toolbarController.CloseTab(openTab);
+            }
+            
+            // Open all tabs that are in the OpenTables list
+            foreach (var table in OpenTables)
+            {
+                _toolbarController.OpenTab(table);
+            }
+        }
+        
+        public void ToggleTab(TabSelectionButton tab)
+        {
+            bool opened = OpenTables.Contains(tab.TableMetadata);
+            
+            if (!opened)
+            {
+                OpenTables.Add(tab.TableMetadata);
+                OnTabSelectionChanged?.Invoke(tab, true);
+            }
+            else
+            {
+                OpenTables.Remove(tab.TableMetadata);
+                OnTabSelectionChanged?.Invoke(tab, false);
+            }
+        }
+        
+
+        private TabSelectionButton CreateTabButton(TableMetadata table, VisualElement parent)
+        {
+            TabSelectionButton button = new TabSelectionButton(table, this);
+            _tabButtons.Add(table, button);
+            parent.Add(button);
+            return button;
+        }
+    }
+}
