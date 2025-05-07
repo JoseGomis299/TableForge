@@ -9,18 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
-  m_Name: Test3 (2)
+  m_Script: {fileID: 11500000, guid: da1a671be96a4e47875a0c0be8565534, type: 3}
+  m_Name: Test3 4
   m_EditorClassIdentifier: 
-  expandedTables:
-    values: 
-  transposedTables:
-    values: 
-  hiddenFields:
-    values: 
-  bindingTypeName: Test3
-  itemGUIDs:
-    values: []
-  cellAnchorMetadata:
-    m_Keys: 
-    m_Values: []

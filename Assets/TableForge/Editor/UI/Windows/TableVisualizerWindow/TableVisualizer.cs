@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -51,12 +50,13 @@ namespace TableForge.UI
                 RowHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
             };
 
+            _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
+            mainTable.Add(_tableControl);
+            
             var toolbar = root.Q<VisualElement>("toolbar");
             _toolbarController = new ToolbarController(toolbar, this);
 
-            _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
-            mainTable.Add(_tableControl);
-                
+            _tableControl.OnTableModified += _toolbarController.UpdateTableCache;
             EditorApplication.projectChanged += OnProjectChanged;
             EditorApplication.update += Update;
             InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
@@ -68,16 +68,36 @@ namespace TableForge.UI
             if(_tableControl == null || _toolbarController.SelectedTab == null) return;
             
             TableMetadata metadata = _toolbarController.SelectedTab;
-            if (!metadata.IsTypeBound || 
-                (_tableControl.TableData != null 
-                 && metadata.ItemGUIDs.Count == _tableControl.TableData.Rows.Count)) return;
             
             // If the number of items in the table has changed, we need to create a new table with the new items.
-            Table table = TableMetadataManager.GetTable(metadata);
-            _toolbarController.UpdateTableCache(metadata, table);
-            _tableControl.SetTable(table);
+            if (metadata.IsTypeBound &&
+                (_tableControl.TableData == null || metadata.ItemGUIDs.Count != _tableControl.TableData.Rows.Count))
+            {
+                Table table = TableMetadataManager.GetTable(metadata);
+                _toolbarController.UpdateTableCache(metadata, table);
+                _tableControl.SetTable(table);
+                return;
+            }
+            
+            // If the table is not type bound, we need to check if any tracked items have been removed.
+            if (!metadata.IsTypeBound && _tableControl.TableData != null)
+            {
+                var missingRows = _tableControl.TableData.Rows.Values
+                    .Where(row => !AssetDatabase.AssetPathExists(AssetDatabase.GetAssetPath(row.SerializedObject.RootObject)))
+                    .ToList();
+                
+                foreach (var row in missingRows)
+                {
+                    metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
+                    _tableControl.RemoveRow(row.Id, false);
+                }
+                
+                _tableControl.RebuildPage();
+                return;
+            }
+            
+            _tableControl.UpdateAll();
         }
-        
         
         private void OnScriptableObjectModified(ScriptableObject scriptableObject)
         {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -28,8 +29,8 @@ namespace TableForge.UI
 
             foreach (var table in openedTables)
             {
-                openTabsContainer.Add(CreateTabButton(table, openTabsContainer));
                 OpenTables.Add(table);  
+                openTabsContainer.Add(CreateTabButton(table, openTabsContainer));
             }
             
             foreach (var table in existingTables)
@@ -88,6 +89,28 @@ namespace TableForge.UI
             }
         }
         
+        public void DeleteTab(TableMetadata tableMetadata)
+        {
+            if (_tabButtons.TryGetValue(tableMetadata, out var button))
+            {
+                button.RemoveFromHierarchy();
+                _tabButtons.Remove(tableMetadata);
+            }
+            
+            if (OpenTables.Contains(tableMetadata))
+            {
+                OpenTables.Remove(tableMetadata);
+            }
+            
+            _toolbarController.CloseTab(tableMetadata);
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(tableMetadata));
+            AssetDatabase.Refresh();
+        }
+        
+        public bool IsTabOpen(TableMetadata tableMetadata)
+        {
+            return OpenTables.Contains(tableMetadata);
+        }
 
         private TabSelectionButton CreateTabButton(TableMetadata table, VisualElement parent)
         {

@@ -57,10 +57,10 @@ namespace TableForge.UI
             menu.ShowAsContext();
         }
         
-        private void OnEditionComplete(TableMetadata newMetadata)
+        private void OnEditionComplete(TableMetadata metadata)
         {
-            ChangeButtonText(newMetadata.Name);
-            _tableMetadata = newMetadata;
+            if(metadata != _tableMetadata) return;
+            ChangeButtonText(metadata.Name);
         }
         
         private void ChangeButtonText(string newText)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d13b5613c9a2dd0469a2e03a11c76b2f, type: 3}
-  m_Name: Test1
+  m_Name: Test1 750
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
@@ -42,73 +42,37 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0.23, g: 0, b: 0, a: 1}
+  color: {r: 0, g: 0, b: 0, a: 0}
   animationCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 0}
-  B: 1
-  charValue: 48
+  B: 0
+  charValue: 0
   intField: 0
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0
-    text: 0
+    text: 
     animationCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 1
+      boolean: 0
     inheritorNumber: 0
-    inheritorText: 0
+    inheritorText: 
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -122,26 +86,13 @@ MonoBehaviour:
     rid: -2
   inheritorClassAsInnerClass2:
     rid: -2
-  innerClasses:
-  - number: 0
-    text: 
-    animationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    structTest:
-      number: 0
-      boolean: 0
-  intArray: 0100000015000000
-  vector2: {x: 23, y: 0}
+  innerClasses: []
+  intArray: 0100000002000000
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 123, z: 0, w: 0}
-  testEnum: 0
-  vector3Array:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  vector4: {x: 0, y: 0, z: 0, w: 0}
+  testEnum: 2
+  vector3Array: []
   stringIntDictionary:
     m_Keys:
     - key1
@@ -156,7 +107,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0
@@ -185,7 +136,7 @@ MonoBehaviour:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
-  shortValue: 32767
+  shortValue: 0
   sbyteValue: 0
   layerMask:
     serializedVersion: 2

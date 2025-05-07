@@ -11,5 +11,6 @@ namespace TableForge.UI
         bool IsAnchorSelected(CellAnchor cellAnchor);
         bool IsCellFocused(Cell cell);
         void ClearSelection();
+        void ClearSelection(Table fromTable);
     }
 }

@@ -233,6 +233,23 @@ namespace TableForge.UI
             ConfirmSelection();
         }
 
+        public void ClearSelection(Table fromTable)
+        {
+            if (fromTable == null)
+                return;
+
+            foreach (var cell in _selectedCells)
+            {
+                if (cell.Table == fromTable)
+                    _cellsToDeselect.Add(cell);
+            }
+            
+            ConfirmSelection();
+            
+            if (!_selectedCells.Contains(_focusedCell))
+               FocusedCell = _selectedCells.FirstOrDefault(); 
+        }
+
         #endregion
     }
 }

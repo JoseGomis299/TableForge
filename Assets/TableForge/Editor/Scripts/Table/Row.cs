@@ -15,6 +15,18 @@ namespace TableForge
         private List<Cell> _orderedCells;
         private Dictionary<int, Cell> _cells;
 
+        public override string Name
+        {
+            get
+            {
+                if(SerializedObject != null && SerializedObject is not ITFSerializedCollectionItem)
+                    return SerializedObject.RootObject.name;
+                
+                return base.Name;
+            }
+            protected set => base.Name = value;
+        }
+
         /// <summary>
         /// Collection of cells in the row, indexed by their column position.
         /// </summary>

@@ -5,6 +5,8 @@ namespace TableForge
     /// </summary>
     internal abstract class CellAnchor
     {
+        private string _name;
+
         /// <summary>
         /// The table to which the cell anchor belongs.
         /// </summary>
@@ -15,12 +17,16 @@ namespace TableForge
         /// </summary>
         /// <remarks>The id is unique only inside its table scope.</remarks>
         public int Id { get; protected set; }
-        
+
         /// <summary>
         /// The name of the cell anchor.
         /// </summary>
-        public string Name { get; protected set; }
-        
+        public virtual string Name
+        {
+            get => _name;
+            protected set => _name = value;
+        }
+
         /// <summary>
         /// The position of the cell anchor in the table in a 1-based index.
         /// </summary>

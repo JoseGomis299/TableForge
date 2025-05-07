@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace TableForge.UI
         {
             TableName = table.Name;
             UsePathsMode = !table.IsTypeBound;
-            SelectedType = table.IsTypeBound ? Type.GetType(table.BindingTypeName) : null;
+            SelectedType = table.GetItemsType();
             SelectedNamespace = string.IsNullOrEmpty(SelectedType?.Namespace) ? "Global" : SelectedType?.Namespace;
             
             if (UsePathsMode)
@@ -35,16 +36,19 @@ namespace TableForge.UI
         public void UpdateTable()
         {
             _tableMetadata.Name = TableName;
+            HashSet<string> previousGuids = new HashSet<string>(_tableMetadata.ItemGUIDs);
     
             if (UsePathsMode)
             {
                 string[] guids = SelectedAssets.Select(AssetDatabase.GetAssetPath).Select(AssetDatabase.AssetPathToGUID).ToArray();
+                _tableMetadata.SetItemsType(AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guids[0])));
                 _tableMetadata.SetItemGUIDs(guids);
                 _tableMetadata.SetBindingType(null);
             }
             else
             {
                 _tableMetadata.SetBindingType(SelectedType);
+                _tableMetadata.SetItemsType(SelectedType);
             }
             
             OnTableUpdated?.Invoke(_tableMetadata);

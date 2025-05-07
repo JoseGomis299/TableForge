@@ -36,6 +36,19 @@ namespace TableForge.UI
             {
                 IsSelected = tableControl.CellSelector.IsAnchorSelected(cellAnchor);
             };
+
+            if (cellAnchor is Row && !tableControl.Metadata.IsTypeBound)
+            {
+                this.AddManipulator(new ContextualMenuManipulator(MenuBuilder));
+            }
+        }
+
+        private void MenuBuilder(ContextualMenuPopulateEvent obj)
+        {
+            obj.menu.AppendAction("Remove Row", (a) =>
+            {
+                TableControl.RemoveRow(CellAnchor.Id);
+            });
         }
     }
 }

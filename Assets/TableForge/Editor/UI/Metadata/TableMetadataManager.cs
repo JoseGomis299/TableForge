@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,11 +25,14 @@ namespace TableForge.UI
             }
 
             var metadata = CreateMetadata(tableName);
+            Type itemsType = null;
             foreach (var guid in itemGUIDs)
             {
+                itemsType ??= AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guid));
                 metadata.AddItemGUID(guid);
             }
-
+            metadata.SetItemsType(itemsType);
+            
             StoreMetadata(tableName, path, metadata);
             return metadata;
         }
@@ -45,6 +47,7 @@ namespace TableForge.UI
 
             var metadata = CreateMetadata(tableName);
             metadata.SetBindingType(itemsType);
+            metadata.SetItemsType(itemsType);
 
             StoreMetadata(tableName, path, metadata);
             return metadata;
@@ -136,32 +139,7 @@ namespace TableForge.UI
 
         #region Path Getters
 
-        private static string GetPathToAssembly()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string[] guids = AssetDatabase.FindAssets("t:AssemblyDefinitionAsset");
-            foreach (string guid in guids)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                if (path.EndsWith(assembly.GetName().Name + ".asmdef"))
-                {
-                    return Path.GetDirectoryName(path)?.Replace("\\", "/");
-                }
-            }
-
-            return string.Empty;
-        }
-
-        private static string GetDataPath()
-        {
-            string path = GetPathToAssembly();
-            if (string.IsNullOrEmpty(path))
-            {
-                return string.Empty;
-            }
-
-            return Path.Combine(path, "UI", "Metadata", "Data");
-        }
+        private static string GetDataPath() => PathUtil.GetPath( "UI", "Metadata", "Data");
 
         #endregion
     }

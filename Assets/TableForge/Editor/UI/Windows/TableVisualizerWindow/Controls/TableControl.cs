@@ -10,6 +10,7 @@ namespace TableForge.UI
     {
         #region Fields
 
+        public event Action<TableMetadata, Table> OnTableModified; 
         public event Action<Vector2> OnScrollviewSizeChanged;
 
         private readonly Dictionary<int, CellAnchorData> _columnData = new();
@@ -200,6 +201,40 @@ namespace TableForge.UI
         #endregion
 
         #region Utilities
+        
+        public void RemoveRow(int id, bool rebuild = true)
+        {
+            Row row = Transposed ? _columnData[id].CellAnchor as Row : _rowData[id].CellAnchor as Row;
+            if (row == null) return;
+            
+            //Move row to the end and refresh metadata
+            TableData.MoveRow(row.Position, TableData.Rows.Count);
+            foreach (var r in TableData.OrderedRows)
+            {
+                Metadata.SetAnchorPosition(r.Id, r.Position);
+            }
+            
+            TableData.RemoveRow(row.Position); 
+
+            // Remove metadata
+            if(Parent == null) Metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
+            Metadata.RemoveAnchorMetadata(id);
+            foreach (var cell in row.OrderedCells)
+            {
+                Metadata.RemoveCellMetadata(cell.Id);
+
+                if (cell is SubTableCell subTableCell)
+                {
+                    foreach (var descendant in subTableCell.GetDescendants())
+                    {
+                        Metadata.RemoveCellMetadata(descendant.Id); 
+                    }
+                }
+            }
+            
+            if(rebuild) RebuildPage();
+            OnTableModified?.Invoke(Metadata, TableData);
+        }
 
         public void Transpose()
         {
@@ -322,10 +357,25 @@ namespace TableForge.UI
             }
             else
             {
-                foreach (var column in TableData.OrderedRows)
+                SortedList<int, Row> rowPositions = new SortedList<int, Row>();
+
+                foreach (var row in TableData.OrderedRows)
                 {
-                    BuildColumn(column);
+                    BuildColumn(row);
+
+                    //If the row position is not 0, it means it has been moved during other sessions
+                    int storedPosition = Metadata.GetAnchorPosition(row.Id);
+                    if (storedPosition != 0)
+                        rowPositions.Add(storedPosition, row);
                 }
+
+                // Move rows to their stored positions
+                foreach (var row in rowPositions)
+                {
+                    MoveRow(row.Value.Position, row.Key, false);
+                }
+
+                UpdateAll();
             }
             
             _orderedColumnHeaders = ColumnHeaders.Values.OrderBy(x => x.CellAnchor.Position).ToList();
@@ -412,8 +462,11 @@ namespace TableForge.UI
                 var nextRow = this.GetRowAtPosition(nextIndex + 1);
                 Metadata.SetAnchorPosition(nextRow.Id, currentIndex + 1);
 
-                _rowsContainer.SwapChildren(currentIndex, nextIndex);
-                _rowHeaderContainer.SwapChildren(currentIndex, nextIndex);
+                if (!Transposed)
+                {
+                    _rowsContainer.SwapChildren(currentIndex, nextIndex);
+                    _rowHeaderContainer.SwapChildren(currentIndex, nextIndex);
+                }
 
                 currentIndex = nextIndex;
             }
@@ -441,7 +494,7 @@ namespace TableForge.UI
             TableData.MoveRow(rowStartPos, rowEndPos);
             if (refresh)
             {
-                CellSelector.ClearSelection();
+                CellSelector.ClearSelection(TableData);
                 RebuildPage();
             }
         }
@@ -644,5 +697,7 @@ namespace TableForge.UI
         #endregion
 
         #endregion
+
+        
     }
 }

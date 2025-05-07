@@ -40,6 +40,7 @@ namespace TableForge.UI
             _treeView.makeItem = MakeTreeItem;
             _treeView.bindItem = BindTreeItem;
             _treeView.unbindItem = UnbindTreeItem;
+            _treeView.viewDataKey = "asset-tree-view";
 
             Add(_treeView);
         }
@@ -50,12 +51,15 @@ namespace TableForge.UI
             container.Add(new Toggle { name = "item-toggle", style = { width = 20 } });
             container.Add(new Label { name = "item-label", style = { flexGrow = 1 } });
 
+            var itemCount = new UnsignedIntegerField { name = "item-count", label = "count", maxLength = 2, value = 1, style = { width = 60, visibility = Visibility.Hidden}};
+            var itemCountLabel = itemCount.Q<Label>();
+            itemCountLabel.style.minWidth = 0;
             var addButton = new Button { name = "add-button", text = "+", style = { width = 20, visibility = Visibility.Hidden } };
+            container.Add(itemCount);
             container.Add(addButton);
 
             return container;
         }
-
 
         private void BindTreeItem(VisualElement element, int index)
         {
@@ -65,8 +69,8 @@ namespace TableForge.UI
             var toggle = element.Q<Toggle>("item-toggle");
             var label = element.Q<Label>("item-label");
             var addButton = element.Q<Button>("add-button");
+            var itemCount = element.Q<UnsignedIntegerField>("item-count");
 
-            toggle.SetValueWithoutNotify(itemData.IsSelected);
             EventCallback<ChangeEvent<bool>> callback = evt =>
             {
                 itemData.IsSelected = evt.newValue;
@@ -83,13 +87,15 @@ namespace TableForge.UI
             }
             toggle.RegisterValueChangedCallback(_toggleCallbacks[toggle]);
 
-            label.text = itemData.Name;
+            label.text = itemData.IsFolder ? itemData.Name : itemData.Name.Remove(itemData.Name.Length - 6); // Remove ".asset"
             label.style.marginLeft = itemData.IsFolder ? 0 : 20;
 
             if (itemData.IsFolder)
             {
+                itemCount.visible = true;
+                itemCount.style.visibility = Visibility.Visible;
                 addButton.style.visibility = Visibility.Visible;
-                if(!_buttonCallbacks.TryAdd(addButton, () => _detailsViewModel.CreateNewAssetInFolder(itemData)))
+                if(!_buttonCallbacks.TryAdd(addButton, () => _detailsViewModel.CreateNewAssetsInFolder(itemData, itemCount.value)))
                 {
                     addButton.clicked -= _buttonCallbacks[addButton];
                 }
@@ -97,6 +103,8 @@ namespace TableForge.UI
             }
             else
             {
+                itemCount.visible = false;
+                itemCount.style.visibility = Visibility.Hidden;
                 addButton.style.visibility = Visibility.Hidden;
             }
 
@@ -104,17 +112,16 @@ namespace TableForge.UI
             
             if(itemData.IsSelected)
             {
-                toggle.value = true;
+                toggle.SetValueWithoutNotify(true);
             }
             else
             {
-                if(itemData.IsPartiallySelected)
+                if(itemData.IsPartiallySelected && itemData.IsFolder)
                     toggle.showMixedValue = true;
                 else
-                    toggle.value = false;
+                    toggle.SetValueWithoutNotify(false);
             }
         }
-
         
         private void UnbindTreeItem(VisualElement element, int index)
         {

@@ -53,13 +53,30 @@ Button:active {
 }
 
 .tab-button {
-    height: 25px;
+    height: 100%;
     width: 75px;
+    border-width: 0;
+    margin: 0;
+    border-radius: var(--border-radius);
+}
+
+.tab-button--closed{
+    border-radius: 0;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+}
+
+.tab-button__container {
+    height: 25px;
+    width: auto;
     border-color: var(--dark-border-color);
     border-width: 1px;
     border-radius: var(--border-radius);
     background-color: var(--background-color-dark);
     margin: 5px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .tab-button:hover {
@@ -69,4 +86,17 @@ Button:active {
 
 .tab-button:active {
     background-color: var(--active-color);
+}
+
+.tab-button__delete-button {
+    width: 20px;
+    height: 100%;
+    border-width: 0;
+    border-radius: 0;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    background-color: var(--background-color-darker);
+    margin: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
 }

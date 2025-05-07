@@ -9,7 +9,23 @@ namespace TableForge
     internal class GradientCell : Cell
     {
         public GradientCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-        
+
+        public override void SetValue(object value)
+        {
+            base.SetValue(value);
+            if(Value != null) return;
+
+            Value = new Gradient();
+        }
+
+        public override void RefreshData()
+        {
+            base.RefreshData();
+            if(Value != null) return;
+
+            Value = new Gradient();
+        }
+
         public override string Serialize()
         {
             SerializableGradient data = new SerializableGradient((Gradient) GetValue());

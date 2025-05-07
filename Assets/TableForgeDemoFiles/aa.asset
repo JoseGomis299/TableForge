@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5159ade3a15848979f6891a83cfd698c, type: 3}
-  m_Name: Test2
+  m_Name: aa
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2

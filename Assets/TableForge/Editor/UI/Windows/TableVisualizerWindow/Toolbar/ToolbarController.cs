@@ -38,10 +38,17 @@ namespace TableForge.UI
         {
             BindVisualElements();
             RegisterEvents();
-            
+            OpenStoredTabs();
         }
-        
-        
+
+        private void OpenStoredTabs()
+        {
+            foreach (var table in  SessionCache.GetOpenTabs())
+            {
+                OpenTab(table);
+            }
+        }
+
         private void BindVisualElements()
         {
             _addTabButton = _toolbar.Q<Button>("add-tab-button");
@@ -72,7 +79,8 @@ namespace TableForge.UI
             _openTabs.Add(table);
             _orderedOpenTabs.Add(table);
             _tabControls.Add(table, tabControl);
-            
+            SessionCache.OpenTab(table);
+
             if(_selectedTab == null)
             {
                 SelectTab(table);
@@ -94,6 +102,7 @@ namespace TableForge.UI
             _orderedOpenTabs.Remove(tab.TableMetadata);
             _cachedTables.Remove(tab.TableMetadata);
             _tabControls.Remove(tab.TableMetadata);
+            SessionCache.CloseTab(tab.TableMetadata);
 
             if (_selectedTab != tab.TableMetadata) return;
             SelectTab(_openTabs.Count > 0 ? _openTabs.First() : null);
@@ -126,7 +135,8 @@ namespace TableForge.UI
                 
                 Table newTable = TableMetadataManager.GetTable(table);
                 _cachedTables[tableMetadata] = newTable;
-                _tableVisualizer.SetTable(newTable);
+                _selectedTab = null;
+                SelectTab(tableMetadata);
             };
             EditTableWindow.ShowWindow(viewModel);
         }

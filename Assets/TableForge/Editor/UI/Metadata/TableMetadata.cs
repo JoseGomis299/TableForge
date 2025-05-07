@@ -16,6 +16,7 @@ namespace TableForge.UI
         [SerializeField] private SerializedHashSet<int> transposedTables = new();
         [SerializeField] private SerializedHashSet<int> hiddenFields = new();
             
+        [SerializeField] private string itemsTypeName;
         [SerializeField] private string bindingTypeName;
         [SerializeField] private SerializedHashSet<string> itemGUIDs = new();
         
@@ -60,12 +61,15 @@ namespace TableForge.UI
                     AssetDatabase.FindAssets($"t:{bindingTypeName}").ToList();
             }
         }
-           
+        
+        public bool ContainsItem(string guid) => IsTypeBound
+                ? AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guid)).Name == bindingTypeName
+                : itemGUIDs.Contains(guid);
         
         public bool IsTypeBound => !string.IsNullOrEmpty(bindingTypeName);
         
         public string BindingTypeName => bindingTypeName;
-
+        
         #endregion
         
         #region Getters
@@ -94,6 +98,20 @@ namespace TableForge.UI
         {
             cellAnchorMetadata ??= new SerializedDictionary<int, CellAnchorMetadata>();
             return cellAnchorMetadata.TryGetValue(anchorId, out var metadata) ? metadata.size : Vector2.zero;
+        }
+        
+        public Type GetItemsType()
+        {
+            if (string.IsNullOrEmpty(itemsTypeName)) return null;
+            
+            Type type = Type.GetType(itemsTypeName);
+            if (type == null)
+            {
+                Debug.LogError($"Failed to find type: {itemsTypeName}");
+                return null;
+            }
+            
+            return type;
         }
         
         
@@ -186,9 +204,38 @@ namespace TableForge.UI
             SetDirtyIfNecessary();
         }
         
+        public void SetItemsType(Type type)
+        {
+            if (type == null)
+            {
+                itemsTypeName = null;
+                return;
+            }
+            
+            itemsTypeName = type.AssemblyQualifiedName;
+            SetDirtyIfNecessary();
+        }
+        
         #endregion
 
         #region Utility
+        
+        public void RemoveAnchorMetadata(int anchorId)
+        {
+            if (cellAnchorMetadata.ContainsKey(anchorId))
+            {
+                cellAnchorMetadata.Remove(anchorId);
+            }
+            hiddenFields.Remove(anchorId);
+            
+            SetDirtyIfNecessary();
+        }
+        
+        public void RemoveCellMetadata(int cellId)
+        {
+            expandedTables.Remove(cellId);
+            transposedTables.Remove(cellId);
+        }
 
         public void SwapMetadata(CellAnchor cellAnchor1, CellAnchor cellAnchor2)
         {

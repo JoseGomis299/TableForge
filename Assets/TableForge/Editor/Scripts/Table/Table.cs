@@ -281,7 +281,7 @@ namespace TableForge
                 return;
             
             if (!anchors.ContainsKey(fromPosition) || !anchors.ContainsKey(toPosition))
-                throw new ArgumentException("Invalid label position");
+                throw new ArgumentException("Invalid position " + fromPosition + " or " + toPosition);
             
             T currentAnchor = anchors[fromPosition];
             if (currentAnchor.IsStatic)

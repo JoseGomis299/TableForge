@@ -105,7 +105,7 @@ MonoBehaviour:
   inheritorClassAsInnerClass2:
     rid: 854089136813637702
   innerClasses:
-  - number: 0
+  - number: 5
     text: 
     animationCurve:
       serializedVersion: 2
@@ -116,7 +116,18 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 01000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000150000001500000015000000
+  - number: 5
+    text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  intArray: 01000000150000001500000015000000150000001500000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}

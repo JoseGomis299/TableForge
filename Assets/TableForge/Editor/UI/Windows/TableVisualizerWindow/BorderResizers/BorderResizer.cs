@@ -81,7 +81,7 @@ namespace TableForge.UI
                 delta += InstantResize(header, fitStoredSize);
             }
 
-            InvokeResize(ResizingHeaders.Values.First(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
+            InvokeResize(ResizingHeaders.Values.FirstOrDefault(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
             return delta;
         }
 
@@ -107,7 +107,7 @@ namespace TableForge.UI
         
         protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize)
         {
-            if(delta == 0) return;
+            if(delta == 0 || target == null) return;
 
             if (targetSize == Vector2.zero)
             {
@@ -116,15 +116,9 @@ namespace TableForge.UI
                     : TableControl.PreferredSize.GetHeaderSize(target.CellAnchor);
             }
 
-            bool sizeIsSet;
-            if (target is RowHeaderControl)
-            {
-                sizeIsSet = Mathf.Approximately(Mathf.Round(target.resolvedStyle.height), Mathf.Round(targetSize.y));
-            }
-            else
-            {
-                sizeIsSet = Mathf.Approximately(Mathf.Round(target.resolvedStyle.width), Mathf.Round(targetSize.x));
-            }
+            var sizeIsSet = target is RowHeaderControl 
+                ? Mathf.Approximately(Mathf.Round(target.resolvedStyle.height), Mathf.Round(targetSize.y)) 
+                : Mathf.Approximately(Mathf.Round(target.resolvedStyle.width), Mathf.Round(targetSize.x));
 
             if(sizeIsSet)
             {

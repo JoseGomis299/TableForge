@@ -11,7 +11,10 @@ namespace TableForge.UI
     internal class TableDetailsViewModel
     {
         public event Action OnTreeUpdated;
-
+        
+        private int _idCounter;
+        private readonly Dictionary<string, HashSet<Type>> _namespaceTypes = new();
+        
         protected readonly HashSet<ScriptableObject> SelectedAssets = new();
         protected readonly Dictionary<string, Type> AvailableTypes = new();
         protected readonly HashSet<string> TypeNames = new();
@@ -58,6 +61,7 @@ namespace TableForge.UI
         
         public void RefreshTree()
         {
+            _idCounter = 0;
             TreeItems.Clear();
             var guids = AssetDatabase.FindAssets($"t:{SelectedType?.Name}");
             var folderMap = new Dictionary<string, TreeItem>();
@@ -69,7 +73,7 @@ namespace TableForge.UI
                 Name = "Assets",
                 IsFolder = true,
                 Asset = null,
-                Parent = null
+                Parent = null,
             };
             TreeItems.Add(assetsRoot);
             folderMap["Assets"] = assetsRoot;
@@ -98,7 +102,7 @@ namespace TableForge.UI
                             IsFolder = !isLeaf,
                             Asset = isLeaf ? asset : null,
                             Parent = parent,
-                            IsSelected = isLeaf && SelectedAssets.Contains(asset)
+                            IsSelected = isLeaf && SelectedAssets.Contains(asset),
                         };
                         parent.Children.Add(node);
 
@@ -119,38 +123,23 @@ namespace TableForge.UI
         public void PopulateTypeDropdown(DropdownField typeDropdown)
         {
             typeDropdown.choices.Clear();
-            AvailableTypes.Clear();
             typeDropdown.SetValueWithoutNotify(string.Empty);
 
-            var typeSet = new HashSet<Type>();
-            TypeNames.Clear();
+            AvailableTypes.Clear();
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
+            var orderedTypes = _namespaceTypes[SelectedNamespace].OrderBy(t => t.Name).ToList();
+            foreach (var type in orderedTypes)
             {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if(IsTypeInvalid(type)) continue;
-
-                    if (string.IsNullOrEmpty(SelectedNamespace) ||
-                        type.Namespace == SelectedNamespace ||
-                        (type.Namespace == null && SelectedNamespace == "Global"))
-                    {
-                        typeSet.Add(type);
-                        AvailableTypes.TryAdd(type.Name, type);
-                        TypeNames.Add(type.Name);
-                    }
-                }
+                TypeNames.Add(type.Name);
+                AvailableTypes[type.Name] = type;
             }
 
-            var soTypes = typeSet.OrderBy(t => t.Name).ToList();
-
-            if (SelectedType == null || !soTypes.Contains(SelectedType))
+            if (SelectedType == null || !_namespaceTypes[SelectedNamespace].Contains(SelectedType))
             {
-                SelectedType = soTypes.FirstOrDefault();
+                SelectedType = orderedTypes.FirstOrDefault();
             }
             
-            typeDropdown.choices = soTypes.ConvertAll(t => t.Name);
+            typeDropdown.choices = orderedTypes.ConvertAll(t => t.Name);
             typeDropdown.SetValueWithoutNotify(SelectedType?.Name);
         }
         
@@ -174,10 +163,14 @@ namespace TableForge.UI
                     if (string.IsNullOrEmpty(assetNamespace))
                     {
                         globalNamespace = true;
+                        _namespaceTypes.TryAdd("Global", new HashSet<Type>());
+                        _namespaceTypes["Global"].Add(type);
                     }
                     else
                     {
                         namespaceSet.Add(assetNamespace);
+                        _namespaceTypes.TryAdd(assetNamespace, new HashSet<Type>());
+                        _namespaceTypes[assetNamespace].Add(type);
                     }
                 }
             }
@@ -231,7 +224,7 @@ namespace TableForge.UI
             PopulateTypeDropdown(typeDropdown);
         }
         
-        public void CreateNewAssetInFolder(TreeItem itemData)
+        public void CreateNewAssetsInFolder(TreeItem itemData, uint count)
         {
             string path = itemData.Name;
             TreeItem parent = itemData.Parent;
@@ -240,14 +233,28 @@ namespace TableForge.UI
                 path = parent.Name + "/" + path;
                 parent = parent.Parent;
             }
-            
-            string assetPath = AssetDatabase.GenerateUniqueAssetPath(path + "/" + SelectedType.Name + ".asset");
-            var asset = ScriptableObject.CreateInstance(SelectedType);
-            AssetDatabase.CreateAsset(asset, assetPath);
+
+            for (uint i = 0; i < count; i++)
+            {
+                string assetPath = AssetDatabase.GenerateUniqueAssetPath(path + "/" + SelectedType.Name + ".asset");
+                var asset = ScriptableObject.CreateInstance(SelectedType);
+                AssetDatabase.CreateAsset(asset, assetPath);
+                SelectedAssets.Add(asset);
+                
+                var item = new TreeItem
+                {
+                    Id = GetUniqueId(),
+                    Name = asset.name,
+                    IsFolder = false,
+                    Asset = asset,
+                    Parent = itemData,
+                    IsSelected = true,
+                };
+                itemData.Children.Add(item);
+            }
+           
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            
-            SelectedAssets.Add(asset);
             RefreshTree();
         }
         
@@ -266,7 +273,11 @@ namespace TableForge.UI
             return assemblyName.StartsWith("Unity")|| assemblyName.StartsWith("UnityEngine") || assemblyName.StartsWith("UnityEditor");
         }
 
-        private static int _idCounter;
-        private static int GetUniqueId() => _idCounter++;
+        private int GetUniqueId() => _idCounter++;
+
+        private void StoreOpenItems()
+        {
+            
+        }
     }
 }
