@@ -132,6 +132,31 @@ namespace TableForge.UI
 
         public static Table GetTable(TableMetadata metadata)
         {
+            // string[] paths = new string[metadata.ItemGUIDs.Count];
+            // (int id, int pos)[] anchorData = new (int id, int pos)[paths.Length];
+            // int maxPos = 0;
+            //
+            // for (int i = 0; i < paths.Length; i++)
+            // {
+            //     int anchorId = HashCodeUtil.CombineHashes(metadata.ItemGUIDs[i]);
+            //     int pos = metadata.GetAnchorPosition(anchorId);
+            //     pos = pos == 0 ? i + 1 : pos;
+            //     anchorData[i] = (anchorId, pos);
+            //     maxPos = Mathf.Max(maxPos, pos);
+            // }
+            //
+            // int diff = paths.Length - maxPos;
+            //
+            // for (int i = 0; i < paths.Length; i++)
+            // {
+            //     int anchorId = anchorData[i].id;
+            //     int pos = anchorData[i].pos;
+            //     if (pos > paths.Length) pos += diff;
+            //     
+            //     metadata.SetAnchorPosition(anchorId, pos);
+            //     paths[pos - 1] = AssetDatabase.GUIDToAssetPath(metadata.ItemGUIDs[i]);
+            // }
+            
             return TableManager.GenerateTable(metadata.ItemGUIDs.Select(AssetDatabase.GUIDToAssetPath).ToArray(), metadata.Name);
         }
 

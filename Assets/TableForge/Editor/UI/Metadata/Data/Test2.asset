@@ -19,15 +19,27 @@ MonoBehaviour:
   hiddenFields:
     values: 
   itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  bindingTypeName: Test2
+  bindingTypeName: 
   itemGUIDs:
-    values: []
+    values:
+    - 069246b1274b2c44f9d8281be12d1d35
+    - 04a176dbb68e25647ae50940f043c3ef
   cellAnchorMetadata:
-    m_Keys: 2c228cec933ba2e40a3c7081
+    m_Keys: d76498ed430df8384adf54464c22dc503248d3e86f871257c9059d9cc472dfb5
     m_Values:
+    - position: 1
+      size: {x: 0, y: 0}
+    - position: 1
+      size: {x: 0, y: 0}
+    - position: 2
+      size: {x: 0, y: 0}
     - position: 2
       size: {x: 0, y: 0}
     - position: 3
       size: {x: 0, y: 0}
-    - position: 1
+    - position: 4
+      size: {x: 0, y: 0}
+    - position: 5
+      size: {x: 0, y: 0}
+    - position: 6
       size: {x: 0, y: 0}

@@ -36,7 +36,7 @@ namespace TableForge.UI
         public void UpdateTable()
         {
             _tableMetadata.Name = TableName;
-            HashSet<string> previousGuids = new HashSet<string>(_tableMetadata.ItemGUIDs);
+            HashSet<string> removedGuids = new HashSet<string>(_tableMetadata.ItemGUIDs);
     
             if (UsePathsMode)
             {
@@ -49,6 +49,13 @@ namespace TableForge.UI
             {
                 _tableMetadata.SetBindingType(SelectedType);
                 _tableMetadata.SetItemsType(SelectedType);
+            }
+
+            removedGuids.ExceptWith(_tableMetadata.ItemGUIDs);
+            foreach (var guid in removedGuids)
+            {
+                int anchorId = HashCodeUtil.CombineHashes(guid);
+                _tableMetadata.RemoveAnchorMetadata(anchorId);
             }
             
             OnTableUpdated?.Invoke(_tableMetadata);

@@ -192,6 +192,19 @@ namespace TableForge.UI
             SetDirtyIfNecessary();
         }
         
+        public void SetAnchorPositions(Table table)
+        {
+            foreach (var column in table.OrderedColumns)
+            {
+                SetAnchorPosition(column.Id, column.Position);
+            }
+
+            foreach (var row in table.OrderedRows)
+            {
+                SetAnchorPosition(row.Id, row.Position);
+            }
+        }
+        
         public void SetAnchorSize(int anchorId, Vector2 size)
         {
             if (!cellAnchorMetadata.TryGetValue(anchorId, out var metadata))

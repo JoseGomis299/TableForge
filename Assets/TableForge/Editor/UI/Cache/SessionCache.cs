@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace TableForge.UI
             if (cacheData == null)
                 return new List<TableMetadata>();
 
-            return cacheData.OpenTabs.Values;
+            return cacheData.OpenTabs.Values.Where(x => x != null).ToList();
         }
         
         public static void OpenTab(TableMetadata tableMetadata)

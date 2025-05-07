@@ -372,7 +372,7 @@ namespace TableForge.UI
                 // Move rows to their stored positions
                 foreach (var row in rowPositions)
                 {
-                    MoveRow(row.Value.Position, row.Key, false);
+                    MoveRow(row.Value.Position, Mathf.Min(row.Key, TableData.Rows.Count), false);
                 }
 
                 UpdateAll();
@@ -414,7 +414,7 @@ namespace TableForge.UI
                 // Move rows to their stored positions
                 foreach (var row in rowPositions)
                 {
-                    MoveRow(row.Value.Position, row.Key, false);
+                    MoveRow(row.Value.Position, Mathf.Min(row.Key, TableData.Rows.Count), false);
                 }
 
                 UpdateAll();

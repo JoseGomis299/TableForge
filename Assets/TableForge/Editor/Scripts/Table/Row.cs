@@ -74,7 +74,7 @@ namespace TableForge
             
             if (!Table.IsSubTable)
             {
-                Id = HashCodeUtil.CombineHashes(guid, true, Table.Name);
+                Id = HashCodeUtil.CombineHashes(guid);
             }
             else
             {
