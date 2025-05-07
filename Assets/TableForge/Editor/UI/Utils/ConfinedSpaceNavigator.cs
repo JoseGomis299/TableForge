@@ -15,10 +15,10 @@ namespace TableForge.UI
             if (cells == null || cells.Count == 0)
                 return;
         
-            Dictionary<string, List<Cell>> cellGroups = new Dictionary<string, List<Cell>>();
+            Dictionary<int, List<Cell>> cellGroups = new Dictionary<int, List<Cell>>();
             List<Cell> sortedCells = cells.OrderBy(cell => cell.GetDepth()).ToList();
-            HashSet<string> pointedGroups = new HashSet<string>();
-            LinkedList<string> notPointedGroups = new LinkedList<string>();
+            HashSet<int> pointedGroups = new HashSet<int>();
+            LinkedList<int> notPointedGroups = new LinkedList<int>();
 
             // Create groups for cells.
             foreach (var cell in sortedCells)
@@ -33,16 +33,16 @@ namespace TableForge.UI
 
                 if (!cell.Table.IsSubTable)
                 {
-                    if (!cellGroups.ContainsKey(string.Empty))
+                    if (!cellGroups.ContainsKey(0))
                     {
-                        cellGroups[string.Empty] = new List<Cell>();
+                        cellGroups[0] = new List<Cell>();
                     }
-                    cellGroups[string.Empty].Add(cell);
+                    cellGroups[0].Add(cell);
                     pointedGroups.Add(cell.Id);
                 }
                 else
                 {
-                    string parentId = cell.Table.ParentCell.Id;
+                    int parentId = cell.Table.ParentCell.Id;
                     if (!cellGroups.ContainsKey(parentId))
                     {
                         cellGroups[parentId] = new List<Cell>();
@@ -86,7 +86,7 @@ namespace TableForge.UI
             else _currentIndex = 0;
         }
         
-        private void AddCellsFromId(string id, Dictionary<string, List<Cell>> groups)
+        private void AddCellsFromId(int id, Dictionary<int, List<Cell>> groups)
         {
             if (!groups.TryGetValue(id, out var group))
                 return;

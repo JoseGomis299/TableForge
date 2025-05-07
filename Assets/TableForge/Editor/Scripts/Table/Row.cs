@@ -74,11 +74,11 @@ namespace TableForge
             
             if (!Table.IsSubTable)
             {
-                Id = guid;
+                Id = HashCodeUtil.CombineHashes(guid, true, Table.Name);
             }
             else
             {
-                Id = guid + " " + Position + " " + Table.Name;
+                Id = HashCodeUtil.CombineHashes(guid, Position, true, Table.Name);
             }
         }
         

@@ -56,7 +56,7 @@ namespace TableForge
         /// <summary>
         /// Unique identifier of the cell in the table.
         /// </summary>
-        public string Id { get; }
+        public int Id { get; }
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace TableForge
             Value = GetFieldValue();
             Serializer = new JsonSerializer();
             
-            Id = Column.Id + Row.Id + GetPosition();
+            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id, GetPosition());
         }
         #endregion
 

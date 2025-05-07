@@ -47,7 +47,7 @@ namespace TableForge.UI
             return !tableControl.Transposed ? cell.Column : cell.Row;
         }
 
-        public static int GetColumnPosition(this TableControl tableControl, string columnId)
+        public static int GetColumnPosition(this TableControl tableControl, int columnId)
         {
             if (!tableControl.ColumnData.ContainsKey(columnId))
                 return -1;
@@ -70,12 +70,12 @@ namespace TableForge.UI
             return tableControl.Parent == null ? tableControl : tableControl.Parent.TableControl.GetRootTableControl();
         }
 
-        public static string GetId(this TableControl tableControl)
+        public static int GetId(this TableControl tableControl)
         {
-           return tableControl.TableData.IsSubTable ? tableControl.TableData.ParentCell.Id : string.Empty;
+           return tableControl.TableData.IsSubTable ? tableControl.TableData.ParentCell.Id : 0;
         }
         
-        public static Cell GetCell(this TableControl tableControl, string rowId, string columnId)
+        public static Cell GetCell(this TableControl tableControl, int rowId, int columnId)
         {
             if (!tableControl.RowData.ContainsKey(rowId) || !tableControl.ColumnData.ContainsKey(columnId))
                 return null;
@@ -94,7 +94,7 @@ namespace TableForge.UI
             return null;
         }
 
-        public static CellControl GetCellControl(this TableControl tableControl, string rowId, string columnId)
+        public static CellControl GetCellControl(this TableControl tableControl, int rowId, int columnId)
         {
             Cell cell = tableControl.GetCell(rowId, columnId);
             return CellControlFactory.GetCellControlFromId(cell.Id);

@@ -16,8 +16,8 @@ namespace TableForge.UI
         private HashSet<Cell> _cellsToDeselect = new();
         private readonly HashSet<CellAnchor> _selectedAnchors = new();
         private Cell _focusedCell;
-        private readonly HashSet<string> _selectedCellIds = new();
-        private readonly HashSet<string> _selectedAnchorIds  = new();
+        private readonly HashSet<int> _selectedCellIds = new();
+        private readonly HashSet<int> _selectedAnchorIds  = new();
         private CellSelectorInputManager _inputManager;
         private ICellNavigator _cellNavigator;
 

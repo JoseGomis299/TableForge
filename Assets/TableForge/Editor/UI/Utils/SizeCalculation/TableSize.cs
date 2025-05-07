@@ -6,10 +6,10 @@ namespace TableForge.UI
 {
     internal class TableSize
     {
-        private readonly Dictionary<string, Dictionary<string, Vector2>> _rowSizes = new();
-        private readonly Dictionary<string, Dictionary<string, Vector2>> _columnSizes = new();
-        private readonly Dictionary<string, Vector2> _rowPreferredSizes = new();
-        private readonly Dictionary<string, Vector2> _columnPreferredSizes = new();
+        private readonly Dictionary<int, Dictionary<int, Vector2>> _rowSizes = new();
+        private readonly Dictionary<int, Dictionary<int, Vector2>> _columnSizes = new();
+        private readonly Dictionary<int, Vector2> _rowPreferredSizes = new();
+        private readonly Dictionary<int, Vector2> _columnPreferredSizes = new();
         
         private readonly TableMetadata _tableMetadata;
         private readonly TableAttributes _tableAttributes;
@@ -29,10 +29,10 @@ namespace TableForge.UI
             
             foreach (var row in _rowPreferredSizes)
             {
-                if (_tableAttributes.ColumnHeaderVisibility == TableHeaderVisibility.Hidden && row.Key == string.Empty) 
+                if (_tableAttributes.ColumnHeaderVisibility == TableHeaderVisibility.Hidden && row.Key == 0) 
                     continue;
 
-                string rowId = row.Key == string.Empty && _table.IsSubTable ? _table.ParentCell.Id : row.Key;
+                int rowId = row.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : row.Key;
                 if (transposed)
                 {
                     float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(rowId).x : 0;
@@ -47,10 +47,10 @@ namespace TableForge.UI
             
             foreach (var column in _columnPreferredSizes)
             {
-                if (_tableAttributes.RowHeaderVisibility == TableHeaderVisibility.Hidden && column.Key == string.Empty)
+                if (_tableAttributes.RowHeaderVisibility == TableHeaderVisibility.Hidden && column.Key == 0)
                     continue;
                 
-                string columnId = column.Key == string.Empty && _table.IsSubTable ? _table.ParentCell.Id : column.Key;
+                int columnId = column.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : column.Key;
                 if (transposed)
                 {
                     float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(columnId).y : 0;
@@ -74,17 +74,17 @@ namespace TableForge.UI
             {
                 return cellAnchor switch
                 {
-                    Row row => new Vector2(_columnPreferredSizes[string.Empty].x, _rowPreferredSizes[row.Id].y),
-                    Column column => new Vector2(_columnPreferredSizes[column.Id].x, _rowPreferredSizes[string.Empty].y),
-                    _ => new Vector2(_columnPreferredSizes[string.Empty].x, _rowPreferredSizes[string.Empty].y)
+                    Row row => new Vector2(_columnPreferredSizes[0].x, _rowPreferredSizes[row.Id].y),
+                    Column column => new Vector2(_columnPreferredSizes[column.Id].x, _rowPreferredSizes[0].y),
+                    _ => new Vector2(_columnPreferredSizes[0].x, _rowPreferredSizes[0].y)
                 };
             }
             
             return cellAnchor switch
             {
-                Row row => new Vector2(_rowPreferredSizes[row.Id].x, _columnPreferredSizes[string.Empty].y),
-                Column column => new Vector2(_rowPreferredSizes[string.Empty].x, _columnPreferredSizes[column.Id].y),
-                _ => new Vector2(_rowPreferredSizes[string.Empty].x, _columnPreferredSizes[string.Empty].y)
+                Row row => new Vector2(_rowPreferredSizes[row.Id].x, _columnPreferredSizes[0].y),
+                Column column => new Vector2(_rowPreferredSizes[0].x, _columnPreferredSizes[column.Id].y),
+                _ => new Vector2(_rowPreferredSizes[0].x, _columnPreferredSizes[0].y)
             };
         }
         
@@ -119,16 +119,16 @@ namespace TableForge.UI
             switch (cellAnchor)
             {
                 case Row row:
-                    AddColumnSize(string.Empty, row.Id, size);
-                    AddRowSize(row.Id, string.Empty, size);
+                    AddColumnSize(0, row.Id, size);
+                    AddRowSize(row.Id, 0, size);
                     break;
                 case Column column:
-                    AddRowSize(string.Empty, column.Id, size);
-                    AddColumnSize(column.Id, string.Empty, size);
+                    AddRowSize(0, column.Id, size);
+                    AddColumnSize(column.Id, 0, size);
                     break;
                 default:
-                    AddRowSize(string.Empty, string.Empty,size);
-                    AddColumnSize(string.Empty,string.Empty, size);
+                    AddRowSize(0, 0,size);
+                    AddColumnSize(0,0, size);
                     break;
             }
         }
@@ -144,16 +144,16 @@ namespace TableForge.UI
             switch (cellAnchor)
             {
                 case Row row:
-                    RemoveColumnSize(string.Empty, row.Id);
-                    RemoveRowSize(row.Id, string.Empty);
+                    RemoveColumnSize(0, row.Id);
+                    RemoveRowSize(row.Id, 0);
                     break;
                 case Column column:
-                    RemoveRowSize(string.Empty, column.Id);
-                    RemoveColumnSize(column.Id, string.Empty);
+                    RemoveRowSize(0, column.Id);
+                    RemoveColumnSize(column.Id, 0);
                     break;
                 default:
-                    RemoveRowSize(string.Empty, string.Empty);
-                    RemoveColumnSize(string.Empty, string.Empty);
+                    RemoveRowSize(0, 0);
+                    RemoveColumnSize(0, 0);
                     break;
             }
         }
@@ -192,30 +192,30 @@ namespace TableForge.UI
             _tableMetadata.SetAnchorSize(row.Id, size);
         }
         
-        private void AddColumnSize(string columnId, string cellId, Vector2 size)
+        private void AddColumnSize(int columnId, int cellId, Vector2 size)
         {
            AddAnchorSize(columnId, cellId, size, _columnSizes, _columnPreferredSizes);
         }
         
-        private void RemoveColumnSize(string columnId, string cellId)
+        private void RemoveColumnSize(int columnId, int cellId)
         {
             RemoveAnchorSize(columnId, cellId, _columnSizes, _columnPreferredSizes);
         }
         
-        private void AddRowSize(string rowId, string cellId, Vector2 size)
+        private void AddRowSize(int rowId, int cellId, Vector2 size)
         {
             AddAnchorSize(rowId, cellId, size, _rowSizes, _rowPreferredSizes);
         }
         
-        private void RemoveRowSize(string rowId, string cellId)
+        private void RemoveRowSize(int rowId, int cellId)
         {
             RemoveAnchorSize(rowId, cellId, _rowSizes, _rowPreferredSizes);
         }
         
-        private void AddAnchorSize(string anchorId, string cellId, Vector2 size, Dictionary<string, Dictionary<string, Vector2>> sizes, Dictionary<string, Vector2> preferredSizes)
+        private void AddAnchorSize(int anchorId, int cellId, Vector2 size, Dictionary<int, Dictionary<int, Vector2>> sizes, Dictionary<int, Vector2> preferredSizes)
         {
             if (!sizes.ContainsKey(anchorId))
-                sizes[anchorId] = new Dictionary<string, Vector2>();
+                sizes[anchorId] = new Dictionary<int, Vector2>();
             
             if (sizes[anchorId].TryAdd(cellId, size))
             {
@@ -230,7 +230,7 @@ namespace TableForge.UI
             }
         }
         
-        private void RemoveAnchorSize(string anchorId, string cellId, Dictionary<string, Dictionary<string, Vector2>> sizes, Dictionary<string, Vector2> preferredSizes)
+        private void RemoveAnchorSize(int anchorId, int cellId, Dictionary<int, Dictionary<int, Vector2>> sizes, Dictionary<int, Vector2> preferredSizes)
         {
             if(!sizes.ContainsKey(anchorId) || !sizes[anchorId].ContainsKey(cellId)) return;
             
