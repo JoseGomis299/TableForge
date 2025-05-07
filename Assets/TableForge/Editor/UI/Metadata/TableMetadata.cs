@@ -12,15 +12,15 @@ namespace TableForge.UI
     {
         #region Fields
         
-        [SerializeField] private SerializedHashSet<int> expandedTables = new();
-        [SerializeField] private SerializedHashSet<int> transposedTables = new();
-        [SerializeField] private SerializedHashSet<int> hiddenFields = new();
+        [SerializeField] private SerializedHashSet<string> expandedTables = new();
+        [SerializeField] private SerializedHashSet<string> transposedTables = new();
+        [SerializeField] private SerializedHashSet<string> hiddenFields = new();
             
         [SerializeField] private string itemsTypeName;
         [SerializeField] private string bindingTypeName;
         [SerializeField] private SerializedHashSet<string> itemGUIDs = new();
         
-        [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
+        [SerializeField] private SerializedDictionary<string, CellAnchorMetadata> cellAnchorMetadata = new();
         
 
         #endregion
@@ -41,11 +41,11 @@ namespace TableForge.UI
         
         public bool IsTransposed
         {
-            get => transposedTables.Contains(0);
+            get => transposedTables.Contains(string.Empty);
             set
             {
-                if (value) transposedTables.Add(0);
-                else transposedTables.Remove(0);
+                if (value) transposedTables.Add(string.Empty);
+                else transposedTables.Remove(string.Empty);
                 
                 SetDirtyIfNecessary();
             }
@@ -74,29 +74,29 @@ namespace TableForge.UI
         
         #region Getters
         
-        public bool IsFieldVisible(int anchorId)
+        public bool IsFieldVisible(string anchorId)
         {
             return !hiddenFields.Contains(anchorId);
         }
         
-        public bool IsTableExpanded(int subTableCellId)
+        public bool IsTableExpanded(string subTableCellId)
         {
             return expandedTables.Contains(subTableCellId);
         }
         
-        public bool IsTableTransposed(int subTableCellId)
+        public bool IsTableTransposed(string subTableCellId)
         {
             return transposedTables.Contains(subTableCellId);
         }
         
-        public int GetAnchorPosition(int anchorId)
+        public int GetAnchorPosition(string anchorId)
         {
             return cellAnchorMetadata.TryGetValue(anchorId, out var metadata) ? metadata.position : 0;
         }
         
-        public Vector2 GetAnchorSize(int anchorId)
+        public Vector2 GetAnchorSize(string anchorId)
         {
-            cellAnchorMetadata ??= new SerializedDictionary<int, CellAnchorMetadata>();
+            cellAnchorMetadata ??= new SerializedDictionary<string, CellAnchorMetadata>();
             return cellAnchorMetadata.TryGetValue(anchorId, out var metadata) ? metadata.size : Vector2.zero;
         }
         
@@ -164,7 +164,7 @@ namespace TableForge.UI
             SetDirtyIfNecessary();
         }
         
-        public void SetFieldVisible(int anchorId, bool isVisible)
+        public void SetFieldVisible(string anchorId, bool isVisible)
         {
             if(isVisible) hiddenFields.Remove(anchorId);
             else hiddenFields.Add(anchorId);
@@ -172,7 +172,7 @@ namespace TableForge.UI
             SetDirtyIfNecessary();
         }
         
-        public void SetTableExpanded(int subTableCellId, bool isExpanded)
+        public void SetTableExpanded(string subTableCellId, bool isExpanded)
         {
             if(isExpanded) expandedTables.Add(subTableCellId);
             else expandedTables.Remove(subTableCellId);
@@ -180,7 +180,7 @@ namespace TableForge.UI
             SetDirtyIfNecessary();
         }
         
-        public void SetAnchorPosition(int anchorId, int position)
+        public void SetAnchorPosition(string anchorId, int position)
         {
             if (!cellAnchorMetadata.TryGetValue(anchorId, out var metadata))
             {
@@ -192,7 +192,7 @@ namespace TableForge.UI
             SetDirtyIfNecessary();
         }
         
-        public void SetAnchorSize(int anchorId, Vector2 size)
+        public void SetAnchorSize(string anchorId, Vector2 size)
         {
             if (!cellAnchorMetadata.TryGetValue(anchorId, out var metadata))
             {
@@ -220,7 +220,7 @@ namespace TableForge.UI
 
         #region Utility
         
-        public void RemoveAnchorMetadata(int anchorId)
+        public void RemoveAnchorMetadata(string anchorId)
         {
             if (cellAnchorMetadata.ContainsKey(anchorId))
             {
@@ -231,7 +231,7 @@ namespace TableForge.UI
             SetDirtyIfNecessary();
         }
         
-        public void RemoveCellMetadata(int cellId)
+        public void RemoveCellMetadata(string cellId)
         {
             expandedTables.Remove(cellId);
             transposedTables.Remove(cellId);
@@ -257,8 +257,8 @@ namespace TableForge.UI
             if(row1.SerializedObject.SerializedType.Type != row2.SerializedObject.SerializedType.Type)
                 return;
 
-            int row1Id = row1.Id;
-            int row2Id = row2.Id;
+            string row1Id = row1.Id;
+            string row2Id = row2.Id;
             
             SwapSizes(row1Id, row2Id);
             SwapVisibility(row1Id, row2Id);
@@ -281,8 +281,8 @@ namespace TableForge.UI
         
         private void SwapMetadata(Column column1, Column column2)
         {
-            int column1Id = column1.Id;
-            int column2Id = column2.Id;
+            string column1Id = column1.Id;
+            string column2Id = column2.Id;
             
             SwapSizes(column1Id, column2Id);
             SwapVisibility(column1Id, column2Id);
@@ -290,8 +290,8 @@ namespace TableForge.UI
         
         private void SwapMetadata(SubTableCell subTableCell1, SubTableCell subTableCell2)
         {
-            int subTableCell1Id = subTableCell1.Id;
-            int subTableCell2Id = subTableCell2.Id;
+            string subTableCell1Id = subTableCell1.Id;
+            string subTableCell2Id = subTableCell2.Id;
             
             SwapExpanded(subTableCell1Id, subTableCell2Id);
             
@@ -320,7 +320,7 @@ namespace TableForge.UI
             SwapSizes(subTableCell1Id, subTableCell2Id);
         }
         
-        private void SwapExpanded(int cell1, int cell2)
+        private void SwapExpanded(string cell1, string cell2)
         {
             bool cell1Expanded = IsTableExpanded(cell1);
             bool cell2Expanded = IsTableExpanded(cell2);
@@ -329,7 +329,7 @@ namespace TableForge.UI
             SetTableExpanded(cell2, cell1Expanded);
         }
         
-        private void SwapSizes(int anchor1, int anchor2)
+        private void SwapSizes(string anchor1, string anchor2)
         {
             Vector2 anchor1Size = GetAnchorSize(anchor1);
             Vector2 anchor2Size = GetAnchorSize(anchor2);
@@ -338,7 +338,7 @@ namespace TableForge.UI
             SetAnchorSize(anchor2, anchor1Size);
         }
         
-        private void SwapPositions(int anchor1, int anchor2)
+        private void SwapPositions(string anchor1, string anchor2)
         {
             int anchor1Position = GetAnchorPosition(anchor1);
             int anchor2Position = GetAnchorPosition(anchor2);
@@ -347,7 +347,7 @@ namespace TableForge.UI
             SetAnchorPosition(anchor2, anchor1Position);
         }
         
-        private void SwapVisibility(int anchor1, int anchor2)
+        private void SwapVisibility(string anchor1, string anchor2)
         {
             bool anchor1Visible = IsFieldVisible(anchor1);
             bool anchor2Visible = IsFieldVisible(anchor2);

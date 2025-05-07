@@ -46,7 +46,7 @@ namespace TableForge.UI
 
             if (tableControl != null)
             {
-                int rowId, columnId;
+                string rowId, columnId;
                 if (cell.Table == rootTableControl.TableData)
                 {
                     rowId = rootTableControl.GetCellRow(cell).Id;
