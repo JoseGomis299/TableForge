@@ -7,7 +7,8 @@
     --resize-preview-color: rgba(255, 255, 255, 0.5);
     --selected-color: rgb(105, 105, 105);
     --selected-first-color: rgb(150, 150, 150);
-    --selected-header-color: rgb(83, 83, 83);
+    --sub-selected-header-color: rgb(83, 83, 83);
+    --selected-header-color: rgb(125, 125, 125);
     --selected-color-blue: rgb(72, 110, 201);
     --selected-first-color-blue: rgb(54, 112, 255);
     --cell-width: 100px;
@@ -27,7 +28,7 @@
     --sub-table-toolbar-width: 13px;
     --foldout-open-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ClassicFoldoutArrow-Open.png?fileID=2800000&guid=d5bc83349b07a3946829239d350209b0&type=3#ClassicFoldoutArrow-Open");
     --foldout-close-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ClassicFoldoutArrow-Close.png?fileID=2800000&guid=b8692ab8bcd56d7439f4e54d9c7e801e&type=3#ClassicFoldoutArrow-Close");
-    --context-button-image: url("../Assets/ThreeDots.png")
+    --context-button-image: url("../../Assets/ThreeDots.png")
 }
 
 .fill {
@@ -317,7 +318,11 @@
     background-color: var(--selected-color);
 }
 
-.selectedHeader {
+.sub-selected-header {
+    background-color: var(--sub-selected-header-color);
+}
+
+.selected-header {
     background-color: var(--selected-header-color);
 }
 

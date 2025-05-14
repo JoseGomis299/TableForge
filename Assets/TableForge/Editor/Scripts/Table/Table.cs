@@ -15,8 +15,8 @@ namespace TableForge
         private readonly Dictionary<int, Row> _rows = new Dictionary<int, Row>();
         private readonly Dictionary<int, Column> _columns = new Dictionary<int, Column>();
 
-        private bool _rowsDirty;
-        private bool _columnsDirty;
+        private bool _rowsDirty = true;
+        private bool _columnsDirty = true;
         private List<Row> _orderedRows = new List<Row>();
         private List<Column> _orderedColumns = new List<Column>();
         
@@ -138,18 +138,23 @@ namespace TableForge
 
             if (ParentCell is ICollectionCell collectionCell)
             {
+                bool isLastRemainingRow = _orderedRows.Count == 1;
                 collectionCell.RemoveItem(position);
                 _rows.Remove(position);
             }
             else
             {
-                _rows.Remove(position);
-                
-                List<Row> orderedRows = new List<Row>(_rows.Values.OrderBy(x => x.Position));
-                for (int i = position - 1; i < orderedRows.Count; i++)
+                for (int i = position; i <= OrderedRows.Count; i++)
                 {
-                    orderedRows[i].Position = i;
+                    OrderedRows[i - 1].Position -= 1;
+                    if (i < OrderedRows.Count)
+                    {
+                        _rows[i] = _rows[i + 1];
+                        _rows[i].Position = i;
+                    }
                 }
+                
+                _rows.Remove(_rows.Count);
             }
             
             _rowsDirty = true;
@@ -164,8 +169,8 @@ namespace TableForge
             _columns.Clear();
             _orderedRows.Clear();
             _orderedColumns.Clear();
-            _rowsDirty = false;
-            _columnsDirty = false;
+            _rowsDirty = true;
+            _columnsDirty = true;
         }
         
         /// <summary>
@@ -215,14 +220,7 @@ namespace TableForge
                 ? rowObj.Cells.GetValueOrDefault(columnPos) 
                 : null;
         }
-
-        /// <summary>
-        /// Placeholder for serialization functionality. Currently not implemented.
-        /// </summary>
-        public void Serialize()
-        {
-            // TODO: Implement serialization logic
-        }
+        
 
         #endregion
 

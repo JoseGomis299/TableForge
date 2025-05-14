@@ -9,8 +9,12 @@ namespace TableForge.UI
     /// </summary>
     internal class ToggleSelectionStrategy : ISelectionStrategy
     {
-        public Cell Preselect(CellSelector selector, List<Cell> cellsAtPosition)
+        public Cell Preselect(PreselectArguments args)
         {
+            var selector = args.Selector;
+            var cellsAtPosition = args.CellsAtPosition;
+            var selectedAnchors = args.SelectedAnchors;
+            
             Cell lastSelectedCell = null;
 
             if (cellsAtPosition.Count == 1)

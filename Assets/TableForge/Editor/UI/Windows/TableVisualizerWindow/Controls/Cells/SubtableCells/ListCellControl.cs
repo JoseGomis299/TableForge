@@ -17,7 +17,7 @@ namespace TableForge.UI
 
         protected override void BuildSubTable()
         {
-            SubTableControl = new TableControl(ParentTableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this);
+            SubTableControl = new TableControl(ParentTableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this, SubTableToolbar);
             SubTableControl.SetScrollbarsVisibility(false);
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             SubTableContentContainer.Add(SubTableControl);

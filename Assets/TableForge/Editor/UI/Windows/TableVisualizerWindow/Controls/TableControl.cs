@@ -63,17 +63,19 @@ namespace TableForge.UI
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
         public bool Transposed { get; private set; }
         public float RowsContainerOffset { get; private set; }
+        public VisualElement SubTableToolbar { get; }
 
         #endregion
 
         #region Constructor
 
-        public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent)
+        public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent, VisualElement subTableToolbar)
         {
             // Basic initialization
             Root = root;
             TableAttributes = attributes;
             Parent = parent;
+            SubTableToolbar = subTableToolbar;
             AddToClassList(USSClasses.Table);
 
             // Initialize main components
@@ -202,7 +204,7 @@ namespace TableForge.UI
 
         #region Utilities
         
-        public void RemoveRow(int id, bool rebuild = true)
+        public void RemoveRow(int id)
         {
             Row row = Transposed ? _columnData[id].CellAnchor as Row : _rowData[id].CellAnchor as Row;
             if (row == null) return;
@@ -214,9 +216,10 @@ namespace TableForge.UI
                 Metadata.SetAnchorPosition(r.Id, r.Position);
             }
             
-            TableData.RemoveRow(row.Position); 
+            TableData.RemoveRow(TableData.Rows.Count); 
 
             // Remove metadata
+            CellSelector.RemoveRowSelection(row);
             if(Parent == null) Metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
             Metadata.RemoveAnchorMetadata(id);
             foreach (var cell in row.OrderedCells)
@@ -232,7 +235,6 @@ namespace TableForge.UI
                 }
             }
             
-            if(rebuild) RebuildPage();
             OnTableModified?.Invoke(Metadata, TableData);
         }
 

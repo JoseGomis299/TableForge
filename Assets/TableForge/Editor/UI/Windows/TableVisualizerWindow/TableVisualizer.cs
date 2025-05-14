@@ -50,7 +50,7 @@ namespace TableForge.UI
                 RowHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
             };
 
-            _tableControl = new TableControl(rootVisualElement, tableAttributes, null);
+            _tableControl = new TableControl(rootVisualElement, tableAttributes, null, null);
             mainTable.Add(_tableControl);
             
             var toolbar = root.Q<VisualElement>("toolbar");
@@ -89,7 +89,7 @@ namespace TableForge.UI
                 foreach (var row in missingRows)
                 {
                     metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
-                    _tableControl.RemoveRow(row.Id, false);
+                    _tableControl.RemoveRow(row.Id);
                 }
                 
                 _tableControl.RebuildPage();

@@ -4,10 +4,11 @@ namespace TableForge.UI
     {
         public void AddRow(TableControl tableControl)
         {
-            if(tableControl.TableData.ParentCell is ListCell listCell)
+            if (tableControl.TableData.ParentCell is ListCell listCell)
+            {
                 listCell.AddEmptyItem();
-            
-            tableControl.RebuildPage();
+                tableControl.SetTable(listCell.SubTable);
+            }
         }
     }
 }

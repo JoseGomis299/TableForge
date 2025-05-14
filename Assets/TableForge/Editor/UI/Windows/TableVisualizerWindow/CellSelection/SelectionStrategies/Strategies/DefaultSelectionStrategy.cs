@@ -8,11 +8,22 @@ namespace TableForge.UI
     /// </summary>
     internal class DefaultSelectionStrategy : ISelectionStrategy
     {
-        public Cell Preselect(CellSelector selector, List<Cell> cellsAtPosition)
+        public Cell Preselect(PreselectArguments args)
         {
+            var selector = args.Selector;
+            var cellsAtPosition = args.CellsAtPosition;
+            var selectedAnchors = args.SelectedAnchors;
+
+            if (selector.IsCellSelected(cellsAtPosition.FirstOrDefault()) && args.RightClicked)
+            {
+                return cellsAtPosition.Last();
+            }
+            
             Cell lastSelectedCell = null;
             // Mark all currently selected cells for deselection.
             selector.CellsToDeselect = new HashSet<Cell>(selector.SelectedCells);
+            selector.AnchorsToDeselect = new HashSet<CellAnchor>(selector.SelectedAnchors);
+            selector.AnchorsToDeselect.ExceptWith(selectedAnchors);
             if (cellsAtPosition.Count == 1)
             {
                 lastSelectedCell = selector.FocusedCell;

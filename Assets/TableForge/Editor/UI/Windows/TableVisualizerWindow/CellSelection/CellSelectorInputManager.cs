@@ -47,12 +47,12 @@ namespace TableForge.UI
                 return;
             
             _lastMousePosition = evt.mousePosition;
-            _selector.PreselectCells(_lastMousePosition, evt.ctrlKey, evt.shiftKey);
+            _selector.PreselectCells(_lastMousePosition, evt.ctrlKey, evt.shiftKey, evt.button == 0);
         }
 
         private void OnMouseMove(MouseMoveEvent evt)
         {
-            if (evt.pressedButtons != 1 || !IsValidClick(evt))
+            if (evt.pressedButtons != 1 || !IsValidClick(evt) || evt.button != 0)
                 return;
 
             float distance = Vector3.Distance(evt.mousePosition, _lastMousePosition);
@@ -60,14 +60,14 @@ namespace TableForge.UI
                 return;
 
             _lastMousePosition = evt.mousePosition;
-            List<Cell> cells = _selector.GetCellsAtPosition(_lastMousePosition);
-            Cell selected = cells.FirstOrDefault();
+            PreselectArguments preselectArgs = _selector.GetCellPreselectArgsForPosition(_lastMousePosition);
+            Cell selected = preselectArgs.CellsAtPosition.FirstOrDefault();
             if (selected == null || _selector.FocusedCell == null)
                 return;
 
             // For mouse move, use the Shift selection strategy.
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
-            strategy.Preselect(_selector, new List<Cell> { selected });
+            strategy.Preselect(preselectArgs);
             _selector.ConfirmSelection();
         }
 
@@ -130,7 +130,11 @@ namespace TableForge.UI
 
             var contiguousCell = GetContiguousCell(direction);
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<DefaultSelectionStrategy>();
-            strategy.Preselect(_selector, new List<Cell> { contiguousCell });
+            strategy.Preselect(new PreselectArguments
+            {
+                Selector = _selector,
+                CellsAtPosition = new List<Cell> { contiguousCell }
+            });
             _selector.ConfirmSelection();
         }
 
@@ -220,7 +224,11 @@ namespace TableForge.UI
             if (_selector.SelectedCells.Count(x => !ancestors.Contains(x)) <= 1)
             {
                 Cell contiguousCell = GetContiguousCell(Vector2.right * orientation);
-                strategy.Preselect(_selector, new List<Cell> { contiguousCell });
+                strategy.Preselect(new PreselectArguments
+                {
+                    Selector = _selector,
+                    CellsAtPosition = new List<Cell> { contiguousCell }
+                });
                 _selector.ConfirmSelection();
             }
             else
@@ -278,7 +286,7 @@ namespace TableForge.UI
 
         private bool IsValidClick(IMouseEvent evt)
         {
-            return evt.button == 0 && _selector.SelectionEnabled;
+            return (_selector.SelectionEnabled);
         }
         
         private Vector2 GetArrowDirection(KeyDownEvent evt)

@@ -9,8 +9,12 @@ namespace TableForge.UI
     /// </summary>
     internal class MultipleSelectionStrategy : ISelectionStrategy
     {
-        public Cell Preselect(CellSelector selector, List<Cell> cellsAtPosition)
+        public Cell Preselect(PreselectArguments args)
         {
+            var selector = args.Selector;
+            var cellsAtPosition = args.CellsAtPosition;
+            var selectedAnchors = args.SelectedAnchors;
+            
             Cell lastSelectedCell = null;
             if (selector.SelectedCells.Count == 0)
             {
@@ -31,11 +35,32 @@ namespace TableForge.UI
                     var cells = CellLocator.GetCellRange(firstCell, lastSelectedCell, selector.TableControl);
                     // Mark cells outside the new range for deselection.
                     selector.CellsToDeselect = new HashSet<Cell>(selector.SelectedCells);
+                    
+                    bool selectAnchors = selectedAnchors.Count > 0 || (selectedAnchors.Count > 0 && selector.SelectedAnchors.Count > 0);
+                    bool anchorIsRow = false;
+                    if(selectAnchors)
+                    {
+                        selector.AnchorsToDeselect = new HashSet<CellAnchor>(selector.SelectedAnchors);
+                        anchorIsRow = selectedAnchors.First() is Row;
+                    }
+
+                    HashSet<CellAnchor> anchorsToSelect = new HashSet<CellAnchor>();
                     foreach (var cell in cells)
                     {
                         selector.SelectedCells.Add(cell);
                         selector.CellsToDeselect.Remove(cell);
+
+                        if (selectAnchors)
+                        {
+                            if (anchorsToSelect.Add(anchorIsRow ? cell.Row : cell.Column))
+                            {
+                                selector.SelectedAnchors.Add(anchorIsRow ? cell.Row : cell.Column);
+                                selectedAnchors.Add(anchorIsRow ? cell.Row : cell.Column);
+                            }
+                        }
                     }
+                    
+                    selector.AnchorsToDeselect.ExceptWith(selectedAnchors);
                 }
             }
             return lastSelectedCell;

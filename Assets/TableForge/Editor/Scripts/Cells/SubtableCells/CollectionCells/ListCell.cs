@@ -106,7 +106,7 @@ namespace TableForge
             else if (Value is IList list)
             {
                 list.Add(item);
-                TFSerializedListItem listItem = new TFSerializedListItem(list, list[^1], list.Count - 1, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid);
+                TFSerializedListItem listItem = new TFSerializedListItem(((IList)Value), ((IList)Value)[^1], ((IList)Value).Count - 1, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid);
                 TableGenerator.GenerateRow(SubTable, listItem);
             }
         }

@@ -24,7 +24,8 @@ namespace TableForge.UI
         public const string ResizePreviewVertical = "resize-preview--vertical";
         public const string Selected = "selected";
         public const string Focused = "selected-first";
-        public const string SelectedHeader = "selectedHeader";
+        public const string SelectedHeader = "selected-header";
+        public const string SubSelectedHeader = "sub-selected-header";
         public const string TableScrollViewContentContainer = "table__scroll-view-content__container";
         public const string TableScrollViewContentTop = "table__scroll-view-content--top";
         public const string TableScrollViewContentBottom = "table__scroll-view-content--bottom";
