@@ -158,6 +158,18 @@ namespace TableForge.UI
             }
         }
 
+        public void RemoveColumnSize(int columnId)
+        {
+            RemoveRowSize(0, columnId);
+            RemoveColumnSize(columnId, 0);
+        }
+        
+        public void RemoveRowSize(int rowId)
+        {
+            RemoveColumnSize(0, rowId);
+            RemoveRowSize(rowId, 0);
+        }
+
         private void StoreColumnSizeInMetadata(Column column)
         {
             if(column.Table != _table) return;

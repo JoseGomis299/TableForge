@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine.UIElements;
 
@@ -5,6 +6,9 @@ namespace TableForge.UI
 {
     internal abstract class HeaderControl : VisualElement
     {
+        protected event Action OnSelectionChanged;
+        protected event Action OnSubSelectionChanged;
+        
         public readonly TableControl TableControl;
         private bool _isSelected;
         private bool _isSubSelected;
@@ -22,6 +26,7 @@ namespace TableForge.UI
                     AddToClassList(USSClasses.SubSelectedHeader);
 
                 _isSubSelected = value;
+                OnSubSelectionChanged?.Invoke();
             }
         }
         
@@ -36,6 +41,7 @@ namespace TableForge.UI
                     AddToClassList(USSClasses.SelectedHeader);
 
                 _isSelected = value;
+                OnSelectionChanged?.Invoke();
             }
         }
         public bool IsVisible { get; set; }
@@ -56,76 +62,70 @@ namespace TableForge.UI
                 IsSubSelected = tableControl.CellSelector.IsAnchorSubSelected(cellAnchor);
             };
 
-            if (cellAnchor is Row && !tableControl.Metadata.IsTypeBound && tableControl.Parent == null)
+            if (tableControl.Parent == null)
             {
-                this.AddManipulator(new ContextualMenuManipulator(MenuBuilder));
+                this.AddManipulator(new ContextualMenuManipulator(BuildContextualMenu));
             }
         }
-
-        private void MenuBuilder(ContextualMenuPopulateEvent obj)
-        {
-            obj.menu.AppendAction("Remove this item", (_) => RemoveThisRow());
-            obj.menu.AppendAction("Delete associated asset", (_) =>
-            {
-                bool confirmed = EditorUtility.DisplayDialog(
-                    "Confirm Action",
-                    "Are you sure you want to delete the selected asset? This action cannot be undone.",
-                    "Yes",
-                    "No"
-                );
-
-                if (confirmed)
-                {
-                    RemoveThisRow();
-                    string path = AssetDatabase.GUIDToAssetPath(((Row)CellAnchor).SerializedObject.RootObjectGuid);
-                    AssetDatabase.DeleteAsset(path);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                }
-            });
-            
-            obj.menu.AppendSeparator();
-            
-            obj.menu.AppendAction("Remove selected items", (_) => RemoveSelectedRows());
-            obj.menu.AppendAction("Delete associated assets", (_) =>
-            {
-                bool confirmed = EditorUtility.DisplayDialog(
-                    "Confirm Action",
-                    "Are you sure you want to delete the selected assets? This action cannot be undone. (multiple assets selected)",
-                    "Yes",
-                    "No"
-                );
-
-                if (confirmed)
-                {
-                    var selectedRows = TableControl.CellSelector.GetSelectedRows();
-                    RemoveSelectedRows();
-                    foreach (var row in  selectedRows)
-                    {
-                        string path = AssetDatabase.GUIDToAssetPath(row.SerializedObject.RootObjectGuid);
-                        AssetDatabase.DeleteAsset(path);
-                    }
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                }
-            });
-        }
         
-        private void RemoveThisRow()
+        protected abstract void BuildContextualMenu(ContextualMenuPopulateEvent obj);
+
+        protected void ExpandCollapseBuilder(ContextualMenuPopulateEvent obj)
         {
-            TableControl.RemoveRow(CellAnchor.Id);
-            TableControl.RebuildPage();
+            bool containsSubTable = false;
+            if (CellAnchor is Row row)
+            {
+                foreach (var cell in row.OrderedCells)
+                {
+                    if (cell is SubTableCell)
+                    {
+                        containsSubTable = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                if (TableControl.TableData.Rows.Count > 0 && TableControl.TableData.Rows[1].Cells[CellAnchor.Position] is SubTableCell)
+                {
+                    containsSubTable = true;
+                }     
+            }
+            
+            if (!containsSubTable) return;
+            obj.menu.AppendAction("Expand All", (_) =>
+            {
+                SetExpanded(true);
+            });
+           
+            obj.menu.AppendAction("Collapse All", (_) =>
+            {
+                SetExpanded(false);
+            });
         }
 
-        private void RemoveSelectedRows()
+        private void SetExpanded(bool value)
         {
-            var selectedRows = TableControl.CellSelector.GetSelectedRows();
-            selectedRows.Sort((a, b) => b.Position.CompareTo(a.Position));
-
-            foreach (var selected in selectedRows)
+            if (CellAnchor is Row row)
             {
-                if (selected.Table != TableControl.TableData) continue;
-                TableControl.RemoveRow(selected.Id);
+                foreach (var cell in row.OrderedCells)
+                {
+                    if (cell is SubTableCell)
+                    {
+                        TableControl.Metadata.SetTableExpanded(cell.Id, value);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var r in TableControl.TableData.OrderedRows)
+                {
+                    if (r.Cells[CellAnchor.Position] is SubTableCell)
+                    {
+                        TableControl.Metadata.SetTableExpanded(r.Cells[CellAnchor.Position].Id, value);
+                    }
+                    else return;
+                }
             }
 
             TableControl.RebuildPage();

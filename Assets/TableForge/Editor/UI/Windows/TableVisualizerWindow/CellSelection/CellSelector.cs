@@ -99,6 +99,8 @@ namespace TableForge.UI
             //If clicking on a column header, select all cells in that column.
             if (headers.row == null)
             {
+                if(!TableControl.Metadata.IsFieldVisible(headers.column.Id)) return;
+                
                 outputArgs.CellsAtPosition.AddRange(CellLocator.GetCellsAtColumn(tableControl, headers.column.Id));
                 outputArgs.SelectedAnchors.Add(headers.column.CellAnchor);
                 _selectedAnchors.Add(headers.column.CellAnchor);
@@ -126,8 +128,9 @@ namespace TableForge.UI
                     CollectCellsAtPosition(position, subTable, outputArgs);
                 }
             }
-            if ((cell != null && cell is not SubTableCell) ||  outputArgs.CellsAtPosition.Count == prevCount)
+            if (cell is not SubTableCell ||  outputArgs.CellsAtPosition.Count == prevCount)
             {
+                if(cell == null || !TableControl.Metadata.IsFieldVisible(cell.Column.Id)) return;
                 outputArgs.CellsAtPosition.Add(cell);
             }
         }

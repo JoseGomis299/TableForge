@@ -16,6 +16,7 @@ namespace TableForge.UI
         private Button _addTabButton;
         private Button _transposeTableButton;
         private VisualElement _tabContainer;
+        private MultiSelectDropdown _visibleColumnsDropdown;
         
         private TableMetadata _selectedTab;
         private readonly Dictionary<TableMetadata, TabControl> _tabControls = new();
@@ -36,9 +37,17 @@ namespace TableForge.UI
 
         private void Initialize()
         {
+            CreateVisualElements();
             BindVisualElements();
             RegisterEvents();
             OpenStoredTabs();
+        }
+
+        private void CreateVisualElements()
+        {
+            VisualElement toolsParent = _toolbar.Q<VisualElement>("table-tools");
+            _visibleColumnsDropdown = new MultiSelectDropdown(new List<DropdownElement>(), "Visible columns: ");
+            toolsParent.Add(_visibleColumnsDropdown);
         }
 
         private void OpenStoredTabs()
@@ -68,6 +77,23 @@ namespace TableForge.UI
                 _tableVisualizer.CurrentTable.Transpose();
                 _tableVisualizer.CurrentTable.RebuildPage();
             });
+            
+            _visibleColumnsDropdown.OnSelectionChanged += selectedItems =>
+            {
+                if (_selectedTab == null) return;
+
+                foreach (var column in _tableVisualizer.CurrentTable.TableData.OrderedColumns)    
+                {
+                    _tableVisualizer.CurrentTable.Metadata.SetFieldVisible(column.Id, false);
+                }
+                
+                foreach (var visibleField in selectedItems)
+                {
+                    _tableVisualizer.CurrentTable.Metadata.SetFieldVisible(visibleField.Id, true);
+                }
+                
+                _tableVisualizer.CurrentTable.RebuildPage();
+            };
         }
 
         public void OpenTab(TableMetadata table)
@@ -122,7 +148,19 @@ namespace TableForge.UI
             }
             
             _selectedTab = tableMetadata;
-            _tableVisualizer.SetTable(GetTable(tableMetadata));
+            Table table = GetTable(tableMetadata);
+            _tableVisualizer.SetTable(table);
+
+            if (tableMetadata != null)
+            {
+                List<DropdownElement> selectedItems = table.OrderedColumns.Where(c => tableMetadata.IsFieldVisible(c.Id)).Select(c => new DropdownElement(c.Id, c.Name)).ToList();
+                List<DropdownElement> allItems = table.OrderedColumns.Select(c => new DropdownElement(c.Id, c.Name)).ToList();
+                _visibleColumnsDropdown.SetItems(allItems, selectedItems);
+            }
+            else
+            {
+                _visibleColumnsDropdown.SetItems(new List<DropdownElement>(), new List<DropdownElement>());
+            }
         }
 
         public void EditTab(TableMetadata tableMetadata)

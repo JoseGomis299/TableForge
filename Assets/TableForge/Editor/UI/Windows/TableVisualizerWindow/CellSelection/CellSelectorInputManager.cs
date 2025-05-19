@@ -312,7 +312,12 @@ namespace TableForge.UI
                 direction = new Vector2(-direction.y, -direction.x);
             }
 
-            Cell contiguousCell = CellLocator.GetContiguousCell(firstCell, direction, minBounds, maxBounds);
+            Cell contiguousCell = firstCell;
+            do
+            {
+                contiguousCell = CellLocator.GetContiguousCell(contiguousCell, direction, minBounds, maxBounds);
+            } while (!_tableControl.Metadata.IsFieldVisible(contiguousCell.Column.Id));
+
             return contiguousCell;
         }
 

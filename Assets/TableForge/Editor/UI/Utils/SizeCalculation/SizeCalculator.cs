@@ -76,6 +76,7 @@ namespace TableForge.UI
             {
                 foreach (var cell in row.Cells.Values)
                 {
+                    if (!tableMetadata.IsFieldVisible(cell.Column.Id)) continue;
                     Vector2 cellSize = CalculateSize(cell, tableMetadata);
                     tableSize.AddCellSize(cell, cellSize);
                 }

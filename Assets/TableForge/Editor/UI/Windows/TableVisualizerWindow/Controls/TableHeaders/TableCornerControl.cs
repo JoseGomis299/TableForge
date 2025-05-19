@@ -26,5 +26,10 @@ namespace TableForge.UI
             
             TableControl.HorizontalResizer.HandleResize(this, excludeFromManualResizing);
         }
+
+        protected override void BuildContextualMenu(ContextualMenuPopulateEvent obj)
+        {
+            
+        }
     }
 }

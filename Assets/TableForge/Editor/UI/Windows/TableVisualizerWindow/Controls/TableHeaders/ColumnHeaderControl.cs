@@ -20,5 +20,11 @@ namespace TableForge.UI
 
             TableControl.HorizontalResizer.HandleResize(this);
         }
+
+        protected override void BuildContextualMenu(ContextualMenuPopulateEvent obj)
+        {
+            ExpandCollapseBuilder(obj);
+            obj.menu.AppendSeparator();
+        }
     }
 }

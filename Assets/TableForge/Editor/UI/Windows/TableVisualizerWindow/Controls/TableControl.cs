@@ -354,7 +354,8 @@ namespace TableForge.UI
             {
                 foreach (var column in TableData.OrderedColumns)
                 {
-                    BuildColumn(column);
+                    if(Metadata.IsFieldVisible(column.Id))
+                     BuildColumn(column);
                 }
             }
             else
@@ -425,7 +426,8 @@ namespace TableForge.UI
             {
                 foreach (var column in TableData.OrderedColumns)
                 {
-                    BuildRow(column);
+                    if(Metadata.IsFieldVisible(column.Id))
+                        BuildRow(column);
                 }
             }
             
@@ -699,7 +701,6 @@ namespace TableForge.UI
         #endregion
 
         #endregion
-
         
     }
 }
