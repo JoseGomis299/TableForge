@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -35,6 +36,11 @@ namespace TableForge.UI
             TableControl.VerticalResizer.HandleResize(this);
             
             OnSelectionChanged += SelectionChanged;
+            _textField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                _isChangingName = false;
+                TryChangeName();
+            });
         }
 
         private void SelectionChanged()
@@ -100,21 +106,7 @@ namespace TableForge.UI
                 obj.menu.AppendAction("Remove this item", (_) => RemoveThisRow());
             obj.menu.AppendAction("Delete this asset", (_) =>
             {
-                bool confirmed = EditorUtility.DisplayDialog(
-                    "Confirm Action",
-                    "Are you sure you want to delete the selected asset? This action cannot be undone."  + " (\""+ CellAnchor.Name +"\")",
-                    "Yes",
-                    "No"
-                );
-
-                if (confirmed)
-                {
-                    RemoveThisRow();
-                    string path = AssetDatabase.GUIDToAssetPath(((Row)CellAnchor).SerializedObject.RootObjectGuid);
-                    AssetDatabase.DeleteAsset(path);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                }
+                AssetUtils.DeleteAsset(((Row)CellAnchor).SerializedObject.RootObjectGuid, RemoveThisRow);
             });
             
             obj.menu.AppendSeparator();
@@ -125,26 +117,7 @@ namespace TableForge.UI
                     obj.menu.AppendAction("Remove selected items", (_) => RemoveSelectedRows());
                 obj.menu.AppendAction("Delete associated assets", (_) =>
                 {
-                    bool confirmed = EditorUtility.DisplayDialog(
-                        "Confirm Action",
-                        "Are you sure you want to delete the selected assets? This action cannot be undone. (multiple assets selected)",
-                        "Yes",
-                        "No"
-                    );
-
-                    if (confirmed)
-                    {
-                        var selectedRows = TableControl.CellSelector.GetSelectedRows();
-                        RemoveSelectedRows();
-                        foreach (var row in selectedRows)
-                        {
-                            string path = AssetDatabase.GUIDToAssetPath(row.SerializedObject.RootObjectGuid);
-                            AssetDatabase.DeleteAsset(path);
-                        }
-
-                        AssetDatabase.SaveAssets();
-                        AssetDatabase.Refresh();
-                    }
+                    AssetUtils.DeleteAssets(TableControl.CellSelector.GetSelectedRows().Select(x => x.SerializedObject.RootObjectGuid), RemoveSelectedRows);
                 });
             }
         }
@@ -152,28 +125,11 @@ namespace TableForge.UI
         private void TryChangeName()
         {
             string oldPath = AssetDatabase.GetAssetPath(((Row)CellAnchor).SerializedObject.RootObject);
-
-            string oldName = _name;
-            string directory = oldPath.Substring(0, oldPath.LastIndexOf('/'));
-            string extension = oldPath.Substring(oldPath.LastIndexOf('.'));
+            string newName = AssetUtils.RenameAsset(oldPath, _textField.value.Trim());
             
-            string baseName = _textField.value.Trim();
-            string newName = baseName;
-            string newPath = $"{directory}/{newName}{extension}";
-            int counter = 1;
-
-            while (AssetDatabase.AssetPathExists(newPath))
+            if (newName == _name)
             {
-                newName = $"{baseName} {counter++}";
-                newPath = $"{directory}/{newName}{extension}";
-            }
-
-            string error = AssetDatabase.RenameAsset(oldPath, newName);
-            if (!string.IsNullOrEmpty(error))
-            {
-                Debug.LogError($"Failed to rename asset: {error}");
-                _textField.value = oldName;
-                newName = oldName;
+                _textField.value = _name;
             }
             else
             {

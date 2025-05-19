@@ -5,6 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace TableForge.UI
 {
@@ -14,8 +15,10 @@ namespace TableForge.UI
         
         private int _idCounter;
         private readonly Dictionary<string, HashSet<Type>> _namespaceTypes = new();
+
+        private readonly HashSet<string> _extraPaths = new();
         
-        protected readonly HashSet<ScriptableObject> SelectedAssets = new();
+        protected readonly HashSet<Object> SelectedAssets = new();
         protected readonly Dictionary<string, Type> AvailableTypes = new();
         protected readonly HashSet<string> TypeNames = new();
         protected string SelectedNamespace;
@@ -107,6 +110,34 @@ namespace TableForge.UI
                         parent.Children.Add(node);
 
                         if (!isLeaf) folderMap[curr] = node;
+                    }
+                    parent = node;
+                }
+            }
+            
+            // Add extra paths
+            foreach (var path in _extraPaths)
+            {
+                var parts = path.Split('/').Skip(1).ToArray();
+                TreeItem parent = assetsRoot;
+                string curr = "Assets";
+
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    curr += "/" + parts[i];
+                    if (!folderMap.TryGetValue(curr, out var node))
+                    {
+                        node = new TreeItem
+                        {
+                            Id = GetUniqueId(),
+                            Name = parts[i],
+                            IsFolder = true,
+                            Asset = null,
+                            Parent = parent,
+                        };
+                        parent.Children.Add(node);
+
+                        folderMap[curr] = node;
                     }
                     parent = node;
                 }
@@ -273,11 +304,31 @@ namespace TableForge.UI
             return assemblyName.StartsWith("Unity")|| assemblyName.StartsWith("UnityEngine") || assemblyName.StartsWith("UnityEditor");
         }
 
-        private int GetUniqueId() => _idCounter++;
+        public int GetUniqueId() => _idCounter++;
 
-        private void StoreOpenItems()
+        public void AddPathToTree(string path)
         {
+            if (string.IsNullOrEmpty(path)) return;
             
+            _extraPaths.Add(path);
+            RefreshTree();
+        }
+
+        public void DeleteAsset(Object asset)
+        {
+            if (asset == null) return;
+
+            string path = AssetDatabase.GetAssetPath(asset);
+            if (string.IsNullOrEmpty(path)) return;
+
+            string guid = AssetDatabase.AssetPathToGUID(path);
+            if (string.IsNullOrEmpty(guid)) return;
+
+            if (AssetUtils.DeleteAsset(guid))
+            {
+                SelectedAssets.Remove(asset);
+                RefreshTree();
+            }
         }
     }
 }

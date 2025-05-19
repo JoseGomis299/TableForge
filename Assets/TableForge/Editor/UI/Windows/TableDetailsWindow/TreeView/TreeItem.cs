@@ -8,7 +8,7 @@ namespace TableForge.UI
     {
         public int Id;
         public string Name;
-        public ScriptableObject Asset;
+        public Object Asset;
         public TreeItem Parent;
         public List<TreeItem> Children = new List<TreeItem>();
         public bool IsSelected;

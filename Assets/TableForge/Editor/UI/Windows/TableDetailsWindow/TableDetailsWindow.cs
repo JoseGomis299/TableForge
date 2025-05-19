@@ -20,6 +20,7 @@ namespace TableForge.UI
         private DropdownField _namespaceDropdown;
         private Label _errorText;
         private Button _confirmButton;
+        private Button _trackFolderButton;
 
         protected static void ShowWindow<T>(TViewModel viewModel, string title) where T : TableDetailsWindow<TViewModel>
         {
@@ -41,6 +42,7 @@ namespace TableForge.UI
             _modeSelector = rootVisualElement.Q<RadioButtonGroup>(name: "mode-selector");
             _typeDropdown = rootVisualElement.Q<DropdownField>(name: "type-dropdown");
             _namespaceDropdown = rootVisualElement.Q<DropdownField>(name: "namespace-dropdown");
+            _trackFolderButton = rootVisualElement.Q<Button>(name: "track-folder-button");
             
             _assetTreeView = new AssetTreeView(ViewModel);
             _assetTreeContainer.Add(_assetTreeView);
@@ -49,6 +51,7 @@ namespace TableForge.UI
         protected virtual void BindEvents()
         {
             _confirmButton.clicked += OnConfirmButtonClicked;
+            _trackFolderButton.clicked += OnTrackFolderButtonClicked;
             _nameField.RegisterValueChangedCallback(OnNameChanged);
             
             _assetTreeView.OnItemSelectionChanged += OnTreeViewSelectionChanged;
@@ -132,6 +135,11 @@ namespace TableForge.UI
             OnConfirm();
             WindowManager.CloseModalWindow(this);
             Close();
+        }
+        
+        private void OnTrackFolderButtonClicked()
+        {
+            TrackFolderWindow.ShowWindow(ViewModel);
         }
 
         private void RefreshTree()
