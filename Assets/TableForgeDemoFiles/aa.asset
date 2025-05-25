@@ -44,6 +44,6 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   color: {r: 0, g: 0, b: 0, a: 0}
   intField: 0
-  floatField: 0
+  floatField: 12
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0

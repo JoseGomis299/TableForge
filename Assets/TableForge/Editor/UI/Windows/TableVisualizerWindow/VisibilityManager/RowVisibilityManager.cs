@@ -106,7 +106,7 @@ namespace TableForge.UI
             Vector2 securitySize = addSecuritySize ? new Vector2(0, SecurityExtraSize.y) : Vector2.zero;
             var viewBounds = ScrollView.contentViewport.worldBound;
             viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - TableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
-            viewBounds.y += TableControl.CornerContainer.CornerControl.resolvedStyle.height;
+            viewBounds.y += TableControl.CornerContainer.CornerControl.resolvedStyle.height - securitySize.y / 2f;
 
             // Check if the top of the header is visible.
             if (header.worldBound.yMax <= viewBounds.yMax &&

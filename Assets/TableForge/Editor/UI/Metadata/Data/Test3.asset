@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
-  m_Name: Test2 (1)
+  m_Name: Test3
   m_EditorClassIdentifier: 
   expandedTables:
     values: 
@@ -21,7 +21,18 @@ MonoBehaviour:
   itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   bindingTypeName: Test2
   itemGUIDs:
-    values: []
+    values:
+    - 5ffb67916d5c31b49bf2ef611865251c
+    - fc5b46e1a92da8a409faeed0f871a9b2
+    - fdcde334c3d21c3418e7c4d897a7757e
+    - 44c5c1b0aa4b1e44083bc1cb8f7234dd
+    - 2e4301abf55b28e47b7dc5ad9b6c92b0
   cellAnchorMetadata:
-    m_Keys: 
-    m_Values: []
+    m_Keys: 4ca1309c430df8384adf5446
+    m_Values:
+    - position: 3
+      size: {x: 0, y: 0}
+    - position: 2
+      size: {x: 0, y: 25.333328}
+    - position: 1
+      size: {x: 0, y: 0}

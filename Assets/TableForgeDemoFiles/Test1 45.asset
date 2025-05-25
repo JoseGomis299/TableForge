@@ -70,7 +70,7 @@ MonoBehaviour:
   reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
   B: 0
   charValue: 0
-  intField: 0
+  intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0

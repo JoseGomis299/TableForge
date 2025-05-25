@@ -56,7 +56,11 @@ namespace TableForge.UI
 
         private void BindEvents()
         {
-            _clearTabsButton.clicked += () => _viewModel?.ClearTabs();
+            _clearTabsButton.clicked += () =>
+            {
+                _viewModel?.ClearTabs();
+                _viewModel?.UpdateTabContainers(_existingTablesContainer, _openTabsContainer);
+            };
             _createButton.clicked += () => _viewModel?.CreateNewTable(_existingTablesContainer);
             _confirmButton.clicked += () =>
             {

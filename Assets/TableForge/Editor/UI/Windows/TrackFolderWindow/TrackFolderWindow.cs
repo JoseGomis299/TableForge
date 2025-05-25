@@ -21,7 +21,8 @@ namespace TableForge.UI
             if(_isOpened) return;
             _isOpened = true;
             
-            var wnd = GetWindow<TrackFolderWindow>("Track Folder");
+            var wnd = CreateInstance<TrackFolderWindow>();
+            wnd.titleContent = new GUIContent("Track Folder");
             wnd._detailsViewModel = viewModel;
             wnd.minSize = new Vector2(800, 80);
             wnd.maxSize = new Vector2(999999, 80);

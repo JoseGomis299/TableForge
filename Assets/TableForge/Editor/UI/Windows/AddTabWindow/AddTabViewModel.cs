@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -33,6 +34,24 @@ namespace TableForge.UI
                 openTabsContainer.Add(CreateTabButton(table, openTabsContainer));
             }
             
+            foreach (var table in existingTables)
+            {
+                if (OpenTables.Contains(table)) continue;
+                CreateTabButton(table, existingTablesContainer);
+            }
+        }
+        
+        public void UpdateTabContainers(VisualElement existingTablesContainer, VisualElement openTabsContainer)
+        {
+            existingTablesContainer.Clear();
+            openTabsContainer.Clear();
+            
+            foreach (var table in OpenTables)
+            {
+                openTabsContainer.Add(CreateTabButton(table, openTabsContainer));
+            }
+
+            List<TableMetadata> existingTables = TableMetadataManager.GetAllMetadata();
             foreach (var table in existingTables)
             {
                 if (OpenTables.Contains(table)) continue;
@@ -91,20 +110,21 @@ namespace TableForge.UI
         
         public void DeleteTab(TableMetadata tableMetadata)
         {
-            if (_tabButtons.TryGetValue(tableMetadata, out var button))
+            AssetUtils.DeleteAsset(AssetDatabase.GUIDFromAssetPath(AssetDatabase.GetAssetPath(tableMetadata)).ToString(), () =>
             {
-                button.RemoveFromHierarchy();
-                _tabButtons.Remove(tableMetadata);
-            }
+                if (_tabButtons.TryGetValue(tableMetadata, out var button))
+                {
+                    button.RemoveFromHierarchy();
+                    _tabButtons.Remove(tableMetadata);
+                }
             
-            if (OpenTables.Contains(tableMetadata))
-            {
-                OpenTables.Remove(tableMetadata);
-            }
+                if (OpenTables.Contains(tableMetadata))
+                {
+                    OpenTables.Remove(tableMetadata);
+                }
             
-            _toolbarController.CloseTab(tableMetadata);
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(tableMetadata));
-            AssetDatabase.Refresh();
+                _toolbarController.CloseTab(tableMetadata);
+            });
         }
         
         public bool IsTabOpen(TableMetadata tableMetadata)
@@ -114,6 +134,12 @@ namespace TableForge.UI
 
         private TabSelectionButton CreateTabButton(TableMetadata table, VisualElement parent)
         {
+            if (_tabButtons.TryGetValue(table, out var existingButton))
+            {
+                parent.Add(existingButton);
+                return existingButton;
+            }
+            
             TabSelectionButton button = new TabSelectionButton(table, this);
             _tabButtons.Add(table, button);
             parent.Add(button);

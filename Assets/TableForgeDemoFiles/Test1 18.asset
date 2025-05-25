@@ -52,7 +52,7 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 48
-  intField: 0
+  intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 0d00000015000000
+  intArray: 0d0000000e0000000e0000000e000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}

@@ -27,7 +27,8 @@ namespace TableForge.UI
             if (_isOpened) return;
             _isOpened = true;
             
-            var wnd = GetWindow<T>(title);
+            var wnd = CreateInstance<T>();
+            wnd.titleContent = new GUIContent(title);
             wnd.ViewModel = viewModel;
             wnd.Initialize();
             WindowManager.ShowModalWindow(wnd);
@@ -158,6 +159,7 @@ namespace TableForge.UI
         private void UpdateState()
         {
             UpdateErrorText();
+            _trackFolderButton.style.display = ViewModel.UsePathsMode ? DisplayStyle.Flex : DisplayStyle.None;
             _confirmButton.SetEnabled(!ViewModel.HasErrors);
         }
         
