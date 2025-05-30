@@ -55,7 +55,7 @@ MonoBehaviour:
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 12
   inheritorClass:
     number: 0
     text: 0

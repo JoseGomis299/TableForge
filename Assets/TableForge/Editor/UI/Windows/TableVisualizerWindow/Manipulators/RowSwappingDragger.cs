@@ -115,7 +115,8 @@ namespace TableForge.UI
                 int rowStartPos = TableControl.RowData[rowHeaderControl.Id].Position;
                 int rowEndPos = _lastHeaderIndex + 1;
                     
-                TableControl.MoveRow(rowStartPos, rowEndPos);
+                ReorderHeaderCommand command = new ReorderHeaderCommand(rowStartPos, rowEndPos, TableControl.MoveRow);
+                UndoRedoManager.Do(command);
             }
         }
     }

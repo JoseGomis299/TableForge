@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -112,6 +113,16 @@ namespace TableForge.UI
             else if(evt.ctrlKey && evt.keyCode == KeyCode.X)
             {
                 ProcessCutKey();
+            }
+            else if(evt.ctrlKey && evt.keyCode == KeyCode.Z)
+            {
+                UndoRedoManager.Undo();
+                _tableControl.Update(true);
+            }
+            else if(evt.ctrlKey && evt.keyCode == KeyCode.Y)
+            {
+                UndoRedoManager.Redo();
+                _tableControl.Update(true);
             }
             evt.StopPropagation();
         }

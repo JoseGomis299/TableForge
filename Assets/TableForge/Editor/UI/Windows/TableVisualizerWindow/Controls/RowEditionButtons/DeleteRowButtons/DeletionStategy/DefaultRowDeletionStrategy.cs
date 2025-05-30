@@ -17,7 +17,7 @@ namespace TableForge.UI
             }
             rowsToDelete.Sort((a, b) => b.Position.CompareTo(a.Position));
             
-            if(rowsToDelete.Count == 0) tableControl.TableData.RemoveRow(tableControl.TableData.Rows.Count);
+            if(rowsToDelete.Count == 0) tableControl.RemoveRow(tableControl.TableData.Rows[tableControl.TableData.Rows.Count].Id);
             else
             {
                 foreach (var row in rowsToDelete)

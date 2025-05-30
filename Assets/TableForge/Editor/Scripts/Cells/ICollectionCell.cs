@@ -1,9 +1,11 @@
+using System.Collections;
+
 namespace TableForge
 {
     /// <summary>
     /// Represents a cell that contains a collection of items.
     /// </summary>
-    internal interface ICollectionCell
+    internal interface ICollectionCell 
     {
         #region Public Methods
         
@@ -24,6 +26,11 @@ namespace TableForge
         /// </summary>
         /// <param name="position">The position of the row to remove.</param>
         void RemoveItem(int position);
+        
+        /// <summary>
+        ///  Returns a copy of the collection items.
+        /// </summary>
+        ICollection GetItems();
         
         #endregion
     }

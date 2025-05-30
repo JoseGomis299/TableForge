@@ -99,12 +99,26 @@ namespace TableForge.UI
         public void OpenTab(TableMetadata table)
         {
             if (_openTabs.Contains(table)) return;
-            
-            TabControl tabControl = new TabControl(this, table);
-            _tabContainer.Add(tabControl);
+
+            TabControl tab = new TabControl(this, table);
+            if (UndoRedoManager.GetLastUndoCommand() == null)
+            {
+                OpenTabInternal(tab);
+            }
+            else
+            {
+                OpenTabCommand command = new OpenTabCommand(OpenTabInternal, CloseTabInternal, tab);
+                UndoRedoManager.Do(command);
+            }
+        }
+
+        private void OpenTabInternal(TabControl tab)
+        {
+            TableMetadata table = tab.TableMetadata;
+            _tabContainer.Add(tab);
             _openTabs.Add(table);
             _orderedOpenTabs.Add(table);
-            _tabControls.Add(table, tabControl);
+            _tabControls.Add(table, tab);
             SessionCache.OpenTab(table);
 
             if(_selectedTab == null)
@@ -123,6 +137,14 @@ namespace TableForge.UI
         {
             if (!_openTabs.Contains(tab.TableMetadata)) return;
             
+            UndoRedoManager.StartCollection();
+            CloseTabCommand command = new CloseTabCommand(OpenTabInternal, CloseTabInternal, tab);
+            UndoRedoManager.Do(command);
+            UndoRedoManager.EndCollection();
+        }
+
+        private void CloseTabInternal(TabControl tab)
+        {
             _tabContainer.Remove(tab);
             _openTabs.Remove(tab.TableMetadata);
             _orderedOpenTabs.Remove(tab.TableMetadata);
@@ -137,7 +159,20 @@ namespace TableForge.UI
         public void SelectTab(TableMetadata tableMetadata)
         {
             if (tableMetadata == _selectedTab) return;
+
+            //Do not store the first tab selection, as it is the default state
+            if (_selectedTab == null)
+            {
+                ChangeTab(tableMetadata);
+                return;
+            }
             
+            ChangeTabCommand command = new ChangeTabCommand(_selectedTab, tableMetadata, ChangeTab);
+            UndoRedoManager.Do(command);
+        }
+
+        private void ChangeTab(TableMetadata tableMetadata)
+        {
             if (_selectedTab != null && _tabControls.TryGetValue(_selectedTab, out var previousTab))
             {
                 previousTab.RemoveFromClassList(USSClasses.ToolbarTabSelected);
@@ -173,7 +208,12 @@ namespace TableForge.UI
                 
                 Table newTable = TableMetadataManager.GetTable(table);
                 _cachedTables[tableMetadata] = newTable;
-                _selectedTab = null;
+
+                if (_selectedTab != null && _tabControls.TryGetValue(_selectedTab, out var previousTab))
+                {
+                    previousTab.RemoveFromClassList(USSClasses.ToolbarTabSelected);
+                    _selectedTab = null;
+                }
                 SelectTab(tableMetadata);
             };
             EditTableWindow.ShowWindow(viewModel);

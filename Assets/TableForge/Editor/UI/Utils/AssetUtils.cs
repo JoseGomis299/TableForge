@@ -16,28 +16,36 @@ namespace TableForge.UI
             baseName = baseName.Substring(0, baseName.Length - extension.Length);
             int counter = 1;
 
+            string newPath = $"{directory}/{newName}{extension}";
             string name = newName;
-            string newPath = $"{directory}/{name}{extension}";
             
             if(newPath == path)
             {
-                return name;
+                return newName;
             }
 
             while (AssetDatabase.AssetPathExists(newPath))
             {
-                name = $"{newName} {counter++}";
-                newPath = $"{directory}/{name}{extension}";
+                newName = $"{name} {counter++}";
+                newPath = $"{directory}/{newName}{extension}";
+                
+                if (newPath == path)
+                {
+                    return newName;
+                }
             }
             
-            string error = AssetDatabase.RenameAsset(path, name);
+            RenameAssetCommand command = new RenameAssetCommand(AssetDatabase.AssetPathToGUID(path), baseName, newName);
+            UndoRedoManager.Do(command);
+            string error = command.Error;
+            
             if (!string.IsNullOrEmpty(error))
             {
                 Debug.LogError($"Failed to rename asset: {error}");
-                name = baseName;
+                return baseName;
             }
             
-            return name;
+            return newName;
         }
         
         public static bool DeleteAsset(string guid, Action onBeforeDelete = null)
@@ -52,7 +60,7 @@ namespace TableForge.UI
             string assetName = path.Substring(path.LastIndexOf('/') + 1, path.LastIndexOf('.') - path.LastIndexOf('/') - 1);
             bool confirmed = EditorUtility.DisplayDialog(
                 "Confirm Action",
-                $"Are you sure you want to delete the selected asset? This action cannot be undone. ({assetName})",
+                $"Are you sure you want to delete the selected asset? This action cannot be undone. ({assetName})\nThis will clear the TableForge undo history!",
                 "Yes",
                 "No"
             );
@@ -63,6 +71,7 @@ namespace TableForge.UI
                 AssetDatabase.DeleteAsset(path);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                UndoRedoManager.Clear();
                 return true;
             }
 
@@ -73,7 +82,7 @@ namespace TableForge.UI
         {
             bool confirmed = EditorUtility.DisplayDialog(
                 "Confirm Action",
-                $"Are you sure you want to delete the selected assets? This action cannot be undone. (multiple assets selected)",
+                $"Are you sure you want to delete the selected assets? This action cannot be undone. (multiple assets selected)\nThis will clear the TableForge undo history!",
                 "Yes",
                 "No"
             );
@@ -93,6 +102,7 @@ namespace TableForge.UI
                 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                UndoRedoManager.Clear();
                 return true;
             }
             

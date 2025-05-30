@@ -18,5 +18,7 @@ namespace TableForge.UI
         List<Row> GetSelectedRows();
         List<Column> GetSelectedColumns();
         void RemoveRowSelection(Row row);
+        void SetSelection(List<Cell> newSelection, bool setFocused = true);
+        void SetFocusedCell(Cell cell);
     }
 }

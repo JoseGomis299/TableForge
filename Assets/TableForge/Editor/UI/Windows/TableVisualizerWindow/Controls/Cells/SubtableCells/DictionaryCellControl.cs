@@ -19,7 +19,7 @@ namespace TableForge.UI
             SubTableControl = new TableControl(
                 ParentTableControl.Root,
                 CellStaticData.GetSubTableCellAttributes(GetType()), 
-                this, SubTableToolbar
+                this, SubTableToolbar, ParentTableControl.Visualizer
             );
             
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);

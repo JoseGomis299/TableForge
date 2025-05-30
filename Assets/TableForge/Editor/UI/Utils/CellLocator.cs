@@ -206,20 +206,20 @@ namespace TableForge.UI
         
         public static IReadOnlyList<Cell> GetCellsAtRow(TableControl tableControl, int rowId)
         {
-            CellAnchorData anchorData = tableControl.RowData[rowId];
-            if(anchorData.CellAnchor is Row row)
+            CellAnchor anchor = tableControl.RowData[rowId];
+            if(anchor is Row row)
                 return row.OrderedCells;
             
-            return GetCellsAtColumn(anchorData.CellAnchor);
+            return GetCellsAtColumn(anchor);
         }
         
         public static IReadOnlyList<Cell> GetCellsAtColumn(TableControl tableControl, int columnId)
         {
-            CellAnchorData anchorData = tableControl.ColumnData[columnId];
-            if(anchorData.CellAnchor is Row row)
+            CellAnchor anchor = tableControl.ColumnData[columnId];
+            if(anchor is Row row)
                 return row.OrderedCells;
             
-            return GetCellsAtColumn(anchorData.CellAnchor);
+            return GetCellsAtColumn(anchor);
         }
 
         private static List<Cell> GetCellsAtColumn(CellAnchor column)

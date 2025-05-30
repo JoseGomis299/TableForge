@@ -13,7 +13,8 @@ namespace TableForge.UI
         private ToolbarController _toolbarController;
         
         public TableControl CurrentTable => _tableControl;
-        
+        public ToolbarController ToolbarController => _toolbarController;
+
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
         [MenuItem("TableForge/TableVisualizer")]
@@ -50,13 +51,12 @@ namespace TableForge.UI
                 RowHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
             };
 
-            _tableControl = new TableControl(rootVisualElement, tableAttributes, null, null);
+            _tableControl = new TableControl(rootVisualElement, tableAttributes, null, null, this);
             mainTable.Add(_tableControl);
             
             var toolbar = root.Q<VisualElement>("toolbar");
             _toolbarController = new ToolbarController(toolbar, this);
 
-            _tableControl.OnTableModified += _toolbarController.UpdateTableCache;
             EditorApplication.projectChanged += OnProjectChanged;
             EditorApplication.update += Update;
             InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;

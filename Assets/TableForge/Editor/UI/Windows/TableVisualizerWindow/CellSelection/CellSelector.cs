@@ -57,6 +57,8 @@ namespace TableForge.UI
                     _selectedCells.Add(_focusedCell);
                     CellsToDeselect.Remove(_focusedCell);
                 }
+                
+                UndoRedoManager.AddSeparator();
             }
         }
         
@@ -149,9 +151,8 @@ namespace TableForge.UI
         {
             _subSelectedAnchors.Clear();
             _selectedCellIds.Clear();
-            
             _subSelectedAnchorIds.Clear();
-
+            
             // Mark selected cells and select their anchors.
             foreach (var cell in _selectedCells)
             {
@@ -242,6 +243,31 @@ namespace TableForge.UI
         #endregion
         
         #region Public Methods
+
+        public void SetSelection(List<Cell> newSelection, bool setFocused = true)
+        {
+            if (newSelection == null || newSelection.Count == 0)
+            {
+                ClearSelection();
+                return;
+            }
+
+            _selectedCells.Clear();
+
+            foreach (var cell in newSelection)
+            {
+                _selectedCells.Add(cell);
+            }
+
+            if(setFocused)
+                FocusedCell = newSelection.FirstOrDefault();
+            ConfirmSelection();
+        }
+
+        public void SetFocusedCell(Cell cell)
+        {
+            FocusedCell = cell;
+        }
 
         public bool IsCellSelected(Cell cell)
         {

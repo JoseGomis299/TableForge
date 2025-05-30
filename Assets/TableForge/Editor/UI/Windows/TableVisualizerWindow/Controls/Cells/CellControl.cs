@@ -69,7 +69,14 @@ namespace TableForge.UI
         
         protected virtual void SetCellValue(object value)
         {
-            Cell.SetValue(value);
+            if (Cell.GetValue().Equals(value)) return;
+            
+            SetCellValueCommand command = new SetCellValueCommand(Cell, this, Cell.GetValue(), value);
+            if(UndoRedoManager.GetLastUndoCommand() is SetCellValueCommand lastCommand && lastCommand.Cell.Id == Cell.Id)
+            {
+                lastCommand.Combine(command);
+            }
+            else UndoRedoManager.Do(command);
         }
 
         public void RecalculateSize()

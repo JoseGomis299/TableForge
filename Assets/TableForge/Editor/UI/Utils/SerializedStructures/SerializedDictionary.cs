@@ -7,6 +7,16 @@ namespace TableForge.UI
     [Serializable]
     public class SerializedDictionary<K, V> : SerializedDictionary<K, V, K, V>
     {
+        public SerializedDictionary() : base() { }
+        
+        public SerializedDictionary(SerializedDictionary<K, V> dictionary)
+        {
+            foreach (var kvp in dictionary)
+            {
+                Add(kvp.Key, kvp.Value);
+            }
+        }
+
         /// <summary>
         /// Conversion to serialize a key
         /// </summary>

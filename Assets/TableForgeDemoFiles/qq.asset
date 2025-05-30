@@ -73,7 +73,7 @@ MonoBehaviour:
   intField: 190
   floatField: 29
   <PublicLongProperty>k__BackingField: 29
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 343
     text: 156
@@ -448,7 +448,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 1
-  intArray: 1500000000000000
+  intArray: 150000000000000001000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
@@ -474,10 +474,8 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
-    m_Keys:
-    - key1
-    - 12
-    m_Values: 0100000002000000
+    m_Keys: []
+    m_Values: 
   structDictionary2:
     m_Keys:
     - number: 5

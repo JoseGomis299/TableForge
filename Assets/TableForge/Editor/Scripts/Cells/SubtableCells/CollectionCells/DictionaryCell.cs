@@ -70,6 +70,11 @@ namespace TableForge
             var key = SubTable.Rows[position].Cells[1].GetValue();
             ((IDictionary)Value).Remove(key);
         }
+        
+        public override ICollection GetItems()
+        {
+            return Value.CreateShallowCopy() as ICollection;
+        }
 
         protected override string SerializeSubTable()
         {

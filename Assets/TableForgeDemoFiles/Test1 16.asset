@@ -72,8 +72,8 @@ MonoBehaviour:
   charValue: 48
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 190
   inheritorClass:
     number: 343
     text: '\Keys: {''key1''}, {''12''} \Values: {1}, {2}'

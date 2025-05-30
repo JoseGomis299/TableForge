@@ -25,7 +25,7 @@ namespace TableForge.UI
         {
             if(value is int intValue)
             {
-                Cell.SetValue((LayerMask)intValue);
+                base.SetCellValue((LayerMask)intValue);
             }
         }
     }

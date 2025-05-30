@@ -10,11 +10,10 @@ namespace TableForge.UI
     {
         #region Fields
 
-        public event Action<TableMetadata, Table> OnTableModified; 
         public event Action<Vector2> OnScrollviewSizeChanged;
 
-        private readonly Dictionary<int, CellAnchorData> _columnData = new();
-        private readonly Dictionary<int, CellAnchorData> _rowData = new();
+        private readonly Dictionary<int, CellAnchor> _columnData = new();
+        private readonly Dictionary<int, CellAnchor> _rowData = new();
         private readonly Dictionary<int, RowHeaderControl> _rowHeaders = new();
         private readonly Dictionary<int, ColumnHeaderControl> _columnHeaders = new();
 
@@ -30,14 +29,13 @@ namespace TableForge.UI
         private List<ColumnHeaderControl> _orderedDescColumnHeaders = new();
         private List<RowHeaderControl> _orderedRowHeaders = new();
         private List<RowHeaderControl> _orderedDescRowHeaders = new();
-        
 
         #endregion
 
         #region Properties
 
-        public IReadOnlyDictionary<int, CellAnchorData> ColumnData => _columnData;
-        public IReadOnlyDictionary<int, CellAnchorData> RowData => _rowData;
+        public IReadOnlyDictionary<int, CellAnchor> ColumnData => _columnData;
+        public IReadOnlyDictionary<int, CellAnchor> RowData => _rowData;
         public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
         public IReadOnlyDictionary<int, ColumnHeaderControl> ColumnHeaders => _columnHeaders;
         public IReadOnlyList<ColumnHeaderControl> OrderedColumnHeaders => _orderedColumnHeaders;
@@ -46,6 +44,7 @@ namespace TableForge.UI
         public IReadOnlyList<ColumnHeaderControl> OrderedDescColumnHeaders => _orderedDescColumnHeaders;
 
         public VisualElement Root { get; }
+        public TableVisualizer Visualizer { get; }
         public CornerContainerControl CornerContainer => _cornerContainer;
 
         public Table TableData { get; private set; }
@@ -69,9 +68,10 @@ namespace TableForge.UI
 
         #region Constructor
 
-        public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent, VisualElement subTableToolbar)
+        public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent, VisualElement subTableToolbar, TableVisualizer visualizer)
         {
             // Basic initialization
+            Visualizer = visualizer;
             Root = root;
             TableAttributes = attributes;
             Parent = parent;
@@ -132,8 +132,8 @@ namespace TableForge.UI
             PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
 
             // Add empty data for the corner cell
-            _rowData.Add(0, new CellAnchorData(null));
-            _columnData.Add(0, new CellAnchorData(null));
+            _rowData.Add(0, null);
+            _columnData.Add(0, null);
 
             BuildColumns();
             BuildRows();
@@ -206,9 +206,24 @@ namespace TableForge.UI
         
         public void RemoveRow(int id)
         {
-            Row row = Transposed ? _columnData[id].CellAnchor as Row : _rowData[id].CellAnchor as Row;
+            Row row = Transposed ? _columnData[id] as Row : _rowData[id] as Row;
             if (row == null) return;
+
+            RemoveRowCommand command = null;
+            if(TableData.ParentCell is ICollectionCell collectionCell)
+            {
+               command = new RemoveCollectionRowCommand(row, TableMetadata.Clone(Metadata), this, RemoveRow, TableData.ParentCell, collectionCell.GetItems());
+            }
+            else
+            {
+                command = new RemoveRowCommand(row, TableMetadata.Clone(Metadata), Visualizer.CurrentTable, RemoveRow);
+            }
             
+            UndoRedoManager.Do(command);
+        }
+
+        private void RemoveRow(Row row)
+        {
             //Move row to the end and refresh metadata
             TableData.MoveRow(row.Position, TableData.Rows.Count);
             foreach (var r in TableData.OrderedRows)
@@ -221,7 +236,7 @@ namespace TableForge.UI
             // Remove metadata
             CellSelector.RemoveRowSelection(row);
             if(Parent == null) Metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
-            Metadata.RemoveAnchorMetadata(id);
+            Metadata.RemoveAnchorMetadata(row.Id);
             foreach (var cell in row.OrderedCells)
             {
                 Metadata.RemoveCellMetadata(cell.Id);
@@ -235,7 +250,7 @@ namespace TableForge.UI
                 }
             }
             
-            OnTableModified?.Invoke(Metadata, TableData);
+            Visualizer.ToolbarController.UpdateTableCache(Metadata, TableData);
         }
 
         public void Transpose()
@@ -261,7 +276,7 @@ namespace TableForge.UI
         {
             if (rowStartPos == rowEndPos)
                 return;
-
+            
             if (TableAttributes.RowReorderMode == TableReorderMode.ExplicitReorder)
             {
                 PerformExplicitRowReorder(rowStartPos, rowEndPos, refresh);
@@ -387,7 +402,7 @@ namespace TableForge.UI
 
         private void BuildColumn<T>(T column) where T : CellAnchor
         {
-            _columnData.Add(column.Id, new CellAnchorData(column));
+            _columnData.Add(column.Id, column);
                 
             var headerCell = new ColumnHeaderControl(column, this);
             _columnHeaderContainer.Add(headerCell);
@@ -437,7 +452,7 @@ namespace TableForge.UI
         
         private void BuildRow<T>(T row) where T : CellAnchor
         {
-            _rowData.Add(row.Id, new CellAnchorData(row));
+            _rowData.Add(row.Id, row);
             var header = new RowHeaderControl(row, this);
             _rowHeaders.Add(row.Id, header);
             _rowHeaderContainer.Add(header);

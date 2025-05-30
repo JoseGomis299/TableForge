@@ -1,0 +1,41 @@
+using System;
+using System.Collections;
+
+namespace TableForge.UI
+{
+    internal class AddCollectionRowCommand : IUndoableCommand
+    {
+        private readonly Action<TableControl> _addRowAction;
+        private readonly TableControl _tableControl;
+        private readonly Cell _collectionCell;
+        private readonly ICollection _oldCollectionCopy;
+        private TableMetadata _oldTableMetadata;
+        
+        public AddCollectionRowCommand(Action<TableControl> addRowAction, TableControl tableControl, Cell collectionCell, ICollection oldCollectionCopy)
+        {
+            _addRowAction = addRowAction;
+            _tableControl = tableControl;
+            _collectionCell = collectionCell;
+            _oldCollectionCopy = oldCollectionCopy;
+        }
+        
+        public void Execute()
+        {
+            _oldTableMetadata = TableMetadata.Clone(_tableControl.Metadata);
+            _addRowAction(_tableControl);
+        }
+
+        public void Undo()
+        {
+            _collectionCell.SetValue(_oldCollectionCopy);
+            var originalMetadata = _tableControl.Metadata;
+            TableMetadata.Copy(originalMetadata, _oldTableMetadata);
+
+            if (_tableControl.Parent is DynamicTableControl dynamicTableControl)
+            {
+                _tableControl.RebuildPage();
+                dynamicTableControl.OnRowDeleted();
+            }
+        }
+    }
+}

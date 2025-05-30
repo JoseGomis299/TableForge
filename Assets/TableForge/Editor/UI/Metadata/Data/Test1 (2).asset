@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
+  m_Name: Test1 (2)
+  m_EditorClassIdentifier: 
+  expandedTables:
+    values: 
+  transposedTables:
+    values: 
+  hiddenFields:
+    values: 
+  itemsTypeName: Test1, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  bindingTypeName: 
+  itemGUIDs:
+    values:
+    - 3e7c80d8d4c9aa441a4c25aa1622f641
+    - 9886e01d1570d844387099ab1191a2d9
+    - a7cd71ea686f68842876e7effa178465
+  cellAnchorMetadata:
+    m_Keys: 6f60382402982f03478c7ce1ed2bf074
+    m_Values:
+    - position: 3
+      size: {x: 0, y: 24.666672}
+    - position: 1
+      size: {x: 0, y: 0}
+    - position: 2
+      size: {x: 0, y: 25.333328}
+    - position: 0
+      size: {x: 114.666626, y: 0}

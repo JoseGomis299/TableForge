@@ -400,6 +400,41 @@ namespace TableForge.UI
         }
         
         #endregion
+
+        public static TableMetadata Clone(TableMetadata oldTableMetadata)
+        {
+            if (oldTableMetadata == null) return null;
+
+            TableMetadata newTableMetadata = CreateInstance<TableMetadata>();
+            Copy(newTableMetadata, oldTableMetadata);
+            
+            return newTableMetadata;
+        }
+
+        public static void Copy(TableMetadata to, TableMetadata from)
+        {
+            if (to == null || from == null) return;
+
+            to.name = from.name;
+            to.itemsTypeName = from.itemsTypeName;
+            to.bindingTypeName = from.bindingTypeName;
+            to.itemGUIDs = new SerializedHashSet<string>(from.itemGUIDs);
+            to.cellAnchorMetadata = new SerializedDictionary<int, CellAnchorMetadata>();
+            foreach (var kvp in from.cellAnchorMetadata)
+            {
+                to.cellAnchorMetadata.Add(kvp.Key, new CellAnchorMetadata
+                {
+                    position = kvp.Value.position,
+                    size = kvp.Value.size
+                });
+            }
+            
+            to.expandedTables = new SerializedHashSet<int>(from.expandedTables);
+            to.transposedTables = new SerializedHashSet<int>(from.transposedTables);
+            to.hiddenFields = new SerializedHashSet<int>(from.hiddenFields);
+
+            to.SetDirtyIfNecessary();
+        }
     }
 
     [Serializable]

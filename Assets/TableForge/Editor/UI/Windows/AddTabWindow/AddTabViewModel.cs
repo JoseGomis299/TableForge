@@ -77,6 +77,8 @@ namespace TableForge.UI
 
         public void AddCurrentTabs()
         {
+            UndoRedoManager.StartCollection();
+
             // Close all tabs that are not in the OpenTables list
             IEnumerable<TableMetadata> tabsToCheck = _toolbarController.OpenTabs.ToList();
             foreach (var openTab in tabsToCheck)
@@ -90,6 +92,8 @@ namespace TableForge.UI
             {
                 _toolbarController.OpenTab(table);
             }
+
+            UndoRedoManager.EndCollection();
         }
         
         public void ToggleTab(TabSelectionButton tab)

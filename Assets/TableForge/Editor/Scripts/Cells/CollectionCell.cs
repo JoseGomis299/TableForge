@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,6 +16,8 @@ namespace TableForge
         public abstract void AddItem(object item);
         public abstract void AddEmptyItem();
         public abstract void RemoveItem(int position);
+        
+        public abstract ICollection GetItems();
 
         public override string Serialize()
         {

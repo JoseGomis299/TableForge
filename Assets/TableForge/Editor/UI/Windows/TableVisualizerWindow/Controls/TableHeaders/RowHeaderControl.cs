@@ -10,7 +10,6 @@ namespace TableForge.UI
         private bool _isChangingName;
         private readonly Label _headerLabel;
         private readonly TextField _textField;
-        private string _name;
         public RowControl RowControl { get; set; }
         
         public RowHeaderControl(CellAnchor cellAnchor, TableControl tableControl) : base(cellAnchor, tableControl)
@@ -30,8 +29,7 @@ namespace TableForge.UI
             }           
             Add(_headerLabel);
             
-            _name = NameResolver.ResolveHeaderName(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility);
-            _textField = new TextField { value = _name };
+            _textField = new TextField { value = cellAnchor.Name };
             
             TableControl.VerticalResizer.HandleResize(this);
             
@@ -55,6 +53,11 @@ namespace TableForge.UI
         public void Refresh()
         {
             RowControl.Refresh();
+            RefreshName();
+        }
+
+        private void RefreshName()
+        {
             _headerLabel.text = NameResolver.ResolveHeaderStyledName(CellAnchor, TableControl.TableAttributes.RowHeaderVisibility);
         }
 
@@ -73,7 +76,7 @@ namespace TableForge.UI
             {
                 _isChangingName = true;
                 
-                _textField.value = _name;
+                _textField.value = CellAnchor.Name;
                 _textField.AddToClassList(USSClasses.TableHeaderText);
                 _textField.RegisterCallback<KeyDownEvent>((keyEvt) =>
                 {
@@ -84,7 +87,7 @@ namespace TableForge.UI
                     }
                     else if (keyEvt.keyCode == KeyCode.Escape)
                     {
-                        HideTextField(_name);
+                        HideTextField();
                         _isChangingName = false;
                     }
                 });
@@ -124,27 +127,22 @@ namespace TableForge.UI
 
         private void TryChangeName()
         {
-            string oldPath = AssetDatabase.GetAssetPath(((Row)CellAnchor).SerializedObject.RootObject);
-            string newName = AssetUtils.RenameAsset(oldPath, _textField.value.Trim());
-            
-            if (newName == _name)
-            {
-                _textField.value = _name;
-            }
-            else
-            {
-                _headerLabel.text = newName;
-            }
-
-            HideTextField(newName);
+            string path = AssetDatabase.GetAssetPath(((Row)CellAnchor).SerializedObject.RootObject);
+            AssetUtils.RenameAsset(path, _textField.value.Trim());
+            HideTextField();
         }
 
-        private void HideTextField(string newName)
+        private void HideTextField()
         {
+            RefreshName();
             Remove(_textField);
-            _headerLabel.text = newName;
-            _name = newName;
             Add(_headerLabel);
+            
+            //Recover focus on the window in case we lost it
+            schedule.Execute(() =>
+            {
+                TableControl.Root.Focus();
+            }).ExecuteLater(0);
         }
 
         private void RemoveThisRow()

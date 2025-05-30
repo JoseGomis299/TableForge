@@ -140,6 +140,11 @@ namespace TableForge
             }
         }
 
+        public override ICollection GetItems()
+        {
+            return Value.CreateShallowCopy() as ICollection;
+        }
+
         protected override string SerializeSubTable()
         {
             StringBuilder serializedData = new StringBuilder();

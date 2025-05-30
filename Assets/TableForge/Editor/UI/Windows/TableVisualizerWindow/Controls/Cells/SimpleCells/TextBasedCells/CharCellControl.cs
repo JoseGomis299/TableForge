@@ -25,11 +25,11 @@ namespace TableForge.UI
         {
             if (value is string { Length: > 0 } strValue)
             {
-                Cell.SetValue(strValue[0]);
+                base.SetCellValue(strValue[0]);
             }
             else
             {
-                Cell.SetValue('\0');
+                base.SetCellValue('\0');
             }
         }
     }

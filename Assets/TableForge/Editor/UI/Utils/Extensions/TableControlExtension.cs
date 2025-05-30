@@ -80,14 +80,14 @@ namespace TableForge.UI
             if (!tableControl.RowData.ContainsKey(rowId) || !tableControl.ColumnData.ContainsKey(columnId))
                 return null;
 
-            if (tableControl.RowData[rowId].CellAnchor is Row row)
+            if (tableControl.RowData[rowId] is Row row)
             {
                 if (row.Cells.TryGetValue(tableControl.ColumnData[columnId].Position, out var cell))
                     return cell;
             }
-            else if (tableControl.ColumnData[columnId].CellAnchor is Row column)
+            else if (tableControl.ColumnData[columnId] is Row column)
             {
-                if (column.Cells.TryGetValue(tableControl.RowData[rowId].CellAnchor.Position, out var cell))
+                if (column.Cells.TryGetValue(tableControl.RowData[rowId].Position, out var cell))
                     return cell;
             }
 

@@ -39,7 +39,7 @@ namespace TableForge.UI
         protected override void SetCellValue(object value)
         {
             short shortValue = Convert.ToInt16(value);
-            Cell.SetValue(shortValue);
+            base.SetCellValue(shortValue);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using TableForge.Exceptions;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,8 +9,9 @@ namespace TableForge.UI
     internal abstract class SimpleCellControl : CellControl, ISimpleCellControl
     {
         public event Action<object> OnValueChange; 
+     
         private VisualElement _field;
-        
+            
         public VisualElement Field
         {
             get => _field;
@@ -26,7 +28,7 @@ namespace TableForge.UI
                 }, TrickleDown.TrickleDown);
                 _field.RegisterCallback<FocusOutEvent>(_ =>
                 {
-                   BlurField();
+                    BlurField();
                 });
             }
         }

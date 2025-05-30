@@ -73,7 +73,7 @@ MonoBehaviour:
   intField: 190
   floatField: 29
   <PublicLongProperty>k__BackingField: 29
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 190
     text: 29
@@ -130,7 +130,10 @@ MonoBehaviour:
   testEnum: 0
   vector3Array:
   - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - {x: 3, y: 0, z: 0}
+  - {x: 2, y: 0, z: 0}
+  - {x: 4, y: 0, z: 0}
+  - {x: 4, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
     - key1

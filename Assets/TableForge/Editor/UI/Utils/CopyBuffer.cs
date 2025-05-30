@@ -99,6 +99,8 @@ namespace TableForge.UI
         private static void Paste(IList<Cell> cells,  List<string> buffer)
         {
             int bufferIndex = 0;
+            CommandCollection commandCollection = new CommandCollection();
+
             foreach (var cell in cells)
             {
                 string data = buffer[bufferIndex];
@@ -120,7 +122,8 @@ namespace TableForge.UI
                         serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
                     }
                     
-                    subTableCell.TryDeserialize(serializedData.ToString());
+                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString());
+                    commandCollection.AddAndExecuteCommand(command);
                     bufferIndex = (bufferIndex + count) % buffer.Count;
                 }
                 else
@@ -130,7 +133,8 @@ namespace TableForge.UI
                             .Replace(SerializationConstants.CancelledRowSeparator, SerializationConstants.RowSeparator)
                             .Replace(SerializationConstants.CancelledColumnSeparator, SerializationConstants.ColumnSeparator);
                     
-                    cell.TryDeserialize(data);
+                    DeserializeCellCommand command = new DeserializeCellCommand(cell, cell.GetValue(), data);
+                    commandCollection.AddAndExecuteCommand(command);
                     if (cell is not SubTableCell) //Recalculate the cell size for the new value
                     {
                         CellControlFactory.GetCellControlFromId(cell.Id)?.RecalculateSize();
@@ -138,6 +142,8 @@ namespace TableForge.UI
                     bufferIndex = (bufferIndex + 1) % buffer.Count;
                 }
             }
+            
+            UndoRedoManager.AddToQueue(commandCollection);
         }
 
         private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer)
@@ -145,6 +151,7 @@ namespace TableForge.UI
             int bufferIndex = 0;
             int cellIndex = 0;
             Cell currentCell = navigator.GetCurrentCell();
+            CommandCollection commandCollection = new CommandCollection();
             
             while (bufferIndex < buffer.Count)
             {
@@ -169,7 +176,8 @@ namespace TableForge.UI
                     }
                         
                     bool subTableWasEmpty = subTableCell.SubTable.Rows.Count == 0;
-                    subTableCell.TryDeserialize(serializedData.ToString());
+                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString());
+                    commandCollection.AddAndExecuteCommand(command);
                     
                     if(subTableWasEmpty) navigator.GetNextCell(0);
                     for (int i = 0; i < count - 1; i++)
@@ -193,7 +201,8 @@ namespace TableForge.UI
                             .Replace(SerializationConstants.CancelledColumnSeparator,
                                 SerializationConstants.ColumnSeparator);
 
-                    currentCell.TryDeserialize(data);
+                    DeserializeCellCommand command = new DeserializeCellCommand(currentCell, currentCell.GetValue(), data);
+                    commandCollection.AddAndExecuteCommand(command);
                     if (currentCell is not SubTableCell) //Recalculate the cell size for the new value
                     {
                         CellControlFactory.GetCellControlFromId(currentCell.Id)?.RecalculateSize();
@@ -211,6 +220,8 @@ namespace TableForge.UI
                 }
                 else currentCell = navigator.GetNextCell(1);
             }
+            
+            UndoRedoManager.AddToQueue(commandCollection);
         }
         
         private static List<Cell> FilterCells(IEnumerable<Cell> cells)

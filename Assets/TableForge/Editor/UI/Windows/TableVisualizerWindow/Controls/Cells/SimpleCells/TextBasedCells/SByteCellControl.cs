@@ -39,7 +39,7 @@ namespace TableForge.UI
         protected override void SetCellValue(object value)
         {
             sbyte sbyteValue = Convert.ToSByte(value);
-            Cell.SetValue(sbyteValue);
+            base.SetCellValue(sbyteValue);
         }
     }
 }

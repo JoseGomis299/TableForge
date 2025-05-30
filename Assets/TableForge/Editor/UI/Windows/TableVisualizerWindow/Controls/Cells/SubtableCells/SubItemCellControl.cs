@@ -19,7 +19,7 @@ namespace TableForge.UI
             SubTableControl = new TableControl(
                 ParentTableControl.Root,
                 CellStaticData.GetSubTableCellAttributes(GetType()), 
-                this, SubTableToolbar
+                this, SubTableToolbar, ParentTableControl.Visualizer
             );
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             SubTableControl.SetScrollbarsVisibility(false);
@@ -39,7 +39,7 @@ namespace TableForge.UI
             };
         }
 
-        protected override void OnRowAdded()
+        public override void OnRowAdded()
         {
             RecalculateSizeWithCurrentValues();
             TableControl.VerticalResizer.ResizeCell(this);

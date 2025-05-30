@@ -52,7 +52,7 @@ namespace TableForge.UI
             }
         }
         
-        protected virtual void OnRowAdded()
+        public virtual void OnRowAdded()
         {
             RecalculateSizeWithCurrentValues();
             TableControl.VerticalResizer.ResizeCell(this);
@@ -64,7 +64,7 @@ namespace TableForge.UI
             }
         }
         
-        protected virtual void OnRowDeleted()
+        public virtual void OnRowDeleted()
         {
             if(SubTableControl.TableData.Rows.Count == 0)
             {

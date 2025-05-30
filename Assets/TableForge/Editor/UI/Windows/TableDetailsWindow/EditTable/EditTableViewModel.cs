@@ -35,6 +35,7 @@ namespace TableForge.UI
 
         public void UpdateTable()
         {
+            TableMetadata oldTableMetadata = TableMetadata.Clone(_tableMetadata);
             _tableMetadata.Name = TableName;
             HashSet<string> removedGuids = new HashSet<string>(_tableMetadata.ItemGUIDs);
     
@@ -58,7 +59,19 @@ namespace TableForge.UI
                 _tableMetadata.RemoveAnchorMetadata(anchorId);
             }
             
+            EditTableCommand command = new EditTableCommand(
+                oldTableMetadata,
+                TableMetadata.Clone(_tableMetadata), 
+                UpdateTable
+            );
+            UndoRedoManager.AddToQueue(command);
             OnTableUpdated?.Invoke(_tableMetadata);
+        }
+
+        private void UpdateTable(TableMetadata tableMetadata)
+        {
+            TableMetadata.Copy(_tableMetadata, tableMetadata);
+            OnTableUpdated?.Invoke(tableMetadata);
         }
     }
 }

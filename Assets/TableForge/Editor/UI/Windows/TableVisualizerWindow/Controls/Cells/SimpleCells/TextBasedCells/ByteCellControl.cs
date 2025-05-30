@@ -39,7 +39,7 @@ namespace TableForge.UI
         protected override void SetCellValue(object value)
         {
             byte byteValue = Convert.ToByte(value);
-            Cell.SetValue(byteValue);
+            base.SetCellValue(byteValue);
         }
     }
 }

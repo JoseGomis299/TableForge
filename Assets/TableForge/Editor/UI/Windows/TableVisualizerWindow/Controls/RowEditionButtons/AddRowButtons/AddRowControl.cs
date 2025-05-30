@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
@@ -27,7 +29,14 @@ namespace TableForge.UI
 
         private void AddRow()
         {
-            _rowAdditionStrategy.AddRow(_tableControl);
+            AddCollectionRowCommand addRowCommand = new AddCollectionRowCommand(
+                _rowAdditionStrategy.AddRow,
+                _tableControl,
+                _tableControl.TableData.ParentCell,
+                (_tableControl.TableData.ParentCell as ICollectionCell)?.GetItems()
+                );
+            
+            UndoRedoManager.Do(addRowCommand);
             OnRowAdded?.Invoke();
         }
         
