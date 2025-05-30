@@ -67,8 +67,8 @@ namespace TableForge.UI
         
         private static ConstructorInfo GetCellControlConstructor(Type cellType, object[] args)
         {
-            if (_cellControlConstructors.ContainsKey(cellType))
-                return _cellControlConstructors[cellType];
+            if (_cellControlConstructors.TryGetValue(cellType, out var controlConstructor))
+                return controlConstructor;
             
             var cellControlType = CellStaticData.GetCellControlType(cellType);
             var constructor = cellControlType.GetConstructor(args.Select(x => x.GetType()).ToArray());

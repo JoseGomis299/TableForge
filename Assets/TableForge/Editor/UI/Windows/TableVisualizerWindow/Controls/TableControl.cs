@@ -148,9 +148,6 @@ namespace TableForge.UI
             RowVisibilityManager.Clear();
             ColumnVisibilityManager.Clear();
 
-            _cornerContainer.CornerControl.style.width = 0;
-            _rowsContainer.style.left = 0;
-
             ResetScrollViewStoredSize();
             UnsubscribeFromResizingMethods();
         }
@@ -404,7 +401,7 @@ namespace TableForge.UI
         {
             _columnData.Add(column.Id, column);
                 
-            var headerCell = new ColumnHeaderControl(column, this);
+            var headerCell = ColumnHeaderControl.GetPooled(column, this);
             _columnHeaderContainer.Add(headerCell);
             _columnHeaders.Add(column.Id, headerCell);
         }
@@ -453,14 +450,10 @@ namespace TableForge.UI
         private void BuildRow<T>(T row) where T : CellAnchor
         {
             _rowData.Add(row.Id, row);
-            var header = new RowHeaderControl(row, this);
+            var header = RowHeaderControl.GetPooled(row, this);
             _rowHeaders.Add(row.Id, header);
             _rowHeaderContainer.Add(header);
-            HeaderSwapper.HandleSwapping(header);
-
-            var rowControl = new RowControl(row, this);
-            _rowsContainer.Add(rowControl);
-            header.RowControl = rowControl;
+            _rowsContainer.Add(header.RowControl);
         }
 
         #endregion
@@ -524,12 +517,11 @@ namespace TableForge.UI
         {
             foreach (var rowHeader in _rowHeaderContainer.Children())
             {
-                if (rowHeader is RowHeaderControl rowHeaderControl)
+                if (rowHeader is HeaderControl headerControl)
                 {
-                    VerticalResizer.Dispose(rowHeaderControl);
-                    HeaderSwapper.Dispose(rowHeaderControl);
-                    rowHeaderControl.RowControl.ClearRow();
+                    headerControl.Disable();
                 }
+                
                 rowHeader.style.height = 0;
             }
             _rowHeaders.Clear();
@@ -540,10 +532,13 @@ namespace TableForge.UI
 
         private void ClearColumns()
         {
-            foreach (var columnHeader in _columnHeaderContainer.Children())
+            foreach (var columnHeader in _rowHeaderContainer.Children())
             {
-                if (columnHeader is ColumnHeaderControl columnHeaderControl)
-                    HorizontalResizer.Dispose(columnHeaderControl);
+                if (columnHeader is HeaderControl headerControl)
+                {
+                    headerControl.Disable();
+                }        
+                
                 columnHeader.style.width = 0;
             }
             _columnHeaderContainer.Clear();

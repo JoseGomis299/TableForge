@@ -30,7 +30,7 @@ namespace TableForge.UI
         public override void RefreshVisibility(float delta)
         {
             if(TableControl.RowData.Count <= 1) return;
-
+            Debug.Log("refresh visibility");
             int direction = delta > 0 ? -1 : 1;
             bool isScrollingDown = direction == -1;
 

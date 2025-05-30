@@ -1,47 +1,82 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
 namespace TableForge.UI
 {
     internal class RowHeaderControl : HeaderControl
     {
+        private static ObjectPool<RowHeaderControl> _pool = new(() => new RowHeaderControl());
+        private static ObjectPool<RowControl> _rowControlPool = new(() => new RowControl());
+        
         private bool _isChangingName;
         private readonly Label _headerLabel;
         private readonly TextField _textField;
         public RowControl RowControl { get; set; }
         
-        public RowHeaderControl(CellAnchor cellAnchor, TableControl tableControl) : base(cellAnchor, tableControl)
+        public static RowHeaderControl GetPooled(CellAnchor cellAnchor, TableControl tableControl)
+        {
+            var control = _pool.Get();
+            control.OnEnable(cellAnchor, tableControl);
+            return control;
+        }
+        
+        private RowHeaderControl()
         {
             AddToClassList(USSClasses.TableHeaderCellVertical);
+            
+            _headerLabel = new Label();
+            _headerLabel.AddToClassList(USSClasses.TableHeaderText);
+            _textField = new TextField();
+            
+            _textField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                _isChangingName = false;
+                TryChangeName();
+            });
+            
+            Add(_headerLabel);
+        }
+
+        protected override void OnEnable(CellAnchor cellAnchor, TableControl tableControl)
+        {
+            base.OnEnable(cellAnchor, tableControl);
             if(tableControl.Parent != null)
             {
                 AddToClassList(USSClasses.SubTableHeaderCellVertical);
             }
             
             var title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility);
-            _headerLabel = new Label(title);
-            _headerLabel.AddToClassList(USSClasses.TableHeaderText);
+            _headerLabel.text = title;
             if(tableControl.Parent != null)
             {
                 _headerLabel.AddToClassList(USSClasses.SubTableHeaderText);
-            }           
-            Add(_headerLabel);
+            }
             
-            _textField = new TextField { value = cellAnchor.Name };
+            _textField.value = cellAnchor.Name;
             
             TableControl.VerticalResizer.HandleResize(this);
+            TableControl.HeaderSwapper.HandleSwapping(this);
             
-            OnSelectionChanged += SelectionChanged;
-            _textField.RegisterCallback<FocusOutEvent>(evt =>
-            {
-                _isChangingName = false;
-                TryChangeName();
-            });
+            RowControl = _rowControlPool.Get();
+            RowControl.Initialize(cellAnchor, tableControl);
         }
 
-        private void SelectionChanged()
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            
+            TableControl.VerticalResizer.Dispose(this);
+            TableControl.HeaderSwapper.Dispose(this);
+            RowControl.ClearRow();
+
+            _rowControlPool.Release(RowControl);
+            _pool.Release(this);
+        }
+
+        protected override void SelectionChanged()
         {
             if(!IsSelected && _isChangingName)
             {

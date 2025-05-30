@@ -6,14 +6,13 @@ namespace TableForge.UI
 {
     internal abstract class HeaderControl : VisualElement
     {
-        protected event Action OnSelectionChanged;
-        protected event Action OnSubSelectionChanged;
-        
-        public readonly TableControl TableControl;
+        private readonly ContextualMenuManipulator _contextualMenuManipulator;
         private bool _isSelected;
         private bool _isSubSelected;
         
         public CellAnchor CellAnchor { get; protected set; }
+        public TableControl TableControl { get; protected set; }
+
 
         public bool IsSubSelected
         {
@@ -26,7 +25,7 @@ namespace TableForge.UI
                     AddToClassList(USSClasses.SubSelectedHeader);
 
                 _isSubSelected = value;
-                OnSubSelectionChanged?.Invoke();
+                SelectionChanged();
             }
         }
         
@@ -41,33 +40,55 @@ namespace TableForge.UI
                     AddToClassList(USSClasses.SelectedHeader);
 
                 _isSelected = value;
-                OnSelectionChanged?.Invoke();
             }
         }
         public bool IsVisible { get; set; }
         public string Name => CellAnchor?.Name ?? string.Empty;
         public int Id => CellAnchor?.Id ?? 0;
+        
+        protected HeaderControl()
+        {
+            _contextualMenuManipulator = new ContextualMenuManipulator(BuildContextualMenu);
+        }
 
-
-        protected HeaderControl(CellAnchor cellAnchor, TableControl tableControl)
+        public void Disable()
+        {
+            OnDisable();
+        }
+        
+        protected virtual void OnEnable(CellAnchor cellAnchor, TableControl tableControl)
         {
             CellAnchor = cellAnchor;
             TableControl = tableControl;
             
             IsSelected = tableControl.CellSelector.IsAnchorSelected(cellAnchor);
             IsSubSelected = tableControl.CellSelector.IsAnchorSubSelected(cellAnchor);
-            tableControl.CellSelector.OnSelectionChanged += () =>
-            {
-                IsSelected = tableControl.CellSelector.IsAnchorSelected(cellAnchor);
-                IsSubSelected = tableControl.CellSelector.IsAnchorSubSelected(cellAnchor);
-            };
-
+            
+            tableControl.CellSelector.OnSelectionChanged += OnSelectionChanged;
+            
             if (tableControl.Parent == null)
             {
-                this.AddManipulator(new ContextualMenuManipulator(BuildContextualMenu));
+                this.AddManipulator(_contextualMenuManipulator);
             }
         }
         
+        protected virtual void OnDisable()
+        {
+            TableControl.CellSelector.OnSelectionChanged -= OnSelectionChanged;
+            this.RemoveManipulator(_contextualMenuManipulator);
+        }
+
+        private void OnSelectionChanged()
+        {
+            IsSelected = TableControl.CellSelector.IsAnchorSelected(CellAnchor);
+            IsSubSelected = TableControl.CellSelector.IsAnchorSubSelected(CellAnchor);
+        }
+
+        protected virtual void SelectionChanged()
+        {
+            //Noop
+        }
+
         protected abstract void BuildContextualMenu(ContextualMenuPopulateEvent obj);
 
         protected void ExpandCollapseBuilder(ContextualMenuPopulateEvent obj)

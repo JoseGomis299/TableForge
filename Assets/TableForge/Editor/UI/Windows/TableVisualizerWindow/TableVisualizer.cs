@@ -34,6 +34,7 @@ namespace TableForge.UI
         {
             if(_tableControl == null) return;
             
+            _tableControl.CellSelector.ClearSelection();
             _tableControl.SetTable(table);
         }
 

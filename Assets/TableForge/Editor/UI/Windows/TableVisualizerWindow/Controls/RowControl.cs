@@ -12,16 +12,19 @@ namespace TableForge.UI
         private float _offset;
         private Task _initializationTask;
         private CancellationTokenSource _initializationCts;        
+        private TableControl _tableControl;
+
+        public CellAnchor Anchor { get; private set; }
         
-        public CellAnchor Anchor { get; }
-        private TableControl TableControl { get; }
-        
-        public RowControl(CellAnchor anchor, TableControl tableControl)
+        public RowControl()
         {
-            TableControl = tableControl;
-            Anchor = anchor;
-            
             AddToClassList(USSClasses.TableRow);
+        }
+        
+        public void Initialize(CellAnchor anchor, TableControl tableControl)
+        {
+            _tableControl = tableControl;
+            Anchor = anchor;
         }
         
         public void ClearRow()
@@ -41,7 +44,7 @@ namespace TableForge.UI
             {
                 if (child is CellControl cellControl)
                 {
-                    var column = TableControl.GetColumnHeaderControl(TableControl.GetCellColumn(cellControl.Cell));
+                    var column = _tableControl.GetColumnHeaderControl(_tableControl.GetCellColumn(cellControl.Cell));
                     cellControl.style.width = column.style.width;
                 }
             }
@@ -69,9 +72,9 @@ namespace TableForge.UI
         
         private void InitializeRow(Row row)
         {
-            foreach (var columnHeader in TableControl.OrderedColumnHeaders)
+            foreach (var columnHeader in _tableControl.OrderedColumnHeaders)
             {
-                if (!row.Cells.TryGetValue(columnHeader.CellAnchor.Position, out var cell) || !TableControl.ColumnHeaders[columnHeader.Id].IsVisible) continue;
+                if (!row.Cells.TryGetValue(columnHeader.CellAnchor.Position, out var cell) || !_tableControl.ColumnHeaders[columnHeader.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
                 AddCell(cellField);
@@ -80,11 +83,11 @@ namespace TableForge.UI
         
         private void InitializeRow(CellAnchor column)
         {
-            var orderedRows = TableControl.TableData.OrderedRows;
+            var orderedRows = _tableControl.TableData.OrderedRows;
 
             foreach (var row in orderedRows)
             {
-                if (!row.Cells.TryGetValue(column.Position, out var cell)  || !TableControl.ColumnHeaders[row.Id].IsVisible) continue;
+                if (!row.Cells.TryGetValue(column.Position, out var cell)  || !_tableControl.ColumnHeaders[row.Id].IsVisible) continue;
 
                 var cellField = CreateCellField(cell);
                 AddCell(cellField);
@@ -93,16 +96,16 @@ namespace TableForge.UI
 
         private CellControl CreateCellField(Cell cell)
         {
-            var cellControl = CellControlFactory.GetPooled(cell, TableControl);
+            var cellControl = CellControlFactory.GetPooled(cell, _tableControl);
             return cellControl;
         }
 
 
         public void SetColumnVisibility(int columnId, bool isVisible, int direction)
         {
-            int columnPosition = TableControl.GetColumnPosition(columnId);
-            var lockedHeaders = TableControl.ColumnVisibilityManager.OrderedLockedHeaders;
-            var cell = TableControl.GetCell(Anchor.Id, columnId);
+            int columnPosition = _tableControl.GetColumnPosition(columnId);
+            var lockedHeaders = _tableControl.ColumnVisibilityManager.OrderedLockedHeaders;
+            var cell = _tableControl.GetCell(Anchor.Id, columnId);
 
             if (isVisible)
             {
@@ -113,7 +116,7 @@ namespace TableForge.UI
                 {
                     // Build a quick lookup of current child positions
                     var positionIndexMap = Children()
-                        .Select((ctrl, idx) => new { Pos = TableControl.GetCellColumn(((CellControl) ctrl).Cell).Position, Idx = idx })
+                        .Select((ctrl, idx) => new { Pos = _tableControl.GetCellColumn(((CellControl) ctrl).Cell).Position, Idx = idx })
                         .ToDictionary(x => x.Pos, x => x.Idx);
 
                     // Adjust insertion index relative to locked headers
@@ -143,7 +146,7 @@ namespace TableForge.UI
             {
                 // Remove the cell control if it exists
                 var toRemove = Children()
-                    .FirstOrDefault(ctrl => TableControl.GetCellColumn(((CellControl) ctrl).Cell).Position == columnPosition);
+                    .FirstOrDefault(ctrl => _tableControl.GetCellColumn(((CellControl) ctrl).Cell).Position == columnPosition);
 
                 if (toRemove != null)
                 {
@@ -178,10 +181,10 @@ namespace TableForge.UI
             {
                 if (child is CellControl cell)
                 {
-                    var column = TableControl.GetColumnHeaderControl(TableControl.GetCellColumn(cell.Cell));
+                    var column = _tableControl.GetColumnHeaderControl(_tableControl.GetCellColumn(cell.Cell));
                     cell.style.width = column.style.width;
                     
-                    int currentPosition = TableControl.GetCellColumn(cell.Cell).Position;
+                    int currentPosition = _tableControl.GetCellColumn(cell.Cell).Position;
                     if(lastPosition >= currentPosition)
                     {
                         Debug.Log($"cell position: {currentPosition}, last position: {lastPosition}");

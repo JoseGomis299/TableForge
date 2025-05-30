@@ -37,6 +37,8 @@ namespace TableForge.UI
         {
             _resizeQueue.Clear();
             _verticalIsResizing = _horizontalIsResizing = false;
+            HorizontalResizer.Clear();
+            VerticalResizer.Clear();
         }
         
         public void ResizeAll(bool fitStoredSize)
