@@ -532,7 +532,7 @@ namespace TableForge.UI
 
         private void ClearColumns()
         {
-            foreach (var columnHeader in _rowHeaderContainer.Children())
+            foreach (var columnHeader in _columnHeaderContainer.Children())
             {
                 if (columnHeader is HeaderControl headerControl)
                 {
