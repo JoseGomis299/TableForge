@@ -17,28 +17,24 @@ MonoBehaviour:
   transposedTables:
     values: 
   hiddenFields:
-    values: 3348d3e8
+    values: 3348d3e870871257
   itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  bindingTypeName: Test2
+  bindingTypeName: 
   itemGUIDs:
     values:
-    - 5ffb67916d5c31b49bf2ef611865251c
-    - fc5b46e1a92da8a409faeed0f871a9b2
-    - fdcde334c3d21c3418e7c4d897a7757e
-    - 44c5c1b0aa4b1e44083bc1cb8f7234dd
-    - 2e4301abf55b28e47b7dc5ad9b6c92b0
+    - 18aa2ea50937ca64ab519f13c0fd7fb3
   cellAnchorMetadata:
-    m_Keys: 4ca1309c430df8384adf5446708712574d22dc503348d3e8
+    m_Keys: 4ca1309c708712574d22dc503348d3e8d86498ed00000000
     m_Values:
     - position: 3
       size: {x: 0, y: 0}
-    - position: 1
-      size: {x: 0, y: 25.333328}
-    - position: 2
-      size: {x: 0, y: 24.666656}
     - position: 0
       size: {x: 0, y: 24.666672}
     - position: 3
       size: {x: 0, y: 0}
     - position: 2
       size: {x: 0, y: 0}
+    - position: 0
+      size: {x: 0, y: 72.66667}
+    - position: 0
+      size: {x: 84.666664, y: 0}

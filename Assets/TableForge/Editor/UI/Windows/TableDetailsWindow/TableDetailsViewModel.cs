@@ -24,7 +24,7 @@ namespace TableForge.UI
         protected string SelectedNamespace;
         
         public bool HasErrors { get; protected set; }
-        public string TableName { get; protected set; }
+        public string TableName { get; set; }
         public bool UsePathsMode { get; set; }
         public Type SelectedType { get; protected set; }
         public List<TreeItem> TreeItems { get; } = new();

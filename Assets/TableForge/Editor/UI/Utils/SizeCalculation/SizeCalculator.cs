@@ -9,6 +9,8 @@ namespace TableForge.UI
 {
     internal static class SizeCalculator
     {
+        private static Dictionary<Table, TableSize> _sizesCache = new Dictionary<Table, TableSize>();
+        
         #region Public Methods
         
         public static Vector2 CalculateSize(Cell cell, TableMetadata tableMetadata)
@@ -69,6 +71,11 @@ namespace TableForge.UI
         
         public static TableSize CalculateTableSize(Table table, TableAttributes tableAttributes, TableMetadata tableMetadata)
         {
+            if (_sizesCache.TryGetValue(table, out TableSize cachedSize))
+            {
+                return cachedSize;
+            }
+            
             TableSize tableSize = new TableSize(table, tableMetadata, tableAttributes);
             IReadOnlyList<Row> rows = table.OrderedRows;
 
@@ -94,6 +101,8 @@ namespace TableForge.UI
                 tableSize.AddHeaderSize(column, CalculateHeaderSize(column, table, tableAttributes.ColumnHeaderVisibility));
             }
             
+            if(!table.IsSubTable)
+                _sizesCache[table] = tableSize;
             return tableSize;
         }
         

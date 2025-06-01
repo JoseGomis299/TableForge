@@ -148,7 +148,6 @@ namespace TableForge.UI
             _tabContainer.Remove(tab);
             _openTabs.Remove(tab.TableMetadata);
             _orderedOpenTabs.Remove(tab.TableMetadata);
-            _cachedTables.Remove(tab.TableMetadata);
             _tabControls.Remove(tab.TableMetadata);
             SessionCache.CloseTab(tab.TableMetadata);
 

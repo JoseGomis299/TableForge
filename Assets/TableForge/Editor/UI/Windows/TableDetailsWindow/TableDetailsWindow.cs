@@ -30,8 +30,8 @@ namespace TableForge.UI
             var wnd = CreateInstance<T>();
             wnd.titleContent = new GUIContent(title);
             wnd.ViewModel = viewModel;
-            wnd.Initialize();
             WindowManager.ShowModalWindow(wnd);
+            wnd.Initialize();
         }
         
         protected virtual void FindElements()
@@ -70,6 +70,7 @@ namespace TableForge.UI
             ViewModel.PopulateNamespaceDropdown(_namespaceDropdown);
             ViewModel.PopulateTypeDropdown(_typeDropdown);
             _nameField.value = GetTableName();
+            ViewModel.TableName = _nameField.value;
             _modeSelector.SetValueWithoutNotify(ViewModel.UsePathsMode ? 1 : 0);
         }
 
