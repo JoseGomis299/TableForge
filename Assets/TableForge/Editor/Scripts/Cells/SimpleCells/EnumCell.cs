@@ -11,13 +11,15 @@ namespace TableForge
         
         public override string Serialize()
         {
-            return GetFieldType().ResolveFlaggedEnumName((int)GetValue(), false);
+            return $"\'{GetFieldType().ResolveFlaggedEnumName((int)GetValue(), false)}'";
         }
 
         public override void Deserialize(string data)
         {
             if (string.IsNullOrEmpty(data))
                 return;
+            
+            data = data.Trim('\'');
             
             if(data == "Everything")
             {

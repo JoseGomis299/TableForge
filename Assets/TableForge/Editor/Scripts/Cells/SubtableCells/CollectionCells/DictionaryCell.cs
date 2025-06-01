@@ -76,42 +76,38 @@ namespace TableForge
             return Value.CreateShallowCopy() as ICollection;
         }
 
-        protected override string SerializeSubTable()
+        protected override string SerializeCollection()
+        {
+            return SerializeDictionary(this.GetKeys(), this.GetValues());
+        }
+        
+        private string SerializeDictionary(List<Cell> keys, List<Cell> values)
         {
             StringBuilder serializedData = new StringBuilder();
-            serializedData
-                .Append(SerializationConstants.DictionaryKeysStart)
-                .Append(SerializeCollection(this.GetKeys()))
-                .Append(SerializationConstants.DictionaryValuesStart)
-                .Append(SerializeCollection(this.GetValues()));
-            
+            serializedData.Append(SerializationConstants.JsonObjectStart);
+
+            for (int i = 0; i < keys.Count; i++)
+            {
+                string key = keys[i].Serialize();
+                string value = values[i]?.Serialize() ?? "null";
+                
+                if(values[i] is StringCell or EnumCell or LayerMaskCell) value = value.Replace('\'', '"'); 
+                if(keys[i] is StringCell or EnumCell or LayerMaskCell) key = key.Trim('\'');
+
+                serializedData.Append($"\"{key}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
+            }
+
+            if (serializedData.Length > 1)
+            {
+                serializedData.Remove(serializedData.Length - 1, 1);
+            }
+
+            serializedData.Append(SerializationConstants.JsonObjectEnd); 
             return serializedData.ToString();
         }
         
         public override void Deserialize(string data)
         {
-            if (string.IsNullOrEmpty(data))
-            {
-                return;
-            }
-
-            int index = 0;
-            int valuesIndex = data.IndexOf(SerializationConstants.DictionaryValuesStart, StringComparison.Ordinal);
-            string keysString = data.Substring(0, valuesIndex);
-            string valuesString = data.Substring(valuesIndex);
-        
-            List<string> keys = keysString.SplitByLevel(0, SerializationConstants.CollectionItemStart, SerializationConstants.CollectionItemEnd).ToList();
-            List<string> values = valuesString.SplitByLevel(0, SerializationConstants.CollectionItemStart, SerializationConstants.CollectionItemEnd).ToList();
-
-            //Merge the keys and values into a single collection
-            List<string> collectionData = new List<string>();
-            for (int i = 0; i < keys.Count; i++)
-            {
-                collectionData.AddRange(keys[i].Split(SerializationConstants.CollectionSubItemSeparator));
-                collectionData.AddRange(values[i].Split(SerializationConstants.CollectionSubItemSeparator));
-            }
-            
-            DeserializeSubTable(collectionData.ToArray(), ref index);
         }
 
         protected override void DeserializeModifying(string[] values, ref int index)

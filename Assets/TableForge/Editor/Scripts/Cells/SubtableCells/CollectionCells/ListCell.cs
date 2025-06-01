@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TableForge
@@ -145,13 +146,49 @@ namespace TableForge
             return Value.CreateShallowCopy() as ICollection;
         }
 
-        protected override string SerializeSubTable()
+        protected override string SerializeCollection()
         {
-            StringBuilder serializedData = new StringBuilder();
-            serializedData
-                .Append(SerializationConstants.ArrayStart)
-                .Append(base.SerializeSubTable());
+            return SerializeList(this.GetImmediateDescendants());
+        }
+        
+        private string SerializeList(IEnumerable<Cell> collection)
+        {
+            var cells = collection.ToList();
+            StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonArrayStart);
+            int currentRow = -1;
+            bool isSimpleType = cells.FirstOrDefault()?.Row.SerializedObject.SerializedType.Type.IsSimpleType() ?? false;
 
+            foreach (var item in cells)
+            {
+                if (currentRow != item.Row.Position)
+                {
+                    if (currentRow != -1)
+                    {
+                        serializedData.Remove(serializedData.Length - 1, 1); // Remove trailing comma
+                        serializedData.Append(isSimpleType ? SerializationConstants.JsonItemSeparator : $"{SerializationConstants.JsonObjectEnd}{SerializationConstants.JsonItemSeparator}");
+                    }
+
+                    currentRow = item.Row.Position;
+
+                    if (!isSimpleType && item.Row.OrderedCells.Count > 1)
+                        serializedData.Append("{");
+                }
+
+                string value = isSimpleType
+                    ? $"{item.Serialize()},"
+                    : $"\"{item.Column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{item.Serialize()}{SerializationConstants.JsonItemSeparator}";
+                if(item is StringCell or EnumCell or LayerMaskCell) value = value.Replace('\'', '"'); 
+                serializedData.Append(value);
+            }
+
+            if (serializedData.Length > 1)
+            {
+                serializedData.Remove(serializedData.Length - 1, 1); // Remove trailing comma
+                if (!isSimpleType && cells.Last().Row.OrderedCells.Count > 1)
+                    serializedData.Append(SerializationConstants.JsonObjectEnd);
+            }
+
+            serializedData.Append(SerializationConstants.JsonArrayEnd);
             return serializedData.ToString();
         }
     }

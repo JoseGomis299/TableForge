@@ -187,7 +187,6 @@ namespace TableForge.UI
                     int currentPosition = _tableControl.GetCellColumn(cell.Cell).Position;
                     if(lastPosition >= currentPosition)
                     {
-                        Debug.Log($"cell position: {currentPosition}, last position: {lastPosition}");
                         return false;
                     }
                     

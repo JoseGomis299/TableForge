@@ -21,75 +21,14 @@ namespace TableForge
 
         public override string Serialize()
         {
-            if (SubTable.Rows.Count == 0)
-            {
-                return SerializationConstants.CollectionItemStart + SerializationConstants.CollectionItemEnd;
-            }
-            
-            return SerializeSubTable();
+            return SerializeCollection();
         }
 
-        protected virtual string SerializeSubTable()
-        {
-            return SerializeCollection(this.GetImmediateDescendants());
-        }
-
-        protected string SerializeCollection(IEnumerable<Cell> collection)
-        {
-            StringBuilder serializedData = new StringBuilder();
-            int currentRow = 0;
-            foreach (var descendant in collection)
-            {
-                if(currentRow != descendant.Row.Position) 
-                {
-                    //Remove the last separator
-                    if (currentRow != 0)
-                    {
-                        serializedData.Remove(serializedData.Length - SerializationConstants.CollectionSubItemSeparator.Length, SerializationConstants.CollectionSubItemSeparator.Length);
-                        serializedData
-                            .Append(SerializationConstants.CollectionItemEnd)
-                            .Append(SerializationConstants.CollectionItemSeparator);
-                    }
-                    
-                    serializedData
-                        .Append(SerializationConstants.CollectionItemStart);
-                    
-                    currentRow = descendant.Row.Position;
-                }
-                
-                serializedData
-                    .Append(descendant.Serialize().Replace(SerializationConstants.ColumnSeparator, SerializationConstants.CollectionSubItemSeparator))
-                    .Append(SerializationConstants.CollectionSubItemSeparator);
-            }
-            
-            // Remove the last subitem start
-            if (serializedData.Length > 0)
-            {
-                serializedData.Remove(serializedData.Length - SerializationConstants.CollectionSubItemSeparator.Length, SerializationConstants.CollectionSubItemSeparator.Length);
-            }
-            
-            // Add the end of the collection
-            serializedData.Append(SerializationConstants.CollectionItemEnd);
-            
-            return serializedData.ToString();
-        }
+        protected abstract string SerializeCollection();
         
         public override void Deserialize(string data)
         {
-            if (string.IsNullOrEmpty(data))
-            {
-                return;
-            }
-
-            int index = 0;
-            List<string> values = new List<string>();
-            List<string> rows = data.SplitByLevel(0, SerializationConstants.CollectionItemStart, SerializationConstants.CollectionItemEnd);
-            foreach (var row in rows)
-            {
-                values.AddRange(row.Split(SerializationConstants.CollectionSubItemSeparator));
-            }
-            
-            DeserializeSubTable(values.ToArray(), ref index);
+          
         }
 
         protected override void DeserializeModifying(string[] values, ref int index)

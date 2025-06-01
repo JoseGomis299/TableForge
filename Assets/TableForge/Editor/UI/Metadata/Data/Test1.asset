@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test1
   m_EditorClassIdentifier: 
   expandedTables:
-    values: 7cdb6b93ee71c941
+    values: 7cdb6b93ee71c941a5b4f69657aadbd773ddcb78e709fc0318bbb59948fcf18b
   transposedTables:
     values: 
   hiddenFields:
@@ -24,12 +24,12 @@ MonoBehaviour:
     values:
     - 1ed5ee7c9a74fe84487c4c9bb9e93463
   cellAnchorMetadata:
-    m_Keys: c5b47d44009864d7d2067b0a4a9eace564a6e9c16a551a3c4ffc2e84ee71c941cd4c93b32c954d7bb2493cf5ae47fa7f4d239e4f18875cddb42db0f280ed106012717e9c5dd18c927fd58c9290d78c92aab62597bbb82597affd86e77d99bb5533fc725aba45182c6e8712573148d3e85d8ba5dac8059d9cc372dfb5b07c932ae657fd3fa27d3e908b6ea4a2ad72a4a217cfbc9c85f0095bae6b9f26dbe1db0a23f8e61be485061b4ac6001a6be44222af32e1f7759964e3a4ab468f11cb17035980ec417b84ec4154e017ce43de17ce32dc17cea71984ed
+    m_Keys: c5b47d44009864d7d2067b0a4a9eace564a6e9c16a551a3c4ffc2e84ee71c941cd4c93b32c954d7bb2493cf5ae47fa7f4d239e4f18875cddb42db0f280ed106012717e9c5dd18c927fd58c9290d78c92aab62597bbb82597affd86e77d99bb5533fc725aba45182c6e8712573148d3e85d8ba5dac8059d9cc372dfb5b07c932ae657fd3fa27d3e908b6ea4a2ad72a4a217cfbc9c85f0095bae6b9f26dbe1db0a23f8e61be485061b4ac6001a6be44222af32e1f7759964e3a4ab468f11cb17035980ec417b84ec4154e017ce43de17ce32dc17cea71984ed1895d6e65107829a43f570c32997d6e6
     m_Values:
     - position: 747
       size: {x: 0, y: 0}
     - position: 3
-      size: {x: 0, y: 25.333328}
+      size: {x: 0, y: 24.799988}
     - position: 5
       size: {x: 0, y: 0}
     - position: 8
@@ -45,9 +45,9 @@ MonoBehaviour:
     - position: 0
       size: {x: 0, y: 200}
     - position: 2
-      size: {x: 0, y: 0}
+      size: {x: 0, y: 79.20001}
     - position: 1
-      size: {x: 0, y: 0}
+      size: {x: 0, y: 97.59999}
     - position: 12
       size: {x: 115.333374, y: 0}
     - position: 0
@@ -57,11 +57,11 @@ MonoBehaviour:
     - position: 16
       size: {x: 108, y: 0}
     - position: 17
-      size: {x: 80, y: 0}
+      size: {x: 95.19995, y: 0}
     - position: 0
-      size: {x: 136, y: 0}
+      size: {x: 132.00012, y: 0}
     - position: 1
-      size: {x: 0, y: 0}
+      size: {x: 0, y: 50}
     - position: 3
       size: {x: 0, y: 0}
     - position: 4
@@ -101,11 +101,11 @@ MonoBehaviour:
     - position: 20
       size: {x: 0, y: 0}
     - position: 21
-      size: {x: 216.66675, y: 0}
+      size: {x: 220.80005, y: 0}
     - position: 22
       size: {x: 146, y: 0}
     - position: 23
-      size: {x: 0, y: 0}
+      size: {x: 286, y: 0}
     - position: 24
       size: {x: 0, y: 0}
     - position: 25
@@ -134,3 +134,11 @@ MonoBehaviour:
       size: {x: 0, y: 0}
     - position: 1
       size: {x: 0, y: 0}
+    - position: 0
+      size: {x: 0, y: 48.800003}
+    - position: 0
+      size: {x: 136, y: 0}
+    - position: 0
+      size: {x: 128.80005, y: 0}
+    - position: 0
+      size: {x: 0, y: 24.800003}

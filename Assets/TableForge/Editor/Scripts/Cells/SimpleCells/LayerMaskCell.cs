@@ -13,13 +13,15 @@ namespace TableForge
         
         public override string Serialize()
         {
-            return ((LayerMask)GetValue()).ResolveName();
+            return $"\'{((LayerMask)GetValue()).ResolveName()}\'";
         }
 
         public override void Deserialize(string data)
         {
             if (string.IsNullOrEmpty(data))
                 return;
+            
+            data = data.Trim('\'');
 
             if(data == "Everything")
             {

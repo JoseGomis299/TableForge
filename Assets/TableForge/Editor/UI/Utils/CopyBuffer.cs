@@ -105,7 +105,7 @@ namespace TableForge.UI
             {
                 string data = buffer[bufferIndex];
             
-                if (cell is SubTableCell subTableCell and not ICollectionCell)
+                if (cell is SubTableCell subTableCell and not ICollectionCell && !data.StartsWith(SerializationConstants.JsonStart))
                 {
                     //Get the corresponding cells for this subTable
                     StringBuilder serializedData = new StringBuilder();
@@ -158,7 +158,7 @@ namespace TableForge.UI
                 if (currentCell == null) break;
                 string data = buffer[bufferIndex][cellIndex];
 
-                if(currentCell is SubTableCell subTableCell and not ICollectionCell && data != SerializationConstants.EmptyColumn)
+                if(currentCell is SubTableCell subTableCell and not ICollectionCell && data != SerializationConstants.EmptyColumn && !data.StartsWith(SerializationConstants.JsonStart))
                 {
                     //Get the corresponding cells for this subTable
                     StringBuilder serializedData = new StringBuilder();

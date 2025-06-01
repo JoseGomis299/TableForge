@@ -7,5 +7,10 @@ namespace TableForge
     internal class BoolCell : PrimitiveBasedCell<bool>
     {
         public BoolCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+
+        public override string Serialize()
+        {
+            return base.Serialize().ToLower();
+        }
     }
 }

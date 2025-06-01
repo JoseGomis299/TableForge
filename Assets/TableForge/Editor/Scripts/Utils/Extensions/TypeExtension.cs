@@ -45,7 +45,7 @@ namespace TableForge
                    || type == typeof(decimal)
                    || type.IsEnum;
         }
-
+        
         /// <summary>
         /// Determines whether the specified type is an integral type.
         /// </summary>

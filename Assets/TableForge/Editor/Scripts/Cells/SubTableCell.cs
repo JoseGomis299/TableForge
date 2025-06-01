@@ -1,4 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace TableForge
 {
@@ -40,6 +44,38 @@ namespace TableForge
         
         public override string Serialize()
         {
+            if (SerializationConstants.SubTablesAsJson || this.GetAncestors().Any(x => x is ICollectionCell))
+            {
+                return SerializeAsJson();
+            }
+            
+            return SerializeFlattening();
+        }
+        
+        private string SerializeAsJson()
+        {
+            StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonStart);
+
+            IEnumerable<Cell> descendants = this.GetImmediateDescendants();
+
+            foreach (var cell in descendants)
+            {
+                string value = cell.Serialize();
+                if(cell is StringCell or EnumCell or LayerMaskCell) value = value.Replace('\'', '"'); 
+                serializedData.Append($"\"{cell.Column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
+            }
+
+            if (serializedData.Length > 1)
+            {
+                serializedData.Remove(serializedData.Length - 1, 1); 
+            }
+
+            serializedData.Append(SerializationConstants.JsonObjectEnd);
+            return serializedData.ToString();
+        }
+
+        private string SerializeFlattening()
+        {
             if (SubTable.Rows.Count == 0)
             {
                 string emptyTable = "";
@@ -71,6 +107,12 @@ namespace TableForge
         {
             if (string.IsNullOrEmpty(data))
             {
+                return;
+            }
+
+            if (data.StartsWith(SerializationConstants.JsonStart))
+            {
+                Debug.Log($"Deserializing {this.GetType().Name} as JSON: {data}");
                 return;
             }
 

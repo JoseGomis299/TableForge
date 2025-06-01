@@ -68,7 +68,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
-  B: 0
+  B: 1
   charValue: 0
   intField: 190
   floatField: 29
@@ -280,41 +280,12 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 1500000015000000150000001500000015000000
+  intArray: 
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 0
-  vector3Array:
-  - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 2, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 2, z: 0}
+  testEnum: 5
+  vector3Array: []
   stringIntDictionary:
     m_Keys:
     - key1
@@ -329,7 +300,8 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: '{"Number":0,"Text":"","Animation Curve":{"keys":[],"preWrapMode":8,"postWrapMode":8},"Struct
+    Test":{"Number":13,"Boolean":false}}'
   matrix:
     e00: 0
     e01: 0
@@ -357,12 +329,12 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 0
-  shortValue: 156
+  byteValue: 156
+  shortValue: 0
   sbyteValue: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 6
+    m_Bits: 0
   references:
     version: 2
     RefIds:
@@ -383,7 +355,7 @@ MonoBehaviour:
     - rid: 854089136813637704
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
-        number: 0
+        number: 156
         text: 0
         animationCurve:
           serializedVersion: 2
