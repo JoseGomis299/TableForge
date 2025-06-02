@@ -32,9 +32,12 @@ namespace TableForge.UI
 
         public override void RefreshVisibility(float delta)
         {
-            if(TableControl.TableData.Columns.Count == 0
+            if(IsRefreshingVisibility 
+               || TableControl.RowVisibilityManager.IsRefreshingVisibility
+               || TableControl.TableData.Columns.Count == 0
                || TableControl.Parent is ExpandableSubTableCellControl { IsFoldoutOpen: false })
                 return;
+            IsRefreshingVisibility = true;
             int direction = delta > 0 ? 1 : -1;
             
             // Update visibility of columns that were previously visible.
@@ -62,6 +65,7 @@ namespace TableForge.UI
             }
             
             SendVisibilityNotifications(direction);
+            IsRefreshingVisibility = false;
         }
 
         private void OnHorizontalScroll(float value)

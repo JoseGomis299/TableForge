@@ -38,6 +38,11 @@ namespace TableForge.UI
             {
                 InitializeSubTable();
             }
+            
+            if(isExpanded && SubTableControl.TableData != ((SubTableCell)Cell).SubTable)
+            {
+                SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+            }
 
             ShowToolbar(isExpanded, true);
             ShowFoldout(!isExpanded);
@@ -45,7 +50,7 @@ namespace TableForge.UI
             _headerFoldout.value = isExpanded;
             SubTableContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
         }
-        
+
         public void OpenFoldout()
         {
             _headerFoldout.value = true;
@@ -116,6 +121,11 @@ namespace TableForge.UI
                 InitializeSubTable();
             }
 
+            if(SubTableControl.TableData != ((SubTableCell)Cell).SubTable)
+            {
+                SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+            }
+            
             RecalculateSizeWithCurrentValues();
             SubTableControl.Resizer.ResizeAll(true);
             TableControl.Resizer.ResizeCell(this);

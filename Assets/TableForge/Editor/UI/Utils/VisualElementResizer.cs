@@ -9,7 +9,7 @@ namespace TableForge.UI
     {
         private static readonly Dictionary<VisualElement, CheckSizeArguments> _checkSizeArguments = new();
         
-        public static void ChangeSize(VisualElement element, float width, float height, Action<GeometryChangedEvent> onSuccess)
+        public static void ChangeSize(VisualElement element, float width, float height, Action onSuccess)
         {
             width = Mathf.Round(width);
             height = Mathf.Round(height);
@@ -21,7 +21,7 @@ namespace TableForge.UI
             if (Mathf.Approximately(initialWidth, width) && 
                 Mathf.Approximately(initialHeight, height))
             {
-                onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
+                onSuccess?.Invoke();
                 return;
             }
             
@@ -53,7 +53,7 @@ namespace TableForge.UI
             }
         }
         
-        private static void CheckSize(VisualElement element, Vector2 targetSize, Action<GeometryChangedEvent> onSuccess)
+        private static void CheckSize(VisualElement element, Vector2 targetSize, Action onSuccess)
         {
             var currentWidth = Mathf.Round(element.resolvedStyle.width);
             var currentHeight = Mathf.Round(element.resolvedStyle.height);
@@ -62,7 +62,7 @@ namespace TableForge.UI
             if (currentSize == targetSize)
             {
                 element.UnregisterCallback<GeometryChangedEvent>(CheckSize);
-                onSuccess?.Invoke(GeometryChangedEvent.GetPooled(element.worldBound, element.worldBound));
+                onSuccess?.Invoke();
             }
         }
         
@@ -70,7 +70,7 @@ namespace TableForge.UI
         {
             public VisualElement Element;
             public Vector2 TargetSize;
-            public Action<GeometryChangedEvent> OnSuccess;
+            public Action OnSuccess;
         }
     }
 }

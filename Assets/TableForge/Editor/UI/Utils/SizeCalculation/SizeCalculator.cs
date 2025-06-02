@@ -145,7 +145,7 @@ namespace TableForge.UI
             
             float headerHeight = table.IsSubTable ? UiConstants.SubTableHeaderHeight : UiConstants.HeaderHeight;
             if (header == null)
-                return new Vector2(UiConstants.MinCellWidth, headerHeight + padding);
+                return new Vector2(UiConstants.MinCellWidth, headerHeight);
             
             string headerName = NameResolver.ResolveHeaderName(header, visibility);
             return new Vector2(EditorStyles.label.CalcSize(new GUIContent(headerName)).x + padding, headerHeight);

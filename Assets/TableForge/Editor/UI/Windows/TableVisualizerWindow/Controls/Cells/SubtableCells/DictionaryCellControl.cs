@@ -11,6 +11,7 @@ namespace TableForge.UI
         public override void Refresh(Cell cell, TableControl tableControl)
         {
             base.Refresh(cell, tableControl);
+            if(SubTableControl?.TableData == null) return;
             ShowDeleteRowButton(SubTableControl?.TableData.Rows.Count > 0);
         }
         

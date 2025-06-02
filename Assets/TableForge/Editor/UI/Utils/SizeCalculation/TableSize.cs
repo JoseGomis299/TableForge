@@ -14,7 +14,7 @@ namespace TableForge.UI
         private readonly TableMetadata _tableMetadata;
         private readonly TableAttributes _tableAttributes;
         private readonly Table _table;
-
+        
         public TableSize(Table table, TableMetadata tableMetadata, TableAttributes tableAttributes)
         {
             _table = table;
@@ -35,7 +35,7 @@ namespace TableForge.UI
                 int rowId = row.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : row.Key;
                 if (transposed)
                 {
-                    float storedValue = useStoredValues ? _tableMetadata.GetAnchorSize(rowId).x : 0;
+                    float storedValue =  useStoredValues ? _tableMetadata.GetAnchorSize(rowId).x : 0;
                     width += storedValue != 0 ? storedValue : row.Value.x;
                 }
                 else

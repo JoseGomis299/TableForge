@@ -29,7 +29,8 @@ namespace TableForge.UI
 
         public override void RefreshVisibility(float delta)
         {
-            if(TableControl.RowData.Count <= 1) return;
+            if(IsRefreshingVisibility || TableControl.ColumnVisibilityManager.IsRefreshingVisibility || TableControl.RowData.Count <= 1) return;
+            IsRefreshingVisibility = true;
             int direction = delta > 0 ? -1 : 1;
             bool isScrollingDown = direction == -1;
 
@@ -44,6 +45,7 @@ namespace TableForge.UI
             }
 
             SendVisibilityNotifications(direction);
+            IsRefreshingVisibility = false;
         }
 
         private void UpdatePreviouslyVisibleRows(bool isScrollingDown)

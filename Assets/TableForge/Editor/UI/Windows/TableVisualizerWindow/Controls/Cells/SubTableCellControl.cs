@@ -13,12 +13,6 @@ namespace TableForge.UI
         {
             Cell = cell;
             ParentTableControl = tableControl;
-            
-            OnRefresh = () =>
-            {
-                if(SubTableControl == null) return;
-                SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
-            }; 
         }
         
         protected virtual void RecalculateSizeWithCurrentValues()
