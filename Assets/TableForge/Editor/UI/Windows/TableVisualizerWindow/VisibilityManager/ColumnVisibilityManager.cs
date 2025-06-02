@@ -34,7 +34,7 @@ namespace TableForge.UI
         {
             if(IsRefreshingVisibility 
                || TableControl.RowVisibilityManager.IsRefreshingVisibility
-               || TableControl.TableData.Columns.Count == 0
+               || TableControl.ColumnData.Count <= 1
                || TableControl.Parent is ExpandableSubTableCellControl { IsFoldoutOpen: false })
                 return;
             IsRefreshingVisibility = true;
