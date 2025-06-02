@@ -101,7 +101,7 @@ namespace TableForge.UI
         }
 
 
-        public void SetColumnVisibility(int columnId, bool isVisible, int direction)
+        public void ShowColumn(int columnId, bool isVisible, int direction)
         {
             int columnPosition = _tableControl.GetColumnPosition(columnId);
             var lockedHeaders = _tableControl.ColumnVisibilityManager.OrderedLockedHeaders;

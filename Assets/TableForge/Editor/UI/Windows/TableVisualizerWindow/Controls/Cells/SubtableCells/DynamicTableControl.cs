@@ -18,7 +18,7 @@ namespace TableForge.UI
         {
             base.Refresh(cell, tableControl);
             
-            if(SubTableControl == null) return;
+            if(SubTableControl?.TableData == null) return;
             SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
         }
 

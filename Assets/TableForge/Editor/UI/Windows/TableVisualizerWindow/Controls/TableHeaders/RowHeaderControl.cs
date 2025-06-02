@@ -71,7 +71,9 @@ namespace TableForge.UI
             TableControl.VerticalResizer.Dispose(this);
             TableControl.HeaderSwapper.Dispose(this);
             RowControl.ClearRow();
-
+            RowControl.style.height = 0;
+            style.height = 0;
+            
             _rowControlPool.Release(RowControl);
             _pool.Release(this);
         }

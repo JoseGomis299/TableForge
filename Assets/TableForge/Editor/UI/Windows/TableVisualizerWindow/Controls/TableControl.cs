@@ -107,28 +107,30 @@ namespace TableForge.UI
 
         public void SetTable(Table table)
         {
-            TableData = table;
             if (table == null)
             {
+                TableData = null;
                 Metadata = null;
                 if (_columnData.Any()) ClearTable();
                 this.SetScrollbarsVisibility(false);
                 return;
             }
-
+            
             Metadata = Parent == null
                 ? TableMetadataManager.GetMetadata(table, table.Name)
                 : Parent.TableControl.Metadata;
-            
-            ScrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
-            ScrollView.horizontalScrollerVisibility = ScrollerVisibility.Auto;
-            
+
             if (!Transposed && Metadata.IsTransposed)
                 Transpose();
 
             if (_columnData.Any())
                 ClearTable();
-
+            
+            TableData = table;
+            
+            ScrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
+            ScrollView.horizontalScrollerVisibility = ScrollerVisibility.Auto;
+            
             PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
 
             // Add empty data for the corner cell
@@ -147,9 +149,13 @@ namespace TableForge.UI
             Resizer.Clear();
             RowVisibilityManager.Clear();
             ColumnVisibilityManager.Clear();
+            
+            CornerContainer.CornerControl.style.width = 0;
 
             ResetScrollViewStoredSize();
             UnsubscribeFromResizingMethods();
+            
+            TableData = null;
         }
 
         #endregion
@@ -528,6 +534,8 @@ namespace TableForge.UI
             _rowHeaderContainer.Clear();
             _rowData.Clear();
             _rowsContainer.Clear();
+            _orderedRowHeaders.Clear();
+            _orderedDescRowHeaders.Clear();
         }
 
         private void ClearColumns()
@@ -544,6 +552,8 @@ namespace TableForge.UI
             _columnHeaderContainer.Clear();
             _columnData.Clear();
             _columnHeaders.Clear();
+            _orderedColumnHeaders.Clear();
+            _orderedDescColumnHeaders.Clear();
         }
         #endregion
         
@@ -656,7 +666,7 @@ namespace TableForge.UI
 
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
-                rowHeader.RowControl.SetColumnVisibility(header.Id, true, direction);
+                rowHeader.RowControl.ShowColumn(header.Id, true, direction);
             }
         }
 
@@ -673,27 +683,26 @@ namespace TableForge.UI
 
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
             {
-                rowHeader.RowControl.SetColumnVisibility(header.Id, false, direction);
+                rowHeader.RowControl.ShowColumn(header.Id, false, direction);
             }
         }
         
         private void OnTableResize(Vector2 sizeDelta)
         {
-            _scrollViewWidth += sizeDelta.x;
-            _scrollViewHeight += sizeDelta.y;
-            float columnHeadersHeight = Parent == null ? UiConstants.HeaderHeight : UiConstants.SubTableHeaderHeight;
-            _rowsContainer.style.height = _scrollViewHeight - columnHeadersHeight;
+            Vector2 size = PreferredSize.GetTotalSize(true);
+
+            Vector2 delta = new Vector2(size.x - _scrollViewWidth, size.y - _scrollViewHeight);
+            _scrollViewWidth = size.x;
+            _scrollViewHeight = size.y;
 
             float targetWidth = Parent == null && _scrollViewWidth < ScrollView.contentViewport.resolvedStyle.width ?
                 ScrollView.contentViewport.resolvedStyle.width : _scrollViewWidth;
-           
-            VisualElementResizer.ChangeSize(ScrollView.contentContainer, targetWidth, _scrollViewHeight, OnContentContainerResized);
+
+            VisualElementResizer.ChangeSize(ScrollView.contentContainer, targetWidth, _scrollViewHeight, () => OnContentContainerResized(delta));
         }
 
-        private void OnContentContainerResized(GeometryChangedEvent evt)
+        private void OnContentContainerResized(Vector2 delta)
         {
-            Vector2 delta = new Vector2(evt.newRect.size.x - evt.oldRect.size.x, evt.newRect.size.y - evt.oldRect.size.y);
-            
             //Adjust scrollers
             this.SetHorizontalScrollerMaxValue(_scrollViewWidth);
             this.SetVerticalScrollerMaxValue(_scrollViewHeight);

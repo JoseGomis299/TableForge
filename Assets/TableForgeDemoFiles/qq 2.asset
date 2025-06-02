@@ -141,6 +141,8 @@ MonoBehaviour:
   - {x: 4, y: 0, z: 0}
   - {x: 4, y: 0, z: 0}
   - {x: 4, y: 0, z: 0}
+  - {x: 4, y: 0, z: 0}
+  - {x: 4, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
     - key1

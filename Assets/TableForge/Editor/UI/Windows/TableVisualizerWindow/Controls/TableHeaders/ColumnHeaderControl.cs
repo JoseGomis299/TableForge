@@ -41,6 +41,8 @@ namespace TableForge.UI
         protected override void OnDisable()
         {
             base.OnDisable();
+            
+            style.width = 0;
             TableControl.HorizontalResizer.Dispose(this);
             _pool.Release(this);
         }

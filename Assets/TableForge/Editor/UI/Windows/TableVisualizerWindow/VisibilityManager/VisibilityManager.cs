@@ -26,6 +26,7 @@ namespace TableForge.UI
         private readonly HashSet<THeader> _visibleHeadersThisFrame = new HashSet<THeader>();
         
         
+        public bool IsRefreshingVisibility { get; protected set; }
         public IReadOnlyList<THeader> CurrentVisibleHeaders => VisibleHeaders;
         public IReadOnlyList<THeader> OrderedLockedHeaders => _orderedLockedHeaders;
         protected VisibilityManager(TableControl tableControl)
