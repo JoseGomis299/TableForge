@@ -67,13 +67,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 0
   charValue: 0
   intField: 190
   floatField: 29
   <PublicLongProperty>k__BackingField: 29
-  <PublicDoubleProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 29
     text: 156
@@ -104,8 +104,8 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 190
-    inheritorText: 29
+    inheritorNumber: 0
+    inheritorText: 0
   inheritorClassAsInnerClass:
     number: 0
     text: 343
@@ -155,7 +155,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: 0
   matrix:
     e00: 0
     e01: 0
@@ -196,7 +196,9 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 0
+        text: '{"Inheritor Number":343,"Inheritor Text":"1213","Number":343,"Text":"156","Animation
+          Curve":{"keys":[{"time":0.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0},{"time":1.0,"value":1.0,"inTangent":2.0,"outTangent":2.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0}],"preWrapMode":8,"postWrapMode":8},"Struct
+          Test":{"Number":124,"Boolean":true}}'
         animationCurve:
           serializedVersion: 2
           m_Curve: []

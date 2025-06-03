@@ -105,7 +105,7 @@ MonoBehaviour:
       number: 124
       boolean: 1
     inheritorNumber: 0
-    inheritorText: 0
+    inheritorText: Nothing
   inheritorClassAsInnerClass:
     number: 0
     text: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   intArray: 0100000002000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 124, y: 29, z: 29, w: 0}
+  vector4: {x: 0, y: 0, z: 29, w: 0}
   testEnum: 2
   vector3Array: []
   stringIntDictionary:
@@ -143,7 +143,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '{"{"Number":1,"Boolean":true}":{"X":1,"Y":2},"{"Number":2,"Boolean":false}":{"X":3,"Y":4}}'
   matrix:
     e00: 0
     e01: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 29
     width: 0
     height: 0
   bounds:
@@ -198,7 +198,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: Null
         animationCurve:
           serializedVersion: 2
           m_Curve: []
@@ -206,5 +206,5 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         structTest:
-          number: 0
+          number: 156
           boolean: 0

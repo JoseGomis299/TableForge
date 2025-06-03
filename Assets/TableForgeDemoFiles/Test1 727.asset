@@ -52,10 +52,10 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 48
-  intField: 0
+  intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 190
-  <PublicDoubleProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
     text: 156
@@ -87,10 +87,10 @@ MonoBehaviour:
       number: 124
       boolean: 1
     inheritorNumber: 190
-    inheritorText: 29
+    inheritorText: 190
   inheritorClassAsInnerClass:
     number: 0
-    text: '{}'
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -98,7 +98,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 0
+      number: 32
       boolean: 0
   innerClass:
     rid: 6586668462697349216
@@ -137,7 +137,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: Nothing
   matrix:
     e00: 0
     e01: 0

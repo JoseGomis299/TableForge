@@ -105,7 +105,7 @@ namespace TableForge.UI
 
         #region Table Setup
 
-        public void SetTable(Table table)
+        public void SetTable(Table table, bool useCachedSize = true)
         {
             if (table == null)
             {
@@ -131,7 +131,7 @@ namespace TableForge.UI
             ScrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
             ScrollView.horizontalScrollerVisibility = ScrollerVisibility.Auto;
             
-            PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata);
+            PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata, useCachedSize);
 
             // Add empty data for the corner cell
             _rowData.Add(0, null);
@@ -198,9 +198,9 @@ namespace TableForge.UI
             header.Refresh();
         }
         
-        public void RebuildPage()
+        public void RebuildPage(bool useCachedSize = true)
         {
-            SetTable(TableData);
+            SetTable(TableData, useCachedSize);
         }
 
         #endregion
@@ -237,6 +237,7 @@ namespace TableForge.UI
             TableData.RemoveRow(TableData.Rows.Count); 
 
             // Remove metadata
+            PreferredSize.RemoveRowSize(row.Id);
             CellSelector.RemoveRowSelection(row);
             if(Parent == null) Metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
             Metadata.RemoveAnchorMetadata(row.Id);

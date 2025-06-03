@@ -51,8 +51,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
-  intField: 190
+  charValue: 48
+  intField: 0
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
@@ -89,49 +89,32 @@ MonoBehaviour:
     inheritorNumber: 343
     inheritorText: 1213
   inheritorClassAsInnerClass:
-    number: 23
-    text: a
+    number: 0
+    text: 
     animationCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 123
-      boolean: 1
+      number: 0
+      boolean: 0
   innerClass:
     rid: 6586668462697349225
   inheritorClassAsInnerClass2:
     rid: 6586668462697349226
   innerClasses: []
   intArray: 0100000015000000
-  vector2: {x: 0, y: 0}
+  vector2: {x: 23, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 0
-  vector3Array: []
+  testEnum: 2
+  vector3Array:
+  - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - keys
+    - key1
     - key2
     m_Values: 0100000002000000
   structDictionary2:
@@ -198,7 +181,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []

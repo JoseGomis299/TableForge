@@ -55,7 +55,7 @@ MonoBehaviour:
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 12
+  <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
     text: 156
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -101,16 +101,17 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 6586668462697349385
   inheritorClassAsInnerClass2:
-    rid: -2
+    rid: 6586668462697349386
   innerClasses: []
   intArray: 0100000015000000
-  vector2: {x: 156, y: 0}
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 32, y: 0, z: 23, w: 0}
+  vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
-  vector3Array: []
+  vector3Array:
+  - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
     - key1
@@ -143,7 +144,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 29, y: 29, z: 0, w: 0}
+  Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -153,7 +154,7 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 123
+  byteValue: 0
   shortValue: 0
   sbyteValue: 0
   layerMask:
@@ -162,5 +163,31 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 6586668462697349385
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 6586668462697349386
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

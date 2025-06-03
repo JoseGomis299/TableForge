@@ -51,11 +51,11 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
+  charValue: 48
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 4
+  <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
     text: 156
@@ -86,8 +86,8 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 0
-    inheritorText: Nothing
+    inheritorNumber: 343
+    inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
     text: 0
@@ -101,9 +101,9 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 6586668462697349368
   inheritorClassAsInnerClass2:
-    rid: -2
+    rid: 6586668462697349369
   innerClasses:
   - number: 0
     text: 
@@ -117,9 +117,9 @@ MonoBehaviour:
       number: 0
       boolean: 0
   intArray: 0100000015000000
-  vector2: {x: 0, y: 2343}
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 23, y: 343, z: 23, w: 343}
+  vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
@@ -155,7 +155,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 23, w: 0}
+  Quaternion: {x: 0, y: 0, z: 343, w: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -174,5 +174,31 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 6586668462697349368
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 6586668462697349369
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

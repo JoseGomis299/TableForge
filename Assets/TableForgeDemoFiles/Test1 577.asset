@@ -51,7 +51,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
+  charValue: 48
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: NULL
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -165,9 +165,9 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 32
-  shortValue: 23
-  sbyteValue: 23
+  byteValue: 0
+  shortValue: 0
+  sbyteValue: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 0

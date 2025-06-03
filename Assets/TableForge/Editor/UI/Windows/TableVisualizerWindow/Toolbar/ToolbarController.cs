@@ -92,7 +92,7 @@ namespace TableForge.UI
                     _tableVisualizer.CurrentTable.Metadata.SetFieldVisible(visibleField.Id, true);
                 }
                 
-                _tableVisualizer.CurrentTable.RebuildPage();
+                _tableVisualizer.CurrentTable.RebuildPage(false);
             };
         }
 

@@ -52,7 +52,7 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 48
-  intField: 190
+  intField: 29
   floatField: 0
   <PublicLongProperty>k__BackingField: 190
   <PublicDoubleProperty>k__BackingField: 29
@@ -162,7 +162,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: Nothing
   matrix:
     e00: 0
     e01: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: '{"keys":[{"time":0.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0},{"time":1.0,"value":1.0,"inTangent":2.0,"outTangent":2.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0}],"preWrapMode":8,"postWrapMode":8}'
+        text: 
         animationCurve:
           serializedVersion: 2
           m_Curve: []

@@ -108,14 +108,14 @@ MonoBehaviour:
   intArray: 0100000002000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 124, y: 29, z: 29, w: 0}
   testEnum: 2
   vector3Array: []
   stringIntDictionary:
     m_Keys:
-    - key1
-    - key2
-    m_Values: 0100000002000000
+    - Number
+    - Text
+    m_Values: 0000000000000000
   structDictionary2:
     m_Keys:
     - number: 1
@@ -125,7 +125,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '[1,21]'
   matrix:
     e00: 0
     e01: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 190, y: 0, z: 190, w: 190}
+  Quaternion: {x: 0, y: 0, z: 190, w: 190}
   rect:
     serializedVersion: 2
     x: 0
@@ -165,10 +165,8 @@ MonoBehaviour:
     - rid: 6586668462697349307
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
-        number: 0
-        text: '{"Inheritor Number":343,"Inheritor Text":"1213","Number":343,"Text":"156","Animation
-          Curve":{"keys":[{"time":0.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0},{"time":1.0,"value":1.0,"inTangent":2.0,"outTangent":2.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0}],"preWrapMode":8,"postWrapMode":8},"Struct
-          Test":{"Number":124,"Boolean":true}}'
+        number: 23
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []

@@ -52,7 +52,7 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 0
-  intField: 190
+  intField: 0
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 123}
+    m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
   shortValue: 0
   sbyteValue: 0

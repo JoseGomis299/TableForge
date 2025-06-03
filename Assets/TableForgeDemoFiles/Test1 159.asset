@@ -53,7 +53,7 @@ MonoBehaviour:
   B: 0
   charValue: 0
   intField: 190
-  floatField: 0
+  floatField: 23
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -89,17 +89,35 @@ MonoBehaviour:
     inheritorNumber: 343
     inheritorText: 1213
   inheritorClassAsInnerClass:
-    number: 0
-    text: 0
+    number: 23
+    text: a
     animationCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 0
-      boolean: 0
+      number: 123
+      boolean: 1
   innerClass:
     rid: -2
   inheritorClassAsInnerClass2:
@@ -117,7 +135,7 @@ MonoBehaviour:
       number: 0
       boolean: 0
   intArray: 0100000015000000
-  vector2: {x: 23, y: 0}
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
@@ -155,15 +173,15 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 32}
+  Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
-    y: 23
+    y: 0
     width: 0
     height: 0
   bounds:
-    m_Center: {x: 123, y: 0, z: 0}
+    m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 123}
   byteValue: 0
   shortValue: 0

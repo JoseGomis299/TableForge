@@ -174,10 +174,11 @@ namespace TableForge
                         serializedData.Append("{");
                 }
 
-                string value = isSimpleType
+                string value;
+                if(item is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                else value = isSimpleType
                     ? $"{item.Serialize()},"
                     : $"\"{item.Column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{item.Serialize()}{SerializationConstants.JsonItemSeparator}";
-                if(item is StringCell or EnumCell or LayerMaskCell) value = value.Replace('\'', '"'); 
                 serializedData.Append(value);
             }
 

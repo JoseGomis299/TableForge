@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -119,7 +119,7 @@ MonoBehaviour:
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 32, y: 0, z: 23, w: 0}
   testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
@@ -165,9 +165,9 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 32
-  shortValue: 23
-  sbyteValue: 23
+  byteValue: 0
+  shortValue: 0
+  sbyteValue: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 0

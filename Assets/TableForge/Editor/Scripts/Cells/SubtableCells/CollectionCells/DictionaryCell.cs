@@ -89,11 +89,10 @@ namespace TableForge
             for (int i = 0; i < keys.Count; i++)
             {
                 string key = keys[i].Serialize();
-                string value = values[i]?.Serialize() ?? "null";
+                string value;
+                if(values[i] is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                else value = values[i]?.Serialize() ?? SerializationConstants.JsonNullValue;
                 
-                if(values[i] is StringCell or EnumCell or LayerMaskCell) value = value.Replace('\'', '"'); 
-                if(keys[i] is StringCell or EnumCell or LayerMaskCell) key = key.Trim('\'');
-
                 serializedData.Append($"\"{key}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
             }
 

@@ -86,8 +86,8 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 343
-    inheritorText: 1213
+    inheritorNumber: 29
+    inheritorText: 29
   inheritorClassAsInnerClass:
     number: 0
     text: False
@@ -101,7 +101,7 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 6586668462697349390
   inheritorClassAsInnerClass2:
     rid: 6586668462697349313
   innerClasses: []
@@ -113,7 +113,7 @@ MonoBehaviour:
   vector3Array: []
   stringIntDictionary:
     m_Keys:
-    - key1
+    - name
     - key2
     m_Values: 0100000002000000
   structDictionary2:
@@ -125,7 +125,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: ''''''
   matrix:
     e00: 0
     e01: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 190, y: 29, z: 29, w: 29}
   rect:
     serializedVersion: 2
     x: 0
@@ -162,9 +162,21 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 6586668462697349313
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 6586668462697349390
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0

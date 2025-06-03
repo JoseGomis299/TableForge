@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -119,13 +119,13 @@ MonoBehaviour:
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 123, y: 0, z: 0, w: 0}
   testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - 1
+    - key1
     - key2
     m_Values: 0100000002000000
   structDictionary2:

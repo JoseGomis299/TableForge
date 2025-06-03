@@ -51,10 +51,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 48
+  charValue: 0
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 23
+  <PublicLongProperty>k__BackingField: 123
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -101,9 +101,9 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: 6586668462697349272
+    rid: -2
   inheritorClassAsInnerClass2:
-    rid: 854089074991693906
+    rid: -2
   innerClasses:
   - number: 0
     text: 
@@ -117,15 +117,15 @@ MonoBehaviour:
       number: 0
       boolean: 0
   intArray: 0100000015000000
-  vector2: {x: 0, y: 0}
+  vector2: {x: 0, y: 2343}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 343, y: 23, z: 23, w: 343}
   testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - 1
+    - key1
     - key2
     m_Values: 0100000002000000
   structDictionary2:
@@ -155,17 +155,17 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 23, y: 23, z: 0, w: 0}
+  Quaternion: {x: 0, y: 0, z: 23, w: 0}
   rect:
     serializedVersion: 2
-    x: 0
+    x: 32
     y: 0
     width: 0
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 23
+  byteValue: 0
   shortValue: 0
   sbyteValue: 0
   layerMask:
@@ -174,31 +174,5 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 854089074991693906
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
-      data:
-        number: 0
-        text: 
-        animationCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        structTest:
-          number: 0
-          boolean: 0
-    - rid: 6586668462697349272
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
-      data:
-        number: 0
-        text: 
-        animationCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        structTest:
-          number: 0
-          boolean: 0
+    - rid: -2
+      type: {class: , ns: , asm: }

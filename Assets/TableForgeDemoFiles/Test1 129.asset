@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: NULL
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []

@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0.23, g: 0, b: 0, a: 1}
+  color: {r: 0, g: 0, b: 0, a: 0}
   animationCurve:
     serializedVersion: 2
     m_Curve: []
@@ -53,7 +53,7 @@ MonoBehaviour:
   B: 0
   charValue: 0
   intField: 190
-  floatField: 23
+  floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -120,7 +120,7 @@ MonoBehaviour:
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 0
+  testEnum: 2
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
@@ -164,7 +164,7 @@ MonoBehaviour:
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 123}
   byteValue: 0
   shortValue: 0
   sbyteValue: 0

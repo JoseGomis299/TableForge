@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
     m_Curve: []
@@ -52,13 +52,13 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 48
-  intField: 0
-  floatField: 0
+  intField: 190
+  floatField: 123
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 0
-    text: Nothing
+    number: 343
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 0
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -108,7 +108,7 @@ MonoBehaviour:
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 124, y: 29, z: 29, w: 0}
   testEnum: 0
   vector3Array: []
   stringIntDictionary:
@@ -143,11 +143,11 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 190, y: 29, z: 0, w: 32}
   rect:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 23
     width: 0
     height: 0
   bounds:
@@ -166,7 +166,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 23
+        text: 
         animationCurve:
           serializedVersion: 2
           m_Curve: []
@@ -179,8 +179,8 @@ MonoBehaviour:
     - rid: 6586668462697349356
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
-        number: 29
-        text: 29
+        number: 23
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []

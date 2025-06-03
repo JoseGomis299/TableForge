@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0.23, g: 0, b: 0, a: 1}
+  color: {r: 0, g: 0, b: 0, a: 0}
   animationCurve:
     serializedVersion: 2
     m_Curve: []
@@ -57,8 +57,8 @@ MonoBehaviour:
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 343
-    text: 156
+    number: 0
+    text: Nothing
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -125,7 +125,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: Nothing
   matrix:
     e00: 0
     e01: 0
@@ -165,10 +165,8 @@ MonoBehaviour:
     - rid: 6586668462697349222
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
-        number: 0
-        text: '{"Inheritor Number":343,"Inheritor Text":"1213","Number":343,"Text":"156","Animation
-          Curve":{"keys":[{"time":0.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0},{"time":1.0,"value":1.0,"inTangent":2.0,"outTangent":2.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0}],"preWrapMode":8,"postWrapMode":8},"Struct
-          Test":{"Number":124,"Boolean":true}}'
+        number: 190
+        text: 29
         animationCurve:
           serializedVersion: 2
           m_Curve: []

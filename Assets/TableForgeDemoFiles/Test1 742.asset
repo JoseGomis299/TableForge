@@ -156,14 +156,14 @@ MonoBehaviour:
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 5
+  testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - key1
-    - 12
-    m_Values: 0100000002000000
+    - Number
+    - Text
+    m_Values: 0000000002000000
   structDictionary2:
     m_Keys:
     - number: 1
@@ -173,7 +173,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '{}'
   matrix:
     e00: 0
     e01: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 156
+  byteValue: 0
   shortValue: 0
   sbyteValue: 0
   layerMask:

@@ -51,10 +51,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
+  charValue: 48
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 123
+  <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
@@ -117,9 +117,9 @@ MonoBehaviour:
       number: 0
       boolean: 0
   intArray: 0100000015000000
-  vector2: {x: 0, y: 2343}
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 343, y: 23, z: 23, w: 343}
+  vector4: {x: 0, y: 343, z: 0, w: 0}
   testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
@@ -155,10 +155,10 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 23, w: 0}
+  Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
-    x: 32
+    x: 0
     y: 0
     width: 0
     height: 0

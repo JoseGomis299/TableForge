@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 0.6603774, g: 0.20558913, b: 0.20558913, a: 1}
+    key0: {r: 0.7735849, g: 0.7256151, b: 0.29921672, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -67,13 +67,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
+  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   B: 0
   charValue: 0
   intField: 190
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 190
-  <PublicDoubleProperty>k__BackingField: 190
+  floatField: 29
+  <PublicLongProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 343
     text: 156
@@ -108,7 +108,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -117,9 +117,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
+      boolean: 1
   innerClass:
-    rid: 6586668462697349323
+    rid: -2
   inheritorClassAsInnerClass2:
     rid: 6586668462697349324
   innerClasses:
@@ -134,7 +134,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 0100000015000000
+  intArray: 150000000000000001000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
@@ -192,25 +192,13 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 6586668462697349323
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
-      data:
-        number: 0
-        text: 
-        animationCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        structTest:
-          number: 0
-          boolean: 0
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 6586668462697349324
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []

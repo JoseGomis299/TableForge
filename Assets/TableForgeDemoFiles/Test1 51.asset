@@ -51,7 +51,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 97
+  charValue: 48
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 190
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 0
   inheritorClassAsInnerClass:
     number: 0
-    text: Nothing
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -101,9 +101,9 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 6586668462697349381
   inheritorClassAsInnerClass2:
-    rid: -2
+    rid: 6586668462697349382
   innerClasses:
   - number: 0
     text: 
@@ -117,7 +117,7 @@ MonoBehaviour:
       number: 0
       boolean: 0
   intArray: 0100000015000000
-  vector2: {x: 0, y: 123}
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
@@ -155,12 +155,12 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 190, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0
+    width: 123
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -174,5 +174,31 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 6586668462697349381
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 6586668462697349382
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

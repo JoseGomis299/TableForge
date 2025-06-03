@@ -161,13 +161,15 @@ namespace TableForge.UI
         public void RemoveColumnSize(int columnId)
         {
             RemoveRowSize(0, columnId);
-            RemoveColumnSize(columnId, 0);
+            _columnSizes.Remove(columnId);
+            _columnPreferredSizes.Remove(columnId);
         }
         
         public void RemoveRowSize(int rowId)
         {
             RemoveColumnSize(0, rowId);
-            RemoveRowSize(rowId, 0);
+            _rowSizes.Remove(rowId);
+            _rowPreferredSizes.Remove(rowId);
         }
 
         private void StoreColumnSizeInMetadata(Column column)

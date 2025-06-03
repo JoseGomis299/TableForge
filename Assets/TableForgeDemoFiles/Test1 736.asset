@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 0.6603774, g: 0.20558913, b: 0.20558913, a: 1}
+    key0: {r: 0.7735849, g: 0.7256151, b: 0.29921672, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -67,15 +67,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
+  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   B: 0
-  charValue: 48
+  charValue: 0
   intField: 190
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  floatField: 29
+  <PublicLongProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
-    number: 343
+    number: 29
     text: 156
     animationCurve:
       serializedVersion: 2
@@ -104,11 +104,11 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 0
-    inheritorText: 0
+    inheritorNumber: 190
+    inheritorText: 29
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: 343
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -117,21 +117,22 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
+      boolean: 1
   innerClass:
     rid: 6586668462697349314
   inheritorClassAsInnerClass2:
     rid: 6586668462697349315
   innerClasses: []
-  intArray: 0100000015000000
+  intArray: 1500000000000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
-  vector3Array: []
+  vector3Array:
+  - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - name
+    - key1
     - key2
     m_Values: 0100000002000000
   structDictionary2:
@@ -161,7 +162,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 190, y: 29, z: 29, w: 0}
+  Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -169,7 +170,7 @@ MonoBehaviour:
     width: 0
     height: 0
   bounds:
-    m_Center: {x: 23, y: 0, z: 29}
+    m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
   shortValue: 0
@@ -184,9 +185,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: '{"Inheritor Number":343,"Inheritor Text":"1213","Number":343,"Text":"156","Animation
-          Curve":{"keys":[{"time":0.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0},{"time":1.0,"value":1.0,"inTangent":2.0,"outTangent":2.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0}],"preWrapMode":8,"postWrapMode":8},"Struct
-          Test":{"Number":124,"Boolean":true}}'
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []
@@ -194,13 +193,13 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         structTest:
-          number: 0
+          number: 13
           boolean: 0
     - rid: 6586668462697349315
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []

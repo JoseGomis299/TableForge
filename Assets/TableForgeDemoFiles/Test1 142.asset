@@ -54,7 +54,7 @@ MonoBehaviour:
   charValue: 48
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 2
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: NULL
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []

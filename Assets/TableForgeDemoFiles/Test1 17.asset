@@ -116,7 +116,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 0d00000015000000
+  intArray: 0d0000000d0000000d0000000d000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
@@ -139,7 +139,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '{"{"Number":1,"Boolean":true}":{"X":1,"Y":2},"{"Number":2,"Boolean":false}":{"X":3,"Y":4}}'
   matrix:
     e00: 0
     e01: 0

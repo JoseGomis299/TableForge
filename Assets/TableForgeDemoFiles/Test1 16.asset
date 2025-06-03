@@ -70,7 +70,7 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 48
-  intField: 190
+  intField: 29
   floatField: 0
   <PublicLongProperty>k__BackingField: 29
   <PublicDoubleProperty>k__BackingField: 190
@@ -155,7 +155,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: 0
   matrix:
     e00: 0
     e01: 0

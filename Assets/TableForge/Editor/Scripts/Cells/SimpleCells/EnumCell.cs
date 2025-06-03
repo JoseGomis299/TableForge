@@ -5,21 +5,24 @@ namespace TableForge
     /// <summary>
     /// Cell for Enum fields.
     /// </summary>
-    internal class EnumCell : Cell
+    internal class EnumCell : Cell, IQuotedValueCell
     {
         public EnumCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         
         public override string Serialize()
         {
-            return $"\'{GetFieldType().ResolveFlaggedEnumName((int)GetValue(), false)}'";
+            return GetFieldType().ResolveFlaggedEnumName((int)GetValue(), false);
+        }
+        
+        public string SerializeQuotedValue()
+        { 
+            return "\"" + Serialize() + "\"";
         }
 
         public override void Deserialize(string data)
         {
             if (string.IsNullOrEmpty(data))
                 return;
-            
-            data = data.Trim('\'');
             
             if(data == "Everything")
             {

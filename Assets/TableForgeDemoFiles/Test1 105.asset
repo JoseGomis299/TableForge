@@ -53,7 +53,7 @@ MonoBehaviour:
   B: 0
   charValue: 0
   intField: 190
-  floatField: 0
+  floatField: 23
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -117,9 +117,9 @@ MonoBehaviour:
       number: 0
       boolean: 0
   intArray: 0100000015000000
-  vector2: {x: 23, y: 23}
+  vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 32, y: 0, z: 23, w: 0}
+  vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}

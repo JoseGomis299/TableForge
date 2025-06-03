@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 0.7735849, g: 0.7256151, b: 0.29921672, a: 1}
+    key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -45,35 +45,17 @@ MonoBehaviour:
   color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 0}
   B: 0
-  charValue: 0
+  charValue: 48
   intField: 190
-  floatField: 29
-  <PublicLongProperty>k__BackingField: 29
-  <PublicDoubleProperty>k__BackingField: 29
+  floatField: 0
+  <PublicLongProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
     text: 156
@@ -104,11 +86,11 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 343
-    inheritorText: 1213
+    inheritorNumber: 0
+    inheritorText: Nothing
   inheritorClassAsInnerClass:
     number: 0
-    text: 343
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -117,7 +99,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 1
+      boolean: 0
   innerClass:
     rid: -2
   inheritorClassAsInnerClass2:
@@ -173,11 +155,11 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 23, y: 0, z: 0, w: 123}
   rect:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 29
     width: 0
     height: 0
   bounds:

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.7735849, g: 0.7256151, b: 0.29921672, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -42,19 +42,37 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0.23, g: 0, b: 0, a: 1}
+  color: {r: 0.6981132, g: 0.35783786, b: 0.35783786, a: 1}
   animationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
-  B: 0
+  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  B: 1
   charValue: 0
   intField: 190
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  floatField: 29
+  <PublicLongProperty>k__BackingField: 29
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
@@ -89,17 +107,35 @@ MonoBehaviour:
     inheritorNumber: 343
     inheritorText: 1213
   inheritorClassAsInnerClass:
-    number: 0
-    text: 
+    number: 1
+    text: 0
     animationCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
       number: 0
-      boolean: 0
+      boolean: 1
   innerClass:
     rid: -2
   inheritorClassAsInnerClass2:
@@ -120,7 +156,7 @@ MonoBehaviour:
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 0
+  testEnum: 5
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
@@ -164,8 +200,8 @@ MonoBehaviour:
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 0
+    m_Extent: {x: 0, y: 0, z: 32}
+  byteValue: 156
   shortValue: 0
   sbyteValue: 0
   layerMask:

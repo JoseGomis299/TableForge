@@ -61,8 +61,9 @@ namespace TableForge
 
             foreach (var cell in descendants)
             {
-                string value = cell.Serialize();
-                if(cell is StringCell or EnumCell or LayerMaskCell) value = value.Replace('\'', '"'); 
+                string value;
+                if(cell is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                else value = cell.Serialize();
                 serializedData.Append($"\"{cell.Column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
             }
 

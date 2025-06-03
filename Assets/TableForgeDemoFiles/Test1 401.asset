@@ -51,7 +51,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 48
+  charValue: 0
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
     inheritorNumber: 343
     inheritorText: 1213
   inheritorClassAsInnerClass:
-    number: 123
+    number: 0
     text: 0
     animationCurve:
       serializedVersion: 2
@@ -98,7 +98,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 32
+      number: 0
       boolean: 0
   innerClass:
     rid: -2
@@ -165,8 +165,8 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 23
-  shortValue: 0
+  byteValue: 0
+  shortValue: 23
   sbyteValue: 0
   layerMask:
     serializedVersion: 2

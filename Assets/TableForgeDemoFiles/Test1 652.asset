@@ -51,11 +51,11 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 48
+  charValue: 0
   intField: 190
-  floatField: 32
-  <PublicLongProperty>k__BackingField: 23
-  <PublicDoubleProperty>k__BackingField: 23
+  floatField: 0
+  <PublicLongProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 123
   inheritorClass:
     number: 343
     text: 156
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -110,7 +110,8 @@ MonoBehaviour:
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
-  vector3Array: []
+  vector3Array:
+  - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
     - key1
@@ -143,7 +144,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 23, y: 0, z: 0, w: 123}
+  Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -152,7 +153,7 @@ MonoBehaviour:
     height: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 123}
+    m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
   shortValue: 0
   sbyteValue: 0

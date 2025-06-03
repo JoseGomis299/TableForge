@@ -133,7 +133,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: 0
   matrix:
     e00: 0
     e01: 0

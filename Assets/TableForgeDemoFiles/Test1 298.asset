@@ -53,7 +53,7 @@ MonoBehaviour:
   B: 0
   charValue: 48
   intField: 190
-  floatField: 0
+  floatField: 123
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: NULL
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -116,7 +116,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 01000000150000001500000015000000150000001500000015000000
+  intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}

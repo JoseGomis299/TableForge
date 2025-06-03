@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
     m_Curve: []
@@ -52,10 +52,10 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 0
-  intField: 0
+  intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 343
     text: 156
@@ -119,8 +119,8 @@ MonoBehaviour:
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 2
+  vector4: {x: 0, y: 0, z: 2343, w: 343}
+  testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
@@ -158,12 +158,12 @@ MonoBehaviour:
   Quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
-    x: 0
-    y: 0
+    x: 343
+    y: 343
     width: 0
-    height: 0
+    height: 343
   bounds:
-    m_Center: {x: 0, y: 0, z: 0}
+    m_Center: {x: 0, y: 123, z: 32}
     m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
   shortValue: 0

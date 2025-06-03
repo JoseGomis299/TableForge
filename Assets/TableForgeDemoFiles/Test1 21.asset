@@ -171,7 +171,7 @@ MonoBehaviour:
     height: 0
   bounds:
     m_Center: {x: 23, y: 0, z: 29}
-    m_Extent: {x: 0, y: 23, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
   shortValue: 0
   sbyteValue: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
     - rid: 6586668462697349358
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
-        number: 0
+        number: 12
         text: 0
         animationCurve:
           serializedVersion: 2

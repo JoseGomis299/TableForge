@@ -90,7 +90,7 @@ MonoBehaviour:
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: NULL
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -167,7 +167,7 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
   shortValue: 0
-  sbyteValue: 123
+  sbyteValue: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 0

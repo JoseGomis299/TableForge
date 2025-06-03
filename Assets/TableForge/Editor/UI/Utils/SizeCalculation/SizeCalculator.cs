@@ -69,9 +69,9 @@ namespace TableForge.UI
             return clampedSize;
         }
         
-        public static TableSize CalculateTableSize(Table table, TableAttributes tableAttributes, TableMetadata tableMetadata)
+        public static TableSize CalculateTableSize(Table table, TableAttributes tableAttributes, TableMetadata tableMetadata, bool useCachedSize)
         {
-            if (_sizesCache.TryGetValue(table, out TableSize cachedSize))
+            if (useCachedSize && _sizesCache.TryGetValue(table, out TableSize cachedSize))
             {
                 return cachedSize;
             }
@@ -206,7 +206,7 @@ namespace TableForge.UI
 
             if(parentMetadata.IsTableExpanded(subTableCell.Id))
             {
-                var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata);
+                var tableSize = CalculateTableSize(subTableCell.SubTable, subTableAttributes, parentMetadata, false);
                 localSize = tableSize.GetTotalSize(false);
                 localSize.y = Mathf.Max(localSize.y, CalculateToolbarSize(subTableCell.SubTable).y);
                 localSize.x += UiConstants.SubTableToolbarWidth;

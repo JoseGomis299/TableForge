@@ -72,7 +72,7 @@ MonoBehaviour:
   charValue: 0
   intField: 190
   floatField: 23245
-  <PublicLongProperty>k__BackingField: 23245
+  <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
@@ -104,8 +104,8 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 343
-    inheritorText: 1213
+    inheritorNumber: 0
+    inheritorText: Nothing
   inheritorClassAsInnerClass:
     number: 0
     text: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '{"{"Number":1,"Boolean":true}":{"X":1,"Y":2},"{"Number":2,"Boolean":false}":{"X":3,"Y":4}}'
   matrix:
     e00: 0
     e01: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   sbyteValue: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 6
+    m_Bits: 0
   references:
     version: 2
     RefIds:
@@ -210,7 +210,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 0
+        text: 
         animationCurve:
           serializedVersion: 2
           m_Curve: []

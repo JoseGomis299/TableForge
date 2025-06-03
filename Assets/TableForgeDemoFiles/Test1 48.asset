@@ -54,7 +54,7 @@ MonoBehaviour:
   charValue: 0
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 190
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 343
@@ -86,11 +86,11 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 343
-    inheritorText: 1213
+    inheritorNumber: 23
+    inheritorText: 0
   inheritorClassAsInnerClass:
     number: 0
-    text: Null
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -155,17 +155,17 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 190, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
-    x: 0
+    x: 32
     y: 0
-    width: 0
+    width: 23
     height: 0
   bounds:
-    m_Center: {x: 0, y: 0, z: 0}
+    m_Center: {x: 0, y: 123, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 123
+  byteValue: 0
   shortValue: 0
   sbyteValue: 0
   layerMask:
@@ -178,7 +178,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 0
+        text: 
         animationCurve:
           serializedVersion: 2
           m_Curve: []

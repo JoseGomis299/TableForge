@@ -51,7 +51,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
+  charValue: 48
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
@@ -101,9 +101,9 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: 6586668462697349255
+    rid: -2
   inheritorClassAsInnerClass2:
-    rid: 6586668462697349339
+    rid: -2
   innerClasses:
   - number: 0
     text: 
@@ -155,15 +155,15 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 0, y: 0, z: 343, w: 0}
   rect:
     serializedVersion: 2
-    x: 32
+    x: 343
     y: 0
-    width: 23
-    height: 0
+    width: 0
+    height: 343
   bounds:
-    m_Center: {x: 0, y: 123, z: 0}
+    m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
   shortValue: 0
@@ -174,31 +174,5 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 6586668462697349255
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
-      data:
-        number: 0
-        text: 
-        animationCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        structTest:
-          number: 0
-          boolean: 0
-    - rid: 6586668462697349339
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
-      data:
-        number: 0
-        text: 
-        animationCurve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        structTest:
-          number: 0
-          boolean: 0
+    - rid: -2
+      type: {class: , ns: , asm: }
