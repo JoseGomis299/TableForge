@@ -485,7 +485,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0

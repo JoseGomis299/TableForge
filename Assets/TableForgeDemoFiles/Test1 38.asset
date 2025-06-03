@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 0.37734035, g: 0.10234953, b: 0.4716981, a: 1}
+    key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -51,14 +51,14 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
+  charValue: 48
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 23
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 23
-    text: 190
+    number: 343
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -84,13 +84,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 29
+      number: 124
       boolean: 1
-    inheritorNumber: 32
-    inheritorText: '{"name":"BorderResizer","path":"","guid":"5532989962c94fcd9d5260786d495011","instanceID":44492}'
+    inheritorNumber: 343
+    inheritorText: 1213
   inheritorClassAsInnerClass:
-    number: 343
-    text: 1213
+    number: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -98,10 +98,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 156
+      number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 6586668462697349272
   inheritorClassAsInnerClass2:
     rid: 854089074991693906
   innerClasses:
@@ -116,7 +116,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 0d00000015000000
+  intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - key1
+    - 1
     - key2
     m_Values: 0100000002000000
   structDictionary2:
@@ -137,7 +137,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 23, y: 23, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  byteValue: 0
+  byteValue: 23
   shortValue: 0
   sbyteValue: 0
   layerMask:
@@ -174,13 +174,25 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 854089074991693906
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 0
+        text: 
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 6586668462697349272
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
         animationCurve:
           serializedVersion: 2
           m_Curve: []

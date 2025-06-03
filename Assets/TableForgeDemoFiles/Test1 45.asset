@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.19811308, b: 0.19811308, a: 1}
+    key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -45,38 +45,20 @@ MonoBehaviour:
   color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 7e8a7400ed114ad4b6b51c3bb5548e1b, type: 3}
-  B: 1
+  reference: {fileID: 0}
+  B: 0
   charValue: 0
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 123
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 0
-    text: 0
+    number: 343
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -102,10 +84,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 0
+      number: 124
       boolean: 1
-    inheritorNumber: 0
-    inheritorText: 0
+    inheritorNumber: 343
+    inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
     text: 0
@@ -122,13 +104,25 @@ MonoBehaviour:
     rid: -2
   inheritorClassAsInnerClass2:
     rid: -2
-  innerClasses: []
+  innerClasses:
+  - number: 0
+    text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   intArray: 0100000015000000
-  vector2: {x: 0, y: 1}
+  vector2: {x: 0, y: 2343}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 32, z: 0, w: 23}
+  vector4: {x: 343, y: 23, z: 23, w: 343}
   testEnum: 0
-  vector3Array: []
+  vector3Array:
+  - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
     - key1
@@ -143,7 +137,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0
@@ -161,10 +155,10 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 0, y: 0, z: 23, w: 0}
   rect:
     serializedVersion: 2
-    x: 0
+    x: 32
     y: 0
     width: 0
     height: 0

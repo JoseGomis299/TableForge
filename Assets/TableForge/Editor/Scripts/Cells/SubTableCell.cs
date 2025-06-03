@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace TableForge
@@ -54,7 +55,7 @@ namespace TableForge
         
         private string SerializeAsJson()
         {
-            StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonStart);
+            StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonObjectStart);
 
             IEnumerable<Cell> descendants = this.GetImmediateDescendants();
 
@@ -110,18 +111,46 @@ namespace TableForge
                 return;
             }
 
-            if (data.StartsWith(SerializationConstants.JsonStart))
-            {
-                Debug.Log($"Deserializing {this.GetType().Name} as JSON: {data}");
-                return;
-            }
-
-            string[] values = data.Split(SerializationConstants.ColumnSeparator);
             int index = 0;
+            if (TryDeserializeJson(data, ref index))
+            {
+                return; // Successfully deserialized as JSON
+            }
             
+            string[] values = data.Split(SerializationConstants.ColumnSeparator);
             DeserializeSubTable(values, ref index);
         }
 
+        private bool TryDeserializeJson(string data, ref int index)
+        {
+            if (!data.StartsWith(SerializationConstants.JsonObjectStart) || !data.EndsWith(SerializationConstants.JsonObjectEnd))
+                return false;
+
+            Dictionary<string, string> jsonFields;
+            try
+            {
+                jsonFields = JsonUtil.ToStringDictionary(data);
+            }
+            catch
+            {
+                return false; // Invalid JSON format
+            }
+
+            // Ensure all fields in the JSON exist as columns in the subtable
+            var subTableColumns = SubTable.OrderedColumns.Select(c => c.Name).ToList();
+            if (!jsonFields.Keys.All(key => subTableColumns.Contains(key)))
+            {
+                return false; //JSON fields do not match subTable columns
+            }
+
+            // Order the values based on the column order in the subTable
+            var values = subTableColumns.Select(column => jsonFields.GetValueOrDefault(column, SerializationConstants.EmptyColumn)).ToArray();
+            
+            if (SerializationConstants.ModifySubTables) DeserializeModifyingSubTable(values, ref index);
+            else DeserializeWithoutModifyingSubTable(values, ref index);
+            return true;
+        }
+        
         public void DeserializeSubTable(string[]values, ref int index)
         {
             if(Value == null && values[0].Equals(SerializationConstants.EmptyColumn))
@@ -130,16 +159,16 @@ namespace TableForge
                 return;
             }
             
-            if(SerializationConstants.ModifySubTables) DeserializeModifying(values, ref index);
-            else DeserializeWithoutModifying(values, ref index);
+            if(SerializationConstants.ModifySubTables) DeserializeModifyingSubTable(values, ref index);
+            else DeserializeWithoutModifyingSubTable(values, ref index);
         }
 
-        protected abstract void DeserializeModifying(string[] values, ref int index);
-        protected abstract void DeserializeWithoutModifying(string[] values, ref int index);
+        protected abstract void DeserializeModifyingSubTable(string[] values, ref int index);
+        protected abstract void DeserializeWithoutModifyingSubTable(string[] values, ref int index);
         
         protected static void DeserializeCell(string[] values, ref int index, Cell cell)
         {
-            if(cell is SubTableCell subTableCell and not ICollectionCell)
+            if(cell is SubTableCell subTableCell and not ICollectionCell && !JsonUtil.IsValidJsonObject(values[index]))
             {
                 subTableCell.DeserializeSubTable(values, ref index);
             }

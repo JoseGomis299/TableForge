@@ -84,6 +84,8 @@ namespace TableForge
         /// <param name="value">The new value to be set.</param>
         public virtual void SetValue(object value)
         {
+            if(Value != null && Value.Equals(value)) return;
+            
             SetFieldValue(value);
             Value = value;
         }

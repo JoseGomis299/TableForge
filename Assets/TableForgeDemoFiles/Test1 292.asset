@@ -53,12 +53,12 @@ MonoBehaviour:
   B: 0
   charValue: 48
   intField: 190
-  floatField: 23
+  floatField: 0
   <PublicLongProperty>k__BackingField: 0
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 23
-    text: NULL
+    number: 343
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -84,13 +84,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 123
+      number: 124
       boolean: 1
-    inheritorNumber: 32
-    inheritorText: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+    inheritorNumber: 343
+    inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 0
+    text: 
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -98,7 +98,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 32
+      number: 0
       boolean: 0
   innerClass:
     rid: -2
@@ -125,7 +125,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0

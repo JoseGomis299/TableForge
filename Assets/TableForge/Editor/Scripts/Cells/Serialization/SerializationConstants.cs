@@ -21,8 +21,5 @@ namespace TableForge
         public const string JsonKeyValueSeparator = ":";
         public const string JsonItemSeparator = ",";
         public const string JsonNullValue = "null";
-
-        public const string JsonStart = "\u200B{"; //This is added to be able to distinguish subTables serialized as JSON from 
-                                                  //Other type of items serialized as JSON. (ReferenceCell, ColorCell, GradientCell and AnimationCurveCell)
     }
 }

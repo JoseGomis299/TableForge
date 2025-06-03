@@ -54,11 +54,11 @@ MonoBehaviour:
   charValue: 0
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 190
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 23
-    text: a
+    number: 343
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -84,10 +84,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 123
+      number: 124
       boolean: 1
-    inheritorNumber: 32
-    inheritorText: 23
+    inheritorNumber: 0
+    inheritorText: 0
   inheritorClassAsInnerClass:
     number: 0
     text: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
-  vector4: {x: 0, y: 0, z: 0, w: 0}
+  vector4: {x: 0, y: 0, z: 32, w: 32}
   testEnum: 0
   vector3Array:
   - {x: 0, y: 0, z: 0}
@@ -148,7 +148,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 190, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
-  shortValue: 32
+  shortValue: 0
   sbyteValue: 0
   layerMask:
     serializedVersion: 2
@@ -189,7 +189,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: Null
+        text: 0
         animationCurve:
           serializedVersion: 2
           m_Curve: []
@@ -203,7 +203,7 @@ MonoBehaviour:
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
-        text: 0
+        text: 
         animationCurve:
           serializedVersion: 2
           m_Curve: []

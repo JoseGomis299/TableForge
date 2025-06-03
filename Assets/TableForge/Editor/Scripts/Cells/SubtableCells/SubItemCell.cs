@@ -84,7 +84,7 @@ namespace TableForge
             }
         }
         
-        protected override void DeserializeModifying(string[]values, ref int index)
+        protected override void DeserializeModifyingSubTable(string[]values, ref int index)
         {
             if(Value != null && values[0].Equals(SerializationConstants.EmptyColumn))
             {
@@ -100,7 +100,7 @@ namespace TableForge
             DeserializeSubItem(values, ref index);
         }
 
-        protected override void DeserializeWithoutModifying(string[]values, ref int index)
+        protected override void DeserializeWithoutModifyingSubTable(string[]values, ref int index)
         {
             DeserializeSubItem(values, ref index);
         }

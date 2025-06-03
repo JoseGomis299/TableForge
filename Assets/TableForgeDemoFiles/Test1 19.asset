@@ -54,11 +54,11 @@ MonoBehaviour:
   charValue: 0
   intField: 190
   floatField: 0
-  <PublicLongProperty>k__BackingField: 29
-  <PublicDoubleProperty>k__BackingField: 190
+  <PublicLongProperty>k__BackingField: 190
+  <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
-    number: 0
-    text: False
+    number: 343
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -84,10 +84,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 29
+      number: 124
       boolean: 1
-    inheritorNumber: 32
-    inheritorText: '{"keys":[],"preWrapMode":8,"postWrapMode":8}'
+    inheritorNumber: 0
+    inheritorText: 0
   inheritorClassAsInnerClass:
     number: 0
     text: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  Quaternion: {x: 190, y: 0, z: 190, w: 190}
   rect:
     serializedVersion: 2
     x: 0

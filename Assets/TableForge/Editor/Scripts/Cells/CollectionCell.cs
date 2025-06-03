@@ -28,10 +28,19 @@ namespace TableForge
         
         public override void Deserialize(string data)
         {
-          
+            if (string.IsNullOrEmpty(data))
+            {
+                return;
+            }
+            
+            var values = JsonUtil.JsonArrayToStringList(data);
+            if(values.Count == 0) return;
+            
+            int index = 0;
+            DeserializeSubTable(values.ToArray(), ref index);
         }
 
-        protected override void DeserializeModifying(string[] values, ref int index)
+        protected override void DeserializeModifyingSubTable(string[] values, ref int index)
         {
             Row currentRow = null;
             Stack<int> positionsToRemove = new Stack<int>();
@@ -76,7 +85,7 @@ namespace TableForge
             }
         }
 
-        protected override void DeserializeWithoutModifying(string[] values, ref int index)
+        protected override void DeserializeWithoutModifyingSubTable(string[] values, ref int index)
         {
             foreach (var descendant in this.GetImmediateDescendants())
             {

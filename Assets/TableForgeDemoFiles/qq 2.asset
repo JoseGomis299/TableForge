@@ -75,8 +75,8 @@ MonoBehaviour:
   <PublicLongProperty>k__BackingField: 29
   <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
-    number: 190
-    text: 29
+    number: 29
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -102,10 +102,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 0
+      number: 124
       boolean: 1
-    inheritorNumber: 343
-    inheritorText: 
+    inheritorNumber: 190
+    inheritorText: 29
   inheritorClassAsInnerClass:
     number: 0
     text: 343
@@ -130,8 +130,8 @@ MonoBehaviour:
   testEnum: 0
   vector3Array:
   - {x: 1, y: 2, z: 0}
-  - {x: 3, y: 0, z: 0}
   - {x: 2, y: 0, z: 0}
+  - {x: 3, y: 0, z: 0}
   - {x: 4, y: 0, z: 0}
   - {x: 4, y: 0, z: 0}
   - {x: 4, y: 0, z: 0}
@@ -145,9 +145,9 @@ MonoBehaviour:
   - {x: 4, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - key1
+    - key2
     - 12
-    m_Values: 0100000002000000
+    m_Values: 0500000002000000
   structDictionary2:
     m_Keys:
     - number: 5
@@ -157,7 +157,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0

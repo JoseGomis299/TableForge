@@ -108,11 +108,29 @@ namespace TableForge
         
         public override void Deserialize(string data)
         {
+            if (string.IsNullOrEmpty(data))
+            {
+                return;
+            }
+
+            var dictionary = JsonUtil.ToStringDictionary(data);
+            if(dictionary.Count == 0) return;
+            
+            string[] values = new string[dictionary.Count * 2];
+            int i = 0;
+            foreach (var kvp in dictionary)
+            {
+                values[i++] = kvp.Key;
+                values[i++] = kvp.Value;
+            }
+            
+            int index = 0;
+            DeserializeSubTable(values, ref index);
         }
 
-        protected override void DeserializeModifying(string[] values, ref int index)
+        protected override void DeserializeModifyingSubTable(string[] values, ref int index)
         {
-            DeserializeWithoutModifying(values, ref index);
+            DeserializeWithoutModifyingSubTable(values, ref index);
         }
     }
 }

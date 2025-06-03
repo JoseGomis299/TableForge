@@ -57,8 +57,8 @@ MonoBehaviour:
   <PublicLongProperty>k__BackingField: 29
   <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
-    number: 123
-    text: True
+    number: 343
+    text: 156
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -84,10 +84,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 123
+      number: 124
       boolean: 1
-    inheritorNumber: 0
-    inheritorText: '{"keys":[{"time":0.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0},{"time":1.0,"value":1.0,"inTangent":2.0,"outTangent":2.0,"weightedMode":0,"inWeight":0.0,"outWeight":0.0}],"preWrapMode":8,"postWrapMode":8}'
+    inheritorNumber: 343
+    inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 32
     text: False
@@ -101,7 +101,7 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 6586668462697349296
   inheritorClassAsInnerClass2:
     rid: 854089074991693899
   innerClasses: []
@@ -133,7 +133,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0
@@ -170,13 +170,25 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 854089074991693899
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:
         number: 0
         text: 0
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
+    - rid: 6586668462697349296
+      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+      data:
+        number: 0
+        text: 
         animationCurve:
           serializedVersion: 2
           m_Curve: []

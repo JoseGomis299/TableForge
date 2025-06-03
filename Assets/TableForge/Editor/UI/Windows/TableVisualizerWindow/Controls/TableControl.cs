@@ -167,7 +167,7 @@ namespace TableForge.UI
         /// </summary>
         public void Update(bool rebuildRows = false)
         {
-            foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders)
+            foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders.ToList())
             {
                 if(rebuildRows)
                     rowHeader.RowControl.ReBuild();

@@ -167,9 +167,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
-    - key1
+    - key2
     - 12
-    m_Values: 0100000002000000
+    m_Values: 0500000002000000
   structDictionary2:
     m_Keys:
     - number: 5
@@ -179,7 +179,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"r":0.23,"g":0.0,"b":0.0,"a":1}'
+  text: 
   matrix:
     e00: 0
     e01: 0
