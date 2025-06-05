@@ -1,7 +1,7 @@
 namespace TableForge
 {
     [CellType(typeof(char))]
-    internal class CharCell : PrimitiveBasedCell<char>
+    internal class CharCell : PrimitiveBasedCell<char>, IQuotedValueCell
     {
         public CharCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         
@@ -12,6 +12,15 @@ namespace TableForge
                 return "\'" + Serializer.Serialize(typedValue) + "\'";
             }
             return "\'\'";
+        }
+        
+        public string SerializeQuotedValue()
+        {
+            if (Value is char typedValue && typedValue != '\0')
+            {
+                return "\"" + Serializer.Serialize(typedValue) + "\"";
+            }
+            return "\"\"";
         }
         
         public override void Deserialize(string data)
