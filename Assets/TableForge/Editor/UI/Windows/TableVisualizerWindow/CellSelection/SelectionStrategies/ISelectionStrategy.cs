@@ -21,6 +21,7 @@ namespace TableForge.UI
         public List<CellAnchor> SelectedAnchors;
         public bool RightClicked;
         public bool ClickedOnToolbar;
+        public bool DoubleClicked;
 
         public PreselectArguments()
         {

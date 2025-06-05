@@ -15,8 +15,9 @@ namespace TableForge.UI
         bool IsCellFocused(Cell cell);
         void ClearSelection();
         void ClearSelection(Table fromTable);
-        List<Row> GetSelectedRows();
-        List<Column> GetSelectedColumns();
+        List<Row> GetSelectedRows(Table fromTable);
+        List<Column> GetSelectedColumns(Table fromTable);
+        List<Cell> GetSelectedCells(Table fromTable);
         void RemoveRowSelection(Row row);
         void SetSelection(List<Cell> newSelection, bool setFocused = true);
         void SetFocusedCell(Cell cell);

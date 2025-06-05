@@ -1,7 +1,7 @@
 namespace TableForge.UI
 {
     [CellControlUsage(typeof(DictionaryCell), CellSizeCalculationMethod.AutoSize)] 
-    [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.None, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
+    [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.None, TableHeaderVisibility.ShowEmpty, TableHeaderVisibility.ShowHeaderName)]
     internal class DictionaryCellControl : DynamicTableControl
     {
         public DictionaryCellControl(DictionaryCell cell, TableControl tableControl) : base(cell, tableControl, new DefaultRowAdditionStrategy(), new DefaultRowDeletionStrategy())

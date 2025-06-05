@@ -8,13 +8,7 @@ namespace TableForge.UI
         {
             if(tableControl.TableData.Rows.Count == 0) return;
 
-            var selectedRows = tableControl.CellSelector.GetSelectedRows();
-            List<Row> rowsToDelete = new List<Row>();
-            foreach (var row in selectedRows)
-            {
-                if (row.Table != tableControl.TableData) continue;
-                rowsToDelete.Add(row);
-            }
+            var rowsToDelete = tableControl.CellSelector.GetSelectedRows(tableControl.TableData);
             rowsToDelete.Sort((a, b) => b.Position.CompareTo(a.Position));
             
             if(rowsToDelete.Count == 0) tableControl.RemoveRow(tableControl.TableData.Rows[tableControl.TableData.Rows.Count].Id);

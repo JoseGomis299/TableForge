@@ -151,13 +151,13 @@ namespace TableForge.UI
             
             obj.menu.AppendSeparator();
 
-            if (TableControl.CellSelector.GetSelectedRows().Count > 1)
+            if (TableControl.CellSelector.GetSelectedRows(TableControl.TableData).Count > 1)
             {
                 if (!TableControl.Metadata.IsTypeBound)
                     obj.menu.AppendAction("Remove selected items", (_) => RemoveSelectedRows());
                 obj.menu.AppendAction("Delete associated assets", (_) =>
                 {
-                    AssetUtils.DeleteAssets(TableControl.CellSelector.GetSelectedRows().Select(x => x.SerializedObject.RootObjectGuid), RemoveSelectedRows);
+                    AssetUtils.DeleteAssets(TableControl.CellSelector.GetSelectedRows(TableControl.TableData).Select(x => x.SerializedObject.RootObjectGuid), RemoveSelectedRows);
                 });
             }
         }
@@ -190,7 +190,8 @@ namespace TableForge.UI
         
         private void RemoveSelectedRows()
         {
-            var selectedRows = TableControl.CellSelector.GetSelectedRows();
+            UndoRedoManager.StartCollection();
+            var selectedRows = TableControl.CellSelector.GetSelectedRows(TableControl.TableData);
             selectedRows.Sort((a, b) => b.Position.CompareTo(a.Position));
 
             foreach (var selected in selectedRows)
@@ -198,6 +199,7 @@ namespace TableForge.UI
                 if (selected.Table != TableControl.TableData) continue;
                 TableControl.RemoveRow(selected.Id);
             }
+            UndoRedoManager.EndCollection();
 
             TableControl.RebuildPage();
         }

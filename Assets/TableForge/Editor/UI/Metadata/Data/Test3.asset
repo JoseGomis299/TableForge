@@ -26,7 +26,7 @@ MonoBehaviour:
     - 18aa2ea50937ca64ab519f13c0fd7fb3
     - 04a176dbb68e25647ae50940f043c3ef
   cellAnchorMetadata:
-    m_Keys: 708712574d22dc503348d3e8d86498ed00000000430df838
+    m_Keys: 708712574d22dc503348d3e8d86498ed00000000430df8384adf54464ca1309c
     m_Values:
     - position: 0
       size: {x: 0, y: 24.666672}
@@ -39,4 +39,8 @@ MonoBehaviour:
     - position: 0
       size: {x: 59.2, y: 0}
     - position: 1
-      size: {x: 0, y: 0}
+      size: {x: 0, y: 24.666672}
+    - position: 0
+      size: {x: 0, y: 24.666656}
+    - position: 0
+      size: {x: 0, y: 24.666672}

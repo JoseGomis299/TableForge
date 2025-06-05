@@ -40,7 +40,6 @@ namespace TableForge.UI
             AddToClassList(USSClasses.TableCell);
         }
         
-        
         ~CellControl()
         {
             OnRefresh = null;

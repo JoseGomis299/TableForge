@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine.UIElements;
 
@@ -93,60 +95,30 @@ namespace TableForge.UI
 
         protected void ExpandCollapseBuilder(ContextualMenuPopulateEvent obj)
         {
-            bool containsSubTable = false;
-            if (CellAnchor is Row row)
-            {
-                foreach (var cell in row.OrderedCells)
-                {
-                    if (cell is SubTableCell)
-                    {
-                        containsSubTable = true;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                if (TableControl.TableData.Rows.Count > 0 && TableControl.TableData.Rows[1].Cells[CellAnchor.Position] is SubTableCell)
-                {
-                    containsSubTable = true;
-                }     
-            }
+            List<SubTableCell> selectedCells = TableControl.CellSelector.GetSelectedCells(TableControl.TableData).OfType<SubTableCell>().ToList();
+            bool containsSubTable = selectedCells.Any();
             
             if (!containsSubTable) return;
             obj.menu.AppendAction("Expand All", (_) =>
             {
-                SetExpanded(true);
+                SetExpanded(selectedCells, true);
             });
-           
+
             obj.menu.AppendAction("Collapse All", (_) =>
             {
-                SetExpanded(false);
+                SetExpanded(selectedCells, false);
             });
         }
 
-        private void SetExpanded(bool value)
+        private void SetExpanded(IEnumerable<Cell> cells, bool value)
         {
-            if (CellAnchor is Row row)
+            foreach (var cell in cells)
             {
-                foreach (var cell in row.OrderedCells)
-                {
-                    if (cell is SubTableCell)
-                    {
-                        TableControl.Metadata.SetTableExpanded(cell.Id, value);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var r in TableControl.TableData.OrderedRows)
-                {
-                    if (r.Cells[CellAnchor.Position] is SubTableCell)
-                    {
-                        TableControl.Metadata.SetTableExpanded(r.Cells[CellAnchor.Position].Id, value);
-                    }
-                    else return;
-                }
+                if(TableControl.Metadata.IsTableExpanded(cell.Id) == value) continue;
+                        
+                TableControl.Metadata.SetTableExpanded(cell.Id, value);
+                TableControl.PreferredSize.AddCellSize(cell, SizeCalculator.CalculateSize(cell, TableControl.Metadata));
+                TableControl.PreferredSize.StoreCellSizeInMetadata(cell);
             }
 
             TableControl.RebuildPage();

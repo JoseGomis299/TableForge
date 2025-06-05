@@ -30,7 +30,8 @@ namespace TableForge.UI
 
         protected override void BuildContextualMenu(ContextualMenuPopulateEvent obj)
         {
-            
+            ExpandCollapseBuilder(obj);
+            obj.menu.AppendSeparator();
         }
     }
 }

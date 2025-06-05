@@ -52,7 +52,12 @@ namespace TableForge.UI
                 if (_focusedCell != null)
                 {
                     _focusedCell.BringToView(TableControl);
-                    _focusedCell.SetFocused(true);
+                    //We need to wait for the next frame to set focus, since the cell control might need to be created, otherwise it won't work properly.
+                    TableControl.schedule.Execute(() =>
+                    {
+                        _focusedCell.SetFocused(true);
+                    }).ExecuteLater(0);
+                
                     
                     _selectedCells.Add(_focusedCell);
                     CellsToDeselect.Remove(_focusedCell);
@@ -90,7 +95,17 @@ namespace TableForge.UI
             if (tableControl.CornerContainer.worldBound.Contains(position))
             {
                 foreach (var row in tableControl.TableData.OrderedRows)
+                {
                     outputArgs.CellsAtPosition.AddRange(row.OrderedCells);
+                    outputArgs.SelectedAnchors.Add(row);
+                    _selectedAnchors.Add(row);
+                }
+                
+                foreach (var column in tableControl.TableData.OrderedColumns)
+                {
+                    outputArgs.SelectedAnchors.Add(column);
+                    _selectedAnchors.Add(column);
+                }
                 return;
             }
 
@@ -314,8 +329,9 @@ namespace TableForge.UI
                FocusedCell = _selectedCells.FirstOrDefault(); 
         }
 
-        public List<Row> GetSelectedRows() => _selectedAnchors.OfType<Row>().ToList();
-        public List<Column> GetSelectedColumns() => _selectedAnchors.OfType<Column>().ToList();
+        public List<Row> GetSelectedRows(Table fromTable) => _selectedAnchors.OfType<Row>().Where(r => r.Table == fromTable).ToList();
+        public List<Column> GetSelectedColumns(Table fromTable) => _selectedAnchors.OfType<Column>().Where(c => c.Table == fromTable).ToList();
+        public List<Cell> GetSelectedCells(Table fromTable) => _selectedCells.Where(c => c.Table == fromTable).ToList();
         public void RemoveRowSelection(Row row)
         {
             if (row == null)

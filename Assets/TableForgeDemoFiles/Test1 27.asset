@@ -144,7 +144,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: '{"{"Number":1,"Boolean":true}":{"X":1,"Y":2},"{"Number":2,"Boolean":false}":{"X":3,"Y":4}}'
+  text: 
   matrix:
     e00: 0
     e01: 0
