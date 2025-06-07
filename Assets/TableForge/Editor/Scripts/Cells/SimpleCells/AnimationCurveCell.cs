@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TableForge
@@ -26,6 +27,17 @@ namespace TableForge
             {
                 SetValue(serializableCurve.ToAnimationCurve());
             }
+        }
+
+        public override int CompareTo(Cell otherCell)
+        {
+            if (otherCell is not AnimationCurveCell) return 1;
+            
+            AnimationCurve thisCurve = (AnimationCurve)GetValue();
+            AnimationCurve otherCurve = (AnimationCurve)otherCell.GetValue();
+
+            // Compare the length of the curves
+            return thisCurve.length.CompareTo(otherCurve.length);
         }
     }
 }

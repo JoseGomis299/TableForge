@@ -16,5 +16,10 @@ namespace TableForge
         {
             // No implementation needed for default cell
         }
+        
+        public override int CompareTo(Cell other)
+        {
+            return -1;
+        }
     }
 }

@@ -134,7 +134,6 @@ namespace TableForge.UI
                 _textField.Focus();
                 _textField.SelectAll();
             });
-
             
             obj.menu.AppendSeparator();
             
@@ -142,6 +141,10 @@ namespace TableForge.UI
             
             obj.menu.AppendSeparator();
             
+            SortColumnBuilder(obj);
+
+            obj.menu.AppendSeparator();
+
             if(!TableControl.Metadata.IsTypeBound)
                 obj.menu.AppendAction("Remove this item", (_) => RemoveThisRow());
             obj.menu.AppendAction("Delete this asset", (_) =>

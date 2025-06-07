@@ -38,5 +38,11 @@ namespace TableForge
             
             SetValue(Enum.Parse(GetFieldType(), data));
         }
+
+        public override int CompareTo(Cell other)
+        {
+            if (other is not EnumCell) return 1;
+            return ((int)GetValue()).CompareTo((int)other.GetValue());
+        }
     }
 }

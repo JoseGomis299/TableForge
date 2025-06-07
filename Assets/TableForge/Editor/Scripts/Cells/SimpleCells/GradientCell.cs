@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TableForge
@@ -42,6 +43,17 @@ namespace TableForge
             {
                 SetValue(value.ToGradient());
             }
+        }
+        
+        public override int CompareTo(Cell otherCell)
+        {
+            if (otherCell is not GradientCell) return 1;
+
+            Gradient thisGradient = (Gradient)GetValue();
+            Gradient otherGradient = (Gradient)otherCell.GetValue();
+
+            // Compare the number of color keys
+            return thisGradient.colorKeys.Length.CompareTo(otherGradient.colorKeys.Length);
         }
     }
 }

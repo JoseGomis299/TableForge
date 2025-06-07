@@ -1,3 +1,5 @@
+using System;
+
 namespace TableForge
 {
     /// <summary>
@@ -26,6 +28,18 @@ namespace TableForge
             {
                 SetValue(value);
             }
+        }
+
+        public override int CompareTo(Cell other)
+        {
+            if (other is not PrimitiveBasedCell<TValue> primitiveCell) return 1;
+            
+            if (Value is IComparable comparable)
+            {
+                return comparable.CompareTo(primitiveCell.Value);
+            }
+
+            throw new InvalidOperationException("Cannot compare non-comparable values.");
         }
     }
 }

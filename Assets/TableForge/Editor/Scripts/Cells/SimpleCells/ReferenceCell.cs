@@ -1,5 +1,6 @@
+using System;
 using UnityEditor;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TableForge
 {
@@ -50,6 +51,17 @@ namespace TableForge
             {
                 SetValue(value.ToObject());
             }
+        }
+
+        public override int CompareTo(Cell other)
+        {
+            if (other is not ReferenceCell referenceCell) return 1;
+
+            if (_object == null) return -1;
+            if (referenceCell._object == null) return 1;
+            if (_object == referenceCell._object) return 0;
+            
+            return String.Compare(_object.name, referenceCell._object.name, StringComparison.Ordinal);
         }
     }
 }

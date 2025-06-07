@@ -73,6 +73,11 @@ namespace TableForge.UI
         #endregion
         
         #region Getters
+
+        public bool HasAnchorData()
+        {
+            return cellAnchorMetadata is { Count: > 0 };
+        }
         
         public bool IsFieldVisible(int anchorId)
         {

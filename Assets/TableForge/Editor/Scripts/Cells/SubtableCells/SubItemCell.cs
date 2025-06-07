@@ -83,7 +83,15 @@ namespace TableForge
                     $"Failed to create instance of {FieldInfo.Type} for {FieldInfo.FriendlyName} in table {Column.Table.Name}, row {Row.Position}.\n{e.Message}");
             }
         }
-        
+
+        public override int CompareTo(Cell other)
+        {
+            if (other is not SubItemCell otherSubItemCell)
+                return 1;
+
+            return Row.Position.CompareTo(otherSubItemCell.Row.Position);
+        }
+
         protected override void DeserializeModifyingSubTable(string[]values, ref int index)
         {
             if(Value != null && values[0].Equals(SerializationConstants.EmptyColumn))

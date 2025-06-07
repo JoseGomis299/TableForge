@@ -1,3 +1,5 @@
+using System;
+
 namespace TableForge
 {
     /// <summary>
@@ -11,6 +13,13 @@ namespace TableForge
         public override string Serialize()
         {
             return base.Serialize().ToLower();
+        }
+        
+        public override int CompareTo(Cell other)
+        {
+            if (other is not BoolCell boolCell) return 1; 
+            if (Value == boolCell.Value) return 0; // Equal values
+            return (bool) Value ? 1 : -1; // True is greater than False
         }
     }
 }

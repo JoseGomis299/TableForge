@@ -51,6 +51,7 @@ namespace TableForge.UI
         {
             ExpandCollapseBuilder(obj);
             obj.menu.AppendSeparator();
+            SortColumnBuilder(obj);
         }
     }
 }

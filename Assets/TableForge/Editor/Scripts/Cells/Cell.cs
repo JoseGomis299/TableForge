@@ -5,7 +5,7 @@ namespace TableForge
     /// <summary>
     /// Represents an abstract cell within a table, storing and managing field values.
     /// </summary>
-    internal abstract class Cell : ISerializableCell
+    internal abstract class Cell : ISerializableCell, IComparable<Cell>
     {
         #region Fields
 
@@ -109,7 +109,7 @@ namespace TableForge
         
         public abstract string Serialize();
         public abstract void Deserialize(string data);
-        
+        public abstract int CompareTo(Cell other);
         public bool TryDeserialize(string data)
         {
             try

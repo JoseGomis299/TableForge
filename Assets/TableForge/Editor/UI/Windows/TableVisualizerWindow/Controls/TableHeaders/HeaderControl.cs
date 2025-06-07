@@ -109,6 +109,15 @@ namespace TableForge.UI
                 SetExpanded(selectedCells, false);
             });
         }
+        
+        protected void SortColumnBuilder(ContextualMenuPopulateEvent obj)
+        {
+            if (CellAnchor is Column column)
+            {
+                obj.menu.AppendAction("Order Ascending", _ => TableControl.SortColumn(column, true));
+                obj.menu.AppendAction("Order Descending", _ => TableControl.SortColumn(column, false));
+            }
+        }
 
         private void SetExpanded(IEnumerable<Cell> cells, bool value)
         {

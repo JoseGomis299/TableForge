@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace TableForge
 {
@@ -219,6 +219,38 @@ namespace TableForge
             return Rows.TryGetValue(rowPos, out Row rowObj) 
                 ? rowObj.Cells.GetValueOrDefault(columnPos) 
                 : null;
+        }
+
+        /// <summary>
+        /// Sets the order of rows in the table based on the provided list of positions.
+        /// </summary>
+        /// <param name="positions">List containing the new positions matching the old ones with the index.</param>
+        /// <exception cref="ArgumentException">Thrown if the given list is invalid.</exception>
+        public void SetRowOrder(IList<int> positions)
+        {
+            if(positions.Count != _rows.Count)
+                throw new ArgumentException("Invalid number of positions provided for rows.");
+            
+            Dictionary<int, Row> newRows = new Dictionary<int, Row>();
+            HashSet<int> addedRows = new HashSet<int>(); 
+            for (int i = 0; i < positions.Count; i++)
+            {
+                int position = positions[i];
+                if (!_rows.TryGetValue(position, out Row row))
+                    throw new ArgumentException($"Row with position {position} does not exist in the table.");
+                if (!addedRows.Add(row.Id))
+                    throw new ArgumentException($"Row with position {position} has already been added to the new order.");
+
+                row.Position = i + 1; // Convert to 1-based index
+                newRows.Add(i + 1, row);
+            }
+            
+            _rows.Clear();
+            foreach (var kvp in newRows)
+            {
+                _rows[kvp.Key] = kvp.Value;
+            }
+            _rowsDirty = true;
         }
         
 

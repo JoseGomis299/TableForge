@@ -41,5 +41,16 @@ namespace TableForge
             LayerMask value = LayerMask.GetMask(data.Split(",").Select(x => x.Trim()).ToArray());
             SetValue(value);
         }
+        
+        public override int CompareTo(Cell other)
+        {
+            if (other is not LayerMaskCell) return 1;
+            
+            LayerMask thisMask = (LayerMask)GetValue();
+            LayerMask otherMask = (LayerMask)other.GetValue();
+            
+            // Compare the value of the masks
+            return thisMask.value.CompareTo(otherMask.value);
+        }
     }
 }

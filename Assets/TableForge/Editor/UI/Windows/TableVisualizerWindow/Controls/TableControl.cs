@@ -293,6 +293,23 @@ namespace TableForge.UI
             _orderedRowHeaders = RowHeaders.Values.OrderBy(x => x.CellAnchor.Position).ToList();
             _orderedDescRowHeaders = RowHeaders.Values.OrderByDescending(x => x.CellAnchor.Position).ToList();
         }
+        
+        public void SortColumn(Column column, bool ascending = true)
+        {
+            if (column == null || TableData.Columns[column.Position] != column || !Metadata.IsFieldVisible(column.Id))
+                return;
+            
+            List<Cell> cells = TableData.OrderedRows
+                .Select(row => row.Cells[column.Position])
+                .ToList();
+            
+            if (ascending) cells.Sort((x, y) => x.CompareTo(y));
+            else cells.Sort((x, y) => y.CompareTo(x));
+            
+            int[] positions = cells.Select(cell => cell.Row.Position).ToArray();
+            TableData.SetRowOrder(positions);
+            RebuildPage();
+        }
 
         #endregion
 
@@ -379,22 +396,9 @@ namespace TableForge.UI
             }
             else
             {
-                SortedList<int, Row> rowPositions = new SortedList<int, Row>();
-
                 foreach (var row in TableData.OrderedRows)
                 {
                     BuildColumn(row);
-
-                    //If the row position is not 0, it means it has been moved during other sessions
-                    int storedPosition = Metadata.GetAnchorPosition(row.Id);
-                    if (storedPosition != 0)
-                        rowPositions.Add(storedPosition, row);
-                }
-
-                // Move rows to their stored positions
-                foreach (var row in rowPositions)
-                {
-                    MoveRow(row.Value.Position, Mathf.Min(row.Key, TableData.Rows.Count), false);
                 }
 
                 UpdateAll();
@@ -415,8 +419,6 @@ namespace TableForge.UI
 
         private void BuildRows()
         {
-            SortedList<int, Row> rowPositions = new SortedList<int, Row>();
-
             if (!Transposed)
             {
                 var rows = TableData.OrderedRows;
@@ -426,19 +428,8 @@ namespace TableForge.UI
                 foreach (var row in rows)
                 {
                     BuildRow(row);
-
-                    //If the row position is not 0, it means it has been moved during other sessions
-                    int storedPosition = Metadata.GetAnchorPosition(row.Id);
-                    if (storedPosition != 0)
-                        rowPositions.Add(storedPosition, row);
                 }
-
-                // Move rows to their stored positions
-                foreach (var row in rowPositions)
-                {
-                    MoveRow(row.Value.Position, Mathf.Min(row.Key, TableData.Rows.Count), false);
-                }
-
+                
                 UpdateAll();
             }
             else
@@ -721,6 +712,5 @@ namespace TableForge.UI
         #endregion
 
         #endregion
-        
     }
 }

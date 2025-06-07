@@ -9,6 +9,8 @@ namespace TableForge
     /// </summary>
     internal abstract class CollectionCell : SubTableCell, ICollectionCell
     {
+        public int Count => Value is ICollection collection ? collection.Count : 0;
+
         protected CollectionCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
         }
@@ -16,7 +18,6 @@ namespace TableForge
         public abstract void AddItem(object item);
         public abstract void AddEmptyItem();
         public abstract void RemoveItem(int position);
-        
         public abstract ICollection GetItems();
 
         public override string Serialize()
@@ -38,6 +39,20 @@ namespace TableForge
             
             int index = 0;
             DeserializeSubTable(values.ToArray(), ref index);
+        }
+
+        public override int CompareTo(Cell other)
+        {
+            if (other is not CollectionCell collectionCell)
+            {
+                return 1; // This cell is greater than non-collection cells
+            }
+
+            // Compare the number of items in the collections
+            int thisCount = Count;
+            int otherCount = collectionCell.Count;
+
+            return thisCount.CompareTo(otherCount);
         }
 
         protected override void DeserializeModifyingSubTable(string[] values, ref int index)

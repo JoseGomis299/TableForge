@@ -32,6 +32,11 @@ namespace TableForge
         /// </summary>
         ICollection GetItems();
         
+        /// <summary>
+        /// The number of items in the collection.
+        /// </summary>
+        int Count { get; }
+        
         #endregion
     }
 }
