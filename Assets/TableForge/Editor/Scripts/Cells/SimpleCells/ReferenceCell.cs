@@ -59,9 +59,13 @@ namespace TableForge
 
             if (_object == null) return -1;
             if (referenceCell._object == null) return 1;
-            if (_object == referenceCell._object) return 0;
+            if (_object == referenceCell._object) return String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
             
-            return String.Compare(_object.name, referenceCell._object.name, StringComparison.Ordinal);
+            int comparison = String.Compare(_object.name, referenceCell._object.name, StringComparison.Ordinal);
+            if(comparison == 0)
+                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
+            
+            return comparison;
         }
     }
 }

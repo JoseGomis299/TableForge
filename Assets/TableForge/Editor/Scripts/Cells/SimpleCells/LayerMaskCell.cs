@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -50,7 +51,11 @@ namespace TableForge
             LayerMask otherMask = (LayerMask)other.GetValue();
             
             // Compare the value of the masks
-            return thisMask.value.CompareTo(otherMask.value);
+            int comparison = thisMask.value.CompareTo(otherMask.value);
+            if(comparison == 0)
+                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
+            
+            return comparison;
         }
     }
 }

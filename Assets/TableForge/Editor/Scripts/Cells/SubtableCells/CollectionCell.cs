@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -52,7 +53,11 @@ namespace TableForge
             int thisCount = Count;
             int otherCount = collectionCell.Count;
 
-            return thisCount.CompareTo(otherCount);
+            int comparison = thisCount.CompareTo(otherCount);
+            if(comparison == 0)
+                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
+            
+            return comparison;
         }
 
         protected override void DeserializeModifyingSubTable(string[] values, ref int index)

@@ -36,9 +36,14 @@ namespace TableForge
             Color thisColor = (Color)GetValue();
             Color otherColor = (Color)other.GetValue();
 
-            return thisColor.r.CompareTo(otherColor.r) != 0 ? thisColor.r.CompareTo(otherColor.r) :
+            int comparison = thisColor.r.CompareTo(otherColor.r) != 0 ? thisColor.r.CompareTo(otherColor.r) :
                    thisColor.g.CompareTo(otherColor.g) != 0 ? thisColor.g.CompareTo(otherColor.g) :
                    thisColor.b.CompareTo(otherColor.b);
+            
+            if(comparison == 0)
+                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
+            
+            return comparison;
         }
     }
 }

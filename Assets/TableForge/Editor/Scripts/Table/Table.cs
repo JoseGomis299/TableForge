@@ -252,7 +252,6 @@ namespace TableForge
             }
             _rowsDirty = true;
         }
-        
 
         #endregion
 

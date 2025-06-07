@@ -15,7 +15,7 @@ MonoBehaviour:
   expandedTables:
     values: 
   transposedTables:
-    values: 00000000
+    values: 
   hiddenFields:
     values: 
   itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -23,10 +23,8 @@ MonoBehaviour:
   itemGUIDs:
     values:
     - 069246b1274b2c44f9d8281be12d1d35
-    - 18aa2ea50937ca64ab519f13c0fd7fb3
-    - 04a176dbb68e25647ae50940f043c3ef
   cellAnchorMetadata:
-    m_Keys: 708712574d22dc503348d3e8d86498ed00000000430df8384adf54464ca1309cca059d9cc572dfb5
+    m_Keys: 708712574d22dc503348d3e8d86498ed00000000430df8384adf5446ca059d9cc572dfb5
     m_Values:
     - position: 4
       size: {x: 0, y: 24.666672}
@@ -42,8 +40,6 @@ MonoBehaviour:
       size: {x: 0, y: 24.666672}
     - position: 2
       size: {x: 0, y: 24.666656}
-    - position: 3
-      size: {x: 0, y: 24.666672}
     - position: 5
       size: {x: 0, y: 0}
     - position: 6

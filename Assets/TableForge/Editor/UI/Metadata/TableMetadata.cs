@@ -74,6 +74,16 @@ namespace TableForge.UI
         
         #region Getters
 
+        public bool HasGUID(string guid)
+        {
+            if (string.IsNullOrEmpty(guid)) return false;
+            if (IsTypeBound)
+            {
+                return AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guid))?.Name == bindingTypeName;
+            }
+            return itemGUIDs.Contains(guid);
+        }
+        
         public bool HasAnchorData()
         {
             return cellAnchorMetadata is { Count: > 0 };
@@ -189,7 +199,7 @@ namespace TableForge.UI
         {
             if (!cellAnchorMetadata.TryGetValue(anchorId, out var metadata))
             {
-                metadata = new CellAnchorMetadata();
+                metadata = new CellAnchorMetadata(anchorId);
                 cellAnchorMetadata.Add(anchorId, metadata);
             }
 
@@ -214,7 +224,7 @@ namespace TableForge.UI
         {
             if (!cellAnchorMetadata.TryGetValue(anchorId, out var metadata))
             {
-                metadata = new CellAnchorMetadata();
+                metadata = new CellAnchorMetadata(anchorId);
                 cellAnchorMetadata.Add(anchorId, metadata);
             }
 
@@ -237,6 +247,24 @@ namespace TableForge.UI
         #endregion
 
         #region Utility
+
+        public void UpdateRowsPosition()
+        {
+            SortedList<int, CellAnchorMetadata> sortedMetadata = new SortedList<int, CellAnchorMetadata>();
+
+            foreach (var guid in ItemGUIDs)
+            {
+                int rowId = HashCodeUtil.CombineHashes(guid);
+                if (!cellAnchorMetadata.TryGetValue(rowId, out var metadata)) continue;
+                sortedMetadata.Add(metadata.position, metadata);
+            }
+            
+            int newPosition = 1;
+            foreach (var metadata in sortedMetadata.Values)
+            {
+                metadata.position = newPosition++;
+            }
+        }
         
         public void RemoveAnchorMetadata(int anchorId)
         {
@@ -427,7 +455,7 @@ namespace TableForge.UI
             to.cellAnchorMetadata = new SerializedDictionary<int, CellAnchorMetadata>();
             foreach (var kvp in from.cellAnchorMetadata)
             {
-                to.cellAnchorMetadata.Add(kvp.Key, new CellAnchorMetadata
+                to.cellAnchorMetadata.Add(kvp.Key, new CellAnchorMetadata(kvp.Key)
                 {
                     position = kvp.Value.position,
                     size = kvp.Value.size
@@ -445,6 +473,12 @@ namespace TableForge.UI
     [Serializable]
     internal class CellAnchorMetadata
     {
+        public CellAnchorMetadata(int id)
+        {
+            this.id = id;
+        }
+        
+        public readonly int id;
         public int position;
         public Vector2 size;
     }

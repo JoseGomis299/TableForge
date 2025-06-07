@@ -306,9 +306,26 @@ namespace TableForge.UI
             if (ascending) cells.Sort((x, y) => x.CompareTo(y));
             else cells.Sort((x, y) => y.CompareTo(x));
             
-            int[] positions = cells.Select(cell => cell.Row.Position).ToArray();
-            TableData.SetRowOrder(positions);
-            RebuildPage();
+            int[] positions = new int[cells.Count];
+            int[] originalPositions = new int[cells.Count];
+            
+            bool positionChanged = false;
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].Row.Position != i + 1)
+                {
+                    positionChanged = true;
+                }
+                
+                positions[i] = cells[i].Row.Position;
+                originalPositions[cells[i].Row.Position - 1] = i + 1;
+            }
+            
+            if (!positionChanged)
+                return;
+
+            ReorderTableCommand command = new ReorderTableCommand(this, originalPositions, positions);
+            UndoRedoManager.Do(command);
         }
 
         #endregion

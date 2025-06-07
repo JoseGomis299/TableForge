@@ -144,7 +144,7 @@ namespace TableForge.UI
                 int[] rowPositions = new int[table.Rows.Count];
                 for (int i = 0; i < rowPositions.Length; i++)
                 {
-                    rowPositions[i] = metadata.GetAnchorPosition(table.Rows[i + 1].Id);
+                    rowPositions[metadata.GetAnchorPosition(table.Rows[i + 1].Id) - 1] = i + 1;
                 }
                 
                 table.SetRowOrder(rowPositions);

@@ -69,6 +69,7 @@ namespace TableForge.UI
             if(_tableControl == null || _toolbarController.SelectedTab == null) return;
             
             TableMetadata metadata = _toolbarController.SelectedTab;
+            metadata.UpdateRowsPosition();
             
             // If the number of items in the table has changed, we need to create a new table with the new items.
             if (metadata.IsTypeBound &&

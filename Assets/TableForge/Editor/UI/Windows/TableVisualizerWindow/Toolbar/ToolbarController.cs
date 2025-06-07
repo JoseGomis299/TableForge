@@ -227,9 +227,35 @@ namespace TableForge.UI
         private Table GetTable(TableMetadata tableMetadata)
         {
             if(tableMetadata == null) return null;
+            tableMetadata.UpdateRowsPosition();
             
             if (_cachedTables.TryGetValue(tableMetadata, out var table))
             {
+                bool rowsMatch = true;
+                var guids = tableMetadata.ItemGUIDs;
+                
+                if (guids.Count == table.Rows.Count && !tableMetadata.IsTypeBound)
+                {
+                    foreach (var row in table.Rows.Values)
+                    {
+                        if (!tableMetadata.HasGUID(row.SerializedObject.RootObjectGuid))
+                        {
+                            rowsMatch = false;
+                            break;
+                        }
+                    }
+                }
+                else if (guids.Count != table.Rows.Count)
+                {
+                    rowsMatch = false;
+                }
+                
+                if (!rowsMatch)
+                {
+                    table = TableMetadataManager.GetTable(tableMetadata);
+                    _cachedTables[tableMetadata] = table;
+                }
+                
                 return table;
             }
 

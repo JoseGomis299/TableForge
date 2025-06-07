@@ -10,8 +10,8 @@ namespace TableForge
         
         public static List<TFFieldInfo> GetFields(Type type)
         {
-            if (_fieldCache.ContainsKey(type))
-                return _fieldCache[type];
+            if (_fieldCache.TryGetValue(type, out var cachedFields))
+                return cachedFields;
             
             IFieldSerializationStrategy strategy = GetStrategy(type);
             List<TFFieldInfo> fields = strategy.GetFields(type);

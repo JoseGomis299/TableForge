@@ -78,7 +78,7 @@ namespace TableForge.UI
             return false;
         }
 
-        public static bool DeleteAssets(IEnumerable<string> guid, Action onBeforeDelete = null, Action onBeforeDeleteEach = null)
+        public static bool DeleteAssets(IEnumerable<string> guid, Action onBeforeDelete = null)
         {
             bool confirmed = EditorUtility.DisplayDialog(
                 "Confirm Action",
@@ -90,16 +90,17 @@ namespace TableForge.UI
             if (confirmed)
             {
                 onBeforeDelete?.Invoke();
+                List<string> paths = new List<string>();
                 foreach (var g in guid)
                 {
                     string path = AssetDatabase.GUIDToAssetPath(g);
                     if (string.IsNullOrEmpty(path))
                         continue;
 
-                    onBeforeDeleteEach?.Invoke();
-                    AssetDatabase.DeleteAsset(path);
+                    paths.Add(path);
                 }
                 
+                AssetDatabase.DeleteAssets(paths.ToArray(), new List<string>());
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 UndoRedoManager.Clear();
