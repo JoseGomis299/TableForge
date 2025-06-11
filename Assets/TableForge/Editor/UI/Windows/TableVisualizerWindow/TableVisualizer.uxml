@@ -9,6 +9,11 @@
                 <engine:VisualElement name="table-tools" style="flex-grow: 0; height: 100%; width: 200px; align-items: center; justify-content: center; align-self: center; align-content: center;">
                     <engine:Button text="Transpose table" name="transpose-button" style="width: 150px; height: 25px;" />
                 </engine:VisualElement>
+                <engine:VisualElement style="flex-grow: 1;" />
+                <engine:VisualElement name="filter-container" style="flex-grow: initial; align-self: flex-end; margin-bottom: 10px; margin-right: 10px; flex-direction: row;">
+                    <engine:Label text="Row filter:" name="filter-label" style="align-self: center;" />
+                    <editor:ToolbarSearchField name="filter" />
+                </engine:VisualElement>
             </engine:ScrollView>
             <engine:VisualElement name="tab-section" class="toolbar__tab-container">
                 <engine:Button text="+" name="add-tab-button" class="toolbar__add-tab-button" />

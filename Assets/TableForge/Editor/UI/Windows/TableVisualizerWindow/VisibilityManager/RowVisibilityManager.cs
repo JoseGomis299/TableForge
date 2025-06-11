@@ -38,7 +38,7 @@ namespace TableForge.UI
             
             foreach (var rowHeader in TableControl.OrderedRowHeaders)
             {
-                if (rowHeader.IsVisible || IsHeaderVisible(rowHeader))
+                if (TableControl.Filterer.IsVisible(rowHeader.CellAnchor.GetRootAnchor().Id) && (rowHeader.IsVisible || IsHeaderVisible(rowHeader)))
                 {
                     MakeHeaderVisible(rowHeader, insertAtTop: false);
                 }
@@ -60,6 +60,8 @@ namespace TableForge.UI
                 bool firstVisibleFound = false;
                 foreach (var header in VisibleHeaders)
                 {
+                    if(!TableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id)) continue;
+                    
                     if (!firstVisibleFound)
                     {
                         bool wasVisible = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
@@ -85,6 +87,8 @@ namespace TableForge.UI
                 for (int i = VisibleHeaders.Count - 1; i >= 0; i--)
                 {
                     var header = VisibleHeaders[i];
+                    if(!TableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id)) continue;
+
                     if (!lastVisibleFound)
                     {
                         bool wasVisible = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);

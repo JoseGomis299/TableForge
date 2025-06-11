@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d13b5613c9a2dd0469a2e03a11c76b2f, type: 3}
-  m_Name: Test1
+  m_Name: bbb
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
@@ -42,20 +42,20 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11400000, guid: 3e7c80d8d4c9aa441a4c25aa1622f641, type: 2}
+  reference: {fileID: 0}
   B: 0
   charValue: 0
-  intField: 0
+  intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 123
   inheritorClass:
     number: 343
     text: 156
@@ -86,11 +86,11 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 343
+    inheritorNumber: 12
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0
-    text: 
+    text: 0
     animationCurve:
       serializedVersion: 2
       m_Curve: []
@@ -104,14 +104,24 @@ MonoBehaviour:
     rid: -2
   inheritorClassAsInnerClass2:
     rid: -2
-  innerClasses: []
-  intArray: 0100000002000000
+  innerClasses:
+  - number: 0
+    text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  intArray: 0100000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 2
+  testEnum: 0
   vector3Array:
-  - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
@@ -156,7 +166,7 @@ MonoBehaviour:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   byteValue: 0
-  shortValue: 0
+  shortValue: 23
   sbyteValue: 0
   layerMask:
     serializedVersion: 2

@@ -55,7 +55,7 @@ namespace TableForge.UI
             else
             {
                 TableSize tableSize = tableControl.PreferredSize;
-                size = tableSize.GetTotalSize(true);
+                size = tableSize.GetTotalSize(true, tableControl.Filterer.HiddenRows);
                 size.y = Mathf.Max(size.y, CalculateToolbarSize(tableControl.TableData).y);
                 size.y += UiConstants.CellContentPadding + UiConstants.BorderWidth * 5;
 

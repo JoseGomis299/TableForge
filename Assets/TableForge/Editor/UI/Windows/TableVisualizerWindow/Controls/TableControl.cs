@@ -53,6 +53,7 @@ namespace TableForge.UI
         public ScrollView ScrollView { get; }
         public TableAttributes TableAttributes { get; private set; }
         public TableResizer Resizer { get; }
+        public Filterer Filterer { get; }
         public BorderResizer HorizontalResizer => Resizer.HorizontalResizer;
         public BorderResizer VerticalResizer => Resizer.VerticalResizer;
         public ICellSelector CellSelector { get; }
@@ -81,6 +82,7 @@ namespace TableForge.UI
             // Initialize main components
             ScrollView = CreateScrollView();
             Resizer = new TableResizer(this);
+            Filterer = parent != null ? parent.TableControl.Filterer : new Filterer(this);
             ColumnVisibilityManager = new ColumnVisibilityManager(this);
             RowVisibilityManager = new RowVisibilityManager(this);
             CellSelector = parent != null ? parent.TableControl.CellSelector : new CellSelector(this);
@@ -698,7 +700,7 @@ namespace TableForge.UI
         
         private void OnTableResize(Vector2 sizeDelta)
         {
-            Vector2 size = PreferredSize.GetTotalSize(true);
+            Vector2 size = PreferredSize.GetTotalSize(true, Filterer.HiddenRows);
 
             Vector2 delta = new Vector2(size.x - _scrollViewWidth, size.y - _scrollViewHeight);
             _scrollViewWidth = size.x;

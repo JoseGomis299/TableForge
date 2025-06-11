@@ -21,8 +21,8 @@ namespace TableForge.UI
             _tableMetadata = tableMetadata;
             _tableAttributes = tableAttributes;
         }
-
-        public Vector2 GetTotalSize(bool useStoredValues)
+        
+        public Vector2 GetTotalSize(bool useStoredValues, HashSet<int> headersToIgnore = null)
         {
             bool transposed = !_table.IsSubTable && _tableMetadata.IsTransposed;
             float width = 0, height = 0;
@@ -30,6 +30,8 @@ namespace TableForge.UI
             foreach (var row in _rowPreferredSizes)
             {
                 if (_tableAttributes.ColumnHeaderVisibility == TableHeaderVisibility.Hidden && row.Key == 0) 
+                    continue;
+                if (headersToIgnore != null && headersToIgnore.Contains(row.Key))
                     continue;
 
                 int rowId = row.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : row.Key;
@@ -48,6 +50,8 @@ namespace TableForge.UI
             foreach (var column in _columnPreferredSizes)
             {
                 if (_tableAttributes.RowHeaderVisibility == TableHeaderVisibility.Hidden && column.Key == 0)
+                    continue;
+                if (headersToIgnore != null && headersToIgnore.Contains(column.Key))
                     continue;
                 
                 int columnId = column.Key == 0 && _table.IsSubTable ? _table.ParentCell.Id : column.Key;

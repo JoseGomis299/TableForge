@@ -139,7 +139,7 @@ namespace TableForge.UI
         
         public bool IsHeaderVisible(THeader header)
         {
-            return LockedVisibleHeaders.ContainsKey(header) || IsHeaderInBounds(header, true);
+            return TableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id) && (LockedVisibleHeaders.ContainsKey(header) || IsHeaderInBounds(header, true));
         }
 
         /// <summary>

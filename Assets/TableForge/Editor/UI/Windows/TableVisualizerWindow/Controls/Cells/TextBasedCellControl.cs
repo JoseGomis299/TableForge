@@ -50,7 +50,15 @@ namespace TableForge.UI
         public void SetValue(string value, bool focus)
         {
             if (_textField == null) return;
-            _textField.value = (T)Convert.ChangeType(value, typeof(T));
+            
+            try
+            {
+                _textField.value = (T)Convert.ChangeType(value, typeof(T));
+            }
+            catch (Exception)
+            {
+                return;
+            }
             
             if(focus)
             {

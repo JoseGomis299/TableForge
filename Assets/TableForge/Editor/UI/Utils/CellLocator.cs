@@ -134,8 +134,14 @@ namespace TableForge.UI
             
             foreach (var row in rows)
             {
+                if(!rootTableControl.Filterer.IsVisible(row.GetRootAnchor().Id))
+                    continue;
+                
                 for (int i = startingColumnPosition; i <= endingColumnPosition; i++)
                 {
+                    if(!rootTableControl.Metadata.IsFieldVisible(row.Table.Columns[i].GetRootAnchor().Id))
+                        continue;
+                    
                     result.Add(row.Cells[i]);
 
                     if (row.Cells[i] is SubTableCell subTableCell)
@@ -207,25 +213,43 @@ namespace TableForge.UI
         public static IReadOnlyList<Cell> GetCellsAtRow(TableControl tableControl, int rowId)
         {
             CellAnchor anchor = tableControl.RowData[rowId];
-            if(anchor is Row row)
-                return row.OrderedCells;
+            if (anchor is Row row)
+            {
+                List<Cell> cells = new List<Cell>();
+                foreach (var cell in row.OrderedCells)
+                {
+                    if(!tableControl.Metadata.IsFieldVisible(cell.Column.GetRootAnchor().Id)) continue;
+                    cells.Add(cell);
+                }
+
+                return cells;
+            }
             
-            return GetCellsAtColumn(anchor);
+            return GetCellsAtColumn(tableControl, anchor);
         }
         
         public static IReadOnlyList<Cell> GetCellsAtColumn(TableControl tableControl, int columnId)
         {
             CellAnchor anchor = tableControl.ColumnData[columnId];
-            if(anchor is Row row)
-                return row.OrderedCells;
+            if (anchor is Row row)
+            {
+                List<Cell> cells = new List<Cell>();
+                foreach (var cell in row.OrderedCells)
+                {
+                    if(!tableControl.Metadata.IsFieldVisible(cell.Column.GetRootAnchor().Id)) continue;
+                    cells.Add(cell);
+                }
+
+                return cells;
+            }
             
-            return GetCellsAtColumn(anchor);
+            return GetCellsAtColumn(tableControl, anchor);
         }
 
-        private static List<Cell> GetCellsAtColumn(CellAnchor column)
+        private static List<Cell> GetCellsAtColumn(TableControl tableControl, CellAnchor column)
         {
             int columnPosition = column.Position;
-            return column.Table.OrderedRows.Select(r => r.Cells[columnPosition]).ToList();
+            return column.Table.OrderedRows.Where(r => tableControl.Filterer.IsVisible(r.GetRootAnchor().Id)).Select(r => r.Cells[columnPosition]).ToList();
         }
 
         public static (RowHeaderControl row, ColumnHeaderControl column) GetHeadersAtPosition(TableControl tableControl, Vector3 position)

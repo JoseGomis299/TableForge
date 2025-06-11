@@ -13,7 +13,9 @@ namespace TableForge
         #region Fields
 
         private readonly Dictionary<int, Row> _rows = new Dictionary<int, Row>();
+        private readonly Dictionary<string, Row> _rowsByName = new Dictionary<string, Row>();
         private readonly Dictionary<int, Column> _columns = new Dictionary<int, Column>();
+        private readonly Dictionary<string, Column> _columnsByName = new Dictionary<string, Column>();
 
         private bool _rowsDirty = true;
         private bool _columnsDirty = true;
@@ -38,6 +40,16 @@ namespace TableForge
         /// Gets read-only access to the table's columns by their numeric position.
         /// </summary>
         public IReadOnlyDictionary<int, Column> Columns => _columns;
+        
+        /// <summary>
+        ///  Gets read-only access to the table's rows by their names.
+        /// </summary>
+        public IReadOnlyDictionary<string, Row> RowsByName => _rowsByName;
+        
+        /// <summary>
+        ///  Gets read-only access to the table's columns by their names.
+        /// </summary>
+        public IReadOnlyDictionary<string, Column> ColumnsByName => _columnsByName;
         
         /// <summary>
         /// Gets the rows of the table in order of their position.
@@ -109,7 +121,9 @@ namespace TableForge
         {
             if (!_rows.TryAdd(row.Position, row))
                 throw new ArgumentException("Row already exists in table");
-            
+
+
+            _rowsByName.TryAdd(row.Name, row);
             _rowsDirty = true;
         }
         
@@ -122,7 +136,8 @@ namespace TableForge
         {
             if (!_columns.TryAdd(column.Position, column))
                 throw new ArgumentException("Column already exists in table");
-            
+
+            _columnsByName.TryAdd(column.Name, column);
             _columnsDirty = true;
         }
         
@@ -157,6 +172,7 @@ namespace TableForge
                 _rows.Remove(_rows.Count);
             }
             
+            _rowsByName.Remove(row.Name);
             _rowsDirty = true;
         }
         
@@ -199,16 +215,33 @@ namespace TableForge
 
         /// <summary>
         /// Retrieves a cell from the table using spreadsheet-style position notation.
+        /// For nested tables, the position can be in the format "A1.B2".
         /// </summary>
-        /// <param name="position">Cell position in A1 notation (e.g., "B3")</param>
+        /// <param name="position">Cell position in A1 notation (e.g., "B3" or "B3.A1" for nested cells)</param>
         /// <returns>Requested cell or null if not found</returns>
         /// <exception cref="ArgumentException">Thrown for invalid position format</exception>
         public Cell GetCell(string position)
         {
-            var (columnKey, rowKey) = PositionUtil.GetPosition(position);
-            return Rows.TryGetValue(rowKey, out Row row) 
-                ? row.Cells.GetValueOrDefault(columnKey) 
-                : null;
+            if (string.IsNullOrEmpty(position))
+                return null;
+
+            Table table = this;
+            while (position.Contains("."))
+            {
+                int dotIndex = position.IndexOf('.');
+                string cellPos = position.Substring(0, dotIndex);
+                position = position.Substring(dotIndex + 1);
+
+                var (col, row) = PositionUtil.GetPosition(cellPos);
+                Cell cell = table.GetCell(col, row);
+                if (cell is SubTableCell subTableCell)
+                    table = subTableCell.SubTable;
+                else
+                    return null;
+            }
+
+            var (colPos, rowPos) = PositionUtil.GetPosition(position);
+            return table.GetCell(colPos, rowPos);
         }
         
         /// <summary>

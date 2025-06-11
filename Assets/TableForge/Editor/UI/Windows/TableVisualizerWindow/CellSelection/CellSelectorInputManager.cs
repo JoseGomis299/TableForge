@@ -92,6 +92,9 @@ namespace TableForge.UI
             }
             else if (evt.keyCode is KeyCode.Backspace or KeyCode.Escape)
             {
+                if(_selector.FocusedCell == null)
+                    return;
+                
                 ProcessBackspaceOrEscape(evt);
             }
             else if (_selector.FocusedCell != null && evt.character is >= '!' and <= '~')
@@ -323,11 +326,14 @@ namespace TableForge.UI
                 direction = new Vector2(-direction.y, -direction.x);
             }
 
+
             Cell contiguousCell = firstCell;
             do
             {
                 contiguousCell = CellLocator.GetContiguousCell(contiguousCell, direction, minBounds, maxBounds);
-            } while (!_tableControl.Metadata.IsFieldVisible(contiguousCell.Column.Id));
+            } while ((!_tableControl.Metadata.IsFieldVisible(contiguousCell.Column.Id) 
+                     || !_tableControl.Filterer.IsVisible(contiguousCell.Row.GetRootAnchor().Id))
+                     && contiguousCell != firstCell);
 
             return contiguousCell;
         }

@@ -69,7 +69,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 0}
   B: 0
-  charValue: 0
+  charValue: 101
   intField: 190
   floatField: 0
   <PublicLongProperty>k__BackingField: 190

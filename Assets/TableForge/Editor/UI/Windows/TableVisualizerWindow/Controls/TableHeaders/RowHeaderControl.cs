@@ -43,6 +43,18 @@ namespace TableForge.UI
         protected override void OnEnable(CellAnchor cellAnchor, TableControl tableControl)
         {
             base.OnEnable(cellAnchor, tableControl);
+            RowControl = _rowControlPool.Get();
+            if (!tableControl.Filterer.IsVisible(CellAnchor.GetRootAnchor().Id))
+            {
+                style.display = DisplayStyle.None;
+                if(RowControl != null)
+                    RowControl.style.display = DisplayStyle.None;
+                return;
+            }
+            
+            style.display = DisplayStyle.Flex;
+            RowControl.style.display = DisplayStyle.Flex;
+            
             if(tableControl.Parent != null)
             {
                 AddToClassList(USSClasses.SubTableHeaderCellVertical);
@@ -60,7 +72,6 @@ namespace TableForge.UI
             TableControl.VerticalResizer.HandleResize(this);
             TableControl.HeaderSwapper.HandleSwapping(this);
             
-            RowControl = _rowControlPool.Get();
             RowControl.Initialize(cellAnchor, tableControl);
         }
 
@@ -89,6 +100,8 @@ namespace TableForge.UI
 
         public void Refresh()
         {
+            if(!TableControl.Filterer.IsVisible(CellAnchor.GetRootAnchor().Id)) return;
+            
             RowControl.Refresh();
             RefreshName();
         }

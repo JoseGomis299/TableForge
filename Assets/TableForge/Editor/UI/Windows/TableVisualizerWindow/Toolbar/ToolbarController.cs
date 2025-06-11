@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,6 +18,7 @@ namespace TableForge.UI
         private Button _transposeTableButton;
         private VisualElement _tabContainer;
         private MultiSelectDropdown _visibleColumnsDropdown;
+        private ToolbarSearchField _filter;
         
         private TableMetadata _selectedTab;
         private readonly Dictionary<TableMetadata, TabControl> _tabControls = new();
@@ -63,6 +65,7 @@ namespace TableForge.UI
             _addTabButton = _toolbar.Q<Button>("add-tab-button");
             _transposeTableButton = _toolbar.Q<Button>("transpose-button");
             _tabContainer = _toolbar.Q<VisualElement>("tab-container");
+            _filter = _toolbar.Q<ToolbarSearchField>("filter");
         }
 
         private void RegisterEvents()
@@ -94,6 +97,22 @@ namespace TableForge.UI
                 
                 _tableVisualizer.CurrentTable.RebuildPage(false);
             };
+            
+            _filter.RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.keyCode == KeyCode.Return) 
+                {
+                    _tableVisualizer.CurrentTable.Filterer.Filter(_filter.value); 
+                }
+            }, TrickleDown.TrickleDown);
+            
+            _filter.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue == null || evt.newValue.Trim().Length == 0)
+                {
+                    _tableVisualizer.CurrentTable.Filterer.Filter(string.Empty);
+                }
+            });
         }
 
         public void OpenTab(TableMetadata table)

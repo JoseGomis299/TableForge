@@ -96,13 +96,22 @@ namespace TableForge.UI
             {
                 foreach (var row in tableControl.TableData.OrderedRows)
                 {
-                    outputArgs.CellsAtPosition.AddRange(row.OrderedCells);
+                    if(!TableControl.Filterer.IsVisible(row.GetRootAnchor().Id)) continue;
+
+                    foreach (var rowCell in row.OrderedCells)
+                    {
+                        if(!TableControl.Metadata.IsFieldVisible(rowCell.Column.GetRootAnchor().Id)) continue;
+                        outputArgs.CellsAtPosition.Add(rowCell);
+                    }
+                    
                     outputArgs.SelectedAnchors.Add(row);
                     _selectedAnchors.Add(row);
                 }
                 
                 foreach (var column in tableControl.TableData.OrderedColumns)
                 {
+                    if(!TableControl.Metadata.IsFieldVisible(column.GetRootAnchor().Id)) continue;
+                    
                     outputArgs.SelectedAnchors.Add(column);
                     _selectedAnchors.Add(column);
                 }
@@ -127,6 +136,8 @@ namespace TableForge.UI
             //If clicking on a row header, select all cells in that row.
             if (headers.column == null)
             {
+                if(!TableControl.Filterer.IsVisible(headers.row.CellAnchor.GetRootAnchor().Id)) return;
+                
                 outputArgs.CellsAtPosition.AddRange(CellLocator.GetCellsAtRow(tableControl, headers.row.Id));
                 outputArgs.SelectedAnchors.Add(headers.row.CellAnchor);
                 _selectedAnchors.Add(headers.row.CellAnchor);
