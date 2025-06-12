@@ -28,7 +28,7 @@ namespace TableForge.UI
             TableMetadata.Copy(originalMetadata, _oldTableMetadata);
 
             Table table = TableMetadataManager.GetTable(originalMetadata);
-            _tableControl.Visualizer.ToolbarController.UpdateTableCache(originalMetadata, table);
+            _tableControl.Visualizer?.ToolbarController.UpdateTableCache(originalMetadata, table);
             _tableControl.SetTable(table);
         }
     }

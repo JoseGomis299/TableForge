@@ -256,7 +256,7 @@ namespace TableForge.UI
                 }
             }
             
-            Visualizer.ToolbarController.UpdateTableCache(Metadata, TableData);
+            Visualizer?.ToolbarController.UpdateTableCache(Metadata, TableData);
         }
 
         public void Transpose()

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Test1
   m_EditorClassIdentifier: 
   expandedTables:
-    values: eee5260bfc9f86fa758967175a8b4aaf9c545a0e22d1765e48bebd544530b554c984e7c17c2cfbbc89530e504c566f79f557b13912cb1ab3
+    values: eee5260bfc9f86fa758967175a8b4aaf9c545a0e22d1765e48bebd544530b554c984e7c17c2cfbbc89530e504c566f79f557b13912cb1ab31d4b33bf5ed4c945
   transposedTables:
     values: 
   hiddenFields:
@@ -47,9 +47,9 @@ MonoBehaviour:
     - position: 10
       size: {x: 0, y: 0}
     - position: 11
-      size: {x: 115, y: 0}
+      size: {x: 539.3334, y: 0}
     - position: 12
-      size: {x: 0, y: 0}
+      size: {x: 342, y: 0}
     - position: 13
       size: {x: 0, y: 0}
     - position: 14
@@ -115,7 +115,7 @@ MonoBehaviour:
     - position: 405
       size: {x: 0, y: 0}
     - position: 416
-      size: {x: 0, y: 25.333313}
+      size: {x: 0, y: 50}
     - position: 427
       size: {x: 0, y: 0}
     - position: 438

@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
@@ -109,7 +111,7 @@ namespace TableForge.UI
 
         private Func<Row, bool> CreatePropertyFilter(string condition)
         {
-            var match = Regex.Match(condition, @"([\w\$\. ]+)\s*(==?|!=|>=|<=|>|<|~=|!~|=~|~!)\s*(.+)");
+            var match = Regex.Match(condition, @"([\w\$\. \[\]]+)\s*(==?|!=|>=|<=|>|<|~=|!~|=~|~!)\s*(.+)");
             if (!match.Success) 
                 return row => true;
 
@@ -121,8 +123,8 @@ namespace TableForge.UI
             {
                 try
                 {
-                    var leftVal = GetCellValue(row, left) ?? left; 
-                    var rightVal = GetCellValue(row, right) ?? right; 
+                    var leftVal = GetCellValue(row, left) ?? GetListValue(left); 
+                    var rightVal = GetCellValue(row, right) ?? GetListValue(right); 
 
                     return Compare(leftVal, op, rightVal);
                 }
@@ -131,6 +133,34 @@ namespace TableForge.UI
                     return false;
                 }
             };
+        }
+        
+        private object GetListValue(string stringList)
+        {
+            if (string.IsNullOrEmpty(stringList) || (!stringList.StartsWith('[') && !stringList.EndsWith(']'))) 
+                return stringList;
+            
+            stringList = stringList.Trim('[', ']');
+
+            var values = new List<object>();
+            var items = stringList.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in items)
+            {
+                var trimmedItem = item.Trim();
+                if (trimmedItem.StartsWith("\"") && trimmedItem.EndsWith("\"") || 
+                    trimmedItem.StartsWith("'") && trimmedItem.EndsWith("'"))
+                {
+                    values.Add(trimmedItem.Substring(1, trimmedItem.Length - 2));
+                }
+                else
+                {
+                    if (TryParseNumber(trimmedItem, out double number))
+                        values.Add(number);
+                    else
+                        values.Add(GetListValue(trimmedItem));
+                }
+            }
+            return values;
         }
 
         private object GetCellValue(Row row, string columnRef)
@@ -219,8 +249,19 @@ namespace TableForge.UI
                 return false;
             
             // List comparison
-            if (left is IList<object> leftList && right is IList<object> rightList)
+            if (left is IList lList && right is IList rList)
             {
+                var leftList = new List<string>();
+                foreach (var item in lList)
+                {
+                    leftList.Add(item.ToString());
+                }
+                var rightList = new List<string>();
+                foreach (var item in rList)
+                {
+                    rightList.Add(item.ToString());
+                }
+                
                 return op switch
                 {
                     "=" or "==" => leftList.SequenceEqual(rightList),
@@ -229,30 +270,70 @@ namespace TableForge.UI
                     "<" => leftList.Count < rightList.Count,
                     ">=" => leftList.Count >= rightList.Count,
                     "<=" => leftList.Count <= rightList.Count,
-                    "~=" or "=~" => rightList.All(item => leftList.Contains(item)),
-                    "!~" or "~!" => rightList.Any(item => !leftList.Contains(item)),
+                    "~=" or "=~" => rightList.All(rItem => leftList.Any(lItem => lItem == rItem)),
+                    "!~" or "~!" => rightList.Any(rItem => leftList.All(lItem => lItem != rItem)),
                     _ => false
                 };
             }
-            if (left is IList<object> leftValues)
+            if (left is IList lv)
             {
+                var leftValues = new List<string>();
+                foreach (var item in lv)
+                {
+                    leftValues.Add(item.ToString());
+                }
+                
+                if (TryParseNumber(right, out double rightNumber))
+                {
+                    return op switch
+                    {
+                        "~=" or "=~" => leftValues.Any(item => item == right.ToString()),
+                        "!~" or "~!" => leftValues.All(item => item != right.ToString()),
+                        "=" or "==" => Math.Abs(rightNumber - leftValues.Count) < double.Epsilon,
+                        "!=" => Math.Abs(rightNumber - leftValues.Count) > double.Epsilon,
+                        ">" => rightNumber < leftValues.Count,
+                        "<" => rightNumber > leftValues.Count,
+                        ">=" => rightNumber <= leftValues.Count,
+                        "<=" => rightNumber >= leftValues.Count,
+                        _ => false
+                    };
+                }
+
                 return op switch
                 {
                     "~=" or "=~" => leftValues.Contains(right),
                     "!~" or "~!" => !leftValues.Contains(right),
-                    "=" or "==" => leftValues.Count == 1 && leftValues[0].Equals(right),
-                    "!=" => leftValues.Count != 1 || !leftValues[0].Equals(right),
                     _ => false
                 };
             }
-            if (right is IList<object> rightValues)
+            if (right is IList rv)
             {
+                var rightValues = new List<string>();
+                foreach (var item in rv)
+                {
+                    rightValues.Add(item.ToString());
+                }
+                
+                if(TryParseNumber(left, out double leftNumber))
+                {
+                    return op switch
+                    {
+                        "~=" or "=~" => rightValues.Any(item => item == left.ToString()),
+                        "!~" or "~!" => rightValues.All(item => item != left.ToString()),
+                        "=" or "==" => Math.Abs(leftNumber - rightValues.Count) < double.Epsilon,
+                        "!=" => Math.Abs(leftNumber - rightValues.Count) > double.Epsilon,
+                        ">" => leftNumber > rightValues.Count,
+                        "<" => leftNumber < rightValues.Count,
+                        ">=" => leftNumber >= rightValues.Count,
+                        "<=" => leftNumber <= rightValues.Count,
+                        _ => false
+                    };
+                }
+                
                 return op switch
                 {
                     "~=" or "=~" => rightValues.Contains(left),
                     "!~" or "~!" => !rightValues.Contains(left),
-                    "=" or "==" => rightValues.Count == 1 && rightValues[0].Equals(left),
-                    "!=" => rightValues.Count != 1 || !rightValues[0].Equals(left),
                     _ => false
                 };
             }
@@ -264,12 +345,28 @@ namespace TableForge.UI
                 {
                     "=" or "==" => Math.Abs(leftNum - rightNum) < double.Epsilon,
                     "!=" => Math.Abs(leftNum - rightNum) > double.Epsilon,
+                    "~=" or "=~" => leftNum.ToString(CultureInfo.InvariantCulture).Contains(rightNum.ToString(CultureInfo.InvariantCulture)),
+                    "!~" or "~!" => !leftNum.ToString(CultureInfo.InvariantCulture).Contains(rightNum.ToString(CultureInfo.InvariantCulture)),
                     ">" => leftNum > rightNum,
                     "<" => leftNum < rightNum,
                     ">=" => leftNum >= rightNum,
                     "<=" => leftNum <= rightNum,
                     _ => false
                 };
+            }
+            
+            // Handle enum comparisons
+            if (left is Enum leftEnum && right is string rightString)
+            {
+                try
+                {
+                    var rightEnum = Enum.Parse(leftEnum.GetType(), rightString, true);
+                    return leftEnum.Equals(rightEnum);
+                }
+                catch
+                {
+                    // Fall back to string comparison
+                }
             }
 
             // String comparison
@@ -282,6 +379,10 @@ namespace TableForge.UI
                 "!=" => !leftStr.Equals(rightStr, StringComparison.OrdinalIgnoreCase),
                 "~=" or "=~" => leftStr.Contains(rightStr),
                 "!~" or "~!" => !leftStr.Contains(rightStr),
+                ">" => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) > 0,
+                "<" => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) < 0,
+                ">=" => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) >= 0,
+                "<=" => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) <= 0,
                 _ => false
             };
         }
@@ -292,6 +393,7 @@ namespace TableForge.UI
             if (value == null) 
                 return false;
 
+            if (value is string s) value = s.Replace('.', ',');
             return double.TryParse(value.ToString(), out result);
         }
 

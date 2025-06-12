@@ -99,6 +99,10 @@ namespace TableForge.Tests
         public long longField;
         public ulong ulongField;
         public uint uintField;
+        public short shortField;
+        public ushort ushortField;
+        public byte byteField;
+        public sbyte sbyteField;
     }
 
     internal class UnityObjectScriptableObject : ScriptableObject

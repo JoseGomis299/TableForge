@@ -162,7 +162,7 @@ namespace TableForge.Tests
             // Check that the cell types for the first row are correct
             var firstRow = table.Rows[1];
             Assert.AreEqual(typeof(FloatCell), firstRow.Cells[1].GetType());
-            Assert.AreEqual(typeof(FloatCell), firstRow.Cells[2].GetType());
+            Assert.AreEqual(typeof(DoubleCell), firstRow.Cells[2].GetType());
 
             // Cleanup
             AssetDatabase.DeleteAsset(path);
@@ -217,9 +217,13 @@ namespace TableForge.Tests
             // Check that the cell types for the first row are correct
             var firstRow = table.Rows[1];
             Assert.AreEqual(typeof(IntCell), firstRow.Cells[1].GetType());
-            Assert.AreEqual(typeof(IntCell), firstRow.Cells[2].GetType());
-            Assert.AreEqual(typeof(IntCell), firstRow.Cells[3].GetType());
-            Assert.AreEqual(typeof(IntCell), firstRow.Cells[4].GetType());
+            Assert.AreEqual(typeof(LongCell), firstRow.Cells[2].GetType());
+            Assert.AreEqual(typeof(ULongCell), firstRow.Cells[3].GetType());
+            Assert.AreEqual(typeof(UIntCell), firstRow.Cells[4].GetType());
+            Assert.AreEqual(typeof(ShortCell), firstRow.Cells[5].GetType());
+            Assert.AreEqual(typeof(UShortCell), firstRow.Cells[6].GetType());
+            Assert.AreEqual(typeof(ByteCell), firstRow.Cells[7].GetType());
+            Assert.AreEqual(typeof(SByteCell), firstRow.Cells[8].GetType());
 
             // Cleanup
             AssetDatabase.DeleteAsset(path);

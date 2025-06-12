@@ -18,7 +18,7 @@ namespace TableForge.UI
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
         [MenuItem("TableForge/TableVisualizer")]
-        public static void ShowExample() => GetWindow<TableVisualizer>("TableVisualizer");
+        public static void Initialize() => GetWindow<TableVisualizer>("TableVisualizer");
         
         public void CreateGUI()
         {

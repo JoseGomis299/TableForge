@@ -17,9 +17,9 @@ namespace TableForge.UI
             return LoadMetadata(tableName) ?? CreateMetadata(table, tableName);
         }
         
-        public static TableMetadata CreateMetadata(IEnumerable<string> itemGUIDs, string tableName)
+        public static TableMetadata CreateMetadata(IEnumerable<string> itemGUIDs, string tableName, string basePath = null)
         {
-            string path = GetDataPath();
+            string path = basePath ?? GetDataPath();
             if (string.IsNullOrEmpty(path))
             {
                 return null;
