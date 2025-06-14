@@ -25,7 +25,13 @@ namespace TableForge.UI
         protected override void OnEnable(CellAnchor cellAnchor, TableControl tableControl)
         {
             base.OnEnable(cellAnchor, tableControl);
+            if (!tableControl.Filterer.IsVisible(CellAnchor.GetRootAnchor().Id))
+            {
+                style.display = DisplayStyle.None;
+                return;
+            }
             
+            style.display = DisplayStyle.Flex;
             string title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.ColumnHeaderVisibility);
             _headerLabel.text = title;
             _headerLabel.AddToClassList(USSClasses.TableHeaderText);

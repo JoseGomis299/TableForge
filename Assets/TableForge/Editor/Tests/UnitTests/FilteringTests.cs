@@ -34,6 +34,7 @@ namespace TableForge.Tests
             for (int i = 0; i < rowCount; i++)
             {
                 FilteringTestData data = ScriptableObject.CreateInstance<FilteringTestData>();
+                _createdData.Add(data);
                 
                 data.stringValue = i % 2 == 0 ? $"My Row {i}" : $"Item {i}";
                 data.intValue = i;

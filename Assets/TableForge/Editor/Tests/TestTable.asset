@@ -23,11 +23,39 @@ MonoBehaviour:
   bindingTypeName: 
   itemGUIDs:
     values:
-    - d2ffc1a02ad61034089c3d40e6121c52
-    - c643ef969745f6246b799dacd0e41805
-    - ab19e86ba2b354f4e8ec9c2c0ad991a9
-    - 61cc82ff73c7bd940a4fa7bbad452f16
-    - 9e46461568c41e445bfc9346b99f6500
+    - d9657ea5baf0551419fee258439510b3
+    - 20e75e63ab1fd1a43ae45f12ec9ed7d6
+    - b239f2321239f8243a43409061166da4
+    - 76622f1217c6fbb418a91586b77ca97a
+    - 1971c45505510bb428934d847a1fd731
   cellAnchorMetadata:
-    m_Keys: 
-    m_Values: []
+    m_Keys: 15b672aa52f5b118c5c76bdb2e6d83057515f548327812e6e27f4c1e0914d079f1e2530642a576cb8fd9b58d3b9e8a01195825cbb2d2f4c7
+    m_Values:
+    - position: 1
+      size: {x: 0, y: 0}
+    - position: 2
+      size: {x: 0, y: 0}
+    - position: 3
+      size: {x: 0, y: 0}
+    - position: 4
+      size: {x: 0, y: 0}
+    - position: 5
+      size: {x: 0, y: 0}
+    - position: 6
+      size: {x: 0, y: 0}
+    - position: 7
+      size: {x: 0, y: 0}
+    - position: 8
+      size: {x: 0, y: 0}
+    - position: 9
+      size: {x: 0, y: 0}
+    - position: 1
+      size: {x: 0, y: 0}
+    - position: 2
+      size: {x: 0, y: 0}
+    - position: 3
+      size: {x: 0, y: 0}
+    - position: 4
+      size: {x: 0, y: 0}
+    - position: 5
+      size: {x: 0, y: 0}
