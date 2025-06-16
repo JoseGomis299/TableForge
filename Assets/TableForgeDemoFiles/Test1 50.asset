@@ -84,7 +84,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     structTest:
-      number: 124
+      number: 3
       boolean: 1
     inheritorNumber: 343
     inheritorText: 1213
@@ -116,7 +116,7 @@ MonoBehaviour:
     structTest:
       number: 0
       boolean: 0
-  intArray: 0100000015000000
+  intArray: 0100000015000000150000001500000015000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 32, w: 32}
@@ -132,11 +132,8 @@ MonoBehaviour:
     m_Keys:
     - number: 1
       boolean: 1
-    - number: 2
-      boolean: 0
     m_Values:
     - {x: 1, y: 2}
-    - {x: 3, y: 4}
   text: 
   matrix:
     e00: 0

@@ -77,8 +77,11 @@ namespace TableForge.UI
 
             _transposeTableButton.RegisterCallback<ClickEvent>(e =>
             {
+                if (_selectedTab == null) return;
+                
                 _tableVisualizer.CurrentTable.Transpose();
                 _tableVisualizer.CurrentTable.RebuildPage();
+                _tableVisualizer.CurrentTable.HorizontalResizer.ResizeHeader(_tableVisualizer.CurrentTable.CornerContainer.CornerControl);
             });
             
             _visibleColumnsDropdown.OnSelectionChanged += selectedItems =>

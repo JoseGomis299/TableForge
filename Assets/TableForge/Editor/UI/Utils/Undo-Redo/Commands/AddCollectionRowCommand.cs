@@ -23,17 +23,23 @@ namespace TableForge.UI
         {
             _oldTableMetadata = TableMetadata.Clone(_tableControl.Metadata);
             _addRowAction(_tableControl);
+            
+            if (_tableControl.Parent is DynamicTableControl dynamicTableControl)
+            {
+                _tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
+                dynamicTableControl.OnRowAdded();
+            }
         }
 
         public void Undo()
         {
-            _collectionCell.SetValue(_oldCollectionCopy);
+            _collectionCell.SetValue(_oldCollectionCopy.CreateShallowCopy());
             var originalMetadata = _tableControl.Metadata;
             TableMetadata.Copy(originalMetadata, _oldTableMetadata);
 
             if (_tableControl.Parent is DynamicTableControl dynamicTableControl)
             {
-                _tableControl.RebuildPage();
+                _tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
                 dynamicTableControl.OnRowDeleted();
             }
         }

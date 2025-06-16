@@ -48,8 +48,8 @@ namespace TableForge.UI
                 TableType = TableType.Dynamic,
                 ColumnReorderMode = TableReorderMode.ExplicitReorder,
                 RowReorderMode = TableReorderMode.ExplicitReorder,
-                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
-                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
+                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
+                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
             };
 
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null, null, this);

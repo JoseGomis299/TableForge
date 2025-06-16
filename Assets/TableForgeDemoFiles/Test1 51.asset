@@ -132,11 +132,8 @@ MonoBehaviour:
     m_Keys:
     - number: 1
       boolean: 1
-    - number: 2
-      boolean: 0
     m_Values:
     - {x: 1, y: 2}
-    - {x: 3, y: 4}
   text: 
   matrix:
     e00: 0

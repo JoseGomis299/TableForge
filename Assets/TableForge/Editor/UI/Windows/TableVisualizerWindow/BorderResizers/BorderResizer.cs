@@ -84,6 +84,15 @@ namespace TableForge.UI
             InvokeResize(ResizingHeaders.Values.FirstOrDefault(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
             return delta;
         }
+        
+        public float ResizeHeader(HeaderControl target, bool storeSize = true, bool fitStoredSize = false)
+        {
+            if (target == null) return 0;
+
+            float delta = InstantResize(target, fitStoredSize);
+            InvokeResize(target, delta, storeSize, fitStoredSize, Vector2.zero);
+            return delta;
+        }
 
         public void HandleResize(HeaderControl target, bool excludeFromManualResizing = false)
         {

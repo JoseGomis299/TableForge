@@ -120,12 +120,12 @@ namespace TableForge.UI
             else if(evt.ctrlKey && evt.keyCode == KeyCode.Z)
             {
                 UndoRedoManager.Undo();
-                _tableControl.Update(true);
+                _tableControl.Update();
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.Y)
             {
                 UndoRedoManager.Redo();
-                _tableControl.Update(true);
+                _tableControl.Update();
             }
             evt.StopPropagation();
         }

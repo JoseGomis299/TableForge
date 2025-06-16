@@ -122,7 +122,8 @@ namespace TableForge.UI
                 ? TableMetadataManager.GetMetadata(table, table.Name)
                 : Parent.TableControl.Metadata;
 
-            if (!Transposed && Metadata.IsTransposed)
+            if ((!Transposed && Metadata.IsTransposed) 
+                || (Transposed && !Metadata.IsTransposed))
                 Transpose();
 
             if (_columnData.Any())
