@@ -38,7 +38,7 @@ namespace TableForge.UI
         
         public static void SetFocused(this CellControl cellControl, bool focused)
         {
-            if (focused)
+            if (focused && !cellControl.focusable)
             {
                 cellControl.focusable = true;
                 cellControl.Focus();
@@ -57,7 +57,7 @@ namespace TableForge.UI
                     }
                 }
             }
-            else
+            else if(!focused && cellControl.focusable)
             {
                 cellControl.focusable = false;
                 cellControl.RemoveFromClassList(USSClasses.Focused);

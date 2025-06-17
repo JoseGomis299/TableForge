@@ -294,6 +294,11 @@ namespace TableForge.UI
         {
             FocusedCell = cell;
         }
+        
+        public Cell GetFocusedCell()
+        {
+            return _focusedCell;
+        }
 
         public bool IsCellSelected(Cell cell)
         {

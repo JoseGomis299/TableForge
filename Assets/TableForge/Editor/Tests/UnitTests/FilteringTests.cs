@@ -358,6 +358,13 @@ namespace TableForge.Tests
             _tableControl.Filterer.Filter("p:Int String Dictionary.Key~=0");
             Assert.AreEqual(4, _tableControl.Filterer.HiddenRows.Count);
         }
+        
+        [Test]
+        public void FilterByLiteralListNotContains_ShouldMatchRows()
+        {
+            _tableControl.Filterer.Filter("p:[1, 2] !~ Int Value");
+            Assert.AreEqual(2, _tableControl.Filterer.HiddenRows.Count);
+        }
 
     }
 }

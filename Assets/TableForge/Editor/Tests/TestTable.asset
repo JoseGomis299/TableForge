@@ -29,33 +29,5 @@ MonoBehaviour:
     - 76622f1217c6fbb418a91586b77ca97a
     - 1971c45505510bb428934d847a1fd731
   cellAnchorMetadata:
-    m_Keys: 15b672aa52f5b118c5c76bdb2e6d83057515f548327812e6e27f4c1e0914d079f1e2530642a576cb8fd9b58d3b9e8a01195825cbb2d2f4c7
-    m_Values:
-    - position: 1
-      size: {x: 0, y: 0}
-    - position: 2
-      size: {x: 0, y: 0}
-    - position: 3
-      size: {x: 0, y: 0}
-    - position: 4
-      size: {x: 0, y: 0}
-    - position: 5
-      size: {x: 0, y: 0}
-    - position: 6
-      size: {x: 0, y: 0}
-    - position: 7
-      size: {x: 0, y: 0}
-    - position: 8
-      size: {x: 0, y: 0}
-    - position: 9
-      size: {x: 0, y: 0}
-    - position: 1
-      size: {x: 0, y: 0}
-    - position: 2
-      size: {x: 0, y: 0}
-    - position: 3
-      size: {x: 0, y: 0}
-    - position: 4
-      size: {x: 0, y: 0}
-    - position: 5
-      size: {x: 0, y: 0}
+    m_Keys: 
+    m_Values: []

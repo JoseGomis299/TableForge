@@ -21,5 +21,6 @@ namespace TableForge.UI
         void RemoveRowSelection(Row row);
         void SetSelection(List<Cell> newSelection, bool setFocused = true);
         void SetFocusedCell(Cell cell);
+        Cell GetFocusedCell();
     }
 }

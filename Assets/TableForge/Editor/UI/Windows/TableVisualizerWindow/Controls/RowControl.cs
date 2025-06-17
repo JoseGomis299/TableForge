@@ -170,8 +170,7 @@ namespace TableForge.UI
             else
                 Insert(index, cell);
             
-            if(cell.focusable)
-                cell.SetFocused(cell.TableControl.CellSelector.IsCellFocused(cell.Cell));
+            cell.SetFocused(cell.TableControl.CellSelector.IsCellFocused(cell.Cell));
         }
 
         private bool RefreshColumnWidthsWhileCheckingOrder()

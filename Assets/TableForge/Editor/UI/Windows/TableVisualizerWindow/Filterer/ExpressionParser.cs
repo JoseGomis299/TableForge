@@ -111,7 +111,7 @@ namespace TableForge.UI
 
         private Func<Row, bool> CreatePropertyFilter(string condition)
         {
-            var match = Regex.Match(condition, @"([\w\$\. \[\],]+)\s*(==?|!=|>=|<=|>|<|~=|!~|=~|~!)\s*(.+)");
+            var match = Regex.Match(condition, @"([\w\$\. \[\],]+)\s*(==?|!=|>=|<=|>|<|~=|!~|=~|~!)\s*([\w\$\. \[\],]+)");
             if (!match.Success) 
                 return row => true;
 
