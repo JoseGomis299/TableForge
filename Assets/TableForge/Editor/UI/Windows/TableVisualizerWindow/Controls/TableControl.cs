@@ -306,9 +306,13 @@ namespace TableForge.UI
                 .Select(row => row.Cells[column.Position])
                 .ToList();
             
-            if (ascending) cells.Sort((x, y) => x.CompareTo(y));
-            else cells.Sort((x, y) => y.CompareTo(x));
-            
+            if(cells.Count == 0)
+                return;
+
+            cells = ascending
+                ? cells.OrderBy(x => x).ToList()
+                : cells.OrderByDescending(x => x).ToList();
+
             int[] positions = new int[cells.Count];
             int[] originalPositions = new int[cells.Count];
             

@@ -51,11 +51,7 @@ namespace TableForge
             LayerMask otherMask = (LayerMask)other.GetValue();
             
             // Compare the value of the masks
-            int comparison = thisMask.value.CompareTo(otherMask.value);
-            if(comparison == 0)
-                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
-            
-            return comparison;
+            return thisMask.value.CompareTo(otherMask.value);
         }
     }
 }

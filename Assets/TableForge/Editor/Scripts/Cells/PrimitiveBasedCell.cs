@@ -36,11 +36,7 @@ namespace TableForge
             
             if (Value is IComparable comparable)
             {
-                int comparison = comparable.CompareTo(primitiveCell.Value);
-                if (comparison == 0)
-                    comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
-                
-                return comparison;
+                return comparable.CompareTo(primitiveCell.Value);
             }
 
             throw new InvalidOperationException("Cannot compare non-comparable values.");

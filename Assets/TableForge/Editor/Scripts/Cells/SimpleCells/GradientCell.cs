@@ -54,11 +54,7 @@ namespace TableForge
             Gradient otherGradient = (Gradient)otherCell.GetValue();
 
             // Compare the number of color keys
-            int comparison = thisGradient.colorKeys.Length.CompareTo(otherGradient.colorKeys.Length);
-            if(comparison == 0)
-                comparison = String.Compare(Row.Name, otherCell.Row.Name, StringComparison.Ordinal);
-            
-            return comparison;
+            return thisGradient.colorKeys.Length.CompareTo(otherGradient.colorKeys.Length);
         }
     }
 }

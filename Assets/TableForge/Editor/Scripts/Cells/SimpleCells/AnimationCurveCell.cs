@@ -37,9 +37,7 @@ namespace TableForge
             AnimationCurve otherCurve = (AnimationCurve)otherCell.GetValue();
 
             // Compare the length of the curves
-            int comparison = thisCurve.length.CompareTo(otherCurve.length);
-            if(comparison == 0) comparison = String.Compare(Row.Name, otherCell.Row.Name, StringComparison.Ordinal);
-            return comparison;
+            return thisCurve.length.CompareTo(otherCurve.length);
         }
     }
 }

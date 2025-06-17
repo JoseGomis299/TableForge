@@ -140,7 +140,7 @@ MonoBehaviour:
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 0
   vector3Array:
-  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:
     - key1

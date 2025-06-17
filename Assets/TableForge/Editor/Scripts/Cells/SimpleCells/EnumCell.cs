@@ -42,11 +42,7 @@ namespace TableForge
         public override int CompareTo(Cell other)
         {
             if (other is not EnumCell) return 1;
-            int comparison = ((int)GetValue()).CompareTo((int)other.GetValue());
-            if(comparison == 0)
-                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
-            
-            return comparison;
+            return ((int)GetValue()).CompareTo((int)other.GetValue());
         }
     }
 }

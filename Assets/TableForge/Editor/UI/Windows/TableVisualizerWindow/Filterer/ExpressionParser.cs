@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace TableForge.UI
 {
@@ -100,8 +101,13 @@ namespace TableForge.UI
         private Func<Row, bool> CreatePathFilter(string path)
         {
             string fullPath = path.StartsWith("Assets/") ? path : "Assets/" + path;
-            return row => 
-                AssetDatabase.GetAssetPath(row.SerializedObject.RootObject)?.StartsWith(fullPath, StringComparison.OrdinalIgnoreCase) == true;
+            return row =>
+            {
+                string assetPath = AssetDatabase.GetAssetPath(row.SerializedObject.RootObject);
+                if (string.IsNullOrEmpty(assetPath)) return false;
+
+                return assetPath.StartsWith(fullPath);
+            };
         }
 
         private Func<Row, bool> CreateNameFilter(string name)
@@ -185,7 +191,11 @@ namespace TableForge.UI
                         return null;
 
                     if (values.Count == 0) return null;
-                    if (values.Count == 1) return values[0];
+                    if (values.Count == 1)
+                    {
+                        if (values[0] == null || (values[0] is Object o && o == null)) return "null"; 
+                        return values[0];
+                    }
                     return values; // Return all values if multiple found
                 }
                 
@@ -198,7 +208,10 @@ namespace TableForge.UI
                 return null;
 
             cell = row.Cells[column.Position];
-            return cell?.GetValue();
+            
+            object value = cell?.GetValue();
+            if (value == null || (value is Object obj && obj == null)) return "null"; 
+            return value;
         }
 
         private bool RetrieveNestedValues(Table table, string[] parts, int index, List<object> values)
@@ -247,6 +260,9 @@ namespace TableForge.UI
         {
             if (left == null || right == null) 
                 return false;
+            
+            if(left is Object obj) left = obj.name;
+            if(right is Object obj2) right = obj2.name;
             
             // List comparison
             if (left is IList lList && right is IList rList)

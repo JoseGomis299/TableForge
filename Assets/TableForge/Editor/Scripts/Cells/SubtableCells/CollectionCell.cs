@@ -55,7 +55,7 @@ namespace TableForge
 
             int comparison = thisCount.CompareTo(otherCount);
             if(comparison == 0)
-                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
+                comparison = 0;
             
             return comparison;
         }

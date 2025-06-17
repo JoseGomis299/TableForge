@@ -10,7 +10,7 @@ namespace TableForge
     [CellType(TypeMatchMode.Assignable, typeof(Object))]
     internal class ReferenceCell : Cell
     {
-        private Object _object;
+        private Object _lastSerializedObject;
         private string _guid;
         private string _path;
         
@@ -21,9 +21,9 @@ namespace TableForge
             object data = GetValue();
             if (data is Object obj && obj != null)
             {
-                if (obj != _object)
+                if (obj != _lastSerializedObject)
                 {
-                    _object = obj;
+                    _lastSerializedObject = obj;
                     _path = AssetDatabase.GetAssetPath(obj);
                     _guid = AssetDatabase.AssetPathToGUID(_path);
                 }
@@ -56,19 +56,14 @@ namespace TableForge
         public override int CompareTo(Cell other)
         {
             if (other is not ReferenceCell referenceCell) return 1;
+            Object thisObject = Value as Object;
+            Object otherObject = referenceCell.Value as Object;
 
-            if (_object == null && referenceCell._object == null)
-                return String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
+            if (thisObject == null && otherObject == null) return 0;
+            if (thisObject == null) return -1;
+            if (otherObject == null) return 1;
             
-            if (_object == null) return -1;
-            if (referenceCell._object == null) return 1;
-            if (_object == referenceCell._object) return String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
-            
-            int comparison = String.Compare(_object.name, referenceCell._object.name, StringComparison.Ordinal);
-            if(comparison == 0)
-                comparison = String.Compare(Row.Name, other.Row.Name, StringComparison.Ordinal);
-            
-            return comparison;
+           return String.Compare(thisObject.name, otherObject.name, StringComparison.Ordinal);
         }
     }
 }

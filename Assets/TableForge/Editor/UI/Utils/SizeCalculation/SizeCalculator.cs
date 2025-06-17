@@ -162,7 +162,7 @@ namespace TableForge.UI
         
         private static Vector2 CalculateAutoSize(Cell cell)
         {
-            float width = cell.GetValue() == null ? UiConstants.SmallCellPreferredWidth : EditorStyles.label.CalcSize(new GUIContent(cell.GetValue().ToString())).x;
+            float width = cell.GetValue() == null ? UiConstants.SmallCellPreferredWidth : EditorStyles.label.CalcSize(new GUIContent(cell.GetValue() + "   ")).x;
             if(width < UiConstants.SmallCellPreferredWidth)
                 width = UiConstants.SmallCellPreferredWidth;
             
