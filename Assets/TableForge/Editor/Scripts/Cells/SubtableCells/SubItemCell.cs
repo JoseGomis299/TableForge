@@ -89,7 +89,11 @@ namespace TableForge
             if (other is not SubItemCell otherSubItemCell)
                 return 1;
 
-            return Row.Position.CompareTo(otherSubItemCell.Row.Position);
+            if (Value == null && otherSubItemCell.Value == null) return 0;
+            if (Value == null) return -1;
+            if (otherSubItemCell.Value == null) return 1;
+
+            return 0;
         }
 
         protected override void DeserializeModifyingSubTable(string[]values, ref int index)

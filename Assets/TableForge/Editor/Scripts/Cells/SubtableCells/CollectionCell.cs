@@ -44,20 +44,13 @@ namespace TableForge
 
         public override int CompareTo(Cell other)
         {
-            if (other is not CollectionCell collectionCell)
-            {
-                return 1; // This cell is greater than non-collection cells
-            }
-
+            if (other is not CollectionCell collectionCell) return 1; 
+            
             // Compare the number of items in the collections
             int thisCount = Count;
             int otherCount = collectionCell.Count;
 
-            int comparison = thisCount.CompareTo(otherCount);
-            if(comparison == 0)
-                comparison = 0;
-            
-            return comparison;
+            return thisCount.CompareTo(otherCount);
         }
 
         protected override void DeserializeModifyingSubTable(string[] values, ref int index)

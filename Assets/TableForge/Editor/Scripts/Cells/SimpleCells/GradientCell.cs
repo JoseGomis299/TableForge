@@ -54,7 +54,19 @@ namespace TableForge
             Gradient otherGradient = (Gradient)otherCell.GetValue();
 
             // Compare the number of color keys
-            return thisGradient.colorKeys.Length.CompareTo(otherGradient.colorKeys.Length);
+            int comparison = thisGradient.colorKeys.Length.CompareTo(otherGradient.colorKeys.Length);
+
+            if (comparison == 0)
+            {
+                comparison = thisGradient.colorKeys
+                    .Select(k => k.color)
+                    .Aggregate(0f, (acc, color) => acc + color.r + color.g + color.b)
+                    .CompareTo(otherGradient.colorKeys
+                        .Select(k => k.color)
+                        .Aggregate(0f, (acc, color) => acc + color.r + color.g + color.b));
+            }
+
+            return comparison;
         }
     }
 }
