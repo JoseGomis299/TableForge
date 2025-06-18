@@ -248,14 +248,20 @@ namespace TableForge.UI
 
         #region Utility
 
-        public void UpdateRowsPosition()
+        public int UpdateRowsPosition()
         {
             SortedList<int, CellAnchorMetadata> sortedMetadata = new SortedList<int, CellAnchorMetadata>();
-
+            List<int> recentlyAddedRows = new List<int>();
+            
             foreach (var guid in ItemGUIDs)
             {
                 int rowId = HashCodeUtil.CombineHashes(guid);
-                if (!cellAnchorMetadata.TryGetValue(rowId, out var metadata)) continue;
+                if (!cellAnchorMetadata.TryGetValue(rowId, out var metadata))
+                {
+                    recentlyAddedRows.Add(rowId);
+                    continue;
+                }
+                
                 sortedMetadata.Add(metadata.position, metadata);
             }
             
@@ -264,6 +270,14 @@ namespace TableForge.UI
             {
                 metadata.position = newPosition++;
             }
+            
+            foreach (var rowId in recentlyAddedRows)
+            {
+               SetAnchorPosition(rowId, newPosition++);
+            }
+
+            SetDirtyIfNecessary();
+            return newPosition - 1; // Return the last position used
         }
         
         public void RemoveAnchorMetadata(int anchorId)

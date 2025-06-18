@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 2048
-    y: 285.6
-    width: 1536
-    height: 772.8
+    x: 0
+    y: 42.666668
+    width: 1706.6667
+    height: 976
   m_ShowMode: 4
-  m_Title: TableVisualizer
+  m_Title: Project
   m_RootView: {fileID: 3}
   m_MinSize: {x: 875, y: 306}
   m_MaxSize: {x: 10000, y: 10000}
@@ -42,12 +42,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 36
-    width: 1536
-    height: 716.8
+    width: 1706.6666
+    height: 920
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 113
+  controlID: 112
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -69,8 +69,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1536
-    height: 772.8
+    width: 1706.6666
+    height: 976
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
@@ -94,7 +94,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1536
+    width: 1706.6666
     height: 36
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -115,8 +115,8 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 752.8
-    width: 1536
+    y: 956
+    width: 1706.6666
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -139,12 +139,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1536
-    height: 716.8
+    width: 1706.6666
+    height: 920
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 114
+  controlID: 113
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -165,12 +165,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1360.8
-    height: 716.8
+    width: 1512
+    height: 920
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 18
+  controlID: 75
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -189,8 +189,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1360.8
-    height: 482.4
+    width: 1512
+    height: 622
   m_MinSize: {x: 51, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 13}
@@ -202,7 +202,7 @@ MonoBehaviour:
   - {fileID: 13}
   - {fileID: 14}
   m_Selected: 4
-  m_LastSelected: 4
+  m_LastSelected: 5
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -221,13 +221,13 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 482.4
-    width: 1360.8
-    height: 234.4
+    y: 622
+    width: 1512
+    height: 298
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 26
+  controlID: 76
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -246,8 +246,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 748.8
-    height: 234.4
+    width: 832
+    height: 298
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
   m_ActualView: {fileID: 19}
@@ -270,10 +270,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 748.8
+    x: 832
     y: 0
-    width: 612.00006
-    height: 234.4
+    width: 680
+    height: 298
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 20}
@@ -296,10 +296,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1360.8
+    x: 1512
     y: 0
-    width: 175.19995
-    height: 716.8
+    width: 194.66663
+    height: 920
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 21}
@@ -328,10 +328,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "TableVisualizer\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 24
-    width: 1359.8
-    height: 456.4
+    x: -21333.334
+    y: -21297.334
+    width: 1511
+    height: 596
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -366,10 +366,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Test Runner\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2472
-    y: 379.2
-    width: 774.2
-    height: 456.4
+    x: 0
+    y: 78.66667
+    width: 1511
+    height: 593.3333
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -382,12 +382,12 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 433
+    ID: 151
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 290.4
-    - 96.80002
+    - 392
+    - 130.66669
     relativeSizes:
     - 0.75
     - 0.25
@@ -397,7 +397,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 387.2
+    lastTotalSize: 522.6667
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_TestListGUIs:
   - m_Window: {fileID: 14}
     runProgress:
-      RunGuid: 8e98104e-6b2f-4eb1-b715-4da8b1a50aa4
+      RunGuid: d48eb88d-885b-488f-adda-867f7dc08a40
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -437,7 +437,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.99999994
+      Progress: 0.9999996
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList:
@@ -457,7 +457,7 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1054
+    - id: 1055
       uniqueId: '[TableForge.Tests.dll][suite]'
       name: TableForge.Tests.dll
       fullName: C:/Users/joseg/Documents/GitHub/TableForge/Library/ScriptAssemblies/TableForge.Tests.dll
@@ -473,7 +473,7 @@ MonoBehaviour:
       categories: []
       parentId: 1000
       parentUniqueId: '[TableForge][suite]'
-    - id: 1055
+    - id: 1056
       uniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
       name: TableForge
       fullName: TableForge
@@ -487,9 +487,9 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1054
+      parentId: 1055
       parentUniqueId: '[TableForge.Tests.dll][suite]'
-    - id: 1056
+    - id: 1057
       uniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
       name: Tests
       fullName: TableForge.Tests
@@ -503,7 +503,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1055
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
     - id: 1001
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
@@ -519,14 +519,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1056
+      parentId: 1057
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1014
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByBooleanAnd_ShouldMatchRows]'
       name: FilterByBooleanAnd_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanAnd_ShouldMatchRows
       resultStatus: 1
-      duration: 0.7232773
+      duration: 0.708755
       messages: 
       output: 'Took 14 ms to load 1 items from 5 paths.
 
@@ -548,11 +548,11 @@ MonoBehaviour:
       name: FilterByBooleanOr_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanOr_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2331445
+      duration: 0.5844457
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -570,7 +570,7 @@ MonoBehaviour:
       name: FilterByBooleanWithParentheses_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanWithParentheses_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2359606
+      duration: 0.5903224
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -592,7 +592,7 @@ MonoBehaviour:
       name: FilterByDeeplyNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2457492
+      duration: 0.6344301
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -614,7 +614,7 @@ MonoBehaviour:
       name: FilterByDictionaryKey_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryKey_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2344358
+      duration: 0.5786402
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -636,7 +636,7 @@ MonoBehaviour:
       name: FilterByDictionaryProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2470086
+      duration: 0.6050712
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -658,7 +658,7 @@ MonoBehaviour:
       name: FilterByEnum_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByEnum_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2487717
+      duration: 0.5821338
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -680,7 +680,7 @@ MonoBehaviour:
       name: FilterByGuid_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByGuid_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.2815173
+      duration: 0.5643729
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -702,7 +702,7 @@ MonoBehaviour:
       name: FilterByListContainsItem_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsItem_ShouldMatchRows
       resultStatus: 1
-      duration: 0.4887215
+      duration: 0.5812393
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -724,11 +724,11 @@ MonoBehaviour:
       name: FilterByListContainsManualList_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsManualList_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2757736
+      duration: 0.5693377
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -746,7 +746,7 @@ MonoBehaviour:
       name: FilterByListCountGreaterThan_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListCountGreaterThan_ShouldMatchRows
       resultStatus: 1
-      duration: 0.341337
+      duration: 0.6170445
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -768,7 +768,7 @@ MonoBehaviour:
       name: FilterByListDeepEquality_FailsForDifferentOrder
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_FailsForDifferentOrder
       resultStatus: 1
-      duration: 0.2514036
+      duration: 0.6012668
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -790,7 +790,7 @@ MonoBehaviour:
       name: FilterByListDeepEquality_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.2429387
+      duration: 0.6049968
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -812,7 +812,7 @@ MonoBehaviour:
       name: FilterByListLength_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListLength_ShouldMatchRows
       resultStatus: 1
-      duration: 0.259733
+      duration: 0.5896488
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -834,11 +834,11 @@ MonoBehaviour:
       name: FilterByListNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2670771
+      duration: 0.5789429
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -856,11 +856,33 @@ MonoBehaviour:
       name: FilterByListNotEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2604638
+      duration: 0.5771556
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
         Took 2 ms to generate
+        table ''TestTable'' with 5 rows and 9 columns.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
+    - id: 1036
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByLiteralListNotContains_ShouldMatchRows]'
+      name: FilterByLiteralListNotContains_ShouldMatchRows
+      fullName: TableForge.Tests.FilteringTests.FilterByLiteralListNotContains_ShouldMatchRows
+      resultStatus: 1
+      duration: 0.5763006
+      messages: 
+      output: 'Took 0 ms to load 1 items from 5 paths.
+
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -878,7 +900,7 @@ MonoBehaviour:
       name: FilterByMultipleConditions_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByMultipleConditions_ShouldMatchRows
       resultStatus: 1
-      duration: 0.3083103
+      duration: 0.5790487
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -900,7 +922,7 @@ MonoBehaviour:
       name: FilterByName_MatchRowFullName
       fullName: TableForge.Tests.FilteringTests.FilterByName_MatchRowFullName
       resultStatus: 1
-      duration: 0.2434014
+      duration: 0.6027286
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -922,7 +944,7 @@ MonoBehaviour:
       name: FilterByName_ShouldMatchRowsContaining
       fullName: TableForge.Tests.FilteringTests.FilterByName_ShouldMatchRowsContaining
       resultStatus: 1
-      duration: 0.2312366
+      duration: 0.5869669
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -944,7 +966,7 @@ MonoBehaviour:
       name: FilterByNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2338056
+      duration: 0.6085522
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -966,11 +988,11 @@ MonoBehaviour:
       name: FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.237699
+      duration: 0.6570239
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 5 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -988,11 +1010,11 @@ MonoBehaviour:
       name: FilterByNestedString_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2448922
+      duration: 0.5848836
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1010,7 +1032,7 @@ MonoBehaviour:
       name: FilterByNotOperator_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNotOperator_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2375831
+      duration: 0.5652676
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1032,7 +1054,7 @@ MonoBehaviour:
       name: FilterByPath_WithFolder_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFolder_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.2534232
+      duration: 0.5728955
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1054,11 +1076,11 @@ MonoBehaviour:
       name: FilterByPath_WithFullPath_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFullPath_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.2580805
+      duration: 0.5726157
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1076,11 +1098,11 @@ MonoBehaviour:
       name: FilterByProperty_BoolEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_BoolEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2474453
+      duration: 0.5689111
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1098,11 +1120,11 @@ MonoBehaviour:
       name: FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.2841767
+      duration: 0.5813712
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1120,7 +1142,7 @@ MonoBehaviour:
       name: FilterByProperty_IntEqual_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_IntEqual_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.2454263
+      duration: 0.5708898
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1142,7 +1164,7 @@ MonoBehaviour:
       name: FilterByProperty_StringContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_StringContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2472247
+      duration: 0.5803659
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1164,7 +1186,7 @@ MonoBehaviour:
       name: FilterByProperty_WithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2499254
+      duration: 0.5743117
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1186,7 +1208,7 @@ MonoBehaviour:
       name: FilterByProperty_WithNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2469432
+      duration: 0.6072183
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1208,7 +1230,7 @@ MonoBehaviour:
       name: FilterWithComplexExpression_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
       resultStatus: 1
-      duration: 0.2443393
+      duration: 0.5805503
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1230,7 +1252,7 @@ MonoBehaviour:
       name: FilterWithEmptyInput_ShouldShowAllRows
       fullName: TableForge.Tests.FilteringTests.FilterWithEmptyInput_ShouldShowAllRows
       resultStatus: 1
-      duration: 0.2354217
+      duration: 0.5750565
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1252,7 +1274,7 @@ MonoBehaviour:
       name: FilterWithInvalidSyntax_ShouldShowAllRows
       fullName: TableForge.Tests.FilteringTests.FilterWithInvalidSyntax_ShouldShowAllRows
       resultStatus: 1
-      duration: 0.2331757
+      duration: 0.5713389
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1269,7 +1291,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1036
+    - id: 1037
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
       name: ItemSelectionTests
       fullName: TableForge.Tests.ItemSelectionTests
@@ -1283,7 +1305,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1056
+      parentId: 1057
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1002
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ItemSelectionTests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection]'
@@ -1302,7 +1324,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
-    - id: 1038
+    - id: 1039
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
       name: SerializationTests
       fullName: TableForge.Tests.SerializationTests
@@ -1316,7 +1338,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1056
+      parentId: 1057
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1004
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/SerializationTests/[TableForge.Tests][TableForge.Tests.SerializationTests.GetSerializableFields]'
@@ -1335,7 +1357,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1003
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
-    - id: 1040
+    - id: 1041
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
       name: TableGenerationTests
       fullName: TableForge.Tests.TableGenerationTests
@@ -1349,7 +1371,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1056
+      parentId: 1057
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1007
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration]'
@@ -1608,13 +1630,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1005
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    m_ResultText: FilteringTests (34 tests) (0,000s)
+    m_ResultText: FilteringTests (35 tests) (0,000s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 3c60013c
       m_LastClickedID: 1006723132
-      m_ExpandedIDs: 6e6da2e15da74a17b1b65a603e11d07dffffff7f
+      m_ExpandedIDs: 6e6da2e15da74a173c60013cb1b65a603e11d07dffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1644,7 +1666,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 8e98104e-6b2f-4eb1-b715-4da8b1a50aa4
+      RunGuid: d48eb88d-885b-488f-adda-867f7dc08a40
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -1672,7 +1694,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.99999994
+      Progress: 0.9999996
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -1711,7 +1733,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 8e98104e-6b2f-4eb1-b715-4da8b1a50aa4
+      RunGuid: d48eb88d-885b-488f-adda-867f7dc08a40
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -1739,7 +1761,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.99999994
+      Progress: 0.9999996
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -2769,10 +2791,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 24
-    width: 747.8
-    height: 208.4
+    x: -21333.334
+    y: -20675.334
+    width: 831
+    height: 272
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2795,7 +2817,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/TableForge/Editor/Tests/MockedData
+    - Assets/TableForgeDemoFiles
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -2805,16 +2827,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/TableForge/Editor/Tests/MockedData
+  - Assets/TableForgeDemoFiles
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\joseg\Documents\GitHub\TableForge
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 99.60004}
-    m_SelectedIDs: 6cbf0000
-    m_LastClickedID: 49004
-    m_ExpandedIDs: 000000006cbd00006ebd000070bd000072bd000074bd000076bd000078bd00007abd00007cbd00007ebd000080bd000082bd000084bd000086bd000088bd00008abd00008cbd0000
+    scrollPos: {x: 0, y: 321.3333}
+    m_SelectedIDs: fec20000
+    m_LastClickedID: 49918
+    m_ExpandedIDs: 00000000d8c00000dac00000dcc00000dec00000e0c00000e2c00000e4c00000e6c00000e8c00000eac00000ecc00000eec00000f0c00000f2c00000f4c00000f6c00000f8c0000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2843,7 +2865,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000006cbd00006ebd000070bd000072bd000074bd000076bd000078bd00007abd00007cbd00007ebd000080bd000082bd000084bd000086bd000088bd00008abd00008cbd0000
+    m_ExpandedIDs: 00000000d8c00000dac00000dcc00000dec00000e0c00000e2c00000e4c00000e6c00000e8c00000eac00000ecc00000eec00000f0c00000f2c00000f4c00000f6c00000f8c00000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2897,7 +2919,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 15141}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 194
@@ -2922,10 +2944,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 749.8
-    y: 24
-    width: 610.00006
-    height: 208.4
+    x: -20501.334
+    y: -20675.334
+    width: 678
+    height: 272
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -2958,10 +2980,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1361.8
-    y: 24
-    width: 174.19995
-    height: 690.8
+    x: -19821.334
+    y: -21297.334
+    width: 193.66663
+    height: 894
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

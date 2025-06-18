@@ -133,6 +133,7 @@ namespace TableForge.UI
 
         public static Table GetTable(TableMetadata metadata)
         {
+            metadata.UpdateRowsPosition();
             Table table = TableManager.GenerateTable(metadata.ItemGUIDs.Select(AssetDatabase.GUIDToAssetPath).ToArray(), metadata.Name);
 
             if (!metadata.HasAnchorData())
@@ -144,7 +145,8 @@ namespace TableForge.UI
                 int[] rowPositions = new int[table.Rows.Count];
                 for (int i = 0; i < rowPositions.Length; i++)
                 {
-                    rowPositions[metadata.GetAnchorPosition(table.Rows[i + 1].Id) - 1] = i + 1;
+                    int anchorPosition = metadata.GetAnchorPosition(table.Rows[i + 1].Id) - 1;
+                    rowPositions[anchorPosition] = i + 1;
                 }
                 
                 table.SetRowOrder(rowPositions);
