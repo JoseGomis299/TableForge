@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TableForge.UI.TableForge.UI;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
@@ -12,14 +13,17 @@ namespace TableForge.UI
     internal class ExpressionParser
     {
         private readonly List<string> _tokens;
-        private int _position;
         private readonly TableControl _tableControl;
+        private readonly ExpressionValueResolver _resolver;
+
+        private int _position;
 
         public ExpressionParser(List<string> tokens, TableControl tableControl)
         {
             _tokens = tokens;
             _tableControl = tableControl;
             _position = 0;
+            _resolver = new ExpressionValueResolver(tableControl);
         }
 
         public Func<Row, bool> Parse()
@@ -65,7 +69,7 @@ namespace TableForge.UI
             }
 
             var token = NextToken();
-            if (IsFilterToken(token))
+            if (token.Contains(":"))
             {
                 return CreateFilter(token);
             }
@@ -117,7 +121,7 @@ namespace TableForge.UI
 
         private Func<Row, bool> CreatePropertyFilter(string condition)
         {
-            var match = Regex.Match(condition, @"([\w\$\. \[\],]+)\s*(==?|!=|>=|<=|>|<|~=|!~|=~|~!)\s*([\w\$\. \[\],]+)");
+            var match = Regex.Match(condition, @"([\w\$\. \[\],]+)\s*(==?|<>|!=|>=|<=|>|<|~=|!~|=~|~!)\s*([\w\$\. \[\],]+)");
             if (!match.Success) 
                 return row => true;
 
@@ -129,8 +133,8 @@ namespace TableForge.UI
             {
                 try
                 {
-                    var leftVal = GetCellValue(row, left) ?? GetListValue(left); 
-                    var rightVal = GetCellValue(row, right) ?? GetListValue(right); 
+                    var leftVal = _resolver.GetCellValue(row, left) ?? _resolver.GetListValue(left);
+                    var rightVal = _resolver.GetCellValue(row, right) ?? _resolver.GetListValue(right);
 
                     return Compare(leftVal, op, rightVal);
                 }
@@ -141,121 +145,6 @@ namespace TableForge.UI
             };
         }
         
-        private object GetListValue(string stringList)
-        {
-            if (string.IsNullOrEmpty(stringList) || (!stringList.StartsWith('[') && !stringList.EndsWith(']'))) 
-                return stringList;
-            
-            stringList = stringList.Trim('[', ']');
-
-            var values = new List<object>();
-            var items = stringList.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var item in items)
-            {
-                var trimmedItem = item.Trim();
-                if (trimmedItem.StartsWith("\"") && trimmedItem.EndsWith("\"") || 
-                    trimmedItem.StartsWith("'") && trimmedItem.EndsWith("'"))
-                {
-                    values.Add(trimmedItem.Substring(1, trimmedItem.Length - 2));
-                }
-                else
-                {
-                    if (TryParseNumber(trimmedItem, out double number))
-                        values.Add(number);
-                    else
-                        values.Add(GetListValue(trimmedItem));
-                }
-            }
-            return values;
-        }
-
-        private object GetCellValue(Row row, string columnRef)
-        {
-            if (string.IsNullOrEmpty(columnRef) || char.IsDigit(columnRef[0]) || columnRef[0] == '\"' || columnRef[0] == '\'')
-                return null;
-            
-            Column column; Cell cell;
-            //Nested column reference handling
-            if (columnRef.Contains('.'))
-            {
-                List<object> values = new List<object>();
-                var parts = columnRef.Split('.');
-                
-                column = GetColumn(parts[0], _tableControl.TableData);
-                if (column == null) return null;
-                cell = row.Cells[column.Position];
-
-                if (cell is SubTableCell subTableCell)
-                {
-                    if (!RetrieveNestedValues(subTableCell.SubTable, parts, 1, values))
-                        return null;
-
-                    if (values.Count == 0) return null;
-                    if (values.Count == 1)
-                    {
-                        if (values[0] == null || (values[0] is Object o && o == null)) return "null"; 
-                        return values[0];
-                    }
-                    return values; // Return all values if multiple found
-                }
-                
-                return null;
-            }
-            
-            //Single column reference handling
-            column = GetColumn(columnRef, _tableControl.TableData);
-            if (column == null) 
-                return null;
-
-            cell = row.Cells[column.Position];
-            
-            object value = cell?.GetValue();
-            if (value == null || (value is Object obj && obj == null)) return "null"; 
-            return value;
-        }
-
-        private bool RetrieveNestedValues(Table table, string[] parts, int index, List<object> values)
-        {
-            var part = parts[index];
-            Column column = GetColumn(part, table);
-            if (column == null)
-                return false;
-
-            for (int i = 1; i <= table.Rows.Count; i++)
-            {
-                Cell cell = table.GetCell(column.Position, i);
-                if (cell == null) return false;
-                if(index == parts.Length - 1)
-                {
-                    values.Add(cell.GetValue());
-                }
-                else
-                {
-                    if (cell is SubTableCell subTableCell)
-                    {
-                        if (!RetrieveNestedValues(subTableCell.SubTable, parts, index + 1, values))
-                            return false;
-                    }
-                    else
-                    {
-                        return false; // Not a sub-table cell
-                    }
-                }
-            }
-            
-            return true;
-        }
-
-        private Column GetColumn(string reference, Table table)
-        {
-            if (reference.StartsWith("$") && reference.Length == 2 && char.IsLetter(reference[1]))
-            {
-                return table.Columns.GetValueOrDefault(PositionUtil.ConvertToNumber(reference[1].ToString()));
-            }
-
-            return table.ColumnsByName.GetValueOrDefault(reference);
-        }
-
         private bool Compare(object left, string op, object right)
         {
             if (left == null || right == null) 
@@ -281,7 +170,7 @@ namespace TableForge.UI
                 return op switch
                 {
                     "=" or "==" => leftList.SequenceEqual(rightList),
-                    "!=" => !leftList.SequenceEqual(rightList),
+                    "!=" or "<>" => !leftList.SequenceEqual(rightList),
                     ">" => leftList.Count > rightList.Count,
                     "<" => leftList.Count < rightList.Count,
                     ">=" => leftList.Count >= rightList.Count,
@@ -299,14 +188,14 @@ namespace TableForge.UI
                     leftValues.Add(item.ToString());
                 }
                 
-                if (TryParseNumber(right, out double rightNumber))
+                if (right.TryParseNumber(out double rightNumber))
                 {
                     return op switch
                     {
                         "~=" or "=~" => leftValues.Any(item => item == right.ToString()),
                         "!~" or "~!" => leftValues.All(item => item != right.ToString()),
                         "=" or "==" => Math.Abs(rightNumber - leftValues.Count) < double.Epsilon,
-                        "!=" => Math.Abs(rightNumber - leftValues.Count) > double.Epsilon,
+                        "!=" or "<>" => Math.Abs(rightNumber - leftValues.Count) > double.Epsilon,
                         ">" => rightNumber < leftValues.Count,
                         "<" => rightNumber > leftValues.Count,
                         ">=" => rightNumber <= leftValues.Count,
@@ -330,14 +219,14 @@ namespace TableForge.UI
                     rightValues.Add(item.ToString());
                 }
                 
-                if(TryParseNumber(left, out double leftNumber))
+                if(left.TryParseNumber(out double leftNumber))
                 {
                     return op switch
                     {
                         "~=" or "=~" => rightValues.Any(item => item == left.ToString()),
                         "!~" or "~!" => rightValues.All(item => item != left.ToString()),
                         "=" or "==" => Math.Abs(leftNumber - rightValues.Count) < double.Epsilon,
-                        "!=" => Math.Abs(leftNumber - rightValues.Count) > double.Epsilon,
+                        "!=" or "<>" => Math.Abs(leftNumber - rightValues.Count) > double.Epsilon,
                         ">" => leftNumber > rightValues.Count,
                         "<" => leftNumber < rightValues.Count,
                         ">=" => leftNumber >= rightValues.Count,
@@ -355,12 +244,12 @@ namespace TableForge.UI
             }
 
             // Numerical comparison
-            if (TryParseNumber(left, out double leftNum) && TryParseNumber(right, out double rightNum))
+            if (left.TryParseNumber(out double leftNum) && right.TryParseNumber(out double rightNum))
             {
                 return op switch
                 {
                     "=" or "==" => Math.Abs(leftNum - rightNum) < double.Epsilon,
-                    "!=" => Math.Abs(leftNum - rightNum) > double.Epsilon,
+                    "!=" or "<>" => Math.Abs(leftNum - rightNum) > double.Epsilon,
                     "~=" or "=~" => leftNum.ToString(CultureInfo.InvariantCulture).Contains(rightNum.ToString(CultureInfo.InvariantCulture)),
                     "!~" or "~!" => !leftNum.ToString(CultureInfo.InvariantCulture).Contains(rightNum.ToString(CultureInfo.InvariantCulture)),
                     ">" => leftNum > rightNum,
@@ -392,7 +281,7 @@ namespace TableForge.UI
             return op switch
             {
                 "=" or "==" => leftStr.Equals(rightStr, StringComparison.OrdinalIgnoreCase),
-                "!=" => !leftStr.Equals(rightStr, StringComparison.OrdinalIgnoreCase),
+                "!=" or "<>" => !leftStr.Equals(rightStr, StringComparison.OrdinalIgnoreCase),
                 "~=" or "=~" => leftStr.Contains(rightStr),
                 "!~" or "~!" => !leftStr.Contains(rightStr),
                 ">" => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) > 0,
@@ -402,22 +291,7 @@ namespace TableForge.UI
                 _ => false
             };
         }
-
-        private bool TryParseNumber(object value, out double result)
-        {
-            result = 0;
-            if (value == null) 
-                return false;
-
-            if (value is string s) value = s.Replace('.', ',');
-            return double.TryParse(value.ToString(), out result);
-        }
-
-        private bool IsFilterToken(string token)
-        {
-            return token.Contains(":");
-        }
-
+        
         private bool Match(string expected)
         {
             if (_position < _tokens.Count && _tokens[_position] == expected)
@@ -451,4 +325,5 @@ namespace TableForge.UI
             return row => left(row) || right(row);
         }
     }
+
 }

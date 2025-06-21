@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TableForge.UI
 {
@@ -21,6 +19,7 @@ namespace TableForge.UI
         [SerializeField] private SerializedHashSet<string> itemGUIDs = new();
         
         [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
+        [SerializeField] private SerializedDictionary<int, string> functions = new();
         
 
         #endregion
@@ -115,6 +114,16 @@ namespace TableForge.UI
             return cellAnchorMetadata.TryGetValue(anchorId, out var metadata) ? metadata.size : Vector2.zero;
         }
         
+        public string GetFunction(int cellOrAnchorId)
+        {
+            return functions.TryGetValue(cellOrAnchorId, out var formula) ? formula : string.Empty;
+        }
+        
+        public IReadOnlyDictionary<int, string> GetFunctions()
+        {
+            return functions.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
+        
         public Type GetItemsType()
         {
             if (string.IsNullOrEmpty(itemsTypeName)) return null;
@@ -176,6 +185,20 @@ namespace TableForge.UI
         public void RemoveItemGUID(string guid)
         {
             itemGUIDs.Remove(guid);
+            SetDirtyIfNecessary();
+        }
+        
+        public void SetFunction(int cellOrAnchorId, string formula)
+        {
+            if (string.IsNullOrEmpty(formula))
+            {
+                functions.Remove(cellOrAnchorId);
+            }
+            else
+            {
+                functions[cellOrAnchorId] = formula;
+            }
+            
             SetDirtyIfNecessary();
         }
         

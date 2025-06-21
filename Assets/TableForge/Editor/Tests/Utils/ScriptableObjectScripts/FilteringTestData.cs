@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TableForge.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TableForge.Tests
 {
@@ -15,11 +16,11 @@ namespace TableForge.Tests
         public List<string> stringList = new List<string>();
         public List<int> intList = new List<int>();
         public SerializedDictionary<int, string> intStringDictionary = new SerializedDictionary<int, string>();
-        public SerializedFilteringData serializedFilteringData = new SerializedFilteringData();
+        public SerializedFilteringTestData serializedFilteringTestData = new SerializedFilteringTestData();
     }
 
     [Serializable]
-    internal class SerializedFilteringData
+    internal class SerializedFilteringTestData
     {
         public int intValue;
         public float floatValue;
@@ -29,12 +30,5 @@ namespace TableForge.Tests
         public List<string> stringList = new List<string>();
         public List<int> intList = new List<int>();
         public SerializedDictionary<int, string> intStringDictionary = new SerializedDictionary<int, string>();
-    }
-    
-    internal enum TestEnum
-    {
-        Value1,
-        Value2,
-        Value3
     }
 }

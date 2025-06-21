@@ -32,7 +32,7 @@ namespace TableForge.UI
             { 
                 result.Add(firstCell);
 
-                Vector2 direction = firstCell.GetDirectionTo(lastCell, rootTableControl.Metadata);
+                Vector2 direction = firstCell.GetDirectionTo(lastCell, rootTableControl?.Metadata);
                 Cell last = direction.x switch
                 {
                     < 0 => firstCell.Table.GetFirstCell(),
@@ -54,7 +54,7 @@ namespace TableForge.UI
             {
                 result.Add(lastCell);
 
-                Vector2 direction = lastCell.GetDirectionTo(firstCell, rootTableControl.Metadata);
+                Vector2 direction = lastCell.GetDirectionTo(firstCell, rootTableControl?.Metadata);
                 Cell first = direction.x switch
                 {
                     < 0 => lastCell.Table.GetFirstCell(),
@@ -74,7 +74,7 @@ namespace TableForge.UI
 
             if (firstCell.Table != lastCell.Table)
             {
-                Vector2 direction = firstCell.GetDirectionTo(lastCell, rootTableControl.Metadata);
+                Vector2 direction = firstCell.GetDirectionTo(lastCell, rootTableControl?.Metadata);
                 Cell last = direction.x switch
                 {
                     < 0 => firstCell.Table.GetFirstCell(),
@@ -106,8 +106,8 @@ namespace TableForge.UI
             }
 
             Table table = firstCell.Table;
-            bool isMainTable = table == rootTableControl.TableData;
-            bool isTransposed = isMainTable && rootTableControl.Transposed;
+            bool isMainTable = table == rootTableControl?.TableData;
+            bool isTransposed = isMainTable && (rootTableControl?.Transposed ?? false);
 
             int startingRowPosition = isTransposed ? firstCell.Column.Position : firstCell.Row.Position;
             int endingRowPosition = isTransposed ? lastCell.Column.Position : lastCell.Row.Position;
@@ -134,12 +134,12 @@ namespace TableForge.UI
             
             foreach (var row in rows)
             {
-                if(!rootTableControl.Filterer.IsVisible(row.GetRootAnchor().Id))
+                if(rootTableControl != null && !rootTableControl.Filterer.IsVisible(row.GetRootAnchor().Id))
                     continue;
                 
                 for (int i = startingColumnPosition; i <= endingColumnPosition; i++)
                 {
-                    if(!rootTableControl.Metadata.IsFieldVisible(row.Table.Columns[i].GetRootAnchor().Id))
+                    if(rootTableControl != null && !rootTableControl.Metadata.IsFieldVisible(row.Table.Columns[i].GetRootAnchor().Id))
                         continue;
                     
                     result.Add(row.Cells[i]);

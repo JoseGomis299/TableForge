@@ -54,6 +54,7 @@ namespace TableForge.UI
         public TableAttributes TableAttributes { get; private set; }
         public TableResizer Resizer { get; }
         public Filterer Filterer { get; }
+        public FunctionExecutor FunctionExecutor { get; }
         public BorderResizer HorizontalResizer => Resizer.HorizontalResizer;
         public BorderResizer VerticalResizer => Resizer.VerticalResizer;
         public ICellSelector CellSelector { get; }
@@ -87,6 +88,7 @@ namespace TableForge.UI
             RowVisibilityManager = new RowVisibilityManager(this);
             CellSelector = parent != null ? parent.TableControl.CellSelector : new CellSelector(this);
             HeaderSwapper = new HeaderSwapper(this);
+            FunctionExecutor = new FunctionExecutor(this);
 
             // Initialize sub-containers
             _rowsContainer = CreateRowsContainer();
@@ -130,7 +132,6 @@ namespace TableForge.UI
                 ClearTable();
             
             TableData = table;
-            
             ScrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
             ScrollView.horizontalScrollerVisibility = ScrollerVisibility.Auto;
             
@@ -143,6 +144,9 @@ namespace TableForge.UI
             BuildColumns();
             BuildRows();
             InitializeGeometry();
+            
+            if(Parent == null)
+                FunctionExecutor.Setup();
         }
 
         public void ClearTable()

@@ -52,7 +52,7 @@ namespace TableForge.Tests
                     { i + 1, $"Another Dictionary Item {i + 1}" }
                 };
                 
-                data.serializedFilteringData = new SerializedFilteringData
+                data.serializedFilteringTestData = new SerializedFilteringTestData
                 {
                     stringValue = i % 2 == 0 ? $"Serialized Row {i}" : $"Serialized Item {i}",
                     intValue = i * 10,

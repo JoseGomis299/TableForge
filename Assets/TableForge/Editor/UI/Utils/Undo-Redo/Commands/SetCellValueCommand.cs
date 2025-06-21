@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TableForge.UI
 {
     internal class SetCellValueCommand : IUndoableCommand

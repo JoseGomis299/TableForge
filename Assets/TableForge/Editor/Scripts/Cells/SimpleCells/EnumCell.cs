@@ -5,7 +5,7 @@ namespace TableForge
     /// <summary>
     /// Cell for Enum fields.
     /// </summary>
-    internal class EnumCell : Cell, IQuotedValueCell
+    internal class EnumCell : Cell, IQuotedValueCell, INumericBasedCell
     {
         public EnumCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         

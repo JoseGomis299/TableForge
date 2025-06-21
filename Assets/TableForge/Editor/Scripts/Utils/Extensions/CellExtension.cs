@@ -293,5 +293,10 @@ namespace TableForge
 
             return values;
         }
+        
+        public static bool IsNumeric(this Cell cell)
+        {
+            return cell is INumericBasedCell;
+        }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace TableForge.UI
 {
     internal class DefaultRowDeletionStrategy : IRowDeletionStrategy

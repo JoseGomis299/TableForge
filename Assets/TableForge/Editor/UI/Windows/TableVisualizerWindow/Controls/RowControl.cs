@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine.UIElements;
-using Debug = UnityEngine.Debug;
 
 
 namespace TableForge.UI

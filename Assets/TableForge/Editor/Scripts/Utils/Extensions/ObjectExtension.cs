@@ -60,5 +60,40 @@ namespace TableForge
 
             return null;
         }
+        
+        
+        /// <summary>
+        /// Parses an object to a double value.
+        /// </summary>
+        public static bool TryParseNumber(this object value, out double result)
+        {
+            result = 0;
+            if (value == null) 
+                return false;
+
+            if (value is string s) value = s.Replace('.', ',');
+            return double.TryParse(value.ToString(), out result);
+        }
+        
+        /// <summary>
+        /// Parses an object to a boolean value.
+        /// </summary>
+        public static bool TryParseBoolean(this object value, out bool result)
+        {
+            result = false;
+            if (value is bool boolValue)
+            {
+                result = boolValue;
+                return true;
+            }
+
+            if (value is string strValue && bool.TryParse(strValue, out bool parsedValue))
+            {
+                result = parsedValue;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

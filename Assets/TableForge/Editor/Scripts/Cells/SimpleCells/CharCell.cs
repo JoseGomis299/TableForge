@@ -1,7 +1,7 @@
 namespace TableForge
 {
     [CellType(typeof(char))]
-    internal class CharCell : PrimitiveBasedCell<char>, IQuotedValueCell
+    internal class CharCell : PrimitiveBasedCell<char>, IQuotedValueCell, INumericBasedCell
     {
         public CharCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         
