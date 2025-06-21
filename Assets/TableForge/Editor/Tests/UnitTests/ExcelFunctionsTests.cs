@@ -398,5 +398,332 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             Assert.AreEqual(1102.0, resultCell.GetValue()); // 15 + 22.5 + 2.5 + 10 + 2 + 15 + (15+30+30+60)[135] + (150+300+150+300)[900] = 1093
         }
+        
+        [Test]
+        public void Abs_PositiveValue()
+        {
+            string function = "=ABS(10)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(10, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Abs_NegativeValue()
+        {
+            string function = "=ABS(-10)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(10, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Abs_CellReference()
+        {
+            string function = "=ABS(D1)"; // D1 = 1.5f
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(1.5, resultCell.GetValue());
+        }
+
+        [Test]
+        public void And_AllTrue()
+        {
+            string function = "=AND(true; true; true)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void And_OneFalse()
+        {
+            string function = "=AND(true; false; true)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(false, resultCell.GetValue());
+        }
+
+        [Test]
+        public void And_WithCellReferences()
+        {
+            string function = "=AND(C1 > 0; D1 < 2; H1 = false)"; // C1=1>0, D1=1.5<2, H1=false
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Or_OneTrue()
+        {
+            string function = "=OR(false; false; true)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Or_AllFalse()
+        {
+            string function = "=OR(false; false; false)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(false, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Or_WithCellReferences()
+        {
+            string function = "=OR(C1 > 10; D1 < 2; H1 = true)"; // C1=1<10, D1=1.5<2, H1=false
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Not_True()
+        {
+            string function = "=NOT(true)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(false, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Not_False()
+        {
+            string function = "=NOT(false)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Not_WithCellReference()
+        {
+            string function = "=NOT(H1)"; // H1 = false (row1)
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Xor_BothTrue()
+        {
+            string function = "=XOR(true; true)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(false, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Xor_BothFalse()
+        {
+            string function = "=XOR(false; false)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(false, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Xor_OneTrue()
+        {
+            string function = "=XOR(true; false)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Xor_WithCellReferences()
+        {
+            string function = "=XOR(H1; H2)"; // H1=false, H2=true
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(true, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Divide_NormalOperation()
+        {
+            string function = "=DIVIDE(10; 2)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(5.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Divide_ByZero()
+        {
+            string function = "=DIVIDE(10; 0)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            double initialValue = (double) resultCell.GetValue();
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in DIVIDE function.");
+            Assert.AreEqual(initialValue, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Divide_WithCellReferences()
+        {
+            string function = "=DIVIDE(C5; C1)"; // C5=5, C1=1
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(5.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Multiply_NormalOperation()
+        {
+            string function = "=MULTIPLY(3; 4)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(12.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Multiply_WithCellReferences()
+        {
+            string function = "=MULTIPLY(C2; D2)"; // C2=2, D2=3.0f
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(6.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Mod_NormalOperation()
+        {
+            string function = "=MOD(10; 3)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(1.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Mod_ByZero()
+        {
+            string function = "=MOD(10; 0)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            double initialValue = (double) resultCell.GetValue();
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in MOD function.");
+            Assert.AreEqual(initialValue, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Mod_WithCellReferences()
+        {
+            string function = "=MOD(C5; C2)"; // C5=5, C2=2
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(1.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Round_WithDecimals()
+        {
+            string function = "=ROUND(3.14159; 2)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(3.14, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Round_WithoutDecimals()
+        {
+            string function = "=ROUND(3.14159)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(3.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Round_NegativeNumber()
+        {
+            string function = "=ROUND(-3.7; 0)";
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(-4.0, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Round_WithCellReferences()
+        {
+            string function = "=ROUND(E1; 1)"; // E1 = 2.5 (row1)
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(2.5, resultCell.GetValue());
+        }
+
+        [Test]
+        public void Complex_LogicalExpression()
+        {
+            string function = "=IF(AND(C1>0; NOT(H1)); MULTIPLY(C1; 10); MOD(10; 3))";
+            // C1=1>0, H1=false → NOT(H1)=true → AND=true
+            // Result should be MULTIPLY(C1; 10) = MULTIPLY(1; 10) = 10
+            // If condition is false, it should return MOD(10; 3) = 1
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            Assert.AreEqual(10.0, resultCell.GetValue()); // Since condition is true
+        }
     }
 }

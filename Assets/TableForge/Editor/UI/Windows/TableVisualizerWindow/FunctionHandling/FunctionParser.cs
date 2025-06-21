@@ -148,7 +148,7 @@ namespace TableForge.UI
             
             if ((expectedArg.Type & ArgumentType.Numeric) != 0)
             {
-                if (double.TryParse(token, out double number))
+                if (token.TryParseNumber(out double number))
                     return number.ToString(CultureInfo.InvariantCulture);
                 
                 bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.Numeric) != 0;
@@ -181,16 +181,28 @@ namespace TableForge.UI
                 }
             }
 
-            if ((expectedArg.Type & ArgumentType.Function) != 0)
+            if ((expectedArg.Type & ArgumentType.NumericFunction) != 0)
             {
                 if (FunctionRegistry.StringContainsFunction(token) && token.Contains('(') && token.EndsWith(")"))
                 {
                     return EvaluateFunction(token, context);
                 }
                 
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.Function) != 0;
+                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.NumericFunction) != 0;
                 if (!hasMoreFlags)
                     return null; // Not a valid function argument
+            }
+            
+            if((expectedArg.Type & ArgumentType.LogicalFunction) != 0)
+            {
+                if (FunctionRegistry.StringContainsFunction(token) && token.Contains('(') && token.EndsWith(")"))
+                {
+                    return EvaluateFunction(token, context);
+                }
+                
+                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.LogicalFunction) != 0;
+                if (!hasMoreFlags)
+                    return null; // Not a valid logical function argument
             }
             
             if ((expectedArg.Type & ArgumentType.LogicExpression) != 0)
@@ -232,7 +244,7 @@ namespace TableForge.UI
                     string op = token.Substring(operatorIndex, operatorLength).Trim();
                     string right = token.Substring(operatorIndex + operatorLength).Trim();
                 
-                    ArgumentDefinition expectedSubArg = new ArgumentDefinition(ArgumentType.Number);
+                    ArgumentDefinition expectedSubArg = new ArgumentDefinition(ArgumentType.Number | ArgumentType.Boolean);
                     object leftValue = ParseArgument(left, context, expectedSubArg);
                     object rightValue = ParseArgument(right, context, expectedSubArg);
                     

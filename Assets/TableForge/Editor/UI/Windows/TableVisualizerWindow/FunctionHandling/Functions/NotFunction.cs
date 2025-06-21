@@ -2,20 +2,17 @@ using System.Collections.Generic;
 
 namespace TableForge.UI
 {
-    internal class IfFunction : ExcelFunctionBase
+    internal class NotFunction : ExcelFunctionBase
     {
-        public override string Name => "IF";
+        public override string Name => "NOT";
         protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
         {
-            new(ArgumentType.Boolean),
-            new(ArgumentType.Value),
-            new(ArgumentType.Value, true) 
+            new(ArgumentType.Boolean)
         });
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {
-            bool condition = (bool) args[0];
-            return condition ? args[1] : (args.Count == 3 ? args[2] : null);
+            return !FunctionArgumentHelper.ConvertToBoolean(args[0]);
         }
     }
 }

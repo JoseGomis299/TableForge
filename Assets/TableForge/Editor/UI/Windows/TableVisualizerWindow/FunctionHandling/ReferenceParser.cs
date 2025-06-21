@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TableForge.UI
 {
@@ -9,8 +10,11 @@ namespace TableForge.UI
         public bool IsReference(string input)
         {
             input = input.Replace("$", ""); // Remove absolute markers
-            return !string.IsNullOrWhiteSpace(input) && 
-                   char.IsLetter(input[0]) && char.IsDigit(input[^1]);
+            input = input.Replace(".", ""); // Remove dots
+            input = input.Replace(":", ""); // Remove range markers
+            
+            Regex regex = new Regex(@"^([A-Z]+[0-9]+)+$");
+            return regex.IsMatch(input);
         }
         
         public List<Cell> ResolveReference(string reference, Cell contextCell)

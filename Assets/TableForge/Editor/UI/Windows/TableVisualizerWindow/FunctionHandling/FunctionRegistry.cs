@@ -18,6 +18,15 @@ namespace TableForge.UI
             RegisterFunction(new MinFunction());
             RegisterFunction(new MaxFunction());
             RegisterFunction(new AverageFunction());
+            RegisterFunction(new OrFunction());
+            RegisterFunction(new NotFunction());
+            RegisterFunction(new AndFunction());
+            RegisterFunction(new XorFunction());
+            RegisterFunction(new AbsFunction());
+            RegisterFunction(new RoundFunction());
+            RegisterFunction(new ModFunction());
+            RegisterFunction(new DivideFunction());
+            RegisterFunction(new MultiplyFunction());
         }
 
         public static void RegisterFunction(IExcelFunction function)
