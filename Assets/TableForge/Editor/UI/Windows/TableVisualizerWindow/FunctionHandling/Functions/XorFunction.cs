@@ -4,12 +4,16 @@ namespace TableForge.UI
 {
     internal class XorFunction : ExcelFunctionBase
     {
-        public override string Name => "XOR";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Boolean),
-            new(ArgumentType.Boolean, true, true) 
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "XOR",
+            "Returns TRUE if exactly one argument is TRUE, otherwise returns FALSE.",
+            FunctionReturnType.Boolean,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Boolean, "logical_expression1"),
+                new(ArgumentType.Boolean, "logical_expression2", true, true) 
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

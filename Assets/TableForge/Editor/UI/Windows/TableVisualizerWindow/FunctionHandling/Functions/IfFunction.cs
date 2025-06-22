@@ -4,18 +4,22 @@ namespace TableForge.UI
 {
     internal class IfFunction : ExcelFunctionBase
     {
-        public override string Name => "IF";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Boolean),
-            new(ArgumentType.Value),
-            new(ArgumentType.Value, true) 
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "IF",
+            "Returns one value if a condition is true and another value if it is false.",
+            FunctionReturnType.Any,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Boolean, "logical_expression"),
+                new(ArgumentType.Value, "value_if_true"),
+                new(ArgumentType.Value, "value_if_false") 
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {
             bool condition = (bool) args[0];
-            return condition ? args[1] : (args.Count == 3 ? args[2] : null);
+            return condition ? args[1] : args[2];
         }
     }
 }

@@ -5,12 +5,16 @@ namespace TableForge.UI
 {
     internal class DivideFunction : ExcelFunctionBase
     {
-        public override string Name => "DIVIDE";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number), // Dividend
-            new(ArgumentType.Number)  // Divisor
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "DIVIDE",
+            "Divides the first number by the second number. Returns an error if the divisor is zero.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "dividend"), 
+                new(ArgumentType.Number, "divisor") 
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

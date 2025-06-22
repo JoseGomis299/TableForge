@@ -5,12 +5,16 @@ namespace TableForge.UI
 {
     internal class RoundFunction : ExcelFunctionBase
     {
-        public override string Name => "ROUND";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number), // Value to round
-            new(ArgumentType.Number, true)  // Decimal places
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "ROUND",
+            "Rounds a number to the specified number of digits.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "value"),
+                new(ArgumentType.Number, "decimals",true)  
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

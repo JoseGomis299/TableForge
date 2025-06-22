@@ -1,55 +1,49 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TableForge.UI
 {
     internal static class FunctionRegistry
     {
-        private static readonly Dictionary<string, IExcelFunction> Functions = 
-            new Dictionary<string, IExcelFunction>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, IExcelFunction> _functions = new(StringComparer.OrdinalIgnoreCase);
 
         static FunctionRegistry()
         {
-            RegisterFunction(new SumFunction());
-            RegisterFunction(new IfFunction());
-            RegisterFunction(new SumIfFunction());
-            RegisterFunction(new CountFunction());
-            RegisterFunction(new CountIfFunction());
-            RegisterFunction(new MinFunction());
-            RegisterFunction(new MaxFunction());
-            RegisterFunction(new AverageFunction());
-            RegisterFunction(new OrFunction());
-            RegisterFunction(new NotFunction());
-            RegisterFunction(new AndFunction());
-            RegisterFunction(new XorFunction());
-            RegisterFunction(new AbsFunction());
-            RegisterFunction(new RoundFunction());
-            RegisterFunction(new ModFunction());
-            RegisterFunction(new DivideFunction());
-            RegisterFunction(new MultiplyFunction());
+            //Register all functions that implement IExcelFunction
+            var functionTypes = typeof(FunctionRegistry).Assembly.GetTypes();
+            foreach (var type in functionTypes)
+            {
+                if (typeof(IExcelFunction).IsAssignableFrom(type) && !type.IsAbstract)
+                {
+                    var function = (IExcelFunction)Activator.CreateInstance(type);
+                    RegisterFunction(function);
+                }
+            }
         }
 
         public static void RegisterFunction(IExcelFunction function)
         {
-            Functions[function.Name] = function;
+            _functions[function.Name] = function;
         }
 
         public static IExcelFunction GetFunction(string name)
         {
-            if (Functions.TryGetValue(name, out var function))
+            if (_functions.TryGetValue(name, out var function))
                 return function;
 
             throw new KeyNotFoundException($"Function '{name}' is not supported.");
         }
         
-        public static bool StringContainsFunction(string input)
+        public static bool StringContainsFunction(string input, FunctionReturnType returnType = FunctionReturnType.Any)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return false;
 
-            foreach (var function in Functions.Keys)
+            foreach (var function in _functions.Keys)
             {
-                if (input.Contains(function, StringComparison.OrdinalIgnoreCase))
+                if (input.Contains(function, StringComparison.OrdinalIgnoreCase)
+                    && (_functions[function].ReturnType & returnType) != 0)
                     return true;
             }
 

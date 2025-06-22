@@ -5,12 +5,16 @@ namespace TableForge.UI
 {
     internal class ModFunction : ExcelFunctionBase
     {
-        public override string Name => "MOD";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number), // Dividend
-            new(ArgumentType.Number)  // Divisor
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "MOD",
+            "Returns the remainder after a number is divided by a divisor.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "dividend"),
+                new(ArgumentType.Number, "divisor") 
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

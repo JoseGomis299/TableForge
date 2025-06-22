@@ -5,12 +5,16 @@ namespace TableForge.UI
 {
     internal class MaxFunction : ExcelFunctionBase
     {
-        public override string Name => "MAX";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number),
-            new(ArgumentType.Number, true, true)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "MAX",
+            "Returns the maximum value from a list of numbers or cells containing numbers.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "value1"),
+                new(ArgumentType.Number, "value2",true, true)
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

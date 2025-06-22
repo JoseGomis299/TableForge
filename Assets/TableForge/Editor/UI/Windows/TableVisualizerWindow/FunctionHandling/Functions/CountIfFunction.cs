@@ -6,12 +6,16 @@ namespace TableForge.UI
 {
     internal class CountIfFunction : ExcelFunctionBase
     {
-        public override string Name => "COUNTIF";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Range),
-            new(ArgumentType.Criteria)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "COUNTIF",
+            "Counts the number of cells in a range that meet a specified condition.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Range, "range"),
+                new(ArgumentType.Criteria, "criteria")
+            })
+        );
 
         public override object Evaluate(List<object> args, FunctionContext context)
         {

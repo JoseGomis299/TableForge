@@ -5,12 +5,16 @@ namespace TableForge.UI
 {
     internal class CountFunction : ExcelFunctionBase
     {
-        public override string Name => "COUNT";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Reference),
-            new(ArgumentType.Reference, true, true)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "COUNT",
+            "Counts the number of non-null values in a set.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Reference, "value1"),
+                new(ArgumentType.Reference, "value2",true, true)
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

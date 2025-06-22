@@ -530,6 +530,34 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             Assert.AreEqual(true, resultCell.GetValue());
         }
+        
+        [Test]
+        public void Not_WithNonValidArgument()
+        {
+            string function = "=NOT(5)"; // 5 is not a boolean
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            bool initialValue = (bool) resultCell.GetValue();
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            Assert.AreEqual(initialValue, resultCell.GetValue());
+        }
+        
+        [Test]
+        public void Not_WithNonValidFunctionArgument()
+        {
+            string function = "=NOT(SUM(5))"; // SUM(5) returns a number, not a boolean
+            Cell resultCell = _tableControl.TableData.Rows[1].Cells[8]; // H1
+            _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
+            
+            bool initialValue = (bool) resultCell.GetValue();
+            _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            Assert.AreEqual(initialValue, resultCell.GetValue());
+        }
 
         [Test]
         public void Xor_BothTrue()

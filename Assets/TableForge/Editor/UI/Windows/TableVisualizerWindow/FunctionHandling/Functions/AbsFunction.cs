@@ -5,11 +5,15 @@ namespace TableForge.UI
 {
     internal class AbsFunction : ExcelFunctionBase
     {
-        public override string Name => "ABS";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "ABS",
+            "Returns the absolute value of a number.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "value")
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

@@ -5,13 +5,17 @@ namespace TableForge.UI
 {
     internal class SumIfFunction : ExcelFunctionBase
     {
-        public override string Name => "SUMIF";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Range),
-            new(ArgumentType.Criteria),
-            new(ArgumentType.Range, true) 
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "SUMIF",
+            "Returns the sum of a range based on a condition.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Range, "range"),
+                new(ArgumentType.Criteria, "criteria"),
+                new(ArgumentType.Range, "sum_range", true) 
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

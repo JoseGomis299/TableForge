@@ -4,11 +4,15 @@ namespace TableForge.UI
 {
     internal class NotFunction : ExcelFunctionBase
     {
-        public override string Name => "NOT";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Boolean)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "NOT",
+            "Returns the logical negation of a boolean value. If the argument is TRUE, it returns FALSE; if the argument is FALSE, it returns TRUE.",
+            FunctionReturnType.Boolean,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Boolean, "logical_expression")
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

@@ -4,12 +4,16 @@ namespace TableForge.UI
 {
     internal class SumFunction : ExcelFunctionBase
     {
-        public override string Name => "SUM";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number),
-            new(ArgumentType.Number, true, true)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "SUM",
+            "Returns the sum of all arguments.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "value1"),
+                new(ArgumentType.Number, "value2", true, true)
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

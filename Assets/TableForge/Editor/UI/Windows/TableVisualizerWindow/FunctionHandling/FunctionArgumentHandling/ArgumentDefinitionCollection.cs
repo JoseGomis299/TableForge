@@ -66,5 +66,21 @@ namespace TableForge.UI
 
             return requiredCount;
         }
+
+        public override string ToString()
+        {
+            string result = "";
+            for (var index = 0; index < _definitions.Count; index++)
+            {
+                var definition = _definitions[index];
+                result += definition.ToString();
+                if (index < _definitions.Count - 1)
+                {
+                    result += "; ";
+                }
+            }
+
+            return result;
+        }
     }
 }

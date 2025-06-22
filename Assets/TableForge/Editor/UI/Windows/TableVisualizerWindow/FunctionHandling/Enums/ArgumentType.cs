@@ -11,13 +11,13 @@ namespace TableForge.UI
         Criteria = 8,
         Range = 16,
         CellReference = 32,
-        NumericFunction = 64,
+        ValueFunction = 64,
         LogicalFunction = 128,
         Boolean = LogicExpression | LogicalFunction | CellReference,
         Reference = Range | CellReference,
-        Number = Numeric | Range | CellReference | NumericFunction,
+        Number = Numeric | Range | CellReference | ValueFunction,
         Text = String | Criteria,
-        Value = Numeric | String | Range | CellReference | NumericFunction,
-        Any = Numeric | String | LogicExpression | Criteria | Range | CellReference | NumericFunction | LogicalFunction
+        Value = Numeric | String | Range | CellReference | ValueFunction,
+        Any = Numeric | String | LogicExpression | Criteria | Range | CellReference | ValueFunction | LogicalFunction
     }
 }

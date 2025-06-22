@@ -4,12 +4,16 @@ namespace TableForge.UI
 {
     internal class AverageFunction : ExcelFunctionBase
     {
-        public override string Name => "AVERAGE";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number),
-            new(ArgumentType.Number, true, true)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "AVERAGE",
+            "Calculates the average of a set of numbers.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "value1"),
+                new(ArgumentType.Number, "value2",true, true)
+            })
+        );
 
         public override object Evaluate(List<object> args, FunctionContext context)
         {

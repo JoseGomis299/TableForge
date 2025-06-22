@@ -201,7 +201,7 @@ namespace TableForge.Tests
         [Test]
         public void FilterByNestedProperty_ShouldMatchRows()
         {
-            _tableControl.Filterer.Filter("p:Serialized Filtering Data.Int Value>=20");
+            _tableControl.Filterer.Filter("p:Serialized Filtering Test Data.Int Value>=20");
             Assert.AreEqual(2, _tableControl.Filterer.HiddenRows.Count);
         }
         
@@ -243,7 +243,7 @@ namespace TableForge.Tests
         [Test]
         public void FilterByNestedString_ShouldMatchRows()
         {
-            _tableControl.Filterer.Filter("p:Serialized Filtering Data.String Value~=Serialized Row");
+            _tableControl.Filterer.Filter("p:Serialized Filtering Test Data.String Value~=Serialized Row");
             Assert.AreEqual(2, _tableControl.Filterer.HiddenRows.Count);
         }
         
@@ -257,14 +257,14 @@ namespace TableForge.Tests
         [Test]
         public void FilterWithComplexExpression_ShouldMatchRows()
         {
-            _tableControl.Filterer.Filter("(p:String Value ~= My Row & p:Int Value>0) | (p:Serialized Filtering Data.Int Value=10)");
+            _tableControl.Filterer.Filter("(p:String Value ~= My Row & p:Int Value>0) | (p:Serialized Filtering Test Data.Int Value=10)");
             Assert.AreEqual(2, _tableControl.Filterer.HiddenRows.Count);
         }
         
         [Test]
         public void FilterByDeeplyNestedProperty_ShouldMatchRows()
         {
-            _tableControl.Filterer.Filter("p:Serialized Filtering Data.String List~=Another Serialized String 0");
+            _tableControl.Filterer.Filter("p:Serialized Filtering Test Data.String List~=Another Serialized String 0");
             Assert.AreEqual(4, _tableControl.Filterer.HiddenRows.Count);
         }
         
@@ -348,7 +348,7 @@ namespace TableForge.Tests
         [Test]
         public void FilterByNestedPropertyWithColumnLetter_ShouldMatchRows()
         {
-            _tableControl.Filterer.Filter("p:Serialized Filtering Data.$A>20");
+            _tableControl.Filterer.Filter("p:Serialized Filtering Test Data.$A>20");
             Assert.AreEqual(3, _tableControl.Filterer.HiddenRows.Count);
         }
 

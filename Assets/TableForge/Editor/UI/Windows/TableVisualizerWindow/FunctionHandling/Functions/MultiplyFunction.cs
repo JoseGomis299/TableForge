@@ -5,12 +5,16 @@ namespace TableForge.UI
 {
     internal class MultiplyFunction : ExcelFunctionBase
     {
-        public override string Name => "MULTIPLY";
-        protected override ArgumentDefinitionCollection ArgumentDefinitions { get; } = new ArgumentDefinitionCollection(new List<ArgumentDefinition>
-        {
-            new(ArgumentType.Number),
-            new(ArgumentType.Number)
-        });
+        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+            "MULTIPLY",
+            "Multiplies two numbers together.",
+            FunctionReturnType.Number,
+            new ArgumentDefinitionCollection(new List<ArgumentDefinition>
+            {
+                new(ArgumentType.Number, "value1"),
+                new(ArgumentType.Number, "value2")
+            })
+        );
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {

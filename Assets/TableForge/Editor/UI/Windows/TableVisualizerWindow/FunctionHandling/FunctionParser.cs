@@ -105,7 +105,7 @@ namespace TableForge.UI
             string argsStr = match.Groups[2].Value;
             
             var function = FunctionRegistry.GetFunction(funcName);
-            var args = ParseArguments(argsStr, context, function.ExpectedArguments);
+            var args = ParseArguments(argsStr, context, function.ExpectedArguments.Definitions);
 
             if(!function.ValidateArguments(args))
             {
@@ -181,21 +181,21 @@ namespace TableForge.UI
                 }
             }
 
-            if ((expectedArg.Type & ArgumentType.NumericFunction) != 0)
+            if ((expectedArg.Type & ArgumentType.ValueFunction) != 0)
             {
                 if (FunctionRegistry.StringContainsFunction(token) && token.Contains('(') && token.EndsWith(")"))
                 {
                     return EvaluateFunction(token, context);
                 }
                 
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.NumericFunction) != 0;
+                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.ValueFunction) != 0;
                 if (!hasMoreFlags)
                     return null; // Not a valid function argument
             }
             
             if((expectedArg.Type & ArgumentType.LogicalFunction) != 0)
             {
-                if (FunctionRegistry.StringContainsFunction(token) && token.Contains('(') && token.EndsWith(")"))
+                if (FunctionRegistry.StringContainsFunction(token, FunctionReturnType.Boolean) && token.Contains('(') && token.EndsWith(")"))
                 {
                     return EvaluateFunction(token, context);
                 }
@@ -244,7 +244,7 @@ namespace TableForge.UI
                     string op = token.Substring(operatorIndex, operatorLength).Trim();
                     string right = token.Substring(operatorIndex + operatorLength).Trim();
                 
-                    ArgumentDefinition expectedSubArg = new ArgumentDefinition(ArgumentType.Number | ArgumentType.Boolean);
+                    ArgumentDefinition expectedSubArg = new ArgumentDefinition(ArgumentType.Number | ArgumentType.Boolean, "");
                     object leftValue = ParseArgument(left, context, expectedSubArg);
                     object rightValue = ParseArgument(right, context, expectedSubArg);
                     
