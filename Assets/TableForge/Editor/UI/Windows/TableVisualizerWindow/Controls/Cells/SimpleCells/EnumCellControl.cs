@@ -8,26 +8,39 @@ namespace TableForge.Editor.UI
     [CellControlUsage(typeof(EnumCell), CellSizeCalculationMethod.EnumAutoSize)]
     internal class EnumCellControl : SimpleCellControl
     {
+        private readonly EnumFlagsField _flagsField;
+        private readonly EnumField _enumField;
+        
         public EnumCellControl(EnumCell cell, TableControl tableControl) : base(cell, tableControl)
         {
             if(cell.Type.GetCustomAttribute<FlagsAttribute>() != null)
             {
-                var field = new EnumFlagsField(Cell.GetValue() as Enum);
-                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-                OnRefresh += () => field.value = Cell.GetValue() as Enum;
-                Add(field);
-                Field = field;
+                _flagsField = new EnumFlagsField(Cell.GetValue() as Enum);
+                _flagsField.RegisterValueChangedCallback(evt => OnChange(evt, _flagsField));
+                Add(_flagsField);
+                Field = _flagsField;
             }
             else
             {
-                var field = new EnumField(Cell.GetValue() as Enum);
-                field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-                OnRefresh += () => field.value = Cell.GetValue() as Enum;
-                Add(field);
-                Field = field;
+                _enumField = new EnumField(Cell.GetValue() as Enum);
+                _enumField.RegisterValueChangedCallback(evt => OnChange(evt, _enumField));
+                Add(_enumField);
+                Field = _enumField;
             }
 
             this[0].AddToClassList(USSClasses.TableCellContent);
+        }
+
+        protected override void OnRefresh()
+        {
+            if(_enumField != null)
+            {
+                _enumField.value = Cell.GetValue() as Enum;
+            }
+            else if(_flagsField != null)
+            {
+                _flagsField.value = Cell.GetValue() as Enum;
+            }
         }
     }
 }

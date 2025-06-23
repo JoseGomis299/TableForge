@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
 {
-    internal class TextBasedCellControl<T> : SimpleCellControl, ITextBasedCellControl
+    internal abstract class TextBasedCellControl<T> : SimpleCellControl, ITextBasedCellControl
     {
 
         private TextInputBaseField<T> _textField;
@@ -84,6 +84,14 @@ namespace TableForge.Editor.UI
                 return string.Empty;
 
             return value;
+        }
+
+        protected override void OnRefresh()
+        {
+            if (_textField != null)
+            {
+                _textField.value = (T)Convert.ChangeType(Cell.GetValue(), typeof(T));
+            }
         }
     }
 }

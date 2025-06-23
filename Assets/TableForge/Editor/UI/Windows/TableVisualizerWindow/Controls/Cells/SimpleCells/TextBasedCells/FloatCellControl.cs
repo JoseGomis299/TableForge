@@ -13,7 +13,6 @@ namespace TableForge.Editor.UI
             };
             
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            OnRefresh = () => field.value = (float)Cell.GetValue();
             
             TextField = field;
             Add(field);

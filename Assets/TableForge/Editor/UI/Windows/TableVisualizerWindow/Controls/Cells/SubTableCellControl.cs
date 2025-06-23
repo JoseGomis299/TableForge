@@ -14,7 +14,9 @@ namespace TableForge.Editor.UI
             Cell = cell;
             ParentTableControl = tableControl;
         }
-        
+
+        protected override void OnRefresh() { }
+
         protected virtual void RecalculateSizeWithCurrentValues()
         {
             Vector2 size = SizeCalculator.CalculateSizeWithCurrentCellSizes(SubTableControl);

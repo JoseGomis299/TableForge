@@ -28,14 +28,18 @@ namespace TableForge.Editor.UI
 
                 OnChange(evt, field);
             });
-            OnRefresh = () => field.value = (ushort)Cell.GetValue();
 
             Add(field);
             TextField = field;
 
             field.AddToClassList(USSClasses.TableCellContent);
         }
-        
+
+        protected override void OnRefresh()
+        {
+            TextField.value = (ushort)Cell.GetValue();
+        }
+
         protected override void SetCellValue(object value)
         {
             ushort ushortValue = Convert.ToUInt16(value);

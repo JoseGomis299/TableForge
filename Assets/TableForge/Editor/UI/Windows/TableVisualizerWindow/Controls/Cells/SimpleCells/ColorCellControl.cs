@@ -7,18 +7,23 @@ namespace TableForge.Editor.UI
     [CellControlUsage(typeof(ColorCell), CellSizeCalculationMethod.FixedBigCell)]
     internal class ColorCellControl : SimpleCellControl
     {
+        private readonly ColorField _field;
         public ColorCellControl(ColorCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            var field = new ColorField()
+            _field = new ColorField()
             {
                 value = (Color)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            OnRefresh = () => field.value = (Color)Cell.GetValue();
-            Add(field);
-            Field = field;
+            _field.RegisterValueChangedCallback(evt => OnChange(evt, _field));
+            Add(_field);
+            Field = _field;
 
-            field.AddToClassList(USSClasses.TableCellContent);
+            _field.AddToClassList(USSClasses.TableCellContent);
+        }
+
+        protected override void OnRefresh()
+        {
+            _field.value = (Color)Cell.GetValue();
         }
     }
 }

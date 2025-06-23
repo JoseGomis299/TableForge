@@ -28,7 +28,6 @@ namespace TableForge.Editor.UI
 
                 OnChange(evt, field);
             });
-            OnRefresh = () => field.value = (short)Cell.GetValue();
 
             Add(field);
             TextField = field;

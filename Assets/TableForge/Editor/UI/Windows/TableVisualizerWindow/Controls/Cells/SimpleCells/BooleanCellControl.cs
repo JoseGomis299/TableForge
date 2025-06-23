@@ -5,19 +5,24 @@ namespace TableForge.Editor.UI
     [CellControlUsage(typeof(BoolCell), CellSizeCalculationMethod.FixedSmallCell)]
     internal class BooleanCellControl : SimpleCellControl
     {
+        private readonly Toggle _field;
         public BooleanCellControl(BoolCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            var field = new Toggle
+            _field = new Toggle
             {
                 value = (bool)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            OnRefresh = () => field.value = (bool)Cell.GetValue();
-            Add(field);
-            Field = field;
+            _field.RegisterValueChangedCallback(evt => OnChange(evt, _field));
+            Add(_field);
+            Field = _field;
             
-            field.AddToClassList(USSClasses.Fill);
-            field.AddToChildrenClassList(USSClasses.Center); 
+            _field.AddToClassList(USSClasses.Fill);
+            _field.AddToChildrenClassList(USSClasses.Center); 
+        }
+
+        protected override void OnRefresh()
+        {
+            _field.value = (bool)Cell.GetValue();
         }
     }
 }

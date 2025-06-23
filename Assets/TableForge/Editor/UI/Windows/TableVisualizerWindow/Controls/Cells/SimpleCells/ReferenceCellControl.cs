@@ -7,18 +7,23 @@ namespace TableForge.Editor.UI
     [CellControlUsage(typeof(ReferenceCell), CellSizeCalculationMethod.ReferenceAutoSize)]
     internal class ReferenceCellControl : SimpleCellControl
     {
+        private readonly ObjectField _field;
         public ReferenceCellControl(ReferenceCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            var field = new ObjectField()
+            _field = new ObjectField()
             {
                 value = (Object)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            OnRefresh = () => field.value = (Object)Cell.GetValue();
-            Add(field);
-            Field = field;
+            _field.RegisterValueChangedCallback(evt => OnChange(evt, _field));
+            Add(_field);
+            Field = _field;
 
-            field.AddToClassList(USSClasses.TableCellContent);
+            _field.AddToClassList(USSClasses.TableCellContent);
+        }
+
+        protected override void OnRefresh()
+        {
+            _field.value = (Object)Cell.GetValue();
         }
     }
 }

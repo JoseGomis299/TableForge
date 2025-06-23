@@ -7,27 +7,29 @@ namespace TableForge.Editor.UI
     [CellControlUsage(typeof(AnimationCurveCell), CellSizeCalculationMethod.FixedBigCell)]
     internal class AnimationCurveCellControl : SimpleCellControl
     {
+        private readonly CurveField _field;
         public AnimationCurveCellControl(AnimationCurveCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            var field = new CurveField()
+            _field = new CurveField()
             {
                 value = (AnimationCurve)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt =>
+            _field.RegisterValueChangedCallback(evt =>
             {
                 //We need to create a new AnimationCurve to avoid the reference being shared between cells when re-utilizing this cellControl
                 var cachedEvt = ChangeEvent<AnimationCurve>.GetPooled(evt.previousValue, new AnimationCurve(evt.newValue.keys));
-                OnChange(cachedEvt, field);
+                OnChange(cachedEvt, _field);
             });
             
-            OnRefresh = () =>
-            {
-                field.value = (AnimationCurve)Cell.GetValue();
-            };
-            Add(field);
+            Add(_field);
             
-            Field = field;
-            field.AddToClassList(USSClasses.TableCellContent);
+            Field = _field;
+            _field.AddToClassList(USSClasses.TableCellContent);
+        }
+
+        protected override void OnRefresh()
+        {
+            _field.value = (AnimationCurve)Cell.GetValue();
         }
     }
 }

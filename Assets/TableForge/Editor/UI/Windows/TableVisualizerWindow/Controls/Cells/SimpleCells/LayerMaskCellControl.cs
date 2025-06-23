@@ -7,18 +7,18 @@ namespace TableForge.Editor.UI
     [CellControlUsage(typeof(LayerMaskCell), CellSizeCalculationMethod.EnumAutoSize)]
     internal class LayerMaskCellControl : SimpleCellControl
     {
+        private readonly LayerMaskField _field;
         public LayerMaskCellControl(LayerMaskCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            var field = new LayerMaskField()
+            _field = new LayerMaskField()
             {
                 value = (LayerMask)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            OnRefresh = () => field.value = (LayerMask)Cell.GetValue();
-            Add(field);
-            Field = field;
+            _field.RegisterValueChangedCallback(evt => OnChange(evt, _field));
+            Add(_field);
+            Field = _field;
 
-            field.AddToClassList(USSClasses.TableCellContent);
+            _field.AddToClassList(USSClasses.TableCellContent);
         }
 
         protected override void SetCellValue(object value)
@@ -27,6 +27,11 @@ namespace TableForge.Editor.UI
             {
                 base.SetCellValue((LayerMask)intValue);
             }
+        }
+
+        protected override void OnRefresh()
+        {
+            _field.value = (LayerMask)Cell.GetValue();
         }
     }
 }

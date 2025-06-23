@@ -8,13 +8,14 @@ namespace TableForge.Editor.UI
     [CellControlUsage(typeof(GradientCell), CellSizeCalculationMethod.FixedBigCell)]
     internal class GradientCellControl : SimpleCellControl
     {
+        private readonly GradientField _field;
         public GradientCellControl(GradientCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            var field = new GradientField()
+            _field = new GradientField()
             {
                 value = (Gradient)Cell.GetValue()
             };
-            field.RegisterValueChangedCallback(evt =>
+            _field.RegisterValueChangedCallback(evt =>
             {
                 //We need to create a new Gradient to avoid the reference being shared between cells when re-utilizing this cellControl
                 Gradient newGradient = new Gradient();
@@ -22,13 +23,17 @@ namespace TableForge.Editor.UI
                 newGradient.colorKeys = evt.newValue.colorKeys.ToArray();
                 
                 var cachedEvt = ChangeEvent<Gradient>.GetPooled(evt.previousValue, newGradient);
-                OnChange(cachedEvt, field);
+                OnChange(cachedEvt, _field);
             });            
-            OnRefresh = () => field.value = (Gradient)Cell.GetValue();
-            Add(field);
-            Field = field;
+            Add(_field);
+            Field = _field;
 
-            field.AddToClassList(USSClasses.TableCellContent);
+            _field.AddToClassList(USSClasses.TableCellContent);
+        }
+
+        protected override void OnRefresh()
+        {
+            _field.value = (Gradient)Cell.GetValue();
         }
     }
 }

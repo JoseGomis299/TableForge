@@ -13,12 +13,16 @@ namespace TableForge.Editor.UI
                 maxLength = 1
             };
             field.RegisterValueChangedCallback(evt => OnChange(evt, field));
-            OnRefresh = () => field.value = Cell.GetValue().ToString();
             Add(field);
             TextField = field;
 
             field.AddToClassList(USSClasses.TableCellContent);
             field.AddToClassList(USSClasses.MultilineCell);
+        }
+
+        protected override void OnRefresh()
+        {
+            TextField.value = Cell.GetValue().ToString();
         }
 
         protected override void SetCellValue(object value)

@@ -6,8 +6,6 @@ namespace TableForge.Editor.UI
 {
     internal abstract class CellControl : VisualElement
     {
-        protected Action OnRefresh;
-        
         private bool _isSelected;
         public bool IsSelected
         {
@@ -40,15 +38,10 @@ namespace TableForge.Editor.UI
             AddToClassList(USSClasses.TableCell);
         }
         
-        ~CellControl()
-        {
-            OnRefresh = null;
-        }
-        
         public void Refresh()
         {
             Cell.RefreshData();
-            OnRefresh?.Invoke();
+            OnRefresh();
         }
         
         public virtual void Refresh(Cell cell, TableControl tableControl)
@@ -60,6 +53,8 @@ namespace TableForge.Editor.UI
 
             IsSelected = tableControl.CellSelector.IsCellSelected(cell);
         }
+
+        protected abstract void OnRefresh();
         
         protected void SetPreferredSize(float width, float height)
         {
