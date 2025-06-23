@@ -3,7 +3,7 @@ using System.Linq;
 using TableForge.Editor;
 
 
-namespace TableForge
+namespace TableForge.Editor
 {
     internal static class CellExtension
     {
@@ -229,6 +229,9 @@ namespace TableForge
             return depth;
         }
         
+        /// <summary>
+        /// Retrieves the number of columns in a subtable cell, including its descendant columns if specified.
+        /// </summary>
         public static int GetSubTableColumnCount(this SubTableCell cell, bool includeDescendantColumns = false)
         {
             Table table = cell.SubTable;
@@ -251,22 +254,10 @@ namespace TableForge
             
             return columnCount;
         }
-
-        private static int GetSubTableColumnCount(TFFieldInfo field)
-        {
-            int count = 0;
-            var fields = SerializationUtil.GetSerializableFields(field.Type, field.FieldInfo);
-            foreach (var subField in fields)
-            {
-                if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, subField.Type, out _))
-                    count++;
-                else if (!subField.Type.IsSimpleType())
-                    count += GetSubTableColumnCount(subField);
-            }
-            
-            return count;
-        }
         
+        /// <summary>
+        /// Retrieves the keys of a dictionary cell as a list of cells.
+        /// </summary>
         public static List<Cell> GetKeys(this DictionaryCell cell)
         {
             List<Cell> keys = new List<Cell>();
@@ -281,6 +272,9 @@ namespace TableForge
             return keys;
         }
         
+        /// <summary>
+        /// Retrieves the values of a dictionary cell as a list of cells.
+        /// </summary>
         public static List<Cell> GetValues(this DictionaryCell cell)
         {
             List<Cell> values = new List<Cell>();
@@ -295,9 +289,27 @@ namespace TableForge
             return values;
         }
         
+        /// <summary>
+        /// Determines if a cell is numeric based on its type.
+        /// </summary>
         public static bool IsNumeric(this Cell cell)
         {
             return cell is INumericBasedCell;
+        }
+
+        private static int GetSubTableColumnCount(TFFieldInfo field)
+        {
+            int count = 0;
+            var fields = SerializationUtil.GetSerializableFields(field.Type, field.FieldInfo);
+            foreach (var subField in fields)
+            {
+                if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, subField.Type, out _))
+                    count++;
+                else if (!subField.Type.IsSimpleType())
+                    count += GetSubTableColumnCount(subField);
+            }
+            
+            return count;
         }
     }
 }

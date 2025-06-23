@@ -3,7 +3,7 @@ using System.Collections;
 using System.Reflection;
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     public static class ObjectExtension
     {

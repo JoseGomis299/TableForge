@@ -258,7 +258,7 @@ namespace TableForge.Editor.UI
                     {
                         return ConditionEvaluator.Evaluate(leftValue, op, rightValue);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         if (!hasMoreFlags)
                             return null; // Not a valid logic expression argument

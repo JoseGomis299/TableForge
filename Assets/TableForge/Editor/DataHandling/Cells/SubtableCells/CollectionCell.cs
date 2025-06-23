@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// Represents a cell that contains a collection of items.

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// A base column generator that does not generate any columns.

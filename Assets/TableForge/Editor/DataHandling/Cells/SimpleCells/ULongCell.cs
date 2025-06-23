@@ -1,6 +1,6 @@
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// Cell for unsigned long values.

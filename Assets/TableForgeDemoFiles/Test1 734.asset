@@ -71,7 +71,7 @@ MonoBehaviour:
   B: 1
   charValue: 0
   intField: 190
-  floatField: 29
+  floatField: 2222
   <PublicLongProperty>k__BackingField: 29
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -141,7 +141,7 @@ MonoBehaviour:
   inheritorClassAsInnerClass2:
     rid: 6586668462697349303
   innerClasses: []
-  intArray: 0100000015000000
+  intArray: 0400000004000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}

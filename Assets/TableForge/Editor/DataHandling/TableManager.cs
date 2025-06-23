@@ -8,22 +8,6 @@ namespace TableForge.Editor
     /// </summary>
     internal static class TableManager
     {
-        public static List<Table> GenerateTables()
-        {
-            List<Table> tables = new List<Table>();
-            ItemSelector itemSelector = new ScriptableObjectSelector(new[] { "Assets/TableForgeDemoFiles" });
-            List<List<ITFSerializedObject>> items = itemSelector.GetItemData();
-            
-            foreach (var item in items)
-            {
-                string tableName = item[0].Name;
-                Table table = TableGenerator.GenerateTable(item, tableName, null);
-                tables.Add(table);
-            }
-            
-            return tables;
-        }
-
         public static Table GenerateTable(string[] paths, string tableName)
         {
             Stopwatch stopwatch = new Stopwatch();

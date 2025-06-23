@@ -1,6 +1,6 @@
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     [CellType(typeof(byte))]
     internal class ByteCell : PrimitiveBasedCell<byte>, INumericBasedCell

@@ -2,7 +2,7 @@ using TableForge.Editor;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using Unity.VisualScripting.YamlDotNet.Serialization;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     [CellType(typeof(char))]
     internal class CharCell : PrimitiveBasedCell<char>, IQuotedValueCell, INumericBasedCell

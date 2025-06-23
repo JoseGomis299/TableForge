@@ -6,6 +6,7 @@ namespace TableForge.Editor.UI
     internal interface ICellSelector
     {
         event Action OnSelectionChanged;
+        event Action OnFocusedCellChanged;
         
         bool SelectionEnabled {get; set;}
         bool IsCellSelected(Cell cell);

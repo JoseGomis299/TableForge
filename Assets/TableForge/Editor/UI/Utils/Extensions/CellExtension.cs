@@ -13,8 +13,8 @@ namespace TableForge.Editor.UI
                 return Vector2.zero;
             
             Table commonTable = from.GetNearestCommonTable(to, out from, out to);
-            (int col, int row) fromPosition = PositionUtil.GetPosition(from.GetPosition());
-            (int col, int row) toPosition = PositionUtil.GetPosition(to.GetPosition());
+            (int col, int row) fromPosition = PositionUtil.GetPosition(from.GetLocalPosition());
+            (int col, int row) toPosition = PositionUtil.GetPosition(to.GetLocalPosition());
             
             if (metadata != null && !commonTable.IsSubTable && metadata.IsTransposed)
             {

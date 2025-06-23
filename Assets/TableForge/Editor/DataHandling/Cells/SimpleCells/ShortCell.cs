@@ -1,6 +1,6 @@
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// Represents a cell that contains a short integer value.

@@ -2,7 +2,7 @@ using System.Linq;
 using TableForge.Editor;
 using UnityEngine;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// Cell for Unity LayerMask type fields.

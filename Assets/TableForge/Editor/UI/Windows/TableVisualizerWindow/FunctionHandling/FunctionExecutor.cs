@@ -123,6 +123,8 @@ namespace TableForge.Editor.UI
             {
                 action.Invoke();
             }
+            
+            _tableControl.Update();
         }
     }
 }

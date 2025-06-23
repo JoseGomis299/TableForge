@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     internal interface IFieldSerializationStrategy
     {

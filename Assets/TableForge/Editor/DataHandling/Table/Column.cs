@@ -1,6 +1,6 @@
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// Concrete implementation of <see cref="CellAnchor"/> representing a column in a table.

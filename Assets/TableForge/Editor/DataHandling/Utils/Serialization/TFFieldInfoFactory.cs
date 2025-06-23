@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TableForge.Editor;
 using UnityEngine;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     internal static class TFFieldInfoFactory
     {

@@ -1,6 +1,6 @@
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     [CellType(typeof(ushort))]
     internal class UShortCell : PrimitiveBasedCell<ushort>, INumericBasedCell

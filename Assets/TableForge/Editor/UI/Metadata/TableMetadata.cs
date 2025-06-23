@@ -360,6 +360,8 @@ namespace TableForge.Editor.UI
                 {
                     SwapMetadata(subTableCell1, subTableCell2);
                 }
+                
+                SwapFunctions(cell1.Id, cell2.Id);
             }
         }
         
@@ -411,6 +413,15 @@ namespace TableForge.Editor.UI
             
             SetTableExpanded(cell1, cell2Expanded);
             SetTableExpanded(cell2, cell1Expanded);
+        }
+        
+        private void SwapFunctions(int cell1, int cell2)
+        {
+            string function1 = GetFunction(cell1);
+            string function2 = GetFunction(cell2);
+            
+            SetFunction(cell1, function2);
+            SetFunction(cell2, function1);
         }
         
         private void SwapSizes(int anchor1, int anchor2)

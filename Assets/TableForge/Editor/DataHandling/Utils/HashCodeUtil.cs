@@ -1,4 +1,4 @@
-namespace TableForge
+namespace TableForge.Editor
 {
     public static class HashCodeUtil
     {

@@ -1,4 +1,4 @@
-namespace TableForge
+namespace TableForge.Editor
 {
     internal static class SerializationConstants
     {

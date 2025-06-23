@@ -1,7 +1,7 @@
 using System;
 using TableForge.Editor;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// Represents a cell that is based on a primitive type. (e.g., int, float, string).

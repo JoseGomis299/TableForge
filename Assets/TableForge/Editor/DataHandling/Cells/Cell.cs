@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace TableForge.Editor
 {
@@ -70,7 +71,7 @@ namespace TableForge.Editor
             Value = GetFieldValue();
             Serializer = new JsonSerializer();
             
-            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id, GetPosition());
+            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id, GetLocalPosition());
         }
         #endregion
 
@@ -105,7 +106,31 @@ namespace TableForge.Editor
         /// If the cell is in the first row and the first column, the position would be "A1".
         /// </example>
         /// <returns>A string representing the cell's position .</returns>
-        public string GetPosition() => $"{Column.LetterPosition}{Row.Position}";
+        public string GetLocalPosition() => $"{Column.LetterPosition}{Row.Position}";
+        
+        
+        /// <summary>
+        ///  Gets the global position of the cell in the table, which is a concatenation of all ancestor cells' local positions.
+        /// </summary>
+        /// <example>
+        /// If the cell is in the first row and the first column of a sub-table that is in the second row and second column, the position would be "B2.A1".
+        /// </example>
+        /// <returns>A string representing the global cell's position.</returns>
+        public string GetGlobalPosition()
+        {
+            StringBuilder positionBuilder = new StringBuilder();
+            foreach (var cell in this.GetAncestors(true))
+            {
+                positionBuilder.Append($".{cell.GetLocalPosition()}");
+            }
+            
+            if (positionBuilder.Length > 0)
+            {
+                positionBuilder.Remove(0, 1); // Remove the leading dot
+            }
+            
+            return positionBuilder.ToString();
+        }
         
         public abstract string Serialize();
         public abstract void Deserialize(string data);

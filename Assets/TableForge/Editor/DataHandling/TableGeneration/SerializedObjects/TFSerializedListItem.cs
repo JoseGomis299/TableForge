@@ -6,7 +6,7 @@ using TableForge.Editor;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     /// <summary>
     /// Represents a list item in a serialized list.

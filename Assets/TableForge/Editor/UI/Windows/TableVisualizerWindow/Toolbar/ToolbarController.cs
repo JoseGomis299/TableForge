@@ -44,6 +44,8 @@ namespace TableForge.Editor.UI
             BindVisualElements();
             RegisterEvents();
             OpenStoredTabs();
+            
+            RefreshFunctionTextField();
         }
 
         private void CreateVisualElements()
@@ -118,6 +120,31 @@ namespace TableForge.Editor.UI
                     _tableVisualizer.CurrentTable.Filterer.Filter(string.Empty);
                 }
             });
+            
+            _functionTextField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
+                
+                Cell focusedCell = _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell();
+                _tableVisualizer.CurrentTable.FunctionExecutor.SetCellFunction(focusedCell, _functionTextField.value);
+                _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteAllFunctions();
+            });
+        }
+        
+        private void RefreshFunctionTextField()
+        {
+            if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null)
+            {
+                _functionTextField.value = string.Empty;
+                _functionTextField.SetEnabled(false);
+                return;
+            }
+            
+            Cell focusedCell = _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell();
+            string function = _selectedTab.GetFunction(focusedCell.Id);
+            
+            _functionTextField.SetEnabled(true);
+            _functionTextField.value = function ?? string.Empty;
         }
 
         public void OpenTab(TableMetadata table)
@@ -205,9 +232,19 @@ namespace TableForge.Editor.UI
                 newTab.AddToClassList(USSClasses.ToolbarTabSelected);
             }
             
+            if(_tableVisualizer.CurrentTable != null)
+            {
+                _tableVisualizer.CurrentTable.CellSelector.OnFocusedCellChanged -= RefreshFunctionTextField;
+            }
+            
             _selectedTab = tableMetadata;
             Table table = GetTable(tableMetadata);
             _tableVisualizer.SetTable(table);
+            
+            if(_tableVisualizer.CurrentTable != null)
+            {
+                _tableVisualizer.CurrentTable.CellSelector.OnFocusedCellChanged += RefreshFunctionTextField;
+            }
 
             if (tableMetadata != null)
             {

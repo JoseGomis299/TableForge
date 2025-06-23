@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace TableForge
+namespace TableForge.Editor
 {
     [Serializable]
     internal class SerializableCurve
