@@ -12,15 +12,15 @@ namespace TableForge.Editor
     {
         #region Fields
 
-        private readonly Dictionary<int, Row> _rows = new Dictionary<int, Row>();
-        private readonly Dictionary<string, Row> _rowsByName = new Dictionary<string, Row>();
-        private readonly Dictionary<int, Column> _columns = new Dictionary<int, Column>();
-        private readonly Dictionary<string, Column> _columnsByName = new Dictionary<string, Column>();
+        private readonly Dictionary<int, Row> _rows = new();
+        private readonly Dictionary<string, Row> _rowsByName = new();
+        private readonly Dictionary<int, Column> _columns = new();
+        private readonly Dictionary<string, Column> _columnsByName = new();
 
         private bool _rowsDirty = true;
         private bool _columnsDirty = true;
-        private List<Row> _orderedRows = new List<Row>();
-        private List<Column> _orderedColumns = new List<Column>();
+        private List<Row> _orderedRows = new();
+        private List<Column> _orderedColumns = new();
         
         #endregion
 

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TableForge.Editor;
 
 namespace TableForge.Editor
 {

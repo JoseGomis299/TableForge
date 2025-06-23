@@ -55,8 +55,5 @@ namespace TableForge.Editor.UI
         public const string TabDeleteButton = "tab-button__delete-button";
 
         #endregion
-        
-        
-        
     }
 }

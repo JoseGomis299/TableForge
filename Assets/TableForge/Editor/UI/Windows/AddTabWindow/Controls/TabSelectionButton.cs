@@ -8,8 +8,8 @@ namespace TableForge.Editor.UI
     {
         private readonly TableMetadata _tableMetadata;
         private readonly AddTabViewModel _viewModel;
-        private Button _mainButton;
-        private Button _deleteButton;
+        private readonly Button _mainButton;
+        private readonly Button _deleteButton;
         
         public TableMetadata TableMetadata => _tableMetadata;
         

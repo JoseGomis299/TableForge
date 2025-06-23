@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class ModFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "MOD",
             "Returns the remainder after a number is divided by a divisor.",
             FunctionReturnType.Number,

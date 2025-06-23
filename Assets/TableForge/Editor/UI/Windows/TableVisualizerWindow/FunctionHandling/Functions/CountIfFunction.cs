@@ -6,7 +6,7 @@ namespace TableForge.Editor.UI
 {
     internal class CountIfFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "COUNTIF",
             "Counts the number of cells in a range that meet a specified condition.",
             FunctionReturnType.Number,

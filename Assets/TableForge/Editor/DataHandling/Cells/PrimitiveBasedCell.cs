@@ -1,5 +1,4 @@
 using System;
-using TableForge.Editor;
 
 namespace TableForge.Editor
 {

@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class MultiplyFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "MULTIPLY",
             "Multiplies two numbers together.",
             FunctionReturnType.Number,

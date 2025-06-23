@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal class NotFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "NOT",
             "Returns the logical negation of a boolean value. If the argument is TRUE, it returns FALSE; if the argument is FALSE, it returns TRUE.",
             FunctionReturnType.Boolean,

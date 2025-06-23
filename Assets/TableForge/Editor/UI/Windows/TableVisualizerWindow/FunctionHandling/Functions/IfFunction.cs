@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal class IfFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "IF",
             "Returns one value if a condition is true and another value if it is false.",
             FunctionReturnType.Any,

@@ -2,9 +2,9 @@ namespace TableForge.Editor.UI
 {
     internal class ReorderTableCommand : IUndoableCommand
     {
-        private int[] _oldPositions;
-        private int[] _newPositions;
-        private TableControl _tableControl;
+        private readonly int[] _oldPositions;
+        private readonly int[] _newPositions;
+        private readonly TableControl _tableControl;
         
         public ReorderTableCommand(TableControl tableControl, int[] oldPositions, int[] newPositions)
         {

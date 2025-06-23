@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class RoundFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "ROUND",
             "Rounds a number to the specified number of digits.",
             FunctionReturnType.Number,

@@ -15,7 +15,7 @@ namespace TableForge.Editor
     /// </summary>
     internal static class SerializationUtil
     {
-        private static readonly List<Type> _unitySerializedTypes = new List<Type>
+        private static readonly List<Type> _unitySerializedTypes = new()
         {
             typeof(Vector2),
             typeof(Vector3),

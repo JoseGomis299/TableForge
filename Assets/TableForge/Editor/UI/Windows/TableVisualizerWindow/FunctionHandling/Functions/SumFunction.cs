@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal class SumFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "SUM",
             "Returns the sum of all arguments.",
             FunctionReturnType.Number,

@@ -6,7 +6,7 @@ namespace TableForge.Editor.UI
 {
     internal class CellControlPool
     {
-        private Dictionary<Type, ObjectPool<CellControl>> _cellControlPools = new Dictionary<Type, ObjectPool<CellControl>>();
+        private readonly Dictionary<Type, ObjectPool<CellControl>> _cellControlPools = new();
         
         private Cell _cell;
         private TableControl _tableControl;

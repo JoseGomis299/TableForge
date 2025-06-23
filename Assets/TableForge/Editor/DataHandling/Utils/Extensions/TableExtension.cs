@@ -1,5 +1,3 @@
-using TableForge.Editor;
-
 namespace TableForge.Editor
 {
     internal static class TableExtension

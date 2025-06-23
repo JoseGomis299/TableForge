@@ -13,7 +13,7 @@ namespace TableForge.Editor
     {
         private bool _isDirty;
         private List<Cell> _orderedCells;
-        private Dictionary<int, Cell> _cells;
+        private readonly Dictionary<int, Cell> _cells;
 
         public override string Name
         {

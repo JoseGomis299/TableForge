@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class DivideFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "DIVIDE",
             "Divides the first number by the second number. Returns an error if the divisor is zero.",
             FunctionReturnType.Number,

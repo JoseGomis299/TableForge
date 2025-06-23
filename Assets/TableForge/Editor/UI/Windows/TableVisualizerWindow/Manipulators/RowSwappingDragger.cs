@@ -6,7 +6,7 @@ namespace TableForge.Editor.UI
 {
     internal class RowSwappingDragger : SwappingDragger
     {
-        private readonly List<RowHeaderControl> _orderedHeaders = new List<RowHeaderControl>();
+        private readonly List<RowHeaderControl> _orderedHeaders = new();
         private int _lastHeaderIndex;
         
         public RowSwappingDragger(TableControl tableControl) : base(tableControl)

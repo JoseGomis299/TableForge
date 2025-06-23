@@ -1,5 +1,4 @@
 using System.Linq;
-using TableForge.Editor;
 using UnityEngine;
 
 namespace TableForge.Editor

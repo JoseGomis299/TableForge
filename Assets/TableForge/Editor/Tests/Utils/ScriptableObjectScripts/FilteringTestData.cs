@@ -12,10 +12,10 @@ namespace TableForge.Tests
         public string stringValue;
         public bool boolValue;
         public TestEnum enumValue;
-        public List<string> stringList = new List<string>();
-        public List<int> intList = new List<int>();
-        public SerializedDictionary<int, string> intStringDictionary = new SerializedDictionary<int, string>();
-        public SerializedFilteringTestData serializedFilteringTestData = new SerializedFilteringTestData();
+        public List<string> stringList = new();
+        public List<int> intList = new();
+        public SerializedDictionary<int, string> intStringDictionary = new();
+        public SerializedFilteringTestData serializedFilteringTestData = new();
     }
 
     [Serializable]
@@ -26,8 +26,8 @@ namespace TableForge.Tests
         public string stringValue;
         public bool boolValue;
         public TestEnum enumValue;
-        public List<string> stringList = new List<string>();
-        public List<int> intList = new List<int>();
-        public SerializedDictionary<int, string> intStringDictionary = new SerializedDictionary<int, string>();
+        public List<string> stringList = new();
+        public List<int> intList = new();
+        public SerializedDictionary<int, string> intStringDictionary = new();
     }
 }

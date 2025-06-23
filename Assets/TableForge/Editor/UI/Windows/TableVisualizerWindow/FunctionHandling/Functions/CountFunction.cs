@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class CountFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "COUNT",
             "Counts the number of non-null values in a set.",
             FunctionReturnType.Number,

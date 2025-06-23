@@ -25,8 +25,8 @@ namespace TableForge.Editor.UI
         protected readonly TableControl tableControl;
         
         //The headers that are currently being targeted for resizing
-        protected readonly Dictionary<int, HeaderControl> resizingHeaders = new Dictionary<int, HeaderControl>();
-        protected readonly HashSet<int> excludedFromManualResizing = new HashSet<int>();
+        protected readonly Dictionary<int, HeaderControl> resizingHeaders = new();
+        protected readonly HashSet<int> excludedFromManualResizing = new();
         
         //The header that is currently being resized
         protected HeaderControl resizingHeader;

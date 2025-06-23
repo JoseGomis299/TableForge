@@ -12,7 +12,7 @@ namespace TableForge.Editor
     {
         #region Fields
 
-        private static readonly Dictionary<Type, ConstructorInfo> _cellConstructors = new Dictionary<Type, ConstructorInfo>();
+        private static readonly Dictionary<Type, ConstructorInfo> _cellConstructors = new();
 
         #endregion
         

@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class MinFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "MIN",
             "Returns the minimum value from a list of numbers or cells containing numbers.",
             FunctionReturnType.Number,

@@ -6,8 +6,8 @@ namespace TableForge.Editor.UI
 {
     internal class Filterer
     {
-        private TableControl _tableControl;
-        private HashSet<int> _hiddenRows;
+        private readonly TableControl _tableControl;
+        private readonly HashSet<int> _hiddenRows;
 
         public HashSet<int> HiddenRows => _hiddenRows;
 

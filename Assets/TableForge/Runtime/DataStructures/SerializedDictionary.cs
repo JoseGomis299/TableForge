@@ -51,10 +51,10 @@ namespace TableForge.DataStructures
     public abstract class SerializedDictionary<TK, TV, TSk, TSv> : Dictionary<TK, TV>, ISerializationCallbackReceiver
     {
         [FormerlySerializedAs("m_Keys")] [SerializeField]
-        List<TSk> mKeys = new List<TSk>();
+        List<TSk> mKeys = new();
 
         [FormerlySerializedAs("m_Values")] [SerializeField]
-        List<TSv> mValues = new List<TSv>();
+        List<TSv> mValues = new();
 
         /// <summary>
         /// From <see cref="K"/> to <see cref="SK"/>

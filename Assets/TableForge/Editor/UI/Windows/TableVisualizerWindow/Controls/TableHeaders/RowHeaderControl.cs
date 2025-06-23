@@ -8,8 +8,8 @@ namespace TableForge.Editor.UI
 {
     internal class RowHeaderControl : HeaderControl
     {
-        private static ObjectPool<RowHeaderControl> _pool = new(() => new RowHeaderControl());
-        private static ObjectPool<RowControl> _rowControlPool = new(() => new RowControl());
+        private static readonly ObjectPool<RowHeaderControl> _pool = new(() => new RowHeaderControl());
+        private static readonly ObjectPool<RowControl> _rowControlPool = new(() => new RowControl());
         
         private bool _isChangingName;
         private readonly Label _headerLabel;

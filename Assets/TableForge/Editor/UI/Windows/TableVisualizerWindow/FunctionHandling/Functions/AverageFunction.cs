@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal class AverageFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "AVERAGE",
             "Calculates the average of a set of numbers.",
             FunctionReturnType.Number,

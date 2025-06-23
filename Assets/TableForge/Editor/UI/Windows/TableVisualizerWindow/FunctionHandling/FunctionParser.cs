@@ -9,7 +9,7 @@ namespace TableForge.Editor.UI
 {
     internal class FunctionParser
     {
-        private readonly ReferenceParser _referenceParser = new ReferenceParser();
+        private readonly ReferenceParser _referenceParser = new();
         private readonly FunctionExecutor _executor;
 
         public FunctionParser(FunctionExecutor executor)

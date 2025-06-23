@@ -9,7 +9,7 @@ namespace TableForge.Editor.UI
 {
     internal static class SizeCalculator
     {
-        private static Dictionary<Table, TableSize> _sizesCache = new Dictionary<Table, TableSize>();
+        private static readonly Dictionary<Table, TableSize> _sizesCache = new();
         
         #region Public Methods
         

@@ -8,9 +8,9 @@ namespace TableForge.Editor.UI
 {
     internal static class CellControlFactory
     {
-        private static readonly Dictionary<int, CellControl> _idToCellControl = new Dictionary<int, CellControl>();
-        private static readonly Dictionary<Type, ConstructorInfo> _cellControlConstructors = new Dictionary<Type, ConstructorInfo>();
-        private static readonly CellControlPool _cellControlPool = new CellControlPool();
+        private static readonly Dictionary<int, CellControl> _idToCellControl = new();
+        private static readonly Dictionary<Type, ConstructorInfo> _cellControlConstructors = new();
+        private static readonly CellControlPool _cellControlPool = new();
         
         public static CellControl GetCellControlFromId(int id)
         {

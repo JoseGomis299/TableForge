@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal class XorFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "XOR",
             "Returns TRUE if exactly one argument is TRUE, otherwise returns FALSE.",
             FunctionReturnType.Boolean,

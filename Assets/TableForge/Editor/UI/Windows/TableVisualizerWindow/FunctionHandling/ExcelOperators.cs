@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal static class ExcelOperators
     {
-        public static List<string> compareOperators = new List<string>
+        public static List<string> compareOperators = new()
         {
             "<=", ">=", "<>", "!=", "=", "<", ">" //Order matters: longest first
         };

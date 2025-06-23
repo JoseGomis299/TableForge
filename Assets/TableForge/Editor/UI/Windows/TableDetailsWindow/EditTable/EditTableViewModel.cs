@@ -10,7 +10,7 @@ namespace TableForge.Editor.UI
     {
         public event Action<TableMetadata> OnTableUpdated;
         
-        private TableMetadata _tableMetadata;
+        private readonly TableMetadata _tableMetadata;
         
         public EditTableViewModel(TableMetadata table) 
         {

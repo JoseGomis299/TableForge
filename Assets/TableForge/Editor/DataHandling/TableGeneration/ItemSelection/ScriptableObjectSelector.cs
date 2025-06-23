@@ -9,7 +9,7 @@ namespace TableForge.Editor
     internal class ScriptableObjectSelector : ItemSelector
     {
         private readonly string[] _paths;
-        private readonly Dictionary<Type, List<ITfSerializedObject>> _selectedData = new Dictionary<Type, List<ITfSerializedObject>>();
+        private readonly Dictionary<Type, List<ITfSerializedObject>> _selectedData = new();
 
         public ScriptableObjectSelector(String[] paths)
         {

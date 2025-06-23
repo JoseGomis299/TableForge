@@ -13,17 +13,17 @@ namespace TableForge.Editor.UI
         public event Action<HeaderControl, int> OnHeaderBecameVisible;
         public event Action<HeaderControl, int> OnHeaderBecameInvisible;
         
-        protected Vector2 securityExtraSize = new Vector2(UiConstants.CellWidth * 2, UiConstants.CellHeight * 4);
+        protected Vector2 securityExtraSize = new(UiConstants.CellWidth * 2, UiConstants.CellHeight * 4);
         
         protected readonly ScrollView scrollView;
-        protected readonly List<THeader> visibleHeaders = new List<THeader>();
+        protected readonly List<THeader> visibleHeaders = new();
         protected readonly Dictionary<THeader, HashSet<object>> lockedVisibleHeaders = new(); 
         protected float lastScrollValue;
         protected readonly TableControl tableControl;
         
-        private readonly List<THeader> _orderedLockedHeaders = new List<THeader>();
-        private readonly HashSet<THeader> _invisibleHeadersThisFrame = new HashSet<THeader>();
-        private readonly HashSet<THeader> _visibleHeadersThisFrame = new HashSet<THeader>();
+        private readonly List<THeader> _orderedLockedHeaders = new();
+        private readonly HashSet<THeader> _invisibleHeadersThisFrame = new();
+        private readonly HashSet<THeader> _visibleHeadersThisFrame = new();
         
         
         public bool IsRefreshingVisibility { get; protected set; }

@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class ColumnHeaderControl : HeaderControl
     {
-        private static ObjectPool<ColumnHeaderControl> _pool = new(() => new ColumnHeaderControl());
+        private static readonly ObjectPool<ColumnHeaderControl> _pool = new(() => new ColumnHeaderControl());
         
         private readonly Label _headerLabel;
         

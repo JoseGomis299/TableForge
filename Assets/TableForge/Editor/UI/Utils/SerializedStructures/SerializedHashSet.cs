@@ -10,9 +10,9 @@ namespace TableForge.Editor.UI
     internal class SerializedHashSet<T> : ISerializationCallbackReceiver, ISet<T>, IReadOnlyCollection<T>
     {
         [SerializeField]
-        private List<T> values = new List<T>();
+        private List<T> values = new();
 
-        private HashSet<T> _hashSet = new HashSet<T>();
+        private HashSet<T> _hashSet = new();
         
         public IReadOnlyList<T> Values => _hashSet.ToList();
 

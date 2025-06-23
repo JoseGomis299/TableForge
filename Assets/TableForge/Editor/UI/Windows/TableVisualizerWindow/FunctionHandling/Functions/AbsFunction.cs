@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class AbsFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "ABS",
             "Returns the absolute value of a number.",
             FunctionReturnType.Number,

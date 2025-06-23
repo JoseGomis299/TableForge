@@ -13,7 +13,7 @@ namespace TableForge.Editor
         /// <summary>
         /// A set of integral types for quick lookup.
         /// </summary>
-        public static readonly HashSet<Type> IntegralTypes = new HashSet<Type>
+        public static readonly HashSet<Type> IntegralTypes = new()
         {
             typeof(byte), typeof(sbyte),
             typeof(short), typeof(ushort),
@@ -24,7 +24,7 @@ namespace TableForge.Editor
         /// <summary>
         /// A set of floating-point types for quick lookup.
         /// </summary>
-        public static readonly HashSet<Type> FloatingPointTypes = new HashSet<Type>
+        public static readonly HashSet<Type> FloatingPointTypes = new()
         {
             typeof(float), typeof(double)
         };

@@ -8,7 +8,7 @@ namespace TableForge.Editor.UI
         private static readonly Stack<IUndoableCommand> _redoStack = new();
         private static readonly EmptyCommand _separator = new();
 
-        private static Stack<CommandCollection> _collections = new();
+        private static readonly Stack<CommandCollection> _collections = new();
         private static CommandCollection _currentCollection;
 
         public static void Do(IUndoableCommand command)

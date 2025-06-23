@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using TableForge.Editor;
 using UnityEngine;
 
 namespace TableForge.Editor
 {
     internal static class TfFieldInfoFactory
     {
-        private static Dictionary<Type, List<TfFieldInfo>> _fieldCache = new Dictionary<Type, List<TfFieldInfo>>();
+        private static readonly Dictionary<Type, List<TfFieldInfo>> _fieldCache = new();
         
         public static List<TfFieldInfo> GetFields(Type type)
         {

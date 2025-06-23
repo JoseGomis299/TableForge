@@ -6,7 +6,7 @@ namespace TableForge.Editor.UI
     internal class HeaderSwapper
     {
         private readonly TableControl _tableControl;
-        private readonly Dictionary<HeaderControl, SwappingDragger> _swappingDraggers = new Dictionary<HeaderControl, SwappingDragger>();
+        private readonly Dictionary<HeaderControl, SwappingDragger> _swappingDraggers = new();
         
         public HeaderSwapper(TableControl tableControl)
         {

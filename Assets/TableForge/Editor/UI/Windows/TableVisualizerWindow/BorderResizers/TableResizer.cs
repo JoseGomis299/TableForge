@@ -13,7 +13,7 @@ namespace TableForge.Editor.UI
         public VerticalBorderResizer VerticalResizer { get; }
         public TableControl TableControl { get; }
         
-        private Queue<Action> _resizeQueue = new Queue<Action>();
+        private readonly Queue<Action> _resizeQueue = new();
         
         public bool IsResizing => _horizontalIsResizing || _verticalIsResizing;
         

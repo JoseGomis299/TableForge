@@ -66,28 +66,28 @@ namespace TableForge.Tests
         #region Dictionaries
 
         public Dictionary<NestedData, int> nestedDataToIntDictionary =
-            new Dictionary<NestedData, int>()
+            new()
             {
                 { new NestedData(1, "Example1"), 10 },
                 { new NestedData(2, "Example2"), 20 }
             };
 
         public SerializedDictionary<string, int> stringToIntDictionary =
-            new SerializedDictionary<string, int>()
+            new()
             {
                 { "KeyA", 100 },
                 { "KeyB", 200 }
             };
 
         public Dictionary<string, NestedData> stringToNestedDataDictionary =
-            new Dictionary<string, NestedData>()
+            new()
             {
                 { "Entry1", null },
                 { "Entry2", new NestedData(4, "Sample4") }
             };
 
         private SerializedDictionary<int, NestedData> _hiddenDictionary =
-            new SerializedDictionary<int, NestedData>()
+            new()
             {
                 { 1, new NestedData(5, "Hidden1") },
                 { 2, new NestedData(6, "Hidden2") }
@@ -105,7 +105,7 @@ namespace TableForge.Tests
         public string text;
         public NestedData nestedData;
 
-        public List<List<int>> intList2D = new List<List<int>>()
+        public List<List<int>> intList2D = new()
         {
             new List<int>() { 1, 2, 3 },
             new List<int>() { 4, 5, 6 }

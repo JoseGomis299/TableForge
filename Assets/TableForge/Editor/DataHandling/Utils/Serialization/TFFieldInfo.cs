@@ -82,7 +82,7 @@ namespace TableForge.Editor
         /// </summary>
         /// <param name="target">The object instance from which to retrieve the field value.</param>
         /// <returns>The field value, or null if not found.</returns>
-        public virtual object GetValue(object target)
+        public object GetValue(object target)
         {
             return _getterDelegate(target);
         }
@@ -92,7 +92,7 @@ namespace TableForge.Editor
         /// </summary>
         /// <param name="target">The object instance to modify.</param>
         /// <param name="value">The new value to assign to the field.</param>
-        public virtual void SetValue(object target, object value)
+        public void SetValue(object target, object value)
         {
             _fieldInfo?.SetValue(target, value);
         }

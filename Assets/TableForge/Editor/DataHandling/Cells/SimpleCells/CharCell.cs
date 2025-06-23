@@ -1,7 +1,3 @@
-using TableForge.Editor;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
-using Unity.VisualScripting.YamlDotNet.Serialization;
-
 namespace TableForge.Editor
 {
     [CellType(typeof(char))]

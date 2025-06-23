@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class SumIfFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "SUMIF",
             "Returns the sum of a range based on a condition.",
             FunctionReturnType.Number,

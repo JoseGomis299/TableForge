@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal class MaxFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "MAX",
             "Returns the maximum value from a list of numbers or cells containing numbers.",
             FunctionReturnType.Number,

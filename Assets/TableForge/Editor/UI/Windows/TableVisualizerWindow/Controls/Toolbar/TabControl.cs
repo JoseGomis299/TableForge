@@ -7,10 +7,10 @@ namespace TableForge.Editor.UI
     internal class TabControl : VisualElement
     {
         private readonly ToolbarController _toolbarController;
-        private TableMetadata _tableMetadata;
+        private readonly TableMetadata _tableMetadata;
         
-        private Button _selectButton;
-        private Button _contextMenuButton;
+        private readonly Button _selectButton;
+        private readonly Button _contextMenuButton;
      
         public TableMetadata TableMetadata => _tableMetadata;
         

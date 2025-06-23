@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal class OrFunction : ExcelFunctionBase
     {
-        protected override FunctionInfo FunctionInfo { get; } = new FunctionInfo(
+        protected override FunctionInfo FunctionInfo { get; } = new(
             "OR",
             "Returns TRUE if any argument is TRUE, otherwise returns FALSE.",
             FunctionReturnType.Boolean,

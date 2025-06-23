@@ -7,9 +7,9 @@ namespace TableForge.Editor.UI
 {
     internal static class CellStaticData
     {
-        private static readonly Dictionary<Type, Type> _cellToCellControl = new Dictionary<Type, Type>();
-        private static readonly Dictionary<Type, TableAttributes> _subTableCellAttributes = new Dictionary<Type, TableAttributes>();
-        private static readonly Dictionary<Type, CellAttributes> _cellAttributes = new Dictionary<Type, CellAttributes>();
+        private static readonly Dictionary<Type, Type> _cellToCellControl = new();
+        private static readonly Dictionary<Type, TableAttributes> _subTableCellAttributes = new();
+        private static readonly Dictionary<Type, CellAttributes> _cellAttributes = new();
         
         static CellStaticData()
         {

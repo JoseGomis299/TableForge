@@ -13,7 +13,7 @@ namespace TableForge.Tests
         private TableControl _tableControl;
         private List<string> _rowGuids;
         private List<string> _rowPaths;
-        private List<FilteringTestData> _createdData = new List<FilteringTestData>();
+        private readonly List<FilteringTestData> _createdData = new();
 
         private (TableControl, List<string>, List<string>) GetTableControl(int rowCount)
         {
