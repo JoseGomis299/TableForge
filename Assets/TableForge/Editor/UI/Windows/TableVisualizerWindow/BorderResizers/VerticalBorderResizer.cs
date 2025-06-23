@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class VerticalBorderResizer : BorderResizer
     {

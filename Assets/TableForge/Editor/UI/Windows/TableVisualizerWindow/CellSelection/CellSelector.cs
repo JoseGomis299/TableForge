@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class CellSelector : ICellSelector
     {
         public event Action OnSelectionChanged;
+        public event Action OnFocusedCellChanged;
 
         #region Fields
 
@@ -44,6 +45,7 @@ namespace TableForge.UI
                     if (value == null) return;
                     _selectedCells.Add(value);
                     CellsToDeselect.Remove(value);
+                    OnFocusedCellChanged?.Invoke();
                     return;
                 }
 
@@ -63,6 +65,7 @@ namespace TableForge.UI
                     CellsToDeselect.Remove(_focusedCell);
                 }
                 
+                OnFocusedCellChanged?.Invoke();
                 UndoRedoManager.AddSeparator();
             }
         }

@@ -4,7 +4,7 @@ using UnityEditor;
 using System.Linq;
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class MultiSelectDropdownPopup : EditorWindow
     {

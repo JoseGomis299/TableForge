@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal static class CellLocator
     {

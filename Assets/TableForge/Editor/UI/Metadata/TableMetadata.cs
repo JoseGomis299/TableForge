@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TableForge.DataStructures;
 using UnityEditor;
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class TableMetadata : ScriptableObject
     {

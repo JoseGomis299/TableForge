@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal static class PathUtil
     {

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal abstract class SubTableCellControl : CellControl
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal static class CopyBuffer
     {

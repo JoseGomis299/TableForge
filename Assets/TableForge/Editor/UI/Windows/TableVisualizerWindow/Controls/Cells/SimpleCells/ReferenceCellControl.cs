@@ -2,7 +2,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(ReferenceCell), CellSizeCalculationMethod.ReferenceAutoSize)]
     internal class ReferenceCellControl : SimpleCellControl

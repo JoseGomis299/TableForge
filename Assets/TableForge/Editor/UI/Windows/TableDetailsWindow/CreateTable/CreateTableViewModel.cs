@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using UnityEditor;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class CreateTableViewModel : TableDetailsViewModel
     {

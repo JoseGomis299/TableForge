@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 2560
-    y: 43
-    width: 1920
-    height: 989
+    x: 0
+    y: 42.666668
+    width: 1706.6667
+    height: 976
   m_ShowMode: 4
-  m_Title: Test Runner
+  m_Title: TableVisualizer
   m_RootView: {fileID: 3}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -42,12 +42,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 36
-    width: 1920
-    height: 933
+    width: 1706.6666
+    height: 920
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 16
+  controlID: 122
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -69,8 +69,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
-    height: 989
+    width: 1706.6666
+    height: 976
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
@@ -94,7 +94,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
+    width: 1706.6666
     height: 36
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -115,8 +115,8 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 969
-    width: 1920
+    y: 956
+    width: 1706.6666
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -139,12 +139,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1920
-    height: 933
+    width: 1706.6666
+    height: 920
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 17
+  controlID: 123
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -165,8 +165,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1634
-    height: 933
+    width: 1410.6666
+    height: 920
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
@@ -189,20 +189,19 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1634
-    height: 629
+    width: 1410.6666
+    height: 638.6667
   m_MinSize: {x: 51, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 13}
   m_Panes:
+  - {fileID: 14}
   - {fileID: 15}
   - {fileID: 16}
   - {fileID: 17}
-  - {fileID: 18}
-  - {fileID: 14}
   - {fileID: 13}
   m_Selected: 4
-  m_LastSelected: 5
+  m_LastSelected: 4
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -221,13 +220,13 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 629
-    width: 1634
-    height: 304
+    y: 638.6667
+    width: 1410.6666
+    height: 281.3333
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 50
+  controlID: 86
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -246,13 +245,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 896
-    height: 304
+    width: 772.6667
+    height: 281.3333
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 19}
+  m_ActualView: {fileID: 18}
   m_Panes:
-  - {fileID: 19}
+  - {fileID: 18}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &11
@@ -270,15 +269,15 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 896
+    x: 772.6667
     y: 0
-    width: 738
-    height: 304
+    width: 637.99994
+    height: 281.3333
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 20}
+  m_ActualView: {fileID: 19}
   m_Panes:
-  - {fileID: 20}
+  - {fileID: 19}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &12
@@ -296,55 +295,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1634
+    x: 1410.6666
     y: 0
-    width: 286
-    height: 933
+    width: 296
+    height: 920
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 21}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 21}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &13
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a4ac289734f744a9751ad7fee949e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: TableVisualizer
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-    m_TextWithWhitespace: "TableVisualizer\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 2560
-    y: 79
-    width: 1633
-    height: 602.6667
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  visualTreeAsset: {fileID: 9197481963319205126, guid: 1a7497980761aee499a21aa4ea67b4be, type: 3}
---- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -368,8 +330,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 1633
-    height: 603
+    width: 1409.6666
+    height: 612.6667
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -382,12 +344,12 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 147
+    ID: 313
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 400
-    - 133
+    - 406.66666
+    - 136.00003
     relativeSizes:
     - 0.75
     - 0.25
@@ -397,7 +359,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 533
+    lastTotalSize: 542.6667
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -407,9 +369,9 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 0
   m_TestListGUIs:
-  - m_Window: {fileID: 14}
+  - m_Window: {fileID: 13}
     runProgress:
-      RunGuid: 56aa40ac-eddd-4cfa-966e-a6df6c83a119
+      RunGuid: 44bb3250-9fb5-44f4-ab16-358b67b64986
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -422,11 +384,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
+          - TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -441,7 +399,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999998
+      Progress: 0.9999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList:
@@ -475,7 +433,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1117
+      parentId: 1000
       parentUniqueId: '[TableForge][suite]'
     - id: 1111
       uniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
@@ -530,12 +488,104 @@ MonoBehaviour:
       name: Abs_CellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
       resultStatus: 1
-      duration: 0.8701694
+      duration: 0.6436342
       messages: 
-      output: 'Took 17 ms to load 1 items from 5 paths.
+      output: 'Took 13 ms to load 1 items from 5 paths.
 
-        Took 15 ms to generate
+        Took 12 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
+
+        =ABS(value)
+
+        Returns
+        the absolute value of a number.
+
+        =AND(logical_expression1; [logical_expression2;
+        ...])
+
+        Returns TRUE if all arguments are TRUE, otherwise returns
+        FALSE.
+
+        =AVERAGE(value1; [value2; ...])
+
+        Calculates the average
+        of a set of numbers.
+
+        =COUNT(value1; [value2; ...])
+
+        Counts
+        the number of non-null values in a set.
+
+        =COUNTIF(range; criteria)
+
+        Counts
+        the number of cells in a range that meet a specified condition.
+
+        =DIVIDE(dividend;
+        divisor)
+
+        Divides the first number by the second number. Returns
+        an error if the divisor is zero.
+
+        =IF(logical_expression; value_if_true;
+        value_if_false)
+
+        Returns one value if a condition is true and another
+        value if it is false.
+
+        =MAX(value1; [value2; ...])
+
+        Returns
+        the maximum value from a list of numbers or cells containing numbers.
+
+        =MIN(value1;
+        [value2; ...])
+
+        Returns the minimum value from a list of numbers
+        or cells containing numbers.
+
+        =MOD(dividend; divisor)
+
+        Returns
+        the remainder after a number is divided by a divisor.
+
+        =MULTIPLY(value1;
+        value2)
+
+        Multiplies two numbers together.
+
+        =NOT(logical_expression)
+
+        Returns
+        the logical negation of a boolean value. If the argument is TRUE, it returns
+        FALSE; if the argument is FALSE, it returns TRUE.
+
+        =OR(logical_expression1;
+        [logical_expression2; ...])
+
+        Returns TRUE if any argument is TRUE,
+        otherwise returns FALSE.
+
+        =ROUND(value; [decimals])
+
+        Rounds
+        a number to the specified number of digits.
+
+        =SUM(value1; [value2;
+        ...])
+
+        Returns the sum of all arguments.
+
+        =SUMIF(range; criteria;
+        [sum_range])
+
+        Returns the sum of a range based on a condition.
+
+        =XOR(logical_expression1;
+        [logical_expression2; ...])
+
+        Returns TRUE if exactly one argument
+        is TRUE, otherwise returns FALSE.
 
 '
       stacktrace: 
@@ -2883,20 +2933,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1005
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    m_ResultText: 'FilterByDeeplyNestedProperty_ShouldMatchRows (3,555s)
-
-      ---
-
-      Took
-      16 ms to load 1 items from 5 paths.
-
-      Took 14 ms to generate table ''TestTable''
-      with 5 rows and 9 columns.'
+    m_ResultText: Tests (104 tests) (0,000s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: f2526ab3f94190badffefaeafb424ffea8103351
-      m_LastClickedID: 1362301096
+      m_SelectedIDs: 5da74a17
+      m_LastClickedID: 390768477
       m_ExpandedIDs: 6e6da2e15da74a17b1b65a603e11d07dffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -2927,7 +2969,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 56aa40ac-eddd-4cfa-966e-a6df6c83a119
+      RunGuid: 44bb3250-9fb5-44f4-ab16-358b67b64986
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -2940,11 +2982,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
+          - TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -2959,7 +2997,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999998
+      Progress: 0.9999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -2998,7 +3036,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 56aa40ac-eddd-4cfa-966e-a6df6c83a119
+      RunGuid: 44bb3250-9fb5-44f4-ab16-358b67b64986
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -3011,11 +3049,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows
-          - TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
+          - TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -3030,7 +3064,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999998
+      Progress: 0.9999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3067,7 +3101,7 @@ MonoBehaviour:
       selectedCategories: []
       availableCategories: []
     m_SelectedOption: 0
---- !u!114 &15
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3791,7 +3825,7 @@ MonoBehaviour:
   m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
-    m_SceneView: {fileID: 15}
+    m_SceneView: {fileID: 14}
     m_CameraOverscanSettings:
       m_Opacity: 50
       m_Scale: 1
@@ -3801,7 +3835,7 @@ MonoBehaviour:
   m_LastLockedObject: {fileID: 0}
   m_LastDebugDrawMode: 35
   m_ViewIsLockedToObject: 0
---- !u!114 &16
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3873,7 +3907,7 @@ MonoBehaviour:
   m_CurrentEditor: 0
   m_LayerEditor:
     m_SelectedLayerIndex: 0
---- !u!114 &17
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3973,7 +4007,7 @@ MonoBehaviour:
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &18
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4014,7 +4048,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: fa26ffffc627ffff7628ffffe228ffff1a29ffff8629ffffbe29ffff2a2affff622affffd82affff102bffff862bffffbe2bffff2a2cffffda2cffff1039ffff1e3affff943affffd43affff783bffff343cffffaa3cffffee3cffff643dffff9c3dffff1c45ffffda48ffff1650ffffc650ffff3c51ffff7451ffffea51ffff2252ffff9852ffffd052ffff4653ffff7e53ffff1654ffff4e54ffffc454fffffc54ffff7255ffffaa55ffff8256ffffba56ffff9657ffffce57ffff4458fffff458ffff6a59ffffa259ffff185affff505affffc65afffffe5affff745bffffac5bffff225cffffba5cffff305dffff805dffffbc64ffffe265ffff5866ffff9066ffff0667ffff3e67ffffb467ffff7c68fffff268ffff2a69ffffa069ffffd869ffff4e6affff2e6bffffa46bffffdc6bffff526cffff8a6cffff006dffff386dffffae6dffffe66dffff5c6effff946effffd075fffff676ffff327effffe27effff587fffff7e80fffffe87ffffd08affff328effffe28effff588ffffff28fffff6890ffffa090ffff3891ffffe891ffff5e92ffff2693ffff9c93ffff3494ffffaa94ffffe294ffff5895ffff7e96fffff496ffff2c97ffffa297ffffda97ffff5098ffff8898ffff6099ffff9899ffff0e9affff469affffbc9affff6c9bffffe29bfffff09cffff669dffff9e9dffff149effffc49effff3a9fffffea9fffff60a0ffff86a1fffffca1ffffaca2ffffeca5ffff9ca6ffff12a7ffffc2a7ffff38a8ffffe8a8ffff90a9ffff40aaffffb6aaffffeeaaffff96abffff46acffffbcacfffff4acffff6aadffffa2adffff4aaeffff88affffffeafffff36b0ffffacb0ffffe4b0ffff5ab1ffff92b1ffff3ab2ffffeab2ffff60b3ffff10b4ffff86b4ffffbeb4ffff34b5ffff6cb5ffffecb5ffff12b7ffff92b7ffffcab7ffff4ab8ffff86b8ffff3ab9ffffe8faffff
+      m_ExpandedIDs: e8faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -4039,7 +4073,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &19
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4062,8 +4096,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 895
-    height: 278
+    width: 771.6667
+    height: 255.33331
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4086,7 +4120,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/FunctionHandling
+    - Assets/TableForge/Editor/UI/Metadata
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -4096,16 +4130,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/FunctionHandling
+  - Assets/TableForge/Editor/UI/Metadata
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\joseg\Documents\GitHub\TableForge
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 340}
-    m_SelectedIDs: 3cc30000
-    m_LastClickedID: 49980
-    m_ExpandedIDs: 000000006ec1000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c100008ac100008cc100008ec10000
+    scrollPos: {x: 0, y: 319}
+    m_SelectedIDs: 8ac10000
+    m_LastClickedID: 49546
+    m_ExpandedIDs: 0000000068c100006ac100006cc100006ec1000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c10000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4134,7 +4168,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000006ec1000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c100008ac100008cc100008ec10000
+    m_ExpandedIDs: 0000000068c100006ac100006cc100006ec1000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c10000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4192,7 +4226,7 @@ MonoBehaviour:
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 194
---- !u!114 &20
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4213,10 +4247,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 897
+    x: 773.6667
     y: 24
-    width: 736
-    height: 278
+    width: 635.99994
+    height: 255.33331
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4228,7 +4262,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &21
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4249,10 +4283,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1635
+    x: 1411.6666
     y: 24
-    width: 285
-    height: 907
+    width: 295
+    height: 894
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

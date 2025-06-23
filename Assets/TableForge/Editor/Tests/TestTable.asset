@@ -18,16 +18,16 @@ MonoBehaviour:
     values: 
   hiddenFields:
     values: 
-  itemsTypeName: TableForge.Tests.ExcelFunctionTestData, TableForge.Tests, Version=0.0.0.0,
+  itemsTypeName: TableForge.Tests.FilteringTestData, TableForge.Tests, Version=0.0.0.0,
     Culture=neutral, PublicKeyToken=null
   bindingTypeName: 
   itemGUIDs:
     values:
-    - 0f28b4ee5462566459984ca10e17ef06
-    - 52ac23370b1b3ac47907a0f6ae49439f
-    - 523667d69523b05408b05cdbf643f23e
-    - 095a82ef3389fa44a9faaaa429429f8c
-    - d12ed3aa4a5d4974ea3fe1a982289659
+    - ef3087fa4ed2b7f468796be4de184f61
+    - a5c04aaae1023c540abbdf167f87ca40
+    - 51f32c340455eeb46b6b6789adfb7ef5
+    - feb5a64e4b2a286479312307d0d67ff1
+    - ea0536076fc783042a9f0e93ad6bff38
   cellAnchorMetadata:
     m_Keys: 
     m_Values: []

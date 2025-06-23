@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using CurveField = UnityEditor.UIElements.CurveField;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(AnimationCurveCell), CellSizeCalculationMethod.FixedBigCell)]
     internal class AnimationCurveCellControl : SimpleCellControl

@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     /// <summary>
     /// - If a cell is already selected, mark it for deselection.

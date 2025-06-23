@@ -52,12 +52,12 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 48
-  intField: 0
+  intField: 12
   floatField: 0
   <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 32
   inheritorClass:
-    number: 343
+    number: 3
     text: 156
     animationCurve:
       serializedVersion: 2

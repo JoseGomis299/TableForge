@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class RowVisibilityManager : VisibilityManager<RowHeaderControl>
     {

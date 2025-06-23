@@ -1,4 +1,4 @@
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(DictionaryCell), CellSizeCalculationMethod.AutoSize)] 
     [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.None, TableHeaderVisibility.ShowEmpty, TableHeaderVisibility.ShowHeaderName)]

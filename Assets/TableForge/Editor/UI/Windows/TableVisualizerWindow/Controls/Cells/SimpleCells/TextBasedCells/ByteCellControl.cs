@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(ByteCell), CellSizeCalculationMethod.AutoSize)]
     internal class ByteCellControl : TextBasedCellControl<int>

@@ -52,10 +52,10 @@ MonoBehaviour:
   reference: {fileID: 0}
   B: 0
   charValue: 48
-  intField: 190
+  intField: 12
   floatField: 0
   <PublicLongProperty>k__BackingField: 190
-  <PublicDoubleProperty>k__BackingField: 29
+  <PublicDoubleProperty>k__BackingField: 32
   inheritorClass:
     number: 343
     text: 156

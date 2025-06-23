@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal static class NameResolver
     {

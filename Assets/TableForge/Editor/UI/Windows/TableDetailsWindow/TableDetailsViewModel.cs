@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class TableDetailsViewModel
     {

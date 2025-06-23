@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(EnumCell), CellSizeCalculationMethod.EnumAutoSize)]
     internal class EnumCellControl : SimpleCellControl

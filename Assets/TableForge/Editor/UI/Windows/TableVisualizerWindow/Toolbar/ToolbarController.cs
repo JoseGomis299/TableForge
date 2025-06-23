@@ -5,7 +5,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class ToolbarController
     {
@@ -19,6 +19,7 @@ namespace TableForge.UI
         private VisualElement _tabContainer;
         private MultiSelectDropdown _visibleColumnsDropdown;
         private ToolbarSearchField _filter;
+        private TextField _functionTextField;
         
         private TableMetadata _selectedTab;
         private readonly Dictionary<TableMetadata, TabControl> _tabControls = new();
@@ -66,6 +67,7 @@ namespace TableForge.UI
             _transposeTableButton = _toolbar.Q<Button>("transpose-button");
             _tabContainer = _toolbar.Q<VisualElement>("tab-container");
             _filter = _toolbar.Q<ToolbarSearchField>("filter");
+            _functionTextField = _toolbar.Q<TextField>("function-field");
         }
 
         private void RegisterEvents()

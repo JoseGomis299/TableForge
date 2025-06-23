@@ -1,6 +1,6 @@
 using System;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     /// <summary>
     /// Specifies the type of cell that is bound to a UI element representing a cell and how the cell size will be calculated.

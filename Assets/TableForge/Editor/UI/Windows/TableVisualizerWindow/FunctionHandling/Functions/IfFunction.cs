@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class IfFunction : ExcelFunctionBase
     {

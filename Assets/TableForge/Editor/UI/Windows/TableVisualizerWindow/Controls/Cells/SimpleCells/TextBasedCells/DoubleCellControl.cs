@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(DoubleCell), CellSizeCalculationMethod.AutoSize)]
     internal class DoubleCellControl : TextBasedCellControl<double>

@@ -1,6 +1,6 @@
 using System;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal abstract class ShowTabCommand : IUndoableCommand
     {

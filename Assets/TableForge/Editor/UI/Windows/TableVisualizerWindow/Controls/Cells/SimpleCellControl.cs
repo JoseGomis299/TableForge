@@ -1,9 +1,9 @@
 using System;
-using TableForge.Exceptions;
+using TableForge.Editor.Exceptions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal abstract class SimpleCellControl : CellControl, ISimpleCellControl
     {

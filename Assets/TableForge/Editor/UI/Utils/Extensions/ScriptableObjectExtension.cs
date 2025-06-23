@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal static class ScriptableObjectExtension
     {

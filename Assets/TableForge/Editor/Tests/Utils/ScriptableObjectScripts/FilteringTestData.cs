@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using TableForge.UI;
+using TableForge.DataStructures;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TableForge.Tests
 {

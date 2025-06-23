@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class AddCollectionRowCommand : IUndoableCommand
     {

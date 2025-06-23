@@ -1,6 +1,6 @@
 using System;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     /// <summary>
     /// An attribute used to specify how a <see cref="SubTableCellControl"/> should display its sub table and the possible actions that can be performed on it.

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using TableForge.UI.TableForge.UI;
+using TableForge.Editor.UI.TableForge.UI;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class ExpressionParser
     {

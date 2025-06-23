@@ -1,10 +1,11 @@
 {
     "name": "TableForge.Tests",
-    "rootNamespace": "",
+    "rootNamespace": "TableForge.Tests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "TableForge"
+        "TableForge.Runtime",
+        "TableForge.Editor"
     ],
     "includePlatforms": [
         "Editor"

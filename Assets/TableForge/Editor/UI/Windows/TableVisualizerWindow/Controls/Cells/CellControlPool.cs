@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Pool;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class CellControlPool
     {

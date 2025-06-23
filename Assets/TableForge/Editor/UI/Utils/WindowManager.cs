@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     public static class WindowManager
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 
-namespace TableForge.UI.TableForge.UI
+namespace TableForge.Editor.UI.TableForge.UI
 {
     internal class ExpressionValueResolver
     {

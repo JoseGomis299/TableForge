@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using TableForge.UI;
+using TableForge.Editor;
+using TableForge.Editor.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

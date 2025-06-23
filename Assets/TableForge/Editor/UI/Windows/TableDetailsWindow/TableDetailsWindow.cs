@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal abstract class TableDetailsWindow<TViewModel> : EditorWindow where TViewModel : TableDetailsViewModel
     {

@@ -2,7 +2,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(ColorCell), CellSizeCalculationMethod.FixedBigCell)]
     internal class ColorCellControl : SimpleCellControl

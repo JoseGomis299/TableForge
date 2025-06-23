@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal static class CellStaticData
     {

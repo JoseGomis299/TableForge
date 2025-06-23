@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class DeleteRowControl : Button
     {

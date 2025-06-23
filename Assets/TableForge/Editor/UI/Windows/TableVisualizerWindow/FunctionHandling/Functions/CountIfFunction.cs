@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class CountIfFunction : ExcelFunctionBase
     {

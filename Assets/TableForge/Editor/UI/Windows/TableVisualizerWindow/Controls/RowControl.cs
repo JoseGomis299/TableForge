@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine.UIElements;
 
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class RowControl : VisualElement
     {

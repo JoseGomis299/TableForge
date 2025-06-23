@@ -4,22 +4,28 @@
         <engine:VisualElement name="table-container" style="flex-grow: 1; width: 100%; height: 100%; background-size: 100% 100%;">
             <engine:VisualElement name="MainTable" style="height: 100%; width: 100%;" />
         </engine:VisualElement>
-        <engine:VisualElement name="toolbar" class="toolbar" style="flex-grow: 1;">
+        <engine:VisualElement name="toolbar" class="toolbar" style="flex-grow: 1; height: 115px;">
             <engine:ScrollView name="tool-container" mode="Horizontal" style="width: 100%; height: 100%; flex-direction: row;">
                 <engine:VisualElement name="table-tools" style="flex-grow: 0; height: 100%; width: 200px; align-items: center; justify-content: center; align-self: center; align-content: center;">
                     <engine:Button text="Transpose table" name="transpose-button" style="width: 150px; height: 25px;" />
                 </engine:VisualElement>
-                <engine:VisualElement style="flex-grow: 1;" />
+                <engine:VisualElement style="flex-grow: 1; padding-bottom: 0;" />
                 <engine:VisualElement name="filter-container" style="flex-grow: initial; align-self: flex-end; margin-bottom: 10px; margin-right: 10px; flex-direction: row;">
                     <engine:Label text="Row filter:" name="filter-label" style="align-self: center;" />
                     <editor:ToolbarSearchField name="filter" />
                 </engine:VisualElement>
             </engine:ScrollView>
-            <engine:VisualElement name="tab-section" class="toolbar__tab-container">
-                <engine:Button text="+" name="add-tab-button" class="toolbar__add-tab-button" />
-                <engine:ScrollView name="tab-scrollview" mode="Horizontal" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="toolbar__tab-scrollview" style="height: 100%;">
-                    <engine:VisualElement name="tab-container" class="toolbar__tab-container" style="flex-grow: 1;" />
-                </engine:ScrollView>
+            <engine:VisualElement name="lower-section" style="flex-grow: 0; flex-shrink: 0; width: 100%;">
+                <engine:VisualElement name="function-section" class="toolbar__tab-container" style="margin-left: 0; padding-left: 0; padding-right: 0; margin-bottom: 0;">
+                    <engine:VisualElement name="function-icon" style="flex-grow: 1; width: 25px; background-image: url(&quot;project://database/Assets/TableForge/Editor/UI/Assets/formula-icon.png?fileID=2800000&amp;guid=ebe299a778fbc454f9bbf8fa67435274&amp;type=3#formula-icon&quot;); background-size: 75% 75%; -unity-background-image-tint-color: rgb(30, 30, 30);" />
+                    <engine:TextField placeholder-text="=FORMULA..." name="function-field" class="toolbar__function-field" />
+                </engine:VisualElement>
+                <engine:VisualElement name="tab-section" class="toolbar__tab-container">
+                    <engine:Button text="+" name="add-tab-button" class="toolbar__add-tab-button" />
+                    <engine:ScrollView name="tab-scrollview" mode="Horizontal" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="toolbar__tab-scrollview" style="height: 100%;">
+                        <engine:VisualElement name="tab-container" class="toolbar__tab-container" style="flex-grow: 1;" />
+                    </engine:ScrollView>
+                </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>

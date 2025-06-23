@@ -1,4 +1,4 @@
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal struct ArgumentDefinition
     {

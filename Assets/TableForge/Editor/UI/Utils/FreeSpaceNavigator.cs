@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class FreeSpaceNavigator : ICellNavigator
     {

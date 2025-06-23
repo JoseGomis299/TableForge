@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using TableForge.UI;
+using TableForge.DataStructures;
+using TableForge.Attributes;
 using UnityEngine;
 
 namespace TableForge.Tests

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using TableForge;
-using TableForge.UI;
+using TableForge.Attributes;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
 
 [CreateAssetMenu(fileName = "Test1", menuName = "Test1")]

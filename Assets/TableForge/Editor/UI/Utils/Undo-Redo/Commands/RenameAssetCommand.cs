@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal class RenameAssetCommand : IUndoableCommand
     {

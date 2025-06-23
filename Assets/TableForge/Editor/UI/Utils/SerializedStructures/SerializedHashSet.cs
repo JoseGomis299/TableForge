@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [Serializable]
     internal class SerializedHashSet<T> : ISerializationCallbackReceiver, ISet<T>, IReadOnlyCollection<T>

@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     internal static class SizeCalculator
     {

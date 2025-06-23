@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     [CellControlUsage(typeof(BoolCell), CellSizeCalculationMethod.FixedSmallCell)]
     internal class BooleanCellControl : SimpleCellControl

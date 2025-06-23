@@ -28,7 +28,7 @@
     --sub-table-toolbar-width: 13px;
     --foldout-open-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ClassicFoldoutArrow-Open.png?fileID=2800000&guid=d5bc83349b07a3946829239d350209b0&type=3#ClassicFoldoutArrow-Open");
     --foldout-close-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ClassicFoldoutArrow-Close.png?fileID=2800000&guid=b8692ab8bcd56d7439f4e54d9c7e801e&type=3#ClassicFoldoutArrow-Close");
-    --context-button-image: url("../../Assets/ThreeDots.png")
+    --context-button-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ThreeDots.png?fileID=2800000&guid=dfbc9e1ed6485fe488ca28aaa8ac89cc&type=3#ThreeDots");
 }
 
 .fill {
@@ -368,22 +368,17 @@
 }
 
 .toolbar__tab {
-    height: 20px;
+    height: 100%;
     flex-direction: row;
     flex-shrink: 0;
     flex-grow: 0;
-    margin-left: 5px;
-    margin-right: 5px;
-    
     align-items: flex-start;
     justify-content: center;
     align-self: center;
     align-content: center;
-    
     border-width: var(--border-width);
     border-color: var(--dark-border-color);
     background-color: var(--background-color-dark);
-    border-radius: var(--border-radius);
 }
 
 .toolbar__tab--selected {
@@ -393,8 +388,7 @@
 .toolbar__tab__select-button {
     width: 100%;
     height: 100%;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
+    border-radius: 0;
     background-color: transparent;
     margin: 0;
     padding: 0;
@@ -407,13 +401,11 @@
     width: 15px;
     height: 100%;
     background-color: transparent;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
+    border-radius: 0;
     margin: 0;
     padding: 0;
     border-width: 0;
     flex-grow: 0;
-    
     background-image: var(--context-button-image);
     background-position-x: center;
     background-position-y: center;
@@ -458,7 +450,7 @@
     -unity-font-style: bold;
 }
 
-#root > #toolbar > #tool-container Button{
+#root > #toolbar > #tool-container Button {
     border-width: var(--border-width);
     border-color: var(--dark-border-color);
     background-color: var(--background-color-dark);
@@ -485,4 +477,17 @@ Button:active {
     background-color: var(--selected-color);
 }
 
-
+.toolbar__function-field {
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    flex-shrink: 1;
+    background-size: 100% 75%;
+    margin-right: 0;
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}

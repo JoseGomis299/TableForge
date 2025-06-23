@@ -1,4 +1,4 @@
-namespace TableForge.UI
+namespace TableForge.Editor.UI
 {
     /// <summary>
     ///  Represents how a table should be displayed and the possible actions that can be performed on it.
