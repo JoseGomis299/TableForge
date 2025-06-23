@@ -24,7 +24,7 @@ namespace TableForge.Editor
         #endregion
 
         #region Constructors
-        protected SubTableCell(Column column, Row row, TFFieldInfo fieldInfo)
+        protected SubTableCell(Column column, Row row, TfFieldInfo fieldInfo)
             : base(column, row, fieldInfo) { }
 
         #endregion
@@ -33,16 +33,16 @@ namespace TableForge.Editor
 
         public override void RefreshData()
         {
-            object value = Value;
+            object value = cachedValue;
             base.RefreshData();
             
-            if (value != Value)
+            if (value != cachedValue)
                 CreateSubTable();
         }
         
         public override string Serialize()
         {
-            if (SerializationConstants.SubTablesAsJson || this.GetAncestors().Any(x => x is ICollectionCell))
+            if (SerializationConstants.subTablesAsJson || this.GetAncestors().Any(x => x is ICollectionCell))
             {
                 return SerializeAsJson();
             }
@@ -61,7 +61,7 @@ namespace TableForge.Editor
                 string value;
                 if(cell is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
                 else value = cell.Serialize();
-                serializedData.Append($"\"{cell.Column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
+                serializedData.Append($"\"{cell.column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
             }
 
             if (serializedData.Length > 1)
@@ -144,20 +144,20 @@ namespace TableForge.Editor
             // Order the values based on the column order in the subTable
             var values = subTableColumns.Select(column => jsonFields.GetValueOrDefault(column, SerializationConstants.EmptyColumn)).ToArray();
             
-            if (SerializationConstants.ModifySubTables) DeserializeModifyingSubTable(values, ref index);
+            if (SerializationConstants.modifySubTables) DeserializeModifyingSubTable(values, ref index);
             else DeserializeWithoutModifyingSubTable(values, ref index);
             return true;
         }
         
         public void DeserializeSubTable(string[]values, ref int index)
         {
-            if(Value == null && values[0].Equals(SerializationConstants.EmptyColumn))
+            if(cachedValue == null && values[0].Equals(SerializationConstants.EmptyColumn))
             {
                 index += SubTable.Columns.Count;
                 return;
             }
             
-            if(SerializationConstants.ModifySubTables) DeserializeModifyingSubTable(values, ref index);
+            if(SerializationConstants.modifySubTables) DeserializeModifyingSubTable(values, ref index);
             else DeserializeWithoutModifyingSubTable(values, ref index);
         }
 

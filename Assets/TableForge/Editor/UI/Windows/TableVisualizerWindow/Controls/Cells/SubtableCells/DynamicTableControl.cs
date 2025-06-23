@@ -19,7 +19,7 @@ namespace TableForge.Editor.UI
             base.Refresh(cell, tableControl);
             
             if(SubTableControl?.TableData == null) return;
-            SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
+            subTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
         }
 
         protected void ShowAddRowButton(bool show)
@@ -28,7 +28,7 @@ namespace TableForge.Editor.UI
             {
                 _addRowButton = new AddRowControl(SubTableControl, _rowAdditionStrategy);
                 _addRowButton.OnRowAdded += OnRowAdded;
-                SubTableToolbar.Add(_addRowButton);
+                subTableToolbar.Add(_addRowButton);
             }
             else if(!show && _addRowButton != null)
             {
@@ -43,7 +43,7 @@ namespace TableForge.Editor.UI
             {
                 _deleteRowButton = new DeleteRowControl(SubTableControl, _rowDeletionStrategy);
                 _deleteRowButton.OnRowDeleted += OnRowDeleted;
-                SubTableToolbar.Add(_deleteRowButton);
+                subTableToolbar.Add(_deleteRowButton);
             }
             else if(!show && _deleteRowButton != null)
             {
@@ -60,7 +60,7 @@ namespace TableForge.Editor.UI
             if(SubTableControl.TableData.Rows.Count > 0)
             {
                 ShowDeleteRowButton(true);
-                SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
+                subTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
             }
         }
         
@@ -70,7 +70,7 @@ namespace TableForge.Editor.UI
             {
                 ShowDeleteRowButton(false);
                 ShowAddRowButton(true);
-                SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
+                subTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
             }
             
             RecalculateSizeWithCurrentValues();

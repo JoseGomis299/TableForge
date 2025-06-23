@@ -88,7 +88,7 @@ namespace TableForge.Editor.UI
                 _tableVisualizer.CurrentTable.HorizontalResizer.ResizeHeader(_tableVisualizer.CurrentTable.CornerContainer.CornerControl);
             });
             
-            _visibleColumnsDropdown.OnSelectionChanged += selectedItems =>
+            _visibleColumnsDropdown.onSelectionChanged += selectedItems =>
             {
                 if (_selectedTab == null) return;
 
@@ -99,7 +99,7 @@ namespace TableForge.Editor.UI
                 
                 foreach (var visibleField in selectedItems)
                 {
-                    _tableVisualizer.CurrentTable.Metadata.SetFieldVisible(visibleField.Id, true);
+                    _tableVisualizer.CurrentTable.Metadata.SetFieldVisible(visibleField.id, true);
                 }
                 
                 _tableVisualizer.CurrentTable.RebuildPage(false);
@@ -299,7 +299,7 @@ namespace TableForge.Editor.UI
                 {
                     foreach (var row in table.Rows.Values)
                     {
-                        if (!tableMetadata.HasGUID(row.SerializedObject.RootObjectGuid))
+                        if (!tableMetadata.HasGuid(row.SerializedObject.RootObjectGuid))
                         {
                             rowsMatch = false;
                             break;

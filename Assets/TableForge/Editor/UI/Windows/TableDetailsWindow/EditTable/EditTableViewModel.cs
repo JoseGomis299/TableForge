@@ -17,7 +17,7 @@ namespace TableForge.Editor.UI
             TableName = table.Name;
             UsePathsMode = !table.IsTypeBound;
             SelectedType = table.GetItemsType();
-            SelectedNamespace = string.IsNullOrEmpty(SelectedType?.Namespace) ? "Global" : SelectedType?.Namespace;
+            selectedNamespace = string.IsNullOrEmpty(SelectedType?.Namespace) ? "Global" : SelectedType?.Namespace;
             
             if (UsePathsMode)
             {
@@ -26,7 +26,7 @@ namespace TableForge.Editor.UI
                 {
                     var path = AssetDatabase.GUIDToAssetPath(guid);
                     var asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
-                    if (asset != null) SelectedAssets.Add(asset);
+                    if (asset != null) selectedAssets.Add(asset);
                 }
             }
             
@@ -41,7 +41,7 @@ namespace TableForge.Editor.UI
     
             if (UsePathsMode)
             {
-                string[] guids = SelectedAssets.Select(AssetDatabase.GetAssetPath).Select(AssetDatabase.AssetPathToGUID).ToArray();
+                string[] guids = selectedAssets.Select(AssetDatabase.GetAssetPath).Select(AssetDatabase.AssetPathToGUID).ToArray();
                 _tableMetadata.SetItemsType(AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guids[0])));
                 _tableMetadata.SetItemGUIDs(guids);
                 _tableMetadata.SetBindingType(null);

@@ -2,8 +2,8 @@ namespace TableForge.Editor
 {
     internal static class SerializationConstants
     {
-        public static bool ModifySubTables = true;
-        public static bool SubTablesAsJson = true;
+        public static bool modifySubTables = true;
+        public static bool subTablesAsJson = true;
         
         public const string EmptyColumn = "\\NULL";
 

@@ -17,21 +17,21 @@ namespace TableForge.Editor.UI
             private set
             {
                 _isResizing = value;
-                TableControl.CellSelector.SelectionEnabled = !value;
+                tableControl.CellSelector.SelectionEnabled = !value;
             }
         }
         protected abstract string ResizingPreviewClass { get; }
         
-        protected readonly TableControl TableControl;
+        protected readonly TableControl tableControl;
         
         //The headers that are currently being targeted for resizing
-        protected readonly Dictionary<int, HeaderControl> ResizingHeaders = new Dictionary<int, HeaderControl>();
-        protected readonly HashSet<int> ExcludedFromManualResizing = new HashSet<int>();
+        protected readonly Dictionary<int, HeaderControl> resizingHeaders = new Dictionary<int, HeaderControl>();
+        protected readonly HashSet<int> excludedFromManualResizing = new HashSet<int>();
         
         //The header that is currently being resized
-        protected HeaderControl ResizingHeader;
+        protected HeaderControl resizingHeader;
         
-        protected VisualElement ResizingPreview;
+        protected VisualElement resizingPreview;
         
         private Vector3 _newSize;
         private bool _isResizing;
@@ -39,10 +39,10 @@ namespace TableForge.Editor.UI
         
         protected BorderResizer(TableControl tableControl)
         {
-            TableControl = tableControl;
+            this.tableControl = tableControl;
             tableControl.Root.RegisterCallback<PointerMoveEvent>(CheckResize);
             tableControl.Root.RegisterCallback<PointerDownEvent>(StartResize, TrickleDown.TrickleDown);
-            TableControl.Root.RegisterCallback<PointerDownEvent>(HandleDoubleClick, TrickleDown.TrickleDown);
+            this.tableControl.Root.RegisterCallback<PointerDownEvent>(HandleDoubleClick, TrickleDown.TrickleDown);
         }
 
         protected abstract void CheckResize(PointerMoveEvent moveEvent);
@@ -58,11 +58,11 @@ namespace TableForge.Editor.UI
         {
             float delta = 0;
 
-            if (ResizingHeaders.TryGetValue(cellControl.Cell.Row.Id, out var header))
+            if (resizingHeaders.TryGetValue(cellControl.Cell.row.Id, out var header))
             {
                 delta += InstantResize(header, false);
             }
-            else if(ResizingHeaders.TryGetValue(cellControl.Cell.Column.Id, out header))
+            else if(resizingHeaders.TryGetValue(cellControl.Cell.column.Id, out header))
             {
                 delta += InstantResize(header, false);
             }
@@ -73,15 +73,15 @@ namespace TableForge.Editor.UI
 
         public float ResizeAll(bool fitStoredSize)
         {
-            if(ResizingHeaders.Count == 0) return 0;
+            if(resizingHeaders.Count == 0) return 0;
 
             float delta = 0;
-            foreach (var header in ResizingHeaders.Values)
+            foreach (var header in resizingHeaders.Values)
             {
                 delta += InstantResize(header, fitStoredSize);
             }
 
-            InvokeResize(ResizingHeaders.Values.FirstOrDefault(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
+            InvokeResize(resizingHeaders.Values.FirstOrDefault(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
             return delta;
         }
         
@@ -96,22 +96,22 @@ namespace TableForge.Editor.UI
 
         public void HandleResize(HeaderControl target, bool excludeFromManualResizing = false)
         {
-            ResizingHeaders.Add(target.Id, target);
+            resizingHeaders.Add(target.Id, target);
             
             if(excludeFromManualResizing) 
-                ExcludedFromManualResizing.Add(target.Id);
+                excludedFromManualResizing.Add(target.Id);
         }
         
         public void Dispose(HeaderControl target)
         {
-            ResizingHeaders.Remove(target.Id);
-            ExcludedFromManualResizing.Remove(target.Id);
+            resizingHeaders.Remove(target.Id);
+            excludedFromManualResizing.Remove(target.Id);
         }
         
         public void Clear()
         {
-            ResizingHeaders.Clear();
-            ExcludedFromManualResizing.Clear();
+            resizingHeaders.Clear();
+            excludedFromManualResizing.Clear();
         }
         
         protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize)
@@ -121,8 +121,8 @@ namespace TableForge.Editor.UI
             if (targetSize == Vector2.zero)
             {
                 targetSize = fitStoredSize
-                    ? TableControl.Metadata.GetAnchorSize(target.CellAnchor.Id)
-                    : TableControl.PreferredSize.GetHeaderSize(target.CellAnchor);
+                    ? tableControl.Metadata.GetAnchorSize(target.CellAnchor.Id)
+                    : tableControl.PreferredSize.GetHeaderSize(target.CellAnchor);
             }
 
             var sizeIsSet = target is RowHeaderControl 
@@ -146,10 +146,10 @@ namespace TableForge.Editor.UI
             {
                 if (storeSize)
                 {
-                    int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
+                    int anchorId = target.CellAnchor?.Id ?? tableControl.Parent?.Cell.Id ?? 0;
                     float width = target.resolvedStyle.width;
                     float height = target.resolvedStyle.height;
-                    Vector2 sizeToStore = TableControl.Metadata.GetAnchorSize(anchorId);
+                    Vector2 sizeToStore = tableControl.Metadata.GetAnchorSize(anchorId);
                     
                     bool isRow = target is RowHeaderControl;
 
@@ -162,7 +162,7 @@ namespace TableForge.Editor.UI
                         sizeToStore.x = width;
                     }
                     
-                    TableControl.Metadata.SetAnchorSize(anchorId, sizeToStore);
+                    tableControl.Metadata.SetAnchorSize(anchorId, sizeToStore);
                 }
                 
                 if(target.TableControl.Parent != null)
@@ -186,24 +186,24 @@ namespace TableForge.Editor.UI
         
         private void StartResize(PointerDownEvent downEvent)
         {
-            if (ResizingHeader == null 
-                || ExcludedFromManualResizing.Contains(ResizingHeader.Id) 
-                || downEvent.button != 0 || TableControl is { enabledInHierarchy: false }
+            if (resizingHeader == null 
+                || excludedFromManualResizing.Contains(resizingHeader.Id) 
+                || downEvent.button != 0 || tableControl is { enabledInHierarchy: false }
                 || !IsResizingArea(downEvent.position, out _))
                 return;
             
             IsResizing = true;
-            var initialSize = new Vector2(ResizingHeader.resolvedStyle.width, ResizingHeader.resolvedStyle.height);
+            var initialSize = new Vector2(resizingHeader.resolvedStyle.width, resizingHeader.resolvedStyle.height);
             var startPosition = downEvent.position;
             _newSize = initialSize;
 
-            ResizingPreview = new VisualElement();
-            ResizingPreview.AddToClassList(ResizingPreviewClass);
-            TableControl.Add(ResizingPreview);
+            resizingPreview = new VisualElement();
+            resizingPreview.AddToClassList(ResizingPreviewClass);
+            tableControl.Add(resizingPreview);
             MovePreview(startPosition, initialSize, initialSize);
 
-            TableControl.Root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
-            TableControl.Root.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            tableControl.Root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
+            tableControl.Root.RegisterCallback<PointerUpEvent>(OnPointerUp);
             downEvent.StopImmediatePropagation();
 
             void OnPointerMove(PointerMoveEvent moveEvent)
@@ -225,14 +225,14 @@ namespace TableForge.Editor.UI
 
             void UnregisterCallbacks()
             {
-                float delta = UpdateSize(ResizingHeader, _newSize);
-                UpdateChildrenSize(ResizingHeader);
-                InvokeResize(ResizingHeader, delta, true, false, _newSize);
-                InvokeManualResize(ResizingHeader, delta);
-                ResizingPreview.RemoveFromHierarchy();
+                float delta = UpdateSize(resizingHeader, _newSize);
+                UpdateChildrenSize(resizingHeader);
+                InvokeResize(resizingHeader, delta, true, false, _newSize);
+                InvokeManualResize(resizingHeader, delta);
+                resizingPreview.RemoveFromHierarchy();
                 
-                TableControl.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
-                TableControl.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
+                tableControl.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
+                tableControl.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
                 IsResizing = false;
             }
         }

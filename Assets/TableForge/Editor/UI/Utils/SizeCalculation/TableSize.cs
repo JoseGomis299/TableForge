@@ -29,7 +29,7 @@ namespace TableForge.Editor.UI
             
             foreach (var row in _rowPreferredSizes)
             {
-                if (_tableAttributes.ColumnHeaderVisibility == TableHeaderVisibility.Hidden && row.Key == 0) 
+                if (_tableAttributes.columnHeaderVisibility == TableHeaderVisibility.Hidden && row.Key == 0) 
                     continue;
                 if (headersToIgnore != null && headersToIgnore.Contains(row.Key))
                     continue;
@@ -49,7 +49,7 @@ namespace TableForge.Editor.UI
             
             foreach (var column in _columnPreferredSizes)
             {
-                if (_tableAttributes.RowHeaderVisibility == TableHeaderVisibility.Hidden && column.Key == 0)
+                if (_tableAttributes.rowHeaderVisibility == TableHeaderVisibility.Hidden && column.Key == 0)
                     continue;
                 if (headersToIgnore != null && headersToIgnore.Contains(column.Key))
                     continue;
@@ -95,14 +95,14 @@ namespace TableForge.Editor.UI
         public Vector2 GetCellSize(Cell cell, bool transposed)
         {
             return transposed ? 
-                new Vector2(_rowPreferredSizes[cell.Row.Id].x, _columnPreferredSizes[cell.Column.Id].y)
-                : new Vector2(_columnPreferredSizes[cell.Column.Id].x, _rowPreferredSizes[cell.Row.Id].y);
+                new Vector2(_rowPreferredSizes[cell.row.Id].x, _columnPreferredSizes[cell.column.Id].y)
+                : new Vector2(_columnPreferredSizes[cell.column.Id].x, _rowPreferredSizes[cell.row.Id].y);
         }
 
         public void StoreCellSizeInMetadata(Cell cell)
         {
-            StoreRowSizeInMetadata(cell.Row);
-            StoreColumnSizeInMetadata(cell.Column);
+            StoreRowSizeInMetadata(cell.row);
+            StoreColumnSizeInMetadata(cell.column);
         }
         
         public void StoreHeaderSizeInMetadata(CellAnchor cellAnchor)
@@ -139,8 +139,8 @@ namespace TableForge.Editor.UI
         
         public void AddCellSize(Cell cell, Vector2 size)
         {
-            AddRowSize(cell.Row.Id, cell.Id, size);
-            AddColumnSize(cell.Column.Id, cell.Id, size);
+            AddRowSize(cell.row.Id, cell.Id, size);
+            AddColumnSize(cell.column.Id, cell.Id, size);
         }
         
         public void RemoveHeaderSize(CellAnchor cellAnchor)

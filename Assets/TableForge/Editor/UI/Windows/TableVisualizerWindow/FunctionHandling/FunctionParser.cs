@@ -136,29 +136,29 @@ namespace TableForge.Editor.UI
         
         private object ParseArgument(string token, FunctionContext context, ArgumentDefinition expectedArg)
         {
-            if ((expectedArg.Type & ArgumentType.Reference) != 0)
+            if ((expectedArg.type & ArgumentType.Reference) != 0)
             {
                 if(context.ReferenceParser.IsReference(token))
                     return context.ReferenceParser.ResolveReference(token, context.ContextCell);
                 
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.Reference) != 0;
+                bool hasMoreFlags = (expectedArg.type & ~ArgumentType.Reference) != 0;
                 if (!hasMoreFlags)
                     return null; // Not a valid reference argument
             }
             
-            if ((expectedArg.Type & ArgumentType.Numeric) != 0)
+            if ((expectedArg.type & ArgumentType.Numeric) != 0)
             {
                 if (token.TryParseNumber(out double number))
                     return number.ToString(CultureInfo.InvariantCulture);
                 
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.Numeric) != 0;
+                bool hasMoreFlags = (expectedArg.type & ~ArgumentType.Numeric) != 0;
                 if (!hasMoreFlags)
                     return null; // Not a valid numeric argument
             }
             
-            if ((expectedArg.Type & ArgumentType.Text) != 0)
+            if ((expectedArg.type & ArgumentType.Text) != 0)
             {
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.Text) != 0;
+                bool hasMoreFlags = (expectedArg.type & ~ArgumentType.Text) != 0;
                 if (!token.StartsWith("\"") || !token.EndsWith("\""))
                 {
                     if (!hasMoreFlags)
@@ -167,12 +167,12 @@ namespace TableForge.Editor.UI
                 else
                 {
                     token = token[1..^1]; // Remove quotes
-                    if(expectedArg.Type.HasFlag(ArgumentType.String))
+                    if(expectedArg.type.HasFlag(ArgumentType.String))
                         return token; 
                     
                     // If it is not a string it must be a criteria
                     string op = "=", right = token;
-                    if (ExcelOperators.CompareOperators.Any(token.StartsWith))
+                    if (ExcelOperators.compareOperators.Any(token.StartsWith))
                     {
                         right = ExcelOperators.SkipOperator(token, out op);
                     }
@@ -181,31 +181,31 @@ namespace TableForge.Editor.UI
                 }
             }
 
-            if ((expectedArg.Type & ArgumentType.ValueFunction) != 0)
+            if ((expectedArg.type & ArgumentType.ValueFunction) != 0)
             {
                 if (FunctionRegistry.StringContainsFunction(token) && token.Contains('(') && token.EndsWith(")"))
                 {
                     return EvaluateFunction(token, context);
                 }
                 
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.ValueFunction) != 0;
+                bool hasMoreFlags = (expectedArg.type & ~ArgumentType.ValueFunction) != 0;
                 if (!hasMoreFlags)
                     return null; // Not a valid function argument
             }
             
-            if((expectedArg.Type & ArgumentType.LogicalFunction) != 0)
+            if((expectedArg.type & ArgumentType.LogicalFunction) != 0)
             {
                 if (FunctionRegistry.StringContainsFunction(token, FunctionReturnType.Boolean) && token.Contains('(') && token.EndsWith(")"))
                 {
                     return EvaluateFunction(token, context);
                 }
                 
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.LogicalFunction) != 0;
+                bool hasMoreFlags = (expectedArg.type & ~ArgumentType.LogicalFunction) != 0;
                 if (!hasMoreFlags)
                     return null; // Not a valid logical function argument
             }
             
-            if ((expectedArg.Type & ArgumentType.LogicExpression) != 0)
+            if ((expectedArg.type & ArgumentType.LogicExpression) != 0)
             {
                 if(token.Equals("true", StringComparison.OrdinalIgnoreCase))
                     return true;
@@ -232,7 +232,7 @@ namespace TableForge.Editor.UI
                     }
                 }
 
-                bool hasMoreFlags = (expectedArg.Type & ~ArgumentType.LogicExpression) != 0;
+                bool hasMoreFlags = (expectedArg.type & ~ArgumentType.LogicExpression) != 0;
                 if (operatorIndex == 0 || depth != 0)
                 {
                     if (!hasMoreFlags)

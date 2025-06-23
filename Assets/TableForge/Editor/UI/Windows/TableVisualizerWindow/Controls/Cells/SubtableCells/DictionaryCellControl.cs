@@ -18,14 +18,14 @@ namespace TableForge.Editor.UI
         protected override void BuildSubTable()
         {
             SubTableControl = new TableControl(
-                ParentTableControl.Root,
+                parentTableControl.Root,
                 CellStaticData.GetSubTableCellAttributes(GetType()), 
-                this, SubTableToolbar, ParentTableControl.Visualizer
+                this, subTableToolbar, parentTableControl.Visualizer
             );
             
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             SubTableControl.SetScrollbarsVisibility(false);
-            SubTableContentContainer.Add(SubTableControl);
+            subTableContentContainer.Add(SubTableControl);
             
             ShowAddRowButton(true);
             ShowDeleteRowButton(SubTableControl.TableData.Rows.Count > 0);

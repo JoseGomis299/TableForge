@@ -1,6 +1,6 @@
 namespace TableForge.Editor
 {
-    internal interface ITFSerializedCollectionItem : ITFSerializedObject
+    internal interface ITfSerializedCollectionItem : ITfSerializedObject
     {
     
     }

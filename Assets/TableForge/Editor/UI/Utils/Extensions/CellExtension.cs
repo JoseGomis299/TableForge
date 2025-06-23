@@ -54,8 +54,8 @@ namespace TableForge.Editor.UI
                 }
                 else
                 {
-                    rowId = cell.Row.Id;
-                    columnId = cell.Column.Id;
+                    rowId = cell.row.Id;
+                    columnId = cell.column.Id;
                 }
                         
                 RowHeaderControl rowHeader = tableControl.RowHeaders[rowId];

@@ -9,11 +9,11 @@ namespace TableForge.Editor
 {
     internal static class StringExtension
     {
-        private static readonly Regex UnderscorePrefixRegex = new(@"^m_|^_", RegexOptions.Compiled);
-        private static readonly Regex CamelCaseRegex = new(@"([a-z])([A-Z])", RegexOptions.Compiled);
-        private static readonly Regex UnderscoreReplaceRegex = new(@"_+", RegexOptions.Compiled);
-        private static readonly Regex LetterNumberRegex = new(@"([a-zA-Z])(\d)", RegexOptions.Compiled);
-        private static readonly Regex NumberLetterRegex = new(@"(\d)([A-Z])", RegexOptions.Compiled);
+        private static readonly Regex _underscorePrefixRegex = new(@"^m_|^_", RegexOptions.Compiled);
+        private static readonly Regex _camelCaseRegex = new(@"([a-z])([A-Z])", RegexOptions.Compiled);
+        private static readonly Regex _underscoreReplaceRegex = new(@"_+", RegexOptions.Compiled);
+        private static readonly Regex _letterNumberRegex = new(@"([a-zA-Z])(\d)", RegexOptions.Compiled);
+        private static readonly Regex _numberLetterRegex = new(@"(\d)([A-Z])", RegexOptions.Compiled);
 
         /// <summary>
         /// Converts a string to proper case by handling common naming conventions.
@@ -26,19 +26,19 @@ namespace TableForge.Editor
                 return string.Empty;
 
             // Remove common prefixes like "m_" or leading underscores
-            input = UnderscorePrefixRegex.Replace(input, "");
+            input = _underscorePrefixRegex.Replace(input, "");
 
             // Add spaces between camel case transitions
-            string spaced = CamelCaseRegex.Replace(input, "$1 $2");
+            string spaced = _camelCaseRegex.Replace(input, "$1 $2");
             
             //Add spaces between letters and numbers
-            spaced = LetterNumberRegex.Replace(spaced, "$1 $2");
+            spaced = _letterNumberRegex.Replace(spaced, "$1 $2");
             
             //Add spaces between numbers and letters
-            spaced = NumberLetterRegex.Replace(spaced, "$1 $2");
+            spaced = _numberLetterRegex.Replace(spaced, "$1 $2");
 
             // Replace underscores with spaces and remove excess whitespace
-            spaced = UnderscoreReplaceRegex.Replace(spaced, " ").Trim();
+            spaced = _underscoreReplaceRegex.Replace(spaced, " ").Trim();
 
             // Convert to title case
             TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;

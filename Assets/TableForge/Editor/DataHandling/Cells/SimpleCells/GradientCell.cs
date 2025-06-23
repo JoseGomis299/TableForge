@@ -9,28 +9,28 @@ namespace TableForge.Editor
     [CellType(typeof(Gradient))]
     internal class GradientCell : Cell
     {
-        public GradientCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public GradientCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
 
         public override void SetValue(object value)
         {
             base.SetValue(value);
-            if(Value != null) return;
+            if(cachedValue != null) return;
 
-            Value = new Gradient();
+            cachedValue = new Gradient();
         }
 
         public override void RefreshData()
         {
             base.RefreshData();
-            if(Value != null) return;
+            if(cachedValue != null) return;
 
-            Value = new Gradient();
+            cachedValue = new Gradient();
         }
 
         public override string Serialize()
         {
             SerializableGradient data = new SerializableGradient((Gradient) GetValue());
-            return Serializer.Serialize(data);
+            return serializer.Serialize(data);
         }
         
         public override void Deserialize(string data)
@@ -38,7 +38,7 @@ namespace TableForge.Editor
             if (string.IsNullOrEmpty(data))
                 return;
 
-            SerializableGradient value = Serializer.Deserialize<SerializableGradient>(data);
+            SerializableGradient value = serializer.Deserialize<SerializableGradient>(data);
             if (value is not null)
             {
                 SetValue(value.ToGradient());

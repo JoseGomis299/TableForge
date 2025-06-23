@@ -67,8 +67,8 @@ namespace TableForge.Editor.UI
                     Table commonTable = cell.GetNearestCommonTable(cells[i - 1], out var cell1Ancestor, out var cell2Ancestor);
                     bool isTransposed = !commonTable.IsSubTable && tableMetadata.IsTransposed;
                     bool isSameRow = isTransposed
-                        ? cell1Ancestor.Column == cell2Ancestor.Column
-                        : cell1Ancestor.Row == cell2Ancestor.Row;
+                        ? cell1Ancestor.column == cell2Ancestor.column
+                        : cell1Ancestor.row == cell2Ancestor.row;
 
                     if (!isSameRow)
                     {

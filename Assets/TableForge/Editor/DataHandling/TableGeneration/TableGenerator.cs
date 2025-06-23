@@ -14,7 +14,7 @@ namespace TableForge.Editor
         /// <param name="items">A list of serialized objects to populate the table.</param>
         /// <param name="table">The table to populate.</param>
         /// <returns>A new <see cref="Table"/> populated with the serialized data.</returns>
-        public static Table GenerateTable(Table table, List<ITFSerializedObject> items)
+        public static Table GenerateTable(Table table, List<ITfSerializedObject> items)
         {
             if (items == null || items.Count == 0)
                 return null; 
@@ -40,7 +40,7 @@ namespace TableForge.Editor
         /// <param name="tableName">The name of the generated table.</param>
         /// <param name="parentCell">The parent cell for the table, if any.</param>
         /// <returns>A new <see cref="Table"/> populated with the serialized data.</returns>
-        public static Table GenerateTable(List<ITFSerializedObject> items, string tableName, Cell parentCell)
+        public static Table GenerateTable(List<ITfSerializedObject> items, string tableName, Cell parentCell)
         {
             Table table = new Table(tableName, parentCell);
             return GenerateTable(table, items);
@@ -71,7 +71,7 @@ namespace TableForge.Editor
         /// <param name="table">The table where the row will be added.</param>
         /// <param name="item">The serialized object used to populate the row.</param>
         /// <returns>A new <see cref="Row"/> populated with the serialized data.</returns>
-        public static Row GenerateRow(Table table, ITFSerializedObject item)
+        public static Row GenerateRow(Table table, ITfSerializedObject item)
         {
             if (item == null)
                 return null;

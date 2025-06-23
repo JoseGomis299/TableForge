@@ -16,7 +16,7 @@ namespace TableForge.Editor.UI
         public void HandleSwapping(HeaderControl headerControl)
         {
             if(headerControl is RowHeaderControl && headerControl.CellAnchor is Row
-               && _tableControl.TableAttributes.RowReorderMode != TableReorderMode.None
+               && _tableControl.TableAttributes.rowReorderMode != TableReorderMode.None
                && _swappingDraggers.TryAdd(headerControl, new RowSwappingDragger(_tableControl)))
             {
                 headerControl.AddManipulator(_swappingDraggers[headerControl]);

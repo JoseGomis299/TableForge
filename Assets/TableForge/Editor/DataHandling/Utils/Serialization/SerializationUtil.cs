@@ -15,7 +15,7 @@ namespace TableForge.Editor
     /// </summary>
     internal static class SerializationUtil
     {
-        private static readonly List<Type> UnitySerializedTypes = new List<Type>
+        private static readonly List<Type> _unitySerializedTypes = new List<Type>
         {
             typeof(Vector2),
             typeof(Vector3),
@@ -30,9 +30,9 @@ namespace TableForge.Editor
             typeof(LayerMask)
         };
         
-        private static readonly Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> CellMappings = new();
+        private static readonly Dictionary<TypeMatchMode, List<(HashSet<Type> SupportedTypes, Type cellType)>> _cellMappings = new();
         
-        private static readonly Dictionary<TypeMatchMode, ICellMappingStrategy> Strategies = new()
+        private static readonly Dictionary<TypeMatchMode, ICellMappingStrategy> _strategies = new()
         {
             { TypeMatchMode.Exact, new ExactMatchStrategy() },
             { TypeMatchMode.Assignable, new AssignableMatchStrategy() },
@@ -58,10 +58,10 @@ namespace TableForge.Editor
 
                 foreach (var attr in type.GetCustomAttributes<CellTypeAttribute>())
                 {
-                    if (!CellMappings.TryGetValue(attr.MatchMode, out var mappings))
+                    if (!_cellMappings.TryGetValue(attr.MatchMode, out var mappings))
                     {
                         mappings = new List<(HashSet<Type>, Type)>();
-                        CellMappings[attr.MatchMode] = mappings;
+                        _cellMappings[attr.MatchMode] = mappings;
                     }
                     mappings.Add((attr.SupportedTypes.ToHashSet(), type));
                 }
@@ -74,8 +74,8 @@ namespace TableForge.Editor
         /// </summary>
         /// <param name="type">The type to analyze.</param>
         /// <param name="fromField">The field containing the type.</param>
-        /// <returns>A list of <see cref="TFFieldInfo"/> representing serializable fields.</returns>
-        public static List<TFFieldInfo> GetSerializableFields(Type type, FieldInfo fromField)
+        /// <returns>A list of <see cref="TfFieldInfo"/> representing serializable fields.</returns>
+        public static List<TfFieldInfo> GetSerializableFields(Type type, FieldInfo fromField)
         {
             bool isSerializedReference = fromField != null && fromField.GetCustomAttribute<SerializeReference>() != null;
             if (fromField != null && !isSerializedReference && fromField.FieldType != type)
@@ -83,7 +83,7 @@ namespace TableForge.Editor
                 type = fromField.FieldType;
             }
 
-            return TFFieldInfoFactory.GetFields(type);
+            return TfFieldInfoFactory.GetFields(type);
         }
         
         public static string GetFriendlyName(FieldInfo field)
@@ -154,9 +154,9 @@ namespace TableForge.Editor
         /// <returns>True if a valid cell type is found, otherwise false.</returns>
         public static bool IsTableForgeSerializable(TypeMatchMode matchMode, Type type, out Type cellType)
         {
-            if (Strategies.TryGetValue(matchMode, out var strategy))
+            if (_strategies.TryGetValue(matchMode, out var strategy))
             {
-                return strategy.TryGetCellType(type, CellMappings, out cellType);
+                return strategy.TryGetCellType(type, _cellMappings, out cellType);
             }
 
             cellType = null;
@@ -193,7 +193,7 @@ namespace TableForge.Editor
 
             return type.IsPrimitive || type == typeof(string) || typeof(Object).IsAssignableFrom(type) ||
                    type.IsEnum || type.GetCustomAttribute<SerializableAttribute>() != null ||
-                   typeof(ISerializationCallbackReceiver).IsAssignableFrom(type) || UnitySerializedTypes.Contains(type);
+                   typeof(ISerializationCallbackReceiver).IsAssignableFrom(type) || _unitySerializedTypes.Contains(type);
         }
 
         /// <summary>

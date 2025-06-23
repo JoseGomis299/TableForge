@@ -29,7 +29,7 @@ namespace TableForge.Editor.UI
             foreach (var guid in itemGUIDs)
             {
                 itemsType ??= AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guid));
-                metadata.AddItemGUID(guid);
+                metadata.AddItemGuid(guid);
             }
             metadata.SetItemsType(itemsType);
             

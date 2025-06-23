@@ -9,7 +9,7 @@ namespace TableForge.Editor.UI
         private static bool _isOpened;
 
         [SerializeField] protected VisualTreeAsset visualTreeAsset;
-        protected TViewModel ViewModel;
+        protected TViewModel viewModel;
         
         // UI Elements
         private AssetTreeView _assetTreeView;
@@ -29,7 +29,7 @@ namespace TableForge.Editor.UI
             
             var wnd = CreateInstance<T>();
             wnd.titleContent = new GUIContent(title);
-            wnd.ViewModel = viewModel;
+            wnd.viewModel = viewModel;
             WindowManager.ShowModalWindow(wnd);
             wnd.Initialize();
         }
@@ -45,7 +45,7 @@ namespace TableForge.Editor.UI
             _namespaceDropdown = rootVisualElement.Q<DropdownField>(name: "namespace-dropdown");
             _trackFolderButton = rootVisualElement.Q<Button>(name: "track-folder-button");
             
-            _assetTreeView = new AssetTreeView(ViewModel);
+            _assetTreeView = new AssetTreeView(viewModel);
             _assetTreeContainer.Add(_assetTreeView);
         }
 
@@ -62,16 +62,16 @@ namespace TableForge.Editor.UI
             _typeDropdown.RegisterValueChangedCallback(OnTypeChanged);
             _namespaceDropdown.RegisterValueChangedCallback(OnNamespaceChanged);
             
-            ViewModel.OnTreeUpdated += RefreshTree; 
+            viewModel.OnTreeUpdated += RefreshTree; 
         }
         
         protected virtual void InitializeElements()
         {
-            ViewModel.PopulateNamespaceDropdown(_namespaceDropdown);
-            ViewModel.PopulateTypeDropdown(_typeDropdown);
+            viewModel.PopulateNamespaceDropdown(_namespaceDropdown);
+            viewModel.PopulateTypeDropdown(_typeDropdown);
             _nameField.value = GetTableName();
-            ViewModel.TableName = _nameField.value;
-            _modeSelector.SetValueWithoutNotify(ViewModel.UsePathsMode ? 1 : 0);
+            viewModel.TableName = _nameField.value;
+            _modeSelector.SetValueWithoutNotify(viewModel.UsePathsMode ? 1 : 0);
         }
 
         protected abstract void OnConfirm();
@@ -93,21 +93,21 @@ namespace TableForge.Editor.UI
             BindEvents();
             InitializeElements();
 
-            ViewModel.RefreshTree();
+            viewModel.RefreshTree();
             UpdateState();
         }
 
         private void OnNamespaceChanged(ChangeEvent<string> evt)
         {
-            ViewModel.OnNamespaceDropdownValueChanged(evt, _typeDropdown);
+            viewModel.OnNamespaceDropdownValueChanged(evt, _typeDropdown);
             UpdateState();
         }
 
         private void OnTypeChanged(ChangeEvent<string> evt)
         {
-            ViewModel.OnTypeDropdownValueChanged(evt);
-            ViewModel.ClearSelectedAssets();
-            ViewModel.RefreshTree();
+            viewModel.OnTypeDropdownValueChanged(evt);
+            viewModel.ClearSelectedAssets();
+            viewModel.RefreshTree();
 
             _nameField.value = GetTableName();
             UpdateState();
@@ -115,20 +115,20 @@ namespace TableForge.Editor.UI
 
         private void OnModeChanged(ChangeEvent<int> evt)
         {
-            ViewModel.UsePathsMode = (evt.newValue == 1);
-            ViewModel.ClearSelectedAssets();
-            ViewModel.RefreshTree();
+            viewModel.UsePathsMode = (evt.newValue == 1);
+            viewModel.ClearSelectedAssets();
+            viewModel.RefreshTree();
             UpdateState();
         }
 
         private void OnTreeViewSelectionChanged(TreeItem item, bool selected)
         {
-            ViewModel.OnItemSelected(item, selected);
+            viewModel.OnItemSelected(item, selected);
         }
 
         private void OnNameChanged(ChangeEvent<string> evt)
         {
-            ViewModel.OnNameFieldValueChanged(evt, _nameField);
+            viewModel.OnNameFieldValueChanged(evt, _nameField);
             UpdateState();
         }
 
@@ -141,17 +141,17 @@ namespace TableForge.Editor.UI
         
         private void OnTrackFolderButtonClicked()
         {
-            TrackFolderWindow.ShowWindow(ViewModel);
+            TrackFolderWindow.ShowWindow(viewModel);
         }
 
         private void RefreshTree()
         {
-            if (ViewModel.UsePathsMode && ViewModel.SelectedType != null)
+            if (viewModel.UsePathsMode && viewModel.SelectedType != null)
             {
                 _assetTreeContainer.style.display = DisplayStyle.Flex;
-                _assetTreeView.ItemsSource = ViewModel.TreeItems;
+                _assetTreeView.ItemsSource = viewModel.TreeItems;
             }
-            else if (!ViewModel.UsePathsMode)
+            else if (!viewModel.UsePathsMode)
             {
                 _assetTreeContainer.style.display = DisplayStyle.None;
             }
@@ -160,13 +160,13 @@ namespace TableForge.Editor.UI
         private void UpdateState()
         {
             UpdateErrorText();
-            _trackFolderButton.style.display = ViewModel.UsePathsMode ? DisplayStyle.Flex : DisplayStyle.None;
-            _confirmButton.SetEnabled(!ViewModel.HasErrors);
+            _trackFolderButton.style.display = viewModel.UsePathsMode ? DisplayStyle.Flex : DisplayStyle.None;
+            _confirmButton.SetEnabled(!viewModel.HasErrors);
         }
         
         private void UpdateErrorText()
         {
-            string errorTxt = ViewModel.GetErrors();
+            string errorTxt = viewModel.GetErrors();
             
             if (string.IsNullOrEmpty(errorTxt))
             {

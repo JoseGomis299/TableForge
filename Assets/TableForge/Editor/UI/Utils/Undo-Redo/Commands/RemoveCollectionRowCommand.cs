@@ -18,9 +18,9 @@ namespace TableForge.Editor.UI
         {
             base.Execute();
             
-            if (_tableControl.Parent is DynamicTableControl dynamicTableControl)
+            if (tableControl.Parent is DynamicTableControl dynamicTableControl)
             {
-                _tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
+                tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
                 dynamicTableControl.OnRowDeleted();
             }
         }
@@ -28,12 +28,12 @@ namespace TableForge.Editor.UI
         public override void Undo()
         {
             _collectionCell.SetValue(_oldCollectionCopy.CreateShallowCopy());
-            var originalMetadata = _tableControl.Metadata;
-            TableMetadata.Copy(originalMetadata, _oldTableMetadata);
+            var originalMetadata = tableControl.Metadata;
+            TableMetadata.Copy(originalMetadata, oldTableMetadata);
 
-            if (_tableControl.Parent is DynamicTableControl dynamicTableControl)
+            if (tableControl.Parent is DynamicTableControl dynamicTableControl)
             {
-                _tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
+                tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
                 dynamicTableControl.OnRowAdded();
             }
         }

@@ -18,10 +18,10 @@ namespace TableForge.Editor.UI
 
         private readonly HashSet<string> _extraPaths = new();
         
-        protected readonly HashSet<Object> SelectedAssets = new();
-        protected readonly Dictionary<string, Type> AvailableTypes = new();
-        protected readonly HashSet<string> TypeNames = new();
-        protected string SelectedNamespace;
+        protected readonly HashSet<Object> selectedAssets = new();
+        protected readonly Dictionary<string, Type> availableTypes = new();
+        protected readonly HashSet<string> typeNames = new();
+        protected string selectedNamespace;
         
         public bool HasErrors { get; protected set; }
         public string TableName { get; set; }
@@ -33,7 +33,7 @@ namespace TableForge.Editor.UI
         {
             HasErrors = true;
             
-            if(string.IsNullOrEmpty(SelectedNamespace))
+            if(string.IsNullOrEmpty(selectedNamespace))
             {
                 return "No namespace selected.";
             }
@@ -43,7 +43,7 @@ namespace TableForge.Editor.UI
                 return "No type selected.";
             }
             
-            if(UsePathsMode && SelectedAssets.Count == 0)
+            if(UsePathsMode && selectedAssets.Count == 0)
             {
                 return "No assets selected.";
             }
@@ -59,7 +59,7 @@ namespace TableForge.Editor.UI
         
         public void ClearSelectedAssets()
         {
-            SelectedAssets.Clear();
+            selectedAssets.Clear();
         }
         
         public void RefreshTree()
@@ -72,11 +72,11 @@ namespace TableForge.Editor.UI
             // Create the root "Assets" node
             var assetsRoot = new TreeItem
             {
-                Id = GetUniqueId(),
-                Name = "Assets",
-                IsFolder = true,
-                Asset = null,
-                Parent = null,
+                id = GetUniqueId(),
+                name = "Assets",
+                isFolder = true,
+                asset = null,
+                parent = null,
             };
             TreeItems.Add(assetsRoot);
             folderMap["Assets"] = assetsRoot;
@@ -100,14 +100,14 @@ namespace TableForge.Editor.UI
                     {
                         node = new TreeItem
                         {
-                            Id = GetUniqueId(),
-                            Name = parts[i],
-                            IsFolder = !isLeaf,
-                            Asset = isLeaf ? asset : null,
-                            Parent = parent,
-                            IsSelected = isLeaf && SelectedAssets.Contains(asset),
+                            id = GetUniqueId(),
+                            name = parts[i],
+                            isFolder = !isLeaf,
+                            asset = isLeaf ? asset : null,
+                            parent = parent,
+                            isSelected = isLeaf && selectedAssets.Contains(asset),
                         };
-                        parent.Children.Add(node);
+                        parent.children.Add(node);
 
                         if (!isLeaf) folderMap[curr] = node;
                     }
@@ -129,13 +129,13 @@ namespace TableForge.Editor.UI
                     {
                         node = new TreeItem
                         {
-                            Id = GetUniqueId(),
-                            Name = parts[i],
-                            IsFolder = true,
-                            Asset = null,
-                            Parent = parent,
+                            id = GetUniqueId(),
+                            name = parts[i],
+                            isFolder = true,
+                            asset = null,
+                            parent = parent,
                         };
-                        parent.Children.Add(node);
+                        parent.children.Add(node);
 
                         folderMap[curr] = node;
                     }
@@ -156,16 +156,16 @@ namespace TableForge.Editor.UI
             typeDropdown.choices.Clear();
             typeDropdown.SetValueWithoutNotify(string.Empty);
 
-            AvailableTypes.Clear();
+            availableTypes.Clear();
 
-            var orderedTypes = _namespaceTypes[SelectedNamespace].OrderBy(t => t.Name).ToList();
+            var orderedTypes = _namespaceTypes[selectedNamespace].OrderBy(t => t.Name).ToList();
             foreach (var type in orderedTypes)
             {
-                TypeNames.Add(type.Name);
-                AvailableTypes[type.Name] = type;
+                typeNames.Add(type.Name);
+                availableTypes[type.Name] = type;
             }
 
-            if (SelectedType == null || !_namespaceTypes[SelectedNamespace].Contains(SelectedType))
+            if (SelectedType == null || !_namespaceTypes[selectedNamespace].Contains(SelectedType))
             {
                 SelectedType = orderedTypes.FirstOrDefault();
             }
@@ -209,25 +209,25 @@ namespace TableForge.Editor.UI
             var namespaces = namespaceSet.OrderBy(n => n).ToList();
             if (globalNamespace) namespaces.Insert(0, "Global");
             
-            if (string.IsNullOrEmpty(SelectedNamespace) || !namespaces.Contains(SelectedNamespace))
+            if (string.IsNullOrEmpty(selectedNamespace) || !namespaces.Contains(selectedNamespace))
             {
-                SelectedNamespace = namespaces.FirstOrDefault();
+                selectedNamespace = namespaces.FirstOrDefault();
             }
 
             namespaceDropdown.choices = namespaces;
-            namespaceDropdown.SetValueWithoutNotify(SelectedNamespace);
+            namespaceDropdown.SetValueWithoutNotify(selectedNamespace);
         }
 
         public void OnItemSelected(TreeItem item, bool selected)
         {
-            if (selected) SelectedAssets.Add(item.Asset);
-            else SelectedAssets.Remove(item.Asset);
+            if (selected) selectedAssets.Add(item.asset);
+            else selectedAssets.Remove(item.asset);
             item.GetRoot().UpdateSelectionState();
         }
         
         public void OnTypeDropdownValueChanged(ChangeEvent<string> evt)
         {
-            SelectedType = AvailableTypes.GetValueOrDefault(evt.newValue);
+            SelectedType = availableTypes.GetValueOrDefault(evt.newValue);
         }
         
         public void OnNameFieldValueChanged(ChangeEvent<string> evt, TextField field)
@@ -251,18 +251,18 @@ namespace TableForge.Editor.UI
         
         public void OnNamespaceDropdownValueChanged(ChangeEvent<string> evt, DropdownField typeDropdown)
         {
-            SelectedNamespace = evt.newValue;
+            selectedNamespace = evt.newValue;
             PopulateTypeDropdown(typeDropdown);
         }
         
         public void CreateNewAssetsInFolder(TreeItem itemData, uint count)
         {
-            string path = itemData.Name;
-            TreeItem parent = itemData.Parent;
+            string path = itemData.name;
+            TreeItem parent = itemData.parent;
             while (parent != null)
             {
-                path = parent.Name + "/" + path;
-                parent = parent.Parent;
+                path = parent.name + "/" + path;
+                parent = parent.parent;
             }
 
             for (uint i = 0; i < count; i++)
@@ -270,18 +270,18 @@ namespace TableForge.Editor.UI
                 string assetPath = AssetDatabase.GenerateUniqueAssetPath(path + "/" + SelectedType.Name + ".asset");
                 var asset = ScriptableObject.CreateInstance(SelectedType);
                 AssetDatabase.CreateAsset(asset, assetPath);
-                SelectedAssets.Add(asset);
+                selectedAssets.Add(asset);
                 
                 var item = new TreeItem
                 {
-                    Id = GetUniqueId(),
-                    Name = asset.name,
-                    IsFolder = false,
-                    Asset = asset,
-                    Parent = itemData,
-                    IsSelected = true,
+                    id = GetUniqueId(),
+                    name = asset.name,
+                    isFolder = false,
+                    asset = asset,
+                    parent = itemData,
+                    isSelected = true,
                 };
-                itemData.Children.Add(item);
+                itemData.children.Add(item);
             }
            
             AssetDatabase.SaveAssets();
@@ -326,7 +326,7 @@ namespace TableForge.Editor.UI
 
             if (AssetUtils.DeleteAsset(guid))
             {
-                SelectedAssets.Remove(asset);
+                selectedAssets.Remove(asset);
                 RefreshTree();
             }
         }

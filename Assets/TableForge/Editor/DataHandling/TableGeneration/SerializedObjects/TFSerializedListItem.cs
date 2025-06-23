@@ -11,14 +11,14 @@ namespace TableForge.Editor
     /// <summary>
     /// Represents a list item in a serialized list.
     /// </summary>
-    internal class TFSerializedListItem : TFSerializedObject, ITFSwapableCollectionItem, ITFSwapableCollectionItem<TFSerializedListItem>
+    internal class TfSerializedListItem : TfSerializedObject, ITfSwapableCollectionItem, ITfSwapableCollectionItem<TfSerializedListItem>
     {
         private readonly bool _isSimpleValue;
         
         private readonly IList _collection;
         public int CollectionIndex { get; set; }
         
-        public TFSerializedListItem(IList collection, object itemFromCollection, int collectionIndex, Object rootObject, string guid) : base(itemFromCollection, null, rootObject, guid)
+        public TfSerializedListItem(IList collection, object itemFromCollection, int collectionIndex, Object rootObject, string guid) : base(itemFromCollection, null, rootObject, guid)
         {
             TargetInstance = collection;
             Name = "Element " + collectionIndex;
@@ -31,22 +31,22 @@ namespace TableForge.Editor
             if (itemType.IsSimpleType() || typeof(Object).IsAssignableFrom(itemType) || itemType.IsListOrArrayType())
             {
                 _isSimpleValue = true;
-                ColumnGenerator = new ListColumnGenerator();
+                columnGenerator = new ListColumnGenerator();
             }
             else 
             {
                 TargetInstance = itemFromCollection;
-                SerializedType = new TFSerializedType(itemType, null);
-                ColumnGenerator = SerializedType;
+                SerializedType = new TfSerializedType(itemType, null);
+                columnGenerator = SerializedType;
             }
         }
         
         public override object GetValue(Cell cell)
         {
             //This is a special case where the collection has been modified outside TableForge
-            if (_collection.Count < CollectionIndex && !((SubTableCell)cell.Row.Table.ParentCell).IsSubTableInvalid)
+            if (_collection.Count < CollectionIndex && !((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid)
             {
-                ((SubTableCell)cell.Row.Table.ParentCell).IsSubTableInvalid = true;
+                ((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid = true;
                 //TODO: Adter this, the subtable will be regenerated
             }
             
@@ -60,9 +60,9 @@ namespace TableForge.Editor
         public override void SetValue(Cell cell, object data)
         {
             //This is a special case where the collection has been modified outside TableForge
-            if (_collection.Count < CollectionIndex && !((SubTableCell)cell.Row.Table.ParentCell).IsSubTableInvalid)
+            if (_collection.Count < CollectionIndex && !((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid)
             {
-                ((SubTableCell)cell.Row.Table.ParentCell).IsSubTableInvalid = true;
+                ((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid = true;
                 //TODO: Adter this, the subtable will be regenerated
             }
             
@@ -105,7 +105,7 @@ namespace TableForge.Editor
                 return;
             }
            
-            ColumnGenerator.GenerateColumns(columns, table);
+            columnGenerator.GenerateColumns(columns, table);
 
             Type memberType = _collection.GetType().IsArray ?
                 _collection.GetType().GetElementType() 
@@ -115,12 +115,12 @@ namespace TableForge.Editor
             row.AddCell(1, cell);
         }
 
-        public void SwapWith(ITFSwapableCollectionItem other)
+        public void SwapWith(ITfSwapableCollectionItem other)
         {
-            SwapWith((TFSerializedListItem) other);
+            SwapWith((TfSerializedListItem) other);
         }
 
-        public void SwapWith(TFSerializedListItem other)
+        public void SwapWith(TfSerializedListItem other)
         {
             if (other == null)
             {

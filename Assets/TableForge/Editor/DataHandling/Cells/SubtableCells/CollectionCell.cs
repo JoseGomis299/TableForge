@@ -9,9 +9,9 @@ namespace TableForge.Editor
     /// </summary>
     internal abstract class CollectionCell : SubTableCell, ICollectionCell
     {
-        public int Count => Value is ICollection collection ? collection.Count : 0;
+        public int Count => cachedValue is ICollection collection ? collection.Count : 0;
 
-        protected CollectionCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        protected CollectionCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
         }
         
@@ -60,16 +60,16 @@ namespace TableForge.Editor
             {
                 if (index >= values.Length)
                 {
-                    if(currentRow != descendant!.Row) 
+                    if(currentRow != descendant!.row) 
                     {
-                        currentRow = descendant.Row;
-                        positionsToRemove.Push(descendant.Row.Position);
+                        currentRow = descendant.row;
+                        positionsToRemove.Push(descendant.row.Position);
                     }
                     
                     continue;
                 }
                 
-                currentRow = descendant.Row;
+                currentRow = descendant.row;
                 DeserializeCell(values, ref index, descendant);
             }
             
@@ -103,7 +103,7 @@ namespace TableForge.Editor
             {
                 if (index >= values.Length)
                 {
-                    if(SerializationConstants.ModifySubTables)
+                    if(SerializationConstants.modifySubTables)
                         break;
                     index = 0;
                 }

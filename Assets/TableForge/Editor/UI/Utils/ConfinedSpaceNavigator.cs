@@ -65,8 +65,8 @@ namespace TableForge.Editor.UI
             foreach (var key in cellGroups.Keys.ToList())
             {
                 cellGroups[key] = metadata.IsTableTransposed(key)
-                    ? cellGroups[key].OrderBy(c => c.Column.Position).ThenBy(c => c.Row.Position).ToList()
-                    : cellGroups[key].OrderBy(c => c.Row.Position).ThenBy(c => c.Column.Position).ToList();
+                    ? cellGroups[key].OrderBy(c => c.column.Position).ThenBy(c => c.row.Position).ToList()
+                    : cellGroups[key].OrderBy(c => c.row.Position).ThenBy(c => c.column.Position).ToList();
             }
 
             // Clear the current cells and add the sorted cells.

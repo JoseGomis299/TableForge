@@ -16,14 +16,14 @@ namespace TableForge.Editor.UI
         protected override void OnClick()
         {
             _orderedHeaders.Clear();
-            foreach (var rowHeader in TableControl.RowHeaders.Values)
+            foreach (var rowHeader in tableControl.RowHeaders.Values)
             {
                 _orderedHeaders.Add(rowHeader);
             }
             
-            _orderedHeaders.Sort((a, b) => TableControl.RowData[a.Id].Position.CompareTo(TableControl.RowData[b.Id].Position));
+            _orderedHeaders.Sort((a, b) => tableControl.RowData[a.Id].Position.CompareTo(tableControl.RowData[b.Id].Position));
             if(target is RowHeaderControl rowHeaderControl) 
-                TableControl.RowVisibilityManager.LockHeaderVisibility(rowHeaderControl, this);
+                tableControl.RowVisibilityManager.LockHeaderVisibility(rowHeaderControl, this);
             
             _lastHeaderIndex = -1;
         }
@@ -31,7 +31,7 @@ namespace TableForge.Editor.UI
         protected override void OnRelease()
         {
             if(target is not RowHeaderControl rowHeaderControl) return;
-            TableControl.RowVisibilityManager.UnlockHeaderVisibility(rowHeaderControl, this);
+            tableControl.RowVisibilityManager.UnlockHeaderVisibility(rowHeaderControl, this);
         }
 
         protected override void MoveElements(MouseMoveEvent e)
@@ -48,7 +48,7 @@ namespace TableForge.Editor.UI
             target.transform.position += delta;
             rowHeaderControl.RowControl.transform.position += delta;
             
-            int movingIndex = TableControl.RowData[rowHeaderControl.Id].Position - 1;
+            int movingIndex = tableControl.RowData[rowHeaderControl.Id].Position - 1;
             if(_lastHeaderIndex == -1)
                 _lastHeaderIndex = movingIndex;
             
@@ -104,7 +104,7 @@ namespace TableForge.Editor.UI
         protected override void PerformSwap()
         {
             if (target is not RowHeaderControl rowHeaderControl) return;
-            foreach (var rowHeader in TableControl.RowHeaders.Values)
+            foreach (var rowHeader in tableControl.RowHeaders.Values)
             {
                 rowHeader.transform.position = Vector3.zero;
                 rowHeader.RowControl.transform.position = Vector3.zero;
@@ -112,10 +112,10 @@ namespace TableForge.Editor.UI
                 
             if (_lastHeaderIndex != -1)
             {
-                int rowStartPos = TableControl.RowData[rowHeaderControl.Id].Position;
+                int rowStartPos = tableControl.RowData[rowHeaderControl.Id].Position;
                 int rowEndPos = _lastHeaderIndex + 1;
                     
-                ReorderHeaderCommand command = new ReorderHeaderCommand(rowStartPos, rowEndPos, TableControl.MoveRow);
+                ReorderHeaderCommand command = new ReorderHeaderCommand(rowStartPos, rowEndPos, tableControl.MoveRow);
                 UndoRedoManager.Do(command);
             }
         }

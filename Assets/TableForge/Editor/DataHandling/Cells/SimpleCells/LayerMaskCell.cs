@@ -10,7 +10,7 @@ namespace TableForge.Editor
     [CellType(typeof(LayerMask))]
     internal class LayerMaskCell : Cell, IQuotedValueCell
     {
-        public LayerMaskCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public LayerMaskCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         
         public override string Serialize()
         {

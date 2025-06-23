@@ -14,7 +14,7 @@ namespace TableForge.Editor
         private string _guid;
         private string _path;
         
-        public ReferenceCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public ReferenceCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
 
         public override string Serialize()
         {
@@ -29,7 +29,7 @@ namespace TableForge.Editor
                 }
 
                 data = new SerializableObject(_guid, _path, obj);
-                return Serializer.Serialize(data);
+                return serializer.Serialize(data);
             }
             
             return "NULL";
@@ -46,7 +46,7 @@ namespace TableForge.Editor
                 return;
             }
 
-            SerializableObject value = Serializer.Deserialize<SerializableObject>(data);
+            SerializableObject value = serializer.Deserialize<SerializableObject>(data);
             if (value is not null)
             {
                 SetValue(value.ToObject());
@@ -56,8 +56,8 @@ namespace TableForge.Editor
         public override int CompareTo(Cell other)
         {
             if (other is not ReferenceCell referenceCell) return 1;
-            Object thisObject = Value as Object;
-            Object otherObject = referenceCell.Value as Object;
+            Object thisObject = cachedValue as Object;
+            Object otherObject = referenceCell.cachedValue as Object;
 
             if (thisObject == null && otherObject == null) return 0;
             if (thisObject == null) return -1;

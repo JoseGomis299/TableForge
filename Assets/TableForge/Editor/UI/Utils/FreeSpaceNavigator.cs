@@ -19,8 +19,8 @@ namespace TableForge.Editor.UI
             _initialTable = currentCell.Table;
             bool isTransposed = !_initialTable.IsSubTable && _metadata.IsTransposed;
             
-            _minRowPosition = isTransposed ? currentCell.Column.Position : currentCell.Row.Position;
-            _minColumnPosition = isTransposed ? currentCell.Row.Position : currentCell.Column.Position;
+            _minRowPosition = isTransposed ? currentCell.column.Position : currentCell.row.Position;
+            _minColumnPosition = isTransposed ? currentCell.row.Position : currentCell.column.Position;
             
             while(_currentCell is SubTableCell subTableCell and not ICollectionCell && subTableCell.SubTable.Rows.Any())
             {
@@ -38,8 +38,8 @@ namespace TableForge.Editor.UI
             
             int columnCount = isTransposed ? table.Rows.Count : table.Columns.Count;
             int rowCount = isTransposed ? table.Columns.Count : table.Rows.Count;
-            int nextColumn = isTransposed ? _currentCell.Row.Position + orientation : _currentCell.Column.Position + orientation;
-            int nextRow = isTransposed ? _currentCell.Column.Position : _currentCell.Row.Position;
+            int nextColumn = isTransposed ? _currentCell.row.Position + orientation : _currentCell.column.Position + orientation;
+            int nextRow = isTransposed ? _currentCell.column.Position : _currentCell.row.Position;
             int minColumn = table == _initialTable ? _minColumnPosition : 1;
             
             if (nextColumn < minColumn || nextColumn > columnCount)
@@ -89,7 +89,7 @@ namespace TableForge.Editor.UI
             bool isTransposed = !table.IsSubTable && _metadata.IsTransposed;
             
             int rowCount = isTransposed ? table.Columns.Count : table.Rows.Count;
-            int nextRow = isTransposed ? _currentCell.Column.Position + orientation : _currentCell.Row.Position + orientation;
+            int nextRow = isTransposed ? _currentCell.column.Position + orientation : _currentCell.row.Position + orientation;
             int nextColumn = _minColumnPosition;
 
             if (nextRow < _minRowPosition)

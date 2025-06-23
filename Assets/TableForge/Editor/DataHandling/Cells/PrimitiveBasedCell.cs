@@ -8,23 +8,23 @@ namespace TableForge.Editor
     /// </summary>
     internal abstract class PrimitiveBasedCell<TValue> : Cell
     {
-        protected PrimitiveBasedCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        protected PrimitiveBasedCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            Serializer = new SimpleSerializer();
+            serializer = new SimpleSerializer();
         }
         
         public override string Serialize()
         {
-            if (Value is TValue typedValue)
+            if (cachedValue is TValue typedValue)
             {
-                return Serializer.Serialize(typedValue);
+                return serializer.Serialize(typedValue);
             }
             return string.Empty;
         }
 
         public override void Deserialize(string data)
         {
-            TValue value = Serializer.Deserialize<TValue>(data);
+            TValue value = serializer.Deserialize<TValue>(data);
             if (value is not null)
             {
                 SetValue(value);
@@ -35,9 +35,9 @@ namespace TableForge.Editor
         {
             if (other is not PrimitiveBasedCell<TValue> primitiveCell) return 1;
             
-            if (Value is IComparable comparable)
+            if (cachedValue is IComparable comparable)
             {
-                return comparable.CompareTo(primitiveCell.Value);
+                return comparable.CompareTo(primitiveCell.cachedValue);
             }
 
             throw new InvalidOperationException("Cannot compare non-comparable values.");

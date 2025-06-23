@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TableForge.Attributes;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 [CreateAssetMenu(fileName = "Test1", menuName = "Test1")]
@@ -12,7 +13,7 @@ public class Test1 : ScriptableObject
     public Color color;
     public AnimationCurve animationCurve;
     public Object reference;
-    public bool B;
+    [FormerlySerializedAs("B")] public bool b;
     public char charValue;
         
     [SerializeField] private int intField;
@@ -61,7 +62,7 @@ public class Test1 : ScriptableObject
     public string text;
     
     public Matrix4x4 matrix;
-    public Quaternion Quaternion;
+    [FormerlySerializedAs("Quaternion")] public Quaternion quaternion;
     public Rect rect;
     public Ray ray;
     public Bounds bounds;

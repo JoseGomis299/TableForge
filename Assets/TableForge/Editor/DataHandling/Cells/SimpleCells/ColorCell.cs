@@ -8,12 +8,12 @@ namespace TableForge.Editor
     [CellType(typeof(Color))]
     internal class ColorCell : Cell
     {
-        public ColorCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public ColorCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         
         public override string Serialize()
         {
             SerializableColor data = new SerializableColor((Color) GetValue());
-            return Serializer.Serialize(data);
+            return serializer.Serialize(data);
         }
         
         public override void Deserialize(string data)
@@ -21,7 +21,7 @@ namespace TableForge.Editor
             if (string.IsNullOrEmpty(data))
                 return;
 
-            SerializableColor value = Serializer.Deserialize<SerializableColor>(data);
+            SerializableColor value = serializer.Deserialize<SerializableColor>(data);
             if (value is not null)
             {
                 SetValue(value.ToColor());

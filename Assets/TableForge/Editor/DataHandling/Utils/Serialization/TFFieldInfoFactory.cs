@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace TableForge.Editor
 {
-    internal static class TFFieldInfoFactory
+    internal static class TfFieldInfoFactory
     {
-        private static Dictionary<Type, List<TFFieldInfo>> _fieldCache = new Dictionary<Type, List<TFFieldInfo>>();
+        private static Dictionary<Type, List<TfFieldInfo>> _fieldCache = new Dictionary<Type, List<TfFieldInfo>>();
         
-        public static List<TFFieldInfo> GetFields(Type type)
+        public static List<TfFieldInfo> GetFields(Type type)
         {
             if (_fieldCache.TryGetValue(type, out var cachedFields))
                 return cachedFields;
             
             IFieldSerializationStrategy strategy = GetStrategy(type);
-            List<TFFieldInfo> fields = strategy.GetFields(type);
+            List<TfFieldInfo> fields = strategy.GetFields(type);
             _fieldCache.Add(type, fields);
             return fields;
         }

@@ -24,7 +24,7 @@ namespace TableForge.Editor.UI
         {
             set
             {
-                var sortedItems = value.OrderByDescending(item => item.IsFolder).ToList();
+                var sortedItems = value.OrderByDescending(item => item.isFolder).ToList();
 
                 _treeView.Clear();
                 _treeView.SetRootItems(sortedItems.Select(ConvertToTreeViewItem).ToList());
@@ -72,7 +72,7 @@ namespace TableForge.Editor.UI
             container.AddManipulator(new ContextualMenuManipulator(context =>
             {
                 var itemData = container.userData as TreeItem;
-                if (itemData != null && !itemData.IsFolder)
+                if (itemData != null && !itemData.isFolder)
                 {
                     context.menu.AppendAction("Rename", (_) =>
                     {
@@ -84,7 +84,7 @@ namespace TableForge.Editor.UI
                     
                     context.menu.AppendAction("Delete", (_) =>
                     {
-                        _detailsViewModel.DeleteAsset(itemData.Asset);
+                        _detailsViewModel.DeleteAsset(itemData.asset);
                     });
                 }
             }));
@@ -96,8 +96,8 @@ namespace TableForge.Editor.UI
         {
             var itemData = _treeView.GetItemDataForIndex<TreeItem>(index);
             element.userData = itemData;
-            itemData.Element = element;
-            itemData.Element.parent.style.alignSelf = Align.Center;
+            itemData.element = element;
+            itemData.element.parent.style.alignSelf = Align.Center;
     
             var toggle = element.Q<Toggle>("item-toggle");
             var label = element.Q<Label>("item-label");
@@ -107,7 +107,7 @@ namespace TableForge.Editor.UI
             
             EventCallback<EventBase> textFieldCallback = _ =>
             {
-                string path = AssetDatabase.GetAssetPath(itemData.Asset);
+                string path = AssetDatabase.GetAssetPath(itemData.asset);
                 string newName = AssetUtils.RenameAsset(path, textField.value.Trim());
                 
                 label.text = newName;
@@ -132,7 +132,7 @@ namespace TableForge.Editor.UI
 
             EventCallback<ChangeEvent<bool>> toggleCallback = evt =>
             {
-                itemData.IsSelected = evt.newValue;
+                itemData.isSelected = evt.newValue;
                 UpdateChildrenSelection(itemData, evt.newValue);
                 UpdateParentSelections(itemData);
                 UpdateVisualState(element, itemData);
@@ -146,10 +146,10 @@ namespace TableForge.Editor.UI
             }
             toggle.RegisterValueChangedCallback(_toggleCallbacks[toggle]);
 
-            label.text = itemData.IsFolder ? itemData.Name : itemData.Name.Remove(itemData.Name.Length - 6); // Remove ".asset"
-            label.style.marginLeft = itemData.IsFolder ? 0 : 20;
+            label.text = itemData.isFolder ? itemData.name : itemData.name.Remove(itemData.name.Length - 6); // Remove ".asset"
+            label.style.marginLeft = itemData.isFolder ? 0 : 20;
 
-            if (itemData.IsFolder)
+            if (itemData.isFolder)
             {
                 itemCount.visible = true;
                 itemCount.style.display = DisplayStyle.Flex;
@@ -169,13 +169,13 @@ namespace TableForge.Editor.UI
 
             UpdateVisualState(element, itemData);
             
-            if(itemData.IsSelected)
+            if(itemData.isSelected)
             {
                 toggle.SetValueWithoutNotify(true);
             }
             else
             {
-                if(itemData.IsPartiallySelected && itemData.IsFolder)
+                if(itemData.isPartiallySelected && itemData.isFolder)
                     toggle.showMixedValue = true;
                 else
                     toggle.SetValueWithoutNotify(false);
@@ -186,7 +186,7 @@ namespace TableForge.Editor.UI
         {
             var itemData = _treeView.GetItemDataForIndex<TreeItem>(index);
             if(itemData == null) return;
-            itemData.Element = null;
+            itemData.element = null;
         }
 
         private void UpdateVisualState(VisualElement element, TreeItem item)
@@ -194,18 +194,18 @@ namespace TableForge.Editor.UI
             var toggle = element.Q<Toggle>("item-toggle");
             var label = element.Q<Label>();
 
-            toggle.SetValueWithoutNotify(item.IsSelected);
-            if (item.IsFolder)
+            toggle.SetValueWithoutNotify(item.isSelected);
+            if (item.isFolder)
             {
                 toggle.visible = true;
                 label.style.unityFontStyleAndWeight = FontStyle.Bold;
-                toggle.showMixedValue = item.IsPartiallySelected;
+                toggle.showMixedValue = item.isPartiallySelected;
 
-                foreach (var child in item.Children)
+                foreach (var child in item.children)
                 {
-                    if(child.Element != null)
+                    if(child.element != null)
                     {
-                        UpdateVisualState(child.Element, child);
+                        UpdateVisualState(child.element, child);
                     }
                 }
             }
@@ -218,13 +218,13 @@ namespace TableForge.Editor.UI
 
         private void UpdateChildrenSelection(TreeItem item, bool selected)
         {
-            item.IsSelected = selected;
-            item.IsPartiallySelected = false;
+            item.isSelected = selected;
+            item.isPartiallySelected = false;
             
 
-            if (item.IsFolder)
+            if (item.isFolder)
             {
-                foreach (var child in item.Children)
+                foreach (var child in item.children)
                 {
                     UpdateChildrenSelection(child, selected);
                 }
@@ -237,25 +237,25 @@ namespace TableForge.Editor.UI
 
         private void UpdateParentSelections(TreeItem item)
         {
-            var parent = item.Parent;
+            var parent = item.parent;
             while (parent != null)
             {
                 parent.UpdateSelectionState();
-                if(parent.Element != null)
+                if(parent.element != null)
                 {
-                    UpdateVisualState(parent.Element, parent);
+                    UpdateVisualState(parent.element, parent);
                 }
                 
-                parent = parent.Parent;
+                parent = parent.parent;
             }
         }
         
         private TreeViewItemData<TreeItem> ConvertToTreeViewItem(TreeItem item)
         {
             return new TreeViewItemData<TreeItem>(
-                item.Id, 
+                item.id, 
                 item,
-                item.Children.OrderByDescending(x => x.IsFolder).Select(ConvertToTreeViewItem).ToList()
+                item.children.OrderByDescending(x => x.isFolder).Select(ConvertToTreeViewItem).ToList()
             );
         }
     }

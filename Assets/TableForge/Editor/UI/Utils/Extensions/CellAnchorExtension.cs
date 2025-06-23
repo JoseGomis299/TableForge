@@ -12,7 +12,7 @@ namespace TableForge.Editor.UI
 
             while (current.Table.ParentCell is SubTableCell parentCell)
             {
-                current = isRow ? parentCell.Row : parentCell.Column;
+                current = isRow ? parentCell.row : parentCell.column;
             }
 
             return current;

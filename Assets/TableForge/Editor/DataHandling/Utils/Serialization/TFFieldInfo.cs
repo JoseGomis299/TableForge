@@ -8,7 +8,7 @@ namespace TableForge.Editor
     /// Represents metadata for a serializable field in TableForge.
     /// Provides methods to get and set field values dynamically using reflection.
     /// </summary>
-    internal class TFFieldInfo
+    internal class TfFieldInfo
     {
         #region Fields
 
@@ -50,13 +50,13 @@ namespace TableForge.Editor
         #region Constructors
         
         /// <summary>
-        /// Initializes a new instance of <see cref="TFFieldInfo"/>.
+        /// Initializes a new instance of <see cref="TfFieldInfo"/>.
         /// </summary>
         /// <param name="name">The internal name of the field.</param>
         /// <param name="friendlyName">A user-friendly name for display.</param>
         /// <param name="fromType">The type that declares the field.</param>
         /// <param name="type">The data type of the field.</param>
-        public TFFieldInfo(string name, string friendlyName, Type fromType, Type type)
+        public TfFieldInfo(string name, string friendlyName, Type fromType, Type type)
         {
             Name = name;
             FriendlyName = friendlyName;

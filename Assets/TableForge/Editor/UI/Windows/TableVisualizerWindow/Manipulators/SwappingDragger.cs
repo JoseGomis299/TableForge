@@ -4,12 +4,12 @@ namespace TableForge.Editor.UI
 {
     internal abstract class SwappingDragger : MouseManipulator
     {
-        protected readonly TableControl TableControl;
+        protected readonly TableControl tableControl;
         private bool _isDragging;
 
         protected SwappingDragger(TableControl tableControl)
         {
-            TableControl = tableControl;
+            this.tableControl = tableControl;
             activators.Add(new ManipulatorActivationFilter {button = MouseButton.LeftMouse, clickCount = 1});
         }
 

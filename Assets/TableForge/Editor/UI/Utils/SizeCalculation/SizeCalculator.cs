@@ -49,7 +49,7 @@ namespace TableForge.Editor.UI
             if (tableControl.Parent is ExpandableSubTableCellControl { IsFoldoutOpen: false })
             {
                 size.y = UiConstants.FoldoutHeight;
-                size.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(tableControl.Parent.Cell.Column.Name)).x +
+                size.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(tableControl.Parent.Cell.column.Name)).x +
                          EditorStyles.foldoutHeaderIcon.fixedWidth;
             }
             else
@@ -83,22 +83,22 @@ namespace TableForge.Editor.UI
             {
                 foreach (var cell in row.OrderedCells)
                 {
-                    if (!tableMetadata.IsFieldVisible(cell.Column.Id)) continue;
+                    if (!tableMetadata.IsFieldVisible(cell.column.Id)) continue;
                     Vector2 cellSize = CalculateSize(cell, tableMetadata);
                     tableSize.AddCellSize(cell, cellSize);
                 }
                 
-                tableSize.AddHeaderSize(row, CalculateHeaderSize(row, table, tableAttributes.RowHeaderVisibility));
+                tableSize.AddHeaderSize(row, CalculateHeaderSize(row, table, tableAttributes.rowHeaderVisibility));
             }
             
-            tableSize.AddHeaderSize(null, CalculateHeaderSize(null, table, tableAttributes.RowHeaderVisibility));
+            tableSize.AddHeaderSize(null, CalculateHeaderSize(null, table, tableAttributes.rowHeaderVisibility));
             
             for (int i = 0; i < table.Columns.Count; i++)
             {
                 Column column = table.Columns[i + 1];
                 if (!tableMetadata.IsFieldVisible(column.Id)) continue;
 
-                tableSize.AddHeaderSize(column, CalculateHeaderSize(column, table, tableAttributes.ColumnHeaderVisibility));
+                tableSize.AddHeaderSize(column, CalculateHeaderSize(column, table, tableAttributes.columnHeaderVisibility));
             }
             
             if(!table.IsSubTable)
@@ -114,14 +114,14 @@ namespace TableForge.Editor.UI
             float height = UiConstants.CellHeight;
 
             TableAttributes subTableAttributes = CellStaticData.GetSubTableCellAttributes(CellStaticData.GetCellControlType(table.ParentCell.GetType()));
-            if (table.ParentCell is ICollectionCell && subTableAttributes.TableType == TableType.Dynamic)
+            if (table.ParentCell is ICollectionCell && subTableAttributes.tableType == TableType.Dynamic)
             {
                 if(table.Rows.Count >= 1)
                     height += UiConstants.CellHeight; //Remove button
                 
                 height += UiConstants.CellHeight; //Add button
             }
-            else if(subTableAttributes.TableType == TableType.DynamicIfEmpty)
+            else if(subTableAttributes.tableType == TableType.DynamicIfEmpty)
             {
                 if (table.Rows.Count == 0)
                     height += UiConstants.CellHeight; //Add button
@@ -153,8 +153,8 @@ namespace TableForge.Editor.UI
         
         private static float GetAddRowButtonHeight(Table table, TableAttributes tableAttributes)
         {
-            if (tableAttributes.TableType == TableType.Dynamic
-                || (tableAttributes.TableType == TableType.DynamicIfEmpty && table.Rows.Count == 0))
+            if (tableAttributes.tableType == TableType.Dynamic
+                || (tableAttributes.tableType == TableType.DynamicIfEmpty && table.Rows.Count == 0))
                 return UiConstants.CellHeight;
             
             return 0;
@@ -215,7 +215,7 @@ namespace TableForge.Editor.UI
             else
             {
                 localSize.y = UiConstants.FoldoutHeight;
-                localSize.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(subTableCell.Column.Name)).x +
+                localSize.x = EditorStyles.foldoutHeader.CalcSize(new GUIContent(subTableCell.column.Name)).x +
                               EditorStyles.foldoutHeaderIcon.fixedWidth;
             }
 

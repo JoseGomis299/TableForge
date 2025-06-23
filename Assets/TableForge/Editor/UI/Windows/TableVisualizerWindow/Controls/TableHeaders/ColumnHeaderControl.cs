@@ -32,7 +32,7 @@ namespace TableForge.Editor.UI
             }
             
             style.display = DisplayStyle.Flex;
-            string title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.ColumnHeaderVisibility);
+            string title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.columnHeaderVisibility);
             _headerLabel.text = title;
             _headerLabel.AddToClassList(USSClasses.TableHeaderText);
             if(tableControl.Parent != null)

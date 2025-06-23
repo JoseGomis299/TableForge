@@ -44,11 +44,11 @@ namespace TableForge.Editor.UI
             
             var tableAttributes = new TableAttributes()
             {
-                TableType = TableType.Dynamic,
-                ColumnReorderMode = TableReorderMode.ExplicitReorder,
-                RowReorderMode = TableReorderMode.ExplicitReorder,
-                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
-                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
+                tableType = TableType.Dynamic,
+                columnReorderMode = TableReorderMode.ExplicitReorder,
+                rowReorderMode = TableReorderMode.ExplicitReorder,
+                columnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
+                rowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
             };
 
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null, null, this);
@@ -89,7 +89,7 @@ namespace TableForge.Editor.UI
                 
                 foreach (var row in missingRows)
                 {
-                    metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
+                    metadata.RemoveItemGuid(row.SerializedObject.RootObjectGuid);
                     _tableControl.RemoveRow(row.Id);
                 }
                 

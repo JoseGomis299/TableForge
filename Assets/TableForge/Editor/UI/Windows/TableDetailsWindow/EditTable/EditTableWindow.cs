@@ -9,12 +9,12 @@ namespace TableForge.Editor.UI
         
         protected override void OnConfirm()
         {
-            ViewModel.UpdateTable();
+            viewModel.UpdateTable();
         }
 
         protected override string GetTableName()
         {
-            return ViewModel.TableName;
+            return viewModel.TableName;
         }
     }
 }

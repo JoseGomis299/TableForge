@@ -9,14 +9,14 @@ namespace TableForge.Editor
     internal class ScriptableObjectSelector : ItemSelector
     {
         private readonly string[] _paths;
-        private readonly Dictionary<Type, List<ITFSerializedObject>> _selectedData = new Dictionary<Type, List<ITFSerializedObject>>();
+        private readonly Dictionary<Type, List<ITfSerializedObject>> _selectedData = new Dictionary<Type, List<ITfSerializedObject>>();
 
         public ScriptableObjectSelector(String[] paths)
         {
             _paths = paths;
         }
 
-        public override List<List<ITFSerializedObject>> GetItemData()
+        public override List<List<ITfSerializedObject>> GetItemData()
         {
             foreach (string path in _paths)
             {
@@ -58,9 +58,9 @@ namespace TableForge.Editor
             if (scriptableObject == null) return;
             
             if(_selectedData.ContainsKey(scriptableObject.GetType()))
-                _selectedData[scriptableObject.GetType()].Add(new TFSerializedObject(scriptableObject, null, scriptableObject, guid));
+                _selectedData[scriptableObject.GetType()].Add(new TfSerializedObject(scriptableObject, null, scriptableObject, guid));
             else
-                _selectedData.Add(scriptableObject.GetType(), new List<ITFSerializedObject> {new TFSerializedObject(scriptableObject, null, scriptableObject, guid)});
+                _selectedData.Add(scriptableObject.GetType(), new List<ITfSerializedObject> {new TfSerializedObject(scriptableObject, null, scriptableObject, guid)});
         }
     }
 }

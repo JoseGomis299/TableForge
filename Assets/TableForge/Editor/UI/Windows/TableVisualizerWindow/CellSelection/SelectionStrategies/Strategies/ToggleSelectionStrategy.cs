@@ -10,9 +10,9 @@ namespace TableForge.Editor.UI
     {
         public Cell Preselect(PreselectArguments args)
         {
-            var selector = args.Selector;
-            var cellsAtPosition = args.CellsAtPosition;
-            var selectedAnchors = args.SelectedAnchors;
+            var selector = args.selector;
+            var cellsAtPosition = args.cellsAtPosition;
+            var selectedAnchors = args.selectedAnchors;
             
             Cell lastSelectedCell = null;
 

@@ -5,7 +5,7 @@ namespace TableForge.Editor
     /// </summary>
     internal class DefaultCell : Cell
     {
-        public DefaultCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public DefaultCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
 
         public override string Serialize()
         {

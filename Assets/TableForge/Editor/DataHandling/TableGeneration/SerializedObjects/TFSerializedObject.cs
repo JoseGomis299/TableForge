@@ -10,22 +10,22 @@ namespace TableForge.Editor
     /// <summary>
     /// Default implementation of ITFSerializedObject. Represents a single object in a table.
     /// </summary>
-    internal class TFSerializedObject : ITFSerializedObject
+    internal class TfSerializedObject : ITfSerializedObject
     {
-        protected IColumnGenerator ColumnGenerator;
+        protected IColumnGenerator columnGenerator;
         
         public Object RootObject { get; }
         public string RootObjectGuid { get; }
         public string Name { get; protected set; }
         public object TargetInstance { get; protected set; }
-        public TFSerializedType SerializedType { get; protected set; }
+        public TfSerializedType SerializedType { get; protected set; }
         
 
-        public TFSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string guid, string name = null)
+        public TfSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string guid, string name = null)
         {
             TargetInstance = targetInstance;
-            SerializedType = new TFSerializedType(targetInstance.GetType(), parentField);
-            ColumnGenerator = SerializedType;
+            SerializedType = new TfSerializedType(targetInstance.GetType(), parentField);
+            columnGenerator = SerializedType;
             RootObject = rootObject;
             RootObjectGuid = guid;
             
@@ -41,21 +41,21 @@ namespace TableForge.Editor
 
         public virtual object GetValue(Cell cell)
         {
-            if(!SerializedType.Fields.Contains(cell.FieldInfo))
-                throw new ArgumentException($"Field {cell.FieldInfo.Name} is not a valid field for this object!");
+            if(!SerializedType.Fields.Contains(cell.fieldInfo))
+                throw new ArgumentException($"Field {cell.fieldInfo.Name} is not a valid field for this object!");
             
-            return TargetInstance == null ? null : cell.FieldInfo.GetValue(TargetInstance);
+            return TargetInstance == null ? null : cell.fieldInfo.GetValue(TargetInstance);
         }
 
         public virtual void SetValue(Cell cell, object data)
         {
-            if(!SerializedType.Fields.Contains(cell.FieldInfo))
-                throw new ArgumentException($"Field {cell.FieldInfo.Name} is not a valid field for this object!");
+            if(!SerializedType.Fields.Contains(cell.fieldInfo))
+                throw new ArgumentException($"Field {cell.fieldInfo.Name} is not a valid field for this object!");
             
             if(TargetInstance == null)
                 return;
             
-            Cell parentCell = cell.Row.Table.ParentCell;
+            Cell parentCell = cell.row.Table.ParentCell;
             if (parentCell != null && SerializedType.IsStruct && parentCell is SubTableCell parentSubTableCell and not ICollectionCell)
             {
                 /*As we are dealing always with type "object", value types are boxed in reference types,
@@ -70,14 +70,14 @@ namespace TableForge.Editor
                 object copy = TargetInstance.CreateShallowCopy();
 
                 //We change the value inside TargetInstance without affecting the original value that could be stored in other SerializedObjects as a reference.
-                cell.FieldInfo.SetValue(copy, data);
+                cell.fieldInfo.SetValue(copy, data);
                 TargetInstance = structInstance; //We restore the original value of TargetInstance
                 
                 //Now it's time to update the parent cell with the new value
                 parentSubTableCell.SetValue(copy);
                 TargetInstance = copy; //We update the value of TargetInstance with the new value reference
             }
-            else cell.FieldInfo.SetValue(TargetInstance, data);
+            else cell.fieldInfo.SetValue(TargetInstance, data);
             
             if(!EditorUtility.IsDirty(RootObject))
                 EditorUtility.SetDirty(RootObject);
@@ -85,15 +85,15 @@ namespace TableForge.Editor
 
         public virtual Type GetValueType(Cell cell)
         {
-            if(!SerializedType.Fields.Contains(cell.FieldInfo))
-                throw new ArgumentException($"Field {cell.FieldInfo.Name} is not a valid field for this object!");
+            if(!SerializedType.Fields.Contains(cell.fieldInfo))
+                throw new ArgumentException($"Field {cell.fieldInfo.Name} is not a valid field for this object!");
             
-            return TargetInstance == null ? null : cell.FieldInfo.Type;
+            return TargetInstance == null ? null : cell.fieldInfo.Type;
         }
         
         public virtual void PopulateRow(List<Column> columns, Table table, Row row)
         {
-            ColumnGenerator.GenerateColumns(columns, table);
+            columnGenerator.GenerateColumns(columns, table);
             
             for (var j = 0; j < SerializedType.Fields.Count; j++)
             {

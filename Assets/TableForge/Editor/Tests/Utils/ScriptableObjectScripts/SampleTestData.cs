@@ -86,7 +86,7 @@ namespace TableForge.Tests
                 { "Entry2", new NestedData(4, "Sample4") }
             };
 
-        private SerializedDictionary<int, NestedData> hiddenDictionary =
+        private SerializedDictionary<int, NestedData> _hiddenDictionary =
             new SerializedDictionary<int, NestedData>()
             {
                 { 1, new NestedData(5, "Hidden1") },

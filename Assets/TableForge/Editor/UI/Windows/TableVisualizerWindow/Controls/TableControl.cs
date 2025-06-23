@@ -246,7 +246,7 @@ namespace TableForge.Editor.UI
             // Remove metadata
             PreferredSize.RemoveRowSize(row.Id);
             CellSelector.RemoveRowSelection(row);
-            if(Parent == null) Metadata.RemoveItemGUID(row.SerializedObject.RootObjectGuid);
+            if(Parent == null) Metadata.RemoveItemGuid(row.SerializedObject.RootObjectGuid);
             Metadata.RemoveAnchorMetadata(row.Id);
             foreach (var cell in row.OrderedCells)
             {
@@ -272,11 +272,11 @@ namespace TableForge.Editor.UI
             Transposed = !Transposed;
             TableAttributes = new TableAttributes
             {
-                ColumnHeaderVisibility = TableAttributes.RowHeaderVisibility,
-                RowHeaderVisibility = TableAttributes.ColumnHeaderVisibility,
-                RowReorderMode = TableAttributes.ColumnReorderMode,
-                ColumnReorderMode = TableAttributes.RowReorderMode,
-                TableType = TableAttributes.TableType
+                columnHeaderVisibility = TableAttributes.rowHeaderVisibility,
+                rowHeaderVisibility = TableAttributes.columnHeaderVisibility,
+                rowReorderMode = TableAttributes.columnReorderMode,
+                columnReorderMode = TableAttributes.rowReorderMode,
+                tableType = TableAttributes.tableType
             };
             
             Metadata.IsTransposed = Transposed;
@@ -288,7 +288,7 @@ namespace TableForge.Editor.UI
             if (rowStartPos == rowEndPos)
                 return;
             
-            if (TableAttributes.RowReorderMode == TableReorderMode.ExplicitReorder)
+            if (TableAttributes.rowReorderMode == TableReorderMode.ExplicitReorder)
             {
                 PerformExplicitRowReorder(rowStartPos, rowEndPos, refresh);
             }
@@ -323,13 +323,13 @@ namespace TableForge.Editor.UI
             bool positionChanged = false;
             for (int i = 0; i < cells.Count; i++)
             {
-                if (cells[i].Row.Position != i + 1)
+                if (cells[i].row.Position != i + 1)
                 {
                     positionChanged = true;
                 }
                 
-                positions[i] = cells[i].Row.Position;
-                originalPositions[cells[i].Row.Position - 1] = i + 1;
+                positions[i] = cells[i].row.Position;
+                originalPositions[cells[i].row.Position - 1] = i + 1;
             }
             
             if (!positionChanged)

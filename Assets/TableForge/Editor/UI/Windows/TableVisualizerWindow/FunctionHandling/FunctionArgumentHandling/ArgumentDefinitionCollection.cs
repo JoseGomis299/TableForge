@@ -31,7 +31,7 @@ namespace TableForge.Editor.UI
                 int definitionIndex = i;
                 if (i >= _definitions.Count)
                 {
-                    if (!_definitions[^1].IndefiniteArguments)
+                    if (!_definitions[^1].indefiniteArguments)
                     {
                         return false; // Too many arguments and last argument is not indefinite
                     }
@@ -42,7 +42,7 @@ namespace TableForge.Editor.UI
                 var definition = _definitions[definitionIndex];
                 var argType = arguments[i].GetType();
 
-                if (!ArgumentTypeMapper.IsValidType(definition.Type, argType))
+                if (!ArgumentTypeMapper.IsValidType(definition.type, argType))
                 {
                     return false; // Argument type does not match expected type
                 }
@@ -58,7 +58,7 @@ namespace TableForge.Editor.UI
 
             foreach (var definition in _definitions)
             {
-                if (!definition.IsOptional)
+                if (!definition.isOptional)
                 {
                     requiredCount++;
                 }

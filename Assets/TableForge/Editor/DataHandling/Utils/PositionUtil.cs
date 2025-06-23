@@ -9,9 +9,9 @@ namespace TableForge.Editor
     {
         #region Constants
 
-        private const char MAX_COL_POS = 'Z';
-        private const char MIN_COL_POS = 'A';
-        private const int COL_POS_COUNT = 'Z' - 'A' + 1;
+        private const char MaxColPos = 'Z';
+        private const char MinColPos = 'A';
+        private const int ColPosCount = 'Z' - 'A' + 1;
 
         #endregion
 
@@ -31,16 +31,16 @@ namespace TableForge.Editor
             var result = string.Empty;
             while (position > 0)
             {
-                var remainder = position % COL_POS_COUNT;
+                var remainder = position % ColPosCount;
                 if (remainder == 0)
                 {
-                    result = MAX_COL_POS + result;
-                    position = (position / COL_POS_COUNT) - 1;
+                    result = MaxColPos + result;
+                    position = (position / ColPosCount) - 1;
                 }
                 else
                 {
-                    result = (char) (remainder - 1 + MIN_COL_POS) + result;
-                    position = position / COL_POS_COUNT;
+                    result = (char) (remainder - 1 + MinColPos) + result;
+                    position = position / ColPosCount;
                 }
             }
 
@@ -61,7 +61,7 @@ namespace TableForge.Editor
             var result = 0;
             for (var i = 0; i < position.Length; i++)
             {
-                result = result * COL_POS_COUNT + position[i] - MIN_COL_POS + 1;
+                result = result * ColPosCount + position[i] - MinColPos + 1;
             }
 
             return result;
@@ -91,7 +91,7 @@ namespace TableForge.Editor
         public static (int column, int row) GetPosition(string position)
         {
             int columnEndIndex = 0;
-            while (position[columnEndIndex] is >= MIN_COL_POS and <= MAX_COL_POS)
+            while (position[columnEndIndex] is >= MinColPos and <= MaxColPos)
             {
                 columnEndIndex++;
             }
@@ -118,7 +118,7 @@ namespace TableForge.Editor
         {
             foreach (var character in position)
             {
-                if (character is < MIN_COL_POS or > MAX_COL_POS)
+                if (character is < MinColPos or > MaxColPos)
                     return false;
             }
 

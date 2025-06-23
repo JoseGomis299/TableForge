@@ -13,13 +13,13 @@ namespace TableForge.Editor.UI
         public event Action<HeaderControl, int> OnHeaderBecameVisible;
         public event Action<HeaderControl, int> OnHeaderBecameInvisible;
         
-        protected Vector2 SecurityExtraSize = new Vector2(UiConstants.CellWidth * 2, UiConstants.CellHeight * 4);
+        protected Vector2 securityExtraSize = new Vector2(UiConstants.CellWidth * 2, UiConstants.CellHeight * 4);
         
-        protected readonly ScrollView ScrollView;
-        protected readonly List<THeader> VisibleHeaders = new List<THeader>();
-        protected readonly Dictionary<THeader, HashSet<object>> LockedVisibleHeaders = new(); 
-        protected float LastScrollValue;
-        protected readonly TableControl TableControl;
+        protected readonly ScrollView scrollView;
+        protected readonly List<THeader> visibleHeaders = new List<THeader>();
+        protected readonly Dictionary<THeader, HashSet<object>> lockedVisibleHeaders = new(); 
+        protected float lastScrollValue;
+        protected readonly TableControl tableControl;
         
         private readonly List<THeader> _orderedLockedHeaders = new List<THeader>();
         private readonly HashSet<THeader> _invisibleHeadersThisFrame = new HashSet<THeader>();
@@ -27,50 +27,50 @@ namespace TableForge.Editor.UI
         
         
         public bool IsRefreshingVisibility { get; protected set; }
-        public IReadOnlyList<THeader> CurrentVisibleHeaders => VisibleHeaders;
+        public IReadOnlyList<THeader> CurrentVisibleHeaders => visibleHeaders;
         public IReadOnlyList<THeader> OrderedLockedHeaders => _orderedLockedHeaders;
         protected VisibilityManager(TableControl tableControl)
         {
-            TableControl = tableControl;
-            ScrollView = tableControl.ScrollView;
+            this.tableControl = tableControl;
+            scrollView = tableControl.ScrollView;
             
-            LastScrollValue = float.MinValue;
+            lastScrollValue = float.MinValue;
         }
         
         public bool IsHeaderVisibilityLocked(THeader header)
         {
-            return LockedVisibleHeaders.ContainsKey(header);
+            return lockedVisibleHeaders.ContainsKey(header);
         }
         
         public bool IsHeaderVisibilityLockedBy(THeader header, object keyOwner)
         {
-            if (!LockedVisibleHeaders.TryGetValue(header, out var owners)) return false;
+            if (!lockedVisibleHeaders.TryGetValue(header, out var owners)) return false;
             
             return owners.Contains(keyOwner);
         }
         
         public void Clear()
         {
-            foreach (var header in VisibleHeaders)
+            foreach (var header in visibleHeaders)
             {
                 header.IsVisible = false;
             }
-            VisibleHeaders.Clear();
-            LockedVisibleHeaders.Clear();
+            visibleHeaders.Clear();
+            lockedVisibleHeaders.Clear();
             _orderedLockedHeaders.Clear();
             
-            LastScrollValue = float.MinValue;
+            lastScrollValue = float.MinValue;
         }
         
         public void LockHeaderVisibility(THeader header, object keyOwner)
         {
-            if (LockedVisibleHeaders.TryAdd(header, new HashSet<object>()))
+            if (lockedVisibleHeaders.TryAdd(header, new HashSet<object>()))
             {
                 _orderedLockedHeaders.Add(header);
                 _orderedLockedHeaders.Sort((x, y) => x.CellAnchor.Position.CompareTo(y.CellAnchor.Position));
             }
            
-            LockedVisibleHeaders[header].Add(keyOwner);
+            lockedVisibleHeaders[header].Add(keyOwner);
             
             if (!header.IsVisible) 
                 MakeHeaderVisible(header, insertAtTop: false); 
@@ -78,11 +78,11 @@ namespace TableForge.Editor.UI
         
         public void UnlockHeaderVisibility(THeader header, object keyOwner)
         {
-            if (!LockedVisibleHeaders.TryGetValue(header, out var owners)) return;
+            if (!lockedVisibleHeaders.TryGetValue(header, out var owners)) return;
             
             if (owners.Remove(keyOwner) && owners.Count == 0)
             {
-                LockedVisibleHeaders.Remove(header);
+                lockedVisibleHeaders.Remove(header);
                 _orderedLockedHeaders.Remove(header);
             }
         }
@@ -93,9 +93,9 @@ namespace TableForge.Editor.UI
         protected void MakeHeaderVisible(THeader header, bool insertAtTop)
         {
             if (insertAtTop)
-                VisibleHeaders.Insert(0, header);
+                visibleHeaders.Insert(0, header);
             else
-                VisibleHeaders.Add(header);
+                visibleHeaders.Add(header);
 
             bool wasVisible = header.IsVisible;
             header.IsVisible = true;
@@ -139,7 +139,7 @@ namespace TableForge.Editor.UI
         
         public bool IsHeaderVisible(THeader header)
         {
-            return TableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id) && (LockedVisibleHeaders.ContainsKey(header) || IsHeaderInBounds(header, true));
+            return tableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id) && (lockedVisibleHeaders.ContainsKey(header) || IsHeaderInBounds(header, true));
         }
 
         /// <summary>

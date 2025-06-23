@@ -7,14 +7,14 @@ namespace TableForge.Editor
 {
     internal interface IFieldSerializationStrategy
     {
-        List<TFFieldInfo> GetFields(Type type);
+        List<TfFieldInfo> GetFields(Type type);
     }
 
     internal class BaseFieldSerializationStrategy : IFieldSerializationStrategy
     {
-        public List<TFFieldInfo> GetFields(Type type)
+        public List<TfFieldInfo> GetFields(Type type)
         {
-            List<TFFieldInfo> members = new List<TFFieldInfo>();
+            List<TfFieldInfo> members = new List<TfFieldInfo>();
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 if (!SerializationUtil.IsSerializable(field)) continue;
@@ -22,7 +22,7 @@ namespace TableForge.Editor
                 
                 string friendlyName = SerializationUtil.GetFriendlyName(field);
                 
-                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType));
+                members.Add(new TfFieldInfo(field.Name, friendlyName, type, field.FieldType));
             }
 
             return members;
@@ -31,9 +31,9 @@ namespace TableForge.Editor
 
     internal class PrivateIncludedFieldSerializationStrategy : IFieldSerializationStrategy
     {
-        public List<TFFieldInfo> GetFields(Type type)
+        public List<TfFieldInfo> GetFields(Type type)
         {
-            List<TFFieldInfo> members = new List<TFFieldInfo>();
+            List<TfFieldInfo> members = new List<TfFieldInfo>();
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 if (!SerializationUtil.IsSerializable(field, true)) continue;
@@ -41,7 +41,7 @@ namespace TableForge.Editor
                 
                 string friendlyName = SerializationUtil.GetFriendlyName(field);
                 
-                members.Add(new TFFieldInfo(field.Name, friendlyName, type, field.FieldType));
+                members.Add(new TfFieldInfo(field.Name, friendlyName, type, field.FieldType));
             }
 
             return members;

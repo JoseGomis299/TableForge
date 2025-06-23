@@ -109,11 +109,11 @@ namespace TableForge.Editor.UI
             bool isMainTable = table == rootTableControl?.TableData;
             bool isTransposed = isMainTable && (rootTableControl?.Transposed ?? false);
 
-            int startingRowPosition = isTransposed ? firstCell.Column.Position : firstCell.Row.Position;
-            int endingRowPosition = isTransposed ? lastCell.Column.Position : lastCell.Row.Position;
+            int startingRowPosition = isTransposed ? firstCell.column.Position : firstCell.row.Position;
+            int endingRowPosition = isTransposed ? lastCell.column.Position : lastCell.row.Position;
 
-            int startingColumnPosition = isTransposed ? firstCell.Row.Position : firstCell.Column.Position;
-            int endingColumnPosition = isTransposed ? lastCell.Row.Position : lastCell.Column.Position;
+            int startingColumnPosition = isTransposed ? firstCell.row.Position : firstCell.column.Position;
+            int endingColumnPosition = isTransposed ? lastCell.row.Position : lastCell.column.Position;
             
             if(startingRowPosition > endingRowPosition)
                 (startingRowPosition, endingRowPosition) = (endingRowPosition, startingRowPosition);
@@ -160,8 +160,8 @@ namespace TableForge.Editor.UI
         
         public static Cell GetContiguousCell(Cell currentCell, Vector2 direction, Vector2 wrappingMinBounds, Vector2 wrappingMaxBounds)
         {
-            int rowPosition = currentCell.Row.Position;
-            int columnPosition = currentCell.Column.Position;
+            int rowPosition = currentCell.row.Position;
+            int columnPosition = currentCell.column.Position;
             
             int newRowPosition = rowPosition - (int)direction.y;
             int newColumnPosition = columnPosition + (int)direction.x;
@@ -218,7 +218,7 @@ namespace TableForge.Editor.UI
                 List<Cell> cells = new List<Cell>();
                 foreach (var cell in row.OrderedCells)
                 {
-                    if(!tableControl.Metadata.IsFieldVisible(cell.Column.GetRootAnchor().Id)) continue;
+                    if(!tableControl.Metadata.IsFieldVisible(cell.column.GetRootAnchor().Id)) continue;
                     cells.Add(cell);
                 }
 
@@ -236,7 +236,7 @@ namespace TableForge.Editor.UI
                 List<Cell> cells = new List<Cell>();
                 foreach (var cell in row.OrderedCells)
                 {
-                    if(!tableControl.Metadata.IsFieldVisible(cell.Column.GetRootAnchor().Id)) continue;
+                    if(!tableControl.Metadata.IsFieldVisible(cell.column.GetRootAnchor().Id)) continue;
                     cells.Add(cell);
                 }
 

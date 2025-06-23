@@ -11,9 +11,9 @@ namespace TableForge.Editor.UI
     {
         public Cell Preselect(PreselectArguments args)
         {
-            var selector = args.Selector;
-            var cellsAtPosition = args.CellsAtPosition;
-            var selectedAnchors = args.SelectedAnchors;
+            var selector = args.selector;
+            var cellsAtPosition = args.cellsAtPosition;
+            var selectedAnchors = args.selectedAnchors;
             
             Cell lastSelectedCell = null;
             if (selector.SelectedCells.Count == 0)
@@ -52,10 +52,10 @@ namespace TableForge.Editor.UI
 
                         if (selectAnchors)
                         {
-                            if (anchorsToSelect.Add(anchorIsRow ? cell.Row : cell.Column))
+                            if (anchorsToSelect.Add(anchorIsRow ? cell.row : cell.column))
                             {
-                                selector.SelectedAnchors.Add(anchorIsRow ? cell.Row : cell.Column);
-                                selectedAnchors.Add(anchorIsRow ? cell.Row : cell.Column);
+                                selector.SelectedAnchors.Add(anchorIsRow ? cell.row : cell.column);
+                                selectedAnchors.Add(anchorIsRow ? cell.row : cell.column);
                             }
                         }
                     }

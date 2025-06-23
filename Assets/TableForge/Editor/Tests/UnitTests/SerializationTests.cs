@@ -15,7 +15,7 @@ namespace TableForge.Tests
             Type type = typeof(SampleTestData);
             
             //Act
-            List<TFFieldInfo> fields = SerializationUtil.GetSerializableFields(type, null);
+            List<TfFieldInfo> fields = SerializationUtil.GetSerializableFields(type, null);
             
             //Assert
             //Check if the serializable fields are included

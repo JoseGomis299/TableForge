@@ -12,7 +12,7 @@ namespace TableForge.Editor.UI
         {
             if (UsePathsMode)
             {
-                string[] guids = SelectedAssets.Select(AssetDatabase.GetAssetPath).Select(AssetDatabase.AssetPathToGUID).ToArray();
+                string[] guids = selectedAssets.Select(AssetDatabase.GetAssetPath).Select(AssetDatabase.AssetPathToGUID).ToArray();
                 OnTableCreated?.Invoke(TableMetadataManager.CreateMetadata(guids, TableName));
             }
             else OnTableCreated?.Invoke(TableMetadataManager.CreateMetadata(SelectedType, TableName));
@@ -38,8 +38,8 @@ namespace TableForge.Editor.UI
             string[] parts = name.Split(' ');
             return parts.Length switch
             {
-                1 => TypeNames.Contains(parts[0]),
-                2 when int.TryParse(parts[1].TrimEnd(')').TrimStart('('), out int count) => count > 0 && TypeNames.Contains(parts[0]),
+                1 => typeNames.Contains(parts[0]),
+                2 when int.TryParse(parts[1].TrimEnd(')').TrimStart('('), out int count) => count > 0 && typeNames.Contains(parts[0]),
                 _ => false
             };
         }

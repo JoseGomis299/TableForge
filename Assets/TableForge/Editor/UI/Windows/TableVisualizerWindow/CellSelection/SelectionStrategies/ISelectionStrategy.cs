@@ -16,24 +16,24 @@ namespace TableForge.Editor.UI
     
     internal class PreselectArguments
     {
-        public CellSelector Selector;
-        public List<Cell> CellsAtPosition;
-        public List<CellAnchor> SelectedAnchors;
-        public bool RightClicked;
-        public bool ClickedOnToolbar;
-        public bool DoubleClicked;
+        public CellSelector selector;
+        public List<Cell> cellsAtPosition;
+        public List<CellAnchor> selectedAnchors;
+        public bool rightClicked;
+        public bool clickedOnToolbar;
+        public bool doubleClicked;
 
         public PreselectArguments()
         {
-            CellsAtPosition = new List<Cell>();
-            SelectedAnchors = new List<CellAnchor>();
+            cellsAtPosition = new List<Cell>();
+            selectedAnchors = new List<CellAnchor>();
         }
         
         public PreselectArguments(CellSelector selector)
         {
-            Selector = selector;
-            CellsAtPosition = new List<Cell>();
-            SelectedAnchors = new List<CellAnchor>();
+            this.selector = selector;
+            cellsAtPosition = new List<Cell>();
+            selectedAnchors = new List<CellAnchor>();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TableForge.Editor.UI
             if (TableControl.Parent != null)
             {
                 var parentAttributes = CellStaticData.GetSubTableCellAttributes(TableControl.Parent.GetType());
-                if (parentAttributes.RowHeaderVisibility == TableHeaderVisibility.Hidden)
+                if (parentAttributes.rowHeaderVisibility == TableHeaderVisibility.Hidden)
                 {
                     excludeFromManualResizing = true;
                 }

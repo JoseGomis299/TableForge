@@ -9,7 +9,7 @@ namespace TableForge.Editor.UI
         private static bool _isOpened;
         
         [SerializeField] private VisualTreeAsset visualTreeAsset;
-        private AddTabViewModel _viewModel { get; set; }
+        private AddTabViewModel ViewModel { get; set; }
 
         // UI elements
         private VisualElement _openTabsContainer;
@@ -32,7 +32,7 @@ namespace TableForge.Editor.UI
 
             var wnd = CreateInstance<AddTabWindow>();
             wnd.titleContent = new GUIContent("Add Tabs");
-            wnd._viewModel = viewModel;
+            wnd.ViewModel = viewModel;
             wnd.Initialize();
             WindowManager.ShowModalWindow(wnd);
         }
@@ -49,7 +49,7 @@ namespace TableForge.Editor.UI
             _cancelButton = rootVisualElement.Q<Button>("cancel-button");
             _confirmButton = rootVisualElement.Q<Button>("accept-button");
 
-            _viewModel.PopulateTabContainers(_existingTablesContainer, _openTabsContainer);
+            ViewModel.PopulateTabContainers(_existingTablesContainer, _openTabsContainer);
             BindEvents();
         }
 
@@ -57,13 +57,13 @@ namespace TableForge.Editor.UI
         {
             _clearTabsButton.clicked += () =>
             {
-                _viewModel?.ClearTabs();
-                _viewModel?.UpdateTabContainers(_existingTablesContainer, _openTabsContainer);
+                ViewModel?.ClearTabs();
+                ViewModel?.UpdateTabContainers(_existingTablesContainer, _openTabsContainer);
             };
-            _createButton.clicked += () => _viewModel?.CreateNewTable(_existingTablesContainer);
+            _createButton.clicked += () => ViewModel?.CreateNewTable(_existingTablesContainer);
             _confirmButton.clicked += () =>
             {
-                _viewModel?.AddCurrentTabs();
+                ViewModel?.AddCurrentTabs();
                 WindowManager.CloseModalWindow(this);
                 Close();
             };
@@ -74,7 +74,7 @@ namespace TableForge.Editor.UI
                 Close();
             };
             
-            _viewModel.OnTabSelectionChanged += OnTabSelectionChanged;
+            ViewModel.OnTabSelectionChanged += OnTabSelectionChanged;
         }
 
         private void OnTabSelectionChanged(TabSelectionButton tab, bool selected)

@@ -11,7 +11,7 @@ namespace TableForge.Editor.UI
             return path;
         }
         
-        public static string GetGUID(this ScriptableObject scriptableObject)
+        public static string GetGuid(this ScriptableObject scriptableObject)
         {
             string path = scriptableObject.GetPath();
             return AssetDatabase.AssetPathToGUID(path);

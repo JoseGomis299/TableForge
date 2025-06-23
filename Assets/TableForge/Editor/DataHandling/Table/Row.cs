@@ -19,7 +19,7 @@ namespace TableForge.Editor
         {
             get
             {
-                if(SerializedObject != null && SerializedObject is not ITFSerializedCollectionItem)
+                if(SerializedObject != null && SerializedObject is not ITfSerializedCollectionItem)
                     return SerializedObject.RootObject.name;
                 
                 return base.Name;
@@ -36,7 +36,7 @@ namespace TableForge.Editor
             {
                 if (_isDirty)
                 {
-                    _orderedCells = _cells.Values.OrderBy(cell => cell.Column.Position).ToList();
+                    _orderedCells = _cells.Values.OrderBy(cell => cell.column.Position).ToList();
                     _isDirty = false;
                 }
                 return _orderedCells;
@@ -51,9 +51,9 @@ namespace TableForge.Editor
         /// <summary>
         /// The serialized object associated with the row.
         /// </summary>
-        public ITFSerializedObject SerializedObject { get; }
+        public ITfSerializedObject SerializedObject { get; }
         
-        public Row(string name, int position, Table table, ITFSerializedObject serializedObject) : base(name, position, table)
+        public Row(string name, int position, Table table, ITfSerializedObject serializedObject) : base(name, position, table)
         {
             _cells = new Dictionary<int, Cell>();
             _orderedCells = new List<Cell>();

@@ -68,15 +68,15 @@ namespace TableForge.Editor.UI
             if(depth != endCell.GetDepth())
                 throw new InvalidOperationException("Range spans multiple depths");
 
-            bool goesRight = startCell.Column.Position <= endCell.Column.Position;
-            bool goesDown = startCell.Row.Position <= endCell.Row.Position;
+            bool goesRight = startCell.column.Position <= endCell.column.Position;
+            bool goesDown = startCell.row.Position <= endCell.row.Position;
             
             return CellLocator.GetCellRange(startCell, endCell, null).
                 Where(c => c.GetDepth() == depth). // Ensure cells are at the same depth
-                Where(c => goesRight ? c.Column.Position >= startCell.Column.Position && c.Column.Position <= endCell.Column.Position :
-                                       c.Column.Position <= startCell.Column.Position && c.Column.Position >= endCell.Column.Position).
-                Where(c => goesDown ? c.Row.Position >= startCell.Row.Position && c.Row.Position <= endCell.Row.Position :
-                                       c.Row.Position <= startCell.Row.Position && c.Row.Position >= endCell.Row.Position).
+                Where(c => goesRight ? c.column.Position >= startCell.column.Position && c.column.Position <= endCell.column.Position :
+                                       c.column.Position <= startCell.column.Position && c.column.Position >= endCell.column.Position).
+                Where(c => goesDown ? c.row.Position >= startCell.row.Position && c.row.Position <= endCell.row.Position :
+                                       c.row.Position <= startCell.row.Position && c.row.Position >= endCell.row.Position).
                 ToList();
         }
     }

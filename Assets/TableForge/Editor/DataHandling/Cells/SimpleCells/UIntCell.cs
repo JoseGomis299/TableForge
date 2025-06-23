@@ -8,6 +8,6 @@ namespace TableForge.Editor
     [CellType(typeof(uint))]
     internal class UIntCell : PrimitiveBasedCell<uint>, INumericBasedCell
     {
-        public UIntCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public UIntCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

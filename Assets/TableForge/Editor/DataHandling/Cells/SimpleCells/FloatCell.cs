@@ -6,6 +6,6 @@ namespace TableForge.Editor
     [CellType(typeof(float))]
     internal class FloatCell : PrimitiveBasedCell<float>, INumericBasedCell
     {
-        public FloatCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public FloatCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

@@ -39,12 +39,12 @@ namespace TableForge.Editor.UI
 
         public static CellAnchor GetCellRow(this TableControl tableControl, Cell cell)
         {
-            return !tableControl.Transposed ? cell.Row : cell.Column;
+            return !tableControl.Transposed ? cell.row : cell.column;
         }
         
         public static CellAnchor GetCellColumn(this TableControl tableControl, Cell cell)
         {
-            return !tableControl.Transposed ? cell.Column : cell.Row;
+            return !tableControl.Transposed ? cell.column : cell.row;
         }
 
         public static int GetColumnPosition(this TableControl tableControl, int columnId)

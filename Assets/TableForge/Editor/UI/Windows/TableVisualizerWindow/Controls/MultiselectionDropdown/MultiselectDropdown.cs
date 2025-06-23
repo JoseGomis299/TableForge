@@ -12,7 +12,7 @@ namespace TableForge.Editor.UI
         private List<DropdownElement> _selectedItems = new();
         private List<DropdownElement> _allItems = new();
 
-        public Action<List<DropdownElement>> OnSelectionChanged;
+        public Action<List<DropdownElement>> onSelectionChanged;
 
         public MultiSelectDropdown(List<DropdownElement> items, string text)
         {
@@ -49,7 +49,7 @@ namespace TableForge.Editor.UI
                     return;
                 
                 _selectedItems = selected;
-                OnSelectionChanged?.Invoke(_selectedItems);
+                onSelectionChanged?.Invoke(_selectedItems);
             });
         }
 

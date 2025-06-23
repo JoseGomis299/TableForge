@@ -13,32 +13,32 @@ namespace TableForge.Editor
         /// <summary>
         /// The column in which this cell belongs.
         /// </summary>
-        public readonly Column Column;
+        public readonly Column column;
 
         /// <summary>
         /// The row in which this cell belongs.
         /// </summary>
-        public readonly Row Row;
+        public readonly Row row;
 
         /// <summary>
         /// Metadata about the field associated with this cell.
         /// </summary>
-        public readonly TFFieldInfo FieldInfo;
+        public readonly TfFieldInfo fieldInfo;
 
         /// <summary>
         /// The serialized object containing the field.
         /// </summary>
-        public ITFSerializedObject TfSerializedObject => Row.SerializedObject;
+        public ITfSerializedObject TfSerializedObject => row.SerializedObject;
 
         /// <summary>
         /// The cached value of the cell.
         /// </summary>
-        protected object Value;
+        protected object cachedValue;
 
         /// <summary>
         /// The serializer used to serialize and deserialize the cell's data.
         /// </summary>
-        protected ISerializer Serializer;
+        protected ISerializer serializer;
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace TableForge.Editor
         /// <summary>
         /// The table in which this cell belongs.
         /// </summary>
-        public Table Table => Column.Table;
+        public Table Table => column.Table;
 
         /// <summary>
         /// Unique identifier of the cell in the table.
@@ -62,22 +62,22 @@ namespace TableForge.Editor
         #endregion
 
         #region Constructors
-        protected Cell(Column column, Row row, TFFieldInfo fieldInfo)
+        protected Cell(Column column, Row row, TfFieldInfo fieldInfo)
         {
-            Column = column;
-            Row = row;
-            FieldInfo = fieldInfo;
+            this.column = column;
+            this.row = row;
+            this.fieldInfo = fieldInfo;
             Type = GetFieldType();
-            Value = GetFieldValue();
-            Serializer = new JsonSerializer();
+            cachedValue = GetFieldValue();
+            serializer = new JsonSerializer();
             
-            Id = HashCodeUtil.CombineHashes(Column.Id, Row.Id, GetLocalPosition());
+            Id = HashCodeUtil.CombineHashes(this.column.Id, this.row.Id, GetLocalPosition());
         }
         #endregion
 
         #region Public Methods
         
-        public object GetValue() => Value;
+        public object GetValue() => cachedValue;
 
         /// <summary>
         /// Sets the value of this cell and updates the serialized object.
@@ -85,10 +85,10 @@ namespace TableForge.Editor
         /// <param name="value">The new value to be set.</param>
         public virtual void SetValue(object value)
         {
-            if(Value != null && Value.Equals(value)) return;
+            if(cachedValue != null && cachedValue.Equals(value)) return;
             
             SetFieldValue(value);
-            Value = value;
+            cachedValue = value;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace TableForge.Editor
         /// </summary>
         public virtual void RefreshData()
         {
-            Value = GetFieldValue();
+            cachedValue = GetFieldValue();
         }
         
         /// <summary>
@@ -106,7 +106,7 @@ namespace TableForge.Editor
         /// If the cell is in the first row and the first column, the position would be "A1".
         /// </example>
         /// <returns>A string representing the cell's position .</returns>
-        public string GetLocalPosition() => $"{Column.LetterPosition}{Row.Position}";
+        public string GetLocalPosition() => $"{column.LetterPosition}{row.Position}";
         
         
         /// <summary>

@@ -31,7 +31,7 @@ namespace TableForge.Tests
             
             //Act
             ItemSelector itemSelector = new ScriptableObjectSelector(paths);
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             
             //Assert
             Assert.AreEqual(2, serializedObjects.Count); //2 scriptableObject types

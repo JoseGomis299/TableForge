@@ -2,26 +2,26 @@ namespace TableForge.Editor.UI
 {
     internal struct ArgumentDefinition
     {
-        public ArgumentType Type;
-        public string Name;
-        public bool IsOptional;
-        public bool IndefiniteArguments;
+        public ArgumentType type;
+        public string name;
+        public bool isOptional;
+        public bool indefiniteArguments;
 
         public ArgumentDefinition(ArgumentType type, string name, bool isOptional = false, bool indefiniteArguments = false)
         {
-            Type = type;
-            Name = name;
-            IsOptional = isOptional;
-            IndefiniteArguments = indefiniteArguments;
+            this.type = type;
+            this.name = name;
+            this.isOptional = isOptional;
+            this.indefiniteArguments = indefiniteArguments;
         }
 
         public override string ToString()
         {
-            string prefix = IsOptional ? "[" : string.Empty; 
-            string suffix = IsOptional ? "]" : string.Empty;
-            suffix = IndefiniteArguments ? "; ..." + suffix : suffix;
+            string prefix = isOptional ? "[" : string.Empty; 
+            string suffix = isOptional ? "]" : string.Empty;
+            suffix = indefiniteArguments ? "; ..." + suffix : suffix;
             
-            return $"{prefix}{Name}{suffix}";
+            return $"{prefix}{name}{suffix}";
         }
     }
 }

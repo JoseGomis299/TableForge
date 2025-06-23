@@ -61,7 +61,7 @@ namespace TableForge.Editor.UI
 
             _lastMousePosition = evt.mousePosition;
             PreselectArguments preselectArgs = _selector.GetCellPreselectArgsForPosition(_lastMousePosition);
-            Cell selected = preselectArgs.CellsAtPosition.FirstOrDefault();
+            Cell selected = preselectArgs.cellsAtPosition.FirstOrDefault();
             if (selected == null || _selector.FocusedCell == null)
                 return;
 
@@ -145,8 +145,8 @@ namespace TableForge.Editor.UI
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<DefaultSelectionStrategy>();
             strategy.Preselect(new PreselectArguments
             {
-                Selector = _selector,
-                CellsAtPosition = new List<Cell> { contiguousCell }
+                selector = _selector,
+                cellsAtPosition = new List<Cell> { contiguousCell }
             });
             _selector.ConfirmSelection();
         }
@@ -239,8 +239,8 @@ namespace TableForge.Editor.UI
                 Cell contiguousCell = GetContiguousCell(Vector2.right * orientation);
                 strategy.Preselect(new PreselectArguments
                 {
-                    Selector = _selector,
-                    CellsAtPosition = new List<Cell> { contiguousCell }
+                    selector = _selector,
+                    cellsAtPosition = new List<Cell> { contiguousCell }
                 });
                 _selector.ConfirmSelection();
             }
@@ -330,8 +330,8 @@ namespace TableForge.Editor.UI
             do
             {
                 contiguousCell = CellLocator.GetContiguousCell(contiguousCell, direction, minBounds, maxBounds);
-            } while ((!_tableControl.Metadata.IsFieldVisible(contiguousCell.Column.Id) 
-                     || !_tableControl.Filterer.IsVisible(contiguousCell.Row.GetRootAnchor().Id))
+            } while ((!_tableControl.Metadata.IsFieldVisible(contiguousCell.column.Id) 
+                     || !_tableControl.Filterer.IsVisible(contiguousCell.row.GetRootAnchor().Id))
                      && contiguousCell != firstCell);
 
             return contiguousCell;

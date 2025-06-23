@@ -37,7 +37,7 @@ namespace TableForge.Editor.UI
             if (cacheData == null)
                 return new List<TableMetadata>();
 
-            return cacheData.OpenTabs.Values.Where(x => x != null).ToList();
+            return cacheData.openTabs.Values.Where(x => x != null).ToList();
         }
         
         public static void OpenTab(TableMetadata tableMetadata)
@@ -46,7 +46,7 @@ namespace TableForge.Editor.UI
             if (cacheData == null)
                 return;
 
-            cacheData.OpenTabs.Add(tableMetadata);
+            cacheData.openTabs.Add(tableMetadata);
             SaveSession();
         }
         
@@ -56,7 +56,7 @@ namespace TableForge.Editor.UI
             if (cacheData == null)
                 return;
 
-            cacheData.OpenTabs.Remove(tableMetadata);
+            cacheData.openTabs.Remove(tableMetadata);
             SaveSession();
         }
     }

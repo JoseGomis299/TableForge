@@ -194,10 +194,10 @@ namespace TableForge.Editor
         public static Row GetNearestCommonRow(this Cell cell1, Cell cell2)
         {
             GetNearestCommonTable(cell1, cell2, out var cell1Ancestor, out var cell2Ancestor);
-            if (cell1Ancestor.Row != cell2Ancestor.Row)
+            if (cell1Ancestor.row != cell2Ancestor.row)
                 return null;
 
-            return cell1Ancestor.Row;
+            return cell1Ancestor.row;
         }
         
         /// <summary>
@@ -206,10 +206,10 @@ namespace TableForge.Editor
         public static Column GetNearestCommonColumn(this Cell cell1, Cell cell2)
         {
             GetNearestCommonTable(cell1, cell2, out var cell1Ancestor, out var cell2Ancestor);
-            if (cell1Ancestor.Column != cell2Ancestor.Column)
+            if (cell1Ancestor.column != cell2Ancestor.column)
                 return null;
 
-            return cell1Ancestor.Column;
+            return cell1Ancestor.column;
         }
         
         /// <summary>
@@ -297,7 +297,7 @@ namespace TableForge.Editor
             return cell is INumericBasedCell;
         }
 
-        private static int GetSubTableColumnCount(TFFieldInfo field)
+        private static int GetSubTableColumnCount(TfFieldInfo field)
         {
             int count = 0;
             var fields = SerializationUtil.GetSerializableFields(field.Type, field.FieldInfo);

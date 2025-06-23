@@ -10,9 +10,9 @@ namespace TableForge.Editor
     /// </summary>
     internal class SubItemCell : SubTableCell
     {
-        public SubItemCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        public SubItemCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            if (Value == null)
+            if (cachedValue == null)
             {
                 if (fieldInfo == null)
                 {
@@ -20,12 +20,12 @@ namespace TableForge.Editor
                     return;
                 }
 
-                if (FieldInfo?.FieldInfo.GetCustomAttribute<SerializeReference>() == null)
+                if (((Cell)this).fieldInfo?.FieldInfo.GetCustomAttribute<SerializeReference>() == null)
                 {
                     try
                     {
-                        Value = fieldInfo.Type.CreateInstanceWithDefaults();
-                        SetFieldValue(Value);
+                        cachedValue = fieldInfo.Type.CreateInstanceWithDefaults();
+                        SetFieldValue(cachedValue);
                     }
                     catch (Exception e)
                     {
@@ -48,26 +48,26 @@ namespace TableForge.Editor
 
         protected sealed override void CreateSubTable()
         {
-            if (Value == null)
+            if (cachedValue == null)
             {
-                SubTable = TableGenerator.GenerateTable(new TFSerializedType(Type, FieldInfo?.FieldInfo), $"{Table.Name}.{Column.Name}", this);
+                SubTable = TableGenerator.GenerateTable(new TfSerializedType(Type, fieldInfo?.FieldInfo), $"{Table.Name}.{column.Name}", this);
                 return;
             }
             
-            ITFSerializedObject serializedObject = new TFSerializedObject(Value, FieldInfo?.FieldInfo, TfSerializedObject.RootObject, FieldInfo?.FriendlyName ?? Value.GetType().Name);
+            ITfSerializedObject serializedObject = new TfSerializedObject(cachedValue, fieldInfo?.FieldInfo, TfSerializedObject.RootObject, fieldInfo?.FriendlyName ?? cachedValue.GetType().Name);
             
             if(SubTable != null)
-                TableGenerator.GenerateTable(SubTable, new List<ITFSerializedObject>{serializedObject});
+                TableGenerator.GenerateTable(SubTable, new List<ITfSerializedObject>{serializedObject});
             else 
-                SubTable = TableGenerator.GenerateTable(new List<ITFSerializedObject>{serializedObject}, $"{Column.Table.Name}.{serializedObject.Name}", this);
+                SubTable = TableGenerator.GenerateTable(new List<ITfSerializedObject>{serializedObject}, $"{column.Table.Name}.{serializedObject.Name}", this);
         }
 
         public void CreateDefaultValue()
         {
-            if (Value != null)
+            if (cachedValue != null)
                 return;
             
-            if (FieldInfo == null)
+            if (fieldInfo == null)
             {
                 Debug.LogWarning("FieldInfo is null, cannot create default value.");
                 return;
@@ -75,12 +75,12 @@ namespace TableForge.Editor
 
             try
             {
-                SetValue(FieldInfo.Type.CreateInstanceWithDefaults());
+                SetValue(fieldInfo.Type.CreateInstanceWithDefaults());
             }
             catch (Exception e)
             {
                 Debug.LogWarning(
-                    $"Failed to create instance of {FieldInfo.Type} for {FieldInfo.FriendlyName} in table {Column.Table.Name}, row {Row.Position}.\n{e.Message}");
+                    $"Failed to create instance of {fieldInfo.Type} for {fieldInfo.FriendlyName} in table {column.Table.Name}, row {row.Position}.\n{e.Message}");
             }
         }
 
@@ -89,22 +89,22 @@ namespace TableForge.Editor
             if (other is not SubItemCell otherSubItemCell)
                 return 1;
 
-            if (Value == null && otherSubItemCell.Value == null) return 0;
-            if (Value == null) return -1;
-            if (otherSubItemCell.Value == null) return 1;
+            if (cachedValue == null && otherSubItemCell.cachedValue == null) return 0;
+            if (cachedValue == null) return -1;
+            if (otherSubItemCell.cachedValue == null) return 1;
 
             return 0;
         }
 
         protected override void DeserializeModifyingSubTable(string[]values, ref int index)
         {
-            if(Value != null && values[0].Equals(SerializationConstants.EmptyColumn))
+            if(cachedValue != null && values[0].Equals(SerializationConstants.EmptyColumn))
             {
                 SetValue(null);
                 return;
             }
             
-            if(Value == null && !values[0].Equals(SerializationConstants.EmptyColumn))
+            if(cachedValue == null && !values[0].Equals(SerializationConstants.EmptyColumn))
             {
                 CreateDefaultValue();
             }
@@ -123,7 +123,7 @@ namespace TableForge.Editor
             {
                 if (index >= values.Length)
                 {
-                    if(SerializationConstants.ModifySubTables)
+                    if(SerializationConstants.modifySubTables)
                         break;
                     index = 0;
                 }

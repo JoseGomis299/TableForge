@@ -14,10 +14,10 @@ namespace TableForge.Editor.UI
         
         protected override void HandleDoubleClick(PointerDownEvent downEvent)
         {
-            if (ResizingHeaders.Count == 0 || IsResizing || downEvent.button != 0) return;
+            if (resizingHeaders.Count == 0 || IsResizing || downEvent.button != 0) return;
             if (downEvent.clickCount != 2) return;
 
-            foreach (var headerControl in ResizingHeaders.Values)
+            foreach (var headerControl in resizingHeaders.Values)
             {
                 float leftBound = headerControl.worldBound.xMin;
                 float rightBound = headerControl.worldBound.xMax;
@@ -28,7 +28,7 @@ namespace TableForge.Editor.UI
 
                 if (downEvent.position.y >= bottomBound && downEvent.position.y <= upperBound)
                 {
-                    if(ExcludedFromManualResizing.Contains(headerControl.Id)) return;
+                    if(excludedFromManualResizing.Contains(headerControl.Id)) return;
 
                     float delta = InstantResize(headerControl, false);
                     InvokeResize(headerControl, delta, true, false, Vector2.zero);
@@ -40,12 +40,12 @@ namespace TableForge.Editor.UI
 
         protected override float InstantResize(HeaderControl target, bool fitStoredSize)
         {
-            float targetHeight = TableControl.PreferredSize.GetHeaderSize(target.CellAnchor).y;
+            float targetHeight = tableControl.PreferredSize.GetHeaderSize(target.CellAnchor).y;
 
             if (fitStoredSize)
             {
-                int anchorId = target.CellAnchor?.Id ?? TableControl.Parent?.Cell.Id ?? 0;
-                float storedHeight = TableControl.Metadata.GetAnchorSize(anchorId).y;
+                int anchorId = target.CellAnchor?.Id ?? tableControl.Parent?.Cell.Id ?? 0;
+                float storedHeight = tableControl.Metadata.GetAnchorSize(anchorId).y;
                 if (storedHeight != 0) targetHeight = storedHeight;
             }
             
@@ -56,11 +56,11 @@ namespace TableForge.Editor.UI
 
         protected override void MovePreview(Vector3 startPosition, Vector3 initialSize, Vector3 newSize)
         {
-            if (ResizingPreview == null) return;
+            if (resizingPreview == null) return;
 
             var delta = newSize.y - initialSize.y;
-            var position = startPosition.y - TableControl.worldBound.yMin + delta;
-            ResizingPreview.style.top = position;
+            var position = startPosition.y - tableControl.worldBound.yMin + delta;
+            resizingPreview.style.top = position;
         }
 
         public override bool IsResizingArea(Vector3 position, out HeaderControl headerControl)
@@ -69,10 +69,10 @@ namespace TableForge.Editor.UI
             float margin = UiConstants.ResizableBorderSpan + UiConstants.BorderWidth / 2f;
 
             //If the mouse is touching the corner, we don't want to resize the rows behind it.
-            if(position.y < TableControl.CornerContainer.worldBound.yMax - margin) return false;
-            if(!TableControl.ScrollView.contentViewport.worldBound.Contains(position)) return false;
+            if(position.y < tableControl.CornerContainer.worldBound.yMax - margin) return false;
+            if(!tableControl.ScrollView.contentViewport.worldBound.Contains(position)) return false;
 
-            foreach (var header in ResizingHeaders.Values)
+            foreach (var header in resizingHeaders.Values)
             {
                 float leftBound = header.worldBound.xMin;
                 float rightBound = header.worldBound.xMax;
@@ -94,14 +94,14 @@ namespace TableForge.Editor.UI
 
         protected override void CheckResize(PointerMoveEvent moveEvent)
         {
-            if (ResizingHeaders.Count == 0 || IsResizing) return;
+            if (resizingHeaders.Count == 0 || IsResizing) return;
 
             if (IsResizingArea(moveEvent.position, out var headerControl))
             {
-                if (ExcludedFromManualResizing.Contains(headerControl.Id)) return;
-                ResizingHeader = headerControl;
+                if (excludedFromManualResizing.Contains(headerControl.Id)) return;
+                resizingHeader = headerControl;
                     
-                foreach (var header in ResizingHeaders.Values)
+                foreach (var header in resizingHeaders.Values)
                 {
                     header.AddToClassList(USSClasses.CursorResizeVertical);
                     header.AddToChildrenClassList(USSClasses.CursorResizeVertical);
@@ -109,14 +109,14 @@ namespace TableForge.Editor.UI
                 return;
             }
 
-            if (IsResizing || ResizingHeader == null) return;
+            if (IsResizing || resizingHeader == null) return;
             
-            foreach (var header in ResizingHeaders.Values)
+            foreach (var header in resizingHeaders.Values)
             {
                 header.RemoveFromClassList(USSClasses.CursorResizeVertical);
                 header.RemoveFromChildrenClassList(USSClasses.CursorResizeVertical);
             }            
-            ResizingHeader = null;
+            resizingHeader = null;
         }
         
         protected override float UpdateSize(HeaderControl headerControl, Vector3 newSize)
@@ -139,7 +139,7 @@ namespace TableForge.Editor.UI
             var delta = currentPosition.y - startPosition.y;
             
             float scaledHeight = initialSize.y + delta;
-            float preferredHeight = TableControl.PreferredSize.GetHeaderSize(ResizingHeader.CellAnchor).y;
+            float preferredHeight = tableControl.PreferredSize.GetHeaderSize(resizingHeader.CellAnchor).y;
             
             if(scaledHeight >= preferredHeight - UiConstants.SnappingThreshold && scaledHeight <= preferredHeight + UiConstants.SnappingThreshold)
             {

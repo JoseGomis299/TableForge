@@ -60,7 +60,7 @@ namespace TableForge.Editor.UI
                 AddToClassList(USSClasses.SubTableHeaderCellVertical);
             }
             
-            var title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.RowHeaderVisibility);
+            var title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.rowHeaderVisibility);
             _headerLabel.text = title;
             if(tableControl.Parent != null)
             {
@@ -108,7 +108,7 @@ namespace TableForge.Editor.UI
 
         private void RefreshName()
         {
-            _headerLabel.text = NameResolver.ResolveHeaderStyledName(CellAnchor, TableControl.TableAttributes.RowHeaderVisibility);
+            _headerLabel.text = NameResolver.ResolveHeaderStyledName(CellAnchor, TableControl.TableAttributes.rowHeaderVisibility);
         }
 
         protected override void BuildContextualMenu(ContextualMenuPopulateEvent obj)

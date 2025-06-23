@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TableForge.DataStructures
 {
     [Serializable]
-    public class SerializedDictionary<K, V> : SerializedDictionary<K, V, K, V>
+    public class SerializedDictionary<TK, TV> : SerializedDictionary<TK, TV, TK, TV>
     {
         public SerializedDictionary() : base() { }
         
-        public SerializedDictionary(SerializedDictionary<K, V> dictionary)
+        public SerializedDictionary(SerializedDictionary<TK, TV> dictionary)
         {
             foreach (var kvp in dictionary)
             {
@@ -22,52 +23,52 @@ namespace TableForge.DataStructures
         /// </summary>
         /// <param name="key">The key to serialize</param>
         /// <returns>The Key that has been serialized</returns>
-        public override K SerializeKey(K key) => key;
+        public override TK SerializeKey(TK key) => key;
 
         /// <summary>
         /// Conversion to serialize a value
         /// </summary>
         /// <param name="val">The value</param>
         /// <returns>The value</returns>
-        public override V SerializeValue(V val) => val;
+        public override TV SerializeValue(TV val) => val;
 
         /// <summary>
         /// Conversion to serialize a key
         /// </summary>
         /// <param name="key">The key to serialize</param>
         /// <returns>The Key that has been serialized</returns>
-        public override K DeserializeKey(K key) => key;
+        public override TK DeserializeKey(TK key) => key;
 
         /// <summary>
         /// Conversion to serialize a value
         /// </summary>
         /// <param name="val">The value</param>
         /// <returns>The value</returns>
-        public override V DeserializeValue(V val) => val;
+        public override TV DeserializeValue(TV val) => val;
     }    
     
     [Serializable]
-    public abstract class SerializedDictionary<K, V, SK, SV> : Dictionary<K, V>, ISerializationCallbackReceiver
+    public abstract class SerializedDictionary<TK, TV, TSk, TSv> : Dictionary<TK, TV>, ISerializationCallbackReceiver
     {
-        [SerializeField]
-        List<SK> m_Keys = new List<SK>();
+        [FormerlySerializedAs("m_Keys")] [SerializeField]
+        List<TSk> mKeys = new List<TSk>();
 
-        [SerializeField]
-        List<SV> m_Values = new List<SV>();
+        [FormerlySerializedAs("m_Values")] [SerializeField]
+        List<TSv> mValues = new List<TSv>();
 
         /// <summary>
         /// From <see cref="K"/> to <see cref="SK"/>
         /// </summary>
         /// <param name="key">They key in <see cref="K"/></param>
         /// <returns>The key in <see cref="SK"/></returns>
-        public abstract SK SerializeKey(K key);
+        public abstract TSk SerializeKey(TK key);
 
         /// <summary>
         /// From <see cref="V"/> to <see cref="SV"/>
         /// </summary>
         /// <param name="value">The value in <see cref="V"/></param>
         /// <returns>The value in <see cref="SV"/></returns>
-        public abstract SV SerializeValue(V value);
+        public abstract TSv SerializeValue(TV value);
 
 
         /// <summary>
@@ -75,27 +76,27 @@ namespace TableForge.DataStructures
         /// </summary>
         /// <param name="serializedKey">They key in <see cref="SK"/></param>
         /// <returns>The key in <see cref="K"/></returns>
-        public abstract K DeserializeKey(SK serializedKey);
+        public abstract TK DeserializeKey(TSk serializedKey);
 
         /// <summary>
         /// From <see cref="SV"/> to <see cref="V"/>
         /// </summary>
         /// <param name="serializedValue">The value in <see cref="SV"/></param>
         /// <returns>The value in <see cref="V"/></returns>
-        public abstract V DeserializeValue(SV serializedValue);
+        public abstract TV DeserializeValue(TSv serializedValue);
 
         /// <summary>
         /// OnBeforeSerialize implementation.
         /// </summary>
         public void OnBeforeSerialize()
         {
-            m_Keys.Clear();
-            m_Values.Clear();
+            mKeys.Clear();
+            mValues.Clear();
 
             foreach (var kvp in this)
             {
-                m_Keys.Add(SerializeKey(kvp.Key));
-                m_Values.Add(SerializeValue(kvp.Value));
+                mKeys.Add(SerializeKey(kvp.Key));
+                mValues.Add(SerializeValue(kvp.Value));
             }
         }
 
@@ -106,8 +107,8 @@ namespace TableForge.DataStructures
         {
             Clear();
 
-            for (int i = 0; i < m_Keys.Count; i++)
-                Add(DeserializeKey(m_Keys[i]), DeserializeValue(m_Values[i]));
+            for (int i = 0; i < mKeys.Count; i++)
+                Add(DeserializeKey(mKeys[i]), DeserializeValue(mValues[i]));
         }
     }
 }

@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
 {
     internal static class ExcelOperators
     {
-        public static List<string> CompareOperators = new List<string>
+        public static List<string> compareOperators = new List<string>
         {
             "<=", ">=", "<>", "!=", "=", "<", ">" //Order matters: longest first
         };
@@ -16,7 +16,7 @@ namespace TableForge.Editor.UI
             if (string.IsNullOrEmpty(input))
                 return input;
 
-            foreach (var op in CompareOperators)
+            foreach (var op in compareOperators)
             {
                 if (input.StartsWith(op))
                 {

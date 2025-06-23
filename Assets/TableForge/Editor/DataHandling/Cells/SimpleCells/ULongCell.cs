@@ -8,6 +8,6 @@ namespace TableForge.Editor
     [CellType(typeof(ulong))]
     internal class ULongCell : PrimitiveBasedCell<ulong>, INumericBasedCell
     {
-        public ULongCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public ULongCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

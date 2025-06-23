@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TableForge.Editor.UI
 {
     internal class SessionCacheData : ScriptableObject
     {
-       public SerializedHashSet<TableMetadata> OpenTabs = new SerializedHashSet<TableMetadata>();
+       [FormerlySerializedAs("OpenTabs")] public SerializedHashSet<TableMetadata> openTabs = new SerializedHashSet<TableMetadata>();
     }
 }

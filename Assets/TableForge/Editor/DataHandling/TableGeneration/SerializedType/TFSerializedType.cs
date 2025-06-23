@@ -7,15 +7,15 @@ namespace TableForge.Editor
     /// <summary>
     /// Represents the metadata of a serialized type compatible with TableForge.
     /// </summary>
-    internal class TFSerializedType : IColumnGenerator
+    internal class TfSerializedType : IColumnGenerator
     {
-        private readonly List<TFFieldInfo> _fields;
-        public IReadOnlyList<TFFieldInfo> Fields => _fields;
+        private readonly List<TfFieldInfo> _fields;
+        public IReadOnlyList<TfFieldInfo> Fields => _fields;
         public bool IsStruct {get;}
         
         public Type Type { get; }
         
-        public TFSerializedType(Type type, FieldInfo parentField)
+        public TfSerializedType(Type type, FieldInfo parentField)
         {
             _fields = SerializationUtil.GetSerializableFields(type, parentField);
             IsStruct = type.IsValueType;

@@ -20,7 +20,7 @@ namespace TableForge.Editor.UI
         {
             var window = CreateInstance<MultiSelectDropdownPopup>();
             window._allItems = new List<DropdownElement>(allItems);
-            window._selectedItems = new HashSet<int>(currentSelection.Select(item => item.Id));
+            window._selectedItems = new HashSet<int>(currentSelection.Select(item => item.id));
             window._onClose = onClose;
 
             float height = Mathf.Min(allItems.Count * ItemHeight, MaxHeight);
@@ -35,12 +35,12 @@ namespace TableForge.Editor.UI
             for (int i = 0; i < _allItems.Count; i++)
             {
                 DropdownElement item = _allItems[i];
-                bool selected = _selectedItems.Contains(item.Id);
-                bool newSelected = EditorGUILayout.ToggleLeft(item.Name, selected);
+                bool selected = _selectedItems.Contains(item.id);
+                bool newSelected = EditorGUILayout.ToggleLeft(item.name, selected);
                 if (newSelected && !selected)
-                    _selectedItems.Add(item.Id);
+                    _selectedItems.Add(item.id);
                 else if (!newSelected && selected)
-                    _selectedItems.Remove(item.Id);
+                    _selectedItems.Remove(item.id);
             }
 
             EditorGUILayout.EndScrollView();
@@ -48,7 +48,7 @@ namespace TableForge.Editor.UI
 
         private void OnLostFocus()
         {
-            _onClose?.Invoke(_allItems.Where(item => _selectedItems.Contains(item.Id)).ToList());
+            _onClose?.Invoke(_allItems.Where(item => _selectedItems.Contains(item.id)).ToList());
             Close();
         }
     }

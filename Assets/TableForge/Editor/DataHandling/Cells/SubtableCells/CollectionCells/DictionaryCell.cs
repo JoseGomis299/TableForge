@@ -11,7 +11,7 @@ namespace TableForge.Editor
     [CellType(TypeMatchMode.Assignable,typeof(IDictionary))]
     internal class DictionaryCell : CollectionCell
     {
-        public DictionaryCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        public DictionaryCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
             CreateSubTable();
         }
@@ -24,35 +24,35 @@ namespace TableForge.Editor
 
         protected sealed override void CreateSubTable()
         {
-            List<ITFSerializedObject> rowsData = new List<ITFSerializedObject>();
+            List<ITfSerializedObject> rowsData = new List<ITfSerializedObject>();
 
-            if (Value == null || ((IDictionary)Value).Count == 0)
+            if (cachedValue == null || ((IDictionary)cachedValue).Count == 0)
             {
-                SubTable = TableGenerator.GenerateTable(new DictionaryColumnGenerator(), $"{Column.Table.Name}.{Column.Name}", this);
+                SubTable = TableGenerator.GenerateTable(new DictionaryColumnGenerator(), $"{column.Table.Name}.{column.Name}", this);
                 return;
             }
 
-            foreach (var key in ((IDictionary)Value).Keys)
+            foreach (var key in ((IDictionary)cachedValue).Keys)
             {
-                rowsData.Add(new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid));
+                rowsData.Add(new TfSerializedDictionaryItem((IDictionary)cachedValue, key, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid));
             }
             
             if(SubTable != null)
                 TableGenerator.GenerateTable(SubTable, rowsData);
             else 
-                SubTable = TableGenerator.GenerateTable(rowsData, $"{Column.Table.Name}.{Column.Name}", this);
+                SubTable = TableGenerator.GenerateTable(rowsData, $"{column.Table.Name}.{column.Name}", this);
         }
 
         public override void AddItem(object key)
         {
-            if(Value == null ||key == null || !Type.GenericTypeArguments[0].IsAssignableFrom(key.GetType()))
+            if(cachedValue == null ||key == null || !Type.GenericTypeArguments[0].IsAssignableFrom(key.GetType()))
                 return;
             
-            if(((IDictionary)Value).Contains(key))
+            if(((IDictionary)cachedValue).Contains(key))
                 return;
             
-            ((IDictionary)Value).Add(key, null);
-            TFSerializedDictionaryItem item = new TFSerializedDictionaryItem((IDictionary)Value, key, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid);
+            ((IDictionary)cachedValue).Add(key, null);
+            TfSerializedDictionaryItem item = new TfSerializedDictionaryItem((IDictionary)cachedValue, key, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid);
             TableGenerator.GenerateRow(SubTable, item);
         }
 
@@ -63,16 +63,16 @@ namespace TableForge.Editor
 
         public override void RemoveItem(int position)
         {
-            if(Value == null || position < 1 || position > SubTable.Rows.Count)
+            if(cachedValue == null || position < 1 || position > SubTable.Rows.Count)
                 return;
             
             var key = SubTable.Rows[position].Cells[1].GetValue();
-            ((IDictionary)Value).Remove(key);
+            ((IDictionary)cachedValue).Remove(key);
         }
         
         public override ICollection GetItems()
         {
-            return Value.CreateShallowCopy() as ICollection;
+            return cachedValue.CreateShallowCopy() as ICollection;
         }
 
         protected override string SerializeCollection()

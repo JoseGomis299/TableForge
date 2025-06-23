@@ -19,11 +19,11 @@ namespace TableForge.Tests
         {
             var tableAttributes = new TableAttributes()
             {
-                TableType = TableType.Dynamic,
-                ColumnReorderMode = TableReorderMode.ExplicitReorder,
-                RowReorderMode = TableReorderMode.ExplicitReorder,
-                ColumnHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
-                RowHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
+                tableType = TableType.Dynamic,
+                columnReorderMode = TableReorderMode.ExplicitReorder,
+                rowReorderMode = TableReorderMode.ExplicitReorder,
+                columnHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
+                rowHeaderVisibility = TableHeaderVisibility.ShowHeaderName,
             };
 
             VisualElement rootVisualElement = new VisualElement();

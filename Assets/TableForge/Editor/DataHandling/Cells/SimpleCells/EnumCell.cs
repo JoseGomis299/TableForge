@@ -7,7 +7,7 @@ namespace TableForge.Editor
     /// </summary>
     internal class EnumCell : Cell, IQuotedValueCell, INumericBasedCell
     {
-        public EnumCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public EnumCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         
         public override string Serialize()
         {

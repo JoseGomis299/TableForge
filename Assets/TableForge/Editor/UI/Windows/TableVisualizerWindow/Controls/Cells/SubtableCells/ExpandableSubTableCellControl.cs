@@ -6,10 +6,10 @@ namespace TableForge.Editor.UI
 {
     internal abstract class ExpandableSubTableCellControl : SubTableCellControl
     {
-        protected VisualElement ContentContainer;
-        protected VisualElement SubTableContentContainer;
-        protected VisualElement SubTableToolbar;
-        protected bool IsSubTableInitialized;
+        protected VisualElement contentContainer;
+        protected VisualElement subTableContentContainer;
+        protected VisualElement subTableToolbar;
+        protected bool isSubTableInitialized;
         
         private Foldout _headerFoldout;
         private string _foldoutHeaderText;
@@ -20,7 +20,7 @@ namespace TableForge.Editor.UI
 
         protected ExpandableSubTableCellControl(SubTableCell cell, TableControl tableControl) : base(cell, tableControl)
         {
-            _foldoutHeaderText = cell.Column.Name;
+            _foldoutHeaderText = cell.column.Name;
 
             CreateContainerStructure();
             InitializeFoldout();
@@ -30,11 +30,11 @@ namespace TableForge.Editor.UI
         {
             base.Refresh(cell, tableControl);
             
-            _foldoutHeaderText = cell.Column.Name;
+            _foldoutHeaderText = cell.column.Name;
             _headerFoldout.text = _foldoutHeaderText;
             
             bool isExpanded = TableControl.Metadata.IsTableExpanded(cell.Id);
-            if(isExpanded && !IsSubTableInitialized)
+            if(isExpanded && !isSubTableInitialized)
             {
                 InitializeSubTable();
             }
@@ -48,7 +48,7 @@ namespace TableForge.Editor.UI
             ShowFoldout(!isExpanded);
 
             _headerFoldout.value = isExpanded;
-            SubTableContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
+            subTableContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         public void OpenFoldout()
@@ -72,23 +72,23 @@ namespace TableForge.Editor.UI
             arrowElement.AddToClassList(USSClasses.SubTableToolbarFoldout);
             _collapseButton.Add(arrowElement);
             
-            ContentContainer = new VisualElement();
-            ContentContainer.AddToClassList(USSClasses.SubTableCellContent);
+            contentContainer = new VisualElement();
+            contentContainer.AddToClassList(USSClasses.SubTableCellContent);
             
-            SubTableToolbar = new VisualElement();
-            SubTableToolbar.AddToClassList(USSClasses.SubTableToolbar);
+            subTableToolbar = new VisualElement();
+            subTableToolbar.AddToClassList(USSClasses.SubTableToolbar);
             
-            SubTableContentContainer = new VisualElement();
-            SubTableContentContainer.AddToClassList(USSClasses.SubTableContentContainer);
+            subTableContentContainer = new VisualElement();
+            subTableContentContainer.AddToClassList(USSClasses.SubTableContentContainer);
 
-            SubTableContentContainer.style.display = DisplayStyle.None;
-            SubTableToolbar.style.display = DisplayStyle.None;
+            subTableContentContainer.style.display = DisplayStyle.None;
+            subTableToolbar.style.display = DisplayStyle.None;
             
             Add(_headerFoldout);
-            Add(ContentContainer);
-            ContentContainer.Add(SubTableToolbar);
-            ContentContainer.Add(SubTableContentContainer);
-            SubTableToolbar.Add(_collapseButton);
+            Add(contentContainer);
+            contentContainer.Add(subTableToolbar);
+            contentContainer.Add(subTableContentContainer);
+            subTableToolbar.Add(_collapseButton);
         }
 
         private void InitializeFoldout()
@@ -107,16 +107,16 @@ namespace TableForge.Editor.UI
         private void InitializeSubTable()
         {
             BuildSubTable();
-            IsSubTableInitialized = true;
+            isSubTableInitialized = true;
             IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
         }
 
         private void OnFoldoutToggled(ChangeEvent<bool> evt)
         {
-            SubTableContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            subTableContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
             TableControl.Metadata.SetTableExpanded(Cell.Id, evt.newValue);
             
-            if (evt.newValue && !IsSubTableInitialized)
+            if (evt.newValue && !isSubTableInitialized)
             {
                 InitializeSubTable();
             }
@@ -154,7 +154,7 @@ namespace TableForge.Editor.UI
         {
             if(!_headerFoldout.value)
             {
-                SubTableToolbar.style.display = DisplayStyle.None;
+                subTableToolbar.style.display = DisplayStyle.None;
                 return;
             }
             
@@ -162,12 +162,12 @@ namespace TableForge.Editor.UI
 
             if (show && focused)
             {
-                SubTableToolbar.style.display = DisplayStyle.Flex;
-                SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
+                subTableToolbar.style.display = DisplayStyle.Flex;
+                subTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
             }
             else
             {
-                SubTableToolbar.style.display = DisplayStyle.None;
+                subTableToolbar.style.display = DisplayStyle.None;
             }
         }
         

@@ -89,7 +89,7 @@ namespace TableForge.Editor.UI
         {
             if (!tableControl.ScrollView.contentViewport.worldBound.Contains(position))
             {
-                outputArgs.ClickedOnToolbar = tableControl.SubTableToolbar != null &&
+                outputArgs.clickedOnToolbar = tableControl.SubTableToolbar != null &&
                                               tableControl.SubTableToolbar.worldBound.Contains(position);
                 return;
             }
@@ -103,11 +103,11 @@ namespace TableForge.Editor.UI
 
                     foreach (var rowCell in row.OrderedCells)
                     {
-                        if(!TableControl.Metadata.IsFieldVisible(rowCell.Column.GetRootAnchor().Id)) continue;
-                        outputArgs.CellsAtPosition.Add(rowCell);
+                        if(!TableControl.Metadata.IsFieldVisible(rowCell.column.GetRootAnchor().Id)) continue;
+                        outputArgs.cellsAtPosition.Add(rowCell);
                     }
                     
-                    outputArgs.SelectedAnchors.Add(row);
+                    outputArgs.selectedAnchors.Add(row);
                     _selectedAnchors.Add(row);
                 }
                 
@@ -115,7 +115,7 @@ namespace TableForge.Editor.UI
                 {
                     if(!TableControl.Metadata.IsFieldVisible(column.GetRootAnchor().Id)) continue;
                     
-                    outputArgs.SelectedAnchors.Add(column);
+                    outputArgs.selectedAnchors.Add(column);
                     _selectedAnchors.Add(column);
                 }
                 return;
@@ -130,8 +130,8 @@ namespace TableForge.Editor.UI
             {
                 if(!TableControl.Metadata.IsFieldVisible(headers.column.Id)) return;
                 
-                outputArgs.CellsAtPosition.AddRange(CellLocator.GetCellsAtColumn(tableControl, headers.column.Id));
-                outputArgs.SelectedAnchors.Add(headers.column.CellAnchor);
+                outputArgs.cellsAtPosition.AddRange(CellLocator.GetCellsAtColumn(tableControl, headers.column.Id));
+                outputArgs.selectedAnchors.Add(headers.column.CellAnchor);
                 _selectedAnchors.Add(headers.column.CellAnchor);
                 return;
             }
@@ -141,15 +141,15 @@ namespace TableForge.Editor.UI
             {
                 if(!TableControl.Filterer.IsVisible(headers.row.CellAnchor.GetRootAnchor().Id)) return;
                 
-                outputArgs.CellsAtPosition.AddRange(CellLocator.GetCellsAtRow(tableControl, headers.row.Id));
-                outputArgs.SelectedAnchors.Add(headers.row.CellAnchor);
+                outputArgs.cellsAtPosition.AddRange(CellLocator.GetCellsAtRow(tableControl, headers.row.Id));
+                outputArgs.selectedAnchors.Add(headers.row.CellAnchor);
                 _selectedAnchors.Add(headers.row.CellAnchor);
                 return;
             }
 
             //If clicking on a cell, select that cell.
             var cell = CellLocator.GetCell(tableControl, headers.row.Id, headers.column.Id);
-            int prevCount =  outputArgs.CellsAtPosition.Count;
+            int prevCount =  outputArgs.cellsAtPosition.Count;
 
             if (cell is SubTableCell subTableCell && _selectedCells.Contains(subTableCell))
             {
@@ -159,10 +159,10 @@ namespace TableForge.Editor.UI
                     CollectCellsAtPosition(position, subTable, outputArgs);
                 }
             }
-            if (cell is not SubTableCell ||  outputArgs.CellsAtPosition.Count == prevCount)
+            if (cell is not SubTableCell ||  outputArgs.cellsAtPosition.Count == prevCount)
             {
-                if(cell == null || !TableControl.Metadata.IsFieldVisible(cell.Column.Id)) return;
-                outputArgs.CellsAtPosition.Add(cell);
+                if(cell == null || !TableControl.Metadata.IsFieldVisible(cell.column.Id)) return;
+                outputArgs.cellsAtPosition.Add(cell);
             }
         }
         
@@ -192,12 +192,12 @@ namespace TableForge.Editor.UI
                 if (cellControl != null)
                     cellControl.IsSelected = true;
 
-                _subSelectedAnchors.Add(cell.Row);
-                _subSelectedAnchors.Add(cell.Column);
+                _subSelectedAnchors.Add(cell.row);
+                _subSelectedAnchors.Add(cell.column);
                 
                 _selectedCellIds.Add(cell.Id);
-                _subSelectedAnchorIds.Add(cell.Row.Id);
-                _subSelectedAnchorIds.Add(cell.Column.Id);
+                _subSelectedAnchorIds.Add(cell.row.Id);
+                _subSelectedAnchorIds.Add(cell.column.Id);
             }
 
             // Deselect cells that should be removed.
@@ -230,13 +230,13 @@ namespace TableForge.Editor.UI
         internal void PreselectCells(Vector2 mousePosition, bool ctrlKey, bool shiftKey, bool isLeftClick)
         {
             PreselectArguments preselectArgs = GetCellPreselectArgsForPosition(mousePosition);
-            if(!isLeftClick && (preselectArgs.SelectedAnchors.Count == 0 || shiftKey || ctrlKey)) 
+            if(!isLeftClick && (preselectArgs.selectedAnchors.Count == 0 || shiftKey || ctrlKey)) 
                 return;
             
-            if(_selectedCells.Contains(preselectArgs.CellsAtPosition.LastOrDefault()) && preselectArgs.ClickedOnToolbar)
+            if(_selectedCells.Contains(preselectArgs.cellsAtPosition.LastOrDefault()) && preselectArgs.clickedOnToolbar)
                 return;
             
-            preselectArgs.RightClicked = !isLeftClick;
+            preselectArgs.rightClicked = !isLeftClick;
 
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(ctrlKey, shiftKey);
             strategy.Preselect(preselectArgs);
@@ -262,8 +262,8 @@ namespace TableForge.Editor.UI
             ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
             strategy.Preselect(new PreselectArguments
             {
-                Selector = this,
-                CellsAtPosition = new List<Cell> { firstCell }
+                selector = this,
+                cellsAtPosition = new List<Cell> { firstCell }
             });
             
             ConfirmSelection();

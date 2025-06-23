@@ -4,12 +4,12 @@ namespace TableForge.Editor.UI
 {
     internal class RowVisibilityManager : VisibilityManager<RowHeaderControl>
     {
-        private const float SQUARE_VERTICAL_STEP = UiConstants.MinCellHeight * UiConstants.MinCellHeight;
+        private const float SquareVerticalStep = UiConstants.MinCellHeight * UiConstants.MinCellHeight;
         
         public RowVisibilityManager(TableControl tableControl) : base(tableControl)
         {
-            ScrollView.verticalScroller.valueChanged += OnVerticalScroll;
-            TableControl.OnScrollviewSizeChanged += delta =>
+            scrollView.verticalScroller.valueChanged += OnVerticalScroll;
+            this.tableControl.OnScrollviewSizeChanged += delta =>
             {
                 if(delta.y == 0 && delta.x != 0) return;
 
@@ -19,26 +19,26 @@ namespace TableForge.Editor.UI
 
         private void OnVerticalScroll(float value)
         {
-            float delta = value - LastScrollValue;
-            if (delta * delta < SQUARE_VERTICAL_STEP)
+            float delta = value - lastScrollValue;
+            if (delta * delta < SquareVerticalStep)
                 return;
 
-            LastScrollValue = value;
+            lastScrollValue = value;
             RefreshVisibility(delta);
         }
 
         public override void RefreshVisibility(float delta)
         {
-            if(IsRefreshingVisibility || TableControl.ColumnVisibilityManager.IsRefreshingVisibility || TableControl.RowData.Count <= 1) return;
+            if(IsRefreshingVisibility || tableControl.ColumnVisibilityManager.IsRefreshingVisibility || tableControl.RowData.Count <= 1) return;
             IsRefreshingVisibility = true;
             int direction = delta > 0 ? -1 : 1;
             bool isScrollingDown = direction == -1;
 
             UpdatePreviouslyVisibleRows(isScrollingDown);
             
-            foreach (var rowHeader in TableControl.OrderedRowHeaders)
+            foreach (var rowHeader in tableControl.OrderedRowHeaders)
             {
-                if (TableControl.Filterer.IsVisible(rowHeader.CellAnchor.GetRootAnchor().Id) && (rowHeader.IsVisible || IsHeaderVisible(rowHeader)))
+                if (tableControl.Filterer.IsVisible(rowHeader.CellAnchor.GetRootAnchor().Id) && (rowHeader.IsVisible || IsHeaderVisible(rowHeader)))
                 {
                     MakeHeaderVisible(rowHeader, insertAtTop: false);
                 }
@@ -58,15 +58,15 @@ namespace TableForge.Editor.UI
                  */
                 
                 bool firstVisibleFound = false;
-                foreach (var header in VisibleHeaders)
+                foreach (var header in visibleHeaders)
                 {
-                    if(!TableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id)) continue;
+                    if(!tableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id)) continue;
                     
                     if (!firstVisibleFound)
                     {
-                        bool wasVisible = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
+                        bool wasVisible = header.IsVisible && !lockedVisibleHeaders.ContainsKey(header);
                         header.IsVisible = IsHeaderVisible(header);
-                        firstVisibleFound = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
+                        firstVisibleFound = header.IsVisible && !lockedVisibleHeaders.ContainsKey(header);
                         if (!firstVisibleFound && wasVisible)
                             MakeHeaderInvisible(header);
                     }
@@ -84,16 +84,16 @@ namespace TableForge.Editor.UI
                  */
 
                 bool lastVisibleFound = false;
-                for (int i = VisibleHeaders.Count - 1; i >= 0; i--)
+                for (int i = visibleHeaders.Count - 1; i >= 0; i--)
                 {
-                    var header = VisibleHeaders[i];
-                    if(!TableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id)) continue;
+                    var header = visibleHeaders[i];
+                    if(!tableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id)) continue;
 
                     if (!lastVisibleFound)
                     {
-                        bool wasVisible = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
+                        bool wasVisible = header.IsVisible && !lockedVisibleHeaders.ContainsKey(header);
                         header.IsVisible = IsHeaderVisible(header);
-                        lastVisibleFound = header.IsVisible && !LockedVisibleHeaders.ContainsKey(header);
+                        lastVisibleFound = header.IsVisible && !lockedVisibleHeaders.ContainsKey(header);
                         if (!lastVisibleFound && wasVisible)
                             MakeHeaderInvisible(header);
                     }
@@ -103,15 +103,15 @@ namespace TableForge.Editor.UI
                     }
                 }
             }
-            VisibleHeaders.Clear();
+            visibleHeaders.Clear();
         }
 
         public override bool IsHeaderInBounds(RowHeaderControl header, bool addSecuritySize)
         {
-            Vector2 securitySize = addSecuritySize ? new Vector2(0, SecurityExtraSize.y) : Vector2.zero;
-            var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - TableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
-            viewBounds.y += TableControl.CornerContainer.CornerControl.resolvedStyle.height - securitySize.y / 2f;
+            Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
+            var viewBounds = scrollView.contentViewport.worldBound;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
+            viewBounds.y += tableControl.CornerContainer.CornerControl.resolvedStyle.height - securitySize.y / 2f;
 
             // Check if the top of the header is visible.
             if (header.worldBound.yMax <= viewBounds.yMax &&
@@ -130,10 +130,10 @@ namespace TableForge.Editor.UI
         
         public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
         {
-            Vector2 securitySize = addSecuritySize ? new Vector2(0, SecurityExtraSize.y) : Vector2.zero;
-            var viewBounds = ScrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - TableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
-            viewBounds.y += TableControl.CornerContainer.CornerControl.resolvedStyle.height;
+            Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
+            var viewBounds = scrollView.contentViewport.worldBound;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
+            viewBounds.y += tableControl.CornerContainer.CornerControl.resolvedStyle.height;
             
             bool isBottomSideVisible = header.worldBound.yMax < viewBounds.yMax &&
                                     header.worldBound.yMax > viewBounds.yMin;

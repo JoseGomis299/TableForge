@@ -297,11 +297,11 @@ namespace TableForge.Editor
                  && _rows.TryGetValue(fromPosition, out Row fromRow)
                  && !fromRow.IsStatic
                  && fromRow.Cells.TryGetValue(1, out Cell fromCell)
-                 && fromCell.TfSerializedObject is ITFSwapableCollectionItem fromItem
+                 && fromCell.TfSerializedObject is ITfSwapableCollectionItem fromItem
                  && _rows.TryGetValue(toPosition, out Row toRow)
                  && !toRow.IsStatic
                  && toRow.Cells.TryGetValue(1, out Cell toCell)
-                 && toCell.TfSerializedObject is ITFSwapableCollectionItem toItem)
+                 && toCell.TfSerializedObject is ITfSwapableCollectionItem toItem)
             {
                 fromItem.SwapWith(toItem);
             }

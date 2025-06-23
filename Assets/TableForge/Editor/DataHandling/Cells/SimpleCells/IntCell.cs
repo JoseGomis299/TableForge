@@ -6,6 +6,6 @@ namespace TableForge.Editor
     [CellType(typeof(int))]
     internal class IntCell : PrimitiveBasedCell<int>, INumericBasedCell
     {
-        public IntCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public IntCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
     }
 }

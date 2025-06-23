@@ -33,9 +33,9 @@ namespace TableForge.Editor.UI
             
             _checkSizeArguments.Add(element, new CheckSizeArguments
             {
-                Element = element,
-                TargetSize = targetSize,
-                OnSuccess = onSuccess
+                element = element,
+                targetSize = targetSize,
+                onSuccess = onSuccess
             });
             element.RegisterCallback<GeometryChangedEvent>(CheckSize);
             element.style.width = width;
@@ -49,7 +49,7 @@ namespace TableForge.Editor.UI
 
             if (_checkSizeArguments.TryGetValue(element, out var args))
             {
-                CheckSize(args.Element, args.TargetSize, args.OnSuccess);
+                CheckSize(args.element, args.targetSize, args.onSuccess);
             }
         }
         
@@ -68,9 +68,9 @@ namespace TableForge.Editor.UI
         
         private struct CheckSizeArguments
         {
-            public VisualElement Element;
-            public Vector2 TargetSize;
-            public Action OnSuccess;
+            public VisualElement element;
+            public Vector2 targetSize;
+            public Action onSuccess;
         }
     }
 }

@@ -8,35 +8,35 @@ namespace TableForge.Editor.UI
         /// <summary>
         /// Specifies whether the sub table supports row addition and deletion or not.
         /// </summary>
-        public TableType TableType;
+        public TableType tableType;
 
         /// <summary>
         /// Specifies the type of reordering that is allowed in the sub table rows.
         /// </summary>
-        public TableReorderMode RowReorderMode;
+        public TableReorderMode rowReorderMode;
 
         /// <summary>
         /// Specifies the type of reordering that is allowed in the sub table columns.
         /// </summary>
-        public TableReorderMode ColumnReorderMode;
+        public TableReorderMode columnReorderMode;
 
         /// <summary>
         /// Specifies the visibility of the headers in the sub table rows.
         /// </summary>
-        public TableHeaderVisibility RowHeaderVisibility;
+        public TableHeaderVisibility rowHeaderVisibility;
 
         /// <summary>
         /// Specifies the visibility of the headers in the sub table columns.
         /// </summary>
-        public TableHeaderVisibility ColumnHeaderVisibility;
+        public TableHeaderVisibility columnHeaderVisibility;
         
         public TableAttributes(TableType tableType, TableReorderMode rowReorderMode, TableReorderMode columnReorderMode, TableHeaderVisibility rowHeaderVisibility, TableHeaderVisibility columnHeaderVisibility)
         {
-            TableType = tableType;
-            RowReorderMode = rowReorderMode;
-            ColumnReorderMode = columnReorderMode;
-            RowHeaderVisibility = rowHeaderVisibility;
-            ColumnHeaderVisibility = columnHeaderVisibility;
+            this.tableType = tableType;
+            this.rowReorderMode = rowReorderMode;
+            this.columnReorderMode = columnReorderMode;
+            this.rowHeaderVisibility = rowHeaderVisibility;
+            this.columnHeaderVisibility = columnHeaderVisibility;
         }
     }
 }

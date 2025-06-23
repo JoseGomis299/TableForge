@@ -4,11 +4,11 @@ namespace TableForge.Editor.UI
 {
     internal abstract class HeaderContainerControl : VisualElement
     {
-        protected TableControl TableControl;
+        protected TableControl tableControl;
         
         protected HeaderContainerControl(TableControl tableControl)
         {
-            TableControl = tableControl;
+            this.tableControl = tableControl;
         }
         
     }

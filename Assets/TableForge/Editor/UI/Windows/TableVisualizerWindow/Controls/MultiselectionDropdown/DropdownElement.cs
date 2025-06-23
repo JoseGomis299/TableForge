@@ -2,13 +2,13 @@ namespace TableForge.Editor.UI
 {
     internal class DropdownElement
     {
-        public int Id;
-        public string Name;
+        public int id;
+        public string name;
 
         public DropdownElement(int id, string name)
         {
-            Id = id;
-            Name = name;
+            this.id = id;
+            this.name = name;
         }   
     }
 }

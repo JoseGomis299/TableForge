@@ -13,7 +13,7 @@ namespace TableForge.Editor
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             ItemSelector itemSelector = new ScriptableObjectSelector(paths);
-            List<List<ITFSerializedObject>> items = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> items = itemSelector.GetItemData();
             
             stopwatch.Stop();
             UnityEngine.Debug.Log($"Took {stopwatch.ElapsedMilliseconds} ms to load {items.Count} items from {paths.Length} paths.");

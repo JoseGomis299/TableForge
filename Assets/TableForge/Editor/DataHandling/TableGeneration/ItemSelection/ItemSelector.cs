@@ -4,6 +4,6 @@ namespace TableForge.Editor
 {
     internal abstract class ItemSelector
     {
-        public abstract List<List<ITFSerializedObject>> GetItemData();
+        public abstract List<List<ITfSerializedObject>> GetItemData();
     }
 }

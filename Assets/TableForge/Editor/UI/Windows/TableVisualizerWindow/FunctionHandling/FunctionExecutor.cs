@@ -34,7 +34,7 @@ namespace TableForge.Editor.UI
                 {
                     foreach (var cell in parentCell.GetDescendants(includeSelf: true))
                     {
-                        Column column = cell.Column;
+                        Column column = cell.column;
                         string columnFunction = metadata.GetFunction(column.Id);
                         if (!string.IsNullOrWhiteSpace(columnFunction) && !_columnFunctions.ContainsKey(column.Id))
                         {

@@ -9,17 +9,17 @@ namespace TableForge.Editor.UI
         
         protected override void OnConfirm()
         {
-            ViewModel.CreateTable();
+            viewModel.CreateTable();
         }
 
         protected override string GetTableName()
         {
-            if (string.IsNullOrEmpty(ViewModel.TableName) || ViewModel.IsDefaultName(ViewModel.TableName))
+            if (string.IsNullOrEmpty(viewModel.TableName) || viewModel.IsDefaultName(viewModel.TableName))
             {
-                return ViewModel.GetDefaultName();
+                return viewModel.GetDefaultName();
             }
             
-            return ViewModel.TableName;
+            return viewModel.TableName;
         }
     }
 }

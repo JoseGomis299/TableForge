@@ -6,13 +6,13 @@ namespace TableForge.Editor
     [CellType(typeof(string))]
     internal class StringCell : PrimitiveBasedCell<string>, IQuotedValueCell
     {
-        public StringCell(Column column, Row row, TFFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public StringCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
         
         public override string Serialize()
         {
-            if (Value is string typedValue)
+            if (cachedValue is string typedValue)
             {
-                return Serializer.Serialize(typedValue);
+                return serializer.Serialize(typedValue);
             }
             return string.Empty;
         }
@@ -24,7 +24,7 @@ namespace TableForge.Editor
         
         public override void Deserialize(string data)
         {
-            string value = Serializer.Deserialize<string>(data);
+            string value = serializer.Deserialize<string>(data);
             if (value is not null)
             {
                 SetValue(value);

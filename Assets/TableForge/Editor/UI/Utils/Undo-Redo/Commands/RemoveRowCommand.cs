@@ -4,32 +4,32 @@ namespace TableForge.Editor.UI
 {
     internal class RemoveRowCommand : IUndoableCommand
     {
-        protected readonly Row _row;
-        protected readonly TableMetadata _oldTableMetadata;
-        protected readonly TableControl _tableControl;
-        protected readonly Action<Row> _removeRowAction;
+        protected readonly Row row;
+        protected readonly TableMetadata oldTableMetadata;
+        protected readonly TableControl tableControl;
+        protected readonly Action<Row> removeRowAction;
         
         public RemoveRowCommand(Row row, TableMetadata oldTableMetadata, TableControl tableControl, Action<Row> removeRowAction)
         {
-            _row = row;
-            _oldTableMetadata = oldTableMetadata;
-            _tableControl = tableControl;
-            _removeRowAction = removeRowAction;
+            this.row = row;
+            this.oldTableMetadata = oldTableMetadata;
+            this.tableControl = tableControl;
+            this.removeRowAction = removeRowAction;
         }
         
         public virtual void Execute()
         {
-            _removeRowAction(_row);
+            removeRowAction(row);
         }
 
         public virtual void Undo()
         {
-            var originalMetadata = _tableControl.Metadata;
-            TableMetadata.Copy(originalMetadata, _oldTableMetadata);
+            var originalMetadata = tableControl.Metadata;
+            TableMetadata.Copy(originalMetadata, oldTableMetadata);
 
             Table table = TableMetadataManager.GetTable(originalMetadata);
-            _tableControl.Visualizer?.ToolbarController.UpdateTableCache(originalMetadata, table);
-            _tableControl.SetTable(table);
+            tableControl.Visualizer?.ToolbarController.UpdateTableCache(originalMetadata, table);
+            tableControl.SetTable(table);
         }
     }
 }

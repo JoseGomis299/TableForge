@@ -29,7 +29,7 @@ namespace TableForge.Editor
         /// Is acceptable to receive a null fieldInfo parameter if the field is part of a collection.
         /// </remarks>
         /// <returns>A Cell instance matching the given type, or a default cell if no match is found.</returns>
-        public static Cell CreateCell(Column column, Row row, Type fieldType, TFFieldInfo fieldInfo = null)
+        public static Cell CreateCell(Column column, Row row, Type fieldType, TfFieldInfo fieldInfo = null)
         {
             // Check for exact type matches first (e.g., `bool`, `string`)
             if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, fieldType, out var cellType))
@@ -65,15 +65,14 @@ namespace TableForge.Editor
         /// <param name="column">The column in which this cell belongs.</param>
         /// <param name="row">The row in which this cell belongs.</param>
         /// <param name="fieldInfo">Metadata about the field.</param>
-        /// <param name="tfSerializedObject">The serialized object containing the field.</param>
         /// <returns>An instance of the specified Cell type, or null if creation fails.</returns>
-        private static Cell CreateCellInstance(Type cellType, Column column, Row row, TFFieldInfo fieldInfo)
+        private static Cell CreateCellInstance(Type cellType, Column column, Row row, TfFieldInfo fieldInfo)
         {
             if (_cellConstructors.TryGetValue(cellType, out var constructor))
                 return (Cell)constructor.Invoke(new object[] { column, row, fieldInfo });
             
             constructor = cellType.GetConstructor(
-                new[] { typeof(Column), typeof(Row), typeof(TFFieldInfo)}
+                new[] { typeof(Column), typeof(Row), typeof(TfFieldInfo)}
             );
 
             if (constructor != null)

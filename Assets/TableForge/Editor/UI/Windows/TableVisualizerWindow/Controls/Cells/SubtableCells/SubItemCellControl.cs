@@ -11,19 +11,19 @@ namespace TableForge.Editor.UI
         public override void Refresh(Cell cell, TableControl tableControl)
         {
             base.Refresh(cell, tableControl);
-            ShowAddRowButton(IsSubTableInitialized && ((SubTableCell)Cell).SubTable.Rows.Count == 0);
+            ShowAddRowButton(isSubTableInitialized && ((SubTableCell)Cell).SubTable.Rows.Count == 0);
         }
 
         protected override void BuildSubTable()
         {
             SubTableControl = new TableControl(
-                ParentTableControl.Root,
+                parentTableControl.Root,
                 CellStaticData.GetSubTableCellAttributes(GetType()), 
-                this, SubTableToolbar, ParentTableControl.Visualizer
+                this, subTableToolbar, parentTableControl.Visualizer
             );
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             SubTableControl.SetScrollbarsVisibility(false);
-            SubTableContentContainer.Add(SubTableControl);
+            subTableContentContainer.Add(SubTableControl);
             
             ShowAddRowButton(((SubTableCell)Cell).SubTable.Rows.Count == 0);
 
@@ -46,7 +46,7 @@ namespace TableForge.Editor.UI
             if(SubTableControl != null)
             {
                 ShowAddRowButton(false);
-                SubTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
+                subTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
             }
         }
     }

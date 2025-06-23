@@ -7,12 +7,12 @@ namespace TableForge.Editor.UI
     {
         public TableControl SubTableControl { get; protected set; }
 
-        protected readonly TableControl ParentTableControl;
+        protected readonly TableControl parentTableControl;
 
         protected SubTableCellControl(SubTableCell cell, TableControl tableControl) : base(cell, tableControl)
         {
             Cell = cell;
-            ParentTableControl = tableControl;
+            parentTableControl = tableControl;
         }
 
         protected override void OnRefresh() { }

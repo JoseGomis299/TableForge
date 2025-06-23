@@ -6,7 +6,7 @@ namespace TableForge.Editor
     /// <summary>
     /// Represents a serialized object within TableForge, providing methods for data access and manipulation.
     /// </summary>
-    internal interface ITFSerializedObject
+    internal interface ITfSerializedObject
     {
         #region Properties
 
@@ -28,7 +28,7 @@ namespace TableForge.Editor
         /// <summary>
         /// The type of the serialized object.
         /// </summary>
-        TFSerializedType SerializedType { get; }
+        TfSerializedType SerializedType { get; }
 
         #endregion
 

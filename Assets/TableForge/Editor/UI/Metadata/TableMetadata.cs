@@ -74,7 +74,7 @@ namespace TableForge.Editor.UI
         
         #region Getters
 
-        public bool HasGUID(string guid)
+        public bool HasGuid(string guid)
         {
             if (string.IsNullOrEmpty(guid)) return false;
             if (IsTypeBound)
@@ -177,13 +177,13 @@ namespace TableForge.Editor.UI
             SetDirtyIfNecessary();
         }
         
-        public void AddItemGUID(string guid)
+        public void AddItemGuid(string guid)
         {
             itemGUIDs.Add(guid);
             SetDirtyIfNecessary();
         }
         
-        public void RemoveItemGUID(string guid)
+        public void RemoveItemGuid(string guid)
         {
             itemGUIDs.Remove(guid);
             SetDirtyIfNecessary();

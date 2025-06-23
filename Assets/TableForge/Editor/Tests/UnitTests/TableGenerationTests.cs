@@ -20,7 +20,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "FallbackTable", null);
 
             // Assert
@@ -45,7 +45,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "AnimationCurveTable", null);
 
             // Assert
@@ -72,7 +72,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "BooleanTable", null);
 
             // Assert
@@ -99,7 +99,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "ColorTable", null);
 
             // Assert
@@ -126,7 +126,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "EnumTable", null);
 
             // Assert
@@ -153,7 +153,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "FloatingPointTable", null);
 
             // Assert
@@ -181,7 +181,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "GradientTable", null);
 
             // Assert
@@ -208,7 +208,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "IntegralTypesTable", null);
 
             // Assert
@@ -242,7 +242,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "UnityObjectTable", null);
 
             // Assert
@@ -269,7 +269,7 @@ namespace TableForge.Tests
 
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "StringTable", null);
 
             // Assert
@@ -296,7 +296,7 @@ namespace TableForge.Tests
             
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "ListTable", null);
             
             // Assert
@@ -324,7 +324,7 @@ namespace TableForge.Tests
             
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "DictionaryTable", null);
             
             // Assert
@@ -351,7 +351,7 @@ namespace TableForge.Tests
             
             // Act
             ItemSelector itemSelector = new ScriptableObjectSelector(new[] { path });
-            List<List<ITFSerializedObject>> serializedObjects = itemSelector.GetItemData();
+            List<List<ITfSerializedObject>> serializedObjects = itemSelector.GetItemData();
             var table = TableGenerator.GenerateTable(serializedObjects[0], "ComplexTypeTable", null);
             
             // Assert
