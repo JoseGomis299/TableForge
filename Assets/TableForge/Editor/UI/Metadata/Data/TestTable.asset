@@ -28,11 +28,11 @@ MonoBehaviour:
     - 61cc82ff73c7bd940a4fa7bbad452f16
     - 9e46461568c41e445bfc9346b99f6500
   cellAnchorMetadata:
-    m_Keys: 
-    m_Values: []
+    mKeys: 
+    mValues: []
   functions:
-    m_Keys: 5093eb049142d7cc4650793751a69523cf42d7cccddbb593060b7537bba4cc140d945ceddb4757467009ac2851efe61a75724e6a9eae172b34f93131a4e44a3f5313f73e
-    m_Values:
+    mKeys: 5093eb049142d7cc4650793751a69523cf42d7cccddbb593060b7537bba4cc140d945ceddb4757467009ac2851efe61a75724e6a9eae172b34f93131a4e44a3f5313f73e24b56c34baff863a02d765fed9194c4839548a61cf9ea46769220240eeb86975
+    mValues:
     - =SUM(A1:A5)
     - =SUM(A1:A5)
     - =SUM($C$1;C$5;$C3;10;2;C1:D5;SUM(5);SUM(2;C1))
@@ -47,6 +47,14 @@ MonoBehaviour:
     - =IF(C1>2; "Yes"; "No")
     - =NOT(SUM(5))
     - =ABS(D1)
+    - =SUMIF(C1:C5; "<=2")
+    - =XOR(H1; H2)
+    - =IF(C1<5; IF(2>C1; "Mid"; "Low"); "High")
+    - =IF(C1>2; "Yes"; "No")
+    - =ABS(-10)
+    - =XOR(H1; H2)
+    - =IF(C1<5; IF(2>C1; "Mid"; "Low"); "High")
+    - =IF(C1>2; "Yes"; "No")
     - =SUMIF(C1:C5; "<=2")
     - =XOR(H1; H2)
     - =IF(C1<5; IF(2>C1; "Mid"; "Low"); "High")

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b5857bbd064ae3a5e58a2528fedf11, type: 3}
+  m_Name: FilteringData1
+  m_EditorClassIdentifier: 
+  intValue: 1
+  floatValue: 1.5
+  stringValue: Item 1
+  boolValue: 0
+  enumValue: 1
+  stringList:
+  - Item String 1
+  - String 0
+  - String 2
+  - Another String 0
+  intList: 010000000200000003000000
+  intStringDictionary:
+    mKeys: 0100000002000000
+    mValues:
+    - Dictionary Item 1
+    - Another Dictionary Item 2
+  serializedFilteringTestData:
+    intValue: 10
+    floatValue: 2.5
+    stringValue: Serialized Item 1
+    boolValue: 1
+    enumValue: 1
+    stringList:
+    - Serialized String 1
+    - Another Serialized String 1
+    intList: 020000000300000004000000
+    intStringDictionary:
+      mKeys: 0100000002000000
+      mValues:
+      - Serialized Dictionary Item 1
+      - Another Serialized Dictionary Item 2

@@ -30,9 +30,6 @@ namespace TableForge.Editor.UI
         {
             if (arg is bool b) return b;
         
-            if (TryGetSingleNumber(arg, out double num)) 
-                return Math.Abs(num) > double.Epsilon;
-        
             if (arg is List<Cell> cells)
             {
                 // For cell ranges, consider true if at least one cell is truthy
@@ -52,9 +49,6 @@ namespace TableForge.Editor.UI
         
             var value = cell.GetValue();
             if (value is bool b) return b;
-        
-            if (value.TryParseNumber(out double num)) 
-                return Math.Abs(num) > double.Epsilon;
         
             return false;
         }

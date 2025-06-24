@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TableForge.Editor.UI
 {
@@ -47,6 +48,34 @@ namespace TableForge.Editor.UI
             }
 
             return false;
+        }
+        
+        public static int FindFunction(string input, out string functionName, FunctionReturnType returnType = FunctionReturnType.Any)
+        {
+            functionName = string.Empty;
+            if (string.IsNullOrWhiteSpace(input))
+                return -1;
+
+            List<string> orderedFunctions = new List<string>(_functions.Keys.OrderByDescending(n => n.Length));
+            List<(int Index, string name)> validFunctions = new List<(int, string)>();
+            foreach (var function in orderedFunctions)
+            {
+                if (input.Contains(function, StringComparison.OrdinalIgnoreCase)
+                    && (GetFunction(function).ReturnType & returnType) != 0)
+                {
+                    validFunctions.Add((input.IndexOf(function, StringComparison.OrdinalIgnoreCase), function));
+                }
+            }
+            
+            if (validFunctions.Count > 0)
+            {
+                // Get the first valid function based on the earliest index
+                var firstValidFunction = validFunctions.OrderBy(vf => vf.Index).First();
+                functionName = firstValidFunction.name;
+                return firstValidFunction.Index;
+            }
+
+            return -1;
         }
     }
 }

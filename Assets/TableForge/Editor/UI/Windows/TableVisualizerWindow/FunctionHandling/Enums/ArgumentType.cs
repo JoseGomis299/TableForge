@@ -11,13 +11,18 @@ namespace TableForge.Editor.UI
         Criteria = 8,
         Range = 16,
         CellReference = 32,
-        ValueFunction = 64,
+        StringFunction = 64,
         LogicalFunction = 128,
+        ArithmeticOperation = 256,
+        NumericFunction = 512,
+
         Boolean = LogicExpression | LogicalFunction | CellReference,
         Reference = Range | CellReference,
-        Number = Numeric | Range | CellReference | ValueFunction,
+        Number = Numeric | Range | CellReference | NumericFunction | ArithmeticOperation,
+        SingleNumber = Numeric | CellReference | NumericFunction | ArithmeticOperation,
         Text = String | Criteria,
-        Value = Numeric | String | Range | CellReference | ValueFunction,
-        Any = Numeric | String | LogicExpression | Criteria | Range | CellReference | ValueFunction | LogicalFunction
+        Value = Numeric | String | Range | CellReference | StringFunction | ArithmeticOperation | NumericFunction,
+        Function = StringFunction | LogicalFunction | NumericFunction,
+        Any = Numeric | String | LogicExpression | Criteria | Range | CellReference | StringFunction | LogicalFunction | ArithmeticOperation | NumericFunction
     }
 }

@@ -13,7 +13,6 @@ namespace TableForge.Tests
         private TableControl _tableControl;
         private List<string> _rowGuids;
         private List<string> _rowPaths;
-        private readonly List<FilteringTestData> _createdData = new();
 
         private (TableControl, List<string>, List<string>) GetTableControl(int rowCount)
         {
@@ -34,8 +33,9 @@ namespace TableForge.Tests
             List<string> rowPaths = new List<string>();
             for (int i = 0; i < rowCount; i++)
             {
-                FilteringTestData data = ScriptableObject.CreateInstance<FilteringTestData>();
-                _createdData.Add(data);
+                string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/FilteringData{i}.asset";
+                FilteringTestData existingData = AssetDatabase.LoadAssetAtPath<FilteringTestData>(path);
+                FilteringTestData data = existingData != null ? existingData : ScriptableObject.CreateInstance<FilteringTestData>();
                 
                 data.stringValue = i % 2 == 0 ? $"My Row {i}" : $"Item {i}";
                 data.intValue = i;
@@ -69,8 +69,8 @@ namespace TableForge.Tests
                     }
                 };
                 
-                string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/FilteringData{i}.asset";
-                AssetDatabase.CreateAsset(data, path);
+                if(existingData == null)
+                    AssetDatabase.CreateAsset(data, path);
                 rowGuids.Add(AssetDatabase.AssetPathToGUID(path));
                 rowPaths.Add(path);
             }
@@ -85,29 +85,6 @@ namespace TableForge.Tests
         public void Setup()
         {
             (_tableControl, _rowGuids, _rowPaths) = GetTableControl(5);
-        }
-        
-        [TearDown]
-        public void Teardown()
-        {
-            DeleteAssociatedAssets();
-            _createdData.Clear();
-        }
-        
-        private void DeleteAssociatedAssets()
-        {
-            foreach (var data in _createdData)
-            {
-                if (data != null)
-                {
-                    string path = AssetDatabase.GetAssetPath(data);
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        AssetDatabase.DeleteAsset(path);
-                    }
-                }
-            }
-            AssetDatabase.Refresh();
         }
 
         [Test]

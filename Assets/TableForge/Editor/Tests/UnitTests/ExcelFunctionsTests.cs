@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using TableForge.Editor;
 using TableForge.Editor.UI;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 
 namespace TableForge.Tests
@@ -11,11 +13,8 @@ namespace TableForge.Tests
     internal class ExcelFunctionsTests
     {
         private TableControl _tableControl;
-        private List<string> _rowGuids;
-        private List<string> _rowPaths;
-        private readonly List<ExcelFunctionTestData> _createdData = new();
 
-        private (TableControl, List<string>, List<string>) GetTableControl(int rowCount)
+        private TableControl GetTableControl(int rowCount)
         {
             var tableAttributes = new TableAttributes()
             {
@@ -34,8 +33,9 @@ namespace TableForge.Tests
             List<string> rowPaths = new List<string>();
             for (int i = 1; i <= rowCount; i++)
             {
-                ExcelFunctionTestData data = ScriptableObject.CreateInstance<ExcelFunctionTestData>();
-                _createdData.Add(data);
+                string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/ExcelData{i}.asset";
+                ExcelFunctionTestData existingData = AssetDatabase.LoadAssetAtPath<ExcelFunctionTestData>(path);
+                ExcelFunctionTestData data = existingData != null ? existingData : ScriptableObject.CreateInstance<ExcelFunctionTestData>();
                 
                 data.stringValue1 = $"String Value {i}";
                 data.intValue = i;
@@ -93,8 +93,8 @@ namespace TableForge.Tests
                      (SerializedExcelFunctionTestData) data.innerData2.CreateShallowCopy()
                 };
                 
-                string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/FilteringData{i}.asset";
-                AssetDatabase.CreateAsset(data, path);
+                if(existingData == null)
+                    AssetDatabase.CreateAsset(data, path);
                 rowGuids.Add(AssetDatabase.AssetPathToGUID(path));
                 rowPaths.Add(path);
             }
@@ -102,36 +102,13 @@ namespace TableForge.Tests
             TableMetadata tableMetadata = TableMetadataManager.CreateMetadata(rowGuids, "TestTable", PathUtil.GetTestFolderRelativePath());
             tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata));
 
-            return (tableControl, rowGuids, rowPaths);
+            return tableControl;
         }
         
         [SetUp]
         public void Setup()
         {
-            (_tableControl, _rowGuids, _rowPaths) = GetTableControl(5);
-        }
-        
-        [TearDown]
-        public void Teardown()
-        {
-            DeleteAssociatedAssets();
-            _createdData.Clear();
-        }
-        
-        private void DeleteAssociatedAssets()
-        {
-            foreach (var data in _createdData)
-            {
-                if (data != null)
-                {
-                    string path = AssetDatabase.GetAssetPath(data);
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        AssetDatabase.DeleteAsset(path);
-                    }
-                }
-            }
-            AssetDatabase.Refresh();
+            _tableControl = GetTableControl(5);
         }
         
         [Test]
@@ -166,8 +143,8 @@ namespace TableForge.Tests
             double initialValue = (double) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, "Invalid arguments for function 'SUM'");
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            LogAssert.Expect(LogType.Error, "Invalid arguments for function 'SUM'");
+            LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
             Assert.AreEqual(initialValue, resultCell.GetValue()); //Invalid argument makes the cell maintain its original value
         }
         
@@ -357,7 +334,7 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, "Function evaluation error for input: =INVALID(C1:C5)\nError: Function 'INVALID' is not supported.");
+            LogAssert.Expect(LogType.Error, "Function evaluation failed for input: =INVALID(C1:C5)");
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -371,7 +348,7 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, "Function evaluation error for input: =SUM(C1:C5\nExpected type: System.Double, but got: System.String\nError: Input string was not in a correct format.");
+            LogAssert.Expect(LogType.Error, new Regex(".*Unmatched opening parenthesis in function input.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -385,7 +362,7 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, "Function evaluation error for input: =SUM(C1:C10)\nError: Could not resolve range: C1:C10");
+            LogAssert.Expect(LogType.Error, new Regex(".*Could not resolve range: C1:C10.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
         
@@ -541,8 +518,8 @@ namespace TableForge.Tests
             
             bool initialValue = (bool) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
+            LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
         
@@ -555,8 +532,8 @@ namespace TableForge.Tests
             
             bool initialValue = (bool) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
+            LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -624,7 +601,7 @@ namespace TableForge.Tests
             
             double initialValue = (double) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in DIVIDE function.");
+            LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in DIVIDE function.");
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -681,7 +658,7 @@ namespace TableForge.Tests
             
             double initialValue = (double) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            UnityEngine.TestTools.LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in MOD function.");
+            LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in MOD function.");
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -753,6 +730,219 @@ namespace TableForge.Tests
             
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             Assert.AreEqual(10.0, resultCell.GetValue()); // Since condition is true
+        }
+        
+        [Test]
+        public void SetCell_WithDirectNumberValue()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1 
+            string input = "25";
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(25.0, cell.GetValue());
+        }
+
+        [Test]
+        public void SetCell_WithDirectNegativeNumber()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "-15.5";
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(-15.5, cell.GetValue());
+        }
+
+        [Test]
+        public void SetCell_WithSingleCellReference()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=C1"; // Reference to C1 (intValue = 1)
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(1.0, cell.GetValue());
+        }
+
+        [Test]
+        public void SetCell_WithDeeplyNestedExpression()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=10 * (5 + (3 - (2 * (4 / 2))))"; // 10 * (5 + (3 - (2*2))) = 10 * (5 + (3-4)) = 10 * (5 -1) = 40
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(40.0, cell.GetValue());
+        }
+        
+        [Test]
+        public void Arithmetic_WithFunctionResult()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=SUM(C1:C5) * 2"; // SUM(1+2+3+4+5)=15 → 15*2=30
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(30.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithFunctionAndReference()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=SUM(C1:C5) + D1"; // 15 + 1.5 = 16.5
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(16.5, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithNestedFunctions()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=AVERAGE(C1:C5) * COUNT(C1:C5)"; // AVERAGE=3, COUNT=5 → 3*5=15
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(15.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithPercentageInFunction()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=SUM(C1:C5) * 10%"; // 15 * 0.1 = 1.5
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(1.5, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithComplexMixedExpression()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=(MAX(C1:C5) + MIN(D1:D5)) * 2 ^ 2"; // MAX=5, MIN=1.5 → (5+1.5)*4=6.5*4=26
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(26.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithConditionalFunction()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=IF(C1 > 2; C1 * 10; C1 * 5)"; // 1>2 is false → 1*5=5
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(5.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithReferenceChain()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=I1.C1 * 2"; // I1.C1 (innerData.intValue) = 10 → 10*2=20
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(20.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithFunctionInParentheses()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=(SUM(C1:C5) - 5) * 3"; // (15-5)=10 → 10*3=30
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(30.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithPercentageAfterFunction()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=SUM(C1:C5)%"; // 15% = 0.15
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(0.15, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithExponentiationAndFunction()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=2 ^ SUM(C1;C2)"; // SUM(C1,C2)=1+2=3 → 2^3=8
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(8.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithComplexNestedExpression()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=(IF(H1; MAX(C1:C5); MIN(C1:C5)) * 10%) + 5"; 
+            // H1=false → MIN=1 → 1*0.1=0.1 → 0.1+5=5.1
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(5.1, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithRangeAndArithmetic()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=SUM(C1:C5; D1:D5) * 0.5"; // SUM(ints)=15, SUM(floats)=22.5 → 37.5*0.5=18.75
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(18.75, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithDeepReferenceChain()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=I1.I1.C1 * 2 + K1.I2.C1"; // I1.I1.C1=1*2=2, K1.I2.C1=2 → 4
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(4.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithLogicalFunctionAndArithmetic()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=IF(AND(C1>0; D1<2); C1*10; C1*5)"; 
+            // C1>0=true, D1<2=true → AND=true → 1*10=10
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(10.0, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithPercentageInComplexExpression()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=(100 + SUM(C1:C5))% * 50"; // (100+15)=115 → 115%=1.15 → 1.15*50=57.5
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(57.5, (double)cell.GetValue(), 0.01);
+        }
+
+        [Test]
+        public void Arithmetic_WithFunctionAsPercentageArgument()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=SUM(C1:C5; 50%)"; // 15 + 0.5 = 15.5
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(15.5, cell.GetValue());
+        }
+
+        [Test]
+        public void Arithmetic_WithArrayReference()
+        {
+            Cell cell = _tableControl.TableData.Rows[1].Cells[5]; // E1
+            string input = "=AVERAGE(I1.I1.C1 + 4; K1.I2.C1; I1.I1.C1; 4) * 3"; 
+            // Values: 5, 2, 1, 4 → AVERAGE=3 → 3*3=9
+            _tableControl.FunctionExecutor.SetCellFunction(cell, input);
+            _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
+            Assert.AreEqual(9.0, cell.GetValue());
         }
     }
 }

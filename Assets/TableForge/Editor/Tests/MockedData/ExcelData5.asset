@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f062e66fa843f6adc96a2a1979b2a3, type: 3}
+  m_Name: ExcelData5
+  m_EditorClassIdentifier: 
+  stringValue1: String Value 5
+  stringValue2: 
+  intValue: 5
+  floatValue: 7.5
+  doubleValue: 12.5
+  longValue: 5000
+  ulongValue: 18446744071562067999
+  boolValue: 0
+  innerData:
+    stringValue1: Inner String Value 5
+    stringValue2: 
+    intValue: 50
+    floatValue: 12.5
+    doubleValue: 17.5
+    longValue: 10000
+    ulongValue: 18446744071562068031
+    boolValue: 0
+    innerData:
+      stringValue1: Nested Inner String Value 5
+      stringValue2: 
+      intValue: 5
+      floatValue: 22.5
+  innerData2:
+    stringValue1: Inner String Value 2 5
+    stringValue2: 
+    intValue: 100
+    floatValue: 17.5
+    doubleValue: 22.5
+    longValue: 15000
+    ulongValue: 128
+    boolValue: 0
+    innerData:
+      stringValue1: Nested Inner String Value 5
+      stringValue2: Nested Inner String Value 2 5
+      intValue: 10
+      floatValue: 32.5
+  innerDataArray:
+  - stringValue1: Inner String Value 5
+    stringValue2: 
+    intValue: 50
+    floatValue: 12.5
+    doubleValue: 17.5
+    longValue: 10000
+    ulongValue: 18446744071562068031
+    boolValue: 0
+    innerData:
+      stringValue1: Nested Inner String Value 5
+      stringValue2: 
+      intValue: 5
+      floatValue: 22.5
+  - stringValue1: Inner String Value 2 5
+    stringValue2: 
+    intValue: 100
+    floatValue: 17.5
+    doubleValue: 22.5
+    longValue: 15000
+    ulongValue: 128
+    boolValue: 0
+    innerData:
+      stringValue1: Nested Inner String Value 5
+      stringValue2: Nested Inner String Value 2 5
+      intValue: 10
+      floatValue: 32.5
+  innerDataArray2:
+  - stringValue1: Inner String Value 5
+    stringValue2: 
+    intValue: 50
+    floatValue: 12.5
+    doubleValue: 17.5
+    longValue: 10000
+    ulongValue: 18446744071562068031
+    boolValue: 0
+    innerData:
+      stringValue1: Nested Inner String Value 5
+      stringValue2: 
+      intValue: 5
+      floatValue: 22.5
+  - stringValue1: Inner String Value 2 5
+    stringValue2: 
+    intValue: 100
+    floatValue: 17.5
+    doubleValue: 22.5
+    longValue: 15000
+    ulongValue: 128
+    boolValue: 0
+    innerData:
+      stringValue1: Nested Inner String Value 5
+      stringValue2: Nested Inner String Value 2 5
+      intValue: 10
+      floatValue: 32.5

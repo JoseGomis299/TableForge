@@ -118,10 +118,23 @@ namespace TableForge.Editor.UI
                 action.Invoke();
             }
             
+            List<int> invalidCellIds = new List<int>();
             //Cell functions have priority over column functions, so we execute them last.
-            foreach (var action in _cellFunctions.Values)
+            foreach (var keyActionPair in _cellFunctions)
             {
-                action.Invoke();
+                if (string.IsNullOrEmpty(_tableControl.Metadata.GetFunction(keyActionPair.Key)))
+                {
+                    invalidCellIds.Add(keyActionPair.Key);
+                    continue;
+                }
+                    
+                keyActionPair.Value.Invoke();
+            }
+            
+            // Remove invalid cell functions
+            foreach (var cellId in invalidCellIds)
+            {
+                _cellFunctions.Remove(cellId);
             }
             
             _tableControl.Update();

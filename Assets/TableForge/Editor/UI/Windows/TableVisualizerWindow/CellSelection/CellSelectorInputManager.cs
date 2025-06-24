@@ -283,6 +283,7 @@ namespace TableForge.Editor.UI
                 _selector.SelectRange(first, last);
             }
             
+            _tableControl.FunctionExecutor.ExecuteAllFunctions();
             _tableControl.Update(true);
         }
         

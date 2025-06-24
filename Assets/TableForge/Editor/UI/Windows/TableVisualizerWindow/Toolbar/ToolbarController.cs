@@ -121,12 +121,18 @@ namespace TableForge.Editor.UI
                 }
             });
             
-            _functionTextField.RegisterCallback<FocusOutEvent>(evt =>
+            _functionTextField.RegisterValueChangedCallback(evt =>
             {
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
                 
                 Cell focusedCell = _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell();
-                _tableVisualizer.CurrentTable.FunctionExecutor.SetCellFunction(focusedCell, _functionTextField.value);
+                _tableVisualizer.CurrentTable.FunctionExecutor.SetCellFunction(focusedCell, evt.newValue);
+            });
+            
+            _functionTextField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
+                
                 _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteAllFunctions();
             });
         }

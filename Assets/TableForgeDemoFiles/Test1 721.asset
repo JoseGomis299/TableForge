@@ -68,10 +68,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
-  B: 0
+  b: 0
   charValue: 0
-  intField: 190
-  floatField: 29
+  intField: 3
+  floatField: 3
   <PublicLongProperty>k__BackingField: 29
   <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
@@ -173,7 +173,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0

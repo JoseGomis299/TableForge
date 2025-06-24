@@ -68,10 +68,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
-  B: 1
+  b: 1
   charValue: 48
-  intField: 0
-  floatField: 0
+  intField: 8
+  floatField: 3
   <PublicLongProperty>k__BackingField: 1232
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
@@ -144,7 +144,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 0, y: 0, z: 0, w: 0}
+  quaternion: {x: 0, y: 0, z: 0, w: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -163,6 +163,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 6586668462697349238
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:

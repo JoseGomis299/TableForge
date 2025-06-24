@@ -47,7 +47,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 122
+  controlID: 103
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 123
+  controlID: 104
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 18
+  controlID: 105
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TestRunnerWindow
+  m_Name: TableVisualizer
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -195,13 +195,14 @@ MonoBehaviour:
   m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 13}
   m_Panes:
-  - {fileID: 14}
   - {fileID: 15}
   - {fileID: 16}
   - {fileID: 17}
+  - {fileID: 18}
+  - {fileID: 14}
   - {fileID: 13}
-  m_Selected: 4
-  m_LastSelected: 4
+  m_Selected: 5
+  m_LastSelected: 0
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +227,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 86
+  controlID: 106
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -245,13 +246,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 772.6667
+    width: 757.3333
     height: 281.3333
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 18}
+  m_ActualView: {fileID: 19}
   m_Panes:
-  - {fileID: 18}
+  - {fileID: 19}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &11
@@ -269,15 +270,15 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 772.6667
+    x: 757.3333
     y: 0
-    width: 637.99994
+    width: 653.3333
     height: 281.3333
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 19}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 19}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &12
@@ -301,12 +302,49 @@ MonoBehaviour:
     height: 920
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 20}
+  m_ActualView: {fileID: 21}
   m_Panes:
-  - {fileID: 20}
+  - {fileID: 21}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &13
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a4ac289734f744a9751ad7fee949e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: TableVisualizer
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+    m_TextWithWhitespace: "TableVisualizer\u200B"
+  m_Pos:
+    serializedVersion: 2
+    x: 0
+    y: 24
+    width: 1409.6666
+    height: 612.6667
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_ContainerData: []
+    m_OverlaysVisible: 1
+  visualTreeAsset: {fileID: 9197481963319205126, guid: 1a7497980761aee499a21aa4ea67b4be, type: 3}
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,7 +367,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
+    y: 78.66667
     width: 1409.6666
     height: 612.6667
   m_SerializedDataModeController:
@@ -344,7 +382,7 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 313
+    ID: 152
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -369,9 +407,9 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 0
   m_TestListGUIs:
-  - m_Window: {fileID: 13}
+  - m_Window: {fileID: 14}
     runProgress:
-      RunGuid: 44bb3250-9fb5-44f4-ab16-358b67b64986
+      RunGuid: c0f5073e-e375-47b3-97f9-649d0196145e
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -384,7 +422,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
+          - TableForge.Tests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -399,7 +437,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999999
+      Progress: 1.0000008
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList:
@@ -433,7 +471,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1000
+      parentId: 1117
       parentUniqueId: '[TableForge][suite]'
     - id: 1111
       uniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
@@ -488,104 +526,12 @@ MonoBehaviour:
       name: Abs_CellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
       resultStatus: 1
-      duration: 0.6436342
+      duration: 0.8798064
       messages: 
-      output: 'Took 13 ms to load 1 items from 5 paths.
+      output: 'Took 14 ms to load 1 items from 5 paths.
 
-        Took 12 ms to generate
+        Took 15 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
-
-        =ABS(value)
-
-        Returns
-        the absolute value of a number.
-
-        =AND(logical_expression1; [logical_expression2;
-        ...])
-
-        Returns TRUE if all arguments are TRUE, otherwise returns
-        FALSE.
-
-        =AVERAGE(value1; [value2; ...])
-
-        Calculates the average
-        of a set of numbers.
-
-        =COUNT(value1; [value2; ...])
-
-        Counts
-        the number of non-null values in a set.
-
-        =COUNTIF(range; criteria)
-
-        Counts
-        the number of cells in a range that meet a specified condition.
-
-        =DIVIDE(dividend;
-        divisor)
-
-        Divides the first number by the second number. Returns
-        an error if the divisor is zero.
-
-        =IF(logical_expression; value_if_true;
-        value_if_false)
-
-        Returns one value if a condition is true and another
-        value if it is false.
-
-        =MAX(value1; [value2; ...])
-
-        Returns
-        the maximum value from a list of numbers or cells containing numbers.
-
-        =MIN(value1;
-        [value2; ...])
-
-        Returns the minimum value from a list of numbers
-        or cells containing numbers.
-
-        =MOD(dividend; divisor)
-
-        Returns
-        the remainder after a number is divided by a divisor.
-
-        =MULTIPLY(value1;
-        value2)
-
-        Multiplies two numbers together.
-
-        =NOT(logical_expression)
-
-        Returns
-        the logical negation of a boolean value. If the argument is TRUE, it returns
-        FALSE; if the argument is FALSE, it returns TRUE.
-
-        =OR(logical_expression1;
-        [logical_expression2; ...])
-
-        Returns TRUE if any argument is TRUE,
-        otherwise returns FALSE.
-
-        =ROUND(value; [decimals])
-
-        Rounds
-        a number to the specified number of digits.
-
-        =SUM(value1; [value2;
-        ...])
-
-        Returns the sum of all arguments.
-
-        =SUMIF(range; criteria;
-        [sum_range])
-
-        Returns the sum of a range based on a condition.
-
-        =XOR(logical_expression1;
-        [logical_expression2; ...])
-
-        Returns TRUE if exactly one argument
-        is TRUE, otherwise returns FALSE.
 
 '
       stacktrace: 
@@ -602,7 +548,7 @@ MonoBehaviour:
       name: Abs_NegativeValue
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_NegativeValue
       resultStatus: 1
-      duration: 0.7098601
+      duration: 0.6503817
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -624,11 +570,11 @@ MonoBehaviour:
       name: Abs_PositiveValue
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_PositiveValue
       resultStatus: 1
-      duration: 0.6625276
+      duration: 0.6894979
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -646,11 +592,11 @@ MonoBehaviour:
       name: And_AllTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.And_AllTrue
       resultStatus: 1
-      duration: 0.6566883
+      duration: 0.7127834
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -668,11 +614,11 @@ MonoBehaviour:
       name: And_OneFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.And_OneFalse
       resultStatus: 1
-      duration: 0.6808168
+      duration: 0.6733257
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -690,7 +636,7 @@ MonoBehaviour:
       name: And_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.And_WithCellReferences
       resultStatus: 1
-      duration: 0.6573077
+      duration: 0.6525594
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -712,7 +658,7 @@ MonoBehaviour:
       name: Average_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Average_NumericValues
       resultStatus: 1
-      duration: 0.6575203
+      duration: 0.6603608
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -729,12 +675,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1053
+    - id: 1055
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Complex_LogicalExpression]'
       name: Complex_LogicalExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Complex_LogicalExpression
       resultStatus: 1
-      duration: 0.6464733
+      duration: 0.6528772
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -751,16 +697,16 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1019
+    - id: 1020
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Complex_NestedFunctions]'
       name: Complex_NestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Complex_NestedFunctions
       resultStatus: 1
-      duration: 0.6601991
+      duration: 0.650224
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 4 ms to generate
+        Took 3 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -773,12 +719,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1023
+    - id: 1024
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.ComplexReferenceParsing]'
       name: ComplexReferenceParsing
       fullName: TableForge.Tests.ExcelFunctionsTests.ComplexReferenceParsing
       resultStatus: 1
-      duration: 0.683972
+      duration: 0.659439
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -800,11 +746,11 @@ MonoBehaviour:
       name: Count_MixedTypes
       fullName: TableForge.Tests.ExcelFunctionsTests.Count_MixedTypes
       resultStatus: 1
-      duration: 0.6291802
+      duration: 0.6654196
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -822,7 +768,7 @@ MonoBehaviour:
       name: Count_NonEmptyCells
       fullName: TableForge.Tests.ExcelFunctionsTests.Count_NonEmptyCells
       resultStatus: 1
-      duration: 0.634927
+      duration: 0.669566
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -844,7 +790,7 @@ MonoBehaviour:
       name: CountIf_WithCriteria
       fullName: TableForge.Tests.ExcelFunctionsTests.CountIf_WithCriteria
       resultStatus: 1
-      duration: 0.6316309
+      duration: 0.6470816
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -866,7 +812,7 @@ MonoBehaviour:
       name: CountIf_WithTextCriteria
       fullName: TableForge.Tests.ExcelFunctionsTests.CountIf_WithTextCriteria
       resultStatus: 1
-      duration: 0.6317723
+      duration: 0.6489116
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -883,12 +829,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1042
+    - id: 1044
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Divide_ByZero]'
       name: Divide_ByZero
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_ByZero
       resultStatus: 1
-      duration: 0.6417298
+      duration: 0.6480956
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -911,12 +857,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1041
+    - id: 1043
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Divide_NormalOperation]'
       name: Divide_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_NormalOperation
       resultStatus: 1
-      duration: 0.6203451
+      duration: 0.6494399
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -933,12 +879,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1043
+    - id: 1045
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Divide_WithCellReferences]'
       name: Divide_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_WithCellReferences
       resultStatus: 1
-      duration: 0.6352821
+      duration: 0.672209
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -960,11 +906,11 @@ MonoBehaviour:
       name: If_NestedCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.If_NestedCondition
       resultStatus: 1
-      duration: 0.6396519
+      duration: 0.6931785
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 4 ms to generate
+        Took 3 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -982,11 +928,11 @@ MonoBehaviour:
       name: If_SimpleCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.If_SimpleCondition
       resultStatus: 1
-      duration: 0.6043766
+      duration: 0.7445467
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 21 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -999,12 +945,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1020
+    - id: 1021
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.InvalidFunctionName_ShowsError]'
       name: InvalidFunctionName_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.InvalidFunctionName_ShowsError
       resultStatus: 1
-      duration: 0.6031489
+      duration: 0.6509573
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1032,7 +978,7 @@ MonoBehaviour:
       name: Max_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Max_NumericValues
       resultStatus: 1
-      duration: 0.6349322
+      duration: 0.6884268
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1054,7 +1000,7 @@ MonoBehaviour:
       name: Max_WithNestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Max_WithNestedFunctions
       resultStatus: 1
-      duration: 0.6433274
+      duration: 0.6443068
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1076,7 +1022,7 @@ MonoBehaviour:
       name: Min_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Min_NumericValues
       resultStatus: 1
-      duration: 0.635926
+      duration: 0.6455767
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1098,7 +1044,7 @@ MonoBehaviour:
       name: Min_WithMixedReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Min_WithMixedReferences
       resultStatus: 1
-      duration: 0.6401478
+      duration: 0.6540422
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1115,16 +1061,16 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1021
+    - id: 1022
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.MismatchedParentheses_ShowsError]'
       name: MismatchedParentheses_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.MismatchedParentheses_ShowsError
       resultStatus: 1
-      duration: 0.8252969
+      duration: 0.6508134
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 9 ms to generate
+        Took 3 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
         Function evaluation
@@ -1145,16 +1091,16 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1047
+    - id: 1049
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Mod_ByZero]'
       name: Mod_ByZero
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_ByZero
       resultStatus: 1
-      duration: 0.6498234
+      duration: 0.6481483
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 4 ms to generate
+        Took 3 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
         Function evaluation
@@ -1172,16 +1118,16 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1046
+    - id: 1048
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Mod_NormalOperation]'
       name: Mod_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_NormalOperation
       resultStatus: 1
-      duration: 0.6486753
+      duration: 0.6496125
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 4 ms to generate
+        Took 3 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -1194,12 +1140,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1048
+    - id: 1050
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Mod_WithCellReferences]'
       name: Mod_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_WithCellReferences
       resultStatus: 1
-      duration: 0.652026
+      duration: 0.6505025
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1216,12 +1162,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1044
+    - id: 1046
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Multiply_NormalOperation]'
       name: Multiply_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Multiply_NormalOperation
       resultStatus: 1
-      duration: 0.6630161
+      duration: 0.6564108
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1238,12 +1184,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1045
+    - id: 1047
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Multiply_WithCellReferences]'
       name: Multiply_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Multiply_WithCellReferences
       resultStatus: 1
-      duration: 0.6480306
+      duration: 0.644461
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1265,7 +1211,7 @@ MonoBehaviour:
       name: Not_False
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_False
       resultStatus: 1
-      duration: 0.6532555
+      duration: 0.6527293
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1287,7 +1233,7 @@ MonoBehaviour:
       name: Not_True
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_True
       resultStatus: 1
-      duration: 0.6496451
+      duration: 0.6581091
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1309,7 +1255,7 @@ MonoBehaviour:
       name: Not_WithCellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithCellReference
       resultStatus: 1
-      duration: 0.6425478
+      duration: 0.6451899
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1331,11 +1277,11 @@ MonoBehaviour:
       name: Not_WithNonValidArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithNonValidArgument
       resultStatus: 1
-      duration: 0.8579908
+      duration: 0.7282368
       messages: 
-      output: 'Took 17 ms to load 1 items from 5 paths.
+      output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 16 ms to generate
+        Took 5 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
         Invalid arguments
@@ -1358,7 +1304,7 @@ MonoBehaviour:
       name: Not_WithNonValidFunctionArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithNonValidFunctionArgument
       resultStatus: 1
-      duration: 0.6656225
+      duration: 0.6573762
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1385,11 +1331,11 @@ MonoBehaviour:
       name: Or_AllFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_AllFalse
       resultStatus: 1
-      duration: 0.6517504
+      duration: 0.6539618
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -1407,7 +1353,7 @@ MonoBehaviour:
       name: Or_OneTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_OneTrue
       resultStatus: 1
-      duration: 0.6517843
+      duration: 0.6494464
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1429,7 +1375,7 @@ MonoBehaviour:
       name: Or_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_WithCellReferences
       resultStatus: 1
-      duration: 0.643347
+      duration: 0.6479499
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1446,12 +1392,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1022
+    - id: 1023
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.ReferenceOutOfRange_ShowsError]'
       name: ReferenceOutOfRange_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.ReferenceOutOfRange_ShowsError
       resultStatus: 1
-      duration: 0.6481249
+      duration: 0.6452247
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1473,16 +1419,60 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1051
+    - id: 1053
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Round_NegativeNumber]'
       name: Round_NegativeNumber
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_NegativeNumber
       resultStatus: 1
-      duration: 0.6836484
+      duration: 0.6625603
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 5 ms to generate
+        Took 3 ms to generate
+        table ''TestTable'' with 5 rows and 12 columns.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
+    - id: 1054
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Round_WithCellReferences]'
+      name: Round_WithCellReferences
+      fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithCellReferences
+      resultStatus: 1
+      duration: 0.6579478
+      messages: 
+      output: 'Took 0 ms to load 1 items from 5 paths.
+
+        Took 3 ms to generate
+        table ''TestTable'' with 5 rows and 12 columns.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
+    - id: 1051
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Round_WithDecimals]'
+      name: Round_WithDecimals
+      fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithDecimals
+      resultStatus: 1
+      duration: 0.6520863
+      messages: 
+      output: 'Took 0 ms to load 1 items from 5 paths.
+
+        Took 3 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -1496,55 +1486,11 @@ MonoBehaviour:
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
     - id: 1052
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Round_WithCellReferences]'
-      name: Round_WithCellReferences
-      fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithCellReferences
-      resultStatus: 1
-      duration: 0.6958885
-      messages: 
-      output: 'Took 0 ms to load 1 items from 5 paths.
-
-        Took 3 ms to generate
-        table ''TestTable'' with 5 rows and 12 columns.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1049
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Round_WithDecimals]'
-      name: Round_WithDecimals
-      fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithDecimals
-      resultStatus: 1
-      duration: 0.6442983
-      messages: 
-      output: 'Took 0 ms to load 1 items from 5 paths.
-
-        Took 3 ms to generate
-        table ''TestTable'' with 5 rows and 12 columns.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1050
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Round_WithoutDecimals]'
       name: Round_WithoutDecimals
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithoutDecimals
       resultStatus: 1
-      duration: 0.6440699
+      duration: 0.6589864
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1566,7 +1512,7 @@ MonoBehaviour:
       name: Sum_InvalidValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_InvalidValues
       resultStatus: 1
-      duration: 0.6384372
+      duration: 0.6510943
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1593,7 +1539,7 @@ MonoBehaviour:
       name: Sum_NestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_NestedFunctions
       resultStatus: 1
-      duration: 0.6493017
+      duration: 0.65393
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1610,12 +1556,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1003
+    - id: 1002
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Sum_NumericValues]'
       name: Sum_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_NumericValues
       resultStatus: 1
-      duration: 0.6523224
+      duration: 0.6585603
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1637,7 +1583,7 @@ MonoBehaviour:
       name: SumIf_BasicCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_BasicCondition
       resultStatus: 1
-      duration: 0.6468278
+      duration: 0.6454807
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1659,7 +1605,7 @@ MonoBehaviour:
       name: SumIf_WithBoolComparison
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithBoolComparison
       resultStatus: 1
-      duration: 0.7278979
+      duration: 0.651736
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1676,12 +1622,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1018
+    - id: 1019
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.SumIf_WithTextCondition]'
       name: SumIf_WithTextCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithTextCondition
       resultStatus: 1
-      duration: 0.6696483
+      duration: 0.6539021
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1703,11 +1649,11 @@ MonoBehaviour:
       name: SumIf_WithTwoArguments
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithTwoArguments
       resultStatus: 1
-      duration: 0.6375229
+      duration: 0.7200944
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 24 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -1720,34 +1666,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1038
+    - id: 1040
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Xor_BothFalse]'
       name: Xor_BothFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_BothFalse
       resultStatus: 1
-      duration: 0.6470503
-      messages: 
-      output: 'Took 0 ms to load 1 items from 5 paths.
-
-        Took 3 ms to generate
-        table ''TestTable'' with 5 rows and 12 columns.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1037
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Xor_BothTrue]'
-      name: Xor_BothTrue
-      fullName: TableForge.Tests.ExcelFunctionsTests.Xor_BothTrue
-      resultStatus: 1
-      duration: 0.6490237
+      duration: 0.6543195
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1765,11 +1689,11 @@ MonoBehaviour:
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
     - id: 1039
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Xor_OneTrue]'
-      name: Xor_OneTrue
-      fullName: TableForge.Tests.ExcelFunctionsTests.Xor_OneTrue
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Xor_BothTrue]'
+      name: Xor_BothTrue
+      fullName: TableForge.Tests.ExcelFunctionsTests.Xor_BothTrue
       resultStatus: 1
-      duration: 0.6725515
+      duration: 0.6396114
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1786,16 +1710,38 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1040
+    - id: 1041
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Xor_OneTrue]'
+      name: Xor_OneTrue
+      fullName: TableForge.Tests.ExcelFunctionsTests.Xor_OneTrue
+      resultStatus: 1
+      duration: 0.6576177
+      messages: 
+      output: 'Took 0 ms to load 1 items from 5 paths.
+
+        Took 3 ms to generate
+        table ''TestTable'' with 5 rows and 12 columns.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
+    - id: 1042
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Xor_WithCellReferences]'
       name: Xor_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_WithCellReferences
       resultStatus: 1
-      duration: 0.6593389
+      duration: 0.6519455
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 4 ms to generate
+        Took 3 ms to generate
         table ''TestTable'' with 5 rows and 12 columns.
 
 '
@@ -1824,16 +1770,16 @@ MonoBehaviour:
       categories: []
       parentId: 1112
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-    - id: 1014
+    - id: 1070
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByBooleanAnd_ShouldMatchRows]'
       name: FilterByBooleanAnd_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanAnd_ShouldMatchRows
       resultStatus: 1
-      duration: 0.7913013
+      duration: 0.7644804
       messages: 
-      output: 'Took 4 ms to load 1 items from 5 paths.
+      output: 'Took 3 ms to load 1 items from 5 paths.
 
-        Took 10 ms to generate
+        Took 7 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1844,18 +1790,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1015
+    - id: 1071
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByBooleanOr_ShouldMatchRows]'
       name: FilterByBooleanOr_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanOr_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6873914
+      duration: 0.604644
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 4 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1866,14 +1812,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1016
+    - id: 1072
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByBooleanWithParentheses_ShouldMatchRows]'
       name: FilterByBooleanWithParentheses_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanWithParentheses_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6092953
+      duration: 0.6070977
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1888,18 +1834,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1021
+    - id: 1077
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows]'
       name: FilterByDeeplyNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 3.5554988
+      duration: 0.6082
       messages: 
-      output: 'Took 16 ms to load 1 items from 5 paths.
+      output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 14 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1910,14 +1856,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1037
+    - id: 1090
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByDictionaryKey_ShouldMatchRows]'
       name: FilterByDictionaryKey_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryKey_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6292394
+      duration: 0.6163881
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1932,14 +1878,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1022
+    - id: 1078
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByDictionaryProperty_ShouldMatchRows]'
       name: FilterByDictionaryProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.621336
+      duration: 0.6345526
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1954,14 +1900,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1017
+    - id: 1073
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByEnum_ShouldMatchRows]'
       name: FilterByEnum_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByEnum_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6258726
+      duration: 0.607452
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1976,18 +1922,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1003
+    - id: 1058
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByGuid_ShouldMatchSingleRow]'
       name: FilterByGuid_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByGuid_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.6235391
+      duration: 0.5978567
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -1998,14 +1944,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1027
+    - id: 1082
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListContainsItem_ShouldMatchRows]'
       name: FilterByListContainsItem_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsItem_ShouldMatchRows
       resultStatus: 1
-      duration: 0.619908
+      duration: 0.6006803
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2020,14 +1966,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1026
+    - id: 1081
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListContainsManualList_ShouldMatchRows]'
       name: FilterByListContainsManualList_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsManualList_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6212668
+      duration: 0.6168494
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2042,18 +1988,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1028
+    - id: 1083
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListCountGreaterThan_ShouldMatchRows]'
       name: FilterByListCountGreaterThan_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListCountGreaterThan_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6408274
+      duration: 0.6386429
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -2064,14 +2010,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1031
+    - id: 1086
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListDeepEquality_FailsForDifferentOrder]'
       name: FilterByListDeepEquality_FailsForDifferentOrder
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_FailsForDifferentOrder
       resultStatus: 1
-      duration: 0.6314058
+      duration: 0.6818086
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2086,14 +2032,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1030
+    - id: 1085
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListDeepEquality_ShouldMatchSingleRow]'
       name: FilterByListDeepEquality_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.6263947
+      duration: 0.6502061
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2108,18 +2054,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1025
+    - id: 1080
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListLength_ShouldMatchRows]'
       name: FilterByListLength_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListLength_ShouldMatchRows
       resultStatus: 1
-      duration: 0.627512
+      duration: 0.6227171
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -2130,14 +2076,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1029
+    - id: 1084
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListNotContains_ShouldMatchRows]'
       name: FilterByListNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6202743
+      duration: 0.618993
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2152,14 +2098,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1032
+    - id: 1087
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByListNotEqual_ShouldMatchRows]'
       name: FilterByListNotEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6207219
+      duration: 0.6042239
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2174,18 +2120,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1036
+    - id: 1091
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByLiteralListNotContains_ShouldMatchRows]'
       name: FilterByLiteralListNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByLiteralListNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.7066851
+      duration: 0.6083461
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -2196,18 +2142,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1019
+    - id: 1075
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByMultipleConditions_ShouldMatchRows]'
       name: FilterByMultipleConditions_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByMultipleConditions_ShouldMatchRows
       resultStatus: 1
-      duration: 0.7059516
+      duration: 0.6239768
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 29 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -2218,18 +2164,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1007
+    - id: 1062
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByName_MatchRowFullName]'
       name: FilterByName_MatchRowFullName
       fullName: TableForge.Tests.FilteringTests.FilterByName_MatchRowFullName
       resultStatus: 1
-      duration: 0.6153564
+      duration: 0.6156767
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -2240,14 +2186,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1006
+    - id: 1061
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByName_ShouldMatchRowsContaining]'
       name: FilterByName_ShouldMatchRowsContaining
       fullName: TableForge.Tests.FilteringTests.FilterByName_ShouldMatchRowsContaining
       resultStatus: 1
-      duration: 0.6145506
+      duration: 0.6109115
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2262,14 +2208,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1012
+    - id: 1068
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows]'
       name: FilterByNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6106984
+      duration: 0.6044953
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2284,14 +2230,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1036
+    - id: 1089
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows]'
       name: FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6468474
+      duration: 0.6077377
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2306,14 +2252,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1018
+    - id: 1074
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows]'
       name: FilterByNestedString_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6167918
+      duration: 0.6131569
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2328,14 +2274,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1033
+    - id: 1088
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByNotOperator_ShouldMatchRows]'
       name: FilterByNotOperator_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNotOperator_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6078888
+      duration: 0.6194655
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2350,14 +2296,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1005
+    - id: 1060
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByPath_WithFolder_ShouldMatchMultipleRows]'
       name: FilterByPath_WithFolder_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFolder_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.6169786
+      duration: 0.6143801
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2372,14 +2318,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1004
+    - id: 1059
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByPath_WithFullPath_ShouldMatchSingleRow]'
       name: FilterByPath_WithFullPath_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFullPath_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.6115708
+      duration: 0.6077294
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2394,14 +2340,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1009
+    - id: 1065
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByProperty_BoolEqual_ShouldMatchRows]'
       name: FilterByProperty_BoolEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_BoolEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.611949
+      duration: 0.6205138
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2416,18 +2362,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1008
+    - id: 1064
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows]'
       name: FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.6211079
+      duration: 0.6917852
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 5 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -2438,14 +2384,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1007
+    - id: 1063
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByProperty_IntEqual_ShouldMatchSingleRow]'
       name: FilterByProperty_IntEqual_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_IntEqual_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.6232783
+      duration: 0.60143
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2460,14 +2406,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1010
+    - id: 1066
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByProperty_StringContains_ShouldMatchRows]'
       name: FilterByProperty_StringContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_StringContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6258807
+      duration: 0.6034971
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2482,18 +2428,18 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1011
+    - id: 1067
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByProperty_WithColumnLetter_ShouldMatchRows]'
       name: FilterByProperty_WithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6236695
+      duration: 0.6088195
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 1 ms to generate
         table ''TestTable'' with 5 rows and 9 columns.
 
 '
@@ -2504,58 +2450,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1013
+    - id: 1069
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByProperty_WithNotContains_ShouldMatchRows]'
       name: FilterByProperty_WithNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6378607
-      messages: 
-      output: 'Took 0 ms to load 1 items from 5 paths.
-
-        Took 1 ms to generate
-        table ''TestTable'' with 5 rows and 9 columns.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1020
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows]'
-      name: FilterWithComplexExpression_ShouldMatchRows
-      fullName: TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
-      resultStatus: 1
-      duration: 0.6139257
-      messages: 
-      output: 'Took 0 ms to load 1 items from 5 paths.
-
-        Took 1 ms to generate
-        table ''TestTable'' with 5 rows and 9 columns.
-
-'
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1001
-      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1002
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterWithEmptyInput_ShouldShowAllRows]'
-      name: FilterWithEmptyInput_ShouldShowAllRows
-      fullName: TableForge.Tests.FilteringTests.FilterWithEmptyInput_ShouldShowAllRows
-      resultStatus: 1
-      duration: 0.7104644
+      duration: 0.6020353
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2570,14 +2472,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1023
-      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterWithInvalidSyntax_ShouldShowAllRows]'
-      name: FilterWithInvalidSyntax_ShouldShowAllRows
-      fullName: TableForge.Tests.FilteringTests.FilterWithInvalidSyntax_ShouldShowAllRows
+    - id: 1076
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows]'
+      name: FilterWithComplexExpression_ShouldMatchRows
+      fullName: TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
       resultStatus: 1
-      duration: 0.6119253
+      duration: 0.6126507
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2592,7 +2494,51 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1056
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
+    - id: 1057
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterWithEmptyInput_ShouldShowAllRows]'
+      name: FilterWithEmptyInput_ShouldShowAllRows
+      fullName: TableForge.Tests.FilteringTests.FilterWithEmptyInput_ShouldShowAllRows
+      resultStatus: 1
+      duration: 0.6197127
+      messages: 
+      output: 'Took 0 ms to load 1 items from 5 paths.
+
+        Took 2 ms to generate
+        table ''TestTable'' with 5 rows and 9 columns.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1056
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
+    - id: 1079
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterWithInvalidSyntax_ShouldShowAllRows]'
+      name: FilterWithInvalidSyntax_ShouldShowAllRows
+      fullName: TableForge.Tests.FilteringTests.FilterWithInvalidSyntax_ShouldShowAllRows
+      resultStatus: 1
+      duration: 0.602011
+      messages: 
+      output: 'Took 0 ms to load 1 items from 5 paths.
+
+        Took 1 ms to generate
+        table ''TestTable'' with 5 rows and 9 columns.
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1056
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
     - id: 1092
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
@@ -2610,12 +2556,12 @@ MonoBehaviour:
       categories: []
       parentId: 1112
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-    - id: 1002
+    - id: 1093
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ItemSelectionTests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection]'
       name: ScriptableObjectSelection
       fullName: TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection
       resultStatus: 1
-      duration: 0.3183675
+      duration: 0.3273673
       messages: 
       output: 
       stacktrace: 
@@ -2625,7 +2571,7 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1092
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
     - id: 1094
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
@@ -2643,12 +2589,12 @@ MonoBehaviour:
       categories: []
       parentId: 1112
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-    - id: 1004
+    - id: 1095
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/SerializationTests/[TableForge.Tests][TableForge.Tests.SerializationTests.GetSerializableFields]'
       name: GetSerializableFields
       fullName: TableForge.Tests.SerializationTests.GetSerializableFields
       resultStatus: 1
-      duration: 0.0020492
+      duration: 0.0020114
       messages: 
       output: 
       stacktrace: 
@@ -2658,7 +2604,7 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1003
+      parentId: 1094
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
     - id: 1096
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
@@ -2676,12 +2622,12 @@ MonoBehaviour:
       categories: []
       parentId: 1112
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
-    - id: 1007
+    - id: 1098
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration]'
       name: AnimationCurveCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration
       resultStatus: 1
-      duration: 0.1110257
+      duration: 0.1097748
       messages: 
       output: 'No script asset for AnimationCurveScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2694,14 +2640,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1008
+    - id: 1099
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.BooleanCellGeneration]'
       name: BooleanCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.BooleanCellGeneration
       resultStatus: 1
-      duration: 0.1149615
+      duration: 0.1085208
       messages: 
       output: 'No script asset for BooleanScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2714,14 +2660,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1009
+    - id: 1100
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.ColorCellGeneration]'
       name: ColorCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ColorCellGeneration
       resultStatus: 1
-      duration: 0.1134064
+      duration: 0.1105594
       messages: 
       output: 'No script asset for ColorScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2734,14 +2680,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1017
+    - id: 1108
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.DictionaryCellGeneration]'
       name: DictionaryCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.DictionaryCellGeneration
       resultStatus: 1
-      duration: 0.1370734
+      duration: 0.1110302
       messages: 
       output: 'No script asset for DictionaryScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2754,14 +2700,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1010
+    - id: 1101
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.EnumCellGeneration]'
       name: EnumCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.EnumCellGeneration
       resultStatus: 1
-      duration: 0.1089643
+      duration: 0.113531
       messages: 
       output: 'No script asset for EnumScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2774,14 +2720,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1011
+    - id: 1102
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration]'
       name: FloatingPointCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration
       resultStatus: 1
-      duration: 0.1392252
+      duration: 0.111531
       messages: 
       output: 'No script asset for FloatingPointScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2794,14 +2740,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1012
+    - id: 1103
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.GradientCellGeneration]'
       name: GradientCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.GradientCellGeneration
       resultStatus: 1
-      duration: 0.1152826
+      duration: 0.1098551
       messages: 
       output: 'No script asset for GradientScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2814,14 +2760,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1013
+    - id: 1104
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration]'
       name: IntegralTypesCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration
       resultStatus: 1
-      duration: 0.1189515
+      duration: 0.1109431
       messages: 
       output: 'No script asset for IntegralTypesScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2834,14 +2780,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1016
+    - id: 1107
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.ListCellGeneration]'
       name: ListCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ListCellGeneration
       resultStatus: 1
-      duration: 0.1413511
+      duration: 0.1088273
       messages: 
       output: 'No script asset for ListScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2854,14 +2800,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1006
+    - id: 1097
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated]'
       name: NoSerializableTypes_NoCellsGenerated
       fullName: TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated
       resultStatus: 1
-      duration: 0.1174665
+      duration: 0.1064461
       messages: 
       output: 
       stacktrace: 
@@ -2871,14 +2817,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1015
+    - id: 1106
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.StringCellGeneration]'
       name: StringCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.StringCellGeneration
       resultStatus: 1
-      duration: 0.1163292
+      duration: 0.1113024
       messages: 
       output: 'No script asset for StringScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2891,14 +2837,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1018
+    - id: 1109
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.SubitemCellGeneration]'
       name: SubitemCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.SubitemCellGeneration
       resultStatus: 1
-      duration: 0.1121424
+      duration: 0.1113457
       messages: 
       output: 'No script asset for ComplexTypeScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2911,14 +2857,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    - id: 1014
+    - id: 1105
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration]'
       name: UnityObjectCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration
       resultStatus: 1
-      duration: 0.1277525
+      duration: 0.1138344
       messages: 
       output: 'No script asset for UnityObjectScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2931,7 +2877,7 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
     m_ResultText: Tests (104 tests) (0,000s)
     m_ResultStacktrace: 
@@ -2969,7 +2915,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 44bb3250-9fb5-44f4-ab16-358b67b64986
+      RunGuid: c0f5073e-e375-47b3-97f9-649d0196145e
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -2982,7 +2928,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
+          - TableForge.Tests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -2997,7 +2943,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999999
+      Progress: 1.0000008
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3036,7 +2982,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 44bb3250-9fb5-44f4-ab16-358b67b64986
+      RunGuid: c0f5073e-e375-47b3-97f9-649d0196145e
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -3049,7 +2995,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
+          - TableForge.Tests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -3064,7 +3010,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999999
+      Progress: 1.0000008
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3101,7 +3047,7 @@ MonoBehaviour:
       selectedCategories: []
       availableCategories: []
     m_SelectedOption: 0
---- !u!114 &14
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3124,8 +3070,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 78.66667
-    width: 1462.3334
-    height: 532.6667
+    width: 1409.6666
+    height: 612.6667
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -3825,7 +3771,7 @@ MonoBehaviour:
   m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
-    m_SceneView: {fileID: 14}
+    m_SceneView: {fileID: 15}
     m_CameraOverscanSettings:
       m_Opacity: 50
       m_Scale: 1
@@ -3835,7 +3781,7 @@ MonoBehaviour:
   m_LastLockedObject: {fileID: 0}
   m_LastDebugDrawMode: 35
   m_ViewIsLockedToObject: 0
---- !u!114 &15
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3907,7 +3853,7 @@ MonoBehaviour:
   m_CurrentEditor: 0
   m_LayerEditor:
     m_SelectedLayerIndex: 0
---- !u!114 &16
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3930,8 +3876,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 78.66667
-    width: 1329
-    height: 615.3333
+    width: 1409.6666
+    height: 612.6667
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -3976,7 +3922,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -3985,29 +3931,29 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1329
-      height: 594.3333
-    m_Scale: {x: 0.6190972, y: 0.6190972}
-    m_Translation: {x: 664.5, y: 297.16666}
+      width: 1409.6666
+      height: 591.6667
+    m_Scale: {x: 0.6163195, y: 0.6163195}
+    m_Translation: {x: 704.8333, y: 295.83334}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -1073.3372
-      y: -480.00003
-      width: 2146.6743
-      height: 960.00006
+      x: -1143.6168
+      y: -480
+      width: 2287.2336
+      height: 960
     m_MinimalGUI: 1
-  m_defaultScale: 0.6190972
-  m_LastWindowPixelSize: {x: 1329, y: 615.3333}
+  m_defaultScale: 0.6163195
+  m_LastWindowPixelSize: {x: 1409.6666, y: 612.6667}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &17
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4048,7 +3994,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e8faffff
+      m_ExpandedIDs: 78e2ffffb8e2ffff38e5ffff00e6ffff56f2ffffe8faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -4073,7 +4019,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &18
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4096,7 +4042,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 771.6667
+    width: 756.3333
     height: 255.33331
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -4120,7 +4066,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/TableForge/Editor/UI/Metadata
+    - Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/BorderResizers
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -4130,16 +4076,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/TableForge/Editor/UI/Metadata
+  - Assets/TableForge/Editor/UI/Windows/TableVisualizerWindow/BorderResizers
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\joseg\Documents\GitHub\TableForge
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 319}
-    m_SelectedIDs: 8ac10000
-    m_LastClickedID: 49546
-    m_ExpandedIDs: 0000000068c100006ac100006cc100006ec1000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c10000
+    scrollPos: {x: 0, y: 388.6667}
+    m_SelectedIDs: 7ec30000
+    m_LastClickedID: 50046
+    m_ExpandedIDs: 0000000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c100008ac100008cc100008ec10000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4168,7 +4114,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000068c100006ac100006cc100006ec1000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c10000
+    m_ExpandedIDs: 0000000070c1000072c1000074c1000076c1000078c100007ac100007cc100007ec1000080c1000082c1000084c1000086c1000088c100008ac100008cc100008ec10000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4226,7 +4172,7 @@ MonoBehaviour:
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 194
---- !u!114 &19
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4247,9 +4193,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 773.6667
+    x: 758.3333
     y: 24
-    width: 635.99994
+    width: 651.3333
     height: 255.33331
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -4262,7 +4208,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &20
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}

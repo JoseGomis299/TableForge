@@ -12,6 +12,7 @@ namespace TableForge.Editor.UI
             input = input.Replace("$", ""); // Remove absolute markers
             input = input.Replace(".", ""); // Remove dots
             input = input.Replace(":", ""); // Remove range markers
+            input = input.Trim();
             
             Regex regex = new Regex(@"^([A-Z]+[0-9]+)+$");
             return regex.IsMatch(input);

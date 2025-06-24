@@ -11,8 +11,8 @@ namespace TableForge.Editor.UI
             FunctionReturnType.Number,
             new ArgumentDefinitionCollection(new List<ArgumentDefinition>
             {
-                new(ArgumentType.Number, "value"),
-                new(ArgumentType.Number, "decimals",true)  
+                new(ArgumentType.SingleNumber, "value"),
+                new(ArgumentType.SingleNumber, "decimals",true)  
             })
         );
         

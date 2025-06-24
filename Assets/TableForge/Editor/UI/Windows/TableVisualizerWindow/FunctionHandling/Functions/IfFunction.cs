@@ -18,7 +18,7 @@ namespace TableForge.Editor.UI
         
         public override object Evaluate(List<object> args, FunctionContext context)
         {
-            bool condition = (bool) args[0];
+            bool condition = FunctionArgumentHelper.ConvertToBoolean(args[0]);
             return condition ? args[1] : args[2];
         }
     }

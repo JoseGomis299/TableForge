@@ -11,8 +11,8 @@ namespace TableForge.Editor.UI
             FunctionReturnType.Number,
             new ArgumentDefinitionCollection(new List<ArgumentDefinition>
             {
-                new(ArgumentType.Number, "dividend"), 
-                new(ArgumentType.Number, "divisor") 
+                new(ArgumentType.SingleNumber, "dividend"), 
+                new(ArgumentType.SingleNumber, "divisor") 
             })
         );
         

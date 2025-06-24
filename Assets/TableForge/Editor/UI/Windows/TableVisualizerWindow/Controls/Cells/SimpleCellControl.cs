@@ -10,6 +10,7 @@ namespace TableForge.Editor.UI
         public event Action<object> OnValueChange; 
      
         private VisualElement _field;
+        private bool _valueChanged;
             
         public VisualElement Field
         {
@@ -28,6 +29,13 @@ namespace TableForge.Editor.UI
                 _field.RegisterCallback<FocusOutEvent>(_ =>
                 {
                     BlurField();
+                    
+                    //Finished editing
+                    if (_valueChanged)
+                    {
+                        _valueChanged = false;
+                        TableControl.FunctionExecutor.ExecuteAllFunctions();
+                    }
                 });
             }
         }
@@ -43,6 +51,9 @@ namespace TableForge.Editor.UI
         {
             try
             {
+                if(!_valueChanged && !evt.newValue.Equals(evt.previousValue))
+                    _valueChanged = true;
+                
                 SetCellValue(evt.newValue);
                 OnValueChange?.Invoke(evt.newValue);
             }
@@ -56,7 +67,13 @@ namespace TableForge.Editor.UI
                 RecalculateSize();
             }
         }
-        
+
+        public override void Refresh(Cell cell, TableControl tableControl)
+        {
+            base.Refresh(cell, tableControl);
+            _valueChanged = false;
+        }
+
         public virtual void FocusField()
         {
             if (Field == null) return;

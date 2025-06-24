@@ -13,7 +13,7 @@ namespace TableForge.Editor.UI
             { ArgumentType.Criteria, new HashSet<Type> { typeof(Func<object, bool>) } },
             { ArgumentType.Range, new HashSet<Type> { typeof(List<Cell>) } },
             { ArgumentType.CellReference, new HashSet<Type> { typeof(List<Cell>), typeof(Cell) } },
-            { ArgumentType.ValueFunction, new HashSet<Type> { typeof(string) } },
+            { ArgumentType.StringFunction, new HashSet<Type> { typeof(string) } },
             { ArgumentType.LogicalFunction, new HashSet<Type> { typeof(string) } },
         };
         

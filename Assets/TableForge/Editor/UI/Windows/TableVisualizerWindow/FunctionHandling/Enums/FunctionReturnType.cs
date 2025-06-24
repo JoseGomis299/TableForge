@@ -9,5 +9,6 @@ namespace TableForge.Editor.UI
         String = 2,
         Boolean = 4,
         Any = Number | String | Boolean,
+        Value = Number | String,
     }
 }
