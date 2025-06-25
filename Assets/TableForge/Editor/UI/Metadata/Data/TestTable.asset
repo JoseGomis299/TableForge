@@ -55,7 +55,7 @@ MonoBehaviour:
     - =XOR(H1; H2)
     - =IF(C1<5; IF(2>C1; "Mid"; "Low"); "High")
     - =IF(C1>2; "Yes"; "No")
-    - =SUMIF(C1:C5; "<=2")
+    - =(100 + SUM(C1:C5))% * 50
     - =XOR(H1; H2)
     - =IF(C1<5; IF(2>C1; "Mid"; "Low"); "High")
     - =IF(C1>2; "Yes"; "No")

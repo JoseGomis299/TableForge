@@ -139,7 +139,8 @@ namespace TableForge.Editor.UI
         
         private void RefreshFunctionTextField()
         {
-            if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null)
+            if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null
+                || _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell() is SubTableCell)
             {
                 _functionTextField.value = string.Empty;
                 _functionTextField.SetEnabled(false);

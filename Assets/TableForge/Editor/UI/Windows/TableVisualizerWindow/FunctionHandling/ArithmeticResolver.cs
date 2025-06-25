@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 
 namespace TableForge.Editor.UI
 {
@@ -31,10 +29,20 @@ namespace TableForge.Editor.UI
                 }
                 else if (token == "+" || token == "-" || token == "*" || token == "/" || token == "^")
                 {
+                    if(_tokens.Count > 0 && _tokens[^1].Type is TokenType.Operator)
+                    {
+                        throw new Exception($"Consecutive operators found: '{token}'");
+                    }
+                    
                     _tokens.Add(new Token(TokenType.Operator, token));
                 }
                 else if (token == "%")
                 {
+                    if(_tokens.Count > 0 && _tokens[^1].Type is TokenType.Operator or TokenType.Percentage)
+                    {
+                        throw new Exception($"Consecutive operators found: '{token}'");
+                    }
+                    
                     _tokens.Add(new Token(TokenType.Percentage, token));
                 }
                 else if(!string.IsNullOrEmpty(token.Trim())) {

@@ -40,7 +40,7 @@ namespace TableForge.Editor.UI
                 
                 _idToCellControl[cell.Id] = cellControl;
             }
-
+            
             cellControl.Refresh(cell, tableControl);
             return cellControl;
         }

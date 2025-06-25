@@ -872,7 +872,7 @@ MonoBehaviour:
     - position: 10
       size: {x: 0, y: 0}
     - position: 11
-      size: {x: 114.66669, y: 0}
+      size: {x: 115.333374, y: 0}
     - position: 12
       size: {x: 202, y: 0}
     - position: 13
@@ -990,7 +990,7 @@ MonoBehaviour:
     - position: 104
       size: {x: 0, y: 25}
     - position: 105
-      size: {x: 0, y: 25}
+      size: {x: 0, y: 25.333252}
     - position: 106
       size: {x: 0, y: 25}
     - position: 107
@@ -2300,7 +2300,7 @@ MonoBehaviour:
     - position: 62
       size: {x: 0, y: 25}
     - position: 2
-      size: {x: 0, y: 25}
+      size: {x: 0, y: 24.666672}
     - position: 7
       size: {x: 0, y: 25}
     - position: 42
@@ -2622,7 +2622,7 @@ MonoBehaviour:
     - position: 0
       size: {x: 0, y: 0}
   functions:
-    mKeys: cc9a7c398ac1d7905ad12c1e7390a7284aa9b5fb2cfd4a6da1366b8f4665b24d56bad4c0d12cec7132236cc6ea2f0ef2488f817371ca084d
+    mKeys: cc9a7c398ac1d7905ad12c1e7390a7284aa9b5fb2cfd4a6da1366b8f4665b24d56bad4c0d12cec7132236cc6ea2f0ef2488f817371ca084df843eae0
     mValues:
     - =4
     - =SUM(H3;5)
@@ -2638,3 +2638,4 @@ MonoBehaviour:
     - =SUM(H3;5)
     - =SUM(H3;5)
     - =SUM(H3;5)
+    - =5*5^2-2+6/3+G1

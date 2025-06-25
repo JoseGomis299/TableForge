@@ -37,6 +37,9 @@ namespace TableForge.Editor.UI
             lastScrollValue = float.MinValue;
         }
         
+        public abstract void SubscribeToRefreshEvents();
+        public abstract void UnsubscribeFromRefreshEvents();
+        
         public bool IsHeaderVisibilityLocked(THeader header)
         {
             return lockedVisibleHeaders.ContainsKey(header);

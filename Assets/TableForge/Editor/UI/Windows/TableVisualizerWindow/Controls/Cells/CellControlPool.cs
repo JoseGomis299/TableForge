@@ -15,15 +15,13 @@ namespace TableForge.Editor.UI
         {
             _cell = cell;
             _tableControl = tableControl;
-            
-            if(_cellControlPools.TryGetValue(cell.Type, out var pool))
+
+            if(!_cellControlPools.TryGetValue(cell.Type, out var pool))
             {
-                var cellControl = pool.Get();
-                return cellControl;
+                pool = new ObjectPool<CellControl>(CreateCellControl);
+                _cellControlPools.Add(cell.Type, pool);
             }
 
-            pool = new ObjectPool<CellControl>(CreateCellControl, _ => { }, _ => {});
-            _cellControlPools.Add(cell.Type, pool);
             var control = pool.Get();
             return control;
         }
@@ -40,7 +38,6 @@ namespace TableForge.Editor.UI
                 }
             }
         }
-        
         
         private CellControl CreateCellControl()
         {

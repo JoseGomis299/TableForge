@@ -8,27 +8,26 @@ namespace TableForge.Editor.UI
 
         public ColumnVisibilityManager(TableControl tableControl) : base(tableControl)
         {
+        }
+
+        public override void SubscribeToRefreshEvents()
+        {
             scrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
-            this.tableControl.OnScrollviewSizeChanged += delta =>
-            {
-                if(delta.x == 0 && delta.y != 0) return;
-                
-                RefreshVisibility(1);
-            };
-            
+            tableControl.OnScrollviewSizeChanged += OnScrollviewSizeChanged;
+        }
+
+        public override void UnsubscribeFromRefreshEvents()
+        {
+            scrollView.horizontalScroller.valueChanged -= OnHorizontalScroll;
+            tableControl.OnScrollviewSizeChanged -= OnScrollviewSizeChanged;
         }
         
-        // protected override void NotifyHeaderBecameVisible(ColumnHeaderControl header, int direction)
-        // {
-        //     Debug.Log($"Column {header.Name} became visible");
-        //     base.NotifyHeaderBecameVisible(header, direction);
-        // }
-        //
-        // protected override void NotifyHeaderBecameInvisible(ColumnHeaderControl header, int direction)
-        // {
-        //     Debug.Log($"Column {header.Name} became invisible");
-        //     base.NotifyHeaderBecameInvisible(header, direction);
-        // }
+        private void OnScrollviewSizeChanged(Vector2 delta)
+        {
+            if (delta.x == 0 && delta.y != 0) return;
+
+            RefreshVisibility(1);
+        }
 
         public override void RefreshVisibility(float delta)
         {
@@ -80,6 +79,9 @@ namespace TableForge.Editor.UI
 
         public override bool IsHeaderInBounds(ColumnHeaderControl header, bool addSecuritySize)
         {
+            if(header.worldBound.width <= 0)
+                return false;
+            
             Vector2 securitySize = addSecuritySize ? new Vector2(securityExtraSize.x, 0) : Vector2.zero;
             var viewBounds = scrollView.contentViewport.worldBound;
             viewBounds.size = new Vector2(viewBounds.size.x - tableControl.CornerContainer.worldBound.width, viewBounds.size.y) + securitySize / 2f;

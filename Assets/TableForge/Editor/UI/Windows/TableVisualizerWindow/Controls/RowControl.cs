@@ -60,12 +60,12 @@ namespace TableForge.Editor.UI
 
         public void ReBuild()
         {
-            if(childCount > 0)
+            if (childCount > 0)
                 ClearRow();
-            
+
             if (Anchor is Row row) InitializeRow(row);
             else InitializeRow(Anchor);
-            
+
             RefreshColumnWidths();
         }
         

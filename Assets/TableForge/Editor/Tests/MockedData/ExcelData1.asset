@@ -16,10 +16,10 @@ MonoBehaviour:
   stringValue2: 
   intValue: 1
   floatValue: 1.5
-  doubleValue: 2.5
+  doubleValue: 57.49999999999999
   longValue: 1000
   ulongValue: 18446744071562067969
-  boolValue: 1
+  boolValue: 0
   innerData:
     stringValue1: Inner String Value 1
     stringValue2: 

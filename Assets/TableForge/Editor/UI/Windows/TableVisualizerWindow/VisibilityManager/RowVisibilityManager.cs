@@ -5,16 +5,27 @@ namespace TableForge.Editor.UI
     internal class RowVisibilityManager : VisibilityManager<RowHeaderControl>
     {
         private const float SquareVerticalStep = UiConstants.MinCellHeight * UiConstants.MinCellHeight;
-        
         public RowVisibilityManager(TableControl tableControl) : base(tableControl)
         {
+        }
+        
+        public override void SubscribeToRefreshEvents()
+        {
             scrollView.verticalScroller.valueChanged += OnVerticalScroll;
-            this.tableControl.OnScrollviewSizeChanged += delta =>
-            {
-                if(delta.y == 0 && delta.x != 0) return;
+            tableControl.OnScrollviewSizeChanged += OnScrollviewSizeChanged;
+        }
 
-                RefreshVisibility(delta.y);
-            };
+        public override void UnsubscribeFromRefreshEvents()
+        {
+            scrollView.verticalScroller.valueChanged -= OnVerticalScroll;
+            tableControl.OnScrollviewSizeChanged -= OnScrollviewSizeChanged;
+        }
+        
+        private void OnScrollviewSizeChanged(Vector2 delta)
+        {
+            if (delta.y == 0 && delta.x != 0) return;
+
+            RefreshVisibility(delta.y);
         }
 
         private void OnVerticalScroll(float value)
@@ -108,6 +119,9 @@ namespace TableForge.Editor.UI
 
         public override bool IsHeaderInBounds(RowHeaderControl header, bool addSecuritySize)
         {
+            if(header.worldBound.height <= 0)
+                return false;
+            
             Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
             var viewBounds = scrollView.contentViewport.worldBound;
             viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;

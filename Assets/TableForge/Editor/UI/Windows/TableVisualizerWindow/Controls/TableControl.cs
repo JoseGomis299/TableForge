@@ -111,6 +111,9 @@ namespace TableForge.Editor.UI
 
         public void SetTable(Table table, bool useCachedSize = true)
         {
+            RowVisibilityManager.UnsubscribeFromRefreshEvents();
+            ColumnVisibilityManager.UnsubscribeFromRefreshEvents();
+            
             if (table == null)
             {
                 TableData = null;
@@ -143,6 +146,9 @@ namespace TableForge.Editor.UI
 
             BuildColumns();
             BuildRows();
+            
+            RowVisibilityManager.SubscribeToRefreshEvents();
+            ColumnVisibilityManager.SubscribeToRefreshEvents();
             InitializeGeometry();
             
             if(Parent == null)
