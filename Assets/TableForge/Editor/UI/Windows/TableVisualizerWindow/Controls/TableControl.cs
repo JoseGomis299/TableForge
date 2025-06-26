@@ -88,7 +88,7 @@ namespace TableForge.Editor.UI
             RowVisibilityManager = new RowVisibilityManager(this);
             CellSelector = parent != null ? parent.TableControl.CellSelector : new CellSelector(this);
             HeaderSwapper = new HeaderSwapper(this);
-            FunctionExecutor = new FunctionExecutor(this);
+            FunctionExecutor = parent != null ? parent.TableControl.FunctionExecutor : new FunctionExecutor(this);
 
             // Initialize sub-containers
             _rowsContainer = CreateRowsContainer();

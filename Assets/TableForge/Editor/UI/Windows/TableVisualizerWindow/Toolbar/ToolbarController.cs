@@ -37,6 +37,98 @@ namespace TableForge.Editor.UI
             
             Initialize();
         }
+        
+        public void FocusFunctionText()
+        {
+            if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null)
+            {
+                _functionTextField.value = string.Empty;
+                _functionTextField.SetEnabled(false);
+                return;
+            }
+            
+            Cell focusedCell = _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell();
+            string function = _selectedTab.GetFunction(focusedCell.Id);
+            
+            _functionTextField.SetEnabled(true);
+            _functionTextField.value = function ?? string.Empty;
+            _functionTextField.Focus();
+            _functionTextField.cursorIndex = _functionTextField.value.Length;
+        }
+        
+        public void CloseTab(TableMetadata table)
+        {
+            if (!_tabControls.TryGetValue(table, out var tab)) return;
+            CloseTab(tab);
+        }
+        
+        public void CloseTab(TabControl tab)
+        {
+            if (!_openTabs.Contains(tab.TableMetadata)) return;
+            
+            UndoRedoManager.StartCollection();
+            CloseTabCommand command = new CloseTabCommand(OpenTabInternal, CloseTabInternal, tab);
+            UndoRedoManager.Do(command);
+            UndoRedoManager.EndCollection();
+        }
+        
+        public void OpenTab(TableMetadata table)
+        {
+            if (_openTabs.Contains(table)) return;
+
+            TabControl tab = new TabControl(this, table);
+            if (UndoRedoManager.GetLastUndoCommand() == null)
+            {
+                OpenTabInternal(tab);
+            }
+            else
+            {
+                OpenTabCommand command = new OpenTabCommand(OpenTabInternal, CloseTabInternal, tab);
+                UndoRedoManager.Do(command);
+            }
+        }
+        
+        public void EditTab(TableMetadata tableMetadata)
+        {
+            _cachedTables.Remove(tableMetadata);
+            EditTableViewModel viewModel = new EditTableViewModel(tableMetadata);
+            viewModel.OnTableUpdated += table =>
+            {
+                OnEditionComplete?.Invoke(table);
+                
+                Table newTable = TableMetadataManager.GetTable(table);
+                _cachedTables[tableMetadata] = newTable;
+
+                if (_selectedTab != null && _tabControls.TryGetValue(_selectedTab, out var previousTab))
+                {
+                    previousTab.RemoveFromClassList(USSClasses.ToolbarTabSelected);
+                    _selectedTab = null;
+                }
+                SelectTab(tableMetadata);
+            };
+            EditTableWindow.ShowWindow(viewModel);
+        }
+        
+        public void SelectTab(TableMetadata tableMetadata)
+        {
+            if (tableMetadata == _selectedTab) return;
+
+            //Do not store the first tab selection, as it is the default state
+            if (_selectedTab == null)
+            {
+                ChangeTab(tableMetadata);
+                return;
+            }
+            
+            ChangeTabCommand command = new ChangeTabCommand(_selectedTab, tableMetadata, ChangeTab);
+            UndoRedoManager.Do(command);
+        }
+        
+        public void UpdateTableCache(TableMetadata tableMetadata, Table table)
+        {
+            if (tableMetadata == null) return;
+            _cachedTables[tableMetadata] = table;
+        }
 
         private void Initialize()
         {
@@ -121,6 +213,13 @@ namespace TableForge.Editor.UI
                 }
             });
             
+            _functionTextField.RegisterCallback<FocusInEvent>(evt =>
+            {
+                if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
+                
+                UndoRedoManager.StartCollection();
+            });
+            
             _functionTextField.RegisterValueChangedCallback(evt =>
             {
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
@@ -133,16 +232,18 @@ namespace TableForge.Editor.UI
             {
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
                 
+                _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteCellFunction(_tableVisualizer.CurrentTable.CellSelector.GetFocusedCell().Id);
                 _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteAllFunctions();
+                UndoRedoManager.EndCollection();
             });
         }
         
-        private void RefreshFunctionTextField()
+        public void RefreshFunctionTextField()
         {
             if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null
                 || _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell() is SubTableCell)
             {
-                _functionTextField.value = string.Empty;
+                _functionTextField.SetValueWithoutNotify("");
                 _functionTextField.SetEnabled(false);
                 return;
             }
@@ -151,23 +252,7 @@ namespace TableForge.Editor.UI
             string function = _selectedTab.GetFunction(focusedCell.Id);
             
             _functionTextField.SetEnabled(true);
-            _functionTextField.value = function ?? string.Empty;
-        }
-
-        public void OpenTab(TableMetadata table)
-        {
-            if (_openTabs.Contains(table)) return;
-
-            TabControl tab = new TabControl(this, table);
-            if (UndoRedoManager.GetLastUndoCommand() == null)
-            {
-                OpenTabInternal(tab);
-            }
-            else
-            {
-                OpenTabCommand command = new OpenTabCommand(OpenTabInternal, CloseTabInternal, tab);
-                UndoRedoManager.Do(command);
-            }
+            _functionTextField.SetValueWithoutNotify(function ?? string.Empty);
         }
 
         private void OpenTabInternal(TabControl tab)
@@ -184,22 +269,6 @@ namespace TableForge.Editor.UI
                 SelectTab(table);
             }
         }
-        
-        public void CloseTab(TableMetadata table)
-        {
-            if (!_tabControls.TryGetValue(table, out var tab)) return;
-            CloseTab(tab);
-        }
-        
-        public void CloseTab(TabControl tab)
-        {
-            if (!_openTabs.Contains(tab.TableMetadata)) return;
-            
-            UndoRedoManager.StartCollection();
-            CloseTabCommand command = new CloseTabCommand(OpenTabInternal, CloseTabInternal, tab);
-            UndoRedoManager.Do(command);
-            UndoRedoManager.EndCollection();
-        }
 
         private void CloseTabInternal(TabControl tab)
         {
@@ -211,21 +280,6 @@ namespace TableForge.Editor.UI
 
             if (_selectedTab != tab.TableMetadata) return;
             SelectTab(_openTabs.Count > 0 ? _openTabs.First() : null);
-        }
-
-        public void SelectTab(TableMetadata tableMetadata)
-        {
-            if (tableMetadata == _selectedTab) return;
-
-            //Do not store the first tab selection, as it is the default state
-            if (_selectedTab == null)
-            {
-                ChangeTab(tableMetadata);
-                return;
-            }
-            
-            ChangeTabCommand command = new ChangeTabCommand(_selectedTab, tableMetadata, ChangeTab);
-            UndoRedoManager.Do(command);
         }
 
         private void ChangeTab(TableMetadata tableMetadata)
@@ -263,33 +317,6 @@ namespace TableForge.Editor.UI
             {
                 _visibleColumnsDropdown.SetItems(new List<DropdownElement>(), new List<DropdownElement>());
             }
-        }
-
-        public void EditTab(TableMetadata tableMetadata)
-        {
-            _cachedTables.Remove(tableMetadata);
-            EditTableViewModel viewModel = new EditTableViewModel(tableMetadata);
-            viewModel.OnTableUpdated += table =>
-            {
-                OnEditionComplete?.Invoke(table);
-                
-                Table newTable = TableMetadataManager.GetTable(table);
-                _cachedTables[tableMetadata] = newTable;
-
-                if (_selectedTab != null && _tabControls.TryGetValue(_selectedTab, out var previousTab))
-                {
-                    previousTab.RemoveFromClassList(USSClasses.ToolbarTabSelected);
-                    _selectedTab = null;
-                }
-                SelectTab(tableMetadata);
-            };
-            EditTableWindow.ShowWindow(viewModel);
-        }
-        
-        public void UpdateTableCache(TableMetadata tableMetadata, Table table)
-        {
-            if (tableMetadata == null) return;
-            _cachedTables[tableMetadata] = table;
         }
 
         private Table GetTable(TableMetadata tableMetadata)

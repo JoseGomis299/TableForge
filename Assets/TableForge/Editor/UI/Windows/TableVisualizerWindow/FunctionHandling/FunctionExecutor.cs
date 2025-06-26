@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using UnityEngine;
 
 namespace TableForge.Editor.UI
 {
@@ -7,15 +9,13 @@ namespace TableForge.Editor.UI
     {
         private readonly TableControl _tableControl;
         private readonly FunctionParser _functionParser;
-        private readonly Dictionary<int, Action> _cellFunctions;
-        private readonly Dictionary<int, Action> _columnFunctions;
+        private readonly Dictionary<string, Func<object>> _cachedFunctions;
         
         public FunctionExecutor(TableControl tableControl)
         {
             _tableControl = tableControl;
             _functionParser = new FunctionParser(this);
-            _cellFunctions = new Dictionary<int, Action>();
-            _columnFunctions = new Dictionary<int, Action>();
+            _cachedFunctions = new Dictionary<string, Func<object>>();
         }
 
         public void Setup()
@@ -23,32 +23,16 @@ namespace TableForge.Editor.UI
             var functions = _tableControl.Metadata.GetFunctions();
             if (functions == null || functions.Count == 0) return;
          
-            _cellFunctions.Clear();
-            _columnFunctions.Clear();
+            _cachedFunctions.Clear();
             
             Table table = _tableControl.TableData;
-            TableMetadata metadata = _tableControl.Metadata;
-            foreach (var row in table.OrderedRows)
+            foreach (var function in functions.Values)
             {
-                foreach (var parentCell in row.OrderedCells)
+                if (!_cachedFunctions.ContainsKey(function))
                 {
-                    foreach (var cell in parentCell.GetDescendants(includeSelf: true))
-                    {
-                        Column column = cell.column;
-                        string columnFunction = metadata.GetFunction(column.Id);
-                        if (!string.IsNullOrWhiteSpace(columnFunction) && !_columnFunctions.ContainsKey(column.Id))
-                        {
-                            Action action = _functionParser.ParseColumnFunction(columnFunction, column);
-                            _columnFunctions[column.Id] = action;
-                        }
-                        
-                        string cellFunction = metadata.GetFunction(cell.Id);
-                        if (!string.IsNullOrWhiteSpace(cellFunction) && !_cellFunctions.ContainsKey(cell.Id))
-                        {
-                            Action action = _functionParser.ParseCellFunction(cellFunction, cell);
-                            _cellFunctions[cell.Id] = action;
-                        }
-                    }
+                    var cellFunction = _functionParser.ParseCellFunction(function, table);
+                    if (cellFunction != null)
+                        _cachedFunctions[function] = cellFunction;
                 }
             }
         }
@@ -56,88 +40,85 @@ namespace TableForge.Editor.UI
         public void SetCellFunction(Cell cell, string function)
         {
             int cellId = cell.Id;
-            _tableControl.Metadata.SetFunction(cellId, function);
-            if (string.IsNullOrWhiteSpace(function))
+            string oldFunction = _tableControl.Metadata.GetFunction(cellId);
+            if(function == oldFunction)
             {
-                _cellFunctions.Remove(cellId);
-                return;
+                return; // No change, nothing to do
             }
-
-            var action = _functionParser.ParseCellFunction(function, cell);
-            if (action != null)
+            
+            EditFunctionCommand command = new EditFunctionCommand(cellId, function, oldFunction, _tableControl.Metadata, _tableControl.Visualizer.ToolbarController);
+            UndoRedoManager.Do(command);
+            
+            if (!_cachedFunctions.ContainsKey(function))
             {
-                _cellFunctions[cellId] = action;
-            }
-        }
-        
-        public void SetColumnFunction(Column column, string function)
-        {
-            int columnId = column.Id;
-            _tableControl.Metadata.SetFunction(columnId, function);
-            if (string.IsNullOrWhiteSpace(function))
-            {
-                _columnFunctions.Remove(columnId);
-                return;
-            }
-
-            var action = _functionParser.ParseColumnFunction(function, column);
-            if (action != null)
-            {
-                _columnFunctions[columnId] = action;
+                var cellFunction = _functionParser.ParseCellFunction(function, _tableControl.TableData);
+                if (cellFunction != null)
+                    _cachedFunctions[function] = cellFunction;
             }
         }
         
         public void ExecuteCellFunction(int cellId)
         {
-            if (_cellFunctions.TryGetValue(cellId, out var action))
+            var function = GetFunction(cellId);
+            Cell cell = Editor.CellExtension.GetCellById(_tableControl.TableData, cellId);
+
+            if (function != null && cell != null)
             {
-                action.Invoke();
-            }
-            else
-            {
-                throw new KeyNotFoundException($"No function found for cell ID {cellId}");
-            }
-        }
-        
-        public void ExecuteColumnFunction(int columnId)
-        {
-            if (_columnFunctions.TryGetValue(columnId, out var action))
-            {
-                action.Invoke();
-            }
-            else
-            {
-                throw new KeyNotFoundException($"No function found for column ID {columnId}");
+                object result = function.Invoke();
+
+                try
+                {
+                    if(cell.Type.IsAssignableFrom(result.GetType()))
+                    {
+                        cell.SetValue(result);
+                        return;
+                    }
+                    
+                    object properTypeResult = Convert.ChangeType(result, cell.Type, CultureInfo.InvariantCulture);
+                    cell.SetValue(properTypeResult);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"Function evaluation error for input: {_tableControl.Metadata.GetFunction(cellId)}\n" +
+                                   $"Expected type: {cell.Type}, but got: {result?.GetType()}\n" +
+                                   $"Error: {e.Message}");
+                }
             }
         }
 
         public void ExecuteAllFunctions()
         {
-            foreach (var action in _columnFunctions.Values)
+            var functions = _tableControl.Metadata.GetFunctions();
+
+            foreach (var id in functions.Keys)
             {
-                action.Invoke();
-            }
-            
-            List<int> invalidCellIds = new List<int>();
-            //Cell functions have priority over column functions, so we execute them last.
-            foreach (var keyActionPair in _cellFunctions)
-            {
-                if (string.IsNullOrEmpty(_tableControl.Metadata.GetFunction(keyActionPair.Key)))
-                {
-                    invalidCellIds.Add(keyActionPair.Key);
-                    continue;
-                }
-                    
-                keyActionPair.Value.Invoke();
-            }
-            
-            // Remove invalid cell functions
-            foreach (var cellId in invalidCellIds)
-            {
-                _cellFunctions.Remove(cellId);
+                ExecuteCellFunction(id);
             }
             
             _tableControl.Update();
+        }
+
+        private Func<object> GetFunction(int id)
+        {
+            string function = _tableControl.Metadata.GetFunction(id);
+            if (string.IsNullOrEmpty(function))
+            {
+                return null;
+            }
+            
+            if (_cachedFunctions.TryGetValue(function, out var cachedFunction))
+            {
+                return cachedFunction;
+            }
+            
+            var parsedFunction = _functionParser.ParseCellFunction(function, _tableControl.TableData);
+            if (parsedFunction != null)
+            {
+                _cachedFunctions[function] = parsedFunction;
+                return parsedFunction;
+            }
+
+            return null;
         }
     }
 }

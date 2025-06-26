@@ -98,7 +98,8 @@ namespace TableForge.Editor.UI
             }
             else if (_selector.FocusedCell != null && evt.character is >= '!' and <= '~')
             {
-                ProcessCharacterKey(evt);
+                if (evt.character == '=') ProcessEqualsKey(evt);
+                else ProcessCharacterKey(evt);
             }
             else if (evt.keyCode == KeyCode.Tab)
             {
@@ -119,12 +120,14 @@ namespace TableForge.Editor.UI
             else if(evt.ctrlKey && evt.keyCode == KeyCode.Z)
             {
                 UndoRedoManager.Undo();
-                _tableControl.Update();
+                _tableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
+                _tableControl.FunctionExecutor.ExecuteAllFunctions();
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.Y)
             {
                 UndoRedoManager.Redo();
-                _tableControl.Update();
+                _tableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
+                _tableControl.FunctionExecutor.ExecuteAllFunctions();
             }
             evt.StopPropagation();
         }
@@ -291,6 +294,14 @@ namespace TableForge.Editor.UI
         {
             if (_selector.FocusedCell == null)
                 return;
+        }
+        
+        private void ProcessEqualsKey(KeyDownEvent evt)
+        {
+            if (_selector.FocusedCell == null)
+                return;
+            
+            _tableControl.Visualizer.ToolbarController.FocusFunctionText();
         }
         
         

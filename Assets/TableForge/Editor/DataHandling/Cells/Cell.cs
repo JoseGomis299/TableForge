@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace TableForge.Editor
@@ -39,6 +40,7 @@ namespace TableForge.Editor
         /// The serializer used to serialize and deserialize the cell's data.
         /// </summary>
         protected ISerializer serializer;
+        
 
         #endregion
 
@@ -72,7 +74,9 @@ namespace TableForge.Editor
             serializer = new JsonSerializer();
             
             Id = HashCodeUtil.CombineHashes(this.column.Id, this.row.Id, GetLocalPosition());
+            this.RegisterCell();
         }
+        
         #endregion
 
         #region Public Methods

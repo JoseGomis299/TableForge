@@ -45,14 +45,50 @@ MonoBehaviour:
   color: {r: 0.23, g: 0, b: 0, a: 1}
   animationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.48855332
+      value: 0.23942041
+      inSlope: 2.061693
+      outSlope: 2.061693
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.765422
+      value: 0.14953017
+      inSlope: 1.381438
+      outSlope: 1.381438
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 0}
   b: 0
   charValue: 48
-  intField: 3440
+  intField: 8
   floatField: 23
   <PublicLongProperty>k__BackingField: 190
   <PublicDoubleProperty>k__BackingField: 29

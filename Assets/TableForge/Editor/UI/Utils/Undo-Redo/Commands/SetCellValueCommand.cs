@@ -20,14 +20,14 @@ namespace TableForge.Editor.UI
         public void Execute()
         {
             _cell.SetValue(_newValue);
-            if(_cell.Id == _cellControl.Cell.Id) 
+            if(_cellControl != null && _cell.Id == _cellControl.Cell.Id) 
                 _cellControl.Refresh();
         }
         
         public void Undo()
         {
             _cell.SetValue(_oldValue);
-            if(_cell.Id == _cellControl.Cell.Id) 
+            if(_cellControl != null && _cell.Id == _cellControl.Cell.Id) 
                 _cellControl.Refresh();
         }
 

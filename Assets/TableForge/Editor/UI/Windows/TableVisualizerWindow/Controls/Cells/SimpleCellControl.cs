@@ -34,6 +34,13 @@ namespace TableForge.Editor.UI
                     if (_valueChanged)
                     {
                         _valueChanged = false;
+
+                        if (ToolbarData.RemoveFormulaOnCellValueChange)
+                        {
+                            TableControl.FunctionExecutor.SetCellFunction(Cell, string.Empty);
+                            TableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
+                        }
+
                         TableControl.FunctionExecutor.ExecuteAllFunctions();
                     }
                 });
@@ -51,7 +58,7 @@ namespace TableForge.Editor.UI
         {
             try
             {
-                if(!_valueChanged && !evt.newValue.Equals(evt.previousValue))
+                if(!_valueChanged && (!evt.newValue.Equals(evt.previousValue) || typeof(T) == typeof(AnimationCurve)))
                     _valueChanged = true;
                 
                 SetCellValue(evt.newValue);

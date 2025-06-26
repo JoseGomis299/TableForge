@@ -41,10 +41,10 @@ namespace TableForge.Editor.UI
             }
 
             if (cellCount >= splitBuffer.Count || splitBuffer.Count > 1000)
-                Paste(cells, splitBuffer);
+                Paste(cells, splitBuffer, tableMetadata);
             else
             {
-                Paste(navigator, rowSplitBuffer);
+                Paste(navigator, rowSplitBuffer, tableMetadata);
                 return (cells[0], navigator.GetCurrentCell());
             }
             
@@ -96,7 +96,7 @@ namespace TableForge.Editor.UI
 
         #region Private Methods
 
-        private static void Paste(IList<Cell> cells,  List<string> buffer)
+        private static void Paste(IList<Cell> cells,  List<string> buffer, TableMetadata tableMetadata)
         {
             int bufferIndex = 0;
             CommandCollection commandCollection = new CommandCollection();
@@ -122,7 +122,7 @@ namespace TableForge.Editor.UI
                         serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
                     }
                     
-                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString());
+                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString(), tableMetadata);
                     commandCollection.AddAndExecuteCommand(command);
                     bufferIndex = (bufferIndex + count) % buffer.Count;
                 }
@@ -133,7 +133,7 @@ namespace TableForge.Editor.UI
                             .Replace(SerializationConstants.CancelledRowSeparator, SerializationConstants.RowSeparator)
                             .Replace(SerializationConstants.CancelledColumnSeparator, SerializationConstants.ColumnSeparator);
                     
-                    DeserializeCellCommand command = new DeserializeCellCommand(cell, cell.GetValue(), data);
+                    DeserializeCellCommand command = new DeserializeCellCommand(cell, cell.GetValue(), data, tableMetadata);
                     commandCollection.AddAndExecuteCommand(command);
                     if (cell is not SubTableCell) //Recalculate the cell size for the new value
                     {
@@ -146,7 +146,7 @@ namespace TableForge.Editor.UI
             UndoRedoManager.AddToQueue(commandCollection);
         }
 
-        private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer)
+        private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer, TableMetadata tableMetadata)
         {
             int bufferIndex = 0;
             int cellIndex = 0;
@@ -176,7 +176,7 @@ namespace TableForge.Editor.UI
                     }
                         
                     bool subTableWasEmpty = subTableCell.SubTable.Rows.Count == 0;
-                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString());
+                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString(), tableMetadata);
                     commandCollection.AddAndExecuteCommand(command);
                     
                     if(subTableWasEmpty) navigator.GetNextCell(0);
@@ -201,7 +201,7 @@ namespace TableForge.Editor.UI
                             .Replace(SerializationConstants.CancelledColumnSeparator,
                                 SerializationConstants.ColumnSeparator);
 
-                    DeserializeCellCommand command = new DeserializeCellCommand(currentCell, currentCell.GetValue(), data);
+                    DeserializeCellCommand command = new DeserializeCellCommand(currentCell, currentCell.GetValue(), data, tableMetadata);
                     commandCollection.AddAndExecuteCommand(command);
                     if (currentCell is not SubTableCell) //Recalculate the cell size for the new value
                     {

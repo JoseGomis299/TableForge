@@ -16,26 +16,18 @@ namespace TableForge.Editor.UI
             _executor = executor;
         }
 
-        public Action ParseCellFunction(string input, Cell cell)
+        public Func<object> ParseCellFunction(string input, Table baseTable)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
 
-            return () => ExecuteFunction(input, cell);
+            return () => ExecuteFunction(input, baseTable);
         }
 
-        public Action ParseColumnFunction(string input, Column column)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-                return null;
-
-            return () => ExecuteColumnFunction(input, column);
-        }
-
-        private void ExecuteFunction(string input, Cell cell)
+        private object ExecuteFunction(string input, Table baseTable)
         {
             var context = new FunctionContext(
-                cell,
+                baseTable,
                 _referenceParser,
                 _executor
             );
@@ -47,7 +39,7 @@ namespace TableForge.Editor.UI
                 if (result == null)
                 {
                     Debug.LogError($"Function evaluation failed for input: {input}");
-                    return;
+                    return null;
                 }
 
                 if (result is List<Cell> list)
@@ -55,7 +47,7 @@ namespace TableForge.Editor.UI
                     if(list.Count > 1)
                     {
                         Debug.LogError($"Function evaluation returned multiple cells for input: {input}");
-                        return;
+                        return null;
                     }
 
                     if (list.Count == 1)
@@ -65,7 +57,7 @@ namespace TableForge.Editor.UI
                     else
                     {
                         Debug.LogError($"Function evaluation returned an invalid reference: {input}");
-                        return;
+                        return null;
                     }
                 }
             }
@@ -73,31 +65,10 @@ namespace TableForge.Editor.UI
             {
                 Debug.LogError($"Function evaluation error for input: {input}\n" +
                                $"Error: {e.Message}");
-                return;
+                return null;
             }
 
-            try
-            {
-                object properTypeResult = Convert.ChangeType(result, cell.Type, CultureInfo.InvariantCulture);
-                cell.SetValue(properTypeResult);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Function evaluation error for input: {input}\n" +
-                               $"Expected type: {cell.Type}, but got: {result.GetType()}\n" +
-                               $"Error: {e.Message}");
-            }
-        }
-
-        private void ExecuteColumnFunction(string input, Column column)
-        {
-            foreach (var row in column.Table.OrderedRows)
-            {
-                if (row.Cells.TryGetValue(column.Position, out Cell cell))
-                {
-                    ExecuteFunction(input, cell);
-                }
-            }
+            return result;
         }
 
         private object EvaluateExpression(string expression, FunctionContext context)

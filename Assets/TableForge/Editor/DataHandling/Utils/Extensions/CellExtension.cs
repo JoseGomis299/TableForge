@@ -6,6 +6,7 @@ namespace TableForge.Editor
 {
     internal static class CellExtension
     {
+        private static Dictionary<Table, Dictionary<int, Cell>> _cellsById = new Dictionary<Table, Dictionary<int, Cell>>();
         
         /// <summary>
         /// Gets the ascendants of a cell in the table hierarchy. (not including itself)
@@ -294,6 +295,47 @@ namespace TableForge.Editor
         public static bool IsNumeric(this Cell cell)
         {
             return cell is INumericBasedCell;
+        }
+        
+        public static Cell GetCellById(Table table, int cellId)
+        {
+            if (table.IsSubTable)
+            {
+                table = table.ParentCell.GetHighestAncestor().Table;
+            }
+            
+            if (_cellsById.TryGetValue(table, out var cells) && cells.TryGetValue(cellId, out var cell))
+            {
+                return cell;
+            }
+            return null;
+        }
+        
+        public static void RegisterCell(this Cell cell)
+        {
+            Table table = cell.GetHighestAncestor().Table;
+            
+            if (!_cellsById.TryGetValue(table, out var cells))
+            {
+                cells = new Dictionary<int, Cell>();
+                _cellsById[table] = cells;
+            }
+            
+            cells[cell.Id] = cell;
+        }
+
+        public static void UnregisterCell(this Cell cell)
+        {
+            Table table = cell.GetHighestAncestor().Table;
+            
+            if (_cellsById.TryGetValue(table, out var cells))
+            {
+                cells.Remove(cell.Id);
+                if (cells.Count == 0)
+                {
+                    _cellsById.Remove(table);
+                }
+            }
         }
 
         private static int GetSubTableColumnCount(TfFieldInfo field)

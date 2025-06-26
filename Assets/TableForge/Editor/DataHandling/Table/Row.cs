@@ -94,7 +94,20 @@ namespace TableForge.Editor
         
         public void RemoveCell(int column)
         {
-            if (!_cells.Remove(column, out _)) return;
+            if (!_cells.Remove(column, out Cell cell)) return;
+            
+            cell.UnregisterCell();
+            _isDirty = true;
+        }
+        
+        public void ClearCells()
+        {
+            foreach (var cell in _cells.Values)
+            {
+                cell.UnregisterCell();
+            }
+            _cells.Clear();
+            _orderedCells.Clear();
             _isDirty = true;
         }
     }

@@ -67,11 +67,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
+  reference: {fileID: 11500000, guid: 04ded21243d14cc5b67a6ef3b5c6a574, type: 3}
   b: 1
   charValue: 0
-  intField: 3
-  floatField: 3565
+  intField: 2
+  floatField: 234
   <PublicLongProperty>k__BackingField: 21
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:

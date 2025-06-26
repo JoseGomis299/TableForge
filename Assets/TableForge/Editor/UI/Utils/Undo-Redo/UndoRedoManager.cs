@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TableForge.Editor.UI
 {
@@ -86,6 +87,10 @@ namespace TableForge.Editor.UI
         public static void EndCollection()
         {
             if(_collections.Count == 0) return;
+            if(_currentCollection.CommandTypes.All(t => t == typeof(EmptyCommand)))
+            {
+                _undoStack.Pop(); // Remove empty collection from undo stack
+            }
 
             _collections.Pop();
             _currentCollection = _collections.Count > 0 ? _collections.Peek() : null;

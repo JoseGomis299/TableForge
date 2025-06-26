@@ -67,10 +67,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 0}
+  reference: {fileID: 11500000, guid: 75c601255e8a4d75a9f75410e9d9fd22, type: 3}
   b: 0
   charValue: 101
-  intField: 3440
+  intField: 8
   floatField: 23
   <PublicLongProperty>k__BackingField: 190
   <PublicDoubleProperty>k__BackingField: 190

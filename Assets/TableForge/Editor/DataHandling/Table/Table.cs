@@ -29,7 +29,7 @@ namespace TableForge.Editor
         /// <summary>
         /// Gets or sets the name of the table.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets read-only access to the table's rows by their numeric position.
@@ -155,6 +155,7 @@ namespace TableForge.Editor
             {
                 bool isLastRemainingRow = _orderedRows.Count == 1;
                 collectionCell.RemoveItem(position);
+                _rows[position].ClearCells();
                 _rows.Remove(position);
             }
             else
@@ -169,6 +170,7 @@ namespace TableForge.Editor
                     }
                 }
                 
+                _rows[_rows.Count].ClearCells();
                 _rows.Remove(_rows.Count);
             }
             

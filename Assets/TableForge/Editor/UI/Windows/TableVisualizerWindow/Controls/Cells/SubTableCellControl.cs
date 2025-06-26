@@ -15,7 +15,10 @@ namespace TableForge.Editor.UI
             parentTableControl = tableControl;
         }
 
-        protected override void OnRefresh() { }
+        protected override void OnRefresh()
+        {
+            SubTableControl?.Update();
+        }
 
         protected virtual void RecalculateSizeWithCurrentValues()
         {

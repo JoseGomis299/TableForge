@@ -2,15 +2,15 @@ namespace TableForge.Editor.UI
 {
     internal class FunctionContext
     {
-        public Cell ContextCell { get; }
+        public Table BaseTable { get; }
         public ReferenceParser ReferenceParser { get; }
         public FunctionExecutor FunctionExecutor { get; }
 
-        public FunctionContext(Cell contextCell, ReferenceParser referenceParser, FunctionExecutor executor)
+        public FunctionContext(Table baseTable, ReferenceParser referenceParser, FunctionExecutor executor)
         {
-            ContextCell = contextCell;
             ReferenceParser = referenceParser;
             FunctionExecutor = executor;
+            BaseTable = baseTable;
         }
     }
 }

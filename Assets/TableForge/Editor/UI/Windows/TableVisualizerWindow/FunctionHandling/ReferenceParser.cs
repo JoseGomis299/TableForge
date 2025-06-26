@@ -18,20 +18,20 @@ namespace TableForge.Editor.UI
             return regex.IsMatch(input);
         }
         
-        public List<Cell> ResolveReference(string reference, Cell contextCell)
+        public List<Cell> ResolveReference(string reference, Table baseTable)
         {
             // Remove absolute markers ($A$1 becomes A1)
             reference = reference.Replace("$", "");
             
             if (reference.Contains(':'))
-                return ResolveRange(reference, contextCell);
+                return ResolveRange(reference, baseTable);
             
-            return new List<Cell> { ResolveSingleCell(reference, contextCell) };
+            return new List<Cell> { ResolveSingleCell(reference, baseTable) };
         }
 
-        private Cell ResolveSingleCell(string position, Cell contextCell)
+        private Cell ResolveSingleCell(string position, Table baseTable)
         {
-            Table currentTable = contextCell.Table;
+            Table currentTable = baseTable;
             
             // Handle nested references (A1.B2)
             if (position.Contains('.'))
@@ -53,14 +53,14 @@ namespace TableForge.Editor.UI
             return currentTable.GetCell(position);
         }
 
-        private List<Cell> ResolveRange(string range, Cell contextCell)
+        private List<Cell> ResolveRange(string range, Table baseTable)
         {
             string[] positions = range.Split(':');
             if (positions.Length != 2)
                 throw new FormatException($"Invalid range format: {range}");
 
-            Cell startCell = ResolveSingleCell(positions[0], contextCell);
-            Cell endCell = ResolveSingleCell(positions[1], contextCell);
+            Cell startCell = ResolveSingleCell(positions[0], baseTable);
+            Cell endCell = ResolveSingleCell(positions[1], baseTable);
             int depth = startCell.GetDepth();
             
             if (startCell == null || endCell == null)
