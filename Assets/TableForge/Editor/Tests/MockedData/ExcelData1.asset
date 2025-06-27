@@ -16,7 +16,7 @@ MonoBehaviour:
   stringValue2: 
   intValue: 1
   floatValue: 1.5
-  doubleValue: 57.49999999999999
+  doubleValue: 2.5
   longValue: 1000
   ulongValue: 18446744071562067969
   boolValue: 0

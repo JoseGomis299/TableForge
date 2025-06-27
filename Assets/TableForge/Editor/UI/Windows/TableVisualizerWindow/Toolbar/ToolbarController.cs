@@ -232,7 +232,6 @@ namespace TableForge.Editor.UI
             {
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
                 
-                _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteCellFunction(_tableVisualizer.CurrentTable.CellSelector.GetFocusedCell().Id);
                 _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteAllFunctions();
                 UndoRedoManager.EndCollection();
             });

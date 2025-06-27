@@ -72,7 +72,7 @@ MonoBehaviour:
   charValue: 0
   intField: 8
   floatField: 0
-  <PublicLongProperty>k__BackingField: 0
+  <PublicLongProperty>k__BackingField: 11
   <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 343
@@ -104,7 +104,7 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 20
+    inheritorNumber: 49
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0

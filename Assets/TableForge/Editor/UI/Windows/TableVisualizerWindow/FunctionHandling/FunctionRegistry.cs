@@ -29,10 +29,7 @@ namespace TableForge.Editor.UI
 
         public static IExcelFunction GetFunction(string name)
         {
-            if (_functions.TryGetValue(name, out var function))
-                return function;
-
-            throw new KeyNotFoundException($"Function '{name}' is not supported.");
+            return _functions.GetValueOrDefault(name);
         }
         
         public static bool StringContainsFunction(string input, FunctionReturnType returnType = FunctionReturnType.Any)

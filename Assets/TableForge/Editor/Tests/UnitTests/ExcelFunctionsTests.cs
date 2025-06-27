@@ -109,7 +109,10 @@ namespace TableForge.Tests
         public void Setup()
         {
             _tableControl = GetTableControl(5);
+            _tableControl.Metadata.GetFunctions().Clear();
         }
+
+        #region SingleFunctionTests
         
         [Test]
         public void Sum_NumericValues()
@@ -143,8 +146,8 @@ namespace TableForge.Tests
             double initialValue = (double) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
-            LogAssert.Expect(LogType.Error, "Invalid arguments for function 'SUM'");
-            LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            LogAssert.Expect(LogType.Error, new Regex(".*Invalid arguments for function 'SUM'.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =SUM.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue()); //Invalid argument makes the cell maintain its original value
         }
         
@@ -334,7 +337,7 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
-            LogAssert.Expect(LogType.Error, "Function evaluation failed for input: =INVALID(C1:C5)");
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =INVALID.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -518,8 +521,8 @@ namespace TableForge.Tests
             
             bool initialValue = (bool) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
-            LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            LogAssert.Expect(LogType.Error, new Regex(".*Invalid arguments for function 'NOT'.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =NOT.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
         
@@ -532,8 +535,8 @@ namespace TableForge.Tests
             
             bool initialValue = (bool) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            LogAssert.Expect(LogType.Error, $"Invalid arguments for function 'NOT'");
-            LogAssert.Expect(LogType.Error, $"Function evaluation failed for input: {function}");
+            LogAssert.Expect(LogType.Error, new Regex(".*Invalid arguments for function 'NOT'.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =NOT.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -601,7 +604,7 @@ namespace TableForge.Tests
             
             double initialValue = (double) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in DIVIDE function.");
+            LogAssert.Expect(LogType.Error, new Regex(".*Error: Division by zero in DIVIDE function.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -658,7 +661,7 @@ namespace TableForge.Tests
             
             double initialValue = (double) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
-            LogAssert.Expect(LogType.Error, $"Function evaluation error for input: {function}\nError: Division by zero in MOD function.");
+            LogAssert.Expect(LogType.Error, new Regex(".*Error: Division by zero in MOD function.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -944,5 +947,127 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.ExecuteCellFunction(cell.Id);
             Assert.AreEqual(9.0, cell.GetValue());
         }
+        
+        #endregion
+
+        #region MultipleFunctionsTests
+        [Test]
+        public void ExecuteAllFunctions_LinearDependency_ExecutesInOrder()
+        {
+            // Set up: E1 -> E2 -> E3
+            var cellE1 = _tableControl.TableData.Rows[1].Cells[5];
+            var cellE2 = _tableControl.TableData.Rows[2].Cells[5];
+            var cellE3 = _tableControl.TableData.Rows[3].Cells[5];
+
+            _tableControl.FunctionExecutor.SetCellFunction(cellE1, "=C$1+10");  // E1 = C1 (1) + 10 = 11
+            _tableControl.FunctionExecutor.SetCellFunction(cellE2, "=E1+10");  // E2 = E1 (11) + 10 = 21
+            _tableControl.FunctionExecutor.SetCellFunction(cellE3, "=E2+10");  // E3 = E2 (21) + 10 = 31
+
+            _tableControl.FunctionExecutor.ExecuteAllFunctions();
+
+            // Verify execution order and values
+            Assert.AreEqual(11.0, cellE1.GetValue()); // E1
+            Assert.AreEqual(21.0, cellE2.GetValue()); // E2
+            Assert.AreEqual(31.0, cellE3.GetValue()); // E3
+        }
+
+        [Test]
+        public void ExecuteAllFunctions_DiamondDependency_ExecutesParentsFirst()
+        {
+            // Setup: 
+            //   E1 = C1 (root)
+            //   E2 = E1 + 10
+            //   E3 = E1 + 20
+            //   E4 = E2 + E3
+            var cellE1 = _tableControl.TableData.Rows[1].Cells[5];
+            var cellE2 = _tableControl.TableData.Rows[2].Cells[5];
+            var cellE3 = _tableControl.TableData.Rows[3].Cells[5];
+            var cellE4 = _tableControl.TableData.Rows[4].Cells[5];
+
+            _tableControl.FunctionExecutor.SetCellFunction(cellE1, "=$C1");      // E1 = 1
+            _tableControl.FunctionExecutor.SetCellFunction(cellE2, "=$E$1+10"); // E2 = 11
+            _tableControl.FunctionExecutor.SetCellFunction(cellE3, "=E1+20");   // E3 = 21
+            _tableControl.FunctionExecutor.SetCellFunction(cellE4, "=E$2+E3");  // E4 = 32
+
+            _tableControl.FunctionExecutor.ExecuteAllFunctions();
+
+            Assert.AreEqual(1.0, cellE1.GetValue());  // E1
+            Assert.AreEqual(11.0, cellE2.GetValue()); // E2
+            Assert.AreEqual(21.0, cellE3.GetValue()); // E3
+            Assert.AreEqual(32.0, cellE4.GetValue()); // E4 (11+21)
+        }
+
+        [Test]
+        public void ExecuteAllFunctions_MultiBranch_ExecutesIndependently()
+        {
+            // Setup independent chains:
+            //   E1 = C1 (branch A)
+            //   E2 = C2 (branch B)
+            var cellE1 = _tableControl.TableData.Rows[1].Cells[5];
+            var cellE2 = _tableControl.TableData.Rows[2].Cells[5];
+
+            _tableControl.FunctionExecutor.SetCellFunction(cellE1, "=C1+5");  // E1 = 1+5=6
+            _tableControl.FunctionExecutor.SetCellFunction(cellE2, "=C2+10"); // E2 = 2+10=12
+
+            _tableControl.FunctionExecutor.ExecuteAllFunctions();
+
+            Assert.AreEqual(6.0, cellE1.GetValue());  // E1
+            Assert.AreEqual(12.0, cellE2.GetValue()); // E2
+        }
+
+        [Test]
+        public void ExecuteAllFunctions_DiamondDependencyWithCircularReference_ThrowsError()
+        {
+            // Setup circular dependency: E1 -> E2 -> E3 -> E1
+            var cellE1 = _tableControl.TableData.Rows[1].Cells[5];
+            var cellE2 = _tableControl.TableData.Rows[2].Cells[5];
+            var cellE3 = _tableControl.TableData.Rows[3].Cells[5];
+            var cellE4 = _tableControl.TableData.Rows[4].Cells[5];
+
+            _tableControl.FunctionExecutor.SetCellFunction(cellE1, "=E$4+10");  // E1 = E4 (conflict with E4) + 10 = 20
+            _tableControl.FunctionExecutor.SetCellFunction(cellE2, "=E1+10");  // E2 = E1 (11) + 10 = 21
+            _tableControl.FunctionExecutor.SetCellFunction(cellE3, "=E2+10");  // E3 = E2 (21) + 10 = 31
+            _tableControl.FunctionExecutor.SetCellFunction(cellE4, "=E3+E1");  // E4 = E3 (31) + E1 (conflict with E4) = 42
+
+            LogAssert.Expect(LogType.Error, new Regex(".*Circular dependency detected.*"));
+
+            _tableControl.FunctionExecutor.ExecuteAllFunctions();
+        }
+
+        [Test]
+        public void ExecuteAllFunctions_ComplexDistributedDependencies_ExecutesInOrder()
+        {
+            // Setup complex distributed dependencies:
+            //    E1---\ 
+            //  /   \   \
+            // E2   E3---\
+            //  \   /    /
+            //   E4    / 
+            //    \   /
+            //     E5
+
+            var cellE1 = _tableControl.TableData.Rows[1].Cells[5];
+            var cellE2 = _tableControl.TableData.Rows[2].Cells[5];
+            var cellE3 = _tableControl.TableData.Rows[3].Cells[5];
+            var cellE4 = _tableControl.TableData.Rows[4].Cells[5];
+            var cellE5 = _tableControl.TableData.Rows[5].Cells[5];
+            
+            _tableControl.FunctionExecutor.SetCellFunction(cellE1, "=1+10");  // E1 = 1 + 10 = 11
+            _tableControl.FunctionExecutor.SetCellFunction(cellE2, "=E1+5");   // E2 = 11 + 5 = 16
+            _tableControl.FunctionExecutor.SetCellFunction(cellE3, "=E1+20");  // E3 = 11 + 20 = 31
+            _tableControl.FunctionExecutor.SetCellFunction(cellE4, "=E2 + E3"); // E4 = 16 + 31 = 47
+            _tableControl.FunctionExecutor.SetCellFunction(cellE5, "=E4 + E1 + E3"); // E5 = 47 + 11 + 31 = 89
+            
+            _tableControl.FunctionExecutor.ExecuteAllFunctions();
+            
+            Assert.AreEqual(11.0, cellE1.GetValue()); // E1
+            Assert.AreEqual(16.0, cellE2.GetValue()); // E2
+            Assert.AreEqual(31.0, cellE3.GetValue()); // E3
+            Assert.AreEqual(47.0, cellE4.GetValue()); // E4
+            Assert.AreEqual(89.0, cellE5.GetValue()); // E5
+        }
+
+        #endregion
+        
     }
 }

@@ -119,11 +119,8 @@ namespace TableForge.Editor.UI
         {
             return functions.TryGetValue(cellOrAnchorId, out var formula) ? formula : string.Empty;
         }
-        
-        public IReadOnlyDictionary<int, string> GetFunctions()
-        {
-            return functions.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-        }
+
+        public Dictionary<int, string> GetFunctions() => functions;
         
         public Type GetItemsType()
         {

@@ -33,8 +33,8 @@ namespace TableForge.Editor.UI
             
             if ((expectedArg.type & ArgumentType.Reference) != 0)
             {
-                if(context.ReferenceParser.IsReference(token))
-                    return context.ReferenceParser.ResolveReference(token, context.BaseTable);
+                if(ReferenceParser.IsReference(token))
+                    return ReferenceParser.ResolveReference(token, context.BaseTable);
                 
                 bool hasMoreFlags = (expectedArg.type & ~ArgumentType.Reference) != 0;
                 if (!hasMoreFlags)

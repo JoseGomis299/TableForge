@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TableForge.Editor.UI
@@ -23,6 +25,32 @@ namespace TableForge.Editor.UI
             }
 
             return new Vector2(Mathf.Clamp(toPosition.col - fromPosition.col, -1, 1), -Mathf.Clamp(toPosition.row - fromPosition.row, -1, 1));
+        }
+        
+        public static List<Vector2Int> GetDistancesByDepth(this Cell to, Cell from)
+        {
+            if (to == null || from == null)
+                return new List<Vector2Int>();
+
+            List<Vector2Int> distances = new List<Vector2Int>();
+            List<Cell> fromAncestors = from.GetAncestors(true).ToList();
+            List<Cell> toAncestors = to.GetAncestors(true).ToList();
+            
+            int maxDepth = Mathf.Max(fromAncestors.Count, toAncestors.Count);
+            for(int i = maxDepth - 1; i >= 0; i--)
+            {
+                Cell fromCell = i < fromAncestors.Count ? fromAncestors[i] : null;
+                Cell toCell = i < toAncestors.Count ? toAncestors[i] : null;
+
+                if (fromCell == null || toCell == null)
+                    continue;
+
+                Vector2Int distance = new Vector2Int(toCell.column.Position - fromCell.column.Position, 
+                                                toCell.row.Position - fromCell.row.Position);
+                distances.Add(distance);
+            }
+
+            return distances;
         }
         
         public static void SetFocused(this Cell cell, bool focused)

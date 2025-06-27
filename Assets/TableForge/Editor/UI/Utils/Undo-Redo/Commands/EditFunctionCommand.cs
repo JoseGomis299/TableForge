@@ -20,13 +20,13 @@ namespace TableForge.Editor.UI
         public void Execute()
         {
             _metadata.SetFunction(_cellId, _function);
-            _toolbarController.RefreshFunctionTextField();
+            _toolbarController?.RefreshFunctionTextField();
         }
 
         public void Undo()
         {
             _metadata.SetFunction(_cellId, _oldFunction);
-            _toolbarController.RefreshFunctionTextField();
+            _toolbarController?.RefreshFunctionTextField();
         }
     }
 }

@@ -72,7 +72,7 @@ MonoBehaviour:
   charValue: 48
   intField: 232
   floatField: 3
-  <PublicLongProperty>k__BackingField: 1232
+  <PublicLongProperty>k__BackingField: 1
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:
     number: 0

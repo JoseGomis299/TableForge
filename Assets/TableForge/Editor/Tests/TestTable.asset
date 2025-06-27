@@ -29,18 +29,8 @@ MonoBehaviour:
     - 9800f0f818411d44d9fc8e7b6837247c
     - a26879425a1b61c45b826b9b1d972700
   cellAnchorMetadata:
-    mKeys: 063d917a0d7dab021279d3684ed23e78ac01cb26
-    mValues:
-    - position: 1
-      size: {x: 0, y: 0}
-    - position: 2
-      size: {x: 0, y: 0}
-    - position: 3
-      size: {x: 0, y: 0}
-    - position: 4
-      size: {x: 0, y: 0}
-    - position: 5
-      size: {x: 0, y: 0}
+    mKeys: 
+    mValues: []
   functions:
     mKeys: 
     mValues: []

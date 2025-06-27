@@ -7,14 +7,7 @@ namespace TableForge.Editor.UI
 {
     internal class FunctionParser
     {
-        private readonly ReferenceParser _referenceParser = new();
-        private readonly FunctionExecutor _executor;
         private readonly ArgumentParser _argumentParser = new();
-
-        public FunctionParser(FunctionExecutor executor)
-        {
-            _executor = executor;
-        }
 
         public Func<object> ParseCellFunction(string input, Table baseTable)
         {
@@ -27,45 +20,31 @@ namespace TableForge.Editor.UI
         private object ExecuteFunction(string input, Table baseTable)
         {
             var context = new FunctionContext(
-                baseTable,
-                _referenceParser,
-                _executor
+                baseTable
             );
 
             object result = null;
-            try
+            result = EvaluateExpression(input, context);
+            if (result == null)
             {
-                result = EvaluateExpression(input, context);
-                if (result == null)
-                {
-                    Debug.LogError($"Function evaluation failed for input: {input}");
-                    return null;
-                }
-
-                if (result is List<Cell> list)
-                {
-                    if(list.Count > 1)
-                    {
-                        Debug.LogError($"Function evaluation returned multiple cells for input: {input}");
-                        return null;
-                    }
-
-                    if (list.Count == 1)
-                    {
-                        result = list[0].GetValue();
-                    }
-                    else
-                    {
-                        Debug.LogError($"Function evaluation returned an invalid reference: {input}");
-                        return null;
-                    }
-                }
+                throw new InvalidOperationException($"Invalid result.");
             }
-            catch (Exception e)
+
+            if (result is List<Cell> list)
             {
-                Debug.LogError($"Function evaluation error for input: {input}\n" +
-                               $"Error: {e.Message}");
-                return null;
+                if(list.Count > 1)
+                {
+                    throw new InvalidOperationException($"Function evaluation returned multiple cells for input: {input}");
+                }
+
+                if (list.Count == 1)
+                {
+                    result = list[0].GetValue();
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Function evaluation returned an empty list for input: {input}");
+                }
             }
 
             return result;
