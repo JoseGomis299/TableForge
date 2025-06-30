@@ -47,8 +47,12 @@ namespace TableForge.Editor.UI
                 return; // No change, nothing to do
             }
             
-            EditFunctionCommand command = new EditFunctionCommand(cellId, function, oldFunction, _tableControl.Metadata, _tableControl.Visualizer?.ToolbarController);
-            UndoRedoManager.Do(command);
+            SetFunctionCommand command = new SetFunctionCommand(cellId, function, oldFunction, _tableControl);
+            if(UndoRedoManager.GetLastUndoCommand() is SetFunctionCommand lastCommand && lastCommand.BoundCell.Id == cell.Id)
+            {
+                lastCommand.Combine(command);
+            }
+            else UndoRedoManager.Do(command);
             
             if (!_cachedFunctions.ContainsKey(function))
             {
@@ -81,7 +85,7 @@ namespace TableForge.Editor.UI
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"Function evaluation error for input: {_tableControl.Metadata.GetFunction(cellId)}\n" +
+                    Debug.LogError($"Function evaluation error in cell {cell.GetGlobalPosition()} for input: {_tableControl.Metadata.GetFunction(cellId)}\n" +
                                    $"Expected type: {cell.Type}, but got: {result?.GetType()}\n" +
                                    $"Error: {e.Message}");
                 }

@@ -19,7 +19,7 @@ MonoBehaviour:
   doubleValue: 2.5
   longValue: 1000
   ulongValue: 18446744071562067969
-  boolValue: 0
+  boolValue: 1
   innerData:
     stringValue1: Inner String Value 1
     stringValue2: 

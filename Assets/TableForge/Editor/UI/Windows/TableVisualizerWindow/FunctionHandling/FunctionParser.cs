@@ -9,6 +9,32 @@ namespace TableForge.Editor.UI
     {
         private readonly ArgumentParser _argumentParser = new();
 
+        public static string OffsetFunction(string function, string originalPosition, string finalPosition, Table baseTable)
+        {
+            List<string> references = ReferenceParser.ExtractReferences(function);
+            if (references.Count == 0) return function;
+
+            string[] offsetReferences = new string[references.Count];
+            try
+            {
+                for (var i = 0; i < references.Count; i++)
+                {
+                    offsetReferences[i] = ReferenceParser.GetRelativeReference(references[i], originalPosition, finalPosition, baseTable);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e.Message);
+            }
+
+            for (int i = 0; i < references.Count; i++)
+            {
+                function = function.Replace(references[i], offsetReferences[i]);
+            }
+            
+            return function;
+        }
+
         public Func<object> ParseCellFunction(string input, Table baseTable)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -16,7 +42,7 @@ namespace TableForge.Editor.UI
 
             return () => ExecuteFunction(input, baseTable);
         }
-
+        
         private object ExecuteFunction(string input, Table baseTable)
         {
             var context = new FunctionContext(

@@ -70,10 +70,10 @@ MonoBehaviour:
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   b: 0
   charValue: 0
-  intField: 8
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 11
-  <PublicDoubleProperty>k__BackingField: 29
+  intField: 1
+  floatField: 1
+  <PublicLongProperty>k__BackingField: 1
+  <PublicDoubleProperty>k__BackingField: 1
   inheritorClass:
     number: 343
     text: 156
@@ -104,7 +104,7 @@ MonoBehaviour:
     structTest:
       number: 124
       boolean: 1
-    inheritorNumber: 49
+    inheritorNumber: 360
     inheritorText: 1213
   inheritorClassAsInnerClass:
     number: 0

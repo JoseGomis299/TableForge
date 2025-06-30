@@ -38,9 +38,6 @@ namespace TableForge.Editor.UI
         
         public static List<Cell> ResolveReference(string reference, Table baseTable)
         {
-            // Remove absolute markers ($A$1 becomes A1)
-            reference = reference.Replace("$", "");
-            
             if (reference.Contains(':'))
                 return ResolveRange(reference, baseTable);
             
@@ -54,6 +51,9 @@ namespace TableForge.Editor.UI
             
             if (originalCell == null || finalCell == null)
                 throw new KeyNotFoundException($"Could not resolve cells for positions: {originalPosition}, {finalPosition}");
+
+            if (finalPosition == originalPosition)
+                return reference;
             
             if (reference.Contains(":"))
             {
@@ -66,33 +66,33 @@ namespace TableForge.Editor.UI
             }
 
             List<Vector2Int> offsets = finalCell.GetDistancesByDepth(originalCell);
-
+            int offsetIndex = offsets.Count - 1;
+            
             Regex regex = new Regex("(\\$?[A-Z]+)(\\$?[0-9]+)");
             List<string> nestedParts = reference.Split('.').ToList();
-            for (int i = 0; i < nestedParts.Count; i++)
+            for (int i = nestedParts.Count - 1; i >= 0; i--)
             {
-                string part = nestedParts[i];
-                var match = regex.Match(part);
+                var match = regex.Match(nestedParts[i]);
                 
                 // Split into column and row parts
                 string columnPart = match.Groups[1].Value;
                 string rowPart = match.Groups[2].Value;
                 
                 if (string.IsNullOrEmpty(columnPart) || string.IsNullOrEmpty(rowPart))
-                    throw new FormatException($"Invalid reference part: {part}");
+                    throw new FormatException($"Invalid reference part: {nestedParts[i]}");
 
                 // Calculate new positions based on offsets
-                int newColumnPosition = originalCell.column.Position;
-                int newRowPosition = originalCell.row.Position;     
+                int newColumnPosition = PositionUtil.ConvertToNumber(columnPart.Replace("$", ""));
+                int newRowPosition = int.Parse(rowPart.Replace("$", ""));     
                 
                 bool isAbsoluteColumn = columnPart.StartsWith("$");
                 bool isAbsoluteRow = rowPart.StartsWith("$");
                 
-                if (!isAbsoluteColumn)
-                    newColumnPosition += offsets[i].x;
+                if (!isAbsoluteColumn && offsetIndex >= 0)
+                    newColumnPosition += offsets[offsetIndex].x;
 
-                if (!isAbsoluteRow)
-                    newRowPosition += offsets[i].y;
+                if (!isAbsoluteRow && offsetIndex >= 0)
+                    newRowPosition += offsets[offsetIndex].y;
                 
 
                 // Convert back to Excel-style reference
@@ -104,6 +104,7 @@ namespace TableForge.Editor.UI
                     : newRowPosition.ToString();
                 
                 nestedParts[i] = $"{columnReference}{rowReference}";
+                offsetIndex--;
             }
             
             // Join the parts back together
@@ -119,6 +120,7 @@ namespace TableForge.Editor.UI
         private static Cell ResolveSingleCell(string position, Table baseTable)
         {
             Table currentTable = baseTable;
+            position = position.Replace("$", ""); // Remove absolute markers
             
             // Handle nested references (A1.B2)
             if (position.Contains('.'))
@@ -142,6 +144,7 @@ namespace TableForge.Editor.UI
 
         private static List<Cell> ResolveRange(string range, Table baseTable)
         {
+            range = range.Replace("$", ""); // Remove absolute markers
             string[] positions = range.Split(':');
             if (positions.Length != 2)
                 throw new FormatException($"Invalid range format: {range}");

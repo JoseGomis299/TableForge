@@ -70,10 +70,10 @@ MonoBehaviour:
   reference: {fileID: 0}
   b: 0
   charValue: 0
-  intField: 190
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 124
-  <PublicDoubleProperty>k__BackingField: 29
+  intField: 342
+  floatField: 342
+  <PublicLongProperty>k__BackingField: 342
+  <PublicDoubleProperty>k__BackingField: 342
   inheritorClass:
     number: 343
     text: 156

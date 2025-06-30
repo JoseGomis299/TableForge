@@ -99,8 +99,9 @@ namespace TableForge.Tests
                 rowPaths.Add(path);
             }
             
-            TableMetadata tableMetadata = TableMetadataManager.CreateMetadata(rowGuids, "TestTable", PathUtil.GetTestFolderRelativePath());
-            tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata));
+            TableMetadata tableMetadata = TableMetadataManager.CreateMetadata(rowGuids, "ExcelTestTable", $"{PathUtil.GetTestFolderRelativePath()}/MockedData");
+            tableMetadata.GetFunctions().Clear();
+            tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata), metadata:tableMetadata);
 
             return tableControl;
         }
@@ -109,7 +110,6 @@ namespace TableForge.Tests
         public void Setup()
         {
             _tableControl = GetTableControl(5);
-            _tableControl.Metadata.GetFunctions().Clear();
         }
 
         #region SingleFunctionTests
@@ -147,7 +147,7 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
             LogAssert.Expect(LogType.Error, new Regex(".*Invalid arguments for function 'SUM'.*"));
-            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =SUM.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error in cell E1 for input: =SUM.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue()); //Invalid argument makes the cell maintain its original value
         }
         
@@ -337,7 +337,7 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.SetCellFunction(resultCell, function);
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             
-            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =INVALID.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error in cell E1 for input: =INVALID.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 
@@ -522,7 +522,7 @@ namespace TableForge.Tests
             bool initialValue = (bool) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             LogAssert.Expect(LogType.Error, new Regex(".*Invalid arguments for function 'NOT'.*"));
-            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =NOT.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error in cell H1 for input: =NOT.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
         
@@ -536,7 +536,7 @@ namespace TableForge.Tests
             bool initialValue = (bool) resultCell.GetValue();
             _tableControl.FunctionExecutor.ExecuteCellFunction(resultCell.Id);
             LogAssert.Expect(LogType.Error, new Regex(".*Invalid arguments for function 'NOT'.*"));
-            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error for input: =NOT.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Function evaluation error in cell H1 for input: =NOT.*"));
             Assert.AreEqual(initialValue, resultCell.GetValue());
         }
 

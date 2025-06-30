@@ -50,7 +50,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   reference: {fileID: 0}
-  B: 0
+  b: 0
   charValue: 48
   intField: 190
   floatField: 23
@@ -155,7 +155,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  Quaternion: {x: 23, y: 0, z: 0, w: 123}
+  quaternion: {x: 23, y: 0, z: 0, w: 123}
   rect:
     serializedVersion: 2
     x: 0

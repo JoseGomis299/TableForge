@@ -53,9 +53,9 @@ MonoBehaviour:
   b: 0
   charValue: 0
   intField: 190
-  floatField: 0
-  <PublicLongProperty>k__BackingField: 123
-  <PublicDoubleProperty>k__BackingField: 0
+  floatField: 342
+  <PublicLongProperty>k__BackingField: 342
+  <PublicDoubleProperty>k__BackingField: 342
   inheritorClass:
     number: 343
     text: 156

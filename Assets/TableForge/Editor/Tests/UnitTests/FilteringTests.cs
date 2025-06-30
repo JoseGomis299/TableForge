@@ -75,8 +75,8 @@ namespace TableForge.Tests
                 rowPaths.Add(path);
             }
             
-            TableMetadata tableMetadata = TableMetadataManager.CreateMetadata(rowGuids, "TestTable", PathUtil.GetTestFolderRelativePath());
-            tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata));
+            TableMetadata tableMetadata = TableMetadataManager.CreateMetadata(rowGuids, "FilteringTestTable", $"{PathUtil.GetTestFolderRelativePath()}/MockedData");
+            tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata), metadata:tableMetadata);
 
             return (tableControl, rowGuids, rowPaths);
         }

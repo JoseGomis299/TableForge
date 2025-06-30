@@ -8,6 +8,7 @@ namespace TableForge.Editor.UI
         private readonly List<IUndoableCommand> _commands;
         private readonly HashSet<Type> _commandTypes;
         
+        public List<Cell> BoundCells { get; } = new List<Cell>();
         public IEnumerable<Type> CommandTypes => _commandTypes;
         public int Count => _commands.Count;
         
@@ -38,12 +39,22 @@ namespace TableForge.Editor.UI
             _commands.Add(command);
             _commandTypes.Add(command.GetType());
             command.Execute();
+            
+            if (command is ICellBoundCommand cellBoundCommand)
+            {
+                BoundCells.Add(cellBoundCommand.BoundCell);
+            }
         }
         
         public void AddCommand(IUndoableCommand command)
         {
             _commands.Add(command);
             _commandTypes.Add(command.GetType());
+            
+            if (command is ICellBoundCommand cellBoundCommand)
+            {
+                BoundCells.Add(cellBoundCommand.BoundCell);
+            }
         }
         
         public void Clear()

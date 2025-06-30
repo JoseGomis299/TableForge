@@ -1,12 +1,17 @@
+using System.Collections.Generic;
+
 namespace TableForge.Editor.UI
 {
-    internal class SetCellValueCommand : IUndoableCommand
+    internal class SetCellValueCommand : IUndoableCommand, ICellBoundCommand
     {
         private readonly Cell _cell;
         private readonly CellControl _cellControl;
+        private readonly TableControl _tableControl;
         private readonly object _oldValue;
         private object _newValue;
+        private string _oldFunction = null;
         
+        public Cell BoundCell => _cell;
         public Cell Cell => _cell;
         
         public SetCellValueCommand(Cell cell, CellControl cellControl, object oldValue, object newValue)
@@ -15,11 +20,28 @@ namespace TableForge.Editor.UI
             _cellControl = cellControl;
             _oldValue = oldValue;
             _newValue = newValue;
+            _tableControl = cellControl?.TableControl;
+        }
+        
+        public SetCellValueCommand(Cell cell, TableControl tableControl, object oldValue, object newValue)
+        {
+            _cell = cell;
+            _tableControl = tableControl;
+            _oldValue = oldValue;
+            _newValue = newValue;
         }
         
         public void Execute()
         {
             _cell.SetValue(_newValue);
+            
+            if (ToolbarData.RemoveFormulaOnCellValueChange && _oldFunction == null && _oldValue != null && !_oldValue.Equals(_newValue))
+            {
+                _oldFunction = _tableControl.Metadata.GetFunction(_cell.Id);
+                _tableControl.Metadata.SetFunction(Cell.Id, string.Empty);
+                _tableControl.Visualizer?.ToolbarController.RefreshFunctionTextField();
+            }
+            
             if(_cellControl != null && _cell.Id == _cellControl.Cell.Id) 
                 _cellControl.Refresh();
         }
@@ -27,6 +49,11 @@ namespace TableForge.Editor.UI
         public void Undo()
         {
             _cell.SetValue(_oldValue);
+            if(_oldFunction != null && ToolbarData.RemoveFormulaOnCellValueChange)
+            {
+                _tableControl.Metadata.SetFunction(_cell.Id, _oldFunction);
+            }
+            
             if(_cellControl != null && _cell.Id == _cellControl.Cell.Id) 
                 _cellControl.Refresh();
         }

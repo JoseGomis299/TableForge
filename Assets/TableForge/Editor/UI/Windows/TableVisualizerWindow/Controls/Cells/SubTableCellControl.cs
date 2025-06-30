@@ -17,7 +17,13 @@ namespace TableForge.Editor.UI
 
         protected override void OnRefresh()
         {
-            SubTableControl?.Update();
+            if(SubTableControl == null) return;
+            
+            if (SubTableControl.TableData != ((SubTableCell)Cell).SubTable)
+            {
+                SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+            }
+            else SubTableControl.Update();
         }
 
         protected virtual void RecalculateSizeWithCurrentValues()

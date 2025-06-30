@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace TableForge.Editor.UI
 {
@@ -49,8 +50,9 @@ namespace TableForge.Editor.UI
             _redoStack.Clear();
         }
         
-        public static void Undo()
+        public static void Undo(out List<Cell> relatedCells)
         {
+            relatedCells = new List<Cell>();
             if (_undoStack.Count == 0) return;
             _currentCollection = null;
             _collections.Clear();
@@ -60,14 +62,34 @@ namespace TableForge.Editor.UI
                 cmd = _undoStack.Pop();
             }
             
+            if (cmd is CommandCollection collection)
+            {
+                relatedCells.AddRange(collection.BoundCells);
+            }
+            else if (cmd is ICellBoundCommand cellBoundCommand)
+            {
+                relatedCells.Add(cellBoundCommand.BoundCell);
+            }
+            
             cmd.Undo();
             _redoStack.Push(cmd);
         }
 
-        public static void Redo()
+        public static void Redo(out List<Cell> relatedCells)
         {
+            relatedCells = new List<Cell>();
             if (_redoStack.Count == 0) return;
             var cmd = _redoStack.Pop();
+            
+            if (cmd is CommandCollection collection)
+            {
+                relatedCells.AddRange(collection.BoundCells);
+            }
+            else if (cmd is ICellBoundCommand cellBoundCommand)
+            {
+                relatedCells.Add(cellBoundCommand.BoundCell);
+            }
+            
             cmd.Execute();
             _undoStack.Push(cmd);
         }

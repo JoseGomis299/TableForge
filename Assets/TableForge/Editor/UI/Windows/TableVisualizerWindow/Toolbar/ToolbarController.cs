@@ -213,13 +213,6 @@ namespace TableForge.Editor.UI
                 }
             });
             
-            _functionTextField.RegisterCallback<FocusInEvent>(evt =>
-            {
-                if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
-                
-                UndoRedoManager.StartCollection();
-            });
-            
             _functionTextField.RegisterValueChangedCallback(evt =>
             {
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
@@ -233,7 +226,6 @@ namespace TableForge.Editor.UI
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
                 
                 _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteAllFunctions();
-                UndoRedoManager.EndCollection();
             });
         }
         

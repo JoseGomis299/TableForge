@@ -6,16 +6,18 @@ namespace TableForge.Editor.UI
 {
     internal static class CopyBuffer
     {
+        private static Dictionary<TableMetadata, Cell> _lastFunctionsCopiedFrom = new();
+        
         #region Public Methods
 
-        public static (Cell firstCell, Cell lastCell) Paste(List<Cell> pasteTo, TableMetadata tableMetadata)
+        public static (Cell firstCell, Cell lastCell) Paste(List<Cell> pasteTo, TableControl tableControl, bool pasteFunctions)
         {
             if (pasteTo == null || pasteTo.Count == 0) return (null, null);
             string buffer = ClipboardUtility.PasteFromClipboard();
 
-            ConfinedSpaceNavigator confinedNavigator = new ConfinedSpaceNavigator(pasteTo, tableMetadata, null);
+            ConfinedSpaceNavigator confinedNavigator = new ConfinedSpaceNavigator(pasteTo, tableControl.Metadata, null);
             List<Cell> cells = FilterCells(confinedNavigator.Cells);
-            FreeSpaceNavigator navigator = new FreeSpaceNavigator(tableMetadata, cells[0]);
+            FreeSpaceNavigator navigator = new FreeSpaceNavigator(tableControl.Metadata, cells[0]);
 
             int cellCount = 0;
             foreach (var cell in cells)
@@ -41,22 +43,25 @@ namespace TableForge.Editor.UI
             }
 
             if (cellCount >= splitBuffer.Count || splitBuffer.Count > 1000)
-                Paste(cells, splitBuffer, tableMetadata);
+                Paste(cells, splitBuffer, tableControl, pasteFunctions);
             else
             {
-                Paste(navigator, rowSplitBuffer, tableMetadata);
+                Paste(navigator, rowSplitBuffer, tableControl, pasteFunctions);
                 return (cells[0], navigator.GetCurrentCell());
             }
             
             return (cells[0], cells[^1]);
         }
 
-        public static void Copy(List<Cell> cellsToCopy, TableMetadata tableMetadata)
+        public static void Copy(List<Cell> cellsToCopy, TableMetadata tableMetadata, bool copyFunction)
         {
             if (cellsToCopy == null || cellsToCopy.Count == 0) return;
             
             ConfinedSpaceNavigator navigator = new ConfinedSpaceNavigator(cellsToCopy, tableMetadata, null);
             List<Cell> cells = FilterCells(navigator.Cells);
+
+            bool lastCopiedFunctionSet = false;
+            if (!copyFunction) _lastFunctionsCopiedFrom.Remove(tableMetadata);
             
             StringBuilder buffer = new();
             for (int i = 0; i < cells.Count; i++)
@@ -77,14 +82,21 @@ namespace TableForge.Editor.UI
                         buffer.Append(SerializationConstants.RowSeparator);
                     }
                 }
-
-                string formattedValue = cell.Serialize();
-                if (cell is StringCell)
+                
+                string formattedValue = copyFunction ? tableMetadata.GetFunction(cell.Id) : cell.Serialize();
+                if (cell is StringCell && !copyFunction)
                 {
                     formattedValue = formattedValue
                         .Replace(SerializationConstants.RowSeparator, SerializationConstants.CancelledRowSeparator)
                         .Replace(SerializationConstants.ColumnSeparator, SerializationConstants.CancelledColumnSeparator);
                 }
+
+                if (copyFunction && !lastCopiedFunctionSet)
+                {
+                    _lastFunctionsCopiedFrom[tableMetadata] = cell;
+                    lastCopiedFunctionSet = true;
+                }
+                
                 buffer.Append(formattedValue);
                 if (i != cells.Count - 1) buffer.Append(SerializationConstants.ColumnSeparator);
             }
@@ -96,7 +108,7 @@ namespace TableForge.Editor.UI
 
         #region Private Methods
 
-        private static void Paste(IList<Cell> cells,  List<string> buffer, TableMetadata tableMetadata)
+        private static void Paste(IList<Cell> cells,  List<string> buffer, TableControl tableControl, bool pasteFunctions)
         {
             int bufferIndex = 0;
             CommandCollection commandCollection = new CommandCollection();
@@ -107,38 +119,95 @@ namespace TableForge.Editor.UI
             
                 if (cell is SubTableCell subTableCell and not ICollectionCell && !JsonUtil.IsValidJsonObject(data))
                 {
-                    //Get the corresponding cells for this subTable
-                    StringBuilder serializedData = new StringBuilder();
                     int count = 0;
-                    for (int i = bufferIndex; i < buffer.Count && i < bufferIndex + subTableCell.GetDescendantCount(true, false); i++)
+
+                    if (!pasteFunctions)
                     {
-                        serializedData.Append(buffer[i]).Append(SerializationConstants.ColumnSeparator);
-                        count++;
+                        //Get the corresponding cells for this subTable
+                        StringBuilder serializedData = new StringBuilder();
+                        for (int i = bufferIndex; i < buffer.Count && i < bufferIndex + subTableCell.GetDescendantCount(true, false); i++)
+                        {
+                            serializedData.Append(buffer[i]).Append(SerializationConstants.ColumnSeparator);
+                            count++;
+                        }
+
+                        // Remove the last column separator
+                        if (serializedData.Length > 0)
+                        {
+                            serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length,
+                                SerializationConstants.ColumnSeparator.Length);
+                        }
+
+                        object oldValue = subTableCell.GetValue();
+                        if (cell.TryDeserialize(serializedData.ToString()))
+                        {
+                            SetCellValueCommand command = new SetCellValueCommand(subTableCell, tableControl, oldValue, subTableCell.GetValue());
+                            commandCollection.AddAndExecuteCommand(command);
+                        }
                     }
-                    
-                    // Remove the last column separator
-                    if (serializedData.Length > 0)
+                    else
                     {
-                        serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+                        FreeSpaceNavigator subTableNavigator = new FreeSpaceNavigator(tableControl.Metadata, subTableCell);
+                        _lastFunctionsCopiedFrom.TryGetValue(tableControl.Metadata, out Cell offsetFromCell);
+                        for (int i = bufferIndex; i < buffer.Count && i < bufferIndex + subTableCell.GetDescendantCount(true, false); i++)
+                        {
+                            Cell subCell = subTableNavigator.GetNextCell(1);
+                            while (subCell is SubTableCell && subCell != subTableCell)
+                            {
+                                subCell = subTableNavigator.GetNextCell(1);
+                            }
+
+                            string function = buffer[i];
+                            if (offsetFromCell != null)
+                            {
+                                function = FunctionParser.OffsetFunction(function, offsetFromCell.GetGlobalPosition(), cell.GetGlobalPosition(), cell.GetHighestAncestor().Table);
+                            }
+                            else offsetFromCell = subCell;
+                            
+                            IUndoableCommand command = new SetFunctionCommand(cell.Id, function, tableControl.Metadata.GetFunction(cell.Id), tableControl);
+                            commandCollection.AddAndExecuteCommand(command);
+                            count++;
+                        }
                     }
-                    
-                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString(), tableMetadata);
-                    commandCollection.AddAndExecuteCommand(command);
+
                     bufferIndex = (bufferIndex + count) % buffer.Count;
                 }
                 else
                 {
-                    if (cell is StringCell)
-                        data = data
-                            .Replace(SerializationConstants.CancelledRowSeparator, SerializationConstants.RowSeparator)
-                            .Replace(SerializationConstants.CancelledColumnSeparator, SerializationConstants.ColumnSeparator);
-                    
-                    DeserializeCellCommand command = new DeserializeCellCommand(cell, cell.GetValue(), data, tableMetadata);
-                    commandCollection.AddAndExecuteCommand(command);
-                    if (cell is not SubTableCell) //Recalculate the cell size for the new value
+                    if (!pasteFunctions)
                     {
-                        CellControlFactory.GetCellControlFromId(cell.Id)?.RecalculateSize();
+                        if (cell is StringCell)
+                            data = data
+                                .Replace(SerializationConstants.CancelledRowSeparator,
+                                    SerializationConstants.RowSeparator)
+                                .Replace(SerializationConstants.CancelledColumnSeparator,
+                                    SerializationConstants.ColumnSeparator);
+
+                        object oldValue = cell.GetValue();
+                        if (cell.TryDeserialize(data))
+                        {   
+                            SetCellValueCommand command = new SetCellValueCommand(cell, tableControl, oldValue, cell.GetValue());
+                            commandCollection.AddAndExecuteCommand(command);
+                        }
+                        
+                        if (cell is not SubTableCell) //Recalculate the cell size for the new value
+                        {
+                            CellControlFactory.GetCellControlFromId(cell.Id)?.RecalculateSize();
+                        }
                     }
+                    else
+                    {
+                        _lastFunctionsCopiedFrom.TryGetValue(tableControl.Metadata, out Cell offsetFromCell);
+                        string function = data;
+                        if (offsetFromCell != null)
+                        {
+                            function = FunctionParser.OffsetFunction(function, offsetFromCell.GetGlobalPosition(), cell.GetGlobalPosition(), cell.GetHighestAncestor().Table);
+                        }
+
+                        IUndoableCommand command = new SetFunctionCommand(cell.Id, function, tableControl.Metadata.GetFunction(cell.Id), tableControl);
+                        commandCollection.AddAndExecuteCommand(command);
+                    }
+
                     bufferIndex = (bufferIndex + 1) % buffer.Count;
                 }
             }
@@ -146,7 +215,7 @@ namespace TableForge.Editor.UI
             UndoRedoManager.AddToQueue(commandCollection);
         }
 
-        private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer, TableMetadata tableMetadata)
+        private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer, TableControl tableControl, bool pasteFunctions)
         {
             int bufferIndex = 0;
             int cellIndex = 0;
@@ -160,25 +229,57 @@ namespace TableForge.Editor.UI
 
                 if(currentCell is SubTableCell subTableCell and not ICollectionCell && data != SerializationConstants.EmptyColumn && !JsonUtil.IsValidJsonObject(data))
                 {
-                    //Get the corresponding cells for this subTable
-                    StringBuilder serializedData = new StringBuilder();
                     int count = 0;
-                    for (int i = cellIndex; i < buffer[bufferIndex].Count && i < cellIndex + subTableCell.GetDescendantCount(true, false); i++)
+
+                    if (!pasteFunctions)
                     {
-                        serializedData.Append(buffer[bufferIndex][i]).Append(SerializationConstants.ColumnSeparator);
-                        count++;
-                    }
+                        //Get the corresponding cells for this subTable
+                        StringBuilder serializedData = new StringBuilder();
+                        for (int i = cellIndex; i < buffer[bufferIndex].Count && i < cellIndex + subTableCell.GetDescendantCount(true, false); i++)
+                        {
+                            serializedData.Append(buffer[bufferIndex][i]).Append(SerializationConstants.ColumnSeparator);
+                            count++;
+                        }
+                            
+                        // Remove the last column separator
+                        if (serializedData.Length > 0)
+                        {
+                            serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+                        }
                         
-                    // Remove the last column separator
-                    if (serializedData.Length > 0)
+                        object oldValue = subTableCell.GetValue();
+                        if (subTableCell.TryDeserialize(serializedData.ToString()))
+                        {
+                            SetCellValueCommand command = new SetCellValueCommand(subTableCell, tableControl, oldValue, subTableCell.GetValue());
+                            commandCollection.AddAndExecuteCommand(command);
+                        }
+                    }
+                    else 
                     {
-                        serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+                        FreeSpaceNavigator subTableNavigator = new FreeSpaceNavigator(tableControl.Metadata, subTableCell);
+                        _lastFunctionsCopiedFrom.TryGetValue(tableControl.Metadata, out Cell offsetFromCell);
+                        for (int i = cellIndex; i < buffer[bufferIndex].Count && i < cellIndex + subTableCell.GetDescendantCount(true, false); i++)
+                        {
+                            Cell cell = subTableNavigator.GetNextCell(1);
+                            while (cell is SubTableCell && cell != subTableCell)
+                            {
+                                cell = subTableNavigator.GetNextCell(1);
+                            }
+
+                            string function = buffer[bufferIndex][i];
+                            if (offsetFromCell != null)
+                            {
+                                function = FunctionParser.OffsetFunction(function, offsetFromCell.GetGlobalPosition(), cell.GetGlobalPosition(), cell.GetHighestAncestor().Table);
+                            }
+                            else offsetFromCell = cell;
+
+                            IUndoableCommand command = new SetFunctionCommand(cell.Id, function, tableControl.Metadata.GetFunction(cell.Id), tableControl);
+                            commandCollection.AddAndExecuteCommand(command);
+                            count++;
+                        }
                     }
-                        
-                    bool subTableWasEmpty = subTableCell.SubTable.Rows.Count == 0;
-                    DeserializeCellCommand command = new DeserializeCellCommand(subTableCell, subTableCell.GetValue(), serializedData.ToString(), tableMetadata);
-                    commandCollection.AddAndExecuteCommand(command);
                     
+                    bool subTableWasEmpty = subTableCell.SubTable.Rows.Count == 0;
                     if(subTableWasEmpty) navigator.GetNextCell(0);
                     for (int i = 0; i < count - 1; i++)
                     {
@@ -195,18 +296,41 @@ namespace TableForge.Editor.UI
                 }
                 else if (data != SerializationConstants.EmptyColumn)
                 {
-                    if (currentCell is StringCell)
-                        data = data
-                            .Replace(SerializationConstants.CancelledRowSeparator, SerializationConstants.RowSeparator)
-                            .Replace(SerializationConstants.CancelledColumnSeparator,
-                                SerializationConstants.ColumnSeparator);
-
-                    DeserializeCellCommand command = new DeserializeCellCommand(currentCell, currentCell.GetValue(), data, tableMetadata);
-                    commandCollection.AddAndExecuteCommand(command);
-                    if (currentCell is not SubTableCell) //Recalculate the cell size for the new value
+                    if (!pasteFunctions)
                     {
-                        CellControlFactory.GetCellControlFromId(currentCell.Id)?.RecalculateSize();
+                        if (currentCell is StringCell)
+                            data = data
+                                .Replace(SerializationConstants.CancelledRowSeparator,
+                                    SerializationConstants.RowSeparator)
+                                .Replace(SerializationConstants.CancelledColumnSeparator,
+                                    SerializationConstants.ColumnSeparator);
+
+                        
+                        object oldValue = currentCell.GetValue();
+                        if (currentCell.TryDeserialize(data))
+                        {
+                            SetCellValueCommand command = new SetCellValueCommand(currentCell, tableControl, oldValue, currentCell.GetValue());
+                            commandCollection.AddAndExecuteCommand(command);
+                        }
+                        
+                        if (currentCell is not SubTableCell) //Recalculate the cell size for the new value
+                        {
+                            CellControlFactory.GetCellControlFromId(currentCell.Id)?.RecalculateSize();
+                        }
                     }
+                    else
+                    {
+                        _lastFunctionsCopiedFrom.TryGetValue(tableControl.Metadata, out Cell offsetFromCell);
+                        string function = data;
+                        if (offsetFromCell != null)
+                        {
+                            function = FunctionParser.OffsetFunction(function, offsetFromCell.GetGlobalPosition(), currentCell.GetGlobalPosition(), currentCell.GetHighestAncestor().Table);
+                        }
+                        
+                        IUndoableCommand command = new SetFunctionCommand(currentCell.Id, function, tableControl.Metadata.GetFunction(currentCell.Id), tableControl);
+                        commandCollection.AddAndExecuteCommand(command);
+                    }
+
                     cellIndex++;
                 }
                 

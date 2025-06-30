@@ -107,11 +107,11 @@ namespace TableForge.Editor.UI
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.C)
             {
-                ProcessCopyKey();
+                ProcessCopyKey(evt.shiftKey);
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.V)
             {
-                ProcessPasteKey();
+                ProcessPasteKey(evt.shiftKey);
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.X)
             {
@@ -119,13 +119,25 @@ namespace TableForge.Editor.UI
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.Z)
             {
-                UndoRedoManager.Undo();
+                UndoRedoManager.Undo(out var relatedCells);
+                if (relatedCells is { Count: > 0 })
+                {
+                    _selector.ClearSelection();
+                    _selector.SelectRange(relatedCells);
+                }
+                
                 _tableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
                 _tableControl.FunctionExecutor.ExecuteAllFunctions();
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.Y)
             {
-                UndoRedoManager.Redo();
+                UndoRedoManager.Redo(out var relatedCells);
+                if (relatedCells is { Count: > 0 })
+                {
+                    _selector.ClearSelection();
+                    _selector.SelectRange(relatedCells);
+                }
+                
                 _tableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
                 _tableControl.FunctionExecutor.ExecuteAllFunctions();
             }
@@ -266,20 +278,20 @@ namespace TableForge.Editor.UI
             }
         }
         
-        private void ProcessCopyKey()
-        {
-            if (_selector.FocusedCell == null)
-                return;
-
-            CopyBuffer.Copy(_selector.SelectedCells.ToList(), _tableControl.Metadata);
-        }
-        
-        private void ProcessPasteKey()
+        private void ProcessCopyKey(bool copyFunctions)
         {
             if (_selector.FocusedCell == null)
                 return;
             
-            (Cell first, Cell last) = CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl.Metadata);
+            CopyBuffer.Copy(_selector.SelectedCells.ToList(), _tableControl.Metadata, copyFunctions);
+        }
+        
+        private void ProcessPasteKey(bool copyFunctions)
+        {
+            if (_selector.FocusedCell == null)
+                return;
+            
+            (Cell first, Cell last) = CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl, copyFunctions);
             if (first != null && last != null)
             {
                 _selector.ClearSelection();

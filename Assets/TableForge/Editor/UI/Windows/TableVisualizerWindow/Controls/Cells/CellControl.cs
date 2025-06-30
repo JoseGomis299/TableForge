@@ -39,6 +39,8 @@ namespace TableForge.Editor.UI
         
         public void Refresh()
         {
+            IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
+
             Cell.RefreshData();
             OnRefresh();
         }
@@ -49,8 +51,6 @@ namespace TableForge.Editor.UI
             Cell = cell;
             
             Refresh();
-
-            IsSelected = tableControl.CellSelector.IsCellSelected(cell);
         }
 
         protected abstract void OnRefresh();

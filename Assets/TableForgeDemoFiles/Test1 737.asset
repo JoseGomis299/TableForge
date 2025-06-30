@@ -70,9 +70,9 @@ MonoBehaviour:
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   b: 0
   charValue: 0
-  intField: 8
-  floatField: 29
-  <PublicLongProperty>k__BackingField: 0
+  intField: 1
+  floatField: 1
+  <PublicLongProperty>k__BackingField: 1
   <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 343

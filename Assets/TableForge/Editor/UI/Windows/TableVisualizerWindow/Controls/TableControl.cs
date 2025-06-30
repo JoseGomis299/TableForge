@@ -109,7 +109,7 @@ namespace TableForge.Editor.UI
 
         #region Table Setup
 
-        public void SetTable(Table table, bool useCachedSize = true)
+        public void SetTable(Table table, TableMetadata metadata = null, bool useCachedSize = true)
         {
             RowVisibilityManager.UnsubscribeFromRefreshEvents();
             ColumnVisibilityManager.UnsubscribeFromRefreshEvents();
@@ -122,10 +122,16 @@ namespace TableForge.Editor.UI
                 this.SetScrollbarsVisibility(false);
                 return;
             }
-            
-            Metadata = Parent == null
-                ? TableMetadataManager.GetMetadata(table, table.Name)
-                : Parent.TableControl.Metadata;
+
+            if (Metadata == null)
+            {
+                if (metadata != null)
+                    Metadata = metadata;
+                else
+                    Metadata = Parent == null
+                        ? TableMetadataManager.GetMetadata(table, table.Name)
+                        : Parent.TableControl.Metadata;
+            }
 
             if ((!Transposed && Metadata.IsTransposed) 
                 || (Transposed && !Metadata.IsTransposed))
@@ -150,9 +156,12 @@ namespace TableForge.Editor.UI
             RowVisibilityManager.SubscribeToRefreshEvents();
             ColumnVisibilityManager.SubscribeToRefreshEvents();
             InitializeGeometry();
-            
-            if(Parent == null)
+
+            if (Parent == null)
+            {
                 FunctionExecutor.Setup();
+                FunctionExecutor.ExecuteAllFunctions();
+            }
         }
 
         public void ClearTable()
@@ -213,7 +222,7 @@ namespace TableForge.Editor.UI
         
         public void RebuildPage(bool useCachedSize = true)
         {
-            SetTable(TableData, useCachedSize);
+            SetTable(TableData, useCachedSize: useCachedSize);
         }
 
         #endregion

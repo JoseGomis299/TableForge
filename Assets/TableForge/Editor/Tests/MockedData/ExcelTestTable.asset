@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
+  m_Name: ExcelTestTable
+  m_EditorClassIdentifier: 
+  expandedTables:
+    values: 
+  transposedTables:
+    values: 
+  hiddenFields:
+    values: 
+  itemsTypeName: TableForge.Tests.ExcelFunctionTestData, TableForge.Tests, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
+  bindingTypeName: 
+  itemGUIDs:
+    values:
+    - 8e5353cc1b569dd4aa22b6efce47f0d2
+    - 6b2f628157a482242aa13508d8183910
+    - 23544c1e158b0ad4682e551cf151155e
+    - 9800f0f818411d44d9fc8e7b6837247c
+    - a26879425a1b61c45b826b9b1d972700
+  cellAnchorMetadata:
+    mKeys: 063d917a0d7dab021279d3684ed23e78ac01cb26
+    mValues:
+    - position: 1
+      size: {x: 0, y: 0}
+    - position: 2
+      size: {x: 0, y: 0}
+    - position: 3
+      size: {x: 0, y: 0}
+    - position: 4
+      size: {x: 0, y: 0}
+    - position: 5
+      size: {x: 0, y: 0}
+  functions:
+    mKeys: 96db5fc2
+    mValues:
+    - =XOR(H1; H2)

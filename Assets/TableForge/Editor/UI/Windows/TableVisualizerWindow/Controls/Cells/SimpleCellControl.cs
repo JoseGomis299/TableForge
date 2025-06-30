@@ -34,13 +34,6 @@ namespace TableForge.Editor.UI
                     if (_valueChanged)
                     {
                         _valueChanged = false;
-
-                        if (ToolbarData.RemoveFormulaOnCellValueChange)
-                        {
-                            TableControl.FunctionExecutor.SetCellFunction(Cell, string.Empty);
-                            TableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
-                        }
-
                         TableControl.FunctionExecutor.ExecuteAllFunctions();
                     }
                 });

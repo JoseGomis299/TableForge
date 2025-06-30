@@ -35,12 +35,16 @@ namespace TableForge.Editor.UI
             List<Vector2Int> distances = new List<Vector2Int>();
             List<Cell> fromAncestors = from.GetAncestors(true).ToList();
             List<Cell> toAncestors = to.GetAncestors(true).ToList();
+
+            while (fromAncestors.Count > toAncestors.Count)
+                toAncestors.Insert(0, null);
+            while (toAncestors.Count > fromAncestors.Count)
+                fromAncestors.Insert(0, null);
             
-            int maxDepth = Mathf.Max(fromAncestors.Count, toAncestors.Count);
-            for(int i = maxDepth - 1; i >= 0; i--)
+            for(int i = 0; i < fromAncestors.Count; i++)
             {
-                Cell fromCell = i < fromAncestors.Count ? fromAncestors[i] : null;
-                Cell toCell = i < toAncestors.Count ? toAncestors[i] : null;
+                Cell fromCell = fromAncestors[i];
+                Cell toCell = toAncestors[i];
 
                 if (fromCell == null || toCell == null)
                     continue;

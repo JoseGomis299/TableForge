@@ -66,7 +66,7 @@ namespace TableForge.Editor.UI
                 }
                 
                 OnFocusedCellChanged?.Invoke();
-                UndoRedoManager.AddSeparator();
+              //  UndoRedoManager.AddSeparator();
             }
         }
         
@@ -263,7 +263,23 @@ namespace TableForge.Editor.UI
             strategy.Preselect(new PreselectArguments
             {
                 selector = this,
-                cellsAtPosition = new List<Cell> { firstCell }
+                cellsAtPosition = new List<Cell> { lastCell }
+            });
+            
+            ConfirmSelection();
+        }
+        
+        internal void SelectRange(IList<Cell> cells)
+        {
+            if (cells == null || cells.Count == 0)
+                return;
+
+            FocusedCell = cells.FirstOrDefault();
+            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
+            strategy.Preselect(new PreselectArguments
+            {
+                selector = this,
+                cellsAtPosition = new List<Cell>(cells)
             });
             
             ConfirmSelection();

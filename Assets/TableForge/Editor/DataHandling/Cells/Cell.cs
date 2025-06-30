@@ -125,7 +125,7 @@ namespace TableForge.Editor
             StringBuilder positionBuilder = new StringBuilder();
             foreach (var cell in this.GetAncestors(true))
             {
-                positionBuilder.Append($".{cell.GetLocalPosition()}");
+                positionBuilder.Insert(0, $".{cell.GetLocalPosition()}");
             }
             
             if (positionBuilder.Length > 0)
