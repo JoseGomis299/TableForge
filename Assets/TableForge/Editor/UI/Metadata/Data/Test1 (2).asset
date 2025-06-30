@@ -2634,7 +2634,7 @@ MonoBehaviour:
     - position: 0
       size: {x: 142, y: 0}
   functions:
-    mKeys: cc9a7c394ea7a7516d6230c7c2fc3d06292652d4b82ed1145b55d68b0f57977ff1904fdd5b775dc65916fd46b1ca7399055b3193250ffa7619fedab1fb517023b1b963c2e3135174f2ef049a5a1f28d76a4baf2df279b12b02fb4245
+    mKeys: cc9a7c394ea7a7516d6230c7c2fc3d06292652d4b82ed1145b55d68b0f57977ff1904fdd5b775dc65916fd46b1ca7399055b3193250ffa7619fedab1fb517023b1b963c2e3135174f2ef049a5a1f28d76a4baf2df279b12b02fb42458c2238101f7f0ea2383e89acf1aa2cf1
     mValues:
     - =4
     - =E1
@@ -2643,10 +2643,10 @@ MonoBehaviour:
     - =$G7
     - =C1
     - =D2
-    - =H9
+    - =H8
     - =SUM(J5:J14)
     - =$G2
-    - =$G6
+    - =$G8
     - =$G4
     - =$G3
     - =J2
@@ -2659,3 +2659,7 @@ MonoBehaviour:
     - =12
     - 1243123
     - =false
+    - =SUM(H10:H1+1)
+    - =H10
+    - =H9
+    - =H9+H8

@@ -10,7 +10,9 @@
     --sub-selected-header-color: rgb(83, 83, 83);
     --selected-header-color: rgb(125, 125, 125);
     --selected-color-blue: rgb(72, 110, 201);
-    --selected-first-color-blue: rgb(54, 112, 255);
+    --selected-first-color-blue: rgb(43, 43, 43);
+    --function-set-color: rgb(80, 79, 55);
+    --incorrect-function-set-color: rgb(89, 41, 41);
     --cell-width: 100px;
     --cell-height: 20px;
     --header-height: 20px;
@@ -191,8 +193,16 @@
     height: 100%;
     overflow: hidden;
     position: absolute;
-    opacity: 0.2;
-    background-color: var(--selected-color);
+    opacity: 0.3;
+    background-color: white;
+}
+
+.table__cell--function-set{
+    background-color: var(--function-set-color);
+}
+
+.table__cell--function-set--incorrect{
+    background-color: var(--incorrect-function-set-color);
 }
 
 .table__sub-table-cell__content {
@@ -327,7 +337,7 @@
 }
 
 .selected-first {
-    background-color: var(--selected-first-color);
+    opacity: 0.6;
 }
 
 .table__scroll-view-content__container {

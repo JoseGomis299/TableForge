@@ -42,7 +42,7 @@ namespace TableForge.Editor.UI
             {
                 cellControl.focusable = true;
                 cellControl.Focus();
-                cellControl.AddToClassList(USSClasses.Focused);
+                cellControl.LowerOverlay.AddToClassList(USSClasses.Focused);
                 foreach (var ancestor in cellControl.GetAncestors(true))
                 {
                     ancestor.LockHeadersVisibility();
@@ -60,7 +60,7 @@ namespace TableForge.Editor.UI
             else if(!focused && cellControl.focusable)
             {
                 cellControl.focusable = false;
-                cellControl.RemoveFromClassList(USSClasses.Focused);
+                cellControl.LowerOverlay.RemoveFromClassList(USSClasses.Focused);
                 
                 var tableControl = cellControl.TableControl;
                 RowHeaderControl row = tableControl.GetRowHeaderControl(tableControl.GetCellRow(cellControl.Cell));

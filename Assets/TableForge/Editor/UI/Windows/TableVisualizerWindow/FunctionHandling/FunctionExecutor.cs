@@ -11,7 +11,8 @@ namespace TableForge.Editor.UI
         private readonly TableControl _tableControl;
         private readonly FunctionParser _functionParser;
         private readonly Dictionary<string, Func<object>> _cachedFunctions;
-        
+        private readonly HashSet<int> _incorrectCells = new HashSet<int>();
+
         public FunctionExecutor(TableControl tableControl)
         {
             _tableControl = tableControl;
@@ -85,6 +86,7 @@ namespace TableForge.Editor.UI
                 }
                 catch (Exception e)
                 {
+                    _incorrectCells.Add(cellId);
                     Debug.LogError($"Function evaluation error in cell {cell.GetGlobalPosition()} for input: {_tableControl.Metadata.GetFunction(cellId)}\n" +
                                    $"Expected type: {cell.Type}, but got: {result?.GetType()}\n" +
                                    $"Error: {e.Message}");
@@ -94,6 +96,8 @@ namespace TableForge.Editor.UI
 
         public void ExecuteAllFunctions()
         {
+            _incorrectCells.Clear();
+            
             // Use bfs to execute functions in the correct order
             Queue<FunctionNode> queue = BuildExecutionTree();
             HashSet<int> executedIds = new HashSet<int>();
@@ -119,6 +123,12 @@ namespace TableForge.Editor.UI
             }
             
             _tableControl.Update();
+        }
+        
+        public bool IsCellFunctionCorrect(int cellId)
+        {
+            return !string.IsNullOrEmpty(_tableControl.Metadata.GetFunction(cellId)) && 
+                   !_incorrectCells.Contains(cellId);
         }
 
         private Func<object> GetFunction(int id)
@@ -190,6 +200,7 @@ namespace TableForge.Editor.UI
             {
                 if (HasCircularDependency(node, visited, new HashSet<int>()))
                 {
+                    _incorrectCells.Add(node.Id);
                     Debug.LogError($"Circular dependency detected involving cell \'{Editor.CellExtension.GetCellById(_tableControl.TableData, node.Id)?.GetGlobalPosition()}\' with function: {_tableControl.Metadata.GetFunction(node.Id)}");
                     continue;
                 }

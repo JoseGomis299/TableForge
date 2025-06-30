@@ -15,8 +15,11 @@ namespace TableForge.Editor.UI
         public const string TableRow = "table__row";
         public const string TableRowContainer = "table__row-container";
         public const string TableCell = "table__cell";
+        public const string CellOverlay = "table__cell__overlay";
         public const string MultilineCell = "table__cell--multiline";
         public const string TableCellContent = "table__cell__content";
+        public const string CellWithFunction = "table__cell--function-set";
+        public const string CellWithIncorrectFunction = "table__cell--function-set--incorrect";
         public const string Center = "center";
         public const string CursorResizeHorizontal = "cursor__resize--horizontal";
         public const string CursorResizeVertical = "cursor__resize--vertical";
@@ -55,5 +58,6 @@ namespace TableForge.Editor.UI
         public const string TabDeleteButton = "tab-button__delete-button";
 
         #endregion
+
     }
 }

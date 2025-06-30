@@ -5,6 +5,7 @@ namespace TableForge.Editor.UI
 {
     internal abstract class CellControl : VisualElement
     {
+        private bool _hasFunction;
         private bool _isSelected;
         public bool IsSelected
         {
@@ -14,17 +15,46 @@ namespace TableForge.Editor.UI
                 if (!value)
                 {
                     this.SetImmediateChildrenEnabled(false);
-                    RemoveFromClassList(USSClasses.Selected);
+                    LowerOverlay.style.visibility = Visibility.Hidden;
                 }
                 else
                 {
                     this.SetImmediateChildrenEnabled(true);
-                    AddToClassList(USSClasses.Selected);
+                    LowerOverlay.style.visibility = Visibility.Visible;
                 }
 
                 _isSelected = value;
             }
         }
+        
+        private bool HasFunction
+        {
+            get => _hasFunction;
+            set
+            {
+                _hasFunction = value;
+                if (_hasFunction)
+                {
+                    if (TableControl.FunctionExecutor.IsCellFunctionCorrect(Cell.Id))
+                    { 
+                        RemoveFromClassList(USSClasses.CellWithIncorrectFunction);
+                        AddToClassList(USSClasses.CellWithFunction);
+                    }
+                    else
+                    {
+                        RemoveFromClassList(USSClasses.CellWithFunction);
+                        AddToClassList(USSClasses.CellWithIncorrectFunction);
+                    }
+                }
+                else
+                {
+                    RemoveFromClassList(USSClasses.CellWithFunction);
+                    RemoveFromClassList(USSClasses.CellWithIncorrectFunction);
+                }
+            }
+        }
+        
+        public VisualElement LowerOverlay { get; }
 
         public TableControl TableControl { get; private set; }
         public Cell Cell { get; protected set; }
@@ -34,12 +64,16 @@ namespace TableForge.Editor.UI
             TableControl = tableControl;
             Cell = cell;
 
+            LowerOverlay = new VisualElement { name = "lower-overlay" };
+            LowerOverlay.AddToClassList(USSClasses.CellOverlay);
+            Add(LowerOverlay);
             AddToClassList(USSClasses.TableCell);
         }
         
         public void Refresh()
         {
             IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
+            HasFunction = !string.IsNullOrEmpty(TableControl.Metadata.GetFunction(Cell.Id)?.Trim());
 
             Cell.RefreshData();
             OnRefresh();
