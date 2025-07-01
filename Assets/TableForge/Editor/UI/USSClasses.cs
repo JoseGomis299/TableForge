@@ -48,6 +48,7 @@ namespace TableForge.Editor.UI
         public const string ToolbarTabSelected = "toolbar__tab--selected";
         public const string ToolbarTabContextButton = "toolbar__tab__context-button";
         public const string ToolbarTabSelectButton = "toolbar__tab__select-button";
+        public const string ToolbarIncorrectFunctionField = "toolbar__function-field--incorrect";
         #endregion
         
         #region AddTabWindow.uss

@@ -123,16 +123,13 @@ namespace TableForge.Editor.UI
                 return;
             }
 
-            if (Metadata == null)
-            {
-                if (metadata != null)
-                    Metadata = metadata;
-                else
-                    Metadata = Parent == null
-                        ? TableMetadataManager.GetMetadata(table, table.Name)
-                        : Parent.TableControl.Metadata;
-            }
-
+            if (Parent != null)
+                Metadata = Parent.TableControl.Metadata;
+            else
+               Metadata = metadata == null
+                    ? TableMetadataManager.GetMetadata(table, table.Name)
+                    : metadata;
+            
             if ((!Transposed && Metadata.IsTransposed) 
                 || (Transposed && !Metadata.IsTransposed))
                 Transpose();
@@ -146,6 +143,12 @@ namespace TableForge.Editor.UI
             
             PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata, useCachedSize);
 
+            if (Parent == null)
+            {
+                FunctionExecutor.Setup();
+                FunctionExecutor.ExecuteAllFunctions();
+            }
+            
             // Add empty data for the corner cell
             _rowData.Add(0, null);
             _columnData.Add(0, null);
@@ -156,12 +159,6 @@ namespace TableForge.Editor.UI
             RowVisibilityManager.SubscribeToRefreshEvents();
             ColumnVisibilityManager.SubscribeToRefreshEvents();
             InitializeGeometry();
-
-            if (Parent == null)
-            {
-                FunctionExecutor.Setup();
-                FunctionExecutor.ExecuteAllFunctions();
-            }
         }
 
         public void ClearTable()
@@ -222,7 +219,7 @@ namespace TableForge.Editor.UI
         
         public void RebuildPage(bool useCachedSize = true)
         {
-            SetTable(TableData, useCachedSize: useCachedSize);
+            SetTable(TableData, metadata:Metadata, useCachedSize: useCachedSize);
         }
 
         #endregion

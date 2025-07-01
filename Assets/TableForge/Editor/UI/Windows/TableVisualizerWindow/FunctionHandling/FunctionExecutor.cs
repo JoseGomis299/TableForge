@@ -127,8 +127,7 @@ namespace TableForge.Editor.UI
         
         public bool IsCellFunctionCorrect(int cellId)
         {
-            return !string.IsNullOrEmpty(_tableControl.Metadata.GetFunction(cellId)) && 
-                   !_incorrectCells.Contains(cellId);
+            return string.IsNullOrEmpty(_tableControl.Metadata.GetFunction(cellId)) || !_incorrectCells.Contains(cellId);
         }
 
         private Func<object> GetFunction(int id)

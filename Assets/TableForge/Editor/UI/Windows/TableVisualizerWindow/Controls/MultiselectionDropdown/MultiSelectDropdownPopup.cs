@@ -15,6 +15,8 @@ namespace TableForge.Editor.UI
 
         private const float ItemHeight = 18f;
         private const float MaxHeight = 200f;
+        
+        public static bool IsOpen { get; private set; }
 
         public static void Show(List<DropdownElement> allItems, List<DropdownElement> currentSelection, Rect activatorRect, Action<List<DropdownElement>> onClose)
         {
@@ -23,9 +25,11 @@ namespace TableForge.Editor.UI
             window._selectedItems = new HashSet<int>(currentSelection.Select(item => item.id));
             window._onClose = onClose;
 
-            float height = Mathf.Min(allItems.Count * ItemHeight, MaxHeight);
             var screenRect = GUIUtility.GUIToScreenRect(activatorRect);
-            window.ShowAsDropDown(screenRect, new Vector2(screenRect.width, height));
+            float height = Mathf.Min(allItems.Count * ItemHeight, MaxHeight);
+            float width = Mathf.Max(activatorRect.width, currentSelection.Max(item => EditorStyles.label.CalcSize(new GUIContent(item.name + "          ")).x)); 
+            window.ShowAsDropDown(screenRect, new Vector2(width, height));
+            IsOpen = true;
         }
 
         private void OnGUI()
@@ -50,6 +54,7 @@ namespace TableForge.Editor.UI
         {
             _onClose?.Invoke(_allItems.Where(item => _selectedItems.Contains(item.id)).ToList());
             Close();
+            IsOpen = false;
         }
     }
 }

@@ -151,11 +151,11 @@ namespace TableForge.Editor.UI
 
             Cell startCell = ResolveSingleCell(positions[0], baseTable);
             Cell endCell = ResolveSingleCell(positions[1], baseTable);
-            int depth = startCell.GetDepth();
             
             if (startCell == null || endCell == null)
                 throw new KeyNotFoundException($"Could not resolve range: {range}");
             
+            int depth = startCell.GetDepth();
             if(depth != endCell.GetDepth())
                 throw new InvalidOperationException("Range spans multiple depths");
 

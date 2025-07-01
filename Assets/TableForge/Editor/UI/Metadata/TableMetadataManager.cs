@@ -11,9 +11,14 @@ namespace TableForge.Editor.UI
     {
         #region Metadata Management
 
-        public static TableMetadata GetMetadata(Table table, string tableName)
+        public static TableMetadata GetMetadata(Table table, string tableName, string basePath= null)
         {
-            return LoadMetadata(tableName) ?? CreateMetadata(table, tableName);
+            return LoadMetadata(tableName, basePath) ?? CreateMetadata(table, tableName, basePath);
+        }
+        
+        public static TableMetadata GetMetadata(IEnumerable<string> itemGUIDs, string tableName, string basePath= null)
+        {
+            return LoadMetadata(tableName, basePath) ?? CreateMetadata(itemGUIDs, tableName, basePath);
         }
         
         public static TableMetadata CreateMetadata(IEnumerable<string> itemGUIDs, string tableName, string basePath = null)
@@ -37,9 +42,9 @@ namespace TableForge.Editor.UI
             return metadata;
         }
         
-        public static TableMetadata CreateMetadata(Type itemsType, string tableName)
+        public static TableMetadata CreateMetadata(Type itemsType, string tableName, string basePath = null)
         {
-            string path = GetDataPath();
+            string path = basePath ?? GetDataPath();
             if (string.IsNullOrEmpty(path))
             {
                 return null;
@@ -70,9 +75,9 @@ namespace TableForge.Editor.UI
         }
 
 
-        private static TableMetadata CreateMetadata(Table table, string tableName)
+        private static TableMetadata CreateMetadata(Table table, string tableName, string basePath = null)
         {
-            string path = GetDataPath();
+            string path = basePath ?? GetDataPath();
             if (string.IsNullOrEmpty(path))
             {
                 return null;
@@ -91,9 +96,9 @@ namespace TableForge.Editor.UI
             return metadata;
         }
 
-        public static TableMetadata LoadMetadata(string tableName)
+        public static TableMetadata LoadMetadata(string tableName, string basePath = null)
         {
-            string path = GetDataPath();
+            string path = basePath ?? GetDataPath();
             if (string.IsNullOrEmpty(path))
             {
                 return null;

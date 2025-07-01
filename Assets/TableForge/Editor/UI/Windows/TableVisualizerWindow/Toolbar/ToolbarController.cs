@@ -18,6 +18,7 @@ namespace TableForge.Editor.UI
         private Button _transposeTableButton;
         private VisualElement _tabContainer;
         private MultiSelectDropdown _visibleColumnsDropdown;
+        private Button _visibleFieldsButton;
         private ToolbarSearchField _filter;
         private TextField _functionTextField;
         
@@ -132,21 +133,13 @@ namespace TableForge.Editor.UI
 
         private void Initialize()
         {
-            CreateVisualElements();
             BindVisualElements();
             RegisterEvents();
             OpenStoredTabs();
             
             RefreshFunctionTextField();
         }
-
-        private void CreateVisualElements()
-        {
-            VisualElement toolsParent = _toolbar.Q<VisualElement>("table-tools");
-            _visibleColumnsDropdown = new MultiSelectDropdown(new List<DropdownElement>(), "Visible columns: ");
-            toolsParent.Add(_visibleColumnsDropdown);
-        }
-
+        
         private void OpenStoredTabs()
         {
             foreach (var table in  SessionCache.GetOpenTabs())
@@ -162,6 +155,8 @@ namespace TableForge.Editor.UI
             _tabContainer = _toolbar.Q<VisualElement>("tab-container");
             _filter = _toolbar.Q<ToolbarSearchField>("filter");
             _functionTextField = _toolbar.Q<TextField>("function-field");
+            _visibleFieldsButton = _toolbar.Q<Button>("visible-fields-button");
+            _visibleColumnsDropdown = new MultiSelectDropdown(new List<DropdownElement>(), _visibleFieldsButton);
         }
 
         private void RegisterEvents()
@@ -226,6 +221,7 @@ namespace TableForge.Editor.UI
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
                 
                 _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteAllFunctions();
+                RefreshFunctionTextField();
             });
         }
         
@@ -234,6 +230,7 @@ namespace TableForge.Editor.UI
             if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null
                 || _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell() is SubTableCell)
             {
+                _functionTextField.RemoveFromChildrenClassList(USSClasses.ToolbarIncorrectFunctionField);
                 _functionTextField.SetValueWithoutNotify("");
                 _functionTextField.SetEnabled(false);
                 return;
@@ -241,6 +238,15 @@ namespace TableForge.Editor.UI
             
             Cell focusedCell = _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell();
             string function = _selectedTab.GetFunction(focusedCell.Id);
+            
+            if(_tableVisualizer.CurrentTable.FunctionExecutor.IsCellFunctionCorrect(focusedCell.Id))
+            {
+                _functionTextField.RemoveFromChildrenClassList(USSClasses.ToolbarIncorrectFunctionField);
+            }
+            else
+            {
+                _functionTextField.AddToChildrenClassList(USSClasses.ToolbarIncorrectFunctionField);
+            }
             
             _functionTextField.SetEnabled(true);
             _functionTextField.SetValueWithoutNotify(function ?? string.Empty);

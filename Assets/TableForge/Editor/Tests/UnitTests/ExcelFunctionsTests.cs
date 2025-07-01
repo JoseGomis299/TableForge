@@ -99,7 +99,7 @@ namespace TableForge.Tests
                 rowPaths.Add(path);
             }
             
-            TableMetadata tableMetadata = TableMetadataManager.CreateMetadata(rowGuids, "ExcelTestTable", $"{PathUtil.GetTestFolderRelativePath()}/MockedData");
+            TableMetadata tableMetadata = TableMetadataManager.GetMetadata(rowGuids, "ExcelTestTable", $"{PathUtil.GetTestFolderRelativePath()}/MockedData");
             tableMetadata.GetFunctions().Clear();
             tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata), metadata:tableMetadata);
 

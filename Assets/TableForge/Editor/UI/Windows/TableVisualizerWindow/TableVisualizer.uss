@@ -422,6 +422,10 @@
     background-size: 17%;
 }
 
+.toolbar__function-field--incorrect {
+    background-color: var(--incorrect-function-set-color);
+}
+
 .unity-disabled {
     opacity: 1;
 }

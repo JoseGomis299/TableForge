@@ -89,8 +89,6 @@ namespace TableForge.Editor
         /// <param name="value">The new value to be set.</param>
         public virtual void SetValue(object value)
         {
-            if(cachedValue != null && cachedValue.Equals(value)) return;
-            
             SetFieldValue(value);
             cachedValue = value;
         }

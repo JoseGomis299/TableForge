@@ -46,4 +46,4 @@ MonoBehaviour:
   intField: 0
   floatField: 12
   <PublicLongProperty>k__BackingField: 0
-  <PublicDoubleProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 234

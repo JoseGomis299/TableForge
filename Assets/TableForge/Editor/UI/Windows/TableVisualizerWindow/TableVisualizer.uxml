@@ -4,15 +4,16 @@
         <engine:VisualElement name="table-container" style="flex-grow: 1; width: 100%; height: 100%; background-size: 100% 100%;">
             <engine:VisualElement name="MainTable" style="height: 100%; width: 100%;" />
         </engine:VisualElement>
-        <engine:VisualElement name="toolbar" class="toolbar" style="flex-grow: 1; height: 115px;">
+        <engine:VisualElement name="toolbar" class="toolbar" style="flex-grow: 1; height: 85px;">
             <engine:ScrollView name="tool-container" mode="Horizontal" style="width: 100%; height: 100%; flex-direction: row;">
-                <engine:VisualElement name="table-tools" style="flex-grow: 0; height: 100%; width: 200px; align-items: center; justify-content: center; align-self: center; align-content: center;">
-                    <engine:Button text="Transpose table" name="transpose-button" style="width: 150px; height: 25px;" />
+                <engine:VisualElement name="table-tools" style="flex-grow: 0; height: 100%; width: 200px; align-items: center; justify-content: flex-start; align-self: center; align-content: center; flex-direction: row; margin-left: 30px; margin-right: 0;">
+                    <engine:Button name="transpose-button" emoji-fallback-support="false" tooltip="Transpose table" style="width: 25px; height: 25px; background-image: url(&quot;project://database/Assets/TableForge/Editor/UI/Assets/transpose-icon.png?fileID=2800000&amp;guid=067389bcbbd6d3243b8b67bea9fe0466&amp;type=3#transpose-icon&quot;); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-right: 10px;" />
+                    <engine:Button name="visible-fields-button" emoji-fallback-support="false" tooltip="Visible fields" style="width: 25px; height: 25px; background-image: url(&quot;project://database/Assets/TableForge/Editor/UI/Assets/hide-column-icon.png?fileID=2800000&amp;guid=0c1847481b314454a84723e1ebfc1395&amp;type=3#hide-column-icon&quot;); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
                 </engine:VisualElement>
                 <engine:VisualElement style="flex-grow: 1; padding-bottom: 0;" />
-                <engine:VisualElement name="filter-container" style="flex-grow: initial; align-self: flex-end; margin-bottom: 10px; margin-right: 10px; flex-direction: row;">
-                    <engine:Label text="Row filter:" name="filter-label" style="align-self: center;" />
-                    <editor:ToolbarSearchField name="filter" />
+                <engine:VisualElement name="filter-container" style="flex-grow: initial; align-self: center; margin-bottom: 0; margin-right: 10px; flex-direction: row;">
+                    <engine:Label text="Row filter:" name="filter-label" style="align-self: center; justify-content: flex-start; align-items: center; align-content: center;" />
+                    <editor:ToolbarSearchField name="filter" style="justify-content: center; align-content: center;" />
                 </engine:VisualElement>
             </engine:ScrollView>
             <engine:VisualElement name="lower-section" style="flex-grow: 0; flex-shrink: 0; width: 100%;">
