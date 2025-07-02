@@ -46,11 +46,10 @@ namespace TableForge.Editor.UI
                 Cell fromCell = fromAncestors[i];
                 Cell toCell = toAncestors[i];
 
-                if (fromCell == null || toCell == null)
-                    continue;
+                Vector2Int fromPosition = fromCell != null ? new Vector2Int(fromCell.column.Position, fromCell.row.Position) : Vector2Int.one;
+                Vector2Int toPosition = toCell != null ? new Vector2Int(toCell.column.Position, toCell.row.Position) : Vector2Int.one;
 
-                Vector2Int distance = new Vector2Int(toCell.column.Position - fromCell.column.Position, 
-                                                toCell.row.Position - fromCell.row.Position);
+                Vector2Int distance = new Vector2Int(toPosition.x - fromPosition.x, toPosition.y - fromPosition.y);
                 distances.Add(distance);
             }
 

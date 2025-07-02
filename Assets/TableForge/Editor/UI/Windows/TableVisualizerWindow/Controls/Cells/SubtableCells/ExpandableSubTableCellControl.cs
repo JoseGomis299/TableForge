@@ -160,12 +160,12 @@ namespace TableForge.Editor.UI
             
             bool focused = !checkAncestors || Cell.GetAncestors(true).Any(x => TableControl.CellSelector.IsCellFocused(x));
 
-            if (show && focused)
+            if (show && focused && subTableToolbar.style.display != DisplayStyle.Flex)
             {
                 subTableToolbar.style.display = DisplayStyle.Flex;
                 subTableToolbar.style.height = SizeCalculator.CalculateToolbarSize(SubTableControl.TableData).y;
             }
-            else
+            else if ((!show || !focused) && subTableToolbar.style.display != DisplayStyle.None)
             {
                 subTableToolbar.style.display = DisplayStyle.None;
             }

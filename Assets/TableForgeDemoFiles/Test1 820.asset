@@ -83,7 +83,7 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 853908271712436952
   inheritorClassAsInnerClass2:
     rid: -2
   innerClasses: []
@@ -146,3 +146,17 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 853908271712436952
+      type: {class: InnerClass, ns: TableForgeDemoFiles, asm: Assembly-CSharp}
+      data:
+        number: 2
+        text: 1
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 3
+          m_PostInfinity: 3
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

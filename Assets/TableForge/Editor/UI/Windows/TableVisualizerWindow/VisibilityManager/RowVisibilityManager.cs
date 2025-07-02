@@ -144,16 +144,17 @@ namespace TableForge.Editor.UI
         
         public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
         {
+            float margin = 1;
             Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
             var viewBounds = scrollView.contentViewport.worldBound;
             viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
             viewBounds.y += tableControl.CornerContainer.CornerControl.resolvedStyle.height;
             
-            bool isBottomSideVisible = header.worldBound.yMax < viewBounds.yMax &&
-                                    header.worldBound.yMax > viewBounds.yMin;
+            bool isBottomSideVisible = header.worldBound.yMax - viewBounds.yMax <= margin &&
+                                    header.worldBound.yMax - viewBounds.yMin >= -margin;
             
-            bool isTopSideVisible = header.worldBound.yMin > viewBounds.yMin &&
-                                       header.worldBound.yMin < viewBounds.yMax;
+            bool isTopSideVisible = header.worldBound.yMin - viewBounds.yMin >= -margin &&
+                                       header.worldBound.yMin - viewBounds.yMax <= margin;
 
             visibleBounds = 0;
             if (isBottomSideVisible) visibleBounds += 1;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
@@ -10,8 +11,11 @@ namespace TableForge.Editor.UI
         
         private List<DropdownElement> _selectedItems = new();
         private List<DropdownElement> _allItems = new();
-
+        private MultiSelectDropdownPopup _popupWindow;
+        private bool _isBeingClicked;
+        
         public Action<List<DropdownElement>> onSelectionChanged;
+        public Button Button => _button;
 
         public MultiSelectDropdown(List<DropdownElement> items, Button button)
         {
@@ -22,13 +26,22 @@ namespace TableForge.Editor.UI
 
         private void OpenPopup()
         {
-            if(_button == null || _allItems.Count == 0 || MultiSelectDropdownPopup.IsOpen)
+            if(_button == null || _allItems.Count == 0)
                 return;
-            
-            var popupRect = _button.worldBound; 
-            MultiSelectDropdownPopup.Show(_allItems, _selectedItems, popupRect, selected =>
+
+            if (_popupWindow != null && _popupWindow.IsOpen)
+            {
+                _popupWindow.Close();
+                _popupWindow = null;
+                return;
+            }
+
+            _popupWindow = MultiSelectDropdownPopup.Show(_allItems, _selectedItems, this, selected =>
             {
                 if(selected.Count == _selectedItems.Count && selected.TrueForAll(item => _selectedItems.Contains(item)))
+                    return;
+                
+                if(_selectedItems.SequenceEqual(selected))
                     return;
                 
                 _selectedItems = selected;

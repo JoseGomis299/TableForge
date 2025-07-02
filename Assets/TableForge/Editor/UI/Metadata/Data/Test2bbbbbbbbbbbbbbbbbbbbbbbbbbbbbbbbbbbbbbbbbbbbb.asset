@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
-  m_Name: Test1 (2).Int Array(P5)
+  m_Name: Test2bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
   m_EditorClassIdentifier: 
   expandedTables:
     values: 
@@ -18,11 +18,15 @@ MonoBehaviour:
     values: 
   hiddenFields:
     values: 
-  itemsTypeName: 
-  bindingTypeName: 
+  itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  bindingTypeName: Test2
   itemGUIDs:
-    values:
-    - e482043fd1e49ad4b9f8b3ca3525fe08
+    values: []
   cellAnchorMetadata:
-    m_Keys: 
-    m_Values: []
+    mKeys: 430df838
+    mValues:
+    - position: 1
+      size: {x: 0, y: 0}
+  functions:
+    mKeys: 
+    mValues: []

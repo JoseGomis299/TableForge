@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
 {
@@ -16,20 +17,23 @@ namespace TableForge.Editor.UI
         private const float ItemHeight = 18f;
         private const float MaxHeight = 200f;
         
-        public static bool IsOpen { get; private set; }
+        public bool IsOpen { get; private set; }
 
-        public static void Show(List<DropdownElement> allItems, List<DropdownElement> currentSelection, Rect activatorRect, Action<List<DropdownElement>> onClose)
+        public static MultiSelectDropdownPopup Show(List<DropdownElement> allItems, List<DropdownElement> currentSelection, MultiSelectDropdown activator, Action<List<DropdownElement>> onClose)
         {
             var window = CreateInstance<MultiSelectDropdownPopup>();
             window._allItems = new List<DropdownElement>(allItems);
             window._selectedItems = new HashSet<int>(currentSelection.Select(item => item.id));
             window._onClose = onClose;
 
+            Rect activatorRect = activator.Button.worldBound;
             var screenRect = GUIUtility.GUIToScreenRect(activatorRect);
             float height = Mathf.Min(allItems.Count * ItemHeight, MaxHeight);
             float width = Mathf.Max(activatorRect.width, currentSelection.Max(item => EditorStyles.label.CalcSize(new GUIContent(item.name + "          ")).x)); 
             window.ShowAsDropDown(screenRect, new Vector2(width, height));
-            IsOpen = true;
+            window.IsOpen = true;
+            
+            return window;
         }
 
         private void OnGUI()

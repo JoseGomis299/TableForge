@@ -58,6 +58,7 @@ namespace TableForge.Editor.UI
             if (constructor != null)
             {
                 CellControl result = (CellControl)constructor.Invoke(new object[] { cell, tableControl });
+                result.OnCreationComplete();
                 return result;
             }
 

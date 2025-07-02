@@ -54,7 +54,7 @@ MonoBehaviour:
   charValue: 48
   intField: 342
   floatField: 342
-  <PublicLongProperty>k__BackingField: 342
+  <PublicLongProperty>k__BackingField: 2
   <PublicDoubleProperty>k__BackingField: 29
   inheritorClass:
     number: 343
@@ -101,7 +101,7 @@ MonoBehaviour:
       number: 0
       boolean: 0
   innerClass:
-    rid: -2
+    rid: 853908271712437197
   inheritorClassAsInnerClass2:
     rid: 6586668462697349301
   innerClasses:
@@ -176,6 +176,20 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 853908271712437197
+      type: {class: InnerClass, ns: TableForgeDemoFiles, asm: Assembly-CSharp}
+      data:
+        number: 2
+        text: 1
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 3
+          m_PostInfinity: 3
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0
     - rid: 6586668462697349301
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}
       data:

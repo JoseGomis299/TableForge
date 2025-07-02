@@ -60,6 +60,9 @@ namespace TableForge.Editor.UI
 
         public void ReBuild()
         {
+            VisualElement parentElement = parent;
+            RemoveFromHierarchy();
+            
             if (childCount > 0)
                 ClearRow();
 
@@ -67,6 +70,7 @@ namespace TableForge.Editor.UI
             else InitializeRow(Anchor);
 
             RefreshColumnWidths();
+            parentElement.Insert(Anchor.Position - 1, this);
         }
         
         private void InitializeRow(Row row)

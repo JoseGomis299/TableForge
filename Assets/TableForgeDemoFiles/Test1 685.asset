@@ -87,11 +87,11 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 04ded21243d14cc5b67a6ef3b5c6a574, type: 3}
   b: 1
-  charValue: 50
+  charValue: 97
   intField: 342
   floatField: 342
-  <PublicLongProperty>k__BackingField: 342
-  <PublicDoubleProperty>k__BackingField: 343
+  <PublicLongProperty>k__BackingField: 2
+  <PublicDoubleProperty>k__BackingField: 12
   inheritorClass:
     number: 343
     text: 156
@@ -155,7 +155,7 @@ MonoBehaviour:
       number: 0
       boolean: 1
   innerClass:
-    rid: -2
+    rid: 853908271712436485
   inheritorClassAsInnerClass2:
     rid: -2
   innerClasses:
@@ -174,7 +174,7 @@ MonoBehaviour:
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 5
+  testEnum: 6
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
@@ -230,3 +230,17 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 853908271712436485
+      type: {class: InnerClass, ns: TableForgeDemoFiles, asm: Assembly-CSharp}
+      data:
+        number: 2
+        text: 1
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 3
+          m_PostInfinity: 3
+          m_RotationOrder: 4
+        structTest:
+          number: 0
+          boolean: 0

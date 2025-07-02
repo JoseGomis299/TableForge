@@ -63,11 +63,15 @@ namespace TableForge.Editor.UI
         {
             TableControl = tableControl;
             Cell = cell;
-
             LowerOverlay = new VisualElement { name = "lower-overlay" };
-            LowerOverlay.AddToClassList(USSClasses.CellOverlay);
-            Add(LowerOverlay);
+           
             AddToClassList(USSClasses.TableCell);
+        }
+
+        public void OnCreationComplete()
+        {
+            LowerOverlay.AddToClassList(USSClasses.CellOverlay);
+            Insert(0, LowerOverlay);
         }
         
         public void Refresh()

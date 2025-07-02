@@ -13,6 +13,7 @@
     --selected-first-color-blue: rgb(43, 43, 43);
     --function-set-color: rgb(80, 79, 55);
     --incorrect-function-set-color: rgb(89, 41, 41);
+    --separator-color: rgb(125, 125, 125);
     --cell-width: 100px;
     --cell-height: 20px;
     --header-height: 20px;
@@ -126,6 +127,7 @@
     overflow: hidden;
     align-content: flex-start;
     flex-shrink: 0;
+    background-color: var(--background-color);
 }
 
 .table__header-container--vertical {
@@ -135,6 +137,7 @@
     overflow: hidden;
     align-content: flex-start;
     flex-shrink: 0;
+    background-color: var(--background-color);
 }
 
 .table__row {
@@ -197,11 +200,11 @@
     background-color: white;
 }
 
-.table__cell--function-set{
+.table__cell--function-set {
     background-color: var(--function-set-color);
 }
 
-.table__cell--function-set--incorrect{
+.table__cell--function-set--incorrect {
     background-color: var(--incorrect-function-set-color);
 }
 
@@ -506,4 +509,15 @@ Button:active {
 .toolbar__function-field:disabled {
     cursor: arrow;
     opacity: 0.5;
+}
+
+.toolbar__separator {
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-self: center;
+    height: 75%;
+    width: 1px;
+    background-color: var(--separator-color);
+    margin-left: 5px;
+    margin-right: 5px;
 }

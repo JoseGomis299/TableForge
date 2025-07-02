@@ -188,7 +188,14 @@ namespace TableForge.Editor.UI
                         parentNode = new FunctionNode(cell.Id);
                         nodes[cell.Id] = parentNode;
                     }
-
+                    
+                    if(parentNode == node) 
+                    {
+                        _incorrectCells.Add(node.Id);
+                        Debug.LogError($"Circular dependency detected involving cell \'{Editor.CellExtension.GetCellById(_tableControl.TableData, node.Id)?.GetGlobalPosition()}\' with function: {_tableControl.Metadata.GetFunction(node.Id)}");
+                        continue;
+                    }
+                    
                     node.AddParent(parentNode);
                 }
             }
@@ -200,6 +207,7 @@ namespace TableForge.Editor.UI
                 if (HasCircularDependency(node, visited, new HashSet<int>()))
                 {
                     _incorrectCells.Add(node.Id);
+                    _incorrectCells.UnionWith(node.GetAncestors().Select(p => p.Id));
                     Debug.LogError($"Circular dependency detected involving cell \'{Editor.CellExtension.GetCellById(_tableControl.TableData, node.Id)?.GetGlobalPosition()}\' with function: {_tableControl.Metadata.GetFunction(node.Id)}");
                     continue;
                 }
@@ -276,9 +284,32 @@ namespace TableForge.Editor.UI
                 }
             }
             
+            public IReadOnlyList<FunctionNode> GetAncestors()
+            {
+                List<FunctionNode> ancestors = new List<FunctionNode>();
+                GetAncestorsRecursive(ancestors);
+                return ancestors;
+            }
+            
+            private void GetAncestorsRecursive(List<FunctionNode> ancestors)
+            {
+                foreach (var parent in _parents)
+                {
+                    if (!ancestors.Contains(parent))
+                    {
+                        ancestors.Add(parent);
+                        parent.GetAncestorsRecursive(ancestors);
+                    }
+                }
+            }
+            
             private void RecalculateDepth()
             {
                 Depth = _parents.Max(p => p.Depth) + 1;
+                foreach (var child in _children)
+                {
+                    child.RecalculateDepth();
+                }
             }
         }
     }

@@ -70,10 +70,10 @@ MonoBehaviour:
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   b: 1
   charValue: 0
-  intField: 1
-  floatField: 1
-  <PublicLongProperty>k__BackingField: 1
-  <PublicDoubleProperty>k__BackingField: 1
+  intField: 580
+  floatField: 231
+  <PublicLongProperty>k__BackingField: 0
+  <PublicDoubleProperty>k__BackingField: 580
   inheritorClass:
     number: 343
     text: 156
@@ -137,15 +137,37 @@ MonoBehaviour:
       number: 124
       boolean: 1
   innerClass:
-    rid: 6586668462697349302
+    rid: 853908271712437230
   inheritorClassAsInnerClass2:
     rid: 6586668462697349303
-  innerClasses: []
+  innerClasses:
+  - number: 0
+    text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
+  - number: 0
+    text: 
+    animationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    structTest:
+      number: 0
+      boolean: 0
   intArray: 0400000004000000
   vector2: {x: 0, y: 0}
   vector3: {x: 0, y: 0, z: 0}
   vector4: {x: 0, y: 0, z: 0, w: 0}
-  testEnum: 5
+  testEnum: 6
   vector3Array:
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
@@ -201,19 +223,19 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 6586668462697349302
-      type: {class: InnerClass, ns: , asm: Assembly-CSharp}
+    - rid: 853908271712437230
+      type: {class: InnerClass, ns: TableForgeDemoFiles, asm: Assembly-CSharp}
       data:
-        number: 0
-        text: 0
+        number: 2
+        text: 1
         animationCurve:
           serializedVersion: 2
           m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
+          m_PreInfinity: 3
+          m_PostInfinity: 3
           m_RotationOrder: 4
         structTest:
-          number: 13
+          number: 0
           boolean: 0
     - rid: 6586668462697349303
       type: {class: InnerClass, ns: , asm: Assembly-CSharp}

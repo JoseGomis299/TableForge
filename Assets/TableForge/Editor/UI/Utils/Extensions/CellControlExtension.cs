@@ -36,9 +36,9 @@ namespace TableForge.Editor.UI
             }
         }
         
-        public static void SetFocused(this CellControl cellControl, bool focused)
+        public static void SetFocused(this CellControl cellControl, bool focus)
         {
-            if (focused && !cellControl.focusable)
+            if (focus && !cellControl.focusable) //Set focus
             {
                 cellControl.focusable = true;
                 cellControl.Focus();
@@ -57,7 +57,7 @@ namespace TableForge.Editor.UI
                     }
                 }
             }
-            else if(!focused && cellControl.focusable)
+            else if(!focus && cellControl.focusable) //Remove focus
             {
                 cellControl.focusable = false;
                 cellControl.LowerOverlay.RemoveFromClassList(USSClasses.Focused);

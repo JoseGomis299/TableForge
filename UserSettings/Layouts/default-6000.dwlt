@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1706.6667
     height: 976
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: TableVisualizer
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 143
+  controlID: 119
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 144
+  controlID: 120
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 18
+  controlID: 82
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -190,19 +190,19 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1340
-    height: 643.3333
+    height: 662.6667
   m_MinSize: {x: 51, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 21}
   m_Panes:
+  - {fileID: 14}
   - {fileID: 15}
   - {fileID: 16}
   - {fileID: 17}
-  - {fileID: 18}
-  - {fileID: 14}
+  - {fileID: 21}
   - {fileID: 13}
-  m_Selected: 5
-  m_LastSelected: 4
+  m_Selected: 4
+  m_LastSelected: 3
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -221,13 +221,13 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 643.3333
+    y: 662.6667
     width: 1340
-    height: 276.6667
+    height: 257.3333
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 50
+  controlID: 83
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -246,13 +246,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 719.3333
-    height: 276.6667
+    width: 718.6667
+    height: 257.3333
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 19}
+  m_ActualView: {fileID: 18}
   m_Panes:
-  - {fileID: 19}
+  - {fileID: 18}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &11
@@ -270,15 +270,15 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 719.3333
+    x: 718.6667
     y: 0
-    width: 620.6667
-    height: 276.6667
+    width: 621.3333
+    height: 257.3333
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 20}
+  m_ActualView: {fileID: 19}
   m_Panes:
-  - {fileID: 20}
+  - {fileID: 19}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &12
@@ -302,49 +302,12 @@ MonoBehaviour:
     height: 920
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 21}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 21}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &13
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a4ac289734f744a9751ad7fee949e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: TableVisualizer
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-    m_TextWithWhitespace: "TableVisualizer\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 24
-    width: 1339
-    height: 617.3333
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  visualTreeAsset: {fileID: 9197481963319205126, guid: 1a7497980761aee499a21aa4ea67b4be, type: 3}
---- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,10 +329,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Test Runner\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 7.3333335
-    y: 86
-    width: 1327.6666
-    height: 607.3333
+    x: 0
+    y: 78.66667
+    width: 1339
+    height: 633.3333
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -382,12 +345,12 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 153
+    ID: 1230
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 402.66666
-    - 134.00003
+    - 422
+    - 140.66669
     relativeSizes:
     - 0.75
     - 0.25
@@ -397,7 +360,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 536.6667
+    lastTotalSize: 562.6667
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -407,9 +370,9 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 0
   m_TestListGUIs:
-  - m_Window: {fileID: 14}
+  - m_Window: {fileID: 13}
     runProgress:
-      RunGuid: d5427d94-a7b3-45b1-b8cd-6915bc48bf42
+      RunGuid: 3bc8f1c7-121f-4929-86be-d77c12750ed7
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -422,7 +385,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.FilteringTests
+          - TableForge.Tests.ExcelFunctionsTests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -437,7 +400,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999996
+      Progress: 0.999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList:
@@ -526,11 +489,11 @@ MonoBehaviour:
       name: Abs_CellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
       resultStatus: 1
-      duration: 0.260978
+      duration: 0.1649296
       messages: 
-      output: 'Took 12 ms to load 1 items from 5 paths.
+      output: 'Took 6 ms to load 1 items from 5 paths.
 
-        Took 15 ms to generate
+        Took 9 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -548,11 +511,11 @@ MonoBehaviour:
       name: Abs_NegativeValue
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_NegativeValue
       resultStatus: 1
-      duration: 0.0886966
+      duration: 0.0656339
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -570,11 +533,11 @@ MonoBehaviour:
       name: Abs_PositiveValue
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_PositiveValue
       resultStatus: 1
-      duration: 0.0860595
+      duration: 0.0706868
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -592,11 +555,11 @@ MonoBehaviour:
       name: And_AllTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.And_AllTrue
       resultStatus: 1
-      duration: 0.095299
+      duration: 0.0667821
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -614,11 +577,11 @@ MonoBehaviour:
       name: And_OneFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.And_OneFalse
       resultStatus: 1
-      duration: 0.0908607
+      duration: 0.0781432
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -636,11 +599,11 @@ MonoBehaviour:
       name: And_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.And_WithCellReferences
       resultStatus: 1
-      duration: 0.0784945
+      duration: 0.0825428
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -658,11 +621,11 @@ MonoBehaviour:
       name: Arithmetic_WithArrayReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithArrayReference
       resultStatus: 1
-      duration: 0.0940455
+      duration: 0.0804406
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -680,11 +643,11 @@ MonoBehaviour:
       name: Arithmetic_WithComplexMixedExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithComplexMixedExpression
       resultStatus: 1
-      duration: 0.0958241
+      duration: 0.0817546
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -702,11 +665,11 @@ MonoBehaviour:
       name: Arithmetic_WithComplexNestedExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithComplexNestedExpression
       resultStatus: 1
-      duration: 0.0890975
+      duration: 0.0785584
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -724,11 +687,11 @@ MonoBehaviour:
       name: Arithmetic_WithConditionalFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithConditionalFunction
       resultStatus: 1
-      duration: 0.0895706
+      duration: 0.0792249
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -746,7 +709,7 @@ MonoBehaviour:
       name: Arithmetic_WithDeepReferenceChain
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithDeepReferenceChain
       resultStatus: 1
-      duration: 0.0952587
+      duration: 0.0740354
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -768,7 +731,7 @@ MonoBehaviour:
       name: Arithmetic_WithExponentiationAndFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithExponentiationAndFunction
       resultStatus: 1
-      duration: 0.0961518
+      duration: 0.0794818
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -790,7 +753,7 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionAndReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionAndReference
       resultStatus: 1
-      duration: 0.091264
+      duration: 0.0781578
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -812,11 +775,11 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionAsPercentageArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionAsPercentageArgument
       resultStatus: 1
-      duration: 0.1172655
+      duration: 0.0776309
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 7 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -834,11 +797,11 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionInParentheses
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionInParentheses
       resultStatus: 1
-      duration: 0.1052523
+      duration: 0.0777379
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -856,11 +819,11 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionResult
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionResult
       resultStatus: 1
-      duration: 0.0864451
+      duration: 0.0786598
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -878,11 +841,11 @@ MonoBehaviour:
       name: Arithmetic_WithLogicalFunctionAndArithmetic
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithLogicalFunctionAndArithmetic
       resultStatus: 1
-      duration: 0.0864204
+      duration: 0.0858297
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -900,11 +863,11 @@ MonoBehaviour:
       name: Arithmetic_WithNestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithNestedFunctions
       resultStatus: 1
-      duration: 0.0876317
+      duration: 0.0805138
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -922,11 +885,11 @@ MonoBehaviour:
       name: Arithmetic_WithPercentageAfterFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithPercentageAfterFunction
       resultStatus: 1
-      duration: 0.085682
+      duration: 0.0785966
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -944,11 +907,11 @@ MonoBehaviour:
       name: Arithmetic_WithPercentageInComplexExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithPercentageInComplexExpression
       resultStatus: 1
-      duration: 0.0982064
+      duration: 0.079172
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -966,11 +929,11 @@ MonoBehaviour:
       name: Arithmetic_WithPercentageInFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithPercentageInFunction
       resultStatus: 1
-      duration: 0.0928228
+      duration: 0.0801733
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -988,7 +951,7 @@ MonoBehaviour:
       name: Arithmetic_WithRangeAndArithmetic
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithRangeAndArithmetic
       resultStatus: 1
-      duration: 0.0860977
+      duration: 0.0670621
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1010,11 +973,11 @@ MonoBehaviour:
       name: Arithmetic_WithReferenceChain
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithReferenceChain
       resultStatus: 1
-      duration: 0.0847347
+      duration: 0.060989
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1032,11 +995,11 @@ MonoBehaviour:
       name: Average_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Average_NumericValues
       resultStatus: 1
-      duration: 0.0862038
+      duration: 0.0678156
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1054,11 +1017,11 @@ MonoBehaviour:
       name: Complex_LogicalExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Complex_LogicalExpression
       resultStatus: 1
-      duration: 0.0872209
+      duration: 0.0718892
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 5 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1076,11 +1039,11 @@ MonoBehaviour:
       name: Complex_NestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Complex_NestedFunctions
       resultStatus: 1
-      duration: 0.0933934
+      duration: 0.0782324
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 5 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1098,11 +1061,11 @@ MonoBehaviour:
       name: ComplexReferenceParsing
       fullName: TableForge.Tests.ExcelFunctionsTests.ComplexReferenceParsing
       resultStatus: 1
-      duration: 0.0856878
+      duration: 0.0725529
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 5 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1120,11 +1083,11 @@ MonoBehaviour:
       name: Count_MixedTypes
       fullName: TableForge.Tests.ExcelFunctionsTests.Count_MixedTypes
       resultStatus: 1
-      duration: 0.1014117
+      duration: 0.0946967
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 10 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1142,11 +1105,11 @@ MonoBehaviour:
       name: Count_NonEmptyCells
       fullName: TableForge.Tests.ExcelFunctionsTests.Count_NonEmptyCells
       resultStatus: 1
-      duration: 0.0854483
+      duration: 0.1383193
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 11 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1164,11 +1127,11 @@ MonoBehaviour:
       name: CountIf_WithCriteria
       fullName: TableForge.Tests.ExcelFunctionsTests.CountIf_WithCriteria
       resultStatus: 1
-      duration: 0.0856152
+      duration: 0.0687268
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1186,11 +1149,11 @@ MonoBehaviour:
       name: CountIf_WithTextCriteria
       fullName: TableForge.Tests.ExcelFunctionsTests.CountIf_WithTextCriteria
       resultStatus: 1
-      duration: 0.085753
+      duration: 0.0536855
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1208,9 +1171,9 @@ MonoBehaviour:
       name: Divide_ByZero
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_ByZero
       resultStatus: 1
-      duration: 0.0968698
+      duration: 0.0583407
       messages: 
-      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 2 ms to generate table
+      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 4 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nFunction evaluation error
         in cell E1 for input: =DIVIDE(10; 0)\nExpected type: System.Double, but got:
         \nError: Division by zero in DIVIDE function.\r\n"
@@ -1228,11 +1191,11 @@ MonoBehaviour:
       name: Divide_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_NormalOperation
       resultStatus: 1
-      duration: 0.0841087
+      duration: 0.0540128
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1250,11 +1213,11 @@ MonoBehaviour:
       name: Divide_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_WithCellReferences
       resultStatus: 1
-      duration: 0.1035655
+      duration: 0.0531916
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1272,11 +1235,11 @@ MonoBehaviour:
       name: ExecuteAllFunctions_ComplexDistributedDependencies_ExecutesInOrder
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_ComplexDistributedDependencies_ExecutesInOrder
       resultStatus: 1
-      duration: 0.1001356
+      duration: 0.0568313
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1294,11 +1257,11 @@ MonoBehaviour:
       name: ExecuteAllFunctions_DiamondDependency_ExecutesParentsFirst
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_DiamondDependency_ExecutesParentsFirst
       resultStatus: 1
-      duration: 0.1023469
+      duration: 0.0559865
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1316,7 +1279,7 @@ MonoBehaviour:
       name: ExecuteAllFunctions_DiamondDependencyWithCircularReference_ThrowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_DiamondDependencyWithCircularReference_ThrowsError
       resultStatus: 1
-      duration: 0.1160782
+      duration: 0.056072
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1341,11 +1304,11 @@ MonoBehaviour:
       name: ExecuteAllFunctions_LinearDependency_ExecutesInOrder
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_LinearDependency_ExecutesInOrder
       resultStatus: 1
-      duration: 0.0859439
+      duration: 0.0534597
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1363,11 +1326,11 @@ MonoBehaviour:
       name: ExecuteAllFunctions_MultiBranch_ExecutesIndependently
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_MultiBranch_ExecutesIndependently
       resultStatus: 1
-      duration: 0.1094508
+      duration: 0.0543872
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1385,11 +1348,11 @@ MonoBehaviour:
       name: If_NestedCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.If_NestedCondition
       resultStatus: 1
-      duration: 0.0966575
+      duration: 0.0570198
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1407,11 +1370,11 @@ MonoBehaviour:
       name: If_SimpleCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.If_SimpleCondition
       resultStatus: 1
-      duration: 0.09649
+      duration: 0.0544033
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1429,9 +1392,9 @@ MonoBehaviour:
       name: InvalidFunctionName_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.InvalidFunctionName_ShowsError
       resultStatus: 1
-      duration: 0.1017361
+      duration: 0.0665656
       messages: 
-      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 2 ms to generate table
+      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 4 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nFunction evaluation error
         in cell E1 for input: =INVALID(C1:C5)\nExpected type: System.Double, but
         got: \nError: Invalid result.\r\n"
@@ -1449,11 +1412,11 @@ MonoBehaviour:
       name: Max_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Max_NumericValues
       resultStatus: 1
-      duration: 0.0765306
+      duration: 0.0748924
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1471,11 +1434,11 @@ MonoBehaviour:
       name: Max_WithNestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Max_WithNestedFunctions
       resultStatus: 1
-      duration: 0.0954154
+      duration: 0.0764304
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1493,11 +1456,11 @@ MonoBehaviour:
       name: Min_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Min_NumericValues
       resultStatus: 1
-      duration: 0.0945211
+      duration: 0.0749126
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1515,11 +1478,11 @@ MonoBehaviour:
       name: Min_WithMixedReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Min_WithMixedReferences
       resultStatus: 1
-      duration: 0.0951363
+      duration: 0.0570137
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1537,7 +1500,7 @@ MonoBehaviour:
       name: MismatchedParentheses_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.MismatchedParentheses_ShowsError
       resultStatus: 1
-      duration: 0.093178
+      duration: 0.0562149
       messages: 
       output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 3 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nFunction evaluation error
@@ -1557,7 +1520,7 @@ MonoBehaviour:
       name: Mod_ByZero
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_ByZero
       resultStatus: 1
-      duration: 0.089717
+      duration: 0.0554611
       messages: 
       output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 3 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nFunction evaluation error
@@ -1577,7 +1540,7 @@ MonoBehaviour:
       name: Mod_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_NormalOperation
       resultStatus: 1
-      duration: 0.0935379
+      duration: 0.0558634
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1599,11 +1562,11 @@ MonoBehaviour:
       name: Mod_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_WithCellReferences
       resultStatus: 1
-      duration: 0.1314639
+      duration: 0.0571833
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 8 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1621,11 +1584,11 @@ MonoBehaviour:
       name: Multiply_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Multiply_NormalOperation
       resultStatus: 1
-      duration: 0.1050463
+      duration: 0.0581436
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1643,11 +1606,11 @@ MonoBehaviour:
       name: Multiply_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Multiply_WithCellReferences
       resultStatus: 1
-      duration: 0.0859486
+      duration: 0.0594165
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1665,11 +1628,11 @@ MonoBehaviour:
       name: Not_False
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_False
       resultStatus: 1
-      duration: 0.0951992
+      duration: 0.0613597
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1687,11 +1650,11 @@ MonoBehaviour:
       name: Not_True
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_True
       resultStatus: 1
-      duration: 0.0854897
+      duration: 0.0588689
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1709,11 +1672,11 @@ MonoBehaviour:
       name: Not_WithCellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithCellReference
       resultStatus: 1
-      duration: 0.0705998
+      duration: 0.058972
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1731,9 +1694,9 @@ MonoBehaviour:
       name: Not_WithNonValidArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithNonValidArgument
       resultStatus: 1
-      duration: 0.0926912
+      duration: 0.0630852
       messages: 
-      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 2 ms to generate table
+      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 3 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nInvalid arguments for function
         'NOT'\r\nFunction evaluation error in cell H1 for input: =NOT(5)\nExpected
         type: System.Boolean, but got: \nError: Invalid result.\r\n"
@@ -1751,7 +1714,7 @@ MonoBehaviour:
       name: Not_WithNonValidFunctionArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithNonValidFunctionArgument
       resultStatus: 1
-      duration: 0.0787045
+      duration: 0.0613143
       messages: 
       output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 3 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nInvalid arguments for function
@@ -1771,7 +1734,7 @@ MonoBehaviour:
       name: Or_AllFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_AllFalse
       resultStatus: 1
-      duration: 0.0783611
+      duration: 0.061368
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1793,7 +1756,7 @@ MonoBehaviour:
       name: Or_OneTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_OneTrue
       resultStatus: 1
-      duration: 0.0779923
+      duration: 0.0608006
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1815,11 +1778,11 @@ MonoBehaviour:
       name: Or_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_WithCellReferences
       resultStatus: 1
-      duration: 0.093982
+      duration: 0.0647539
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1837,9 +1800,9 @@ MonoBehaviour:
       name: ReferenceOutOfRange_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.ReferenceOutOfRange_ShowsError
       resultStatus: 1
-      duration: 0.093641
+      duration: 0.0611891
       messages: 
-      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 2 ms to generate table
+      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 3 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nFunction evaluation error
         in cell E1 for input: =SUM(C1:C10)\nExpected type: System.Double, but got:
         \nError: Could not resolve range: C1:C10\r\n"
@@ -1857,11 +1820,11 @@ MonoBehaviour:
       name: Round_NegativeNumber
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_NegativeNumber
       resultStatus: 1
-      duration: 0.075853
+      duration: 0.0599852
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1879,11 +1842,11 @@ MonoBehaviour:
       name: Round_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithCellReferences
       resultStatus: 1
-      duration: 0.1090076
+      duration: 0.062794
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1901,11 +1864,11 @@ MonoBehaviour:
       name: Round_WithDecimals
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithDecimals
       resultStatus: 1
-      duration: 0.0766678
+      duration: 0.0592253
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1923,11 +1886,11 @@ MonoBehaviour:
       name: Round_WithoutDecimals
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithoutDecimals
       resultStatus: 1
-      duration: 0.0890992
+      duration: 0.0598424
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1945,11 +1908,11 @@ MonoBehaviour:
       name: SetCell_WithDeeplyNestedExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithDeeplyNestedExpression
       resultStatus: 1
-      duration: 0.098513
+      duration: 0.0600458
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -1967,7 +1930,7 @@ MonoBehaviour:
       name: SetCell_WithDirectNegativeNumber
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithDirectNegativeNumber
       resultStatus: 1
-      duration: 0.0869654
+      duration: 0.0608905
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -1989,7 +1952,7 @@ MonoBehaviour:
       name: SetCell_WithDirectNumberValue
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithDirectNumberValue
       resultStatus: 1
-      duration: 0.0901657
+      duration: 0.0578764
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2011,7 +1974,7 @@ MonoBehaviour:
       name: SetCell_WithSingleCellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithSingleCellReference
       resultStatus: 1
-      duration: 0.0879391
+      duration: 0.060704
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2033,9 +1996,9 @@ MonoBehaviour:
       name: Sum_InvalidValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_InvalidValues
       resultStatus: 1
-      duration: 0.0961339
+      duration: 0.0662931
       messages: 
-      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 2 ms to generate table
+      output: "Took 0 ms to load 1 items from 5 paths.\r\nTook 4 ms to generate table
         'ExcelTestTable' with 5 rows and 12 columns.\r\nInvalid arguments for function
         'SUM'\r\nFunction evaluation error in cell E1 for input: =SUM(C1;\"Invalid\")\nExpected
         type: System.Double, but got: \nError: Invalid result.\r\n"
@@ -2053,11 +2016,11 @@ MonoBehaviour:
       name: Sum_NestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_NestedFunctions
       resultStatus: 1
-      duration: 0.077106
+      duration: 0.0639279
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2075,11 +2038,11 @@ MonoBehaviour:
       name: Sum_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_NumericValues
       resultStatus: 1
-      duration: 0.0840301
+      duration: 0.0624052
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2097,11 +2060,11 @@ MonoBehaviour:
       name: SumIf_BasicCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_BasicCondition
       resultStatus: 1
-      duration: 0.0898456
+      duration: 0.0586662
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2119,11 +2082,11 @@ MonoBehaviour:
       name: SumIf_WithBoolComparison
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithBoolComparison
       resultStatus: 1
-      duration: 0.088852
+      duration: 0.0664356
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2141,11 +2104,11 @@ MonoBehaviour:
       name: SumIf_WithTextCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithTextCondition
       resultStatus: 1
-      duration: 0.0939035
+      duration: 0.0608807
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2163,11 +2126,11 @@ MonoBehaviour:
       name: SumIf_WithTwoArguments
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithTwoArguments
       resultStatus: 1
-      duration: 0.1092756
+      duration: 0.0611973
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2185,11 +2148,11 @@ MonoBehaviour:
       name: Xor_BothFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_BothFalse
       resultStatus: 1
-      duration: 0.0986285
+      duration: 0.06304
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 3 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2207,11 +2170,11 @@ MonoBehaviour:
       name: Xor_BothTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_BothTrue
       resultStatus: 1
-      duration: 0.0879372
+      duration: 0.0611163
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 5 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2229,11 +2192,11 @@ MonoBehaviour:
       name: Xor_OneTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_OneTrue
       resultStatus: 1
-      duration: 0.077259
+      duration: 0.0621245
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 4 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2251,11 +2214,11 @@ MonoBehaviour:
       name: Xor_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_WithCellReferences
       resultStatus: 1
-      duration: 0.1127557
+      duration: 0.0596704
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 3 ms to generate
         table ''ExcelTestTable'' with 5 rows and 12 columns.
 
 '
@@ -2289,9 +2252,9 @@ MonoBehaviour:
       name: FilterByBooleanAnd_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanAnd_ShouldMatchRows
       resultStatus: 1
-      duration: 0.1884837
+      duration: 0.2340594
       messages: 
-      output: 'Took 11 ms to load 1 items from 5 paths.
+      output: 'Took 15 ms to load 1 items from 5 paths.
 
         Took 14 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
@@ -2311,7 +2274,7 @@ MonoBehaviour:
       name: FilterByBooleanOr_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanOr_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0804288
+      duration: 0.0507626
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2333,7 +2296,7 @@ MonoBehaviour:
       name: FilterByBooleanWithParentheses_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanWithParentheses_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0781759
+      duration: 0.0498133
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2355,7 +2318,7 @@ MonoBehaviour:
       name: FilterByDeeplyNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0782585
+      duration: 0.0505259
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2377,11 +2340,11 @@ MonoBehaviour:
       name: FilterByDictionaryKey_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryKey_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0756591
+      duration: 0.048018
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2399,11 +2362,11 @@ MonoBehaviour:
       name: FilterByDictionaryProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0778582
+      duration: 0.0492466
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2421,7 +2384,7 @@ MonoBehaviour:
       name: FilterByEnum_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByEnum_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0811612
+      duration: 0.0493341
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2443,7 +2406,7 @@ MonoBehaviour:
       name: FilterByGuid_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByGuid_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0764142
+      duration: 0.0493177
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2465,7 +2428,7 @@ MonoBehaviour:
       name: FilterByListContainsItem_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsItem_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0803999
+      duration: 0.0496356
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2487,11 +2450,11 @@ MonoBehaviour:
       name: FilterByListContainsManualList_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsManualList_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0953158
+      duration: 0.0494365
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 1 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2509,7 +2472,7 @@ MonoBehaviour:
       name: FilterByListCountGreaterThan_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListCountGreaterThan_ShouldMatchRows
       resultStatus: 1
-      duration: 0.073626
+      duration: 0.0482586
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2531,7 +2494,7 @@ MonoBehaviour:
       name: FilterByListDeepEquality_FailsForDifferentOrder
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_FailsForDifferentOrder
       resultStatus: 1
-      duration: 0.0779566
+      duration: 0.0491018
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2553,11 +2516,11 @@ MonoBehaviour:
       name: FilterByListDeepEquality_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0799433
+      duration: 0.051254
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2575,7 +2538,7 @@ MonoBehaviour:
       name: FilterByListLength_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListLength_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0757861
+      duration: 0.0495779
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2597,11 +2560,11 @@ MonoBehaviour:
       name: FilterByListNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0789935
+      duration: 0.0491756
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2619,7 +2582,7 @@ MonoBehaviour:
       name: FilterByListNotEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0756408
+      duration: 0.0483109
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2641,7 +2604,7 @@ MonoBehaviour:
       name: FilterByLiteralListNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByLiteralListNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0793572
+      duration: 0.0477113
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2663,7 +2626,7 @@ MonoBehaviour:
       name: FilterByMultipleConditions_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByMultipleConditions_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0777094
+      duration: 0.0468714
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2685,7 +2648,7 @@ MonoBehaviour:
       name: FilterByName_MatchRowFullName
       fullName: TableForge.Tests.FilteringTests.FilterByName_MatchRowFullName
       resultStatus: 1
-      duration: 0.0765383
+      duration: 0.049956
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2707,7 +2670,7 @@ MonoBehaviour:
       name: FilterByName_ShouldMatchRowsContaining
       fullName: TableForge.Tests.FilteringTests.FilterByName_ShouldMatchRowsContaining
       resultStatus: 1
-      duration: 0.0782113
+      duration: 0.0486665
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2729,11 +2692,11 @@ MonoBehaviour:
       name: FilterByNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0766357
+      duration: 0.0470408
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2751,7 +2714,7 @@ MonoBehaviour:
       name: FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0790866
+      duration: 0.0489065
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2773,7 +2736,7 @@ MonoBehaviour:
       name: FilterByNestedString_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0769487
+      duration: 0.0479797
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2795,7 +2758,7 @@ MonoBehaviour:
       name: FilterByNotOperator_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNotOperator_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0768086
+      duration: 0.0504788
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2817,7 +2780,7 @@ MonoBehaviour:
       name: FilterByPath_WithFolder_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFolder_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.0845055
+      duration: 0.0578233
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2839,11 +2802,11 @@ MonoBehaviour:
       name: FilterByPath_WithFullPath_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFullPath_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0903773
+      duration: 0.0498056
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2861,7 +2824,7 @@ MonoBehaviour:
       name: FilterByProperty_BoolEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_BoolEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0923553
+      duration: 0.050525
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2883,7 +2846,7 @@ MonoBehaviour:
       name: FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.0943088
+      duration: 0.0511454
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2905,7 +2868,7 @@ MonoBehaviour:
       name: FilterByProperty_IntEqual_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_IntEqual_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0753398
+      duration: 0.0515088
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2927,7 +2890,7 @@ MonoBehaviour:
       name: FilterByProperty_StringContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_StringContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0947668
+      duration: 0.0505601
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2949,11 +2912,11 @@ MonoBehaviour:
       name: FilterByProperty_WithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0904242
+      duration: 0.0494813
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 2 ms to generate
+        Took 1 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -2971,7 +2934,7 @@ MonoBehaviour:
       name: FilterByProperty_WithNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.1426623
+      duration: 0.051576
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -2993,11 +2956,11 @@ MonoBehaviour:
       name: FilterWithComplexExpression_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0786057
+      duration: 0.0526829
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 1 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -3015,11 +2978,11 @@ MonoBehaviour:
       name: FilterWithEmptyInput_ShouldShowAllRows
       fullName: TableForge.Tests.FilteringTests.FilterWithEmptyInput_ShouldShowAllRows
       resultStatus: 1
-      duration: 0.0819045
+      duration: 0.0542218
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
-        Took 5 ms to generate
+        Took 2 ms to generate
         table ''FilteringTestTable'' with 5 rows and 9 columns.
 
 '
@@ -3037,7 +3000,7 @@ MonoBehaviour:
       name: FilterWithInvalidSyntax_ShouldShowAllRows
       fullName: TableForge.Tests.FilteringTests.FilterWithInvalidSyntax_ShouldShowAllRows
       resultStatus: 1
-      duration: 0.0702825
+      duration: 0.0522977
       messages: 
       output: 'Took 0 ms to load 1 items from 5 paths.
 
@@ -3393,20 +3356,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1096
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    m_ResultText: 'FilterByEnum_ShouldMatchRows (0,081s)
-
-      ---
-
-      Took 0
-      ms to load 1 items from 5 paths.
-
-      Took 1 ms to generate table ''FilteringTestTable''
-      with 5 rows and 9 columns.'
+    m_ResultText: ExcelFunctionsTests (80 tests) (0,000s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3806d6f2
-      m_LastClickedID: -220854728
+      m_SelectedIDs: a6ce557f
+      m_LastClickedID: 2136329894
       m_ExpandedIDs: 6e6da2e15da74a17b1b65a603e11d07dffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -3437,7 +3392,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: d5427d94-a7b3-45b1-b8cd-6915bc48bf42
+      RunGuid: 3bc8f1c7-121f-4929-86be-d77c12750ed7
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -3450,7 +3405,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.FilteringTests
+          - TableForge.Tests.ExcelFunctionsTests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -3465,7 +3420,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999996
+      Progress: 0.999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3504,7 +3459,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: d5427d94-a7b3-45b1-b8cd-6915bc48bf42
+      RunGuid: 3bc8f1c7-121f-4929-86be-d77c12750ed7
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -3517,7 +3472,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.FilteringTests
+          - TableForge.Tests.ExcelFunctionsTests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -3532,7 +3487,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999996
+      Progress: 0.999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3569,7 +3524,7 @@ MonoBehaviour:
       selectedCategories: []
       availableCategories: []
     m_SelectedOption: 0
---- !u!114 &15
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3592,8 +3547,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 78.66667
-    width: 1409.6666
-    height: 612.6667
+    width: 1339
+    height: 633.3333
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4293,7 +4248,7 @@ MonoBehaviour:
   m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
-    m_SceneView: {fileID: 15}
+    m_SceneView: {fileID: 14}
     m_CameraOverscanSettings:
       m_Opacity: 50
       m_Scale: 1
@@ -4303,7 +4258,7 @@ MonoBehaviour:
   m_LastLockedObject: {fileID: 0}
   m_LastDebugDrawMode: 35
   m_ViewIsLockedToObject: 0
---- !u!114 &16
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4375,7 +4330,7 @@ MonoBehaviour:
   m_CurrentEditor: 0
   m_LayerEditor:
     m_SelectedLayerIndex: 0
---- !u!114 &17
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4475,7 +4430,7 @@ MonoBehaviour:
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &18
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4498,8 +4453,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 78.66667
-    width: 1409.6666
-    height: 612.6667
+    width: 1339
+    height: 633.3333
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4516,7 +4471,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e8faffff
+      m_ExpandedIDs: 4c21ffff8421ffffb69fffffee9fffff22a0ffff5aa0fffffea0ffff36a1ffff48a2ffff10a4ffff44a4ffff84a4ffffb8a4fffff8a4ffff40a5ffff80a5ffffb4a5fffff4a5ffff28a6ffff68a6ffff9ca6fffff6a6ffff2aa7ffff6aa7ffff0ea8ffff94a8ffffc8a8ffff4ea9ffff82a9ffff08aaffff3caaffffc2aafffff6aaffffbebdffffe8faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -4541,7 +4496,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &19
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4564,8 +4519,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 718.3333
-    height: 250.66669
+    width: 717.6667
+    height: 231.33331
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4588,7 +4543,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/TableForge/Editor/DataHandling/Cells/SimpleCells
+    - Assets/TableForge/Editor/UI/Utils/Extensions
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -4598,16 +4553,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/TableForge/Editor/DataHandling/Cells/SimpleCells
+  - Assets/TableForge/Editor/UI/Utils/Extensions
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\joseg\Documents\GitHub\TableForge
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 207}
-    m_SelectedIDs: f2c30000
-    m_LastClickedID: 50162
-    m_ExpandedIDs: 0000000094c1000096c1000098c100009ac100009cc100009ec10000a0c10000a2c10000a4c10000a6c10000a8c10000aac10000acc10000aec10000b0c10000b2c10000
+    scrollPos: {x: 0, y: 316.6667}
+    m_SelectedIDs: 76c70000
+    m_LastClickedID: 51062
+    m_ExpandedIDs: 0000000098c100009ac100009cc100009ec10000a0c10000a2c10000a4c10000a6c10000a8c10000aac10000acc10000aec10000b0c10000b2c10000b4c10000b6c10000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4636,7 +4591,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000094c1000096c1000098c100009ac100009cc100009ec10000a0c10000a2c10000a4c10000a6c10000a8c10000aac10000acc10000aec10000b0c10000b2c10000
+    m_ExpandedIDs: 0000000098c100009ac100009cc100009ec10000a0c10000a2c10000a4c10000a6c10000a8c10000aac10000acc10000aec10000b0c10000b2c10000b4c10000b6c10000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4694,7 +4649,7 @@ MonoBehaviour:
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 194
---- !u!114 &20
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4715,10 +4670,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 720.3333
+    x: 719.6667
     y: 24
-    width: 618.6667
-    height: 250.66669
+    width: 619.3333
+    height: 231.33331
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4730,7 +4685,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &21
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4779,3 +4734,40 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
+--- !u!114 &21
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a4ac289734f744a9751ad7fee949e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: TableVisualizer
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+    m_TextWithWhitespace: "TableVisualizer\u200B"
+  m_Pos:
+    serializedVersion: 2
+    x: 0
+    y: 24
+    width: 1339
+    height: 636.6667
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_ContainerData: []
+    m_OverlaysVisible: 1
+  visualTreeAsset: {fileID: 9197481963319205126, guid: 1a7497980761aee499a21aa4ea67b4be, type: 3}

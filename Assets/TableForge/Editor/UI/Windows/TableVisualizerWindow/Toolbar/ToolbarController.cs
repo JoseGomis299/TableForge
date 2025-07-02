@@ -21,6 +21,7 @@ namespace TableForge.Editor.UI
         private Button _visibleFieldsButton;
         private ToolbarSearchField _filter;
         private TextField _functionTextField;
+        private Label _currentCellLabel;
         
         private TableMetadata _selectedTab;
         private readonly Dictionary<TableMetadata, TabControl> _tabControls = new();
@@ -49,6 +50,7 @@ namespace TableForge.Editor.UI
             }
             
             Cell focusedCell = _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell();
+            if(focusedCell is SubTableCell) return;
             string function = _selectedTab.GetFunction(focusedCell.Id);
             
             _functionTextField.SetEnabled(true);
@@ -137,7 +139,7 @@ namespace TableForge.Editor.UI
             RegisterEvents();
             OpenStoredTabs();
             
-            RefreshFunctionTextField();
+            OnFocusedCellChanged();
         }
         
         private void OpenStoredTabs()
@@ -157,6 +159,7 @@ namespace TableForge.Editor.UI
             _functionTextField = _toolbar.Q<TextField>("function-field");
             _visibleFieldsButton = _toolbar.Q<Button>("visible-fields-button");
             _visibleColumnsDropdown = new MultiSelectDropdown(new List<DropdownElement>(), _visibleFieldsButton);
+            _currentCellLabel = _toolbar.Q<Label>("current-cell-label");
         }
 
         private void RegisterEvents()
@@ -223,6 +226,7 @@ namespace TableForge.Editor.UI
                 _tableVisualizer.CurrentTable.FunctionExecutor.ExecuteAllFunctions();
                 RefreshFunctionTextField();
             });
+            
         }
         
         public void RefreshFunctionTextField()
@@ -250,6 +254,24 @@ namespace TableForge.Editor.UI
             
             _functionTextField.SetEnabled(true);
             _functionTextField.SetValueWithoutNotify(function ?? string.Empty);
+        }
+        
+        private void RefreshCurrentCellLabel()
+        {
+            if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null)
+            {
+                _currentCellLabel.text = string.Empty;
+                return;
+            }
+            
+            Cell focusedCell = _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell();
+            _currentCellLabel.text = $"{focusedCell.GetGlobalPosition()}";
+        }
+
+        private void OnFocusedCellChanged()
+        {
+            RefreshFunctionTextField();
+            RefreshCurrentCellLabel();
         }
 
         private void OpenTabInternal(TabControl tab)
@@ -292,7 +314,7 @@ namespace TableForge.Editor.UI
             
             if(_tableVisualizer.CurrentTable != null)
             {
-                _tableVisualizer.CurrentTable.CellSelector.OnFocusedCellChanged -= RefreshFunctionTextField;
+                _tableVisualizer.CurrentTable.CellSelector.OnFocusedCellChanged -= OnFocusedCellChanged;
             }
             
             _selectedTab = tableMetadata;
@@ -301,7 +323,7 @@ namespace TableForge.Editor.UI
             
             if(_tableVisualizer.CurrentTable != null)
             {
-                _tableVisualizer.CurrentTable.CellSelector.OnFocusedCellChanged += RefreshFunctionTextField;
+                _tableVisualizer.CurrentTable.CellSelector.OnFocusedCellChanged += OnFocusedCellChanged;
             }
 
             if (tableMetadata != null)

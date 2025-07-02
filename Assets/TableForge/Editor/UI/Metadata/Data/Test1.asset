@@ -51,7 +51,7 @@ MonoBehaviour:
     - position: 12
       size: {x: 202, y: 0}
     - position: 13
-      size: {x: 94, y: 0}
+      size: {x: 96.66675, y: 0}
     - position: 14
       size: {x: 0, y: 0}
     - position: 15
@@ -127,7 +127,7 @@ MonoBehaviour:
     - position: 14
       size: {x: 0, y: 24.666656}
     - position: 17
-      size: {x: 0, y: 25.333344}
+      size: {x: 0, y: 25.333374}
     - position: 244
       size: {x: 0, y: 0}
     - position: 556
