@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Debug = UnityEngine.Debug;
 
 namespace TableForge.Editor
@@ -287,6 +288,79 @@ namespace TableForge.Editor
             }
             _rowsDirty = true;
         }
+        
+        public string SerializeAsJson(bool addName)
+        {
+            StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonObjectStart);
+
+            if (addName)
+            {
+                serializedData.Append("\"name\": \"").Append(Name).Append($"\"{SerializationConstants.JsonItemSeparator}");
+            }
+            serializedData.Append("\"items\": ").Append(SerializationConstants.JsonArrayStart);
+            IEnumerable<Cell> cells = OrderedRows.SelectMany(row => row.OrderedCells);
+            int currentRow = -1;
+
+            foreach (var item in cells)
+            {
+                if (currentRow != item.row.Position)
+                {
+                    if (currentRow != -1)
+                    {
+                        serializedData.Remove(serializedData.Length - 1, 1); // Remove trailing comma
+                        serializedData.Append($"{SerializationConstants.JsonObjectEnd}{SerializationConstants.JsonObjectEnd}{SerializationConstants.JsonItemSeparator}");
+                    }
+
+                    currentRow = item.row.Position;
+                    serializedData.Append(SerializationConstants.JsonObjectStart).Append("\"name\": \"").Append(item.row.Name).Append($"\"{SerializationConstants.JsonItemSeparator}");
+                    serializedData.Append("\"properties\": ").Append(SerializationConstants.JsonObjectStart);
+                }
+
+                string value;
+                if(item is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                else value = item.Serialize();
+                serializedData.Append($"\"{item.column.Name}\"{SerializationConstants.JsonKeyValueSeparator} {value}{SerializationConstants.JsonItemSeparator}");
+            }
+
+            if (serializedData.Length > 1)
+            {
+                serializedData.Remove(serializedData.Length - 1, 1); // Remove trailing comma
+                serializedData.Append(SerializationConstants.JsonObjectEnd).Append(SerializationConstants.JsonObjectEnd);
+            }
+
+            serializedData.Append(SerializationConstants.JsonArrayEnd);
+            serializedData.Append(SerializationConstants.JsonObjectEnd);
+            return serializedData.ToString();
+        }
+
+        // public string SerializeFlattening()
+        // {
+        //     if (SubTable.Rows.Count == 0)
+        //     {
+        //         string emptyTable = "";
+        //         for (int i = 0; i < this.GetSubTableColumnCount(); i++)
+        //         {
+        //             emptyTable += SerializationConstants.EmptyColumn;
+        //             emptyTable += SerializationConstants.ColumnSeparator;
+        //         }
+        //         emptyTable += SerializationConstants.EmptyColumn;
+        //         return emptyTable;
+        //     }
+        //     
+        //     StringBuilder serializedData = new StringBuilder();
+        //     foreach (var descendant in this.GetImmediateDescendants())
+        //     {
+        //         serializedData.Append(descendant.Serialize()).Append(SerializationConstants.ColumnSeparator);
+        //     }
+        //     
+        //     // Remove the last column separator
+        //     if (serializedData.Length > 0)
+        //     {
+        //         serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+        //     }
+        //     
+        //     return serializedData.ToString();
+        // }
 
         #endregion
 

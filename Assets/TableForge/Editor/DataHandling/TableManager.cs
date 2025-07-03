@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace TableForge.Editor
 {
@@ -24,6 +25,8 @@ namespace TableForge.Editor
                 return null;
             
             Table table = TableGenerator.GenerateTable(items[0], tableName, null);
+            string serializedTable = table.SerializeAsJson(true);
+            Debug.Log(serializedTable);
             stopwatch.Stop();
             UnityEngine.Debug.Log($"Took {stopwatch.ElapsedMilliseconds} ms to generate table '{tableName}' with {table.Rows.Count} rows and {table.Columns.Count} columns.");
             return table;

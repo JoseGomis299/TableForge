@@ -32,7 +32,7 @@ namespace TableForge.Editor
                 return serializer.Serialize(data);
             }
             
-            return "NULL";
+            return "null";
         }
 
         public override void Deserialize(string data)
@@ -40,7 +40,7 @@ namespace TableForge.Editor
             if (string.IsNullOrEmpty(data))
                 return;
             
-            if (data == "NULL") 
+            if (data == "null") 
             {
                 SetValue(null);
                 return;

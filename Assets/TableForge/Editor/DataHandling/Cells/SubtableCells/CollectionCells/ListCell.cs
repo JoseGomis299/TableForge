@@ -175,10 +175,12 @@ namespace TableForge.Editor
                 }
 
                 string value;
-                if(item is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
-                else value = isSimpleType
-                    ? $"{item.Serialize()},"
-                    : $"\"{item.column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{item.Serialize()}{SerializationConstants.JsonItemSeparator}";
+                if (item is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                else value = item.Serialize();
+                
+                value = isSimpleType
+                    ? $"{value}{SerializationConstants.JsonItemSeparator}"
+                    : $"\"{item.column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}";
                 serializedData.Append(value);
             }
 

@@ -9,7 +9,7 @@ namespace TableForge.Editor
 
         public override string Serialize()
         {
-            return "NULL";
+            return "null";
         }
         
         public override void Deserialize(string data)
