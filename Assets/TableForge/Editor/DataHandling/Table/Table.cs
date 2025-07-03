@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Debug = UnityEngine.Debug;
 
 namespace TableForge.Editor
@@ -330,7 +332,9 @@ namespace TableForge.Editor
 
             serializedData.Append(SerializationConstants.JsonArrayEnd);
             serializedData.Append(SerializationConstants.JsonObjectEnd);
-            return serializedData.ToString();
+            string unformattedJson = serializedData.ToString();
+            JToken parsed = JToken.Parse(unformattedJson);
+            return parsed.ToString(Formatting.Indented);
         }
 
         // public string SerializeFlattening()
