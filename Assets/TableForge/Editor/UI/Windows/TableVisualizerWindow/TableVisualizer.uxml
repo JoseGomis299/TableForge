@@ -25,8 +25,8 @@
                 </engine:VisualElement>
                 <engine:VisualElement name="tab-section" class="toolbar__tab-container">
                     <engine:Button text="+" name="add-tab-button" class="toolbar__add-tab-button" />
-                    <engine:ScrollView name="tab-scrollview" mode="Horizontal" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="toolbar__tab-scrollview" style="height: 100%;">
-                        <engine:VisualElement name="tab-container" class="toolbar__tab-container" style="flex-grow: 1;" />
+                    <engine:ScrollView name="tab-scrollview" mode="Horizontal" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Auto" focusable="true" class="toolbar__tab-scrollview" style="height: 100%;">
+                        <engine:VisualElement name="tab-container" class="toolbar__tab-container" style="flex-grow: 0; position: relative;" />
                     </engine:ScrollView>
                 </engine:VisualElement>
             </engine:VisualElement>

@@ -7,7 +7,7 @@ namespace TableForge.Editor
     {
         public Column(string name, int position, Table table) : base(name, position, table)
         {
-            Id = HashCodeUtil.CombineHashes(name, false, table.Name);
+            Id = HashCodeUtil.CombineHashes(name, table.Name);
             table.AddColumn(this);
         }
     }

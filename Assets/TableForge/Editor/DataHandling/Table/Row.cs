@@ -78,7 +78,7 @@ namespace TableForge.Editor
             }
             else
             {
-                Id = HashCodeUtil.CombineHashes(guid, Position, true, Table.Name);
+                Id = HashCodeUtil.CombineHashes(guid, Position, Table.Name);
             }
         }
         

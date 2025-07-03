@@ -73,7 +73,7 @@ namespace TableForge.Editor
             cachedValue = GetFieldValue();
             serializer = new JsonSerializer();
             
-            Id = HashCodeUtil.CombineHashes(this.column.Id, this.row.Id, GetLocalPosition());
+            Id = HashCodeUtil.CombineHashes(this.column.Id, this.row.Id, Type.Name, fieldInfo?.Name);
             this.RegisterCell();
         }
         

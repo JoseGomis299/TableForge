@@ -104,7 +104,7 @@ namespace TableForge.Editor
         
         public Table(string name, Cell parentCell)
         {
-            Name = parentCell != null ? $"{name}({parentCell.GetLocalPosition()})" : name;
+            Name = parentCell != null ? $"{name}({parentCell.column.Name} | {parentCell.row.Name})" : name;
             ParentCell = parentCell;
         }
         
