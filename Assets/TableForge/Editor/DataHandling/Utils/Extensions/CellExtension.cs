@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -245,10 +246,10 @@ namespace TableForge.Editor
                 var fields = SerializationUtil.GetSerializableFields(cell.Type, null);
                 foreach (var field in fields)
                 {
-                    if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, field.Type, out _))
-                        columnCount++;
-                    else if (!field.Type.IsSimpleType())
+                    if (!SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, field.Type, out _) && !field.Type.IsSimpleType()) 
                         columnCount += GetSubTableColumnCount(field);
+                    else 
+                        columnCount++;
                 }
             }
             
@@ -297,6 +298,29 @@ namespace TableForge.Editor
             return cell is INumericBasedCell;
         }
         
+        /// <summary>
+        /// Serializes a cell's value in a CSV-compatible format.
+        /// </summary>
+        public static string SerializeCellCsvCompatible(this Cell cell, bool flattenSubTables)
+        {
+            string value;
+            if (cell is IQuotedValueCell quotedValueCell)
+            {
+                value = quotedValueCell.SerializeQuotedValue(true).Replace("\\\"", "\"\"").Replace("\'", "\"\""); // Escape quotes for CSV
+            }
+            else
+            {
+                value = cell.Serialize();
+                if((cell is SubTableCell && (!flattenSubTables || cell is ICollectionCell)) || cell.Serializer is JsonSerializer)
+                {
+                    // If we serialize the value as JSON we have to surround the value with quotes and escape quotes inside the value
+                    value = $"\"{value.Replace("\"", "\"\"")}\"";
+                }
+            }
+
+            return value;
+        }
+        
         public static Cell GetCellById(Table table, int cellId)
         {
             if (table.IsSubTable)
@@ -340,14 +364,17 @@ namespace TableForge.Editor
 
         private static int GetSubTableColumnCount(TfFieldInfo field)
         {
+            if (field.Type.ImplementsInterface(typeof(ICollection)) || field.Type.ImplementsInterface(typeof(ICollection<>)))
+                return 1;
+            
             int count = 0;
             var fields = SerializationUtil.GetSerializableFields(field.Type, field.FieldInfo);
             foreach (var subField in fields)
             {
-                if (SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, subField.Type, out _))
-                    count++;
-                else if (!subField.Type.IsSimpleType())
+                if (!SerializationUtil.IsTableForgeSerializable(TypeMatchMode.Exact, subField.Type, out _) && !subField.Type.IsSimpleType()) 
                     count += GetSubTableColumnCount(subField);
+                else 
+                    count++;
             }
             
             return count;

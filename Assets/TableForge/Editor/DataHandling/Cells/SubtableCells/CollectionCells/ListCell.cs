@@ -38,8 +38,7 @@ namespace TableForge.Editor
             if (cachedValue == null || ((IList)cachedValue).Count == 0)
             {
                 IColumnGenerator columnGenerator;
-                if (itemType.IsSimpleType() || typeof(UnityEngine.Object).IsAssignableFrom(itemType) ||
-                    itemType.IsListOrArrayType())
+                if (itemType.IsSimpleType() || itemType.IsListOrArrayType())
                 {
                     columnGenerator = new ListColumnGenerator();
                 }
@@ -175,7 +174,7 @@ namespace TableForge.Editor
                 }
 
                 string value;
-                if (item is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                if (item is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
                 else value = item.Serialize();
                 
                 value = isSimpleType

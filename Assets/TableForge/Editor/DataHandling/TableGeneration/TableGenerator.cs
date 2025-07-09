@@ -16,9 +16,6 @@ namespace TableForge.Editor
         /// <returns>A new <see cref="Table"/> populated with the serialized data.</returns>
         public static Table GenerateTable(Table table, List<ITfSerializedObject> items)
         {
-            if (items == null || items.Count == 0)
-                return null; 
-            
             int rowCount = items.Count;
             List<Column> columns = new List<Column>();
             table.Clear();

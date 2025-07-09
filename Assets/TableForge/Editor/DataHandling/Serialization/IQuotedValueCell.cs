@@ -5,6 +5,6 @@ namespace TableForge.Editor
         /// <summary>
         /// Returns the serialized value between quotes.
         /// </summary>
-        public string SerializeQuotedValue();
+        public string SerializeQuotedValue(bool escapeInternalQuotes);
     }
 }

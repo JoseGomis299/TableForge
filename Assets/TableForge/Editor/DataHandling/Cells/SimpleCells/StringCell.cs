@@ -17,9 +17,15 @@ namespace TableForge.Editor
             return string.Empty;
         }
         
-        public string SerializeQuotedValue()
+        public string SerializeQuotedValue(bool escapeInternalQuotes)
         { 
-            return "\"" + Serialize() + "\"";
+            string serializedValue = Serialize();
+            if (escapeInternalQuotes)
+            {
+                serializedValue = serializedValue.Replace("\"", "\\\"");
+            }
+            
+            return "\"" + serializedValue + "\"";
         }
         
         public override void Deserialize(string data)

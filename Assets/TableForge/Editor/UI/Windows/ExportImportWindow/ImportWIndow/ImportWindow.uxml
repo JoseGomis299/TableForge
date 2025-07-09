@@ -1,0 +1,37 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/TableForge/Editor/UI/Windows/ExportImportWindow/ImportWIndow/ImportWindow.uss?fileID=7433441132597879392&amp;guid=479796cd6a9c48a88c05037cccac3aa2&amp;type=3#ImportWindow" />
+    <ui:ScrollView>
+        <ui:VisualElement name="data-processing-container" class="step-container">
+            <ui:Label text="Import Table Data" class="step-title" />
+            <ui:TextField label="Table Name" name="table-name-field" />
+            <uie:EnumField label="Data Format" name="format-field" />
+            <ui:Toggle label="First row contains headers" name="csv-header-toggle" />
+            <ui:VisualElement class="horizontal-group">
+                <uie:DropdownField label="Namespace" name="namespace-dropdown" />
+                <uie:DropdownField label="Data Type" name="type-dropdown" />
+            </ui:VisualElement>
+            <ui:Label text="Data Input" />
+            <ui:TextField name="data-text-field" multiline="true" vertical-scroller-visibility="Auto" />
+            <ui:Button text="Import from File" name="import-file-button" />
+            <ui:Button text="Process Data" name="process-data-button" class="action-button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="column-mapping-container" display="none" class="step-container">
+            <ui:Label text="Map Columns to Fields" class="step-title" />
+            <ui:TextField name="data-preview-text-field" multiline="true" vertical-scroller-visibility="Auto" enabled="true" />
+            <ui:VisualElement name="column-mapping-list-container" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                <ui:Button text="Back to Processing" name="cancel-mapping-button" class="action-button" style="width: 140px;" />
+                <ui:Button text="Confirm Mapping" name="confirm-mapping-button" class="action-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="item-review-container" display="none" class="step-container">
+            <ui:Label text="Review Import Items" class="step-title" />
+            <ui:VisualElement name="item-review-list-container" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+                <ui:Button name="cancel-import-button" text="Back To Mapping" display="none" class="action-button" style="width: 140px;" />
+                <ui:Button name="final-import-button" text="Import Table" display="none" class="action-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="error-label" class="error-label" />
+    </ui:ScrollView>
+</ui:UXML>

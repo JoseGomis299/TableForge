@@ -69,7 +69,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   reference: {fileID: 11500000, guid: 5532989962c94fcd9d5260786d495011, type: 3}
   b: 1
-  charValue: 0
+  charValue: 34
   intField: 580
   floatField: 231
   <PublicLongProperty>k__BackingField: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
     m_Values:
     - {x: 1, y: 2}
     - {x: 3, y: 4}
-  text: 
+  text: '"hola""'
   matrix:
     e00: 0
     e01: 0

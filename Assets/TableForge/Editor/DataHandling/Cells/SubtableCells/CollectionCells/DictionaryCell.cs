@@ -89,7 +89,7 @@ namespace TableForge.Editor
             {
                 string key = keys[i].Serialize();
                 string value;
-                if(values[i] is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                if(values[i] is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
                 else value = values[i]?.Serialize() ?? SerializationConstants.JsonNullValue;
                 
                 serializedData.Append($"\"{key.Replace("\"", "")}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");

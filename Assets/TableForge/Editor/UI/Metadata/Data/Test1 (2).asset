@@ -2186,7 +2186,7 @@ MonoBehaviour:
     - position: 12
       size: {x: 0, y: 25}
     - position: 1
-      size: {x: 0, y: 25.333328}
+      size: {x: 0, y: 24.666672}
     - position: 143
       size: {x: 0, y: 25.333344}
     - position: 151
@@ -2670,7 +2670,7 @@ MonoBehaviour:
     - position: 10
       size: {x: 0, y: 0}
     - position: 11
-      size: {x: 0, y: 0}
+      size: {x: 114.66675, y: 0}
     - position: 12
       size: {x: 0, y: 0}
     - position: 13

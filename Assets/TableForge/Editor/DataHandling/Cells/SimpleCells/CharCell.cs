@@ -14,10 +14,15 @@ namespace TableForge.Editor
             return "\'\'";
         }
         
-        public string SerializeQuotedValue()
+        public string SerializeQuotedValue(bool escapeInternalQuotes)
         {
             if (cachedValue is char typedValue && typedValue != '\0')
             {
+                if (escapeInternalQuotes)
+                {
+                    typedValue = typedValue == '"' ? '\'' : typedValue;
+                }
+                
                 return "\"" + serializer.Serialize(typedValue) + "\"";
             }
             return "\"\"";

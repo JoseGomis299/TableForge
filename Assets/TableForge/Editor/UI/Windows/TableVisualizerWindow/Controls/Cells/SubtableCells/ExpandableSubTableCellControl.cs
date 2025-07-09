@@ -6,7 +6,7 @@ namespace TableForge.Editor.UI
 {
     internal abstract class ExpandableSubTableCellControl : SubTableCellControl
     {
-        protected VisualElement contentContainer;
+        private VisualElement _foldoutContentContainer;
         protected VisualElement subTableContentContainer;
         protected VisualElement subTableToolbar;
         protected bool isSubTableInitialized;
@@ -72,8 +72,8 @@ namespace TableForge.Editor.UI
             arrowElement.AddToClassList(USSClasses.SubTableToolbarFoldout);
             _collapseButton.Add(arrowElement);
             
-            contentContainer = new VisualElement();
-            contentContainer.AddToClassList(USSClasses.SubTableCellContent);
+            _foldoutContentContainer = new VisualElement();
+            _foldoutContentContainer.AddToClassList(USSClasses.SubTableCellContent);
             
             subTableToolbar = new VisualElement();
             subTableToolbar.AddToClassList(USSClasses.SubTableToolbar);
@@ -85,9 +85,9 @@ namespace TableForge.Editor.UI
             subTableToolbar.style.display = DisplayStyle.None;
             
             Add(_headerFoldout);
-            Add(contentContainer);
-            contentContainer.Add(subTableToolbar);
-            contentContainer.Add(subTableContentContainer);
+            Add(_foldoutContentContainer);
+            _foldoutContentContainer.Add(subTableToolbar);
+            _foldoutContentContainer.Add(subTableContentContainer);
             subTableToolbar.Add(_collapseButton);
         }
 

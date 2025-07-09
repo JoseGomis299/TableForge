@@ -50,7 +50,7 @@ namespace TableForge.Editor
                 GroupData(scriptableObject,AssetDatabase.AssetPathToGUID(path));
             }
             
-            return _selectedData.Values.ToList();
+            return _selectedData.Values.Count > 0 ? _selectedData.Values.ToList() : new List<List<ITfSerializedObject>> {new()};
         }
 
         private void GroupData(ScriptableObject scriptableObject, string guid)

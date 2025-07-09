@@ -40,10 +40,11 @@ namespace TableForge.Editor
         /// <returns>True if the type is simple; otherwise, false.</returns>
         public static bool IsSimpleType(this Type type)
         {
-            return type.IsPrimitive 
+            return type.IsPrimitive
                    || type == typeof(string)
                    || type == typeof(decimal)
-                   || type.IsEnum;
+                   || type.IsEnum
+                   || typeof(UnityEngine.Object).IsAssignableFrom(type);
         }
         
         /// <summary>

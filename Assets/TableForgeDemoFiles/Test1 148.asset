@@ -123,12 +123,6 @@ MonoBehaviour:
   testEnum: 0
   vector3Array:
   - {x: 1, y: 21, z: 1}
-  - {x: 21, y: 1, z: 21}
-  - {x: 1, y: 21, z: 1}
-  - {x: 21, y: 1, z: 21}
-  - {x: 1, y: 21, z: 1}
-  - {x: 21, y: 1, z: 21}
-  - {x: 1, y: 21, z: 1}
   stringIntDictionary:
     m_Keys:
     - key1

@@ -100,7 +100,7 @@ namespace TableForge.Editor.UI
         
         protected virtual void SetCellValue(object value)
         {
-            if (Cell.GetValue().Equals(value)) return;
+            if (Cell.GetValue() != null && Cell.GetValue().Equals(value)) return;
             
             SetCellValueCommand command = new SetCellValueCommand(Cell, this, Cell.GetValue(), value);
             if(UndoRedoManager.GetLastUndoCommand() is SetCellValueCommand lastCommand && lastCommand.Cell.Id == Cell.Id)

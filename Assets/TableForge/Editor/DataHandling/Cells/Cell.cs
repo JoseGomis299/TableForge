@@ -60,6 +60,11 @@ namespace TableForge.Editor
         /// Unique identifier of the cell in the table.
         /// </summary>
         public int Id { get; }
+        
+        /// <summary>
+        /// The serializer used for this cell.
+        /// </summary>
+        public ISerializer Serializer => serializer;
 
         #endregion
 

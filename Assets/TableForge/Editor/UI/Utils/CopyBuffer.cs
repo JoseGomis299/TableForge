@@ -31,10 +31,10 @@ namespace TableForge.Editor.UI
 
             List<string> splitBuffer = new List<string>();
             List<List<string>> rowSplitBuffer = new List<List<string>>();
-            string[] rows = buffer.Split(SerializationConstants.RowSeparator);
+            string[] rows = buffer.Split(SerializationConstants.rowSeparator);
             foreach (string row in rows)
             {
-                string[] splitRow = row.Split(SerializationConstants.ColumnSeparator);
+                string[] splitRow = row.Split(SerializationConstants.columnSeparator);
                 splitBuffer.AddRange(splitRow);
 
                 List<string> rowBuffer = new List<string>();
@@ -77,9 +77,9 @@ namespace TableForge.Editor.UI
 
                     if (!isSameRow)
                     {
-                        if (buffer.ToString().EndsWith(SerializationConstants.ColumnSeparator))
-                            buffer.Length -= SerializationConstants.ColumnSeparator.Length;
-                        buffer.Append(SerializationConstants.RowSeparator);
+                        if (buffer.ToString().EndsWith(SerializationConstants.columnSeparator))
+                            buffer.Length -= SerializationConstants.columnSeparator.Length;
+                        buffer.Append(SerializationConstants.rowSeparator);
                     }
                 }
                 
@@ -87,8 +87,8 @@ namespace TableForge.Editor.UI
                 if (cell is StringCell && !copyFunction)
                 {
                     formattedValue = formattedValue
-                        .Replace(SerializationConstants.RowSeparator, SerializationConstants.CancelledRowSeparator)
-                        .Replace(SerializationConstants.ColumnSeparator, SerializationConstants.CancelledColumnSeparator);
+                        .Replace(SerializationConstants.rowSeparator, SerializationConstants.cancelledRowSeparator)
+                        .Replace(SerializationConstants.columnSeparator, SerializationConstants.cancelledColumnSeparator);
                 }
 
                 if (copyFunction && !lastCopiedFunctionSet)
@@ -98,7 +98,7 @@ namespace TableForge.Editor.UI
                 }
                 
                 buffer.Append(formattedValue);
-                if (i != cells.Count - 1) buffer.Append(SerializationConstants.ColumnSeparator);
+                if (i != cells.Count - 1) buffer.Append(SerializationConstants.columnSeparator);
             }
 
             ClipboardUtility.CopyToClipboard(buffer.ToString());
@@ -127,15 +127,15 @@ namespace TableForge.Editor.UI
                         StringBuilder serializedData = new StringBuilder();
                         for (int i = bufferIndex; i < buffer.Count && i < bufferIndex + subTableCell.GetDescendantCount(true, false); i++)
                         {
-                            serializedData.Append(buffer[i]).Append(SerializationConstants.ColumnSeparator);
+                            serializedData.Append(buffer[i]).Append(SerializationConstants.columnSeparator);
                             count++;
                         }
 
                         // Remove the last column separator
                         if (serializedData.Length > 0)
                         {
-                            serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length,
-                                SerializationConstants.ColumnSeparator.Length);
+                            serializedData.Remove(serializedData.Length - SerializationConstants.columnSeparator.Length,
+                                SerializationConstants.columnSeparator.Length);
                         }
 
                         object oldValue = subTableCell.GetValue();
@@ -178,10 +178,10 @@ namespace TableForge.Editor.UI
                     {
                         if (cell is StringCell)
                             data = data
-                                .Replace(SerializationConstants.CancelledRowSeparator,
-                                    SerializationConstants.RowSeparator)
-                                .Replace(SerializationConstants.CancelledColumnSeparator,
-                                    SerializationConstants.ColumnSeparator);
+                                .Replace(SerializationConstants.cancelledRowSeparator,
+                                    SerializationConstants.rowSeparator)
+                                .Replace(SerializationConstants.cancelledColumnSeparator,
+                                    SerializationConstants.columnSeparator);
 
                         object oldValue = cell.GetValue();
                         if (cell.TryDeserialize(data))
@@ -237,14 +237,14 @@ namespace TableForge.Editor.UI
                         StringBuilder serializedData = new StringBuilder();
                         for (int i = cellIndex; i < buffer[bufferIndex].Count && i < cellIndex + subTableCell.GetDescendantCount(true, false); i++)
                         {
-                            serializedData.Append(buffer[bufferIndex][i]).Append(SerializationConstants.ColumnSeparator);
+                            serializedData.Append(buffer[bufferIndex][i]).Append(SerializationConstants.columnSeparator);
                             count++;
                         }
                             
                         // Remove the last column separator
                         if (serializedData.Length > 0)
                         {
-                            serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+                            serializedData.Remove(serializedData.Length - SerializationConstants.columnSeparator.Length, SerializationConstants.columnSeparator.Length);
                         }
                         
                         object oldValue = subTableCell.GetValue();
@@ -300,10 +300,10 @@ namespace TableForge.Editor.UI
                     {
                         if (currentCell is StringCell)
                             data = data
-                                .Replace(SerializationConstants.CancelledRowSeparator,
-                                    SerializationConstants.RowSeparator)
-                                .Replace(SerializationConstants.CancelledColumnSeparator,
-                                    SerializationConstants.ColumnSeparator);
+                                .Replace(SerializationConstants.cancelledRowSeparator,
+                                    SerializationConstants.rowSeparator)
+                                .Replace(SerializationConstants.cancelledColumnSeparator,
+                                    SerializationConstants.columnSeparator);
 
                         
                         object oldValue = currentCell.GetValue();

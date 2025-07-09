@@ -24,8 +24,11 @@ namespace TableForge.Editor
         #endregion
 
         #region Constructors
-        protected SubTableCell(Column column, Row row, TfFieldInfo fieldInfo)
-            : base(column, row, fieldInfo) { }
+
+        protected SubTableCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        {
+            serializer = null;
+        }
 
         #endregion
         
@@ -59,7 +62,7 @@ namespace TableForge.Editor
             foreach (var cell in descendants)
             {
                 string value;
-                if(cell is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue();
+                if(cell is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
                 else value = cell.Serialize();
                 serializedData.Append($"\"{cell.column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
             }
@@ -72,7 +75,7 @@ namespace TableForge.Editor
             serializedData.Append(SerializationConstants.JsonObjectEnd);
             return serializedData.ToString();
         }
-
+        
         private string SerializeFlattening()
         {
             if (SubTable.Rows.Count == 0)
@@ -81,7 +84,7 @@ namespace TableForge.Editor
                 for (int i = 0; i < this.GetSubTableColumnCount(); i++)
                 {
                     emptyTable += SerializationConstants.EmptyColumn;
-                    emptyTable += SerializationConstants.ColumnSeparator;
+                    emptyTable += SerializationConstants.columnSeparator;
                 }
                 emptyTable += SerializationConstants.EmptyColumn;
                 return emptyTable;
@@ -90,18 +93,21 @@ namespace TableForge.Editor
             StringBuilder serializedData = new StringBuilder();
             foreach (var descendant in this.GetImmediateDescendants())
             {
-                serializedData.Append(descendant.Serialize()).Append(SerializationConstants.ColumnSeparator);
+                serializedData.Append(SerializationConstants.csvCompatible ? 
+                    descendant.SerializeCellCsvCompatible(true) 
+                    : descendant.Serialize())
+                    .Append(SerializationConstants.columnSeparator);
             }
             
             // Remove the last column separator
             if (serializedData.Length > 0)
             {
-                serializedData.Remove(serializedData.Length - SerializationConstants.ColumnSeparator.Length, SerializationConstants.ColumnSeparator.Length);
+                serializedData.Remove(serializedData.Length - SerializationConstants.columnSeparator.Length, SerializationConstants.columnSeparator.Length);
             }
             
             return serializedData.ToString();
         }
-
+        
         public override void Deserialize(string data)
         {
             if (string.IsNullOrEmpty(data))
@@ -115,7 +121,7 @@ namespace TableForge.Editor
                 return; // Successfully deserialized as JSON
             }
             
-            string[] values = data.Split(SerializationConstants.ColumnSeparator);
+            string[] values = data.Split(SerializationConstants.columnSeparator);
             DeserializeSubTable(values, ref index);
         }
 

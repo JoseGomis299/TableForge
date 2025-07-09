@@ -51,7 +51,7 @@ namespace TableForge.Editor.UI
         {
             try
             {
-                if(!_valueChanged && (!evt.newValue.Equals(evt.previousValue) || typeof(T) == typeof(AnimationCurve)))
+                if(!_valueChanged && ((evt.newValue != null && !evt.newValue.Equals(evt.previousValue)) || (evt.previousValue != null && !evt.previousValue.Equals(evt.newValue)) || typeof(T) == typeof(AnimationCurve)))
                     _valueChanged = true;
                 
                 SetCellValue(evt.newValue);

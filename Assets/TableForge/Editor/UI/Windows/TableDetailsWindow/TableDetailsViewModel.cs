@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,13 +13,10 @@ namespace TableForge.Editor.UI
         public event Action OnTreeUpdated;
         
         private int _idCounter;
-        private readonly Dictionary<string, HashSet<Type>> _namespaceTypes = new();
 
         private readonly HashSet<string> _extraPaths = new();
         
         protected readonly HashSet<Object> selectedAssets = new();
-        protected readonly Dictionary<string, Type> availableTypes = new();
-        protected readonly HashSet<string> typeNames = new();
         protected string selectedNamespace;
         
         public bool HasErrors { get; protected set; }
@@ -156,16 +152,8 @@ namespace TableForge.Editor.UI
             typeDropdown.choices.Clear();
             typeDropdown.SetValueWithoutNotify(string.Empty);
 
-            availableTypes.Clear();
-
-            var orderedTypes = _namespaceTypes[selectedNamespace].OrderBy(t => t.Name).ToList();
-            foreach (var type in orderedTypes)
-            {
-                typeNames.Add(type.Name);
-                availableTypes[type.Name] = type;
-            }
-
-            if (SelectedType == null || !_namespaceTypes[selectedNamespace].Contains(SelectedType))
+            var orderedTypes = TypeRegistry.NamespaceTypes[selectedNamespace].OrderBy(t => t.Name).ToList();
+            if (SelectedType == null || !TypeRegistry.NamespaceTypes[selectedNamespace].Contains(SelectedType))
             {
                 SelectedType = orderedTypes.FirstOrDefault();
             }
@@ -178,43 +166,13 @@ namespace TableForge.Editor.UI
         {
             namespaceDropdown.choices.Clear();
             namespaceDropdown.SetValueWithoutNotify(string.Empty);
-
-            var namespaceSet = new HashSet<string>();
-            bool globalNamespace = false;
-
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            foreach (var assembly in assemblies)
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if(IsTypeInvalid(type)) continue;
-
-                    string assetNamespace = type.Namespace;
-                    if (string.IsNullOrEmpty(assetNamespace))
-                    {
-                        globalNamespace = true;
-                        _namespaceTypes.TryAdd("Global", new HashSet<Type>());
-                        _namespaceTypes["Global"].Add(type);
-                    }
-                    else
-                    {
-                        namespaceSet.Add(assetNamespace);
-                        _namespaceTypes.TryAdd(assetNamespace, new HashSet<Type>());
-                        _namespaceTypes[assetNamespace].Add(type);
-                    }
-                }
-            }
-
-            var namespaces = namespaceSet.OrderBy(n => n).ToList();
-            if (globalNamespace) namespaces.Insert(0, "Global");
             
-            if (string.IsNullOrEmpty(selectedNamespace) || !namespaces.Contains(selectedNamespace))
+            if (string.IsNullOrEmpty(selectedNamespace) || !TypeRegistry.Namespaces.Contains(selectedNamespace))
             {
-                selectedNamespace = namespaces.FirstOrDefault();
+                selectedNamespace = TypeRegistry.Namespaces.FirstOrDefault();
             }
 
-            namespaceDropdown.choices = namespaces;
+            namespaceDropdown.choices = TypeRegistry.Namespaces.ToList();
             namespaceDropdown.SetValueWithoutNotify(selectedNamespace);
         }
 
@@ -227,7 +185,8 @@ namespace TableForge.Editor.UI
         
         public void OnTypeDropdownValueChanged(ChangeEvent<string> evt)
         {
-            SelectedType = availableTypes.GetValueOrDefault(evt.newValue);
+            if(string.IsNullOrEmpty(selectedNamespace) || !TypeRegistry.TypesByNamespaceAndName.ContainsKey(selectedNamespace)) return;
+            SelectedType = TypeRegistry.TypesByNamespaceAndName[selectedNamespace].GetValueOrDefault(evt.newValue);
         }
         
         public void OnNameFieldValueChanged(ChangeEvent<string> evt, TextField field)
@@ -289,21 +248,7 @@ namespace TableForge.Editor.UI
             RefreshTree();
         }
         
-        private bool IsTypeInvalid(Type type)
-        {
-            return !type.IsSubclassOf(typeof(ScriptableObject)) ||
-                   type.IsAbstract || type.IsGenericType ||
-                   type.Assembly == Assembly.GetAssembly(GetType()) ||
-                   type.IsNotPublic ||
-                   (!ToolbarData.EnableUnityTypesTables && IsUnityType(type));
-        }
-
-        private bool IsUnityType(Type type)
-        {
-            string assemblyName = type.Assembly.GetName().Name;
-            return assemblyName.StartsWith("Unity")|| assemblyName.StartsWith("UnityEngine") || assemblyName.StartsWith("UnityEditor");
-        }
-
+      
         public int GetUniqueId() => _idCounter++;
 
         public void AddPathToTree(string path)
