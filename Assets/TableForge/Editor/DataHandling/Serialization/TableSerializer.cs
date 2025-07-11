@@ -10,7 +10,7 @@ namespace TableForge.Editor
 {
     internal static class TableSerializer
     {
-        public static string SerializeTable(TableSerializationArgs args)
+        public static string SerializeTable(TableSerializationArgs args, int maxRowCount = -1)
         {
             if (args == null || args.Table == null || args.Table.Rows.Count == 0 || args.Table.Columns.Count == 0)
             {
@@ -20,48 +20,15 @@ namespace TableForge.Editor
             switch (args.Format)
             {
                 case SerializationFormat.Json:
-                    return SerializeAsJson((JsonTableSerializationArgs)args);
+                    return SerializeAsJson((JsonTableSerializationArgs)args, maxRowCount);
                 case SerializationFormat.Csv:
-                    return SerializeCsv((CsvTableSerializationArgs)args);
+                    return SerializeCsv((CsvTableSerializationArgs)args, maxRowCount);
                 default:
                     return string.Empty;
             }
         }
-        
-        public static void DeserializeTable(TableDeserializationArgs args, Table table)
-        {
-            for (int i = 0; i < table.OrderedRows.Count; i++)
-            {
-                Row row = table.OrderedRows[i];
-                
-                // Populate the cells with the reordered data
-                for (int j = 0; j < args.ProcessedColumnData.Count; j++)
-                {
-                    if (args.ProcessedColumnData[j] == null) continue;
-                    
-                    string cellValue = args.ProcessedColumnData[j][i];
-                    if (string.IsNullOrEmpty(cellValue)) continue;
-                    
-                    Cell cell = row.OrderedCells[j]; 
-                    if(!cell.TryDeserialize(cellValue))
-                    {
-                        Debug.LogWarning($"Failed to deserialize cell value '{cellValue}' for cell {cell.GetGlobalPosition()}.");
-                    }
-                }
-            }
-        }
 
-        private static void DeserializeCsv(CsvTableDeserializationArgs args)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        private static void DeserializeAsJson(JsonTableDeserializationArgs args)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        private static string SerializeAsJson(JsonTableSerializationArgs args)
+        private static string SerializeAsJson(JsonTableSerializationArgs args, int maxRowCount = -1)
         {
             StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonObjectStart);
 
@@ -70,10 +37,12 @@ namespace TableForge.Editor
             IEnumerable<Cell> cells = args.Table.OrderedRows.SelectMany(row => row.OrderedCells);
             int currentRow = -1;
 
+            int rowCount = maxRowCount > 0 ? maxRowCount : args.Table.Rows.Count;
             foreach (var item in cells)
             {
                 if (currentRow != item.row.Position)
                 {
+                    if (rowCount <= 0) break; // Stop if we reached the max row count
                     if (currentRow != -1)
                     {
                         serializedData.Remove(serializedData.Length - 1, 1); // Remove trailing comma
@@ -91,6 +60,7 @@ namespace TableForge.Editor
                         serializedData.Append($"\"{SerializationConstants.JsonPathPropertyName}\": \"").Append(AssetDatabase.GetAssetPath(item.row.SerializedObject.RootObject)).Append($"\"{SerializationConstants.JsonItemSeparator}");
                     
                     serializedData.Append($"\"{SerializationConstants.JsonPropertiesPropertyName}\": ").Append(SerializationConstants.JsonObjectStart);
+                    rowCount--;
                 }
 
                 string value;
@@ -112,7 +82,7 @@ namespace TableForge.Editor
             return parsed.ToString(Formatting.Indented);
         }
         
-        private static string SerializeCsv(CsvTableSerializationArgs args)
+        private static string SerializeCsv(CsvTableSerializationArgs args, int maxRowCount = -1)
         {
             //Change the serialization settings
             bool serializeSubTablesAsJson = SerializationConstants.subTablesAsJson;
@@ -148,8 +118,10 @@ namespace TableForge.Editor
             serializedData.Append(SerializationConstants.rowSeparator);
             
             // Write the data rows
+            int rowCount = maxRowCount > 0 ? maxRowCount : args.Table.Rows.Count;
             foreach (var row in args.Table.OrderedRows)
             {
+                if (rowCount <= 0) break; // Stop if we reached the max row count
                 if (args.IncludeRowGuids)
                     serializedData.Append(row.SerializedObject.RootObjectGuid).Append(SerializationConstants.CsvColumnSeparator);
                 
@@ -164,6 +136,7 @@ namespace TableForge.Editor
                 // Remove the last column separator and add a newline
                 serializedData.Remove(serializedData.Length - SerializationConstants.CsvColumnSeparator.Length, SerializationConstants.CsvColumnSeparator.Length);
                 serializedData.Append(SerializationConstants.rowSeparator);
+                rowCount--;
             }
             
             // Remove the last row separator if it exists

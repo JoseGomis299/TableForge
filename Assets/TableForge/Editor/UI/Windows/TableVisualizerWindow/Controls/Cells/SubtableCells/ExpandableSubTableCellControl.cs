@@ -1,4 +1,5 @@
 using System.Linq;
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -64,22 +65,22 @@ namespace TableForge.Editor.UI
         private void CreateContainerStructure()
         {
             _headerFoldout = new Foldout { text = _foldoutHeaderText };
-            _headerFoldout.AddToClassList(USSClasses.SubTableFoldout);
+            _headerFoldout.AddToClassList(TableVisualizerUss.SubTableFoldout);
             
             _collapseButton = new Button();
-            _collapseButton.AddToClassList(USSClasses.SubTableToolbarButton);
+            _collapseButton.AddToClassList(TableVisualizerUss.SubTableToolbarButton);
             var arrowElement = new VisualElement();
-            arrowElement.AddToClassList(USSClasses.SubTableToolbarFoldout);
+            arrowElement.AddToClassList(TableVisualizerUss.SubTableToolbarFoldout);
             _collapseButton.Add(arrowElement);
             
             _foldoutContentContainer = new VisualElement();
-            _foldoutContentContainer.AddToClassList(USSClasses.SubTableCellContent);
+            _foldoutContentContainer.AddToClassList(TableVisualizerUss.SubTableCellContent);
             
             subTableToolbar = new VisualElement();
-            subTableToolbar.AddToClassList(USSClasses.SubTableToolbar);
+            subTableToolbar.AddToClassList(TableVisualizerUss.SubTableToolbar);
             
             subTableContentContainer = new VisualElement();
-            subTableContentContainer.AddToClassList(USSClasses.SubTableContentContainer);
+            subTableContentContainer.AddToClassList(TableVisualizerUss.SubTableContentContainer);
 
             subTableContentContainer.style.display = DisplayStyle.None;
             subTableToolbar.style.display = DisplayStyle.None;

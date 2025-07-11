@@ -130,12 +130,12 @@ namespace TableForge.Editor.UI
             _invisibleHeadersThisFrame.Clear();
         }
 
-        protected virtual void NotifyHeaderBecameVisible(THeader header, int direction)
+        protected void NotifyHeaderBecameVisible(THeader header, int direction)
         {
             OnHeaderBecameVisible?.Invoke(header, direction);
         }
 
-        protected virtual void NotifyHeaderBecameInvisible(THeader header, int direction)
+        protected void NotifyHeaderBecameInvisible(THeader header, int direction)
         {
             OnHeaderBecameInvisible?.Invoke(header, direction);
         }

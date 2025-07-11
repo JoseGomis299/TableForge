@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine.UIElements;
 
 
@@ -17,7 +18,7 @@ namespace TableForge.Editor.UI
         
         public RowControl()
         {
-            AddToClassList(USSClasses.TableRow);
+            AddToClassList(TableVisualizerUss.TableRow);
         }
         
         public void Initialize(CellAnchor anchor, TableControl tableControl)

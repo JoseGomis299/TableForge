@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/TableForge/Editor/UI/Windows/ExportImportWindow/ExportWindow/ExportWindow.uss?fileID=7433441132597879392&amp;guid=2cf3bdb0251a45129abe20d0729c04ef&amp;type=3#ExportWindow" />
+    <ui:VisualElement class="export-table">
+        <uie:ObjectField name="metadata-object-field" label="Table Metadata" data-source-type="TableForge.Editor.UI.TableMetadata, TableForge.Editor" class="export-table__object-field" />
+        <ui:VisualElement class="export-table__dropdown-container">
+            <ui:Label text="Format" class="export-table__label" />
+            <ui:EnumField name="serialization-format-dropdown" class="export-table__dropdown" />
+        </ui:VisualElement>
+        <ui:Toggle name="include-guids-toggle" label="Include Row GUIDs" class="export-table__toggle" />
+        <ui:Toggle name="include-paths-toggle" label="Include Row Paths" class="export-table__toggle" />
+        <ui:Toggle name="flatten-subtables-toggle" label="Flatten Sub-tables" tooltip="Serialize subtables as simple fields instead of serializing them as JSON." class="export-table__toggle export-table__toggle--hidden" />
+        <ui:VisualElement class="export-table__preview-container" style="height: auto;">
+            <ui:Label text="Preview" class="export-table__label" />
+            <ui:TextField name="preview-text-field" multiline="true" readonly="true" vertical-scroller-visibility="Auto" class="export-table__preview" />
+        </ui:VisualElement>
+        <ui:Button name="export-button" text="Export Table" class="export-table__button" />
+    </ui:VisualElement>
+</ui:UXML>

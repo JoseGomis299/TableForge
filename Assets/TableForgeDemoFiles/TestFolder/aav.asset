@@ -49,7 +49,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reference: {fileID: 11400000, guid: 3e7c80d8d4c9aa441a4c25aa1622f641, type: 2}
+  reference: {fileID: 0}
   b: 0
   charValue: 0
   intField: 0
@@ -111,7 +111,6 @@ MonoBehaviour:
   vector4: {x: 0, y: 0, z: 0, w: 0}
   testEnum: 2
   vector3Array:
-  - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   stringIntDictionary:
     m_Keys:

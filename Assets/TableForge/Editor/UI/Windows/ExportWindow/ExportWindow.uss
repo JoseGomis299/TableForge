@@ -1,0 +1,52 @@
+.export-table {
+    padding: 12px;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.export-table__object-field {
+    margin-bottom: 10px;
+}
+
+.export-table__dropdown-container {
+    margin-bottom: 10px;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.export-table__label {
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+
+.export-table__dropdown {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.export-table__toggle {
+    margin-bottom: 8px;
+}
+
+.export-table__preview-container {
+    flex-grow: 0;
+    flex-direction: column;
+    margin-top: 10px;
+    min-height: 150px;
+    flex-shrink: 0;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+.export-table__preview {
+    flex-grow: 0;
+    font-size: 11px;
+    -unity-font-style: normal;
+    flex-shrink: 0;
+    height: 200px;
+}
+
+.export-table__button {
+    margin-top: 15px;
+    height: 25px;
+}

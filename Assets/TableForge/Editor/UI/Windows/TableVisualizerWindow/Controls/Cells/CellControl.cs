@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -37,19 +38,19 @@ namespace TableForge.Editor.UI
                 {
                     if (TableControl.FunctionExecutor.IsCellFunctionCorrect(Cell.Id))
                     { 
-                        RemoveFromClassList(USSClasses.CellWithIncorrectFunction);
-                        AddToClassList(USSClasses.CellWithFunction);
+                        RemoveFromClassList(TableVisualizerUss.CellWithIncorrectFunction);
+                        AddToClassList(TableVisualizerUss.CellWithFunction);
                     }
                     else
                     {
-                        RemoveFromClassList(USSClasses.CellWithFunction);
-                        AddToClassList(USSClasses.CellWithIncorrectFunction);
+                        RemoveFromClassList(TableVisualizerUss.CellWithFunction);
+                        AddToClassList(TableVisualizerUss.CellWithIncorrectFunction);
                     }
                 }
                 else
                 {
-                    RemoveFromClassList(USSClasses.CellWithFunction);
-                    RemoveFromClassList(USSClasses.CellWithIncorrectFunction);
+                    RemoveFromClassList(TableVisualizerUss.CellWithFunction);
+                    RemoveFromClassList(TableVisualizerUss.CellWithIncorrectFunction);
                 }
             }
         }
@@ -65,12 +66,12 @@ namespace TableForge.Editor.UI
             Cell = cell;
             LowerOverlay = new VisualElement { name = "lower-overlay" };
            
-            AddToClassList(USSClasses.TableCell);
+            AddToClassList(TableVisualizerUss.TableCell);
         }
 
         public void OnCreationComplete()
         {
-            LowerOverlay.AddToClassList(USSClasses.CellOverlay);
+            LowerOverlay.AddToClassList(TableVisualizerUss.CellOverlay);
             Insert(0, LowerOverlay);
         }
         

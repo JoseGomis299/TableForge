@@ -16,7 +16,6 @@ namespace TableForge.Editor
         public string NewElementsBaseName { get; }
         public SerializationFormat Format { get; }
         
-        public List<List<string>> ProcessedColumnData { get; set; }
         
         public List<List<string>> ColumnData 
         {

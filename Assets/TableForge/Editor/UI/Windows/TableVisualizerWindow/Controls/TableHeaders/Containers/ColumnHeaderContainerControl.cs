@@ -1,13 +1,15 @@
+using TableForge.Editor.UI.UssClasses;
+
 namespace TableForge.Editor.UI
 {
     internal class  ColumnHeaderContainerControl : HeaderContainerControl
     {
         public ColumnHeaderContainerControl(TableControl tableControl) : base(tableControl)
         {
-            AddToClassList(USSClasses.TableHeaderContainerHorizontal);
+            AddToClassList(TableVisualizerUss.TableHeaderContainerHorizontal);
             if(tableControl.Parent != null)
             {
-                AddToClassList(USSClasses.SubTableHeaderContainerHorizontal);
+                AddToClassList(TableVisualizerUss.SubTableHeaderContainerHorizontal);
             }
 
             tableControl.ScrollView.verticalScroller.valueChanged += HandleOffset;

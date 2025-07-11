@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
@@ -17,7 +18,7 @@ namespace TableForge.Editor.UI
             TextField = field;
             Add(field);
             
-            field.AddToClassList(USSClasses.TableCellContent);
+            field.AddToClassList(TableVisualizerUss.TableCellContent);
         }
     }
 }

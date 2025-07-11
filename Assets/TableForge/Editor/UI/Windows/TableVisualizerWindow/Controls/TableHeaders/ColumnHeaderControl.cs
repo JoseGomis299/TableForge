@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine.Pool;
 using UnityEngine.UIElements;
 
@@ -18,7 +19,7 @@ namespace TableForge.Editor.UI
         
         private ColumnHeaderControl()
         {
-            AddToClassList(USSClasses.TableHeaderCellHorizontal);
+            AddToClassList(TableVisualizerUss.TableHeaderCellHorizontal);
             _headerLabel = new Label();
         }
 
@@ -34,10 +35,10 @@ namespace TableForge.Editor.UI
             style.display = DisplayStyle.Flex;
             string title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.columnHeaderVisibility);
             _headerLabel.text = title;
-            _headerLabel.AddToClassList(USSClasses.TableHeaderText);
+            _headerLabel.AddToClassList(TableVisualizerUss.TableHeaderText);
             if(tableControl.Parent != null)
             {
-                _headerLabel.AddToClassList(USSClasses.SubTableHeaderText);
+                _headerLabel.AddToClassList(TableVisualizerUss.SubTableHeaderText);
             }
             Add(_headerLabel);
 

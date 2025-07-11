@@ -4,8 +4,10 @@
         <ui:VisualElement name="data-processing-container" class="step-container">
             <ui:Label text="Import Table Data" class="step-title" />
             <ui:TextField label="Table Name" name="table-name-field" />
+            <ui:TextField label="New Items Folder" name="base-path-field" tooltip="Folder where newly created items will be stored." />
+            <ui:TextField label="New Items Name   " name="base-name-field" tooltip="Base name for newly created items." />
             <uie:EnumField label="Data Format" name="format-field" />
-            <ui:Toggle label="First row contains headers" name="csv-header-toggle" />
+            <ui:Toggle label="First row contains headers" name="csv-header-toggle" value="true" tooltip="Whether the first row of the CSV input contains the names of the columns." />
             <ui:VisualElement class="horizontal-group">
                 <uie:DropdownField label="Namespace" name="namespace-dropdown" />
                 <uie:DropdownField label="Data Type" name="type-dropdown" />
@@ -13,25 +15,24 @@
             <ui:Label text="Data Input" />
             <ui:TextField name="data-text-field" multiline="true" vertical-scroller-visibility="Auto" />
             <ui:Button text="Import from File" name="import-file-button" />
-            <ui:Button text="Process Data" name="process-data-button" class="action-button" />
         </ui:VisualElement>
         <ui:VisualElement name="column-mapping-container" display="none" class="step-container">
             <ui:Label text="Map Columns to Fields" class="step-title" />
-            <ui:TextField name="data-preview-text-field" multiline="true" vertical-scroller-visibility="Auto" enabled="true" />
-            <ui:VisualElement name="column-mapping-list-container" />
-            <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
-                <ui:Button text="Back to Processing" name="cancel-mapping-button" class="action-button" style="width: 140px;" />
-                <ui:Button text="Confirm Mapping" name="confirm-mapping-button" class="action-button" />
+            <ui:TextField name="data-preview-text-field" multiline="true" vertical-scroller-visibility="Auto" enabled="true" style="height: 150px;" />
+            <ui:VisualElement name="column-mapping-list-container">
+                <ui:ListView class="list-container" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="item-review-container" display="none" class="step-container">
             <ui:Label text="Review Import Items" class="step-title" />
-            <ui:VisualElement name="item-review-list-container" />
-            <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
-                <ui:Button name="cancel-import-button" text="Back To Mapping" display="none" class="action-button" style="width: 140px;" />
-                <ui:Button name="final-import-button" text="Import Table" display="none" class="action-button" />
+            <ui:VisualElement name="item-review-list-container">
+                <ui:ListView class="list-container" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Label name="error-label" class="error-label" />
+        <ui:VisualElement name="buttons-container" class="buttons-container">
+            <ui:Button text="Back to Processing" name="cancel-button" class="action-button" style="width: 140px;" />
+            <ui:Button text="Confirm Mapping" name="accept-button" class="action-button" />
+        </ui:VisualElement>
+        <ui:Label name="error-label" text="aaaaaaaaa" class="error-label" />
     </ui:ScrollView>
 </ui:UXML>

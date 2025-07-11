@@ -1,4 +1,5 @@
 using System;
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
@@ -21,7 +22,7 @@ namespace TableForge.Editor.UI
             _tableControl = tableControl;
 
             clicked += AddRow;
-            AddToClassList(USSClasses.SubTableToolbarButton);
+            AddToClassList(TableVisualizerUss.SubTableToolbarButton);
             text = "+";
         }
 

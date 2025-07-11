@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,7 +7,7 @@ namespace TableForge.Editor.UI
 {
     internal class HorizontalBorderResizer : BorderResizer
     {
-        protected override string ResizingPreviewClass => USSClasses.ResizePreviewHorizontal;
+        protected override string ResizingPreviewClass => TableVisualizerUss.ResizePreviewHorizontal;
 
         public HorizontalBorderResizer(TableControl tableControl) : base(tableControl)
         {
@@ -103,8 +104,8 @@ namespace TableForge.Editor.UI
 
                 foreach (var header in resizingHeaders.Values)
                 {
-                    header.AddToClassList(USSClasses.CursorResizeHorizontal);
-                    header.AddToChildrenClassList(USSClasses.CursorResizeHorizontal);
+                    header.AddToClassList(TableVisualizerUss.CursorResizeHorizontal);
+                    header.AddToChildrenClassList(TableVisualizerUss.CursorResizeHorizontal);
                 }
                 return;
             }
@@ -113,8 +114,8 @@ namespace TableForge.Editor.UI
 
             foreach (var header in resizingHeaders.Values)
             {
-                header.RemoveFromClassList(USSClasses.CursorResizeHorizontal);
-                header.RemoveFromChildrenClassList(USSClasses.CursorResizeHorizontal);
+                header.RemoveFromClassList(TableVisualizerUss.CursorResizeHorizontal);
+                header.RemoveFromChildrenClassList(TableVisualizerUss.CursorResizeHorizontal);
             }
             resizingHeader = null;
         }

@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
@@ -9,7 +10,7 @@ namespace TableForge.Editor.UI
         public VisualElement RowsContainer { get; }
         public TableCornerControl(TableControl tableControl, ColumnHeaderContainerControl columnHeaderContainer, RowHeaderContainerControl rowHeaderContainer, VisualElement rowsContainer)
         {
-            AddToClassList(USSClasses.TableCorner);
+            AddToClassList(TableVisualizerUss.TableCorner);
             OnEnable(null, tableControl);
             ColumnHeaderContainer = columnHeaderContainer;
             RowHeaderContainer = rowHeaderContainer;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -33,6 +34,43 @@ namespace TableForge.Editor.UI
 
             path = subPaths.Aggregate(path, Path.Combine);
             return path;
+        }
+        
+        public static string GetUniquePath(string baseFolder, string baseName, string extension, List<string> invalidPaths = null)
+        {
+            if(!extension.StartsWith(".")) extension = $".{extension}";
+            if(!baseFolder.EndsWith("/")) baseFolder += "/";
+            
+            string newPath = $"{baseFolder}{baseName}{extension}";
+            int counter = 0;
+
+            while (AssetDatabase.AssetPathExists(newPath) || (invalidPaths != null && invalidPaths.Contains(newPath)))
+            {
+                if (counter == 0)
+                {
+                    newPath = $"{baseFolder}{baseName}{extension}";
+                    counter++;
+                    continue;
+                }
+                
+                newPath = $"{baseFolder}{baseName} {counter++}{extension}";
+            }
+
+            return newPath;
+        }
+
+        public static bool IsValidPath(string path, string expectedExtension = null)
+        {
+            if (string.IsNullOrEmpty(path))
+                return false;
+
+            if (!AssetDatabase.IsValidFolder(Path.GetDirectoryName(path)))
+                return false;
+
+            if (expectedExtension != null && !path.EndsWith(expectedExtension))
+                return false;
+
+            return true;
         }
     }
 }

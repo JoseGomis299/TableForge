@@ -30,48 +30,9 @@ namespace TableForge.Editor.UI
             var wnd = CreateInstance<T>();
             wnd.titleContent = new GUIContent(title);
             wnd.viewModel = viewModel;
+            wnd.minSize = new Vector2(320, 450);
             WindowManager.ShowModalWindow(wnd);
             wnd.Initialize();
-        }
-        
-        protected virtual void FindElements()
-        {
-            _errorText = rootVisualElement.Q<Label>(name: "error-text");
-            _confirmButton = rootVisualElement.Q<Button>(name: "confirm-button");
-            _nameField = rootVisualElement.Q<TextField>(name: "name-field");
-            _assetTreeContainer = rootVisualElement.Q<VisualElement>(name: "asset-tree-container");
-            _modeSelector = rootVisualElement.Q<RadioButtonGroup>(name: "mode-selector");
-            _typeDropdown = rootVisualElement.Q<DropdownField>(name: "type-dropdown");
-            _namespaceDropdown = rootVisualElement.Q<DropdownField>(name: "namespace-dropdown");
-            _trackFolderButton = rootVisualElement.Q<Button>(name: "track-folder-button");
-            
-            _assetTreeView = new AssetTreeView(viewModel);
-            _assetTreeContainer.Add(_assetTreeView);
-        }
-
-        protected virtual void BindEvents()
-        {
-            _confirmButton.clicked += OnConfirmButtonClicked;
-            _trackFolderButton.clicked += OnTrackFolderButtonClicked;
-            _nameField.RegisterValueChangedCallback(OnNameChanged);
-            
-            _assetTreeView.OnItemSelectionChanged += OnTreeViewSelectionChanged;
-            _assetTreeView.OnSelectionChanged += UpdateState;
-
-            _modeSelector.RegisterValueChangedCallback(OnModeChanged);
-            _typeDropdown.RegisterValueChangedCallback(OnTypeChanged);
-            _namespaceDropdown.RegisterValueChangedCallback(OnNamespaceChanged);
-            
-            viewModel.OnTreeUpdated += RefreshTree; 
-        }
-        
-        protected virtual void InitializeElements()
-        {
-            viewModel.PopulateNamespaceDropdown(_namespaceDropdown);
-            viewModel.PopulateTypeDropdown(_typeDropdown);
-            _nameField.value = GetTableName();
-            viewModel.TableName = _nameField.value;
-            _modeSelector.SetValueWithoutNotify(viewModel.UsePathsMode ? 1 : 0);
         }
 
         protected abstract void OnConfirm();
@@ -95,6 +56,46 @@ namespace TableForge.Editor.UI
 
             viewModel.RefreshTree();
             UpdateState();
+        }
+        
+        private void FindElements()
+        {
+            _errorText = rootVisualElement.Q<Label>(name: "error-text");
+            _confirmButton = rootVisualElement.Q<Button>(name: "confirm-button");
+            _nameField = rootVisualElement.Q<TextField>(name: "name-field");
+            _assetTreeContainer = rootVisualElement.Q<VisualElement>(name: "asset-tree-container");
+            _modeSelector = rootVisualElement.Q<RadioButtonGroup>(name: "mode-selector");
+            _typeDropdown = rootVisualElement.Q<DropdownField>(name: "type-dropdown");
+            _namespaceDropdown = rootVisualElement.Q<DropdownField>(name: "namespace-dropdown");
+            _trackFolderButton = rootVisualElement.Q<Button>(name: "track-folder-button");
+            
+            _assetTreeView = new AssetTreeView(viewModel);
+            _assetTreeContainer.Add(_assetTreeView);
+        }
+
+        private void BindEvents()
+        {
+            _confirmButton.clicked += OnConfirmButtonClicked;
+            _trackFolderButton.clicked += OnTrackFolderButtonClicked;
+            _nameField.RegisterValueChangedCallback(OnNameChanged);
+            
+            _assetTreeView.OnItemSelectionChanged += OnTreeViewSelectionChanged;
+            _assetTreeView.OnSelectionChanged += UpdateState;
+
+            _modeSelector.RegisterValueChangedCallback(OnModeChanged);
+            _typeDropdown.RegisterValueChangedCallback(OnTypeChanged);
+            _namespaceDropdown.RegisterValueChangedCallback(OnNamespaceChanged);
+            
+            viewModel.OnTreeUpdated += RefreshTree; 
+        }
+
+        private void InitializeElements()
+        {
+            viewModel.PopulateNamespaceDropdown(_namespaceDropdown);
+            viewModel.PopulateTypeDropdown(_typeDropdown);
+            _nameField.value = GetTableName();
+            viewModel.TableName = _nameField.value;
+            _modeSelector.SetValueWithoutNotify(viewModel.UsePathsMode ? 1 : 0);
         }
 
         private void OnNamespaceChanged(ChangeEvent<string> evt)

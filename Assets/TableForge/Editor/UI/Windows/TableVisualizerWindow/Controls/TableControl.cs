@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -78,7 +79,7 @@ namespace TableForge.Editor.UI
             TableAttributes = attributes;
             Parent = parent;
             SubTableToolbar = subTableToolbar;
-            AddToClassList(USSClasses.Table);
+            AddToClassList(TableVisualizerUss.Table);
 
             // Initialize main components
             ScrollView = CreateScrollView();
@@ -362,7 +363,7 @@ namespace TableForge.Editor.UI
         private ScrollView CreateScrollView()
         {
             var scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
-            scrollView.contentContainer.AddToClassList(USSClasses.TableScrollViewContent);
+            scrollView.contentContainer.AddToClassList(TableVisualizerUss.TableScrollViewContent);
             Add(scrollView);
             
             scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
@@ -380,26 +381,26 @@ namespace TableForge.Editor.UI
         private VisualElement CreateRowsContainer()
         {
             var container = new VisualElement();
-            container.AddToClassList(USSClasses.TableRowContainer);
+            container.AddToClassList(TableVisualizerUss.TableRowContainer);
             return container;
         }
 
         private void BuildLayoutHierarchy()
         {
             var scrollviewContentContainer = new VisualElement();
-            scrollviewContentContainer.AddToClassList(USSClasses.TableScrollViewContentContainer);
+            scrollviewContentContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentContainer);
             ScrollView.Add(scrollviewContentContainer);
 
             // Bottom container for rows and row headers
             var bottomContainer = new VisualElement();
-            bottomContainer.AddToClassList(USSClasses.TableScrollViewContentBottom);
+            bottomContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentBottom);
             scrollviewContentContainer.Add(bottomContainer);
             bottomContainer.Add(_rowsContainer);
             bottomContainer.Add(_rowHeaderContainer);
 
             // Top container for column headers and corner cell
             var topContainer = new VisualElement();
-            topContainer.AddToClassList(USSClasses.TableScrollViewContentTop);
+            topContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentTop);
             scrollviewContentContainer.Add(topContainer);
             var cornerCell = new TableCornerControl(this, _columnHeaderContainer, _rowHeaderContainer, _rowsContainer);
             _cornerContainer.Add(cornerCell);

@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,14 +18,14 @@ namespace TableForge.Editor.UI
         {
             _viewModel = viewModel;
             _tableMetadata = tableMetadata;
-            AddToClassList(USSClasses.TabButtonContainer);
+            AddToClassList(AddTabUss.TabButtonContainer);
             
             _mainButton = new Button(OnClicked)
             {
                 text = tableMetadata.Name,
                 name = "main-button"
             };
-            _mainButton.AddToClassList(USSClasses.TabButton);
+            _mainButton.AddToClassList(AddTabUss.TabButton);
             
             float width = EditorStyles.label.CalcSize(new GUIContent(tableMetadata.Name)).x + UiConstants.TabPadding;
             width = Mathf.Clamp(width, UiConstants.TabMinWidth, UiConstants.TabMaxWidth);
@@ -35,7 +36,7 @@ namespace TableForge.Editor.UI
                 text = "X",
                 name = "delete-button"
             };
-            _deleteButton.AddToClassList(USSClasses.TabDeleteButton);
+            _deleteButton.AddToClassList(AddTabUss.TabDeleteButton);
             
             Add(_mainButton);
             Add(_deleteButton);
@@ -54,12 +55,12 @@ namespace TableForge.Editor.UI
             if (_viewModel.IsTabOpen(_tableMetadata))
             {
                 _deleteButton.style.display = DisplayStyle.None;
-                _mainButton.RemoveFromClassList(USSClasses.TabButtonClosed);
+                _mainButton.RemoveFromClassList(AddTabUss.TabButtonClosed);
             }
             else
             {
                 _deleteButton.style.display = DisplayStyle.Flex;
-                _mainButton.AddToClassList(USSClasses.TabButtonClosed);
+                _mainButton.AddToClassList(AddTabUss.TabButtonClosed);
             }
         }
     }

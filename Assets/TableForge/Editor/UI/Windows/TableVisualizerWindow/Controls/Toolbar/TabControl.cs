@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,20 +19,20 @@ namespace TableForge.Editor.UI
         {
             _toolbarController = toolbarController;
             _tableMetadata = tableMetadata;
-            AddToClassList(USSClasses.ToolbarTab);
+            AddToClassList(TableVisualizerUss.ToolbarTab);
             
             _selectButton = new Button
             {
                 name = "SelectButton"
             };
-            _selectButton.AddToClassList(USSClasses.ToolbarTabSelectButton);
+            _selectButton.AddToClassList(TableVisualizerUss.ToolbarTabSelectButton);
             _selectButton.clicked += OnSelectButtonClicked;
             
             _contextMenuButton = new Button
             {
                 name = "ContextMenuButton"
             };
-            _contextMenuButton.AddToClassList(USSClasses.ToolbarTabContextButton);
+            _contextMenuButton.AddToClassList(TableVisualizerUss.ToolbarTabContextButton);
             _contextMenuButton.clicked += OnContextMenuButtonClicked;
             
             Add(_selectButton);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TableForge.Editor.UI.UssClasses;
 
 namespace TableForge.Editor.UI
 {
@@ -42,7 +43,7 @@ namespace TableForge.Editor.UI
             {
                 cellControl.focusable = true;
                 cellControl.Focus();
-                cellControl.LowerOverlay.AddToClassList(USSClasses.Focused);
+                cellControl.LowerOverlay.AddToClassList(TableVisualizerUss.Focused);
                 foreach (var ancestor in cellControl.GetAncestors(true))
                 {
                     ancestor.LockHeadersVisibility();
@@ -60,7 +61,7 @@ namespace TableForge.Editor.UI
             else if(!focus && cellControl.focusable) //Remove focus
             {
                 cellControl.focusable = false;
-                cellControl.LowerOverlay.RemoveFromClassList(USSClasses.Focused);
+                cellControl.LowerOverlay.RemoveFromClassList(TableVisualizerUss.Focused);
                 
                 var tableControl = cellControl.TableControl;
                 RowHeaderControl row = tableControl.GetRowHeaderControl(tableControl.GetCellRow(cellControl.Cell));

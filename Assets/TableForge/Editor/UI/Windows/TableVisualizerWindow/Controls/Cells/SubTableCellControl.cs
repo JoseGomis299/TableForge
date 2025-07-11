@@ -37,7 +37,7 @@ namespace TableForge.Editor.UI
             }
         }
 
-        public virtual void ClearSubTable()
+        public void ClearSubTable()
         {
             SubTableControl?.ClearTable();
         }

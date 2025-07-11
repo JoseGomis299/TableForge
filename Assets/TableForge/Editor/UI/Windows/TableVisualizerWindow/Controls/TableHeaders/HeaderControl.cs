@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TableForge.Editor.UI.UssClasses;
 using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
@@ -20,9 +21,9 @@ namespace TableForge.Editor.UI
             set
             {
                 if (!value || _isSelected)
-                    RemoveFromClassList(USSClasses.SubSelectedHeader);
+                    RemoveFromClassList(TableVisualizerUss.SubSelectedHeader);
                 else
-                    AddToClassList(USSClasses.SubSelectedHeader);
+                    AddToClassList(TableVisualizerUss.SubSelectedHeader);
 
                 _isSubSelected = value;
                 SelectionChanged();
@@ -35,9 +36,9 @@ namespace TableForge.Editor.UI
             set
             {
                 if (!value)
-                    RemoveFromClassList(USSClasses.SelectedHeader);
+                    RemoveFromClassList(TableVisualizerUss.SelectedHeader);
                 else
-                    AddToClassList(USSClasses.SelectedHeader);
+                    AddToClassList(TableVisualizerUss.SelectedHeader);
 
                 _isSelected = value;
             }

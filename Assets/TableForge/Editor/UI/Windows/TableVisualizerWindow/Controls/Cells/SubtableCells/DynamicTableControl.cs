@@ -64,7 +64,7 @@ namespace TableForge.Editor.UI
             }
         }
         
-        public virtual void OnRowDeleted()
+        public void OnRowDeleted()
         {
             if(SubTableControl.TableData.Rows.Count == 0)
             {

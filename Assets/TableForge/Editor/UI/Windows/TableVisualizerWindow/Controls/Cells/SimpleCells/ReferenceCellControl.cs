@@ -1,3 +1,4 @@
+using TableForge.Editor.UI.UssClasses;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,7 +19,7 @@ namespace TableForge.Editor.UI
             Add(_field);
             Field = _field;
 
-            _field.AddToClassList(USSClasses.TableCellContent);
+            _field.AddToClassList(TableVisualizerUss.TableCellContent);
         }
 
         protected override void OnRefresh()

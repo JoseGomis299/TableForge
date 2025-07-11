@@ -20,10 +20,13 @@ namespace TableForge.Editor
         public bool CsvHasHeader { get; set; }
         public string Data { get; set; }
         public Type ItemsType { get; set; }
+        public string NewElementsBasePath { get; set; }
+        public string NewElementsBaseName { get; set; }
         
         public List<ColumnMapping> ColumnMappings { get; } = new List<ColumnMapping>();
         public List<ImportItem> ImportItems { get; } = new List<ImportItem>();
         public List<string> AvailableFields { get; } = new List<string>();
+
 
         public void ProcessData()
         {
@@ -33,11 +36,11 @@ namespace TableForge.Editor
             
             if(Format == SerializationFormat.Json)
             {
-                _deserializationArgs = new JsonTableDeserializationArgs(Data, TableName, "Assets/", "NewItem", ItemsType);
+                _deserializationArgs = new JsonTableDeserializationArgs(Data, TableName, NewElementsBasePath, NewElementsBaseName, ItemsType);
             }
             else // CSV
             {
-                _deserializationArgs = new CsvTableDeserializationArgs(Data, TableName, "Assets/", "NewItem", ItemsType, CsvHasHeader);
+                _deserializationArgs = new CsvTableDeserializationArgs(Data, TableName, NewElementsBasePath, NewElementsBaseName, ItemsType, CsvHasHeader);
             }
             
             foreach(var name in _deserializationArgs.ColumnNames)
@@ -104,6 +107,7 @@ namespace TableForge.Editor
             if(_columnMappingIndices[1] != -1)
                 paths = _deserializationArgs.ColumnData[_columnMappingIndices[1]];
 
+            List<string> createdPaths = new List<string>();
             for (int i = 0; i < itemCount; i++)
             {
                 string guid = i < guids.Count ? guids[i] : string.Empty;
@@ -125,12 +129,24 @@ namespace TableForge.Editor
                 string path = i < paths.Count ? paths[i] : string.Empty;
                 if(string.IsNullOrEmpty(path) || !AssetDatabase.IsValidFolder(Path.GetDirectoryName(path)))
                 {
-                    string basePath = _deserializationArgs.NewElementsBasePath.EndsWith("/") ? _deserializationArgs.NewElementsBasePath : $"{_deserializationArgs.NewElementsBasePath}/";
-                    path = AssetDatabase.GenerateUniqueAssetPath($"{basePath}{_deserializationArgs.NewElementsBaseName}.asset");
+                    path = PathUtil.GetUniquePath(
+                        NewElementsBasePath, 
+                        NewElementsBaseName, 
+                        ".asset",
+                        createdPaths
+                        );
+                    
+                    createdPaths.Add(path);
                 }
                 
                 ImportItems[i].Path = path;
                 ImportItems[i].OriginalPath = path;
+
+                if (AssetDatabase.AssetPathExists(path))
+                {
+                    ImportItems[i].ExistingAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+                    ImportItems[i].Guid = AssetDatabase.AssetPathToGUID(path);
+                }
             }
 
             ValidateItems();
@@ -147,16 +163,17 @@ namespace TableForge.Editor
                     throw new Exception("Item path cannot be empty.");
                 }
                 
-                if (paths.Contains(item.Path))
+                if (!paths.Add(item.Path))
                 {
                     throw new Exception($"Duplicate path found: {item.Path}");
                 }
-                paths.Add(item.Path);
             }
         }
 
         public void FinalizeImport()
         {
+            ValidateItems();
+            
             if (string.IsNullOrEmpty(TableName) || TableMetadataManager.LoadMetadata(TableName) != null)
             {
                 throw new Exception($"Table name '{TableName}' already exists or is invalid.");
@@ -197,14 +214,29 @@ namespace TableForge.Editor
                 
                 processedColumnData.Add(columnDataCopy[newIndex]);
             }
-            _deserializationArgs.ProcessedColumnData = processedColumnData;
             
-            // Create the table and deserialize the data
+            // Create the table
             TableMetadata metadata = TableMetadataManager.CreateMetadata(ImportItems.Select(r => r.Guid).ToList(), TableName);
             Table table = TableMetadataManager.GetTable(metadata);
-            TableSerializer.DeserializeTable(_deserializationArgs, table);
+            
+            // Deserialize the data into the table
+            for (int i = 0; i < table.OrderedRows.Count; i++)
+            {
+                Row row = table.OrderedRows[i];
+                for (int j = 0; j < processedColumnData.Count; j++)
+                {
+                    if (processedColumnData[j] == null) continue;
+                    
+                    string cellValue = processedColumnData[j][i];
+                    if (string.IsNullOrEmpty(cellValue)) continue;
+                    
+                    Cell cell = row.OrderedCells[j]; 
+                    if(!cell.TryDeserialize(cellValue))
+                    {
+                        Debug.LogWarning($"Failed to deserialize cell value '{cellValue}' for cell {cell.GetGlobalPosition()}.");
+                    }
+                }
+            }
         }
-        
-       
     }
 }

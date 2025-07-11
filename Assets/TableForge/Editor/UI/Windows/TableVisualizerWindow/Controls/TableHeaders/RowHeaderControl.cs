@@ -1,4 +1,5 @@
 using System.Linq;
+using TableForge.Editor.UI.UssClasses;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -25,10 +26,10 @@ namespace TableForge.Editor.UI
         
         private RowHeaderControl()
         {
-            AddToClassList(USSClasses.TableHeaderCellVertical);
+            AddToClassList(TableVisualizerUss.TableHeaderCellVertical);
             
             _headerLabel = new Label();
-            _headerLabel.AddToClassList(USSClasses.TableHeaderText);
+            _headerLabel.AddToClassList(TableVisualizerUss.TableHeaderText);
             _textField = new TextField();
             
             _textField.RegisterCallback<FocusOutEvent>(evt =>
@@ -57,14 +58,14 @@ namespace TableForge.Editor.UI
             
             if(tableControl.Parent != null)
             {
-                AddToClassList(USSClasses.SubTableHeaderCellVertical);
+                AddToClassList(TableVisualizerUss.SubTableHeaderCellVertical);
             }
             
             var title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.rowHeaderVisibility);
             _headerLabel.text = title;
             if(tableControl.Parent != null)
             {
-                _headerLabel.AddToClassList(USSClasses.SubTableHeaderText);
+                _headerLabel.AddToClassList(TableVisualizerUss.SubTableHeaderText);
             }
             
             _textField.value = cellAnchor.Name;
@@ -127,7 +128,7 @@ namespace TableForge.Editor.UI
                 _isChangingName = true;
                 
                 _textField.value = CellAnchor.Name;
-                _textField.AddToClassList(USSClasses.TableHeaderText);
+                _textField.AddToClassList(TableVisualizerUss.TableHeaderText);
                 _textField.RegisterCallback<KeyDownEvent>((keyEvt) =>
                 {
                     if (keyEvt.keyCode is KeyCode.Return or KeyCode.KeypadEnter)

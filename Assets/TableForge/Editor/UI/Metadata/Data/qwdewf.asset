@@ -21,8 +21,7 @@ MonoBehaviour:
   itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   bindingTypeName: 
   itemGUIDs:
-    values:
-    - 89dc4ffea6375b9409247e1c756d547f
+    values: []
   cellAnchorMetadata:
     mKeys: b56ba21f
     mValues:

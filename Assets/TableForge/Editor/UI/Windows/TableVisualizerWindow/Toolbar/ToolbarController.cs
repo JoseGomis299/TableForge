@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TableForge.Editor.UI.UssClasses;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -104,7 +105,7 @@ namespace TableForge.Editor.UI
 
                 if (_selectedTab != null && _tabControls.TryGetValue(_selectedTab, out var previousTab))
                 {
-                    previousTab.RemoveFromClassList(USSClasses.ToolbarTabSelected);
+                    previousTab.RemoveFromClassList(TableVisualizerUss.ToolbarTabSelected);
                     _selectedTab = null;
                 }
                 SelectTab(tableMetadata);
@@ -234,7 +235,7 @@ namespace TableForge.Editor.UI
             if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null
                 || _tableVisualizer.CurrentTable.CellSelector.GetFocusedCell() is SubTableCell)
             {
-                _functionTextField.RemoveFromChildrenClassList(USSClasses.ToolbarIncorrectFunctionField);
+                _functionTextField.RemoveFromChildrenClassList(TableVisualizerUss.ToolbarIncorrectFunctionField);
                 _functionTextField.SetValueWithoutNotify("");
                 _functionTextField.SetEnabled(false);
                 return;
@@ -245,11 +246,11 @@ namespace TableForge.Editor.UI
             
             if(_tableVisualizer.CurrentTable.FunctionExecutor.IsCellFunctionCorrect(focusedCell.Id))
             {
-                _functionTextField.RemoveFromChildrenClassList(USSClasses.ToolbarIncorrectFunctionField);
+                _functionTextField.RemoveFromChildrenClassList(TableVisualizerUss.ToolbarIncorrectFunctionField);
             }
             else
             {
-                _functionTextField.AddToChildrenClassList(USSClasses.ToolbarIncorrectFunctionField);
+                _functionTextField.AddToChildrenClassList(TableVisualizerUss.ToolbarIncorrectFunctionField);
             }
             
             _functionTextField.SetEnabled(true);
@@ -305,11 +306,11 @@ namespace TableForge.Editor.UI
         {
             if (_selectedTab != null && _tabControls.TryGetValue(_selectedTab, out var previousTab))
             {
-                previousTab.RemoveFromClassList(USSClasses.ToolbarTabSelected);
+                previousTab.RemoveFromClassList(TableVisualizerUss.ToolbarTabSelected);
             }
             if (tableMetadata != null && _tabControls.TryGetValue(tableMetadata, out var newTab))
             {
-                newTab.AddToClassList(USSClasses.ToolbarTabSelected);
+                newTab.AddToClassList(TableVisualizerUss.ToolbarTabSelected);
             }
             
             if(_tableVisualizer.CurrentTable != null)

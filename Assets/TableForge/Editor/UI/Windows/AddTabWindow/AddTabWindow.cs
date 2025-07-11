@@ -33,6 +33,7 @@ namespace TableForge.Editor.UI
             var wnd = CreateInstance<AddTabWindow>();
             wnd.titleContent = new GUIContent("Add Tabs");
             wnd.ViewModel = viewModel;
+            wnd.minSize = new Vector2(550, 450);
             wnd.Initialize();
             WindowManager.ShowModalWindow(wnd);
         }
