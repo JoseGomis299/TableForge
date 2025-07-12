@@ -174,7 +174,6 @@ namespace TableForge.Editor.UI
                     node = new FunctionNode(id);
                     nodes[id] = node;
                 }
-                node.Function = function;
 
                 foreach (var cell in referencedCells)
                 {
@@ -182,36 +181,38 @@ namespace TableForge.Editor.UI
                     {
                         continue; // Skip non-existing cells
                     }
-
+                    
                     if (!nodes.TryGetValue(cell.Id, out var parentNode))
                     {
                         parentNode = new FunctionNode(cell.Id);
                         nodes[cell.Id] = parentNode;
                     }
                     
-                    if(parentNode == node) 
+                    if(node == parentNode) 
                     {
                         _incorrectCells.Add(node.Id);
                         Debug.LogError($"Circular dependency detected involving cell \'{Editor.CellExtension.GetCellById(_tableControl.TableData, node.Id)?.GetGlobalPosition()}\' with function: {_tableControl.Metadata.GetFunction(node.Id)}");
                         continue;
                     }
-                    
-                    node.AddParent(parentNode);
+
+                    try
+                    {
+                        node.AddParent(parentNode);
+                    }
+                    catch (Exception e)
+                    {
+                        _incorrectCells.Add(node.Id);
+                        _incorrectCells.UnionWith(node.GetDescendants().Select(p => p.Id));
+                        Debug.LogError($"Circular dependency detected involving cell \'{Editor.CellExtension.GetCellById(_tableControl.TableData, node.Id)?.GetGlobalPosition()}\' with function: {_tableControl.Metadata.GetFunction(node.Id)}");
+                    }
                 }
             }
 
             // Detect circular dependencies
-            HashSet<int> visited = new HashSet<int>();
             foreach (var node in nodes.Values)
             {
-                if (HasCircularDependency(node, visited, new HashSet<int>()))
-                {
-                    _incorrectCells.Add(node.Id);
-                    _incorrectCells.UnionWith(node.GetAncestors().Select(p => p.Id));
-                    Debug.LogError($"Circular dependency detected involving cell \'{Editor.CellExtension.GetCellById(_tableControl.TableData, node.Id)?.GetGlobalPosition()}\' with function: {_tableControl.Metadata.GetFunction(node.Id)}");
-                    continue;
-                }
-
+                if(_incorrectCells.Contains(node.Id)) continue; // Skip already marked nodes
+                
                 if (node.Depth == 0) // Root node
                 {
                     executionTree.Enqueue(node);
@@ -221,31 +222,10 @@ namespace TableForge.Editor.UI
             return executionTree;
         }
 
-        private bool HasCircularDependency(FunctionNode node, HashSet<int> visited, HashSet<int> stack)
-        {
-            if (stack.Contains(node.Id)) return true; // Circular dependency detected
-            if (visited.Contains(node.Id)) return false; // Already processed
-
-            visited.Add(node.Id);
-            stack.Add(node.Id);
-
-            foreach (var parent in node.Parents)
-            {
-                if (HasCircularDependency(parent, visited, stack))
-                {
-                    return true;
-                }
-            }
-
-            stack.Remove(node.Id);
-            return false;
-        }
-        
         private class FunctionNode
         {
             private readonly List<FunctionNode> _children;
             private readonly List<FunctionNode> _parents;
-            public string Function;
             public int Id { get; }
             public int Depth { get; private set; }
             public IReadOnlyList<FunctionNode> Children => _children;
@@ -255,8 +235,8 @@ namespace TableForge.Editor.UI
             {
                 _children = new List<FunctionNode>();
                 _parents = new List<FunctionNode>();
-                this.Depth = 0;
-                this.Id = id;
+                Depth = 0;
+                Id = id;
             }
             
             public void AddChild(FunctionNode child)
@@ -271,16 +251,16 @@ namespace TableForge.Editor.UI
             {
                 if (parent == null || parent == this) return; // Avoid self-references
                 
-                if (!_parents.Contains(parent))
-                {
-                    _parents.Add(parent);
-                    parent._children.Add(this);
-                    Depth = Math.Max(Depth, parent.Depth + 1);
+                if(IsAncestorOf(parent)) 
+                    throw new ArgumentException($"Circular dependency detected.");
+                
+                _parents.Add(parent);
+                parent._children.Add(this);
+                Depth = Math.Max(Depth, parent.Depth + 1);
 
-                    foreach (var child in _children)
-                    {
-                        child.RecalculateDepth();
-                    }
+                foreach (var child in _children)
+                {
+                    child.RecalculateDepth();
                 }
             }
             
@@ -289,6 +269,25 @@ namespace TableForge.Editor.UI
                 List<FunctionNode> ancestors = new List<FunctionNode>();
                 GetAncestorsRecursive(ancestors);
                 return ancestors;
+            }
+            
+            public IReadOnlyList<FunctionNode> GetDescendants()
+            {
+                List<FunctionNode> descendants = new List<FunctionNode>();
+                GetDescendantsRecursive(descendants);
+                return descendants;
+            }
+            
+            private void GetDescendantsRecursive(List<FunctionNode> descendants)
+            {
+                foreach (var child in _children)
+                {
+                    if (!descendants.Contains(child))
+                    {
+                        descendants.Add(child);
+                        child.GetDescendantsRecursive(descendants);
+                    }
+                }
             }
             
             private void GetAncestorsRecursive(List<FunctionNode> ancestors)
@@ -310,6 +309,19 @@ namespace TableForge.Editor.UI
                 {
                     child.RecalculateDepth();
                 }
+            }
+            
+            private bool IsAncestorOf(FunctionNode node)
+            {
+                if (node == null) return false;
+                if (node == this) return true;
+
+                foreach (var child in _children)
+                {
+                    if (child.IsAncestorOf(node)) return true;
+                }
+
+                return false;
             }
         }
     }

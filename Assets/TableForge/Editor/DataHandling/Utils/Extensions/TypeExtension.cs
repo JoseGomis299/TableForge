@@ -6,6 +6,10 @@ using System.Reflection;
 
 namespace TableForge.Editor
 {
+    /// <summary>
+    /// Provides extension methods for Type analysis and manipulation in TableForge.
+    /// Includes type classification, reflection utilities, and enum handling.
+    /// </summary>
     internal static class TypeExtension
     {
         #region Fields
@@ -121,7 +125,6 @@ namespace TableForge.Editor
             return memberInfo;
         }
 
-        
         /// <summary>
         /// Creates an instance of the specified type using the most suitable public constructor.
         /// </summary>
@@ -159,15 +162,14 @@ namespace TableForge.Editor
             throw new InvalidOperationException($"No suitable constructor found for type {type.FullName}.");
         }
         
-        
         /// <summary>
         /// Checks if a type implements a specific interface.
         /// </summary>
         /// <param name="type">The type to check.</param>
         /// <param name="interfaceType">The interface to check if is implemented.</param>
-        /// <returns></returns>
+        /// <returns>True if the type implements the interface, false otherwise.</returns>
         /// <exception cref="ArgumentNullException">Some of the given types are null.</exception>
-        /// <exception cref="ArgumentException">The interface type is not an interface</exception>
+        /// <exception cref="ArgumentException">The interface type is not an interface.</exception>
         public static bool ImplementsInterface(this Type type, Type interfaceType)
         {
             if (type == null || interfaceType == null)
@@ -186,6 +188,13 @@ namespace TableForge.Editor
 
         #region Other Methods
 
+        /// <summary>
+        /// Resolves a flagged enum value to a human-readable string representation.
+        /// </summary>
+        /// <param name="enumType">The enum type to resolve.</param>
+        /// <param name="value">The enum value to resolve.</param>
+        /// <param name="makePretty">Whether to convert the enum names to proper case.</param>
+        /// <returns>A string representation of the flagged enum value.</returns>
         public static string ResolveFlaggedEnumName(this Type enumType, int value, bool makePretty = true)
         {
             if (value == -1)

@@ -1029,7 +1029,8 @@ namespace TableForge.Tests
             _tableControl.FunctionExecutor.SetCellFunction(cellE3, "=E2+10");  // E3 = E2 (21) + 10 = 31
             _tableControl.FunctionExecutor.SetCellFunction(cellE4, "=E3+E1");  // E4 = E3 (31) + E1 (conflict with E4) = 42
 
-            LogAssert.Expect(LogType.Error, new Regex(".*Circular dependency detected.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Circular dependency.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Circular dependency.*"));
 
             _tableControl.FunctionExecutor.ExecuteAllFunctions();
         }
@@ -1066,6 +1067,28 @@ namespace TableForge.Tests
             Assert.AreEqual(47.0, cellE4.GetValue()); // E4
             Assert.AreEqual(89.0, cellE5.GetValue()); // E5
         }
+
+        [Test]
+        public void ExecuteAllFunctions_TransitiveCircularDependency_ThrowsError()
+        {
+            // E5 -> E4 -> E3 -> E2 -> E1 -> E5
+            var cellE1 = _tableControl.TableData.Rows[1].Cells[5];
+            var cellE2 = _tableControl.TableData.Rows[2].Cells[5];
+            var cellE3 = _tableControl.TableData.Rows[3].Cells[5];
+            var cellE4 = _tableControl.TableData.Rows[4].Cells[5];
+            var cellE5 = _tableControl.TableData.Rows[5].Cells[5];
+            
+            _tableControl.FunctionExecutor.SetCellFunction(cellE1, "=E5+10");  // E1 = E5 (conflict with E5) + 10 = 20
+            _tableControl.FunctionExecutor.SetCellFunction(cellE2, "=E1+10");  // E2 = E1 (11) + 10 = 21
+            _tableControl.FunctionExecutor.SetCellFunction(cellE3, "=E2+10");  // E3 = E2 (21) + 10 = 31
+            _tableControl.FunctionExecutor.SetCellFunction(cellE4, "=E3+E1");  // E4 = E3 (31) + E1 (conflict with E4) = 42
+            _tableControl.FunctionExecutor.SetCellFunction(cellE5, "=E4+E1");  // E5 = E4 (42) + E1 (conflict with E4) = 53
+            
+            LogAssert.Expect(LogType.Error, new Regex(".*Circular dependency.*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*Circular dependency.*"));
+            _tableControl.FunctionExecutor.ExecuteAllFunctions();
+        }
+
 
         #endregion
         

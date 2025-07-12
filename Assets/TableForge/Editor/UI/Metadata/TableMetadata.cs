@@ -7,26 +7,35 @@ using UnityEngine;
 
 namespace TableForge.Editor.UI
 {
+    /// <summary>
+    /// Manages metadata for table display and behavior, including visibility states, positions, sizes, and functions.
+    /// This ScriptableObject persists table configuration across Unity sessions.
+    /// </summary>
     internal class TableMetadata : ScriptableObject
     {
         #region Fields
         
+        // Visibility and state tracking
         [SerializeField] private SerializedHashSet<int> expandedTables = new();
         [SerializeField] private SerializedHashSet<int> transposedTables = new();
         [SerializeField] private SerializedHashSet<int> hiddenFields = new();
             
+        // Type and binding information
         [SerializeField] private string itemsTypeName;
         [SerializeField] private string bindingTypeName;
         [SerializeField] private SerializedHashSet<string> itemGUIDs = new();
         
+        // Layout and function data
         [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
         [SerializeField] private SerializedDictionary<int, string> functions = new();
-        
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the name of the metadata asset.
+        /// </summary>
         public string Name
         {
             get => name;
@@ -39,6 +48,9 @@ namespace TableForge.Editor.UI
             }
         }
         
+        /// <summary>
+        /// Gets or sets whether the main table is transposed.
+        /// </summary>
         public bool IsTransposed
         {
             get => transposedTables.Contains(0);
@@ -51,6 +63,9 @@ namespace TableForge.Editor.UI
             }
         }
 
+        /// <summary>
+        /// Gets the list of item GUIDs associated with this table.
+        /// </summary>
         public IReadOnlyList<string> ItemGUIDs
         {
             get
@@ -62,12 +77,23 @@ namespace TableForge.Editor.UI
             }
         }
         
+        /// <summary>
+        /// Checks if the table contains a specific item GUID.
+        /// </summary>
+        /// <param name="guid">The GUID to check.</param>
+        /// <returns>True if the item is contained, false otherwise.</returns>
         public bool ContainsItem(string guid) => IsTypeBound
                 ? AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guid)).Name == bindingTypeName
                 : itemGUIDs.Contains(guid);
         
+        /// <summary>
+        /// Gets whether this table is bound to a specific type.
+        /// </summary>
         public bool IsTypeBound => !string.IsNullOrEmpty(bindingTypeName);
         
+        /// <summary>
+        /// Gets the name of the binding type.
+        /// </summary>
         public string BindingTypeName => bindingTypeName;
         
         #endregion

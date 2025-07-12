@@ -7,25 +7,33 @@ using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
 {
+    /// <summary>
+    /// Main control class for managing table visualization and interaction in the TableVisualizer window.
+    /// Handles table data, UI elements, resizing, filtering, and user interactions.
+    /// </summary>
     internal class TableControl : VisualElement
     {
         #region Fields
 
         public event Action<Vector2> OnScrollviewSizeChanged;
 
+        // Data storage
         private readonly Dictionary<int, CellAnchor> _columnData = new();
         private readonly Dictionary<int, CellAnchor> _rowData = new();
         private readonly Dictionary<int, RowHeaderControl> _rowHeaders = new();
         private readonly Dictionary<int, ColumnHeaderControl> _columnHeaders = new();
 
+        // UI containers
         private readonly ColumnHeaderContainerControl _columnHeaderContainer;
         private readonly RowHeaderContainerControl _rowHeaderContainer;
         private readonly CornerContainerControl _cornerContainer;
         private readonly VisualElement _rowsContainer;
 
+        // Size tracking
         private float _scrollViewHeight;
         private float _scrollViewWidth;
         
+        // Ordered collections for performance
         private List<ColumnHeaderControl> _orderedColumnHeaders = new();
         private List<ColumnHeaderControl> _orderedDescColumnHeaders = new();
         private List<RowHeaderControl> _orderedRowHeaders = new();
@@ -35,42 +43,171 @@ namespace TableForge.Editor.UI
 
         #region Properties
 
+        #region Data Access
+        /// <summary>
+        /// Gets read-only access to column data by ID.
+        /// </summary>
         public IReadOnlyDictionary<int, CellAnchor> ColumnData => _columnData;
+        
+        /// <summary>
+        /// Gets read-only access to row data by ID.
+        /// </summary>
         public IReadOnlyDictionary<int, CellAnchor> RowData => _rowData;
+        
+        /// <summary>
+        /// Gets read-only access to row headers by ID.
+        /// </summary>
         public IReadOnlyDictionary<int, RowHeaderControl> RowHeaders => _rowHeaders;
+        
+        /// <summary>
+        /// Gets read-only access to column headers by ID.
+        /// </summary>
         public IReadOnlyDictionary<int, ColumnHeaderControl> ColumnHeaders => _columnHeaders;
+        
+        /// <summary>
+        /// Gets ordered list of column headers.
+        /// </summary>
         public IReadOnlyList<ColumnHeaderControl> OrderedColumnHeaders => _orderedColumnHeaders;
+        
+        /// <summary>
+        /// Gets ordered list of row headers.
+        /// </summary>
         public IReadOnlyList<RowHeaderControl> OrderedRowHeaders => _orderedRowHeaders;
+        
+        /// <summary>
+        /// Gets descending ordered list of row headers.
+        /// </summary>
         public IReadOnlyList<RowHeaderControl> OrderedDescRowHeaders => _orderedDescRowHeaders;
+        
+        /// <summary>
+        /// Gets descending ordered list of column headers.
+        /// </summary>
         public IReadOnlyList<ColumnHeaderControl> OrderedDescColumnHeaders => _orderedDescColumnHeaders;
+        #endregion
 
+        #region Core References
+        /// <summary>
+        /// Gets the root visual element of this control.
+        /// </summary>
         public VisualElement Root { get; }
+        
+        /// <summary>
+        /// Gets the parent TableVisualizer window.
+        /// </summary>
         public TableVisualizer Visualizer { get; }
+        
+        /// <summary>
+        /// Gets the corner container control.
+        /// </summary>
         public CornerContainerControl CornerContainer => _cornerContainer;
 
+        /// <summary>
+        /// Gets the current table data being displayed.
+        /// </summary>
         public Table TableData { get; private set; }
+        
+        /// <summary>
+        /// Gets the preferred size calculator for this table.
+        /// </summary>
         public TableSize PreferredSize { get; private set; }
+        
+        /// <summary>
+        /// Gets the metadata associated with this table.
+        /// </summary>
         public TableMetadata Metadata { get; private set; }
+        
+        /// <summary>
+        /// Gets the scroll view containing the table content.
+        /// </summary>
         public ScrollView ScrollView { get; }
+        
+        /// <summary>
+        /// Gets the attributes defining how this table should behave.
+        /// </summary>
         public TableAttributes TableAttributes { get; private set; }
+        #endregion
+
+        #region Component References
+        /// <summary>
+        /// Gets the table resizer component.
+        /// </summary>
         public TableResizer Resizer { get; }
+        
+        /// <summary>
+        /// Gets the filterer component for row filtering.
+        /// </summary>
         public Filterer Filterer { get; }
+        
+        /// <summary>
+        /// Gets the function executor for cell formulas.
+        /// </summary>
         public FunctionExecutor FunctionExecutor { get; }
+        
+        /// <summary>
+        /// Gets the horizontal border resizer.
+        /// </summary>
         public BorderResizer HorizontalResizer => Resizer.HorizontalResizer;
+        
+        /// <summary>
+        /// Gets the vertical border resizer.
+        /// </summary>
         public BorderResizer VerticalResizer => Resizer.VerticalResizer;
+        
+        /// <summary>
+        /// Gets the cell selector for managing cell selection.
+        /// </summary>
         public ICellSelector CellSelector { get; }
+        
+        /// <summary>
+        /// Gets the header swapper for reordering headers.
+        /// </summary>
         public HeaderSwapper HeaderSwapper { get; }
+        
+        /// <summary>
+        /// Gets the parent sub-table control, if this is a sub-table.
+        /// </summary>
         public SubTableCellControl Parent { get; }
+        
+        /// <summary>
+        /// Gets the column visibility manager.
+        /// </summary>
         public VisibilityManager<ColumnHeaderControl> ColumnVisibilityManager { get; }
+        
+        /// <summary>
+        /// Gets the row visibility manager.
+        /// </summary>
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
+        #endregion
+
+        #region State Properties
+        /// <summary>
+        /// Gets or sets whether the table is transposed.
+        /// </summary>
         public bool Transposed { get; private set; }
+        
+        /// <summary>
+        /// Gets the offset for the rows container.
+        /// </summary>
         public float RowsContainerOffset { get; private set; }
+        
+        /// <summary>
+        /// Gets the sub-table toolbar element.
+        /// </summary>
         public VisualElement SubTableToolbar { get; }
+        #endregion
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the TableControl class.
+        /// </summary>
+        /// <param name="root">The root visual element.</param>
+        /// <param name="attributes">Table display attributes.</param>
+        /// <param name="parent">Parent sub-table control, if any.</param>
+        /// <param name="subTableToolbar">Toolbar for sub-table operations.</param>
+        /// <param name="visualizer">The parent TableVisualizer window.</param>
         public TableControl(VisualElement root, TableAttributes attributes, SubTableCellControl parent, VisualElement subTableToolbar, TableVisualizer visualizer)
         {
             // Basic initialization
@@ -106,10 +243,14 @@ namespace TableForge.Editor.UI
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods - Table Setup
 
-        #region Table Setup
-
+        /// <summary>
+        /// Sets the table data and metadata for this control.
+        /// </summary>
+        /// <param name="table">The table to display.</param>
+        /// <param name="metadata">Optional metadata for the table.</param>
+        /// <param name="useCachedSize">Whether to use cached size information.</param>
         public void SetTable(Table table, TableMetadata metadata = null, bool useCachedSize = true)
         {
             RowVisibilityManager.UnsubscribeFromRefreshEvents();
@@ -124,6 +265,7 @@ namespace TableForge.Editor.UI
                 return;
             }
 
+            // Set metadata
             if (Parent != null)
                 Metadata = Parent.TableControl.Metadata;
             else
@@ -131,6 +273,7 @@ namespace TableForge.Editor.UI
                     ? TableMetadataManager.GetMetadata(table, table.Name)
                     : metadata;
             
+            // Handle transposition
             if ((!Transposed && Metadata.IsTransposed) 
                 || (Transposed && !Metadata.IsTransposed))
                 Transpose();
@@ -162,6 +305,9 @@ namespace TableForge.Editor.UI
             InitializeGeometry();
         }
 
+        /// <summary>
+        /// Clears all table data and resets the control state.
+        /// </summary>
         public void ClearTable()
         {
             ClearRows();
@@ -180,11 +326,12 @@ namespace TableForge.Editor.UI
 
         #endregion
 
-        #region Update Methods
-
+        #region Public Methods - Table Updates
+        
         /// <summary>
         /// Updates the data of the visible rows.
         /// </summary>
+        /// <param name="rebuildRows">Whether to completely rebuild the rows.</param>
         public void Update(bool rebuildRows = false)
         {
             foreach (var rowHeader in RowVisibilityManager.CurrentVisibleHeaders.ToList())
@@ -208,8 +355,9 @@ namespace TableForge.Editor.UI
         }
 
         /// <summary>
-        /// Updates the data of this row and its visible cells.
+        /// Updates the data of a specific row and its visible cells.
         /// </summary>
+        /// <param name="rowId">The ID of the row to update.</param>
         public void UpdateRow(int rowId)
         {
             if (!_rowHeaders.TryGetValue(rowId, out var header))
@@ -218,6 +366,10 @@ namespace TableForge.Editor.UI
             header.Refresh();
         }
         
+        /// <summary>
+        /// Rebuilds the entire page with current table data.
+        /// </summary>
+        /// <param name="useCachedSize">Whether to use cached size information.</param>
         public void RebuildPage(bool useCachedSize = true)
         {
             SetTable(TableData, metadata:Metadata, useCachedSize: useCachedSize);
@@ -225,58 +377,11 @@ namespace TableForge.Editor.UI
 
         #endregion
 
-        #region Utilities
+        #region Public Methods - Table Operations
         
-        public void RemoveRow(int id)
-        {
-            Row row = Transposed ? _columnData[id] as Row : _rowData[id] as Row;
-            if (row == null) return;
-
-            RemoveRowCommand command = null;
-            if(TableData.ParentCell is ICollectionCell collectionCell)
-            {
-               command = new RemoveCollectionRowCommand(row, TableMetadata.Clone(Metadata), this, RemoveRow, TableData.ParentCell, collectionCell.GetItems());
-            }
-            else
-            {
-                command = new RemoveRowCommand(row, TableMetadata.Clone(Metadata), Visualizer.CurrentTable, RemoveRow);
-            }
-            
-            UndoRedoManager.Do(command);
-        }
-
-        private void RemoveRow(Row row)
-        {
-            //Move row to the end and refresh metadata
-            TableData.MoveRow(row.Position, TableData.Rows.Count);
-            foreach (var r in TableData.OrderedRows)
-            {
-                Metadata.SetAnchorPosition(r.Id, r.Position);
-            }
-            
-            TableData.RemoveRow(TableData.Rows.Count); 
-
-            // Remove metadata
-            PreferredSize.RemoveRowSize(row.Id);
-            CellSelector.RemoveRowSelection(row);
-            if(Parent == null) Metadata.RemoveItemGuid(row.SerializedObject.RootObjectGuid);
-            Metadata.RemoveAnchorMetadata(row.Id);
-            foreach (var cell in row.OrderedCells)
-            {
-                Metadata.RemoveCellMetadata(cell.Id);
-
-                if (cell is SubTableCell subTableCell)
-                {
-                    foreach (var descendant in subTableCell.GetDescendants())
-                    {
-                        Metadata.RemoveCellMetadata(descendant.Id); 
-                    }
-                }
-            }
-            
-            Visualizer?.ToolbarController.UpdateTableCache(Metadata, TableData);
-        }
-
+        /// <summary>
+        /// Transposes the table (swaps rows and columns).
+        /// </summary>
         public void Transpose()
         {
             if (Parent != null)
@@ -294,8 +399,35 @@ namespace TableForge.Editor.UI
             
             Metadata.IsTransposed = Transposed;
         }
+        
+        /// <summary>
+        /// Removes a row from the table.
+        /// </summary>
+        /// <param name="id">The ID of the row to remove.</param>
+        public void RemoveRow(int id)
+        {
+            Row row = Transposed ? _columnData[id] as Row : _rowData[id] as Row;
+            if (row == null) return;
 
+            RemoveRowCommand command = null;
+            if(TableData.ParentCell is ICollectionCell collectionCell)
+            {
+                command = new RemoveCollectionRowCommand(row, TableMetadata.Clone(Metadata), this, RemoveRow, TableData.ParentCell, collectionCell.GetItems());
+            }
+            else
+            {
+                command = new RemoveRowCommand(row, TableMetadata.Clone(Metadata), Visualizer.CurrentTable, RemoveRow);
+            }
+            
+            UndoRedoManager.Do(command);
+        }
 
+        /// <summary>
+        /// Moves a row from one position to another.
+        /// </summary>
+        /// <param name="rowStartPos">Starting position of the row.</param>
+        /// <param name="rowEndPos">Ending position of the row.</param>
+        /// <param name="refresh">Whether to refresh the display after moving.</param>
         public void MoveRow(int rowStartPos, int rowEndPos, bool refresh = true)
         {
             if (rowStartPos == rowEndPos)
@@ -314,6 +446,11 @@ namespace TableForge.Editor.UI
             _orderedDescRowHeaders = RowHeaders.Values.OrderByDescending(x => x.CellAnchor.Position).ToList();
         }
         
+        /// <summary>
+        /// Sorts a column in ascending or descending order.
+        /// </summary>
+        /// <param name="column">The column to sort.</param>
+        /// <param name="ascending">Whether to sort in ascending order.</param>
         public void SortColumn(Column column, bool ascending = true)
         {
             if (column == null || TableData.Columns[column.Position] != column || !Metadata.IsFieldVisible(column.Id))
@@ -354,12 +491,12 @@ namespace TableForge.Editor.UI
 
         #endregion
 
-        #endregion
+        #region Private Methods - UI Creation
 
-        #region Private Methods
-
-        #region Layout Initialization
-
+        /// <summary>
+        /// Creates the main scroll view for the table.
+        /// </summary>
+        /// <returns>The created ScrollView.</returns>
         private ScrollView CreateScrollView()
         {
             var scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
@@ -378,6 +515,10 @@ namespace TableForge.Editor.UI
             return scrollView;
         }
 
+        /// <summary>
+        /// Creates the container for table rows.
+        /// </summary>
+        /// <returns>The created VisualElement.</returns>
         private VisualElement CreateRowsContainer()
         {
             var container = new VisualElement();
@@ -385,6 +526,9 @@ namespace TableForge.Editor.UI
             return container;
         }
 
+        /// <summary>
+        /// Builds the main layout hierarchy of the table control.
+        /// </summary>
         private void BuildLayoutHierarchy()
         {
             var scrollviewContentContainer = new VisualElement();
@@ -408,13 +552,19 @@ namespace TableForge.Editor.UI
             topContainer.Add(_cornerContainer);
         }
 
+        /// <summary>
+        /// Initializes the geometry of the table control.
+        /// </summary>
         private void InitializeGeometry()
         {
             SubscribeToResizingMethods();
             ResetScrollViewStoredSize();
             Resizer.ResizeAll(true);
         }
-        
+
+        /// <summary>
+        /// Resets the stored size of the scroll view.
+        /// </summary>
         private void ResetScrollViewStoredSize()
         {
             _scrollViewHeight = Parent == null ? UiConstants.HeaderHeight : UiConstants.SubTableHeaderHeight;
@@ -422,8 +572,8 @@ namespace TableForge.Editor.UI
         }
 
         #endregion
-        
-        #region Table structure building
+
+        #region Private Methods - Data Building
 
         private void BuildColumns()
         {
@@ -497,9 +647,40 @@ namespace TableForge.Editor.UI
 
         #endregion
 
-        #region Helper methods
+        #region Private Methods - Row Operations
 
-        #region Row reordering helpers
+        private void RemoveRow(Row row)
+        {
+            //Move row to the end and refresh metadata
+            TableData.MoveRow(row.Position, TableData.Rows.Count);
+            foreach (var r in TableData.OrderedRows)
+            {
+                Metadata.SetAnchorPosition(r.Id, r.Position);
+            }
+            
+            TableData.RemoveRow(TableData.Rows.Count); 
+
+            // Remove metadata
+            PreferredSize.RemoveRowSize(row.Id);
+            CellSelector.RemoveRowSelection(row);
+            if(Parent == null) Metadata.RemoveItemGuid(row.SerializedObject.RootObjectGuid);
+            Metadata.RemoveAnchorMetadata(row.Id);
+            foreach (var cell in row.OrderedCells)
+            {
+                Metadata.RemoveCellMetadata(cell.Id);
+
+                if (cell is SubTableCell subTableCell)
+                {
+                    foreach (var descendant in subTableCell.GetDescendants())
+                    {
+                        Metadata.RemoveCellMetadata(descendant.Id); 
+                    }
+                }
+            }
+            
+            Visualizer?.ToolbarController.UpdateTableCache(Metadata, TableData);
+        }
+        
         private void PerformExplicitRowReorder(int rowStartPos, int rowEndPos, bool refresh)
         {
             int startIndex = rowStartPos - 1;
@@ -549,9 +730,11 @@ namespace TableForge.Editor.UI
                 RebuildPage();
             }
         }
+        
         #endregion
 
-        #region Clearing helpers
+        #region Private Methods - Cleanup
+
         private void ClearRows()
         {
             foreach (var rowHeader in _rowHeaderContainer.Children())
@@ -588,9 +771,11 @@ namespace TableForge.Editor.UI
             _orderedColumnHeaders.Clear();
             _orderedDescColumnHeaders.Clear();
         }
+
         #endregion
-        
-        #region Subscription helpers
+
+        #region Private Methods - Event Handling
+
         private void SubscribeToVisibilityEvents()
         {
             RowVisibilityManager.OnHeaderBecameVisible += OnRowHeaderBecameVisible;
@@ -631,7 +816,13 @@ namespace TableForge.Editor.UI
         }
         #endregion
 
-        // Helper for calculating offset based on visible columns
+        #region Private Methods - Calculations
+
+        /// <summary>
+        /// Calculates the offset for the rows container based on direction.
+        /// </summary>
+        /// <param name="direction">The direction (1 for forward, -1 for backward).</param>
+        /// <returns>The calculated offset.</returns>
         private float CalculateRowsContainerOffset(int direction)
         {
             float offset = 0;
@@ -666,12 +857,13 @@ namespace TableForge.Editor.UI
                     continue;
                 offset += columnHeader.style.width.value.value;
             }
+            
             return offset;
         }
 
         #endregion
 
-        #region Event Handlers
+        #region Private Methods - Event Callbacks
 
         private void OnRowHeaderBecameVisible(HeaderControl header, int direction)
         {
@@ -749,8 +941,6 @@ namespace TableForge.Editor.UI
             OnTableResize(Vector2.zero);
             OnScrollviewSizeChanged?.Invoke(delta);
         }
-
-        #endregion
 
         #endregion
     }

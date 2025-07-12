@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Debug = UnityEngine.Debug;
 
 namespace TableForge.Editor
@@ -30,7 +27,7 @@ namespace TableForge.Editor
         #region Properties
 
         /// <summary>
-        /// Gets or sets the name of the table.
+        /// Gets the name of the table.
         /// </summary>
         public string Name { get; }
 
@@ -45,12 +42,12 @@ namespace TableForge.Editor
         public IReadOnlyDictionary<int, Column> Columns => _columns;
         
         /// <summary>
-        ///  Gets read-only access to the table's rows by their names.
+        /// Gets read-only access to the table's rows by their names.
         /// </summary>
         public IReadOnlyDictionary<string, Row> RowsByName => _rowsByName;
         
         /// <summary>
-        ///  Gets read-only access to the table's columns by their names.
+        /// Gets read-only access to the table's columns by their names.
         /// </summary>
         public IReadOnlyDictionary<string, Column> ColumnsByName => _columnsByName;
         
@@ -103,8 +100,13 @@ namespace TableForge.Editor
 
         #endregion
         
-        #region Constructors
+        #region Constructor
         
+        /// <summary>
+        /// Initializes a new instance of the Table class.
+        /// </summary>
+        /// <param name="name">The name of the table.</param>
+        /// <param name="parentCell">The parent cell containing this table, if any.</param>
         public Table(string name, Cell parentCell)
         {
             Name = parentCell != null ? $"{name}({parentCell.column.Name} | {parentCell.row.Name})" : name;
@@ -113,35 +115,20 @@ namespace TableForge.Editor
         
         #endregion
 
-        #region Public Methods
+        #region Public Methods - Row Management
         
         /// <summary>
-        ///  Adds a row to the table at the specified position, adjusting subsequent row positions accordingly.
+        /// Adds a row to the table at the specified position, adjusting subsequent row positions accordingly.
         /// </summary>
         /// <param name="row">The row to add to the table.</param>
-        /// <exception cref="ArgumentException">Throws for already existing rows.</exception>
+        /// <exception cref="ArgumentException">Thrown when a row already exists at the specified position.</exception>
         public void AddRow(Row row)
         {
             if (!_rows.TryAdd(row.Position, row))
                 throw new ArgumentException("Row already exists in table");
 
-
             _rowsByName.TryAdd(row.Name, row);
             _rowsDirty = true;
-        }
-        
-        /// <summary>
-        ///  Adds a column to the table at the specified position, adjusting subsequent column positions accordingly.
-        /// </summary>
-        /// <param name="column">The column to add to the table.</param>
-        /// <exception cref="ArgumentException">Throws for already existing columns.</exception>
-        public void AddColumn(Column column)
-        {
-            if (!_columns.TryAdd(column.Position, column))
-                throw new ArgumentException("Column already exists in table");
-
-            _columnsByName.TryAdd(column.Name, column);
-            _columnsDirty = true;
         }
         
         /// <summary>
@@ -181,49 +168,58 @@ namespace TableForge.Editor
         }
         
         /// <summary>
-        /// Clears all rows and columns from the table without removing the referenced data.
-        /// </summary>
-        public void Clear()
-        {
-            _rows.Clear();
-            _columns.Clear();
-            _orderedRows.Clear();
-            _orderedColumns.Clear();
-            _rowsDirty = true;
-            _columnsDirty = true;
-        }
-        
-        /// <summary>
         /// Moves a row from one position to another, adjusting subsequent row positions accordingly.
         /// </summary>
-        /// <param name="fromPosition">Original 1-based row position</param>
-        /// <param name="toPosition">New 1-based row position</param>
-        /// <exception cref="ArgumentException">Thrown for invalid row positions</exception>
+        /// <param name="fromPosition">Original 1-based row position.</param>
+        /// <param name="toPosition">New 1-based row position.</param>
+        /// <exception cref="ArgumentException">Thrown for invalid row positions.</exception>
         public void MoveRow(int fromPosition, int toPosition)
         {
             MoveAnchor(fromPosition, toPosition, _rows, true);
             _rowsDirty = true;
         }
 
+        #endregion
+
+        #region Public Methods - Column Management
+        
+        /// <summary>
+        /// Adds a column to the table at the specified position, adjusting subsequent column positions accordingly.
+        /// </summary>
+        /// <param name="column">The column to add to the table.</param>
+        /// <exception cref="ArgumentException">Thrown when a column already exists at the specified position.</exception>
+        public void AddColumn(Column column)
+        {
+            if (!_columns.TryAdd(column.Position, column))
+                throw new ArgumentException("Column already exists in table");
+
+            _columnsByName.TryAdd(column.Name, column);
+            _columnsDirty = true;
+        }
+
         /// <summary>
         /// Moves a column from one position to another, adjusting subsequent column positions accordingly.
         /// </summary>
-        /// <param name="fromPosition">Original 1-based column position</param>
-        /// <param name="toPosition">New 1-based column position</param>
-        /// <exception cref="ArgumentException">Thrown for invalid column positions</exception>
+        /// <param name="fromPosition">Original 1-based column position.</param>
+        /// <param name="toPosition">New 1-based column position.</param>
+        /// <exception cref="ArgumentException">Thrown for invalid column positions.</exception>
         public void MoveColumn(int fromPosition, int toPosition)
         {
             MoveAnchor(fromPosition, toPosition, _columns, false);
             _columnsDirty = true;
         }
 
+        #endregion
+
+        #region Public Methods - Cell Access
+        
         /// <summary>
         /// Retrieves a cell from the table using spreadsheet-style position notation.
         /// For nested tables, the position can be in the format "A1.B2".
         /// </summary>
-        /// <param name="position">Cell position in A1 notation (e.g., "B3" or "B3.A1" for nested cells)</param>
-        /// <returns>Requested cell or null if not found</returns>
-        /// <exception cref="ArgumentException">Thrown for invalid position format</exception>
+        /// <param name="position">Cell position in A1 notation (e.g., "B3" or "B3.A1" for nested cells).</param>
+        /// <returns>Requested cell or null if not found.</returns>
+        /// <exception cref="ArgumentException">Thrown for invalid position format.</exception>
         public Cell GetCell(string position)
         {
             if (string.IsNullOrEmpty(position))
@@ -247,10 +243,13 @@ namespace TableForge.Editor
             var (colPos, rowPos) = PositionUtil.GetPosition(position);
             return table.GetCell(colPos, rowPos);
         }
-        
+
         /// <summary>
-        /// Retrieves a cell from the table using numeric column and row positions.
+        /// Retrieves a cell from the table using column and row positions.
         /// </summary>
+        /// <param name="columnPos">1-based column position.</param>
+        /// <param name="rowPos">1-based row position.</param>
+        /// <returns>The cell at the specified position or null if not found.</returns>
         public Cell GetCell(int columnPos, int rowPos)
         {
             return Rows.TryGetValue(rowPos, out Row rowObj) 
@@ -258,11 +257,27 @@ namespace TableForge.Editor
                 : null;
         }
 
+        #endregion
+
+        #region Public Methods - Table Management
+        
         /// <summary>
-        /// Sets the order of rows in the table based on the provided list of positions.
+        /// Clears all rows and columns from the table without removing the referenced data.
         /// </summary>
-        /// <param name="positions">List containing the new positions matching the old ones with the index.</param>
-        /// <exception cref="ArgumentException">Thrown if the given list is invalid.</exception>
+        public void Clear()
+        {
+            _rows.Clear();
+            _columns.Clear();
+            _orderedRows.Clear();
+            _orderedColumns.Clear();
+            _rowsDirty = true;
+            _columnsDirty = true;
+        }
+        
+        /// <summary>
+        /// Sets the order of rows based on the provided positions.
+        /// </summary>
+        /// <param name="positions">List of row positions in the desired order.</param>
         public void SetRowOrder(IList<int> positions)
         {
             if(positions.Count != _rows.Count)
@@ -281,7 +296,7 @@ namespace TableForge.Editor
                 row.Position = i + 1; // Convert to 1-based index
                 newRows.Add(i + 1, row);
             }
-            
+
             _rows.Clear();
             foreach (var kvp in newRows)
             {
@@ -292,8 +307,8 @@ namespace TableForge.Editor
 
         #endregion
 
-        #region Private Methods
-
+        #region Private Methods - Anchor Management
+        
         private void SwapRows(int fromPosition, int toPosition)
         {
             //Swap the values of the list if the rows represent list elements

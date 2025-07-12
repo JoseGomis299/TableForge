@@ -5,8 +5,6 @@ using System.Linq;
 using TableForge.Editor.UI;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 namespace TableForge.Editor
 {

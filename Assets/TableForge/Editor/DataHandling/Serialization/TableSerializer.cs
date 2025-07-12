@@ -4,7 +4,6 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
-using UnityEngine;
 
 namespace TableForge.Editor
 {
