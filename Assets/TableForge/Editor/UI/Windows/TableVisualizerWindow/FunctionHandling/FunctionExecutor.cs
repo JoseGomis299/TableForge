@@ -199,7 +199,7 @@ namespace TableForge.Editor.UI
                     {
                         node.AddParent(parentNode);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         _incorrectCells.Add(node.Id);
                         _incorrectCells.UnionWith(node.GetDescendants().Select(p => p.Id));
