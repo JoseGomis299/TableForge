@@ -126,26 +126,19 @@ Cell anchors represent the structural elements of a table:
 TableForge supports a wide range of data types:
 
 ### Primitive Types
-- **Integers**: `int`, `long`, `short`, `byte`, `uint`
+- **Integers**: `int`, `long`, `ulong`, `short`, `ushort`, `byte`, `sbyte`, `uint`
 - **Floating Point**: `float`, `double`
 - **Text**: `string`, `char`
 - **Boolean**: `bool`
 - **Enum**: Any enum type
 
 ### Unity Types
-- **Vectors**: `Vector2`, `Vector3`, `Vector4`
-- **Colors**: `Color`
-- **Rects**: `Rect`, `RectOffset`
-- **Bounds**: `Bounds`
-- **Quaternion**: `Quaternion`
-- **AnimationCurve**: `AnimationCurve`
-- **Gradient**: `Gradient`
-- **LayerMask**: `LayerMask`
+- **All types serialized by Unity**
 
 ### Collections
 - **Arrays**: Any type array
-- **Lists**: `List<T>`, `IList<T>`
-- **Dictionaries**: `Dictionary<K,V>`, `SerializedDictionary<K,V>`
+- **Lists**: `List<T>`
+- **Dictionaries**: `SerializedDictionary<K,V>`
 
 ### Complex Types
 - **Custom Classes**: Any serializable class
