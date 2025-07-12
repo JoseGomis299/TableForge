@@ -26,26 +26,12 @@ namespace TableForge.Editor
         
         public override object GetValue(Cell cell)
         {
-            //This is a special case where the collection has been modified outside TableForge
-            if(!_dictionary.Contains(_itemKey) && !((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid)
-            {
-                ((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid = true;
-                //TODO: Adter this, the subtable will be regenerated
-            }
-            
             bool isKey = cell.column.Name == "Key";
             return isKey ? _itemKey : _dictionary[_itemKey];
         }
 
         public override void SetValue(Cell cell, object data)
         {
-            //This is a special case where the collection has been modified outside TableForge
-            if(!_dictionary.Contains(_itemKey) && !((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid)
-            {
-                ((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid = true;
-                //TODO: After this, the subtable will be regenerated
-            }
-            
             bool isKey = cell.column.Name == "Key";
             if (isKey)
             {

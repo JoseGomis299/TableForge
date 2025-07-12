@@ -42,13 +42,6 @@ namespace TableForge.Editor
         
         public override object GetValue(Cell cell)
         {
-            //This is a special case where the collection has been modified outside TableForge
-            if (_collection.Count < CollectionIndex && !((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid)
-            {
-                ((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid = true;
-                //TODO: Adter this, the subtable will be regenerated
-            }
-            
             if (_isSimpleValue)
             {
                 return _collection[CollectionIndex];
@@ -58,13 +51,6 @@ namespace TableForge.Editor
 
         public override void SetValue(Cell cell, object data)
         {
-            //This is a special case where the collection has been modified outside TableForge
-            if (_collection.Count < CollectionIndex && !((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid)
-            {
-                ((SubTableCell)cell.row.Table.ParentCell).IsSubTableInvalid = true;
-                //TODO: Adter this, the subtable will be regenerated
-            }
-            
             if (_isSimpleValue)
             {
                 _collection[CollectionIndex] = data;

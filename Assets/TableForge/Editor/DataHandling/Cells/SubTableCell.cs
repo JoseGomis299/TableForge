@@ -12,11 +12,6 @@ namespace TableForge.Editor
         #region Properties
 
         /// <summary>
-        /// Indicates whether the subtable is in an invalid state. This happens when the collection has been modified outside TableForge.
-        /// </summary>
-        public bool IsSubTableInvalid { get; set; }
-
-        /// <summary>
         /// The subtable associated with this cell.
         /// </summary>
         public Table SubTable { get; protected set; }
