@@ -191,8 +191,8 @@ MonoBehaviour:
     y: 0
     width: 1282.6666
     height: 648
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 51, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 14}
@@ -11296,8 +11296,8 @@ MonoBehaviour:
         Circular dependency detected involving
         cell ''E4'' with function: =E3+E1
 
-        Circular dependency detected
-        involving cell ''E4'' with function: =E3+E1
+        Circular dependency detected involving
+        cell ''E4'' with function: =E3+E1
 
 '
       stacktrace: 
@@ -12178,8 +12178,8 @@ MonoBehaviour:
         Circular dependency detected involving
         cell ''E5'' with function: =E4+E1
 
-        Circular dependency detected
-        involving cell ''E5'' with function: =E4+E1
+        Circular dependency detected involving
+        cell ''E5'' with function: =E4+E1
 
 '
       stacktrace: 
@@ -29366,7 +29366,7 @@ MonoBehaviour:
       height: 960
     m_MinimalGUI: 1
   m_defaultScale: 0.6163195
-  m_LastWindowPixelSize: {x: 2114.5, y: 919}
+  m_LastWindowPixelSize: {x: 1409.6666, y: 612.6667}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -29459,8 +29459,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 7.3333335
-    y: 734
+    x: 0
+    y: 24
     width: 694.3333
     height: 231.33331
   m_SerializedDataModeController:
@@ -29504,7 +29504,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 399}
     m_SelectedIDs: 24c40000
     m_LastClickedID: 50212
-    m_ExpandedIDs: 0000000000c2000002c2000004c2000006c2000008c200000ac200000cc200000ec2000010c2000012c2000014c2000016c2000018c200001ac200001cc200001ec2000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000f6c10000f8c10000fac10000fcc10000fec1000000c2000002c2000004c2000006c2000008c200000ac200000cc200000ec2000010c2000012c2000014c20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -29533,7 +29533,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000000c2000002c2000004c2000006c2000008c200000ac200000cc200000ec2000010c2000012c2000014c2000016c2000018c200001ac200001cc200001ec20000
+    m_ExpandedIDs: 00000000f6c10000f8c10000fac10000fcc10000fec1000000c2000002c2000004c2000006c2000008c200000ac200000cc200000ec2000010c2000012c2000014c20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -29612,8 +29612,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 702.6667
-    y: 734
+    x: 696.3333
+    y: 24
     width: 585.3333
     height: 231.33331
   m_SerializedDataModeController:
@@ -29648,8 +29648,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1290
-    y: 86
+    x: 1283.6666
+    y: 24
     width: 408.33337
     height: 879.3333
   m_SerializedDataModeController:
@@ -29697,8 +29697,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "TableVisualizer\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 7.3333335
-    y: 86
+    x: 0
+    y: 24
     width: 1281.6666
     height: 622
   m_SerializedDataModeController:

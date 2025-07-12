@@ -13,6 +13,7 @@ TableForge is a powerful Unity Editor tool designed for managing, visualizing, a
 - [Functions and Formulas](#functions-and-formulas)
 - [Import/Export](#importexport)
 - [Advanced Features](#advanced-features)
+- [Row Filtering](#row-filtering)
 - [Limitations](#limitations)
 - [Troubleshooting](#troubleshooting)
 
@@ -62,11 +63,11 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 ### Advanced Features
 
 - **Sub-tables**: Handle nested objects and collections as expandable sub-tables
-- **Type Binding**: Bind tables to specific ScriptableObject types
-- **Metadata Persistence**: Save table configurations and layouts
-- **Session Management**: Remember open tables across Unity sessions
-- **Undo/Redo**: Complete undo/redo system for all operations
-- **Copy/Paste**: Copy and paste data between cells and external applications
+- **Type Binding**: Bind tables to specific ScriptableObject types for automatic updates
+- **Metadata Persistence**: Save table configurations, layouts, and formulas
+- **Session Management**: Remember open tables and their states across Unity sessions
+- **Undo/Redo**: Complete undo/redo system for all operations including cell edits, structural changes, and formula modifications
+- **Intelligent Copy/Paste**: Seamless data transfer between TableForge and external applications like Excel
 
 ## Getting Started
 
@@ -81,15 +82,18 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 2. **Add a Table**: Click the "+" button in the toolbar to add a new table
 3. **Select Data Type**: Choose the ScriptableObject type you want to visualize
 4. **Select Assets**: Choose specific assets or bind to all assets of that type
-5. **View Data**: Your data will be displayed in a spreadsheet format
+5. **Create Assets**: Create new ScriptableObject instances directly from the table creation window
+6. **Rename Assets**: Rename existing assets during table creation
+7. **View Data**: Your data will be displayed in a spreadsheet format
 
 ### Creating Your First Table
 
 1. Create a ScriptableObject class with your data fields
-2. Create instances of your ScriptableObject in the project
-3. Open TableVisualizer and add a new table
-4. Select your ScriptableObject type and assets
-5. Start viewing and editing your data
+2. Open TableVisualizer and add a new table
+3. Select your ScriptableObject type
+4. Choose existing assets or create new ones directly in the table creation window
+5. Optionally rename assets during the creation process
+6. Start viewing and editing your data
 
 ## Core Concepts
 
@@ -161,25 +165,52 @@ The TableVisualizer window provides a complete spreadsheet interface:
 - **Headers**: Column and row headers with sorting and context menus
 - **Cells**: Individual data cells with editing capabilities
 
-### Navigation
+### Navigation and Shortcuts
 
-- **Mouse**: Click to select cells, drag to select ranges
-- **Keyboard**: Arrow keys to navigate, Enter to edit
-- **Scroll**: Mouse wheel or scrollbars to navigate large tables
+#### Mouse Navigation
+- **Click**: Select a single cell
+- **Drag**: Select a range of cells
+- **Click Header**: Select entire column or row
+- **Ctrl+Click**: Add to selection (multi-select)
+- **Shift+Click**: Extend selection range
+- **Double-click**: Edit cell value
+- **Right-click**: Context menu (only on headers)
 
-### Selection
+#### Keyboard Navigation
+- **Arrow Keys**: Navigate between cells
+- **Enter**: Edit selected cell or enter into sub-table
+- **Escape**: Exit from sub-table
+- **Shift+Esc**: Exit from sub-table and close its foldout
+- **Tab**: Move to next cell
+- **Shift+Tab**: Move to previous cell
+
+#### Editing Shortcuts
+- **Escape**: Cancel editing
+- **Ctrl+Z**: Undo
+- **Ctrl+Y**: Redo
+- **Ctrl+C**: Copy selected cells
+- **Ctrl+V**: Paste into selected cells
+
+#### Formula Shortcuts
+- **=**: Start formula entry
+- **Ctrl+Shift+C**: Copy selected cells formulas
+- **Ctrl+Shif+V**: Paste into selected cells formulas
+
+### Selection Modes
 
 - **Single Cell**: Click on any cell to select it
 - **Range Selection**: Drag to select multiple cells
 - **Column/Row Selection**: Click on headers to select entire columns/rows
 - **Multi-Selection**: Ctrl+Click to select multiple non-contiguous cells
+- **Extended Selection**: Shift+Click to extend selection range
 
-### Editing
+### Editing Features
 
 - **Direct Editing**: Double-click or press Enter to edit cell values
 - **Type Validation**: Automatic validation of data types
 - **Formula Entry**: Start with "=" to enter formulas
-- **Copy/Paste**: Standard copy/paste operations supported
+- **Copy/Paste**: Intelligent copy/paste with format preservation
+- **Auto-complete**: Formula suggestions and cell reference completion
 
 ## Functions and Formulas
 
@@ -222,7 +253,7 @@ Formulas start with "=" and can contain:
 
 #### Cross-Table References
 - **A1.B2**: Reference cell B2 in sub-table A1
-- **A1.B2:C5**: Reference range B2:C5 in sub-table A1
+- **A1.B2:A1.C5**: Reference range B2:C5 in sub-table A1
 
 ### Arithmetic Operations
 
@@ -252,105 +283,190 @@ Supported comparisons:
 1. Go to `Window > TableForge > Import Table`
 2. Select CSV format
 3. Choose your data type and namespace
-4. Paste CSV data or import from file
-5. Map columns to fields
-6. Review and finalize import
+4. Paste CSV data or import from file using the "Import from File" button
+5. Map columns to ScriptableObject fields
+6. Review the generated assets and finalize import
 
 #### JSON Import
 1. Select JSON format in the import window
-2. Provide JSON data
-3. Map fields and finalize import
+2. Provide JSON data in the text field or import it from a file using the "Import from File" button
+3. Map fields to ScriptableObject properties
+4. Review and finalize import
 
 #### Import Options
 - **Table Name**: Name for the new table
-- **Base Path**: Folder for new assets
-- **Base Name**: Naming pattern for new assets
-- **Header Row**: Whether first row contains headers
-- **Column Mapping**: Map CSV columns to ScriptableObject fields
+- **Base Path**: Folder where new ScriptableObject assets will be created
+- **Base Name**: Naming pattern for newly created assets
+- **Header Row**: Whether the first row contains column headers (only when importing from CSV)
+- **Column Mapping**: Map CSV/JSON columns to ScriptableObject fields
 
 ### Exporting Data
 
 #### CSV Export
 1. Go to `Window > TableForge > Export Table`
-2. Select your table metadata
+2. Select your table metadata from the dropdown
 3. Choose CSV format
 4. Configure export options:
-   - Include GUIDs
-   - Include Paths
-   - Flatten Sub-tables
-5. Export to file
+   - **Include GUIDs**: Export Unity asset GUIDs for reference
+   - **Include Paths**: Export Unity asset file paths
+   - **Flatten Sub-tables**: Convert nested data to flat structure
+5. Preview the export format
+6. Export to file using the "Export Table" button
 
 #### JSON Export
-1. Select JSON format
-2. Configure options (GUIDs, Paths)
-3. Export to file
+1. Select JSON format from the dropdown
+2. Configure options (Include GUIDs, Include Paths)
+3. Preview the JSON structure
+4. Export to file
 
 #### Export Options
-- **Include GUIDs**: Export Unity asset GUIDs
-- **Include Paths**: Export Unity asset paths
-- **Flatten Sub-tables**: Convert nested data to flat structure
-- **Preview**: See export format before saving
+- **Include GUIDs**: Export Unity asset GUIDs for asset identification
+- **Include Paths**: Export Unity asset file paths for external reference
+- **Flatten Sub-tables**: Convert nested objects and collections to flat structure (only in CSV files)
 
 ## Advanced Features
 
 ### Sub-tables
 
-Complex objects and collections are displayed as sub-tables:
-- **Expandable**: Click to expand/collapse sub-tables
-- **Editable**: Edit nested data directly
-- **Transposable**: Transpose sub-tables independently
-- **Formula Support**: Use formulas across sub-tables
+Complex objects and collections are displayed as expandable sub-tables:
+- **Expand/Collapse**: Click the arrow icon to expand or collapse sub-tables
+- **Direct Editing**: Edit nested data directly within sub-tables
+- **Independent Transposition**: Transpose sub-tables independently from the main table
+- **Cross-table Formulas**: Reference cells across different sub-tables using dot notation (e.g., A1.B2)
 
 ### Type Binding
 
-Bind tables to specific ScriptableObject types:
-- **Automatic Updates**: Tables update when new assets are added
-- **Type Safety**: Ensures data consistency
-- **Performance**: Optimized for large asset collections
+Bind tables to specific ScriptableObject types for dynamic updates:
+- **Automatic Updates**: Tables automatically update when new assets of the bound type are added to the project
+- **Type Safety**: Ensures data consistency and prevents type mismatches
+- **Performance Optimization**: Efficiently handles large collections of assets
 
 ### Table Transposition
 
-Swap rows and columns:
-- **Main Tables**: Transpose entire tables
-- **Sub-tables**: Transpose individual sub-tables
-- **Persistent**: Transposition state is saved
+Swap rows and columns for different data perspectives:
+- **Main Tables**: Transpose entire tables with a single click
+- **State Persistence**: Transposition state is automatically saved and restored
 
 ### Column Management
 
-Advanced column features:
-- **Visibility**: Show/hide columns
-- **Reordering**: Drag to reorder columns
-- **Resizing**: Manual and automatic sizing
-- **Sorting**: Sort by column values
+Comprehensive column control features:
+- **Visibility Toggle**: Show or hide specific columns using the column visibility dropdown
+- **Drag Reordering**: Reorder columns by dragging headers
+- **Size Control**: Manual resizing or automatic sizing based on content
+- **Sorting**: Sort data by clicking column headers (ascending/descending)
 
-### Filtering and Search
 
-Powerful filtering capabilities:
-- **Text Search**: Search across all cells
-- **Column Filters**: Filter by specific columns
-- **Real-time**: Instant search results
-- **Case Insensitive**: Flexible matching
+### Row Filtering
+
+Advanced row filtering system with powerful search capabilities:
+- **Search Bar**: Located in the toolbar, allows filtering rows based on various criteria
+- **Manual Activation**: Filter is applied when you press Enter or when the search field loses focus
+- **Complex Expressions**: Support for boolean logic, parentheses grouping, and multiple conditions
+- **Multiple Data Sources**: Filter by GUID, path, name, or cell values
+
+#### Filter Identifiers
+
+Use the following identifiers to specify what to search for:
+
+- **`g` or `guid`**: Search by Unity asset GUID
+  - Example: `g:1234567890abcdef` - Find row with specific GUID
+- **`path`**: Search by asset file path (relative to Assets folder)
+  - Example: `path:ScriptableObjects/MyAsset.asset` - Find specific asset
+  - Example: `path:ScriptableObjects` - Find all assets in folder
+- **`n` or `name`**: Search by row name
+  - Example: `n:Player` - Find rows containing "Player" in name
+- **`p` or `property`**: Search by cell values
+  - Example: `p:Health>100` - Find rows where Health column > 100
+  - Example: `p:$A=50` - Find rows where first column = 50
+
+#### Column References
+
+When filtering by properties, you can reference columns in two ways:
+
+- **Column Name**: Use the exact column name
+  - Example: `p:PlayerName~=John` - Search in "PlayerName" column
+- **Column Letter**: Use `$` followed by the column letter
+  - Example: `p:$B>10` - Search in second column (B)
+  - Example: `p:$A~=Test` - Search in first column (A)
+
+#### Nested Property Access
+
+Access properties in sub-tables using dot notation:
+
+- **Single Level**: `p:SubTable.FieldName=value`
+  - Example: `p:Inventory.WeaponCount>5`
+- **Multiple Levels**: `p:SubTable.SubSubTable.Field=value`
+  - Example: `p:Player.Inventory.WeaponCount>3`
+- **Mixed Notation**: Combine column letters and names
+  - Example: `p:$B.Field>10` - Second column, field with name Field > 10
+
+#### Comparison Operators
+
+Available comparison operators for property filtering:
+
+- **Equality**: `=` or `==` (equal)
+- **Inequality**: `!=` or `<>` (not equal)
+- **Greater Than**: `>` (greater than)
+- **Less Than**: `<` (less than)
+- **Greater or Equal**: `>=` (greater than or equal)
+- **Less or Equal**: `<=` (less than or equal)
+- **Contains**: `~=` or `=~` (contains text)
+- **Not Contains**: `!~` or `~!` (does not contain text)
+
+#### List Values
+
+Filter by list values using bracket notation:
+
+- **Exact Match**: `p:MyList=[1,2,3]` - List must exactly match
+- **Contains**: `p:MyList~=[1,2]` - List contains specified items
+- **Not Contains**: `p:MyList!~=[1,2]` - List does not contain items
+- **Length Comparison**: `p:MyList>2` - List has more than 2 items
+
+#### Boolean Logic
+
+Combine multiple conditions using logical operators:
+
+- **AND**: `&` or `&&` (both conditions must be true)
+- **OR**: `|` or `||` (either condition can be true)
+- **NOT**: `!` (negates the condition)
+- **Parentheses**: `()` for grouping and precedence
+
+#### Filter Examples
+
+**Simple Filters:**
+- `n:Player` - Rows with "Player" in the name
+- `p:Health>100` - Rows where Health > 100
+- `g:1234567890abcdef` - Row with specific GUID
+
+**Complex Filters:**
+- `n:Player & p:Health>100` - Players with health > 100
+- `(p:Level>10 | p:Experience>1000) & p:Class=Warrior` - High-level or experienced warriors
+- `p:Inventory.WeaponCount>5 & !(g:1234567890abcdef)` - Players with many weapons, excluding specific GUID
+
+**Advanced Filters:**
+- `p:$A~=Test & p:$B>10 & p:$C.$A=50` - Complex nested filtering
+- `p:Tags~=[Fire, Ice] & p:Level>=20` - Characters with specific tags and minimum level
+- `(n:Enemy | n:Boss) & p:Health>500` - Enemies or bosses with high health
+- `p:[10, 20, 30] ~= Attack`          - Attack is 10, 20 or 30
 
 ### Undo/Redo System
 
-Complete undo/redo support:
-- **Cell Changes**: Undo individual cell edits
-- **Structural Changes**: Undo row/column operations
-- **Formula Changes**: Undo formula modifications
-- **Batch Operations**: Undo multiple operations at once
+Comprehensive undo/redo functionality:
+- **Cell Operations**: Undo individual cell edits and value changes
+- **Structural Changes**: Undo row/column additions, deletions, and reordering
+- **Formula Operations**: Undo formula modifications and calculations
+- **Batch Operations**: Undo multiple related operations as a single action
 
 ## Limitations
 
 ### Current Limitations
 
-- **Graphs**: Graph visualization is not yet implemented
-- **Read-only Fields**: Read-only field support is limited
-- **Dictionary Values**: Adding values to dictionaries is not fully supported
-- **Real-time Updates**: Some external changes may require manual refresh
+- **Dictionary Values**: Adding values to dictionaries is not supported yet
+- **Real-time Updates**: Some external changes performed by scripts may require manual refresh
 
 ### Performance Considerations
 
-- **Large Tables**: Very large tables (>10,000 cells) may impact performance
+- **Large Tables**: Very large tables (>10,000 cells) or with a big numer of subtables may impact performance
 - **Complex Formulas**: Nested formulas with many references may be slow
 - **Memory Usage**: Large datasets consume significant memory
 
@@ -365,46 +481,32 @@ Complete undo/redo support:
 ### Common Issues
 
 #### Table Not Loading
-- **Check Asset Types**: Ensure ScriptableObjects are properly serialized
-- **Verify Namespace**: Check that the correct namespace is selected
-- **Asset References**: Ensure assets are not missing or corrupted
+- **Check Asset Types**: Ensure ScriptableObjects are properly serialized with `[System.Serializable]` attributes
+- **Verify Namespace**: Check that the correct namespace is selected in the table creation window
+- **Asset References**: Ensure assets are not missing, corrupted, or have broken references
 
 #### Formula Errors
-- **Syntax Check**: Verify formula syntax and cell references
-- **Type Compatibility**: Ensure data types are compatible with functions
-- **Circular References**: Check for circular formula dependencies
+- **Syntax Check**: Verify formula syntax, parentheses matching, and cell references
+- **Type Compatibility**: Ensure data types are compatible with the functions being used
+- **Circular References**: Check for circular formula dependencies that reference each other
 
 #### Import/Export Issues
-- **Data Format**: Verify CSV/JSON format is correct
-- **Column Mapping**: Ensure all required fields are mapped
-- **File Permissions**: Check file read/write permissions
+- **Data Format**: Verify CSV/JSON format is correct and matches the expected structure
+- **Column Mapping**: Ensure all required ScriptableObject fields are properly mapped
+- **File Permissions**: Check file read/write permissions for import/export operations
 
 #### Performance Issues
-- **Table Size**: Consider breaking large tables into smaller ones
-- **Formula Complexity**: Simplify complex formulas
-- **Memory Usage**: Close unused tables to free memory
-
-### Error Messages
-
-#### "No cell control found for cell type"
-- **Solution**: Ensure the data type is supported by TableForge
-- **Workaround**: Use a supported type or create a custom cell type
-
-#### "Invalid function arguments"
-- **Solution**: Check function syntax and argument types
-- **Workaround**: Use simpler formulas or different functions
-
-#### "Table name already exists"
-- **Solution**: Choose a different table name
-- **Workaround**: Delete existing table with same name
+- **Table Size**: Consider breaking very large tables (>10,000 cells) into smaller, more manageable tables
+- **Formula Complexity**: Simplify complex nested formulas with many cell references
 
 ### Getting Help
 
 For additional support:
-1. Check the Unity Console for detailed error messages
-2. Review the TableForge logs in the Console window
-3. Verify your data types and ScriptableObject structure
-4. Test with simple data first before using complex structures
+1. Check the Unity Console for detailed error messages and warnings
+2. Review the TableForge logs in the Console window for debugging information
+3. Verify your data types and ScriptableObject structure match the supported types
+4. Test with simple data first before using complex nested structures
+5. Ensure all ScriptableObject classes are properly serialized with `[System.Serializable]` attributes or are public
 
 ---
 
