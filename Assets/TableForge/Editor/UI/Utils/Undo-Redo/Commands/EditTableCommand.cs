@@ -2,7 +2,7 @@ using System;
 
 namespace TableForge.Editor.UI
 {
-    internal class EditTableCommand : IUndoableCommand
+    internal class EditTableCommand : BaseUndoableCommand
     {
         private readonly TableMetadata _oldMetadataCopy;
         private readonly TableMetadata _newMetadataCopy;
@@ -15,12 +15,12 @@ namespace TableForge.Editor.UI
             _updateAction = updateAction;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             _updateAction(_newMetadataCopy);
         }
 
-        public void Undo()
+        public override void Undo()
         {
             _updateAction(_oldMetadataCopy);
         }

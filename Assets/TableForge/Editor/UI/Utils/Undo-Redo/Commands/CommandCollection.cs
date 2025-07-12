@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TableForge.Editor.UI
 {
-    internal class CommandCollection : IUndoableCommand
+    internal class CommandCollection : BaseUndoableCommand
     {
         private readonly List<IUndoableCommand> _commands;
         private readonly HashSet<Type> _commandTypes;
@@ -18,7 +19,7 @@ namespace TableForge.Editor.UI
             _commandTypes = new HashSet<Type>();
         }
         
-        public void Execute()
+        public override void Execute()
         {
             foreach (var command in _commands)
             {
@@ -26,7 +27,7 @@ namespace TableForge.Editor.UI
             }
         }
         
-        public void Undo()
+        public override void Undo()
         {
             for (int i = _commands.Count - 1; i >= 0; i--)
             {
@@ -60,6 +61,11 @@ namespace TableForge.Editor.UI
         public void Clear()
         {
             _commands.Clear();
+        }
+
+        public override bool IsRelatedToAsset(string guid)
+        {
+            return _commands.Any(command => command.IsRelatedToAsset(guid));
         }
     }
 }

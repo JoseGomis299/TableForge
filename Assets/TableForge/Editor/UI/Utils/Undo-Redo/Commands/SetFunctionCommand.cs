@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TableForge.Editor.UI
 {
-    internal class SetFunctionCommand : IUndoableCommand, ICellBoundCommand
+    internal class SetFunctionCommand : BaseUndoableCommand, ICellBoundCommand, IAssetBoundCommand
     {
         private string _function;
         private readonly string _oldFunction;
@@ -11,6 +11,7 @@ namespace TableForge.Editor.UI
         private object _oldValue = null; 
 
         public Cell BoundCell { get; }
+        public List<string> Guids => new() {BoundCell.row.SerializedObject.RootObjectGuid};
 
 
         public SetFunctionCommand(int cellId, string function, string oldFunction, TableControl tableControl)
@@ -23,14 +24,14 @@ namespace TableForge.Editor.UI
             BoundCell = Editor.CellExtension.GetCellById(tableControl.TableData, cellId);
         }
         
-        public void Execute()
+        public override void Execute()
         {
             _oldValue ??= BoundCell.GetValue();
             _tableControl.Metadata.SetFunction(_cellId, _function);
             _tableControl.Visualizer?.ToolbarController?.RefreshFunctionTextField();
         }
 
-        public void Undo()
+        public override void Undo()
         {
             BoundCell.SetValue(_oldValue);
             _tableControl.Metadata.SetFunction(_cellId, _oldFunction);

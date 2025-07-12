@@ -59,7 +59,7 @@ namespace TableForge.Editor.UI
             string assetName = path.Substring(path.LastIndexOf('/') + 1, path.LastIndexOf('.') - path.LastIndexOf('/') - 1);
             bool confirmed = EditorUtility.DisplayDialog(
                 "Confirm Action",
-                $"Are you sure you want to delete the selected asset? This action cannot be undone. ({assetName})\nThis will clear the TableForge undo history!",
+                $"Are you sure you want to delete the selected asset? This action cannot be undone. ({assetName})",
                 "Yes",
                 "No"
             );
@@ -67,10 +67,11 @@ namespace TableForge.Editor.UI
             if (confirmed)
             {
                 onBeforeDelete?.Invoke();
+                UndoRedoManager.RemoveRelatedCommandsFromStack(guid);
+
                 AssetDatabase.DeleteAsset(path);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-                UndoRedoManager.Clear();
                 return true;
             }
 
@@ -81,7 +82,7 @@ namespace TableForge.Editor.UI
         {
             bool confirmed = EditorUtility.DisplayDialog(
                 "Confirm Action",
-                $"Are you sure you want to delete the selected assets? This action cannot be undone. (multiple assets selected)\nThis will clear the TableForge undo history!",
+                $"Are you sure you want to delete the selected assets? This action cannot be undone. (multiple assets selected)",
                 "Yes",
                 "No"
             );
@@ -97,12 +98,12 @@ namespace TableForge.Editor.UI
                         continue;
 
                     paths.Add(path);
+                    UndoRedoManager.RemoveRelatedCommandsFromStack(g);
                 }
                 
                 AssetDatabase.DeleteAssets(paths.ToArray(), new List<string>());
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-                UndoRedoManager.Clear();
                 return true;
             }
             

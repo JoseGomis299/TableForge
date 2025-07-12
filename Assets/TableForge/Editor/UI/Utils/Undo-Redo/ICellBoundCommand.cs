@@ -6,4 +6,9 @@ namespace TableForge.Editor.UI
     {
         Cell BoundCell { get; }
     }
+
+    internal interface IAssetBoundCommand
+    {
+        List<string> Guids { get; }
+    }
 }

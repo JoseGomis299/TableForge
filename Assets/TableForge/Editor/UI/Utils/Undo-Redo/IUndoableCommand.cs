@@ -4,5 +4,6 @@ namespace TableForge.Editor.UI
     {
         void Execute();
         void Undo();
+        bool IsRelatedToAsset(string guid);
     }
 }

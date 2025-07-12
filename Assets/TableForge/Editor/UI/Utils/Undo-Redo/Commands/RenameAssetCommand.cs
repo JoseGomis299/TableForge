@@ -1,14 +1,16 @@
+using System.Collections.Generic;
 using UnityEditor;
 
 namespace TableForge.Editor.UI
 {
-    internal class RenameAssetCommand : IUndoableCommand
+    internal class RenameAssetCommand : BaseUndoableCommand, IAssetBoundCommand
     {
         private readonly string _assetGuid;
         private readonly string _oldName;
         private readonly string _newName;
         
         public string Error { get; private set; }
+        public List<string> Guids => new() {_assetGuid};
 
         public RenameAssetCommand(string assetGuid, string oldName, string newName)
         {
@@ -17,12 +19,12 @@ namespace TableForge.Editor.UI
             _newName = newName;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             Error = AssetDatabase.RenameAsset(AssetDatabase.GUIDToAssetPath(_assetGuid), _newName);
         }
 
-        public void Undo()
+        public override void Undo()
         {
             Error = AssetDatabase.RenameAsset(AssetDatabase.GUIDToAssetPath(_assetGuid), _oldName);
         }

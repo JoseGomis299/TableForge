@@ -3,10 +3,14 @@ using System.Collections;
 
 namespace TableForge.Editor.UI
 {
-    internal class RemoveCollectionRowCommand : RemoveRowCommand
+    internal class RemoveCollectionRowCommand : RemoveRowCommand, ICellBoundCommand, IAssetBoundCommand
     {
         private readonly Cell _collectionCell;
         private readonly ICollection _oldCollectionCopy;
+        
+        public Cell BoundCell => _collectionCell;
+        public string Guid => BoundCell.row.SerializedObject.RootObjectGuid;
+
 
         public RemoveCollectionRowCommand(Row row, TableMetadata oldTableMetadata, TableControl tableControl, Action<Row> removeRowAction, Cell collectionCell, ICollection oldCollectionCopy) : base(row, oldTableMetadata, tableControl, removeRowAction)
         {

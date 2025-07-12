@@ -52,8 +52,8 @@ MonoBehaviour:
   reference: {fileID: 0}
   b: 0
   charValue: 0
-  intField: 0
-  floatField: 2
+  intField: 5
+  floatField: 23
   <PublicLongProperty>k__BackingField: 24
   <PublicDoubleProperty>k__BackingField: 0
   inheritorClass:

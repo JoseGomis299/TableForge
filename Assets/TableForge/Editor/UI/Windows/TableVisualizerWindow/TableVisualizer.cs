@@ -89,11 +89,10 @@ namespace TableForge.Editor.UI
                 
                 foreach (var row in missingRows)
                 {
+                    UndoRedoManager.RemoveRelatedCommandsFromStack(row.SerializedObject.RootObjectGuid);
                     metadata.RemoveItemGuid(row.SerializedObject.RootObjectGuid);
                     _tableControl.RemoveRow(row.Id);
                 }
-                
-                if(missingRows.Count > 0) UndoRedoManager.Clear();
                 
                 _tableControl.RebuildPage();
                 return;

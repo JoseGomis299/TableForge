@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Generic;
 
 namespace TableForge.Editor.UI
 {
-    internal class RemoveRowCommand : IUndoableCommand
+    internal class RemoveRowCommand : BaseUndoableCommand, IAssetBoundCommand
     {
         protected readonly Row row;
         protected readonly TableMetadata oldTableMetadata;
         protected readonly TableControl tableControl;
         protected readonly Action<Row> removeRowAction;
+        
+        public List<string> Guids => new() {row.SerializedObject.RootObjectGuid};
+
         
         public RemoveRowCommand(Row row, TableMetadata oldTableMetadata, TableControl tableControl, Action<Row> removeRowAction)
         {
@@ -17,12 +21,12 @@ namespace TableForge.Editor.UI
             this.removeRowAction = removeRowAction;
         }
         
-        public virtual void Execute()
+        public override void Execute()
         {
             removeRowAction(row);
         }
 
-        public virtual void Undo()
+        public override void Undo()
         {
             var originalMetadata = tableControl.Metadata;
             TableMetadata.Copy(originalMetadata, oldTableMetadata);

@@ -1,10 +1,14 @@
+using System.Collections.Generic;
+
 namespace TableForge.Editor.UI
 {
-    internal class ReorderTableCommand : IUndoableCommand
+    internal class ReorderTableCommand : BaseUndoableCommand, IAssetBoundCommand
     {
         private readonly int[] _oldPositions;
         private readonly int[] _newPositions;
         private readonly TableControl _tableControl;
+
+        public List<string> Guids => new(); // No specific asset bound, so returning an empty list as a wildcard.
         
         public ReorderTableCommand(TableControl tableControl, int[] oldPositions, int[] newPositions)
         {
@@ -13,14 +17,14 @@ namespace TableForge.Editor.UI
             _newPositions = newPositions;
         }
         
-        public void Execute()
+        public override void Execute()
         {
             _tableControl.TableData.SetRowOrder(_newPositions);
             _tableControl.Metadata.SetAnchorPositions(_tableControl.TableData);
             _tableControl.RebuildPage();
         }
         
-        public void Undo()
+        public override void Undo()
         {
             _tableControl.TableData.SetRowOrder(_oldPositions);
             _tableControl.Metadata.SetAnchorPositions(_tableControl.TableData);

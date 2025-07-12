@@ -1,9 +1,9 @@
 namespace TableForge.Editor.UI
 {
-    internal class EmptyCommand : IUndoableCommand
+    internal class EmptyCommand : BaseUndoableCommand
     {
-        public void Execute() { }
+        public override void Execute() { }
         
-        public void Undo() { }
+        public override void Undo() { }
     }
 }

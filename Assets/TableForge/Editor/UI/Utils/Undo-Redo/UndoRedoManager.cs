@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +9,6 @@ namespace TableForge.Editor.UI
     {
         private static readonly Stack<IUndoableCommand> _undoStack = new();
         private static readonly Stack<IUndoableCommand> _redoStack = new();
-        private static readonly EmptyCommand _separator = new();
 
         private static readonly Stack<CommandCollection> _collections = new();
         private static CommandCollection _currentCollection;
@@ -24,18 +24,6 @@ namespace TableForge.Editor.UI
             command.Execute();
             _undoStack.Push(command);
             _redoStack.Clear();
-        }
-        
-        public static void AddSeparator()
-        {
-            if(_undoStack.Count > 0 && _undoStack.Peek() is EmptyCommand) return;
-            if (_currentCollection != null)
-            {
-                _currentCollection.AddCommand(_separator);
-                return;
-            }
-            
-            _undoStack.Push(_separator);
         }
 
         public static void AddToQueue(IUndoableCommand command)
@@ -64,9 +52,13 @@ namespace TableForge.Editor.UI
             
             if (cmd is CommandCollection collection)
             {
-                relatedCells.AddRange(collection.BoundCells);
+                foreach (var cell in collection.BoundCells)
+                {
+                    if(cell.row.SerializedObject.RootObject != null)
+                        relatedCells.Add(cell);
+                }
             }
-            else if (cmd is ICellBoundCommand cellBoundCommand)
+            else if (cmd is ICellBoundCommand cellBoundCommand && cellBoundCommand.BoundCell.row.SerializedObject.RootObject != null)
             {
                 relatedCells.Add(cellBoundCommand.BoundCell);
             }
@@ -124,6 +116,33 @@ namespace TableForge.Editor.UI
             _redoStack.Clear();
             _collections.Clear();
             _currentCollection = null;
+        }
+
+        public static void RemoveRelatedCommandsFromStack(string relatedGuid)
+        {
+            if (_undoStack.Count == 0) return;
+
+            var commandsToKeep = _undoStack
+                .Where(cmd => !cmd.IsRelatedToAsset(relatedGuid))
+                .ToList();
+
+            _undoStack.Clear();
+            for (var i = commandsToKeep.Count - 1; i >= 0; i--)
+            {
+                var command = commandsToKeep[i];
+                _undoStack.Push(command);
+            }
+
+            commandsToKeep = _redoStack
+                .Where(cmd => !cmd.IsRelatedToAsset(relatedGuid))
+                .ToList();
+            
+            _redoStack.Clear();
+            for (var i = commandsToKeep.Count - 1; i >= 0; i--)
+            {
+                var command = commandsToKeep[i];
+                _redoStack.Push(command);
+            }
         }
     }
 

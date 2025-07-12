@@ -52,7 +52,7 @@ MonoBehaviour:
   reference: {fileID: 0}
   b: 0
   charValue: 0
-  intField: 190
+  intField: 23
   floatField: 0
   <PublicLongProperty>k__BackingField: 1
   <PublicDoubleProperty>k__BackingField: 0

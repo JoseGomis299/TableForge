@@ -1,12 +1,17 @@
 using System;
+using System.Collections.Generic;
+using UnityEditor;
 
 namespace TableForge.Editor.UI
 {
-    internal class ChangeTabCommand : IUndoableCommand
+    internal class ChangeTabCommand : BaseUndoableCommand, IAssetBoundCommand
     {
         private readonly TableMetadata _previousTableMetadata;
         private readonly TableMetadata _newTableMetadata;
         private readonly Action<TableMetadata> _changeTabAction;
+        
+        public List<string> Guids => new(){AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_previousTableMetadata)),
+                                           AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_newTableMetadata))};
         
         public ChangeTabCommand(TableMetadata previousTableMetadata, TableMetadata newTableMetadata, Action<TableMetadata> changeTabAction)
         {
@@ -15,12 +20,12 @@ namespace TableForge.Editor.UI
             _changeTabAction = changeTabAction;
         }
         
-        public void Execute()
+        public override void Execute()
         {
             _changeTabAction(_newTableMetadata);
         }
 
-        public void Undo()
+        public override void Undo()
         {
             _changeTabAction(_previousTableMetadata);
         }
