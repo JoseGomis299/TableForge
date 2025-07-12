@@ -1,6 +1,6 @@
 # TableForge - Unity Table Management Tool
 
-TableForge is a powerful Unity Editor tool designed for managing, visualizing, and manipulating tabular data from ScriptableObjects and other Unity assets. It provides a spreadsheet-like interface with advanced features for data analysis, formula support, and data import/export capabilities.
+TableForge is a powerful Unity Editor tool designed for managing, visualizing, and manipulating tabular data from ScriptableObjects. It provides a spreadsheet-like interface with advanced features for data analysis, formula support, and data import/export capabilities.
 
 ## Table of Contents
 
