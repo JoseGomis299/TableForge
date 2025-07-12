@@ -25,6 +25,7 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 - **Visual Data Management**: View and edit ScriptableObject data in a familiar spreadsheet format
 - **Formula Support**: Use Excel-like functions and formulas for data calculations
 - **Data Import/Export**: Import data from CSV/JSON files and export tables to various formats
+- **Inteligent Copy/Paste**: Copy and paste values between TableForge and other programs like excel easily
 - **Advanced Filtering**: Filter and search through table data efficiently
 - **Undo/Redo Support**: Full undo/redo functionality for all operations
 - **Type Safety**: Automatic type detection and validation for all data types
