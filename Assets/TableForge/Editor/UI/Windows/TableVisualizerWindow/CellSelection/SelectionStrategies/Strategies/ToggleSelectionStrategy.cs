@@ -12,8 +12,7 @@ namespace TableForge.Editor.UI
         {
             var selector = args.selector;
             var cellsAtPosition = args.cellsAtPosition;
-            var selectedAnchors = args.selectedAnchors;
-            
+
             Cell lastSelectedCell = null;
 
             if (cellsAtPosition.Count == 1)

@@ -156,7 +156,6 @@ namespace TableForge.Editor
 
             if (ParentCell is ICollectionCell collectionCell)
             {
-                bool isLastRemainingRow = _orderedRows.Count == 1;
                 collectionCell.RemoveItem(position);
                 _rows[position].ClearCells();
                 _rows.Remove(position);

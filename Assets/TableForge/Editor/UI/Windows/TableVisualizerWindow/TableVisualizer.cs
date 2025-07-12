@@ -93,6 +93,8 @@ namespace TableForge.Editor.UI
                     _tableControl.RemoveRow(row.Id);
                 }
                 
+                if(missingRows.Count > 0) UndoRedoManager.Clear();
+                
                 _tableControl.RebuildPage();
                 return;
             }

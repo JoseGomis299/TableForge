@@ -19,7 +19,7 @@ namespace TableForge.Editor
         {
             get
             {
-                if(SerializedObject != null && SerializedObject is not ITfSerializedCollectionItem)
+                if(SerializedObject != null && SerializedObject is not ITfSerializedCollectionItem && SerializedObject.RootObject !=null)
                     return SerializedObject.RootObject.name;
                 
                 return base.Name;

@@ -41,31 +41,4 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-
-<<<<<<< HEAD
-# Cosas nuevas para el FMOD esta vez siguiendo el manual de la página web para que vaya bien
-
-# Never ignore DLLs in the FMOD subfolder.
-!/[Aa]ssets/Plugins/FMOD/**/lib/*
-
-# Don't ignore images and gizmos used by FMOD in the Unity Editor.
-!/[Aa]ssets/Gizmos/FMOD/*
-!/[Aa]ssets/Editor Default Resources/FMOD/*
-
-# Ignore the Cache folder since it is updated locally.
-/[Aa]ssets/Plugins/FMOD/Cache/*
-
-# Ignore bank files in the StreamingAssets folder.
-/[Aa]ssets/StreamingAssets/**/*.bank
-/[Aa]ssets/StreamingAssets/**/*.bank.meta
-# If the source bank files are kept outside of the StreamingAssets folder then these can be ignored.
-
-/FMODAssets/sonidoBrujueguito/Build/**&*.bank
-/FMODAssets/sonidoBrujueguito/Build/**&*.bank.meta
-
-# Log files can be ignored.
-fmod_editor.log
-
-*.log
-=======
->>>>>>> tilemap
+/Assets/TableForgeDemoFiles
