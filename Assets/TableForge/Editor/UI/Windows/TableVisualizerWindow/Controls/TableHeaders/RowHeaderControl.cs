@@ -7,23 +7,53 @@ using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
 {
+    /// <summary>
+    /// Control for managing row headers in the table visualizer.
+    /// Handles row selection, renaming, and contextual menu operations.
+    /// </summary>
     internal class RowHeaderControl : HeaderControl
     {
+        #region Private Fields
+
         private static readonly ObjectPool<RowHeaderControl> _pool = new(() => new RowHeaderControl());
         private static readonly ObjectPool<RowControl> _rowControlPool = new(() => new RowControl());
+        private static readonly RowHeaderContextMenuBuilder _contextMenuBuilder = new();
         
         private bool _isChangingName;
         private readonly Label _headerLabel;
         private readonly TextField _textField;
+
+        #endregion
+
+        #region Public Properties
+
         public RowControl RowControl { get; set; }
-        
+        public bool IsChangingName => _isChangingName;
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Gets a pooled instance of RowHeaderControl and initializes it.
+        /// </summary>
+        /// <param name="cellAnchor">The cell anchor for this header.</param>
+        /// <param name="tableControl">The table control that owns this header.</param>
+        /// <returns>A configured RowHeaderControl instance.</returns>
         public static RowHeaderControl GetPooled(CellAnchor cellAnchor, TableControl tableControl)
         {
             var control = _pool.Get();
             control.OnEnable(cellAnchor, tableControl);
             return control;
         }
-        
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the RowHeaderControl class.
+        /// </summary>
         private RowHeaderControl()
         {
             AddToClassList(TableVisualizerUss.TableHeaderCellVertical);
@@ -41,6 +71,15 @@ namespace TableForge.Editor.UI
             Add(_headerLabel);
         }
 
+        #endregion
+
+        #region Protected Methods - Lifecycle
+
+        /// <summary>
+        /// Enables this row header control with the specified cell anchor and table control.
+        /// </summary>
+        /// <param name="cellAnchor">The cell anchor to associate with this header.</param>
+        /// <param name="tableControl">The table control that owns this header.</param>
         protected override void OnEnable(CellAnchor cellAnchor, TableControl tableControl)
         {
             base.OnEnable(cellAnchor, tableControl);
@@ -76,6 +115,9 @@ namespace TableForge.Editor.UI
             RowControl.Initialize(cellAnchor, tableControl);
         }
 
+        /// <summary>
+        /// Disables this row header control and cleans up resources.
+        /// </summary>
         protected override void OnDisable()
         {
             base.OnDisable();
@@ -90,6 +132,9 @@ namespace TableForge.Editor.UI
             _pool.Release(this);
         }
 
+        /// <summary>
+        /// Handles selection changes for this row header.
+        /// </summary>
         protected override void SelectionChanged()
         {
             if(!IsSelected && _isChangingName)
@@ -99,6 +144,26 @@ namespace TableForge.Editor.UI
             }
         }
 
+        #endregion
+
+        #region Protected Methods - Context Menu
+
+        /// <summary>
+        /// Gets the context menu builder for row headers.
+        /// </summary>
+        /// <returns>The row header context menu builder.</returns>
+        protected override IHeaderContextMenuBuilder GetContextMenuBuilder()
+        {
+            return _contextMenuBuilder;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Refreshes this row header and its associated row control.
+        /// </summary>
         public void Refresh()
         {
             if(!TableControl.Filterer.IsVisible(CellAnchor.GetRootAnchor().Id)) return;
@@ -107,105 +172,56 @@ namespace TableForge.Editor.UI
             RefreshName();
         }
 
-        public override void RefreshName()
+        /// <summary>
+        /// Refreshes the display name of this row header.
+        /// </summary>
+        public void RefreshName()
         {
             _headerLabel.text = NameResolver.ResolveHeaderStyledName(CellAnchor, TableControl.TableAttributes.rowHeaderVisibility);
         }
 
-        protected override void BuildContextualMenu(ContextualMenuPopulateEvent obj)
+        /// <summary>
+        /// Starts the name editing process for this row header.
+        /// </summary>
+        public void StartNameEditing()
         {
-            if (_isChangingName) return;
+            _isChangingName = true;
             
-            obj.menu.AppendAction("Focus asset in Inspector", (_) =>
+            _textField.value = CellAnchor.Name;
+            _textField.AddToClassList(TableVisualizerUss.TableHeaderText);
+            _textField.RegisterCallback<KeyDownEvent>((keyEvt) =>
             {
-                var targetObject = ((Row)CellAnchor).SerializedObject.RootObject;
-                Selection.activeObject = targetObject;
-                EditorGUIUtility.PingObject(targetObject);
-            });
-            
-            obj.menu.AppendAction("Rename asset", (_) =>
-            {
-                _isChangingName = true;
-                
-                _textField.value = CellAnchor.Name;
-                _textField.AddToClassList(TableVisualizerUss.TableHeaderText);
-                _textField.RegisterCallback<KeyDownEvent>((keyEvt) =>
+                if (keyEvt.keyCode is KeyCode.Return or KeyCode.KeypadEnter)
                 {
-                    if (keyEvt.keyCode is KeyCode.Return or KeyCode.KeypadEnter)
-                    {
-                         TryChangeName();
-                        _isChangingName = false;
-                    }
-                    else if (keyEvt.keyCode == KeyCode.Escape)
-                    {
-                        HideTextField();
-                        _isChangingName = false;
-                    }
-                });
-
-                Remove(_headerLabel);
-                Add(_textField);
-                _textField.Focus();
-                _textField.SelectAll();
-            });
-            
-            obj.menu.AppendSeparator();
-            
-            ExpandCollapseBuilder(obj);
-            
-            obj.menu.AppendSeparator();
-            
-            SortColumnBuilder(obj);
-
-            obj.menu.AppendSeparator();
-
-            if(!TableControl.Metadata.IsTypeBound)
-                obj.menu.AppendAction("Remove this item", (_) => RemoveThisRow());
-            obj.menu.AppendAction("Delete this asset", (_) =>
-            {
-                AssetUtils.DeleteAsset(((Row)CellAnchor).SerializedObject.RootObjectGuid, RemoveThisRow);
-            });
-            
-            obj.menu.AppendSeparator();
-
-            if (TableControl.CellSelector.GetSelectedRows(TableControl.TableData).Count > 1)
-            {
-                if (!TableControl.Metadata.IsTypeBound)
-                    obj.menu.AppendAction("Remove selected items", (_) => RemoveSelectedRows());
-                obj.menu.AppendAction("Delete associated assets", (_) =>
+                     TryChangeName();
+                    _isChangingName = false;
+                }
+                else if (keyEvt.keyCode == KeyCode.Escape)
                 {
-                    AssetUtils.DeleteAssets(TableControl.CellSelector.GetSelectedRows(TableControl.TableData).Select(x => x.SerializedObject.RootObjectGuid), RemoveSelectedRows);
-                });
-            }
+                    HideTextField();
+                    _isChangingName = false;
+                }
+            });
+
+            Remove(_headerLabel);
+            Add(_textField);
+            _textField.Focus();
+            _textField.SelectAll();
         }
 
-        private void TryChangeName()
-        {
-            string path = AssetDatabase.GetAssetPath(((Row)CellAnchor).SerializedObject.RootObject);
-            AssetUtils.RenameAsset(path, _textField.value.Trim());
-            HideTextField();
-        }
-
-        private void HideTextField()
-        {
-            RefreshName();
-            Remove(_textField);
-            Add(_headerLabel);
-            
-            //Recover focus on the window in case we lost it
-            schedule.Execute(() =>
-            {
-                TableControl.Root.Focus();
-            }).ExecuteLater(0);
-        }
-
-        private void RemoveThisRow()
+        /// <summary>
+        /// Removes this row from the table.
+        /// </summary>
+        public void RemoveThisRow()
         {
             TableControl.RemoveRow(CellAnchor.Id);
             TableControl.RebuildPage();
         }
         
-        private void RemoveSelectedRows()
+        /// <summary>
+        /// Removes all selected rows from the table.
+        /// </summary>
+        public void RemoveSelectedRows()
         {
             UndoRedoManager.StartCollection();
             var selectedRows = TableControl.CellSelector.GetSelectedRows(TableControl.TableData);
@@ -220,5 +236,37 @@ namespace TableForge.Editor.UI
 
             TableControl.RebuildPage();
         }
+
+        #endregion
+
+        #region Private Methods - Name Editing
+
+        /// <summary>
+        /// Attempts to change the name of the associated asset.
+        /// </summary>
+        private void TryChangeName()
+        {
+            string path = AssetDatabase.GetAssetPath(((Row)CellAnchor).SerializedObject.RootObject);
+            AssetUtils.RenameAsset(path, _textField.value.Trim());
+            HideTextField();
+        }
+
+        /// <summary>
+        /// Hides the text field and restores the label display.
+        /// </summary>
+        private void HideTextField()
+        {
+            RefreshName();
+            Remove(_textField);
+            Add(_headerLabel);
+            
+            //Recover focus on the window in case we lost it
+            schedule.Execute(() =>
+            {
+                TableControl.Root.Focus();
+            }).ExecuteLater(0);
+        }
+
+        #endregion
     }
 }

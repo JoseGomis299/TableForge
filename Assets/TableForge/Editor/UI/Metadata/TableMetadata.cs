@@ -33,9 +33,6 @@ namespace TableForge.Editor.UI
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the name of the metadata asset.
-        /// </summary>
         public string Name
         {
             get => name;
@@ -48,9 +45,6 @@ namespace TableForge.Editor.UI
             }
         }
         
-        /// <summary>
-        /// Gets or sets whether the main table is transposed.
-        /// </summary>
         public bool IsTransposed
         {
             get => transposedTables.Contains(0);
@@ -63,9 +57,6 @@ namespace TableForge.Editor.UI
             }
         }
 
-        /// <summary>
-        /// Gets the list of item GUIDs associated with this table.
-        /// </summary>
         public IReadOnlyList<string> ItemGUIDs
         {
             get
@@ -77,23 +68,11 @@ namespace TableForge.Editor.UI
             }
         }
         
-        /// <summary>
-        /// Checks if the table contains a specific item GUID.
-        /// </summary>
-        /// <param name="guid">The GUID to check.</param>
-        /// <returns>True if the item is contained, false otherwise.</returns>
         public bool ContainsItem(string guid) => IsTypeBound
                 ? AssetDatabase.GetMainAssetTypeFromGUID(new GUID(guid)).Name == bindingTypeName
                 : itemGUIDs.Contains(guid);
         
-        /// <summary>
-        /// Gets whether this table is bound to a specific type.
-        /// </summary>
         public bool IsTypeBound => !string.IsNullOrEmpty(bindingTypeName);
-        
-        /// <summary>
-        /// Gets the name of the binding type.
-        /// </summary>
         public string BindingTypeName => bindingTypeName;
         
         #endregion

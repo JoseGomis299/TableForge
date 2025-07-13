@@ -26,34 +26,12 @@ namespace TableForge.Editor
 
         #region Properties
 
-        /// <summary>
-        /// Gets the name of the table.
-        /// </summary>
         public string Name { get; }
-
-        /// <summary>
-        /// Gets read-only access to the table's rows by their numeric position.
-        /// </summary>
         public IReadOnlyDictionary<int, Row> Rows => _rows;
-
-        /// <summary>
-        /// Gets read-only access to the table's columns by their numeric position.
-        /// </summary>
         public IReadOnlyDictionary<int, Column> Columns => _columns;
-        
-        /// <summary>
-        /// Gets read-only access to the table's rows by their names.
-        /// </summary>
         public IReadOnlyDictionary<string, Row> RowsByName => _rowsByName;
-        
-        /// <summary>
-        /// Gets read-only access to the table's columns by their names.
-        /// </summary>
         public IReadOnlyDictionary<string, Column> ColumnsByName => _columnsByName;
         
-        /// <summary>
-        /// Gets the rows of the table in order of their position.
-        /// </summary>
         public IReadOnlyList<Row> OrderedRows
         {
             get
@@ -68,9 +46,6 @@ namespace TableForge.Editor
             }
         }
 
-        /// <summary>
-        /// Gets the columns of the table in order of their position.
-        /// </summary>
         public IReadOnlyList<Column> OrderedColumns
         {
             get
@@ -85,17 +60,7 @@ namespace TableForge.Editor
             }
         }
         
-        /// <summary>
-        /// Gets the parent cell of the table, if any.
-        /// <remarks>
-        /// A table may be contained within a cell, this happens when a table represents a collection or a serialized object.
-        /// </remarks>
-        /// </summary>
         public Cell ParentCell { get; }
-        
-        /// <summary>
-        /// Indicates whether the table is a sub-table contained within a cell.
-        /// </summary>
         public bool IsSubTable => ParentCell != null;
 
         #endregion

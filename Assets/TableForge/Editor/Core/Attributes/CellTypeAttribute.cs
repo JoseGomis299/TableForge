@@ -45,14 +45,7 @@ namespace TableForge.Editor
     {
         #region Properties
         
-        /// <summary>
-        /// Gets the list of types that this cell supports.
-        /// </summary>
         public Type[] SupportedTypes { get; }
-        
-        /// <summary>
-        /// Gets the mode used to match types.
-        /// </summary>
         public TypeMatchMode MatchMode { get; }
         
         #endregion

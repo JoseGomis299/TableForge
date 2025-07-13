@@ -20,9 +20,6 @@ namespace TableForge.Editor.UI
 
         #region Properties
 
-        /// <summary>
-        /// Gets the cell anchor associated with this row control.
-        /// </summary>
         public CellAnchor Anchor { get; private set; }
 
         #endregion

@@ -4,25 +4,57 @@ using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
 {
+    /// <summary>
+    /// Control for managing column headers in the table visualizer.
+    /// Handles column selection and contextual menu operations.
+    /// </summary>
     internal class ColumnHeaderControl : HeaderControl
     {
+        #region Private Fields
+
         private static readonly ObjectPool<ColumnHeaderControl> _pool = new(() => new ColumnHeaderControl());
-        
+        private static readonly ColumnHeaderContextMenuBuilder _contextMenuBuilder = new();
         private readonly Label _headerLabel;
-        
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Gets a pooled instance of ColumnHeaderControl and initializes it.
+        /// </summary>
+        /// <param name="cellAnchor">The cell anchor for this header.</param>
+        /// <param name="tableControl">The table control that owns this header.</param>
+        /// <returns>A configured ColumnHeaderControl instance.</returns>
         public static ColumnHeaderControl GetPooled(CellAnchor cellAnchor, TableControl tableControl)
         {
             var control = _pool.Get();
             control.OnEnable(cellAnchor, tableControl);
             return control;
         }
-        
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the ColumnHeaderControl class.
+        /// </summary>
         private ColumnHeaderControl()
         {
             AddToClassList(TableVisualizerUss.TableHeaderCellHorizontal);
             _headerLabel = new Label();
         }
 
+        #endregion
+
+        #region Protected Methods - Lifecycle
+
+        /// <summary>
+        /// Enables this column header control with the specified cell anchor and table control.
+        /// </summary>
+        /// <param name="cellAnchor">The cell anchor to associate with this header.</param>
+        /// <param name="tableControl">The table control that owns this header.</param>
         protected override void OnEnable(CellAnchor cellAnchor, TableControl tableControl)
         {
             base.OnEnable(cellAnchor, tableControl);
@@ -45,6 +77,9 @@ namespace TableForge.Editor.UI
             TableControl.HorizontalResizer.HandleResize(this);
         }
 
+        /// <summary>
+        /// Disables this column header control and cleans up resources.
+        /// </summary>
         protected override void OnDisable()
         {
             base.OnDisable();
@@ -54,16 +89,31 @@ namespace TableForge.Editor.UI
             _pool.Release(this);
         }
 
-        protected override void BuildContextualMenu(ContextualMenuPopulateEvent obj)
+        #endregion
+
+        #region Protected Methods - Context Menu
+
+        /// <summary>
+        /// Gets the context menu builder for column headers.
+        /// </summary>
+        /// <returns>The column header context menu builder.</returns>
+        protected override IHeaderContextMenuBuilder GetContextMenuBuilder()
         {
-            ExpandCollapseBuilder(obj);
-            obj.menu.AppendSeparator();
-            SortColumnBuilder(obj);
+            return _contextMenuBuilder;
         }
-        
-        public override void RefreshName()
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Refreshes the display name of this column header.
+        /// </summary>
+        public void RefreshName()
         {
             _headerLabel.text = NameResolver.ResolveHeaderStyledName(CellAnchor, TableControl.TableAttributes.columnHeaderVisibility);
         }
+
+        #endregion
     }
 }

@@ -86,113 +86,32 @@ namespace TableForge.Editor.UI
         #endregion
 
         #region Core References
-        /// <summary>
-        /// Gets the root visual element of this control.
-        /// </summary>
         public VisualElement Root { get; }
-        
-        /// <summary>
-        /// Gets the parent TableVisualizer window.
-        /// </summary>
         public TableVisualizer Visualizer { get; }
-        
-        /// <summary>
-        /// Gets the corner container control.
-        /// </summary>
         public CornerContainerControl CornerContainer => _cornerContainer;
-
-        /// <summary>
-        /// Gets the current table data being displayed.
-        /// </summary>
         public Table TableData { get; private set; }
-        
-        /// <summary>
-        /// Gets the preferred size calculator for this table.
-        /// </summary>
         public TableSize PreferredSize { get; private set; }
-        
-        /// <summary>
-        /// Gets the metadata associated with this table.
-        /// </summary>
         public TableMetadata Metadata { get; private set; }
-        
-        /// <summary>
-        /// Gets the scroll view containing the table content.
-        /// </summary>
         public ScrollView ScrollView { get; }
-        
-        /// <summary>
-        /// Gets the attributes defining how this table should behave.
-        /// </summary>
         public TableAttributes TableAttributes { get; private set; }
         #endregion
 
         #region Component References
-        /// <summary>
-        /// Gets the table resizer component.
-        /// </summary>
         public TableResizer Resizer { get; }
-        
-        /// <summary>
-        /// Gets the filterer component for row filtering.
-        /// </summary>
         public Filterer Filterer { get; }
-        
-        /// <summary>
-        /// Gets the function executor for cell formulas.
-        /// </summary>
         public FunctionExecutor FunctionExecutor { get; }
-        
-        /// <summary>
-        /// Gets the horizontal border resizer.
-        /// </summary>
         public BorderResizer HorizontalResizer => Resizer.HorizontalResizer;
-        
-        /// <summary>
-        /// Gets the vertical border resizer.
-        /// </summary>
         public BorderResizer VerticalResizer => Resizer.VerticalResizer;
-        
-        /// <summary>
-        /// Gets the cell selector for managing cell selection.
-        /// </summary>
         public ICellSelector CellSelector { get; }
-        
-        /// <summary>
-        /// Gets the header swapper for reordering headers.
-        /// </summary>
         public HeaderSwapper HeaderSwapper { get; }
-        
-        /// <summary>
-        /// Gets the parent sub-table control, if this is a sub-table.
-        /// </summary>
         public SubTableCellControl Parent { get; }
-        
-        /// <summary>
-        /// Gets the column visibility manager.
-        /// </summary>
         public VisibilityManager<ColumnHeaderControl> ColumnVisibilityManager { get; }
-        
-        /// <summary>
-        /// Gets the row visibility manager.
-        /// </summary>
         public VisibilityManager<RowHeaderControl> RowVisibilityManager { get; }
         #endregion
 
         #region State Properties
-        /// <summary>
-        /// Gets or sets whether the table is transposed.
-        /// </summary>
         public bool Transposed { get; private set; }
-        
-        /// <summary>
-        /// Gets the offset for the rows container.
-        /// </summary>
         public float RowsContainerOffset { get; private set; }
-        
-        /// <summary>
-        /// Gets the sub-table toolbar element.
-        /// </summary>
         public VisualElement SubTableToolbar { get; }
         #endregion
 

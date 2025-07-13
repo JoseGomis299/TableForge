@@ -10,9 +10,6 @@ namespace TableForge.Editor
     {
         #region Properties
 
-        /// <summary>
-        /// Gets the name of the serialized object.
-        /// </summary>
         string Name { get; }
         
         /// <summary>

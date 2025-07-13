@@ -137,22 +137,11 @@ namespace TableForge.Editor.UI
 
         #region Public Methods - Visibility Locking
 
-        /// <summary>
-        /// Checks if a header's visibility is locked.
-        /// </summary>
-        /// <param name="header">The header to check.</param>
-        /// <returns>True if the header's visibility is locked, false otherwise.</returns>
         public bool IsHeaderVisibilityLocked(THeader header)
         {
             return lockedVisibleHeaders.ContainsKey(header);
         }
         
-        /// <summary>
-        /// Checks if a header's visibility is locked by a specific object.
-        /// </summary>
-        /// <param name="header">The header to check.</param>
-        /// <param name="keyOwner">The object that might have locked the header.</param>
-        /// <returns>True if the header is locked by the specified object, false otherwise.</returns>
         public bool IsHeaderVisibilityLockedBy(THeader header, object keyOwner)
         {
             if (!lockedVisibleHeaders.TryGetValue(header, out var owners)) return false;
@@ -215,11 +204,6 @@ namespace TableForge.Editor.UI
             lastScrollValue = float.MinValue;
         }
 
-        /// <summary>
-        /// Checks if a header should be visible based on filtering and bounds.
-        /// </summary>
-        /// <param name="header">The header to check.</param>
-        /// <returns>True if the header should be visible, false otherwise.</returns>
         public bool IsHeaderVisible(THeader header)
         {
             return tableControl.Filterer.IsVisible(header.CellAnchor.GetRootAnchor().Id) && 

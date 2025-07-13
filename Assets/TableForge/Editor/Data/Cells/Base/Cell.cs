@@ -163,10 +163,6 @@ namespace TableForge.Editor
             return TfSerializedObject.GetValueType(this);
         }
         
-        /// <summary>
-        /// Gets the current value stored in this cell.
-        /// </summary>
-        /// <returns>The object value of the cell.</returns>
         protected object GetFieldValue()
         {
             return TfSerializedObject.GetValue(this);

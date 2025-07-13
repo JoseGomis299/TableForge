@@ -5,9 +5,12 @@ namespace TableForge.Editor.UI
 {
     internal sealed class TableCornerControl : HeaderControl
     {
+        private static readonly TableCornerContextMenuBuilder _contextMenuBuilder = new();
+
         public ColumnHeaderContainerControl ColumnHeaderContainer { get; }
         public RowHeaderContainerControl RowHeaderContainer { get; }
         public VisualElement RowsContainer { get; }
+        
         public TableCornerControl(TableControl tableControl, ColumnHeaderContainerControl columnHeaderContainer, RowHeaderContainerControl rowHeaderContainer, VisualElement rowsContainer)
         {
             AddToClassList(TableVisualizerUss.TableCorner);
@@ -29,15 +32,6 @@ namespace TableForge.Editor.UI
             TableControl.HorizontalResizer.HandleResize(this, excludeFromManualResizing);
         }
 
-        public override void RefreshName()
-        {
-            //No-op
-        }
-
-        protected override void BuildContextualMenu(ContextualMenuPopulateEvent obj)
-        {
-            ExpandCollapseBuilder(obj);
-            obj.menu.AppendSeparator();
-        }
+        protected override IHeaderContextMenuBuilder GetContextMenuBuilder() => _contextMenuBuilder;
     }
 }

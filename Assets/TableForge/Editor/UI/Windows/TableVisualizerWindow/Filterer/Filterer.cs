@@ -19,9 +19,6 @@ namespace TableForge.Editor.UI
 
         #region Public Properties
 
-        /// <summary>
-        /// Gets the set of row IDs that are currently hidden by the filter.
-        /// </summary>
         public HashSet<int> HiddenRows => _hiddenRows;
 
         #endregion
@@ -42,11 +39,6 @@ namespace TableForge.Editor.UI
 
         #region Public Methods
 
-        /// <summary>
-        /// Checks if a row with the specified ID is currently visible.
-        /// </summary>
-        /// <param name="rowId">The ID of the row to check.</param>
-        /// <returns>True if the row is visible, false if it's hidden by the filter.</returns>
         public bool IsVisible(int rowId) => !_hiddenRows.Contains(rowId);
 
         /// <summary>

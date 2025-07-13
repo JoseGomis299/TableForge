@@ -26,24 +26,9 @@ namespace TableForge.Editor.UI
 
         #region Public Properties
 
-        /// <summary>
-        /// Gets the horizontal border resizer component.
-        /// </summary>
         public HorizontalBorderResizer HorizontalResizer { get; }
-        
-        /// <summary>
-        /// Gets the vertical border resizer component.
-        /// </summary>
         public VerticalBorderResizer VerticalResizer { get; }
-        
-        /// <summary>
-        /// Gets the table control this resizer is associated with.
-        /// </summary>
         public TableControl TableControl { get; }
-        
-        /// <summary>
-        /// Gets whether a resize operation is currently in progress.
-        /// </summary>
         public bool IsResizing => _horizontalIsResizing || _verticalIsResizing;
 
         #endregion

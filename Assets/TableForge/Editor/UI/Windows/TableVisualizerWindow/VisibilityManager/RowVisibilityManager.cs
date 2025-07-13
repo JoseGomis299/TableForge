@@ -2,42 +2,58 @@ using UnityEngine;
 
 namespace TableForge.Editor.UI
 {
+    /// <summary>
+    /// Manages the visibility of row headers in the table visualizer.
+    /// Handles virtual scrolling for performance optimization with large tables.
+    /// </summary>
     internal class RowVisibilityManager : VisibilityManager<RowHeaderControl>
     {
+        #region Private Fields
+
         private const float SquareVerticalStep = UiConstants.MinCellHeight * UiConstants.MinCellHeight;
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the RowVisibilityManager class.
+        /// </summary>
+        /// <param name="tableControl">The table control to manage row visibility for.</param>
         public RowVisibilityManager(TableControl tableControl) : base(tableControl)
         {
         }
-        
+
+        #endregion
+
+        #region Public Methods - Event Subscription
+
+        /// <summary>
+        /// Subscribes to events that trigger row visibility refresh.
+        /// </summary>
         public override void SubscribeToRefreshEvents()
         {
             scrollView.verticalScroller.valueChanged += OnVerticalScroll;
             tableControl.OnScrollviewSizeChanged += OnScrollviewSizeChanged;
         }
 
+        /// <summary>
+        /// Unsubscribes from events that trigger row visibility refresh.
+        /// </summary>
         public override void UnsubscribeFromRefreshEvents()
         {
             scrollView.verticalScroller.valueChanged -= OnVerticalScroll;
             tableControl.OnScrollviewSizeChanged -= OnScrollviewSizeChanged;
         }
-        
-        private void OnScrollviewSizeChanged(Vector2 delta)
-        {
-            if (delta.y == 0 && delta.x != 0) return;
 
-            RefreshVisibility(delta.y);
-        }
+        #endregion
 
-        private void OnVerticalScroll(float value)
-        {
-            float delta = value - lastScrollValue;
-            if (delta * delta < SquareVerticalStep)
-                return;
+        #region Public Methods - Visibility Management
 
-            lastScrollValue = value;
-            RefreshVisibility(delta);
-        }
-
+        /// <summary>
+        /// Refreshes the visibility of rows based on the current scroll position.
+        /// </summary>
+        /// <param name="delta">The scroll delta since last refresh.</param>
         public override void RefreshVisibility(float delta)
         {
             if(IsRefreshingVisibility || tableControl.ColumnVisibilityManager.IsRefreshingVisibility || tableControl.RowData.Count <= 1) return;
@@ -59,6 +75,102 @@ namespace TableForge.Editor.UI
             IsRefreshingVisibility = false;
         }
 
+        /// <summary>
+        /// Checks whether the given row header is visible within the bounds of the ScrollView.
+        /// </summary>
+        /// <param name="header">The row header to check.</param>
+        /// <param name="addSecuritySize">Whether to add security extra size to the bounds.</param>
+        /// <returns>True if the row header is in bounds, false otherwise.</returns>
+        public override bool IsHeaderInBounds(RowHeaderControl header, bool addSecuritySize)
+        {
+            if(header.worldBound.height <= 0)
+                return false;
+            
+            Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
+            var viewBounds = scrollView.contentViewport.worldBound;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
+            viewBounds.y += tableControl.CornerContainer.CornerControl.resolvedStyle.height - securitySize.y / 2f;
+
+            // Check if the top of the header is visible.
+            if (header.worldBound.yMax <= viewBounds.yMax &&
+                header.worldBound.yMax >= viewBounds.yMin)
+                return true;
+
+            // Check if the bottom of the header is visible.
+            if (header.worldBound.yMin >= viewBounds.yMin &&
+                header.worldBound.yMin <= viewBounds.yMax)
+                return true;
+
+            // Check if the header completely covers the visible area.
+            return header.worldBound.yMax >= viewBounds.yMax &&
+                   header.worldBound.yMin <= viewBounds.yMin;
+        }
+        
+        /// <summary>
+        /// Checks whether the given row header is completely within the bounds of the ScrollView.
+        /// </summary>
+        /// <param name="header">The row header to check.</param>
+        /// <param name="addSecuritySize">Whether to add security extra size to the bounds.</param>
+        /// <param name="visibleBounds">Binary values representing the visible bounds 2^1 meaning top and 2^0 meaning bottom.</param>
+        /// <returns>True if the row header is completely in bounds, false otherwise.</returns>
+        public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
+        {
+            float margin = 1;
+            Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
+            var viewBounds = scrollView.contentViewport.worldBound;
+            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
+            viewBounds.y += tableControl.CornerContainer.CornerControl.resolvedStyle.height;
+            
+            bool isBottomSideVisible = header.worldBound.yMax - viewBounds.yMax <= margin &&
+                                    header.worldBound.yMax - viewBounds.yMin >= -margin;
+            
+            bool isTopSideVisible = header.worldBound.yMin - viewBounds.yMin >= -margin &&
+                                       header.worldBound.yMin - viewBounds.yMax <= margin;
+
+            visibleBounds = 0;
+            if (isBottomSideVisible) visibleBounds += 1;
+            if (isTopSideVisible) visibleBounds += 2;
+            
+            return isTopSideVisible && isBottomSideVisible;
+        }
+
+        #endregion
+
+        #region Private Methods - Event Handling
+
+        /// <summary>
+        /// Handles scroll view size changes for row visibility.
+        /// </summary>
+        /// <param name="delta">The size change delta.</param>
+        private void OnScrollviewSizeChanged(Vector2 delta)
+        {
+            if (delta.y == 0 && delta.x != 0) return;
+
+            RefreshVisibility(delta.y);
+        }
+
+        /// <summary>
+        /// Handles vertical scroll events for row visibility.
+        /// </summary>
+        /// <param name="value">The current scroll value.</param>
+        private void OnVerticalScroll(float value)
+        {
+            float delta = value - lastScrollValue;
+            if (delta * delta < SquareVerticalStep)
+                return;
+
+            lastScrollValue = value;
+            RefreshVisibility(delta);
+        }
+
+        #endregion
+
+        #region Private Methods - Visibility Updates
+
+        /// <summary>
+        /// Updates the visibility of previously visible rows based on scroll direction.
+        /// </summary>
+        /// <param name="isScrollingDown">Whether the user is scrolling down.</param>
         private void UpdatePreviouslyVisibleRows(bool isScrollingDown)
         {
             if (isScrollingDown)
@@ -117,50 +229,6 @@ namespace TableForge.Editor.UI
             visibleHeaders.Clear();
         }
 
-        public override bool IsHeaderInBounds(RowHeaderControl header, bool addSecuritySize)
-        {
-            if(header.worldBound.height <= 0)
-                return false;
-            
-            Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
-            var viewBounds = scrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
-            viewBounds.y += tableControl.CornerContainer.CornerControl.resolvedStyle.height - securitySize.y / 2f;
-
-            // Check if the top of the header is visible.
-            if (header.worldBound.yMax <= viewBounds.yMax &&
-                header.worldBound.yMax >= viewBounds.yMin)
-                return true;
-
-            // Check if the bottom of the header is visible.
-            if (header.worldBound.yMin >= viewBounds.yMin &&
-                header.worldBound.yMin <= viewBounds.yMax)
-                return true;
-
-            // Check if the header completely covers the visible area.
-            return header.worldBound.yMax >= viewBounds.yMax &&
-                   header.worldBound.yMin <= viewBounds.yMin;
-        }
-        
-        public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
-        {
-            float margin = 1;
-            Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
-            var viewBounds = scrollView.contentViewport.worldBound;
-            viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
-            viewBounds.y += tableControl.CornerContainer.CornerControl.resolvedStyle.height;
-            
-            bool isBottomSideVisible = header.worldBound.yMax - viewBounds.yMax <= margin &&
-                                    header.worldBound.yMax - viewBounds.yMin >= -margin;
-            
-            bool isTopSideVisible = header.worldBound.yMin - viewBounds.yMin >= -margin &&
-                                       header.worldBound.yMin - viewBounds.yMax <= margin;
-
-            visibleBounds = 0;
-            if (isBottomSideVisible) visibleBounds += 1;
-            if (isTopSideVisible) visibleBounds += 2;
-            
-            return isTopSideVisible && isBottomSideVisible;
-        }
+        #endregion
     }
 }

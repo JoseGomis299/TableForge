@@ -7,9 +7,6 @@ namespace TableForge.Editor.UI
     /// </summary>
     public struct CellAttributes
     {
-        /// <summary>
-        /// Gets the type of the mapped cell.
-        /// </summary>
         public Type CellType { get; }
         
         /// <summary>

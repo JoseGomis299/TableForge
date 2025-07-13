@@ -5,10 +5,18 @@ using UnityEngine;
 
 namespace TableForge.Editor.UI
 {
+    /// <summary>
+    /// Manages cell selection in the table visualizer.
+    /// Handles single and multi-selection, focus management, and selection state tracking.
+    /// </summary>
     internal class CellSelector : ICellSelector
     {
+        #region Events
+
         public event Action OnSelectionChanged;
         public event Action OnFocusedCellChanged;
+
+        #endregion
 
         #region Fields
 
@@ -18,7 +26,7 @@ namespace TableForge.Editor.UI
         private readonly HashSet<CellAnchor> _subSelectedAnchors = new();
         private Cell _focusedCell;
         private readonly HashSet<int> _selectedCellIds = new();
-        private readonly HashSet<int> _subSelectedAnchorIds  = new();
+        private readonly HashSet<int> _subSelectedAnchorIds = new();
         private CellSelectorInputManager _inputManager;
         private ICellNavigator _cellNavigator;
 
@@ -26,14 +34,15 @@ namespace TableForge.Editor.UI
 
         #region Properties
 
+        internal TableControl TableControl => _tableControl;
+        internal HashSet<Cell> CellsToDeselect { get; set; } = new();
+        internal HashSet<CellAnchor> AnchorsToDeselect { get; set; } = new();
+
         public ICellNavigator CellNavigator => _cellNavigator;
         public bool SelectionEnabled { get; set; }
         public HashSet<CellAnchor> SelectedAnchors => _selectedAnchors;
         public HashSet<Cell> SelectedCells => _selectedCells;
-        internal TableControl TableControl => _tableControl;
 
-        internal HashSet<Cell> CellsToDeselect { get; set; } = new();
-        internal HashSet<CellAnchor> AnchorsToDeselect { get; set; } = new();
 
         public Cell FocusedCell
         {
@@ -69,11 +78,15 @@ namespace TableForge.Editor.UI
               //  UndoRedoManager.AddSeparator();
             }
         }
-        
+
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the CellSelector class.
+        /// </summary>
+        /// <param name="tableControl">The table control that owns this selector.</param>
         public CellSelector(TableControl tableControl)
         {
             _tableControl = tableControl;
@@ -82,9 +95,304 @@ namespace TableForge.Editor.UI
         }
 
         #endregion
+
+        #region Internal Methods - Selection Management
+
+        /// <summary>
+        /// Gets cell preselect arguments for a given position.
+        /// </summary>
+        /// <param name="position">The position to check for cells.</param>
+        /// <returns>Preselect arguments containing cells and anchors at the position.</returns>
+        internal PreselectArguments GetCellPreselectArgsForPosition(Vector3 position)
+        {
+            var output = new PreselectArguments(this);
+            CollectCellsAtPosition(position, _tableControl, output);
+            return output;
+        }
+
+        /// <summary>
+        /// Confirms the current selection and updates the UI.
+        /// </summary>
+        internal void ConfirmSelection()
+        {
+            _subSelectedAnchors.Clear();
+            _selectedCellIds.Clear();
+            _subSelectedAnchorIds.Clear();
+            
+            // Mark selected cells and select their anchors.
+            foreach (var cell in _selectedCells)
+            {
+                if (CellsToDeselect.Contains(cell))
+                    continue;
+
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
+                if (cellControl != null)
+                    cellControl.IsSelected = true;
+
+                _subSelectedAnchors.Add(cell.row);
+                _subSelectedAnchors.Add(cell.column);
+                
+                _selectedCellIds.Add(cell.Id);
+                _subSelectedAnchorIds.Add(cell.row.Id);
+                _subSelectedAnchorIds.Add(cell.column.Id);
+            }
+
+            // Deselect cells that should be removed.
+            foreach (var cell in CellsToDeselect)
+            {
+                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
+                if (cellControl != null)
+                    cellControl.IsSelected = false;
+                _selectedCells.Remove(cell);
+            }
+            CellsToDeselect.Clear();
+            
+            // Deselect anchors that should be removed from the selection.
+            foreach (var anchor in AnchorsToDeselect)
+            {
+                _selectedAnchors.Remove(anchor);
+            }
+            AnchorsToDeselect.Clear();
+            foreach (var anchor in _selectedAnchors.ToList())
+            {
+                if(!_subSelectedAnchors.Contains(anchor))
+                    _selectedAnchors.Remove(anchor);
+            }
+            
+            // Order the selection differently if table is transposed.
+            _cellNavigator = new ConfinedSpaceNavigator(_selectedCells.ToList(), _tableControl.Metadata, _focusedCell);
+            OnSelectionChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Preselects cells based on mouse position and modifier keys.
+        /// </summary>
+        /// <param name="mousePosition">The mouse position.</param>
+        /// <param name="ctrlKey">Whether the Ctrl key is pressed.</param>
+        /// <param name="shiftKey">Whether the Shift key is pressed.</param>
+        /// <param name="isLeftClick">Whether this is a left click.</param>
+        internal void PreselectCells(Vector2 mousePosition, bool ctrlKey, bool shiftKey, bool isLeftClick)
+        {
+            PreselectArguments preselectArgs = GetCellPreselectArgsForPosition(mousePosition);
+            if(!isLeftClick && (preselectArgs.selectedAnchors.Count == 0 || shiftKey || ctrlKey)) 
+                return;
+            
+            if(_selectedCells.Contains(preselectArgs.cellsAtPosition.LastOrDefault()) && preselectArgs.clickedOnToolbar)
+                return;
+            
+            preselectArgs.rightClicked = !isLeftClick;
+
+            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(ctrlKey, shiftKey);
+            strategy.Preselect(preselectArgs);
+
+            TableControl.schedule.Execute(ConfirmSelection).ExecuteLater(0);
+        }
         
-        #region Selection helpers
+        /// <summary>
+        /// Selects the first cell from the table.
+        /// </summary>
+        internal void SelectFirstCellFromTable()
+        {
+            if (_tableControl.TableData.GetFirstCell() is not { } cell)
+                return;
+            
+            FocusedCell = cell;
+            ConfirmSelection();
+        }
         
+        /// <summary>
+        /// Selects a range of cells between two cells.
+        /// </summary>
+        /// <param name="firstCell">The first cell in the range.</param>
+        /// <param name="lastCell">The last cell in the range.</param>
+        internal void SelectRange(Cell firstCell, Cell lastCell)
+        {
+            if (firstCell == null || lastCell == null)
+                return;
+
+            FocusedCell = firstCell;
+            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
+            strategy.Preselect(new PreselectArguments
+            {
+                selector = this,
+                cellsAtPosition = new List<Cell> { lastCell }
+            });
+            
+            ConfirmSelection();
+        }
+        
+        /// <summary>
+        /// Selects a specific list of cells.
+        /// </summary>
+        /// <param name="cells">The cells to select.</param>
+        internal void SelectRange(IList<Cell> cells)
+        {
+            if (cells == null || cells.Count == 0)
+                return;
+
+            FocusedCell = cells.FirstOrDefault();
+            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
+            strategy.Preselect(new PreselectArguments
+            {
+                selector = this,
+                cellsAtPosition = new List<Cell>(cells)
+            });
+            
+            ConfirmSelection();
+        }
+
+        #endregion
+
+        #region Public Methods - Selection State
+
+        /// <summary>
+        /// Sets the selection to a new list of cells.
+        /// </summary>
+        /// <param name="newSelection">The new selection.</param>
+        /// <param name="setFocused">Whether to set the focused cell to the first cell in the selection.</param>
+        public void SetSelection(List<Cell> newSelection, bool setFocused = true)
+        {
+            if (newSelection == null || newSelection.Count == 0)
+            {
+                ClearSelection();
+                return;
+            }
+
+            _selectedCells.Clear();
+
+            foreach (var cell in newSelection)
+            {
+                _selectedCells.Add(cell);
+            }
+
+            if(setFocused)
+                FocusedCell = newSelection.FirstOrDefault();
+            ConfirmSelection();
+        }
+
+        /// <summary>
+        /// Sets the focused cell.
+        /// </summary>
+        /// <param name="cell">The cell to focus.</param>
+        public void SetFocusedCell(Cell cell)
+        {
+            FocusedCell = cell;
+        }
+        
+        /// <summary>
+        /// Gets the currently focused cell.
+        /// </summary>
+        /// <returns>The focused cell, or null if no cell is focused.</returns>
+        public Cell GetFocusedCell()
+        {
+            return _focusedCell;
+        }
+
+        public bool IsCellSelected(Cell cell)
+        {
+            return cell != null && _selectedCellIds.Contains(cell.Id);
+        }
+
+        public bool IsAnchorSelected(CellAnchor cellAnchor)
+        {
+            return cellAnchor != null && _selectedAnchors.Contains(cellAnchor);
+        }
+        
+        public bool IsAnchorSubSelected(CellAnchor cellAnchor)
+        {
+            return cellAnchor != null && _subSelectedAnchorIds.Contains(cellAnchor.Id);
+        }
+
+        public bool IsCellFocused(Cell cell)
+        {
+            return _focusedCell != null && _focusedCell.Id == cell.Id;
+        }
+
+        #endregion
+
+        #region Public Methods - Selection Operations
+
+        /// <summary>
+        /// Clears the current selection.
+        /// </summary>
+        public void ClearSelection()
+        {
+            _selectedCells.Clear();
+            CellsToDeselect.Clear();
+            FocusedCell = null;
+            ConfirmSelection();
+        }
+
+        /// <summary>
+        /// Clears selection for cells from a specific table.
+        /// </summary>
+        /// <param name="fromTable">The table to clear selection from.</param>
+        public void ClearSelection(Table fromTable)
+        {
+            if (fromTable == null)
+                return;
+
+            foreach (var cell in _selectedCells)
+            {
+                if (cell.Table == fromTable)
+                    CellsToDeselect.Add(cell);
+            }
+            
+            ConfirmSelection();
+            
+            if (!_selectedCells.Contains(_focusedCell))
+               FocusedCell = _selectedCells.FirstOrDefault(); 
+        }
+
+        /// <summary>
+        /// Gets selected rows from a specific table.
+        /// </summary>
+        /// <param name="fromTable">The table to get rows from.</param>
+        /// <returns>A list of selected rows.</returns>
+        public List<Row> GetSelectedRows(Table fromTable) => _selectedAnchors.OfType<Row>().Where(r => r.Table == fromTable).ToList();
+        
+        /// <summary>
+        /// Gets selected columns from a specific table.
+        /// </summary>
+        /// <param name="fromTable">The table to get columns from.</param>
+        /// <returns>A list of selected columns.</returns>
+        public List<Column> GetSelectedColumns(Table fromTable) => _selectedAnchors.OfType<Column>().Where(c => c.Table == fromTable).ToList();
+        
+        /// <summary>
+        /// Gets selected cells from a specific table.
+        /// </summary>
+        /// <param name="fromTable">The table to get cells from.</param>
+        /// <returns>A list of selected cells.</returns>
+        public List<Cell> GetSelectedCells(Table fromTable) => _selectedCells.Where(c => c.Table == fromTable).ToList();
+        
+        /// <summary>
+        /// Removes selection from a specific row.
+        /// </summary>
+        /// <param name="row">The row to remove selection from.</param>
+        public void RemoveRowSelection(Row row)
+        {
+            if (row == null)
+                return;
+            
+            foreach (var cell in row.OrderedCells)
+            {
+                CellsToDeselect.Add(cell);
+            }
+
+            AnchorsToDeselect.Add(row);
+            ConfirmSelection();
+        }
+
+        #endregion
+
+        #region Private Methods - Cell Collection
+
+        /// <summary>
+        /// Collects cells at a specific position for selection.
+        /// </summary>
+        /// <param name="position">The position to check.</param>
+        /// <param name="tableControl">The table control to search in.</param>
+        /// <param name="outputArgs">The output arguments to populate.</param>
         private void CollectCellsAtPosition(Vector3 position, TableControl tableControl, PreselectArguments outputArgs)
         {
             if (!tableControl.ScrollView.contentViewport.worldBound.Contains(position))
@@ -164,221 +472,6 @@ namespace TableForge.Editor.UI
                 if(cell == null || !TableControl.Metadata.IsFieldVisible(cell.column.Id)) return;
                 outputArgs.cellsAtPosition.Add(cell);
             }
-        }
-        
-        #endregion
-        
-        #region Internal Methods
-
-        internal PreselectArguments GetCellPreselectArgsForPosition(Vector3 position)
-        {
-            var output = new PreselectArguments(this);
-            CollectCellsAtPosition(position, _tableControl, output);
-            return output;
-        }
-        internal void ConfirmSelection()
-        {
-            _subSelectedAnchors.Clear();
-            _selectedCellIds.Clear();
-            _subSelectedAnchorIds.Clear();
-            
-            // Mark selected cells and select their anchors.
-            foreach (var cell in _selectedCells)
-            {
-                if (CellsToDeselect.Contains(cell))
-                    continue;
-
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
-                if (cellControl != null)
-                    cellControl.IsSelected = true;
-
-                _subSelectedAnchors.Add(cell.row);
-                _subSelectedAnchors.Add(cell.column);
-                
-                _selectedCellIds.Add(cell.Id);
-                _subSelectedAnchorIds.Add(cell.row.Id);
-                _subSelectedAnchorIds.Add(cell.column.Id);
-            }
-
-            // Deselect cells that should be removed.
-            foreach (var cell in CellsToDeselect)
-            {
-                CellControl cellControl = CellControlFactory.GetCellControlFromId(cell.Id);
-                if (cellControl != null)
-                    cellControl.IsSelected = false;
-                _selectedCells.Remove(cell);
-            }
-            CellsToDeselect.Clear();
-            
-            // Deselect anchors that should be removed from the selection.
-            foreach (var anchor in AnchorsToDeselect)
-            {
-                _selectedAnchors.Remove(anchor);
-            }
-            AnchorsToDeselect.Clear();
-            foreach (var anchor in _selectedAnchors.ToList())
-            {
-                if(!_subSelectedAnchors.Contains(anchor))
-                    _selectedAnchors.Remove(anchor);
-            }
-            
-            // Order the selection differently if table is transposed.
-            _cellNavigator = new ConfinedSpaceNavigator(_selectedCells.ToList(), _tableControl.Metadata, _focusedCell);
-            OnSelectionChanged?.Invoke();
-        }
-
-        internal void PreselectCells(Vector2 mousePosition, bool ctrlKey, bool shiftKey, bool isLeftClick)
-        {
-            PreselectArguments preselectArgs = GetCellPreselectArgsForPosition(mousePosition);
-            if(!isLeftClick && (preselectArgs.selectedAnchors.Count == 0 || shiftKey || ctrlKey)) 
-                return;
-            
-            if(_selectedCells.Contains(preselectArgs.cellsAtPosition.LastOrDefault()) && preselectArgs.clickedOnToolbar)
-                return;
-            
-            preselectArgs.rightClicked = !isLeftClick;
-
-            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy(ctrlKey, shiftKey);
-            strategy.Preselect(preselectArgs);
-
-            TableControl.schedule.Execute(ConfirmSelection).ExecuteLater(0);
-        }
-        
-        internal void SelectFirstCellFromTable()
-        {
-            if (_tableControl.TableData.GetFirstCell() is not { } cell)
-                return;
-            
-            FocusedCell = cell;
-            ConfirmSelection();
-        }
-        
-        internal void SelectRange(Cell firstCell, Cell lastCell)
-        {
-            if (firstCell == null || lastCell == null)
-                return;
-
-            FocusedCell = firstCell;
-            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
-            strategy.Preselect(new PreselectArguments
-            {
-                selector = this,
-                cellsAtPosition = new List<Cell> { lastCell }
-            });
-            
-            ConfirmSelection();
-        }
-        
-        internal void SelectRange(IList<Cell> cells)
-        {
-            if (cells == null || cells.Count == 0)
-                return;
-
-            FocusedCell = cells.FirstOrDefault();
-            ISelectionStrategy strategy = SelectionStrategyFactory.GetSelectionStrategy<MultipleSelectionStrategy>();
-            strategy.Preselect(new PreselectArguments
-            {
-                selector = this,
-                cellsAtPosition = new List<Cell>(cells)
-            });
-            
-            ConfirmSelection();
-        }
-
-        #endregion
-        
-        #region Public Methods
-
-        public void SetSelection(List<Cell> newSelection, bool setFocused = true)
-        {
-            if (newSelection == null || newSelection.Count == 0)
-            {
-                ClearSelection();
-                return;
-            }
-
-            _selectedCells.Clear();
-
-            foreach (var cell in newSelection)
-            {
-                _selectedCells.Add(cell);
-            }
-
-            if(setFocused)
-                FocusedCell = newSelection.FirstOrDefault();
-            ConfirmSelection();
-        }
-
-        public void SetFocusedCell(Cell cell)
-        {
-            FocusedCell = cell;
-        }
-        
-        public Cell GetFocusedCell()
-        {
-            return _focusedCell;
-        }
-
-        public bool IsCellSelected(Cell cell)
-        {
-            return cell != null && _selectedCellIds.Contains(cell.Id);
-        }
-
-        public bool IsAnchorSelected(CellAnchor cellAnchor)
-        {
-            return cellAnchor != null && _selectedAnchors.Contains(cellAnchor);
-        }
-        
-        public bool IsAnchorSubSelected(CellAnchor cellAnchor)
-        {
-            return cellAnchor != null && _subSelectedAnchorIds.Contains(cellAnchor.Id);
-        }
-
-        public bool IsCellFocused(Cell cell)
-        {
-            return _focusedCell != null && _focusedCell.Id == cell.Id;
-        }
-        
-        public void ClearSelection()
-        {
-            _selectedCells.Clear();
-            CellsToDeselect.Clear();
-            FocusedCell = null;
-            ConfirmSelection();
-        }
-
-        public void ClearSelection(Table fromTable)
-        {
-            if (fromTable == null)
-                return;
-
-            foreach (var cell in _selectedCells)
-            {
-                if (cell.Table == fromTable)
-                    CellsToDeselect.Add(cell);
-            }
-            
-            ConfirmSelection();
-            
-            if (!_selectedCells.Contains(_focusedCell))
-               FocusedCell = _selectedCells.FirstOrDefault(); 
-        }
-
-        public List<Row> GetSelectedRows(Table fromTable) => _selectedAnchors.OfType<Row>().Where(r => r.Table == fromTable).ToList();
-        public List<Column> GetSelectedColumns(Table fromTable) => _selectedAnchors.OfType<Column>().Where(c => c.Table == fromTable).ToList();
-        public List<Cell> GetSelectedCells(Table fromTable) => _selectedCells.Where(c => c.Table == fromTable).ToList();
-        public void RemoveRowSelection(Row row)
-        {
-            if (row == null)
-                return;
-            
-            foreach (var cell in row.OrderedCells)
-            {
-                CellsToDeselect.Add(cell);
-            }
-
-            AnchorsToDeselect.Add(row);
-            ConfirmSelection();
         }
 
         #endregion
