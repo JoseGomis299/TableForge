@@ -168,10 +168,6 @@ namespace TableForge.Editor
             return TfSerializedObject.GetValue(this);
         }
         
-        /// <summary>
-        /// Sets the field value in the serialized object.
-        /// </summary>
-        /// <param name="value">The new value to be stored.</param>
         protected void SetFieldValue(object value)
         {
             TfSerializedObject.SetValue(this, value);

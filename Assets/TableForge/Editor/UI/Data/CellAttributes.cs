@@ -9,9 +9,6 @@ namespace TableForge.Editor.UI
     {
         public Type CellType { get; }
         
-        /// <summary>
-        /// The method used to calculate the size of the cell.
-        /// </summary>
         public CellSizeCalculationMethod SizeCalculationMethod { get; }
         
         public CellAttributes(Type cellType, CellSizeCalculationMethod sizeCalculationMethod)

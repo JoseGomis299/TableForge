@@ -28,18 +28,12 @@ namespace TableForge.Editor.UI
 
         #region Public Methods - Event Subscription
 
-        /// <summary>
-        /// Subscribes to events that trigger column visibility refresh.
-        /// </summary>
         public override void SubscribeToRefreshEvents()
         {
             scrollView.horizontalScroller.valueChanged += OnHorizontalScroll;
             tableControl.OnScrollviewSizeChanged += OnScrollviewSizeChanged;
         }
 
-        /// <summary>
-        /// Unsubscribes from events that trigger column visibility refresh.
-        /// </summary>
         public override void UnsubscribeFromRefreshEvents()
         {
             scrollView.horizontalScroller.valueChanged -= OnHorizontalScroll;
@@ -50,10 +44,6 @@ namespace TableForge.Editor.UI
 
         #region Public Methods - Visibility Management
 
-        /// <summary>
-        /// Refreshes the visibility of columns based on the current scroll position.
-        /// </summary>
-        /// <param name="delta">The scroll delta since last refresh.</param>
         public override void RefreshVisibility(float delta)
         {
             if(IsRefreshingVisibility 
@@ -92,12 +82,6 @@ namespace TableForge.Editor.UI
             IsRefreshingVisibility = false;
         }
 
-        /// <summary>
-        /// Checks whether the given column header is visible within the bounds of the ScrollView.
-        /// </summary>
-        /// <param name="header">The column header to check.</param>
-        /// <param name="addSecuritySize">Whether to add security extra size to the bounds.</param>
-        /// <returns>True if the column header is in bounds, false otherwise.</returns>
         public override bool IsHeaderInBounds(ColumnHeaderControl header, bool addSecuritySize)
         {
             if(header.worldBound.width <= 0)
@@ -123,13 +107,6 @@ namespace TableForge.Editor.UI
                    header.worldBound.xMin <= viewBounds.xMin;
         }
         
-        /// <summary>
-        /// Checks whether the given column header is completely within the bounds of the ScrollView.
-        /// </summary>
-        /// <param name="header">The column header to check.</param>
-        /// <param name="addSecuritySize">Whether to add security extra size to the bounds.</param>
-        /// <param name="visibleBounds">Binary values representing the visible bounds 2^1 meaning right and 2^0 meaning left.</param>
-        /// <returns>True if the column header is completely in bounds, false otherwise.</returns>
         public override bool IsHeaderCompletelyInBounds(ColumnHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
         {
             float margin = 1;
@@ -155,10 +132,6 @@ namespace TableForge.Editor.UI
 
         #region Private Methods - Event Handling
 
-        /// <summary>
-        /// Handles scroll view size changes for column visibility.
-        /// </summary>
-        /// <param name="delta">The size change delta.</param>
         private void OnScrollviewSizeChanged(Vector2 delta)
         {
             if (delta.x == 0 && delta.y != 0) return;
@@ -166,10 +139,6 @@ namespace TableForge.Editor.UI
             RefreshVisibility(1);
         }
 
-        /// <summary>
-        /// Handles horizontal scroll events for column visibility.
-        /// </summary>
-        /// <param name="value">The current scroll value.</param>
         private void OnHorizontalScroll(float value)
         {
             float delta = value - lastScrollValue;

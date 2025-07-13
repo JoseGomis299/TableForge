@@ -28,18 +28,12 @@ namespace TableForge.Editor.UI
 
         #region Public Methods - Event Subscription
 
-        /// <summary>
-        /// Subscribes to events that trigger row visibility refresh.
-        /// </summary>
         public override void SubscribeToRefreshEvents()
         {
             scrollView.verticalScroller.valueChanged += OnVerticalScroll;
             tableControl.OnScrollviewSizeChanged += OnScrollviewSizeChanged;
         }
 
-        /// <summary>
-        /// Unsubscribes from events that trigger row visibility refresh.
-        /// </summary>
         public override void UnsubscribeFromRefreshEvents()
         {
             scrollView.verticalScroller.valueChanged -= OnVerticalScroll;
@@ -50,10 +44,6 @@ namespace TableForge.Editor.UI
 
         #region Public Methods - Visibility Management
 
-        /// <summary>
-        /// Refreshes the visibility of rows based on the current scroll position.
-        /// </summary>
-        /// <param name="delta">The scroll delta since last refresh.</param>
         public override void RefreshVisibility(float delta)
         {
             if(IsRefreshingVisibility || tableControl.ColumnVisibilityManager.IsRefreshingVisibility || tableControl.RowData.Count <= 1) return;
@@ -75,12 +65,6 @@ namespace TableForge.Editor.UI
             IsRefreshingVisibility = false;
         }
 
-        /// <summary>
-        /// Checks whether the given row header is visible within the bounds of the ScrollView.
-        /// </summary>
-        /// <param name="header">The row header to check.</param>
-        /// <param name="addSecuritySize">Whether to add security extra size to the bounds.</param>
-        /// <returns>True if the row header is in bounds, false otherwise.</returns>
         public override bool IsHeaderInBounds(RowHeaderControl header, bool addSecuritySize)
         {
             if(header.worldBound.height <= 0)
@@ -106,13 +90,6 @@ namespace TableForge.Editor.UI
                    header.worldBound.yMin <= viewBounds.yMin;
         }
         
-        /// <summary>
-        /// Checks whether the given row header is completely within the bounds of the ScrollView.
-        /// </summary>
-        /// <param name="header">The row header to check.</param>
-        /// <param name="addSecuritySize">Whether to add security extra size to the bounds.</param>
-        /// <param name="visibleBounds">Binary values representing the visible bounds 2^1 meaning top and 2^0 meaning bottom.</param>
-        /// <returns>True if the row header is completely in bounds, false otherwise.</returns>
         public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
         {
             float margin = 1;
@@ -138,10 +115,6 @@ namespace TableForge.Editor.UI
 
         #region Private Methods - Event Handling
 
-        /// <summary>
-        /// Handles scroll view size changes for row visibility.
-        /// </summary>
-        /// <param name="delta">The size change delta.</param>
         private void OnScrollviewSizeChanged(Vector2 delta)
         {
             if (delta.y == 0 && delta.x != 0) return;
@@ -149,10 +122,6 @@ namespace TableForge.Editor.UI
             RefreshVisibility(delta.y);
         }
 
-        /// <summary>
-        /// Handles vertical scroll events for row visibility.
-        /// </summary>
-        /// <param name="value">The current scroll value.</param>
         private void OnVerticalScroll(float value)
         {
             float delta = value - lastScrollValue;
@@ -167,10 +136,6 @@ namespace TableForge.Editor.UI
 
         #region Private Methods - Visibility Updates
 
-        /// <summary>
-        /// Updates the visibility of previously visible rows based on scroll direction.
-        /// </summary>
-        /// <param name="isScrollingDown">Whether the user is scrolling down.</param>
         private void UpdatePreviouslyVisibleRows(bool isScrollingDown)
         {
             if (isScrollingDown)
