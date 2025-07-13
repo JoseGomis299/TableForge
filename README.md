@@ -5,17 +5,23 @@ TableForge is a powerful Unity Editor tool designed for managing, visualizing, a
 ## Table of Contents
 
 - [Overview](#overview)
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [Core Concepts](#core-concepts)
-- [Data Types Support](#data-types-support)
-- [Table Visualization](#table-visualization)
-- [Functions and Formulas](#functions-and-formulas)
-- [Import/Export](#importexport)
-- [Advanced Features](#advanced-features)
-- [Row Filtering](#row-filtering)
+- [For Users](#for-users)
+  - [Getting Started](#getting-started)
+  - [Core Features](#core-features)
+  - [Table Visualization](#table-visualization)
+  - [Functions and Formulas](#functions-and-formulas)
+  - [Import/Export](#importexport)
+  - [Advanced Features](#advanced-features)
+  - [Row Filtering](#row-filtering)
+  - [Troubleshooting](#troubleshooting)
+- [For Developers](#for-developers)
+  - [Architecture Overview](#architecture-overview)
+  - [Core Concepts](#core-concepts)
+  - [Data Types Support](#data-types-support)
+  - [Extending TableForge](#extending-tableforge)
+  - [API Reference](#api-reference)
+  - [Contributing](#contributing)
 - [Limitations](#limitations)
-- [Troubleshooting](#troubleshooting)
 
 ## Overview
 
@@ -26,48 +32,14 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 - **Visual Data Management**: View and edit ScriptableObject data in a familiar spreadsheet format
 - **Formula Support**: Use Excel-like functions and formulas for data calculations
 - **Data Import/Export**: Import data from CSV/JSON files and export tables to various formats
-- **Inteligent Copy/Paste**: Copy and paste values between TableForge and other programs like excel easily
+- **Intelligent Copy/Paste**: Copy and paste values between TableForge and other programs like Excel easily
 - **Advanced Filtering**: Filter and search through table data efficiently
 - **Undo/Redo Support**: Full undo/redo functionality for all operations
 - **Type Safety**: Automatic type detection and validation for all data types
 
-## Features
+---
 
-### Core Features
-
-- **Table Visualization**: Display ScriptableObject data in spreadsheet format
-- **Cell Editing**: Direct editing of cell values with type validation
-- **Row/Column Management**: Add, remove, reorder rows and columns
-- **Data Filtering**: Advanced filtering and search capabilities
-- **Table Transposition**: Swap rows and columns for different data views
-- **Column Visibility**: Show/hide specific columns as needed
-- **Size Management**: Automatic and manual column/row sizing
-
-### Formula System
-
-- **Excel-like Functions**: SUM, AVERAGE, COUNT, MAX, MIN, and more
-- **Cell References**: Reference other cells using A1 notation (A1, B2, etc.)
-- **Range References**: Reference cell ranges (A1:B5, C1:C10)
-- **Arithmetic Operations**: Basic math operations (+, -, *, /, ^, %)
-- **Logical Functions**: IF conditions and boolean operations
-- **Nested Functions**: Combine multiple functions in complex expressions
-
-### Data Import/Export
-
-- **CSV Import**: Import data from CSV files with column mapping
-- **JSON Import**: Import data from JSON files
-- **CSV Export**: Export tables to CSV format with various options
-- **JSON Export**: Export tables to JSON format
-- **Asset Creation**: Automatically create ScriptableObject assets during import
-
-### Advanced Features
-
-- **Sub-tables**: Handle nested objects and collections as expandable sub-tables
-- **Type Binding**: Bind tables to specific ScriptableObject types for automatic updates
-- **Metadata Persistence**: Save table configurations, layouts, and formulas
-- **Session Management**: Remember open tables and their states across Unity sessions
-- **Undo/Redo**: Complete undo/redo system for all operations including cell edits, structural changes, and formula modifications
-- **Intelligent Copy/Paste**: Seamless data transfer between TableForge and external applications like Excel
+# For Users
 
 ## Getting Started
 
@@ -82,77 +54,43 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 2. **Add a Table**: Click the "+" button in the toolbar to add a new table
 3. **Select Data Type**: Choose the ScriptableObject type you want to visualize
 4. **Select Assets**: Choose specific assets or bind to all assets of that type
-5. **Create Assets**: Create new ScriptableObject instances directly from the table creation window
-6. **Rename Assets**: Rename existing assets during table creation
+5. **Create Assets (optional)**: Create new ScriptableObject instances directly from the table creation window
+6. **Rename Assets (optional)**: Rename existing assets during table creation
 7. **View Data**: Your data will be displayed in a spreadsheet format
 
-### Creating Your First Table
+## Core Features
 
-1. Create a ScriptableObject class with your data fields
-2. Open TableVisualizer and add a new table
-3. Select your ScriptableObject type
-4. Choose existing assets or create new ones directly in the table creation window
-5. Optionally rename assets during the creation process
-6. Start viewing and editing your data
+### Table Management
+- **Table Visualization**: Display ScriptableObject data in spreadsheet format
+- **Cell Editing**: Direct editing of cell values with type validation
+- **Row/Column Management**: Add, remove, reorder rows and columns
+- **Data Filtering**: Advanced filtering and search capabilities
+- **Table Transposition**: Swap rows and columns for different data views
+- **Column Visibility**: Show/hide specific columns as needed
+- **Size Management**: Automatic and manual column/row sizing
 
-## Core Concepts
+### Formula System
+- **Excel-like Functions**: SUM, AVERAGE, COUNT, MAX, MIN, and more
+- **Cell References**: Reference other cells using A1 notation (A1, B2, etc.)
+- **Range References**: Reference cell ranges (A1:B5, C1:C10)
+- **Arithmetic Operations**: Basic math operations (+, -, *, /, ^, %)
+- **Logical Functions**: IF conditions and boolean operations
+- **Nested Functions**: Combine multiple functions in complex expressions
 
-### Tables
+### Data Import/Export
+- **CSV Import**: Import data from CSV files with column mapping
+- **JSON Import**: Import data from JSON files
+- **CSV Export**: Export tables to CSV format with various options
+- **JSON Export**: Export tables to JSON format
+- **Asset Creation**: Automatically create ScriptableObject assets during import
 
-A table represents a collection of ScriptableObject instances displayed in a spreadsheet format. Each row represents one ScriptableObject, and each column represents a field from that object.
-
-### Cells
-
-Cells are the individual data containers within a table. Each cell can contain:
-- Simple values (strings, numbers, booleans)
-- Complex objects (displayed as sub-tables)
-- Collections (arrays, lists)
-- Formulas (calculated values)
-
-### Metadata
-
-Table metadata stores configuration information such as:
-- Column visibility settings
-- Column/row order
-- Cell sizes
-- Formulas
-- Table transposition state
-
-### Cell Anchors
-
-Cell anchors represent the structural elements of a table:
-- **Columns**: Vertical data containers
-- **Rows**: Horizontal data containers
-- Each anchor has a position, name, and unique ID
-
-## Data Types Support
-
-TableForge supports a wide range of data types:
-
-### Primitive Types
-- **Integers**: `int`, `long`, `ulong`, `short`, `ushort`, `byte`, `sbyte`, `uint`
-- **Floating Point**: `float`, `double`
-- **Text**: `string`, `char`
-- **Boolean**: `bool`
-- **Enum**: Any enum type
-
-### Unity Types
-- **All types serialized by Unity**
-
-### Collections
-- **Arrays**: Any type array
-- **Lists**: `List<T>`
-- **Dictionaries**: `SerializedDictionary<K,V>`
-
-### Complex Types
-- **Custom Classes**: Any serializable class
-- **ScriptableObjects**: Any ScriptableObject type
-- **Unity Objects**: Any UnityEngine.Object
-
-### Special Handling
-- **Nested Objects**: Displayed as expandable sub-tables
-- **Collections**: Displayed as sub-tables with individual items
-- **Null Values**: Handled gracefully with appropriate display
+### Advanced Features
+- **Sub-tables**: Handle nested objects and collections as expandable sub-tables
+- **Type Binding**: Bind tables to specific ScriptableObject types for automatic updates
+- **Metadata Persistence**: Save table configurations, layouts, and formulas
+- **Session Management**: Remember open tables and their states across Unity sessions
+- **Undo/Redo**: Complete undo/redo system for all operations including cell edits, structural changes, and formula modifications
+- **Intelligent Copy/Paste**: Seamless data transfer between TableForge and external applications like Excel
 
 ## Table Visualization
 
@@ -194,7 +132,7 @@ The TableVisualizer window provides a complete spreadsheet interface:
 #### Formula Shortcuts
 - **=**: Start formula entry
 - **Ctrl+Shift+C**: Copy selected cells formulas
-- **Ctrl+Shif+V**: Paste into selected cells formulas
+- **Ctrl+Shift+V**: Paste into selected cells formulas
 
 ### Selection Modes
 
@@ -355,7 +293,6 @@ Comprehensive column control features:
 - **Size Control**: Manual resizing or automatic sizing based on content
 - **Sorting**: Sort data by clicking column headers (ascending/descending)
 
-
 ### Row Filtering
 
 Advanced row filtering system with powerful search capabilities:
@@ -457,25 +394,6 @@ Comprehensive undo/redo functionality:
 - **Formula Operations**: Undo formula modifications and calculations
 - **Batch Operations**: Undo multiple related operations as a single action
 
-## Limitations
-
-### Current Limitations
-
-- **Dictionary Values**: Adding values to dictionaries is not supported yet
-- **Real-time Updates**: Some external changes performed by scripts may require manual refresh
-
-### Performance Considerations
-
-- **Large Tables**: Very large tables (>10,000 cells) or with a big numer of subtables may impact performance
-- **Complex Formulas**: Nested formulas with many references may be slow
-- **Memory Usage**: Large datasets consume significant memory
-
-### Type Restrictions
-
-- **Non-serializable Types**: Types not marked as `[System.Serializable]` are not supported
-- **Circular References**: Objects with circular references may cause issues
-- **Custom Serialization**: Custom serialization logic is not supported
-
 ## Troubleshooting
 
 ### Common Issues
@@ -507,6 +425,281 @@ For additional support:
 3. Verify your data types and ScriptableObject structure match the supported types
 4. Test with simple data first before using complex nested structures
 5. Ensure all ScriptableObject classes are properly serialized with `[System.Serializable]` attributes or are public
+
+---
+
+# For Developers
+
+## Architecture Overview
+
+TableForge is built with a modular architecture designed for extensibility and maintainability:
+
+### Core Components
+
+- **TableControl**: Main orchestrator for table visualization and interaction
+- **HeaderControl**: Base class for row and column headers with context menu support
+- **CellControl**: Abstract base for all cell types with selection and editing capabilities
+- **VisibilityManager**: Handles virtual scrolling for performance optimization
+- **CellSelector**: Manages cell selection and navigation
+- **ContextMenuBuilder**: Modular system for building context menus
+
+### Key Design Patterns
+
+- **Factory Pattern**: Used for creating different cell types based on data
+- **Strategy Pattern**: Implemented for context menu building and selection strategies
+- **Observer Pattern**: Used for event handling and UI updates
+- **Command Pattern**: Implemented for undo/redo functionality
+
+## Core Concepts
+
+### Tables
+
+A table represents a collection of ScriptableObject instances displayed in a spreadsheet format. Each row represents one ScriptableObject, and each column represents a field from that object.
+
+### Cells
+
+Cells are the individual data containers within a table. Each cell can contain:
+- Simple values (strings, numbers, booleans)
+- Complex objects (displayed as sub-tables)
+- Collections (arrays, lists)
+- Formulas (calculated values)
+
+### Metadata
+
+Table metadata stores configuration information such as:
+- Column visibility settings
+- Column/row order
+- Cell sizes
+- Formulas
+- Table transposition state
+
+### Cell Anchors
+
+Cell anchors represent the structural elements of a table:
+- **Columns**: Vertical data containers
+- **Rows**: Horizontal data containers
+- Each anchor has a position, name, and unique ID
+
+## Data Types Support
+
+TableForge supports a wide range of data types:
+
+### Primitive Types
+- **Integers**: `int`, `long`, `ulong`, `short`, `ushort`, `byte`, `sbyte`, `uint`
+- **Floating Point**: `float`, `double`
+- **Text**: `string`, `char`
+- **Boolean**: `bool`
+- **Enum**: Any enum type
+
+### Unity Types
+- **All types serialized by Unity**
+
+### Collections
+- **Arrays**: Any type array
+- **Lists**: `List<T>`
+- **Dictionaries**: `SerializedDictionary<K,V>`
+
+### Complex Types
+- **Custom Classes**: Any serializable class
+- **ScriptableObjects**: Any ScriptableObject type
+- **Unity Objects**: Any UnityEngine.Object
+
+### Special Handling
+- **Nested Objects**: Displayed as expandable sub-tables
+- **Collections**: Displayed as sub-tables with individual items
+- **Null Values**: Handled gracefully with appropriate display
+
+## Extending TableForge
+
+### Creating Custom Cell Types
+
+To create a custom cell type for a specific data type:
+
+1. **Create Cell Control Class**:
+```csharp
+[CellControlUsage(typeof(MyCustomType), CellSizeCalculationMethod.AutoSize)]
+internal class MyCustomCellControl : CellControl
+{
+    public MyCustomCellControl(Cell cell, TableControl tableControl) 
+        : base(cell, tableControl)
+    {
+        // Initialize your custom UI elements
+    }
+
+    protected override void OnRefresh()
+    {
+        // Update your UI with current cell data
+    }
+}
+```
+
+2. **Add CellTypeAttribute**:
+```csharp
+[CellType(typeof(MyCustomType))]
+internal class MyCustomCellControl : CellControl
+{
+    // Implementation
+}
+```
+
+### Creating Custom Context Menus
+
+To add custom context menu functionality:
+
+1. **Extend BaseHeaderContextMenuBuilder**:
+```csharp
+internal class MyCustomContextMenuBuilder : BaseHeaderContextMenuBuilder
+{
+    public override void BuildContextMenu(HeaderControl header, ContextualMenuPopulateEvent evt)
+    {
+        // Add your custom menu items
+        evt.menu.AppendAction("My Custom Action", _ => 
+        {
+            // Handle action
+        });
+    }
+}
+```
+
+2. **Register in Header Control**:
+```csharp
+protected override IHeaderContextMenuBuilder GetContextMenuBuilder()
+{
+    return new MyCustomContextMenuBuilder();
+}
+```
+
+### Adding New Functions
+
+To add new formula functions:
+
+1. **Create Function Class**:
+```csharp
+internal class MyCustomFunction : IFunction
+{
+    public string Name => "MYFUNCTION";
+    public object Execute(object[] parameters)
+    {
+        // Implementation
+        return result;
+    }
+}
+```
+
+2. **Register in FunctionRegistry**:
+```csharp
+FunctionRegistry.Register(new MyCustomFunction());
+```
+
+## API Reference
+
+### Key Interfaces
+
+#### IHeaderContextMenuBuilder
+```csharp
+public interface IHeaderContextMenuBuilder
+{
+    void BuildContextMenu(HeaderControl header, ContextualMenuPopulateEvent evt);
+}
+```
+
+#### ICellSelector
+```csharp
+public interface ICellSelector
+{
+    event Action OnSelectionChanged;
+    event Action OnFocusedCellChanged;
+    bool IsCellSelected(Cell cell);
+    bool IsAnchorSelected(CellAnchor anchor);
+    void SetSelection(List<Cell> cells, bool setFocused = true);
+}
+```
+
+#### IFunction
+```csharp
+public interface IFunction
+{
+    string Name { get; }
+    object Execute(object[] parameters);
+}
+```
+
+### Key Classes
+
+#### TableControl
+Main control class for managing table visualization and interaction.
+
+**Key Methods**:
+- `SetTable(Table table, TableMetadata metadata)`: Sets the table data
+- `RebuildPage(bool useCachedSize)`: Rebuilds the entire table
+- `SortColumn(Column column, bool ascending)`: Sorts a column
+- `Transpose()`: Transposes the table
+
+#### HeaderControl
+Base class for all header controls with selection and context menu support.
+
+**Key Properties**:
+- `CellAnchor`: The associated cell anchor
+- `TableControl`: The parent table control
+- `IsSelected`: Whether the header is selected
+
+#### CellControl
+Abstract base class for all cell controls.
+
+**Key Methods**:
+- `Refresh()`: Refreshes the cell display
+- `SetCellValue(object value)`: Sets the cell value with undo support
+
+## Contributing
+
+### Development Setup
+
+1. **Clone the Repository**: Get the latest source code
+2. **Open in Unity**: Open the project in Unity 2021.3 or later
+3. **Install Dependencies**: Ensure all required packages are installed
+4. **Run Tests**: Execute the test suite to verify everything works
+
+### Code Style Guidelines
+
+- **Naming**: Use PascalCase for public members, camelCase for private members
+- **Documentation**: Add XML documentation for all public APIs
+- **Regions**: Use regions to organize code sections
+- **Error Handling**: Use proper exception handling and validation
+
+### Testing
+
+- **Unit Tests**: Write unit tests for new functionality
+- **Integration Tests**: Test integration with Unity systems
+- **UI Tests**: Test user interface interactions
+
+### Pull Request Process
+
+1. **Create Feature Branch**: Branch from main for new features
+2. **Implement Changes**: Follow coding guidelines
+3. **Add Tests**: Include appropriate tests
+4. **Update Documentation**: Update relevant documentation
+5. **Submit PR**: Create pull request with clear description
+
+---
+
+## Limitations
+
+### Current Limitations
+
+- **Dictionary Values**: Adding values to dictionaries is not supported yet
+- **Real-time Updates**: Some external changes performed by scripts may require manual refresh
+
+### Performance Considerations
+
+- **Large Tables**: Very large tables (>10,000 cells) or with a big number of subtables may impact performance
+- **Complex Formulas**: Nested formulas with many references may be slow
+- **Memory Usage**: Large datasets consume significant memory
+
+### Type Restrictions
+
+- **Non-serializable Types**: Types not marked as `[System.Serializable]` are not supported
+- **Circular References**: Objects with circular references may cause issues
+- **Custom Serialization**: Custom serialization logic is not supported
 
 ---
 
