@@ -570,7 +570,7 @@ To add new formula functions:
 ```csharp
 internal class MyCustomFunction : ExcelFunctionBase
 {
-
+    //Implementation
 }
 ```
 
