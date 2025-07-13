@@ -29,9 +29,9 @@
     --resize-preview-width: 3px;
     --border-radius: 5px;
     --sub-table-toolbar-width: 13px;
-    --foldout-open-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ClassicFoldoutArrow-Open.png?fileID=2800000&guid=d5bc83349b07a3946829239d350209b0&type=3#ClassicFoldoutArrow-Open");
-    --foldout-close-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ClassicFoldoutArrow-Close.png?fileID=2800000&guid=b8692ab8bcd56d7439f4e54d9c7e801e&type=3#ClassicFoldoutArrow-Close");
-    --context-button-image: url("project://database/Assets/TableForge/Editor/UI/Assets/ThreeDots.png?fileID=2800000&guid=dfbc9e1ed6485fe488ca28aaa8ac89cc&type=3#ThreeDots");
+    --foldout-open-image: url("project://database/Assets/TableForge/Editor/UI/Styling/Assets/ClassicFoldoutArrow-Open.png?fileID=2800000&guid=d5bc83349b07a3946829239d350209b0&type=3#ClassicFoldoutArrow-Open");
+    --foldout-close-image: url("project://database/Assets/TableForge/Editor/UI/Styling/Assets/ClassicFoldoutArrow-Close.png?fileID=2800000&guid=b8692ab8bcd56d7439f4e54d9c7e801e&type=3#ClassicFoldoutArrow-Close");
+    --context-button-image: url("project://database/Assets/TableForge/Editor/UI/Styling/Assets/ThreeDots.png?fileID=2800000&guid=dfbc9e1ed6485fe488ca28aaa8ac89cc&type=3#ThreeDots");
 }
 
 .fill {
@@ -467,32 +467,7 @@
     -unity-font-style: bold;
 }
 
-#root > #toolbar > #tool-container Button {
-    border-width: var(--border-width);
-    border-color: var(--dark-border-color);
-    background-color: var(--background-color-dark);
-    margin: 0;
-    padding: 0;
-    -unity-font-style: bold;
-}
 
-#root > #toolbar > #tool-container Button:hover {
-    cursor: link;
-    background-color: var(--selected-header-color);
-}
-
-#root > #toolbar > #tool-container Button:active {
-    background-color: var(--selected-color);
-}
-
-Button:hover {
-    cursor: link;
-    background-color: var(--selected-header-color);
-}
-
-Button:active {
-    background-color: var(--selected-color);
-}
 
 .toolbar__function-field {
     width: 100%;
@@ -520,4 +495,30 @@ Button:active {
     background-color: var(--separator-color);
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.toolbar__button {
+    width: 25px;
+    height: 25px;
+    background-image: none;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-size: 75% 75%;
+    margin: 0 10px 0 0;
+    padding: 0;
+    background-color: rgb(52, 52, 52);
+}
+
+.interactive-button {
+}
+
+.interactive-button:hover {
+    cursor: link;
+    background-color: var(--selected-header-color);
+}
+
+.interactive-button:active {
+    background-color: var(--selected-color);
 }

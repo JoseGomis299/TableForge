@@ -36,7 +36,7 @@ namespace TableForge.Editor.UI
         {
             _cell.SetValue(_newValue);
             
-            if (ToolbarData.RemoveFormulaOnCellValueChange && _oldFunction == null && _oldValue != null && !_oldValue.Equals(_newValue))
+            if (TableSettings.GetSettings().removeFormulaOnCellValueChange && _oldFunction == null && _oldValue != null && !_oldValue.Equals(_newValue))
             {
                 _oldFunction = _tableControl.Metadata.GetFunction(_cell.Id);
                 _tableControl.Metadata.SetFunction(Cell.Id, string.Empty);
@@ -50,7 +50,7 @@ namespace TableForge.Editor.UI
         public override void Undo()
         {
             _cell.SetValue(_oldValue);
-            if(_oldFunction != null && ToolbarData.RemoveFormulaOnCellValueChange)
+            if(_oldFunction != null && TableSettings.GetSettings().removeFormulaOnCellValueChange)
             {
                 _tableControl.Metadata.SetFunction(_cell.Id, _oldFunction);
             }

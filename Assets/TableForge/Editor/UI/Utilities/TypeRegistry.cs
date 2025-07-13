@@ -86,7 +86,7 @@ namespace TableForge.Editor.UI
                    type.IsAbstract || type.IsGenericType ||
                    type.Assembly == Assembly.GetAssembly(typeof(TypeRegistry)) ||
                    type.IsNotPublic ||
-                   (!ToolbarData.EnableUnityTypesTables && IsUnityType(type));
+                   IsUnityType(type);
         }
 
         private static bool IsUnityType(Type type)

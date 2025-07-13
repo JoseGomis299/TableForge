@@ -3,7 +3,7 @@ namespace TableForge.Editor.UI
     /// <summary>
     ///  Represents how a table should be displayed and the possible actions that can be performed on it.
     /// </summary>
-    public struct TableAttributes
+    public class TableAttributes
     {
         /// <summary>
         /// Specifies whether the sub table supports row addition and deletion or not.
@@ -38,5 +38,7 @@ namespace TableForge.Editor.UI
             this.rowHeaderVisibility = rowHeaderVisibility;
             this.columnHeaderVisibility = columnHeaderVisibility;
         }
+        
+        public TableAttributes() { }
     }
 }

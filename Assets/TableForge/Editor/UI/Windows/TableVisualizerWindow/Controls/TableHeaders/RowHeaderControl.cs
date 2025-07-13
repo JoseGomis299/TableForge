@@ -107,7 +107,7 @@ namespace TableForge.Editor.UI
             RefreshName();
         }
 
-        private void RefreshName()
+        public override void RefreshName()
         {
             _headerLabel.text = NameResolver.ResolveHeaderStyledName(CellAnchor, TableControl.TableAttributes.rowHeaderVisibility);
         }

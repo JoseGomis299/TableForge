@@ -27,6 +27,8 @@ namespace TableForge.Editor.UI
             };
             _selectButton.AddToClassList(TableVisualizerUss.ToolbarTabSelectButton);
             _selectButton.clicked += OnSelectButtonClicked;
+            _selectButton.AddToClassList(TableVisualizerUss.InteractiveButton);
+
             
             _contextMenuButton = new Button
             {
@@ -34,7 +36,8 @@ namespace TableForge.Editor.UI
             };
             _contextMenuButton.AddToClassList(TableVisualizerUss.ToolbarTabContextButton);
             _contextMenuButton.clicked += OnContextMenuButtonClicked;
-            
+            _contextMenuButton.AddToClassList(TableVisualizerUss.InteractiveButton);
+
             Add(_selectButton);
             Add(_contextMenuButton);
             ChangeButtonText(tableMetadata.Name);

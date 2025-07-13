@@ -5,6 +5,8 @@ namespace TableForge.Editor.UI
 {
     internal static class TableControlExtension
     {
+        private const int SubTableMinScrollDiff = 10;
+
         public static CellAnchor GetRowAtPosition(this TableControl tableControl, int position)
         {
             if (!tableControl.Transposed)
@@ -162,7 +164,7 @@ namespace TableForge.Editor.UI
             ScrollView scrollView = tableControl.ScrollView;
             int maxDiff = 0;
             if (tableControl.Parent != null)
-                maxDiff = ToolbarData.SubTableMinScrollDiff;
+                maxDiff = SubTableMinScrollDiff;
             
             int pixelDifference = (int)(scrollViewHeight - scrollView.contentViewport.resolvedStyle.height);
             return pixelDifference > maxDiff;
@@ -210,7 +212,7 @@ namespace TableForge.Editor.UI
             ScrollView scrollView = tableControl.ScrollView;
             int maxDiff = 0;
             if (tableControl.Parent != null)
-                maxDiff = ToolbarData.SubTableMinScrollDiff;
+                maxDiff = SubTableMinScrollDiff;
 
             int pixelDifference = (int)(scrollViewWidth - scrollView.contentViewport.resolvedStyle.width);
             return pixelDifference > maxDiff;

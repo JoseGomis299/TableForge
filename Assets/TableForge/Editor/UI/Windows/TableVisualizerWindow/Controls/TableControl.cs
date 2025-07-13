@@ -374,6 +374,22 @@ namespace TableForge.Editor.UI
         {
             SetTable(TableData, metadata:Metadata, useCachedSize: useCachedSize);
         }
+        
+        /// <summary>
+        ///  Refreshes the names of all column and row headers adjusting to the Table Attributes.
+        /// </summary>
+        public void RefreshHeaderNames()
+        {
+            foreach (var columnHeader in _columnHeaders.Values)
+            {
+                columnHeader.RefreshName();
+            }
+            
+            foreach (var rowHeader in _rowHeaders.Values)
+            {
+                rowHeader.RefreshName();
+            }
+        }
 
         #endregion
 
@@ -388,14 +404,17 @@ namespace TableForge.Editor.UI
                 return;
 
             Transposed = !Transposed;
-            TableAttributes = new TableAttributes
-            {
-                columnHeaderVisibility = TableAttributes.rowHeaderVisibility,
-                rowHeaderVisibility = TableAttributes.columnHeaderVisibility,
-                rowReorderMode = TableAttributes.columnReorderMode,
-                columnReorderMode = TableAttributes.rowReorderMode,
-                tableType = TableAttributes.tableType
-            };
+            
+            //Swap table attributes
+            var columnHeaderVisibility = TableAttributes.columnHeaderVisibility;
+            var rowHeaderVisibility = TableAttributes.rowHeaderVisibility;
+            var columnReorderMode = TableAttributes.columnReorderMode;
+            var rowReorderMode = TableAttributes.rowReorderMode;
+            
+            TableAttributes.columnHeaderVisibility = rowHeaderVisibility;
+            TableAttributes.rowHeaderVisibility = columnHeaderVisibility;
+            TableAttributes.columnReorderMode = rowReorderMode;
+            TableAttributes.rowReorderMode = columnReorderMode;
             
             Metadata.IsTransposed = Transposed;
         }

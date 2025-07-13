@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Debug = UnityEngine.Debug;
 
 namespace TableForge.Editor
 {

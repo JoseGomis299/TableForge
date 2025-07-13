@@ -4,7 +4,7 @@ using UnityEditor;
 using System.Linq;
 using UnityEngine;
 
-namespace TableForge.Editor.UI
+namespace TableForge.Editor.UI.CustomControls
 {
     internal class MultiSelectDropdownPopup : EditorWindow
     {
@@ -18,14 +18,14 @@ namespace TableForge.Editor.UI
         
         public bool IsOpen { get; private set; }
 
-        public static MultiSelectDropdownPopup Show(List<DropdownElement> allItems, List<DropdownElement> currentSelection, MultiSelectDropdown activator, Action<List<DropdownElement>> onClose)
+        public static MultiSelectDropdownPopup Show(List<DropdownElement> allItems, List<DropdownElement> currentSelection, MultiSelectDropdownButton activator, Action<List<DropdownElement>> onClose)
         {
             var window = CreateInstance<MultiSelectDropdownPopup>();
             window._allItems = new List<DropdownElement>(allItems);
             window._selectedItems = new HashSet<int>(currentSelection.Select(item => item.id));
             window._onClose = onClose;
 
-            Rect activatorRect = activator.Button.worldBound;
+            Rect activatorRect = activator.worldBound;
             var screenRect = GUIUtility.GUIToScreenRect(activatorRect);
             float height = Mathf.Min(allItems.Count * ItemHeight, MaxHeight);
             float width = Mathf.Max(activatorRect.width, currentSelection.Max(item => EditorStyles.label.CalcSize(new GUIContent(item.name + "          ")).x)); 

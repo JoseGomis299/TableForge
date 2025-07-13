@@ -42,13 +42,13 @@ namespace TableForge.Editor.UI
             var root = rootVisualElement;
             var mainTable = root.Q<VisualElement>("MainTable");
             
-            var tableAttributes = new TableAttributes()
+            var tableAttributes = new TableAttributes
             {
                 tableType = TableType.Dynamic,
                 columnReorderMode = TableReorderMode.ExplicitReorder,
                 rowReorderMode = TableReorderMode.ExplicitReorder,
-                columnHeaderVisibility = TableHeaderVisibility.ShowHeaderLetterAndName,
-                rowHeaderVisibility = TableHeaderVisibility.ShowHeaderNumberAndName,
+                columnHeaderVisibility = TableSettings.GetSettings().columnHeaderVisibility,
+                rowHeaderVisibility = TableSettings.GetSettings().rowHeaderVisibility,
             };
 
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null, null, this);
@@ -111,7 +111,7 @@ namespace TableForge.Editor.UI
 
         private void Update()
         {
-            if(!ToolbarData.EnablePolling || _lastUpdateTime >= EditorApplication.timeSinceStartup - ToolbarData.RefreshRate)
+            if(!TableSettings.GetSettings().enablePolling || _lastUpdateTime >= EditorApplication.timeSinceStartup - TableSettings.GetSettings().pollingInterval)
                 return;
         
             _lastUpdateTime = EditorApplication.timeSinceStartup;

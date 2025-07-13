@@ -60,5 +60,10 @@ namespace TableForge.Editor.UI
             obj.menu.AppendSeparator();
             SortColumnBuilder(obj);
         }
+        
+        public override void RefreshName()
+        {
+            _headerLabel.text = NameResolver.ResolveHeaderStyledName(CellAnchor, TableControl.TableAttributes.columnHeaderVisibility);
+        }
     }
 }

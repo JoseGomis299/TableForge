@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TableForge.Editor.UI.CustomControls;
 using TableForge.Editor.UI.UssClasses;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -12,18 +13,26 @@ namespace TableForge.Editor.UI
     {
         public event Action<TableMetadata> OnEditionComplete;
         
+        //References
         private readonly VisualElement _toolbar;
         private readonly TableVisualizer _tableVisualizer;
 
+        //UI elements
         private Button _addTabButton;
         private Button _transposeTableButton;
+        private Button _rebuildButton;
         private VisualElement _tabContainer;
-        private MultiSelectDropdown _visibleColumnsDropdown;
-        private Button _visibleFieldsButton;
+        private MultiSelectDropdownButton _visibleColumnsDropdown;
         private ToolbarSearchField _filter;
         private TextField _functionTextField;
         private Label _currentCellLabel;
+        private ToggleButton _columnsLetterToggle;
+        private ToggleButton _rowsNumberToggle;
+        private ToggleButton _removeFormulaOnCellChangeToggle;
+        private ToggleButton _pollingToggle;
+        private FloatField _pollingIntervalField;
         
+        //State
         private TableMetadata _selectedTab;
         private readonly Dictionary<TableMetadata, TabControl> _tabControls = new();
         private readonly Dictionary<TableMetadata, Table> _cachedTables = new();
@@ -137,6 +146,7 @@ namespace TableForge.Editor.UI
         private void Initialize()
         {
             BindVisualElements();
+            RecoverSettingValues();
             RegisterEvents();
             OpenStoredTabs();
             
@@ -155,12 +165,29 @@ namespace TableForge.Editor.UI
         {
             _addTabButton = _toolbar.Q<Button>("add-tab-button");
             _transposeTableButton = _toolbar.Q<Button>("transpose-button");
+            _rebuildButton = _toolbar.Q<Button>("rebuild-button");
             _tabContainer = _toolbar.Q<VisualElement>("tab-container");
             _filter = _toolbar.Q<ToolbarSearchField>("filter");
             _functionTextField = _toolbar.Q<TextField>("function-field");
-            _visibleFieldsButton = _toolbar.Q<Button>("visible-fields-button");
-            _visibleColumnsDropdown = new MultiSelectDropdown(new List<DropdownElement>(), _visibleFieldsButton);
+            _visibleColumnsDropdown = _toolbar.Q<MultiSelectDropdownButton>("visible-fields-button");
             _currentCellLabel = _toolbar.Q<Label>("current-cell-label");
+            _columnsLetterToggle = _toolbar.Q<ToggleButton>("column-letter-toggle");
+            _rowsNumberToggle = _toolbar.Q<ToggleButton>("row-number-toggle");
+            _removeFormulaOnCellChangeToggle = _toolbar.Q<ToggleButton>("remove-formula-on-cell-change-toggle");
+            _pollingToggle = _toolbar.Q<ToggleButton>("polling-toggle");
+            _pollingIntervalField = _toolbar.Q<FloatField>("polling-interval-field");
+        }
+        
+        private void RecoverSettingValues()
+        {
+            TableSettingsData settings = TableSettings.GetSettings();
+            _columnsLetterToggle.SetState(settings.columnHeaderVisibility == TableHeaderVisibility.ShowHeaderLetterAndName);
+            _rowsNumberToggle.SetState(settings.rowHeaderVisibility == TableHeaderVisibility.ShowHeaderNumberAndName);
+            _removeFormulaOnCellChangeToggle.SetState(settings.removeFormulaOnCellValueChange);
+            _pollingToggle.SetState(settings.enablePolling);
+            _pollingIntervalField.SetValueWithoutNotify(settings.pollingInterval);
+            
+            _pollingIntervalField.style.display = settings.enablePolling ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         private void RegisterEvents()
@@ -228,6 +255,58 @@ namespace TableForge.Editor.UI
                 RefreshFunctionTextField();
             });
             
+            _rebuildButton.clicked += () =>
+            {
+                if (_selectedTab == null) return;
+                _tableVisualizer.CurrentTable.RebuildPage();
+            };
+            
+            _columnsLetterToggle.OnValueChanged += (value =>
+            {
+                TableSettings.GetSettings().columnHeaderVisibility = value 
+                    ? TableHeaderVisibility.ShowHeaderLetterAndName
+                    : TableHeaderVisibility.ShowHeaderName;
+                
+                if (_selectedTab == null) return;
+                
+                _tableVisualizer.CurrentTable.TableAttributes.columnHeaderVisibility = TableSettings.GetSettings().columnHeaderVisibility;
+                _tableVisualizer.CurrentTable.RefreshHeaderNames();
+            });
+            
+            _rowsNumberToggle.OnValueChanged += (value =>
+            {
+                TableSettings.GetSettings().rowHeaderVisibility = value 
+                    ? TableHeaderVisibility.ShowHeaderNumberAndName
+                    : TableHeaderVisibility.ShowHeaderName;
+                
+                if (_selectedTab == null) return;
+                
+                _tableVisualizer.CurrentTable.TableAttributes.rowHeaderVisibility = TableSettings.GetSettings().rowHeaderVisibility;
+                _tableVisualizer.CurrentTable.RefreshHeaderNames();
+            });
+            
+            _removeFormulaOnCellChangeToggle.OnValueChanged += (value =>
+            {
+                TableSettings.GetSettings().removeFormulaOnCellValueChange = value;
+            });
+            
+            _pollingToggle.OnValueChanged += (value =>
+            {
+                TableSettings.GetSettings().enablePolling = value;
+                _pollingIntervalField.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
+            });
+            
+            _pollingIntervalField.RegisterValueChangedCallback(evt =>
+            {
+                if(evt.newValue <= TableSettings.MinPollingInterval)
+                {
+                    _pollingIntervalField.SetValueWithoutNotify(TableSettings.MinPollingInterval);
+                    TableSettings.GetSettings().pollingInterval = TableSettings.MinPollingInterval;
+                    return;
+                }
+                
+                TableSettings.GetSettings().pollingInterval = evt.newValue;
+            });
         }
         
         public void RefreshFunctionTextField()

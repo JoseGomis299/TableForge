@@ -16,18 +16,18 @@ namespace TableForge.Editor.UI
         #region Fields
         
         // Visibility and state tracking
-        [SerializeField] private SerializedHashSet<int> expandedTables = new();
-        [SerializeField] private SerializedHashSet<int> transposedTables = new();
-        [SerializeField] private SerializedHashSet<int> hiddenFields = new();
+        [HideInInspector] [SerializeField] private SerializedHashSet<int> expandedTables = new();
+        [HideInInspector] [SerializeField] private SerializedHashSet<int> transposedTables = new();
+        [HideInInspector] [SerializeField] private SerializedHashSet<int> hiddenFields = new();
             
         // Type and binding information
-        [SerializeField] private string itemsTypeName;
-        [SerializeField] private string bindingTypeName;
-        [SerializeField] private SerializedHashSet<string> itemGUIDs = new();
+        [HideInInspector] [SerializeField] private string itemsTypeName;
+        [HideInInspector] [SerializeField] private string bindingTypeName;
+        [HideInInspector] [SerializeField] private SerializedHashSet<string> itemGUIDs = new();
         
         // Layout and function data
-        [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
-        [SerializeField] private SerializedDictionary<int, string> functions = new();
+        [HideInInspector] [SerializeField] private SerializedDictionary<int, CellAnchorMetadata> cellAnchorMetadata = new();
+        [HideInInspector] [SerializeField] private SerializedDictionary<int, string> functions = new();
 
         #endregion
 

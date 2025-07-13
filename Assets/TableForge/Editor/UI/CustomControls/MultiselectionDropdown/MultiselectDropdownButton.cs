@@ -3,30 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UIElements;
 
-namespace TableForge.Editor.UI
+namespace TableForge.Editor.UI.CustomControls
 {
-    internal class MultiSelectDropdown 
+    [UxmlElement]
+    public partial class MultiSelectDropdownButton : Button
     {
-        private readonly Button _button;
-        
         private List<DropdownElement> _selectedItems = new();
         private List<DropdownElement> _allItems = new();
         private MultiSelectDropdownPopup _popupWindow;
         private bool _isBeingClicked;
         
         public Action<List<DropdownElement>> onSelectionChanged;
-        public Button Button => _button;
 
-        public MultiSelectDropdown(List<DropdownElement> items, Button button)
+        public MultiSelectDropdownButton()
         {
-            _allItems = new List<DropdownElement>(items);
-            button.clicked += OpenPopup;
-            _button = button;
+            clicked += OpenPopup;
         }
-
+        
         private void OpenPopup()
         {
-            if(_button == null || _allItems.Count == 0)
+            if(_allItems.Count == 0)
                 return;
 
             if (_popupWindow != null && _popupWindow.IsOpen)

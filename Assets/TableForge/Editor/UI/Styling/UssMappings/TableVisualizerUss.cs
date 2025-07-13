@@ -68,5 +68,6 @@ namespace TableForge.Editor.UI.UssClasses
         public const string Center = "center";
         public const string CursorResizeHorizontal = "cursor__resize--horizontal";
         public const string CursorResizeVertical = "cursor__resize--vertical";
+        public const string InteractiveButton = "interactive-button";
     }
 }

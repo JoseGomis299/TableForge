@@ -90,6 +90,7 @@ namespace TableForge.Editor.UI
             //Noop
         }
 
+        public abstract void RefreshName();
         protected abstract void BuildContextualMenu(ContextualMenuPopulateEvent obj);
 
         protected void ExpandCollapseBuilder(ContextualMenuPopulateEvent obj)
