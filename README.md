@@ -171,19 +171,83 @@ Formulas start with "=" and can contain:
 
 ### Available Functions
 
+TableForge supports a comprehensive set of Excel-like functions. Arguments in square brackets `[]` are optional.
+
 #### Mathematical Functions
-- **SUM(range)**: Sum of values in a range
-- **AVERAGE(range)**: Average of values in a range
-- **COUNT(range)**: Count of non-null values
-- **MAX(range)**: Maximum value in a range
-- **MIN(range)**: Minimum value in a range
+
+**SUM(arg1, [arg2, ...])**
+- **Description**: Sums a series of values or ranges. Only compatible with numeric values.
+- **Example**: `=SUM(A1:A10, B1)` → Sums cells A1 to A10 plus B1.
+
+**AVERAGE(arg1, [arg2, ...])**
+- **Description**: Calculates the average of a series of values or ranges. Only compatible with numeric values.
+- **Example**: `=AVERAGE(A1:A10)` → Averages the values in A1:A10.
+
+**COUNT(arg1, [arg2, ...])**
+- **Description**: Counts the number of cells with non-null values in a range.
+- **Example**: `=COUNT(A1:A10)` → Counts how many cells in A1:A10 have values.
+
+**MAX(arg1, [arg2, ...])**
+- **Description**: Returns the maximum value from a set of values or ranges.
+- **Example**: `=MAX(A1:A10, 100)` → Returns the highest value between A1:A10 and 100.
+
+**MIN(arg1, [arg2, ...])**
+- **Description**: Returns the minimum value from a set of values or ranges.
+- **Example**: `=MIN(A1:A10, 0)` → Returns the lowest value between A1:A10 and 0.
+
+**ABS(value)**
+- **Description**: Returns the absolute value of the given number (without sign).
+- **Example**: `=ABS(-5)` → Returns 5.
+
+**ROUND(value, [decimals])**
+- **Description**: Rounds a number to the specified number of decimal places. If decimals are not specified, assumes 0 decimal places.
+- **Example**: `=ROUND(3.14159, 2)` → Returns 3.14.
 
 #### Arithmetic Functions
-- **MULTIPLY(value1, value2)**: Multiply two numbers
-- **DIVIDE(dividend, divisor)**: Divide two numbers
+
+**DIVIDE(dividend, divisor)**
+- **Description**: Returns the result of dividing one number by another.
+- **Example**: `=DIVIDE(10, 2)` → Returns 5.
+
+**MULTIPLY(value1, value2)**
+- **Description**: Returns the result of multiplying two values.
+- **Example**: `=MULTIPLY(3, 4)` → Returns 12.
+
+**MOD(dividend, divisor)**
+- **Description**: Returns the remainder of dividing one number by another.
+- **Example**: `=MOD(10, 3)` → Returns 1.
 
 #### Conditional Functions
-- **SUMIF(range, criteria, [sum_range])**: Sum values based on condition
+
+**IF(condition, value_if_true, [value_if_false])**
+- **Description**: Evaluates a condition and returns a value based on whether it's true or false. The result value must be compatible with the cell type.
+- **Example**: `=IF(A1 > 10, "Yes", "No")` → Returns "Yes" if A1 is greater than 10.
+
+**SUMIF(range, criteria, [sum_range])**
+- **Description**: Sums cells in a range that meet a specific criteria. Only compatible with numeric values.
+- **Example**: `=SUMIF(A1:A10, ">5", B1:B10)` → Sums values in B1:B10 where A1:A10 is greater than 5.
+
+**COUNTIF(range, criteria)**
+- **Description**: Counts cells that meet a specific criteria.
+- **Example**: `=COUNTIF(A1:A10, "Red")` → Counts cells containing the text "Red".
+
+#### Logical Functions
+
+**AND(condition1, [condition2, ...])**
+- **Description**: Returns TRUE if all conditions are true.
+- **Example**: `=AND(A1 > 0, B1 < 10)` → Returns TRUE if both conditions are met.
+
+**OR(condition1, [condition2, ...])**
+- **Description**: Returns TRUE if any of the conditions is true.
+- **Example**: `=OR(A1 > 0, B1 < 10)` → Returns TRUE if at least one condition is met.
+
+**NOT(condition)**
+- **Description**: Inverts the logical value of the condition.
+- **Example**: `=NOT(A1 = 5)` → Returns TRUE if A1 is not equal to 5.
+
+**XOR(condition1, [condition2, ...])**
+- **Description**: Returns TRUE if one and only one of the conditions is true.
+- **Example**: `=XOR(A1=1, B1=1)` → Returns TRUE if only one of the two conditions is met.
 
 ### Cell References
 
