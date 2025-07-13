@@ -14,6 +14,11 @@ sysinfo.txt
 *.pidb.meta
 *.log
 
+# TableForge data directories (not tracked in git)
+Assets/TableForge/Editor/UI/Cache/Data/
+Assets/TableForge/Editor/UI/Settings/Data/
+Assets/TableForge/Editor/UI/Metadata/Data/
+
 ###
 # VS/MD solution and project files
 ###
@@ -40,5 +45,3 @@ sysinfo.txt
 Icon?
 ehthumbs.db
 Thumbs.db
-
-/Assets/TableForgeDemoFiles
