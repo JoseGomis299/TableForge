@@ -22,7 +22,7 @@ namespace TableForge.Editor.UI
         {
             base.Execute();
             
-            if (tableControl.Parent is DynamicTableControl dynamicTableControl)
+            if (tableControl.Parent is DynamicSubTableCellControl dynamicTableControl)
             {
                 tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
                 dynamicTableControl.OnRowDeleted();
@@ -35,7 +35,7 @@ namespace TableForge.Editor.UI
             var originalMetadata = tableControl.Metadata;
             TableMetadata.Copy(originalMetadata, oldTableMetadata);
 
-            if (tableControl.Parent is DynamicTableControl dynamicTableControl)
+            if (tableControl.Parent is DynamicSubTableCellControl dynamicTableControl)
             {
                 tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
                 dynamicTableControl.OnRowAdded();

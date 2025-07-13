@@ -1,31 +1,35 @@
 namespace TableForge.Editor.UI
 {
-    [CellControlUsage(typeof(ListCell), CellSizeCalculationMethod.AutoSize)]
-    [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.ImplicitReorder, TableHeaderVisibility.ShowHeaderNumberBase0, TableHeaderVisibility.ShowHeaderName)]
-    internal class ListCellControl : DynamicTableControl
+    [CellControlUsage(typeof(DictionaryCell), CellSizeCalculationMethod.AutoSize)] 
+    [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.None, TableHeaderVisibility.ShowEmpty, TableHeaderVisibility.ShowHeaderName)]
+    internal class DictionaryCellCellControl : DynamicSubTableCellControl
     {
-        public ListCellControl(ListCell cell, TableControl tableControl) : base(cell, tableControl, new ListRowAdditionStrategy(), new DefaultRowDeletionStrategy())
+        public DictionaryCellCellControl(DictionaryCell cell, TableControl tableControl) : base(cell, tableControl, new DefaultRowAdditionStrategy(), new DefaultRowDeletionStrategy())
         {
-          
         }
-
+        
         public override void Refresh(Cell cell, TableControl tableControl)
         {
             base.Refresh(cell, tableControl);
             if(SubTableControl?.TableData == null) return;
             ShowDeleteRowButton(SubTableControl?.TableData.Rows.Count > 0);
         }
-
+        
         protected override void BuildSubTable()
         {
-            SubTableControl = new TableControl(parentTableControl.Root, CellStaticData.GetSubTableCellAttributes(GetType()), this, subTableToolbar, parentTableControl.Visualizer);
-            SubTableControl.SetScrollbarsVisibility(false);
+            SubTableControl = new TableControl(
+                parentTableControl.Root,
+                CellStaticData.GetSubTableCellAttributes(GetType()), 
+                this, subTableToolbar, parentTableControl.Visualizer
+            );
+            
             SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+            SubTableControl.SetScrollbarsVisibility(false);
             subTableContentContainer.Add(SubTableControl);
             
             ShowAddRowButton(true);
             ShowDeleteRowButton(SubTableControl.TableData.Rows.Count > 0);
-
+            
             SubTableControl.HorizontalResizer.OnManualResize += _ =>
             {
                 RecalculateSizeWithCurrentValues();

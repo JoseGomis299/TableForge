@@ -28,7 +28,7 @@ namespace TableForge.Editor.UI
             _oldTableMetadata = TableMetadata.Clone(_tableControl.Metadata);
             _addRowAction(_tableControl);
             
-            if (_tableControl.Parent is DynamicTableControl dynamicTableControl)
+            if (_tableControl.Parent is DynamicSubTableCellControl dynamicTableControl)
             {
                 _tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
                 dynamicTableControl.OnRowAdded();
@@ -41,7 +41,7 @@ namespace TableForge.Editor.UI
             var originalMetadata = _tableControl.Metadata;
             TableMetadata.Copy(originalMetadata, _oldTableMetadata);
 
-            if (_tableControl.Parent is DynamicTableControl dynamicTableControl)
+            if (_tableControl.Parent is DynamicSubTableCellControl dynamicTableControl)
             {
                 _tableControl.SetTable(((SubTableCell)_collectionCell).SubTable);
                 dynamicTableControl.OnRowDeleted();

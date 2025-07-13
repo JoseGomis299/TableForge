@@ -1,6 +1,6 @@
 namespace TableForge.Editor.UI
 {
-    internal abstract class DynamicTableControl : ExpandableSubTableCellControl
+    internal abstract class DynamicSubTableCellControl : ExpandableSubTableCellControl
     {
         private readonly IRowAdditionStrategy _rowAdditionStrategy;
         private readonly IRowDeletionStrategy _rowDeletionStrategy;
@@ -8,7 +8,7 @@ namespace TableForge.Editor.UI
         private AddRowControl _addRowButton;
         private DeleteRowControl _deleteRowButton;
         
-        protected DynamicTableControl(SubTableCell cell, TableControl tableControl, IRowAdditionStrategy rowAdditionStrategy, IRowDeletionStrategy rowDeletionStrategy) : base(cell, tableControl)
+        protected DynamicSubTableCellControl(SubTableCell cell, TableControl tableControl, IRowAdditionStrategy rowAdditionStrategy, IRowDeletionStrategy rowDeletionStrategy) : base(cell, tableControl)
         {
             _rowAdditionStrategy = rowAdditionStrategy;
             _rowDeletionStrategy = rowDeletionStrategy;

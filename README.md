@@ -19,7 +19,6 @@ TableForge is a powerful Unity Editor tool designed for managing, visualizing, a
   - [Core Concepts](#core-concepts)
   - [Data Types Support](#data-types-support)
   - [Extending TableForge](#extending-tableforge)
-  - [API Reference](#api-reference)
   - [Contributing](#contributing)
 - [Limitations](#limitations)
 
@@ -50,6 +49,8 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 
 ### Basic Usage
 
+#### Create Your First Table
+
 1. **Open TableVisualizer**: Go to `Window > TableForge > TableVisualizer`
 2. **Add a Table**: Click the "+" button in the toolbar to add a new table
 3. **Select Data Type**: Choose the ScriptableObject type you want to visualize
@@ -57,6 +58,14 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 5. **Create Assets (optional)**: Create new ScriptableObject instances directly from the table creation window
 6. **Rename Assets (optional)**: Rename existing assets during table creation
 7. **View Data**: Your data will be displayed in a spreadsheet format
+
+#### Import and Visualize a Table
+
+1. **Open Import Table Window**: Go to `Window > TableForge > Import Table` in the Unity menu
+2. **Select Data File**: Choose the CSV or JSON file you want to import
+3. **Configure Import Settings**: Map columns, set data types, and adjust import options as needed
+4. **Import Table**: Click the "Import" button to complete the import process
+5. **Access Imported Table**: After import, the new table will appear in the "+" menu in the TableVisualizer window
 
 ## Core Features
 
@@ -443,13 +452,6 @@ TableForge is built with a modular architecture designed for extensibility and m
 - **CellSelector**: Manages cell selection and navigation
 - **ContextMenuBuilder**: Modular system for building context menus
 
-### Key Design Patterns
-
-- **Factory Pattern**: Used for creating different cell types based on data
-- **Strategy Pattern**: Implemented for context menu building and selection strategies
-- **Observer Pattern**: Used for event handling and UI updates
-- **Command Pattern**: Implemented for undo/redo functionality
-
 ## Core Concepts
 
 ### Tables
@@ -462,7 +464,6 @@ Cells are the individual data containers within a table. Each cell can contain:
 - Simple values (strings, numbers, booleans)
 - Complex objects (displayed as sub-tables)
 - Collections (arrays, lists)
-- Formulas (calculated values)
 
 ### Metadata
 
@@ -515,30 +516,26 @@ TableForge supports a wide range of data types:
 
 To create a custom cell type for a specific data type:
 
-1. **Create Cell Control Class**:
+1. **Create the Cell class**:
 ```csharp
-[CellControlUsage(typeof(MyCustomType), CellSizeCalculationMethod.AutoSize)]
-internal class MyCustomCellControl : CellControl
+[CellType(TypeMatchMode, typeof(MyCustomType))]
+internal class MyCustomCellControl : Cell //if represents a single cell
+                                    / PrimitiveBasedCell<PrimitiveType> //if represents a primitive (e.g. int, float...)
+                                    / SubTableCell //if represents a unique object subtable
+                                    / CollectionCell //if represents a collection of values
 {
-    public MyCustomCellControl(Cell cell, TableControl tableControl) 
-        : base(cell, tableControl)
-    {
-        // Initialize your custom UI elements
-    }
-
-    protected override void OnRefresh()
-    {
-        // Update your UI with current cell data
-    }
+    // Implementation
 }
 ```
 
-2. **Add CellTypeAttribute**:
+2. **Create Cell Control Class**:
 ```csharp
-[CellType(typeof(MyCustomType))]
-internal class MyCustomCellControl : CellControl
+[CellControlUsage(typeof(MyCustomCellType), CellSizeCalculationMethod)]
+internal class MyCustomCellControl : SimpleCellControl //if represents a single cell which value is not given by text
+                                   / TextBasedCellControl<Type> //if represents a single cell which value is given by text
+                                   / DynamicSubTableCellControl //if represents a subtable that can have 0 or more rows
 {
-    // Implementation
+    //Implementation
 }
 ```
 
@@ -552,11 +549,7 @@ internal class MyCustomContextMenuBuilder : BaseHeaderContextMenuBuilder
 {
     public override void BuildContextMenu(HeaderControl header, ContextualMenuPopulateEvent evt)
     {
-        // Add your custom menu items
-        evt.menu.AppendAction("My Custom Action", _ => 
-        {
-            // Handle action
-        });
+        //Implementation
     }
 }
 ```
@@ -575,80 +568,11 @@ To add new formula functions:
 
 1. **Create Function Class**:
 ```csharp
-internal class MyCustomFunction : IFunction
+internal class MyCustomFunction : ExcelFunctionBase
 {
-    public string Name => "MYFUNCTION";
-    public object Execute(object[] parameters)
-    {
-        // Implementation
-        return result;
-    }
+
 }
 ```
-
-2. **Register in FunctionRegistry**:
-```csharp
-FunctionRegistry.Register(new MyCustomFunction());
-```
-
-## API Reference
-
-### Key Interfaces
-
-#### IHeaderContextMenuBuilder
-```csharp
-public interface IHeaderContextMenuBuilder
-{
-    void BuildContextMenu(HeaderControl header, ContextualMenuPopulateEvent evt);
-}
-```
-
-#### ICellSelector
-```csharp
-public interface ICellSelector
-{
-    event Action OnSelectionChanged;
-    event Action OnFocusedCellChanged;
-    bool IsCellSelected(Cell cell);
-    bool IsAnchorSelected(CellAnchor anchor);
-    void SetSelection(List<Cell> cells, bool setFocused = true);
-}
-```
-
-#### IFunction
-```csharp
-public interface IFunction
-{
-    string Name { get; }
-    object Execute(object[] parameters);
-}
-```
-
-### Key Classes
-
-#### TableControl
-Main control class for managing table visualization and interaction.
-
-**Key Methods**:
-- `SetTable(Table table, TableMetadata metadata)`: Sets the table data
-- `RebuildPage(bool useCachedSize)`: Rebuilds the entire table
-- `SortColumn(Column column, bool ascending)`: Sorts a column
-- `Transpose()`: Transposes the table
-
-#### HeaderControl
-Base class for all header controls with selection and context menu support.
-
-**Key Properties**:
-- `CellAnchor`: The associated cell anchor
-- `TableControl`: The parent table control
-- `IsSelected`: Whether the header is selected
-
-#### CellControl
-Abstract base class for all cell controls.
-
-**Key Methods**:
-- `Refresh()`: Refreshes the cell display
-- `SetCellValue(object value)`: Sets the cell value with undo support
 
 ## Contributing
 
@@ -687,7 +611,7 @@ Abstract base class for all cell controls.
 ### Current Limitations
 
 - **Dictionary Values**: Adding values to dictionaries is not supported yet
-- **Real-time Updates**: Some external changes performed by scripts may require manual refresh
+- **Real-time Updates**: Activating Table polling can introduce performance issues
 
 ### Performance Considerations
 
