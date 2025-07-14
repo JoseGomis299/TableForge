@@ -98,7 +98,6 @@ namespace TableForge.Editor
         public void PrepareImportItems()
         {
             ImportItems.Clear();
-            int itemCount = _deserializationArgs.ColumnData.Where(c => c.Count != 0).Select(c => c.Count).Max();
             
             List<string> guids = new(), paths = new();
             if(_columnMappingIndices[0] != -1)
@@ -107,7 +106,7 @@ namespace TableForge.Editor
                 paths = _deserializationArgs.ColumnData[_columnMappingIndices[1]];
 
             List<string> createdPaths = new List<string>();
-            for (int i = 0; i < itemCount; i++)
+            for (int i = 0; i < _deserializationArgs.RowCount; i++)
             {
                 string guid = i < guids.Count ? guids[i] : string.Empty;
                 ImportItems.Add(new ImportItem { Guid = guid });
@@ -236,6 +235,29 @@ namespace TableForge.Editor
                     }
                 }
             }
+        }
+
+        public string GetDataPreview()
+        {
+            if (string.IsNullOrEmpty(Data) || _deserializationArgs == null)
+            {
+                return "No data to preview.";
+            }
+
+            string value = "";
+            foreach (var column in _deserializationArgs.ColumnNames)
+            {
+                if (string.IsNullOrEmpty(column)) continue;
+                value += $"{column}, ";
+            }
+            
+            // Remove trailing comma and space
+            if(value.Length > 2)
+                value = value.Substring(0, value.Length - 2);
+            
+            return $"Fields found in text: {value}\n" +
+                   $"Total rows: {_deserializationArgs.RowCount}\n" +
+                   $"Total columns: {_deserializationArgs.ColumnNames.Count}";
         }
     }
 }

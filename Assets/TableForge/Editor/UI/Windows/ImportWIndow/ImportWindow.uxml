@@ -18,7 +18,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="column-mapping-container" display="none" class="step-container">
             <ui:Label text="Map Columns to Fields" class="step-title" />
-            <ui:TextField name="data-preview-text-field" multiline="true" vertical-scroller-visibility="Auto" enabled="true" style="height: 150px;" />
+            <ui:TextField name="data-preview-text-field" multiline="true" vertical-scroller-visibility="Auto" enabled="true" />
             <ui:VisualElement name="column-mapping-list-container">
                 <ui:ListView class="list-container" />
             </ui:VisualElement>

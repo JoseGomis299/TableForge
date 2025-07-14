@@ -224,10 +224,10 @@ namespace TableForge.Editor
                 _viewModel.NewElementsBasePath = _basePathField.value;
                 _viewModel.NewElementsBaseName = _baseNameField.value;
                 
-                _dataPreviewTextField.value = _viewModel.Data;  //Set preview for the next step
-                
                 _viewModel.ItemsType = TypeRegistry.TypesByNamespaceAndName[_namespaceDropdown.value][_typeDropdown.value];
                 _viewModel.ProcessData();
+                _dataPreviewTextField.value = _viewModel.GetDataPreview();
+
                 ShowMapping();
             }
             catch (Exception e)

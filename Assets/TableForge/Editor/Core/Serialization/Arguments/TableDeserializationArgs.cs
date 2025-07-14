@@ -7,6 +7,7 @@ namespace TableForge.Editor.Serialization
     {
         private List<List<string>> _columnData;
         private List<string> _columnNames;
+        private int _rowCount;
         
         public string Data { get; }
         public string TableName { get; }
@@ -15,6 +16,27 @@ namespace TableForge.Editor.Serialization
         public string NewElementsBaseName { get; }
         public SerializationFormat Format { get; }
         
+        public int RowCount 
+        {
+            get
+            {
+                if(_rowCount > 0)
+                    return _rowCount;
+                
+                int count = 0;
+                foreach (var column in ColumnData)
+                {
+                    if (column != null)
+                        count = column.Count;
+                    
+                    if (count > 0)
+                        break;
+                }
+
+                _rowCount = count;
+                return _rowCount;
+            }
+        }
         
         public List<List<string>> ColumnData 
         {
