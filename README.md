@@ -276,7 +276,7 @@ Supported operators:
 - **Multiplication**: `*`
 - **Division**: `/`
 - **Exponentiation**: `^`
-- **Modulo**: `%`
+- **Percentage**: `%` (Divides a number by 100 when written at the end of it)
 
 ### Logical Operations
 
