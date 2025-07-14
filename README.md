@@ -451,14 +451,14 @@ Access properties in sub-tables using dot notation:
 
 Available comparison operators for property filtering:
 
-- **Equality**: `=` or `==` (equal)
-- **Inequality**: `!=` or `<>` (not equal)
-- **Greater Than**: `>` (greater than)
-- **Less Than**: `<` (less than)
-- **Greater or Equal**: `>=` (greater than or equal)
-- **Less or Equal**: `<=` (less than or equal)
-- **Contains**: `~=` or `=~` (contains text)
-- **Not Contains**: `!~` or `~!` (does not contain text)
+- **Equality**: `=` or `==` 
+- **Inequality**: `!=` or `<>` 
+- **Greater Than**: `>` 
+- **Less Than**: `<` 
+- **Greater or Equal**: `>=` 
+- **Less or Equal**: `<=` 
+- **Contains**: `~=` or `=~` 
+- **Not Contains**: `!~` or `~!` 
 
 #### List Values
 
@@ -466,7 +466,7 @@ Filter by list values using bracket notation:
 
 - **Exact Match**: `p:MyList=[1,2,3]` - List must exactly match
 - **Contains**: `p:MyList~=[1,2]` - List contains specified items
-- **Not Contains**: `p:MyList!~=[1,2]` - List does not contain items
+- **Not Contains**: `p:MyList!~[1,2]` - List does not contain items
 - **Length Comparison**: `p:MyList>2` - List has more than 2 items
 
 #### Boolean Logic
