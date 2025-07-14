@@ -276,7 +276,7 @@ Supported operators:
 - **Multiplication**: `*`
 - **Division**: `/`
 - **Exponentiation**: `^`
-- **Modulo**: `%`
+- **Percentage**: `%` (Divides a number by 100 when written at the end of it)
 
 ### Logical Operations
 
@@ -370,7 +370,7 @@ You can use exported JSON files as templates for import.
 #### Export Options
 - **Include GUIDs**: Export Unity asset GUIDs for asset identification
 - **Include Paths**: Export Unity asset file paths for external reference
-- **Flatten Sub-tables**: Convert nested objects and collections to flat structure (only in CSV files)
+- **Flatten Sub-tables**: Convert nested objects to flat structure (only in CSV files) (take into account that when importing a CSV file it is expected to NOT be flattened)
 
 ## Advanced Features
 
@@ -379,7 +379,6 @@ You can use exported JSON files as templates for import.
 Complex objects and collections are displayed as expandable sub-tables:
 - **Expand/Collapse**: Click the arrow icon to expand or collapse sub-tables
 - **Direct Editing**: Edit nested data directly within sub-tables
-- **Independent Transposition**: Transpose sub-tables independently from the main table
 - **Cross-table Formulas**: Reference cells across different sub-tables using dot notation (e.g., A1.B2)
 
 ### Type Binding
@@ -399,7 +398,6 @@ Swap rows and columns for different data perspectives:
 
 Comprehensive column control features:
 - **Visibility Toggle**: Show or hide specific columns using the column visibility dropdown
-- **Drag Reordering**: Reorder columns by dragging headers
 - **Size Control**: Manual resizing or automatic sizing based on content
 - **Sorting**: Sort data by clicking column headers (ascending/descending)
 
@@ -508,11 +506,6 @@ Comprehensive undo/redo functionality:
 
 ### Common Issues
 
-#### Table Not Loading
-- **Check Asset Types**: Ensure ScriptableObjects are properly serialized with `[System.Serializable]` attributes
-- **Verify Namespace**: Check that the correct namespace is selected in the table creation window
-- **Asset References**: Ensure assets are not missing, corrupted, or have broken references
-
 #### Formula Errors
 - **Syntax Check**: Verify formula syntax, parentheses matching, and cell references
 - **Type Compatibility**: Ensure data types are compatible with the functions being used
@@ -520,12 +513,12 @@ Comprehensive undo/redo functionality:
 
 #### Import/Export Issues
 - **Data Format**: Verify CSV/JSON format is correct and matches the expected structure
-- **Column Mapping**: Ensure all required ScriptableObject fields are properly mapped
 - **File Permissions**: Check file read/write permissions for import/export operations
 
 #### Performance Issues
 - **Table Size**: Consider breaking very large tables (>10,000 cells) into smaller, more manageable tables
 - **Formula Complexity**: Simplify complex nested formulas with many cell references
+- **Data polling**: Activating data polling can introduce performance issues
 
 ### Getting Help
 
@@ -712,19 +705,11 @@ internal class MyCustomFunction : ExcelFunctionBase
 ### Current Limitations
 
 - **Dictionary Values**: Adding values to dictionaries is not supported yet
-- **Real-time Updates**: Activating Table polling can introduce performance issues
-
-### Performance Considerations
-
-- **Large Tables**: Very large tables (>10,000 cells) or with a big number of subtables may impact performance
-- **Complex Formulas**: Nested formulas with many references may be slow
-- **Memory Usage**: Large datasets consume significant memory
 
 ### Type Restrictions
 
-- **Non-serializable Types**: Types not marked as `[System.Serializable]` are not supported
-- **Circular References**: Objects with circular references may cause issues
-- **Custom Serialization**: Custom serialization logic is not supported
+- **Non-serializable Types**: Custom types not marked as `[System.Serializable]` are not supported
+- **Circular References**: Objects with circular references will not be serialized
 
 ---
 
