@@ -17,7 +17,7 @@ TableForge is a powerful Unity Editor tool designed for managing, visualizing, a
 - [For Developers](#for-developers)
   - [Architecture Overview](#architecture-overview)
   - [Core Concepts](#core-concepts)
-  - [Data Types Support](#data-types-support)
+  - [Field Serialization in TableForge](#field-serialization-in-tableforge)
   - [Extending TableForge](#extending-tableforge)
   - [Contributing](#contributing)
 - [Limitations](#limitations)
@@ -33,8 +33,6 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 - **Data Import/Export**: Import data from CSV/JSON files and export tables to various formats
 - **Intelligent Copy/Paste**: Copy and paste values between TableForge and other programs like Excel easily
 - **Advanced Filtering**: Filter and search through table data efficiently
-- **Undo/Redo Support**: Full undo/redo functionality for all operations
-- **Type Safety**: Automatic type detection and validation for all data types
 
 ---
 
@@ -61,13 +59,8 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 
 #### Import and Visualize a Table
 
-1. **Open Import Table Window**: Go to `Window > TableForge > Import Table` in the Unity menu
-2. **Select Data File**: Choose the CSV or JSON file you want to import
-3. **Configure Import Settings**: Map columns, set data types, and adjust import options as needed
-4. **Import Table**: Click the "Import" button to complete the import process
-5. **Access Imported Table**: After import, the new table will appear in the "+" menu in the TableVisualizer window
-
-More info about this [here](#importexport)
+1. **Follow The Importing Guide Steps**: [here](#importing-data)
+2. **Access Imported Table**: After importing, the new table will appear in the "+" menu in the TableVisualizer window
 
 ## Core Features
 
@@ -575,34 +568,42 @@ Cell anchors represent the structural elements of a table:
 - **Rows**: Horizontal data containers
 - Each anchor has a position, name, and unique ID
 
-## Data Types Support
+## Field Serialization in TableForge
 
-TableForge supports a wide range of data types:
+TableForge serializes fields using the same rules as Unity:
 
-### Primitive Types
-- **Integers**: `int`, `long`, `ulong`, `short`, `ushort`, `byte`, `sbyte`, `uint`
-- **Floating Point**: `float`, `double`
-- **Text**: `string`, `char`
-- **Boolean**: `bool`
-- **Enum**: Any enum type
+- **Public fields** are serialized by default.
+- **Private fields** marked with `[SerializeField]` are serialized.
+- **Properties** with `[field: SerializeField]` are serialized.
+- **Unity Types** (e.g., `Vector3`, `Color`, `AnimationCurve`, etc.) and any type Unity can serialize are supported.
+- **Custom Classes/Structs** must be marked `[System.Serializable]` to be serialized.
+- **Collections** (arrays, lists, dictionaries) are supported if Unity can serialize them.
+- **If Unity can serialize it, TableForge can as well.**
 
-### Unity Types
-- **All types serialized by Unity**
+### Excluding Fields: `[TableForgeIgnore]` Attribute
 
-### Collections
-- **Arrays**: Any type array
-- **Lists**: `List<T>`
-- **Dictionaries**: `SerializedDictionary<K,V>`
+You can prevent TableForge from serializing a field (even if Unity would) by adding the `[TableForgeIgnore]` attribute:
 
-### Complex Types
-- **Custom Classes**: Any serializable class
-- **ScriptableObjects**: Any ScriptableObject type
-- **Unity Objects**: Any UnityEngine.Object
+```csharp
+using TableForge.Attributes;
 
-### Special Handling
-- **Nested Objects**: Displayed as expandable sub-tables
-- **Collections**: Displayed as sub-tables with individual items
-- **Null Values**: Handled gracefully with appropriate display
+public class ExampleClass : ScriptableObject
+{
+    public int IncludedField;
+    [TableForgeIgnore]
+    public string IgnoredField;
+}
+```
+
+In this example, `IncludedField` will be serialized and shown in TableForge, but `IgnoredField` will not.
+
+### Type Restrictions
+
+- **Non-serializable Types**: Custom types not marked as `[System.Serializable]` are not supported.
+- **Circular References**: Objects with circular references will not be serialized.
+- **Unity Serialization Limitations**: If Unity cannot serialize a field, neither can TableForge.
+
+For more details, see [Unity's serialization documentation](https://docs.unity3d.com/Manual/script-Serialization.html).
 
 ## Extending TableForge
 
@@ -708,8 +709,7 @@ internal class MyCustomFunction : ExcelFunctionBase
 
 ### Type Restrictions
 
-- **Non-serializable Types**: Custom types not marked as `[System.Serializable]` are not supported
-- **Circular References**: Objects with circular references will not be serialized
+See [Field Serialization in TableForge](#field-serialization-in-tableforge) for details on what types are supported and how serialization works.
 
 ---
 
