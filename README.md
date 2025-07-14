@@ -67,6 +67,8 @@ TableForge transforms Unity's ScriptableObject data into interactive, spreadshee
 4. **Import Table**: Click the "Import" button to complete the import process
 5. **Access Imported Table**: After import, the new table will appear in the "+" menu in the TableVisualizer window
 
+More info about this [here](#importexport)
+
 ## Core Features
 
 ### Table Management
@@ -303,6 +305,45 @@ Supported comparisons:
 2. Provide JSON data in the text field or import it from a file using the "Import from File" button
 3. Map fields to ScriptableObject properties
 4. Review and finalize import
+
+**Expected JSON Format**
+
+The expected JSON format for importing is the same as when exporting to JSON. The structure is as follows:
+
+```json
+{
+  "name": "TableName",
+  "items": [
+    {
+      "guid": "optional-guid-string",         // Optional: Only if GUIDs are included
+      "path": "optional/asset/path.asset",    // Optional: Only if paths are included
+      "properties": {
+        "FieldA": "ValueA",
+        "FieldB": 123,
+        "FieldC": true,
+        "NestedObject": {
+          "SubField1": "SubValue1"
+        },
+        "ListField": [1, 2, 3]
+      }
+    },
+    {
+      "properties": {
+        "FieldA": "AnotherValue",
+        "FieldB": 456,
+        "FieldC": false
+      }
+    }
+  ]
+}
+```
+
+- The root object contains a `name` (table name) and an `items` array.
+- Each item represents a row and contains a `properties` object with key-value pairs for each field.
+- `guid` and `path` are optional and only present if included during export.
+- Nested objects and lists are supported in the `properties` section.
+
+You can use exported JSON files as templates for import.
 
 #### Import Options
 - **Table Name**: Name for the new table
