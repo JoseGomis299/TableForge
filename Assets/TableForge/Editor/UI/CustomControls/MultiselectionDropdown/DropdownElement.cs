@@ -1,6 +1,6 @@
 namespace TableForge.Editor.UI.CustomControls
 {
-    public class DropdownElement
+    internal class DropdownElement
     {
         public int id;
         public string name;

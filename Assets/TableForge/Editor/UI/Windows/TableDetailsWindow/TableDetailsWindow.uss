@@ -17,3 +17,54 @@
     font-size: 12px;
     -unity-text-align: middle-center;
 }
+
+/* AssetTreeView Styles */
+.asset-tree {
+    min-height: 200px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: #444;
+    padding: 4px;
+}
+
+.tree-item-container {
+    flex-direction: row;
+    align-items: center;
+    min-height: 20px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.item-toggle {
+    width: 20px;
+    margin-bottom: 1px;
+    align-self: center;
+}
+
+.item-label {
+    flex-grow: 1;
+    margin-left: 20px;
+    font-size: 13px;
+}
+.item-label--folder {
+    margin-left: 0;
+}
+
+.item-textfield {
+    flex-grow: 1;
+    display: none;
+    font-size: 13px;
+}
+
+.item-count {
+    width: 60px;
+    display: none;
+    margin-left: 4px;
+}
+
+
+.add-button {
+    width: 20px;
+    display: none;
+    margin-left: 4px;
+}

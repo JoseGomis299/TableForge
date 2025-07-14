@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 
 namespace TableForge.Editor.UI
 {
@@ -44,7 +45,7 @@ namespace TableForge.Editor.UI
             string newPath = $"{baseFolder}{baseName}{extension}";
             int counter = 0;
 
-            while (AssetDatabase.AssetPathExists(newPath) || (invalidPaths != null && invalidPaths.Contains(newPath)))
+            while (AssetPathExists(newPath) || (invalidPaths != null && invalidPaths.Contains(newPath)))
             {
                 if (counter == 0)
                 {
@@ -71,6 +72,15 @@ namespace TableForge.Editor.UI
                 return false;
 
             return true;
+        }
+        
+        public static bool AssetPathExists(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return false;
+
+            var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
+            return obj != null;
         }
     }
 }

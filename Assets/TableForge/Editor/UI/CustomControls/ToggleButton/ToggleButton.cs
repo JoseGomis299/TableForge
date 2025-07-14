@@ -3,8 +3,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI.CustomControls
 {
-    [UxmlElement]
-    public partial class ToggleButton : Button
+    internal class ToggleButton : ButtonBehaviorOverrider
     {
         public event Action<bool> OnValueChanged;
         public bool IsOn { get; private set; } = false;
@@ -12,24 +11,14 @@ namespace TableForge.Editor.UI.CustomControls
         private const float OnOpacity = 1f;
         private const float OffOpacity = 0.35f;
 
-        public ToggleButton() : base()
-        {
-            Init();
-        }
-
-        public ToggleButton(System.Action clickEvent) : base(clickEvent)
-        {
-            Init();
-        }
-
-        private void Init()
+        public ToggleButton(Button button) : base(button)
         {
             UpdateOpacity();
+        }
 
-            clicked += () =>
-            {
-                SetState(!IsOn);
-            };
+        protected override void OnButtonClicked()
+        {
+            SetState(!IsOn);
         }
 
         public void SetState(bool state)
@@ -45,7 +34,7 @@ namespace TableForge.Editor.UI.CustomControls
 
         private void UpdateOpacity()
         {
-            style.opacity = IsOn ? OnOpacity : OffOpacity;
+            Button.style.opacity = IsOn ? OnOpacity : OffOpacity;
         }
     }
 

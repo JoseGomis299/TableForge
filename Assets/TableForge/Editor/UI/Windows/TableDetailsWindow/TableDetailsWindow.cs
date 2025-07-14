@@ -125,6 +125,7 @@ namespace TableForge.Editor.UI
         private void OnTreeViewSelectionChanged(TreeItem item, bool selected)
         {
             viewModel.OnItemSelected(item, selected);
+            UpdateState();
         }
 
         private void OnNameChanged(ChangeEvent<string> evt)

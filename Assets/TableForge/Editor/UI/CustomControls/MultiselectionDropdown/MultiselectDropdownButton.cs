@@ -5,8 +5,7 @@ using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI.CustomControls
 {
-    [UxmlElement]
-    public partial class MultiSelectDropdownButton : Button
+    internal class MultiSelectDropdownButton : ButtonBehaviorOverrider
     {
         private List<DropdownElement> _selectedItems = new();
         private List<DropdownElement> _allItems = new();
@@ -15,12 +14,11 @@ namespace TableForge.Editor.UI.CustomControls
         
         public Action<List<DropdownElement>> onSelectionChanged;
 
-        public MultiSelectDropdownButton()
+        public MultiSelectDropdownButton(Button button) : base(button)
         {
-            clicked += OpenPopup;
         }
         
-        private void OpenPopup()
+        protected override void OnButtonClicked()
         {
             if(_allItems.Count == 0)
                 return;

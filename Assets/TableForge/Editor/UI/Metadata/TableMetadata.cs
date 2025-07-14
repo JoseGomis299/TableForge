@@ -461,7 +461,7 @@ namespace TableForge.Editor.UI
             foreach (var guid in itemGUIDs)
             {
                 if (string.IsNullOrEmpty(guid) || string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid))
-                    || !AssetDatabase.AssetPathExists(AssetDatabase.GUIDToAssetPath(guid)))
+                    || !PathUtil.AssetPathExists(AssetDatabase.GUIDToAssetPath(guid)))
                 {
                     itemGUIDsToRemove.Add(guid);
                 }

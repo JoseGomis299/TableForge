@@ -10,7 +10,7 @@ namespace TableForge.Editor.UI
         public string name;
         public Object asset;
         public TreeItem parent;
-        public List<TreeItem> children = new();
+        public readonly List<TreeItem> children = new();
         public bool isSelected;
         public bool isFolder;
         public bool isPartiallySelected;

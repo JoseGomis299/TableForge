@@ -26,11 +26,13 @@ namespace TableForge.Editor.UI
         private ToolbarSearchField _filter;
         private TextField _functionTextField;
         private Label _currentCellLabel;
+        private FloatField _pollingIntervalField;
+
+        //ButtonOverriders
         private ToggleButton _columnsLetterToggle;
         private ToggleButton _rowsNumberToggle;
         private ToggleButton _removeFormulaOnCellChangeToggle;
         private ToggleButton _pollingToggle;
-        private FloatField _pollingIntervalField;
         
         //State
         private TableMetadata _selectedTab;
@@ -169,12 +171,12 @@ namespace TableForge.Editor.UI
             _tabContainer = _toolbar.Q<VisualElement>("tab-container");
             _filter = _toolbar.Q<ToolbarSearchField>("filter");
             _functionTextField = _toolbar.Q<TextField>("function-field");
-            _visibleColumnsDropdown = _toolbar.Q<MultiSelectDropdownButton>("visible-fields-button");
+            _visibleColumnsDropdown = new MultiSelectDropdownButton(_toolbar.Q<Button>("visible-fields-button"));
             _currentCellLabel = _toolbar.Q<Label>("current-cell-label");
-            _columnsLetterToggle = _toolbar.Q<ToggleButton>("column-letter-toggle");
-            _rowsNumberToggle = _toolbar.Q<ToggleButton>("row-number-toggle");
-            _removeFormulaOnCellChangeToggle = _toolbar.Q<ToggleButton>("remove-formula-on-cell-change-toggle");
-            _pollingToggle = _toolbar.Q<ToggleButton>("polling-toggle");
+            _columnsLetterToggle = new ToggleButton(_toolbar.Q<Button>("column-letter-toggle"));
+            _rowsNumberToggle = new ToggleButton(_toolbar.Q<Button>("row-number-toggle"));
+            _removeFormulaOnCellChangeToggle = new ToggleButton(_toolbar.Q<Button>("remove-formula-on-cell-change-toggle"));
+            _pollingToggle = new ToggleButton(_toolbar.Q<Button>("polling-toggle"));
             _pollingIntervalField = _toolbar.Q<FloatField>("polling-interval-field");
         }
         

@@ -25,7 +25,7 @@ namespace TableForge.Editor.UI.CustomControls
             window._selectedItems = new HashSet<int>(currentSelection.Select(item => item.id));
             window._onClose = onClose;
 
-            Rect activatorRect = activator.worldBound;
+            Rect activatorRect = activator.Button.worldBound;
             var screenRect = GUIUtility.GUIToScreenRect(activatorRect);
             float height = Mathf.Min(allItems.Count * ItemHeight, MaxHeight);
             float width = Mathf.Max(activatorRect.width, currentSelection.Max(item => EditorStyles.label.CalcSize(new GUIContent(item.name + "          ")).x)); 

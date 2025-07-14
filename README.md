@@ -713,4 +713,4 @@ See [Field Serialization in TableForge](#field-serialization-in-tableforge) for 
 
 ---
 
-**Note**: TableForge is designed for Unity Editor use and requires Unity 2021.3 or later. The tool is optimized for managing ScriptableObject data and may not be suitable for runtime data management.
+**Note**: TableForge is designed for Unity Editor use and requires Unity 2022.3 or later. The tool is optimized for managing ScriptableObject data and may not be suitable for runtime data management.

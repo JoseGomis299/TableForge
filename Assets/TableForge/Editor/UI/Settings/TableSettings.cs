@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,6 +23,9 @@ namespace TableForge.Editor.UI
             _settingsData = AssetDatabase.LoadAssetAtPath<TableSettingsData>(SettingsPath);
             if (_settingsData == null)
             {
+                if (!Directory.Exists(SettingsPath))
+                    Directory.CreateDirectory(SettingsPath);
+                
                 _settingsData = ScriptableObject.CreateInstance<TableSettingsData>();
                 AssetDatabase.CreateAsset(_settingsData, SettingsPath);
                 AssetDatabase.SaveAssets();

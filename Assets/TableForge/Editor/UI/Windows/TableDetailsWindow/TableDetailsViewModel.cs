@@ -212,6 +212,7 @@ namespace TableForge.Editor.UI
         {
             selectedNamespace = evt.newValue;
             PopulateTypeDropdown(typeDropdown);
+            RefreshTree();
         }
         
         public void CreateNewAssetsInFolder(TreeItem itemData, uint count)

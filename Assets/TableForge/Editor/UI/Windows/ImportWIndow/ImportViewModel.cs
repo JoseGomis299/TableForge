@@ -114,7 +114,7 @@ namespace TableForge.Editor
                 if (guid != string.Empty)
                 {
                     string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                    if (!string.IsNullOrEmpty(assetPath) && AssetDatabase.AssetPathExists(assetPath))
+                    if (!string.IsNullOrEmpty(assetPath) && PathUtil.AssetPathExists(assetPath))
                     {
                         ImportItems[i].Path = assetPath;
                         ImportItems[i].OriginalPath = assetPath;
@@ -140,7 +140,7 @@ namespace TableForge.Editor
                 ImportItems[i].Path = path;
                 ImportItems[i].OriginalPath = path;
 
-                if (AssetDatabase.AssetPathExists(path))
+                if (PathUtil.AssetPathExists(path))
                 {
                     ImportItems[i].ExistingAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
                     ImportItems[i].Guid = AssetDatabase.AssetPathToGUID(path);

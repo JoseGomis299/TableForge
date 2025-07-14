@@ -61,6 +61,9 @@ namespace TableForge.Editor.UI
         private static void StoreMetadata(string tableName, string path, TableMetadata metadata)
         {
             string assetPath = Path.Combine(path, tableName + ".asset");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            
             AssetDatabase.CreateAsset(metadata, assetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

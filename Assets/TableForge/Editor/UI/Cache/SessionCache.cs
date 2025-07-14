@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -18,6 +19,9 @@ namespace TableForge.Editor.UI
             _sessionCacheData = AssetDatabase.LoadAssetAtPath<SessionCacheData>(CachePath);
             if (_sessionCacheData == null)
             {
+                if (!Directory.Exists(CachePath))
+                    Directory.CreateDirectory(CachePath);
+                
                 _sessionCacheData = ScriptableObject.CreateInstance<SessionCacheData>();
                 AssetDatabase.CreateAsset(_sessionCacheData, CachePath);
                 AssetDatabase.SaveAssets();

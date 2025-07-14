@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using TableForge.Editor.UI.UssClasses;
 
 namespace TableForge.Editor.UI
 {
@@ -37,38 +38,48 @@ namespace TableForge.Editor.UI
             _detailsViewModel = detailsViewModel;
             _treeView = new TreeView
             {
-                name = "asset-tree",
+                name = TableDetailsUss.AssetTree,
                 selectionType = SelectionType.Multiple,
-                fixedItemHeight = 20
+                fixedItemHeight = 20,
+                reorderable = false,
             };
-            
+            _treeView.AddToClassList(TableDetailsUss.AssetTree);
+            _treeView.canStartDrag += _ => false;
             _treeView.makeItem = MakeTreeItem;
             _treeView.bindItem = BindTreeItem;
             _treeView.unbindItem = UnbindTreeItem;
             _treeView.viewDataKey = "asset-tree-view";
-
             Add(_treeView);
         }
 
         private VisualElement MakeTreeItem()
         {
-            var container = new VisualElement { style = { flexDirection = FlexDirection.Row, alignItems = Align.Center} };
-            container.Add(new Toggle { name = "item-toggle", style = { width = 20, marginBottom = 1, height = container.style.height} });
+            var container = new VisualElement();
+            container.AddToClassList(TableDetailsUss.TreeItemContainer);
+            container.pickingMode = PickingMode.Ignore;
+            
+            var toggle = new Toggle { name = TableDetailsUss.ItemToggle };
+            toggle.AddToClassList(TableDetailsUss.ItemToggle);
+            container.Add(toggle);
 
-            var label = new Label { name = "item-label", style = { flexGrow = 1,  } };
-            var textField = new TextField { name = "item-textfield", style = { flexGrow = 1, display = DisplayStyle.None } };
-
+            var label = new Label { name = TableDetailsUss.ItemLabel };
+            label.AddToClassList(TableDetailsUss.ItemLabel);
             container.Add(label);
+
+            var textField = new TextField { name = TableDetailsUss.ItemTextField };
+            textField.AddToClassList(TableDetailsUss.ItemTextField);
             container.Add(textField);
 
-            var itemCount = new UnsignedIntegerField { name = "item-count", label = "count", maxLength = 2, value = 1, style = { width = 60, display = DisplayStyle.None } };
+            var itemCount = new UnsignedIntegerField { name = TableDetailsUss.ItemCount, label = "count", maxLength = 2, value = 1 };
+            itemCount.AddToClassList(TableDetailsUss.ItemCount);
             var itemCountLabel = itemCount.Q<Label>();
-            itemCountLabel.style.minWidth = 0;
-
-            var addButton = new Button { name = "add-button", text = "+", style = { width = 20, display = DisplayStyle.None } };
+            if (itemCountLabel != null) itemCountLabel.style.minWidth = 0;
             container.Add(itemCount);
+
+            var addButton = new Button { name = TableDetailsUss.AddButton, text = "+" };
+            addButton.AddToClassList(TableDetailsUss.AddButton);
             container.Add(addButton);
-            
+
             container.AddManipulator(new ContextualMenuManipulator(context =>
             {
                 var itemData = container.userData as TreeItem;
@@ -81,14 +92,12 @@ namespace TableForge.Editor.UI
                         textField.style.display = DisplayStyle.Flex;
                         textField.Focus();
                     });
-                    
                     context.menu.AppendAction("Delete", (_) =>
                     {
                         _detailsViewModel.DeleteAsset(itemData.asset);
                     });
                 }
             }));
-            
             return container;
         }
 
@@ -99,30 +108,30 @@ namespace TableForge.Editor.UI
             itemData.element = element;
             itemData.element.parent.style.alignSelf = Align.Center;
     
-            var toggle = element.Q<Toggle>("item-toggle");
-            var label = element.Q<Label>("item-label");
-            var addButton = element.Q<Button>("add-button");
-            var itemCount = element.Q<UnsignedIntegerField>("item-count");
-            var textField = element.Q<TextField>("item-textfield");
+            var toggle = element.Q<Toggle>(TableDetailsUss.ItemToggle);
+            var label = element.Q<Label>(TableDetailsUss.ItemLabel);
+            var addButton = element.Q<Button>(TableDetailsUss.AddButton);
+            var itemCount = element.Q<UnsignedIntegerField>(TableDetailsUss.ItemCount);
+            var textField = element.Q<TextField>(TableDetailsUss.ItemTextField);
             
-            EventCallback<EventBase> textFieldCallback = _ =>
+            EventCallback<EventBase> textFieldCallback = evt =>
             {
+                if(evt is KeyDownEvent keyDownEvent && keyDownEvent.keyCode != KeyCode.Return && keyDownEvent.keyCode != KeyCode.KeypadEnter)
+                    return;
+                
                 string path = AssetDatabase.GetAssetPath(itemData.asset);
                 string newName = AssetUtils.RenameAsset(path, textField.value.Trim());
-                
                 label.text = newName;
                 textField.value = newName;
                 textField.style.display = DisplayStyle.None;
                 label.style.display = DisplayStyle.Flex;
             };
-            
             if(!_textFieldFocusOutCallbacks.TryAdd(textField, textFieldCallback))
             {
                 textField.UnregisterCallback<FocusOutEvent>(_textFieldFocusOutCallbacks[textField]);
                 _textFieldFocusOutCallbacks[textField] = textFieldCallback;
             }
             textField.RegisterCallback<FocusOutEvent>(_textFieldFocusOutCallbacks[textField]);
-            
             if(!_textFieldKeyDownCallbacks.TryAdd(textField, textFieldCallback))
             {
                 textField.UnregisterCallback<KeyDownEvent>(_textFieldKeyDownCallbacks[textField]);
@@ -138,7 +147,6 @@ namespace TableForge.Editor.UI
                 UpdateVisualState(element, itemData);
                 OnSelectionChanged?.Invoke();
             };
-
             if(!_toggleCallbacks.TryAdd(toggle, toggleCallback))
             {
                 toggle.UnregisterValueChangedCallback(_toggleCallbacks[toggle]);
@@ -147,14 +155,17 @@ namespace TableForge.Editor.UI
             toggle.RegisterValueChangedCallback(_toggleCallbacks[toggle]);
 
             label.text = itemData.isFolder ? itemData.name : itemData.name.Remove(itemData.name.Length - 6); // Remove ".asset"
-            label.style.marginLeft = itemData.isFolder ? 0 : 20;
-
             if (itemData.isFolder)
             {
+                label.AddToClassList(TableDetailsUss.ItemLabelFolder);
                 itemCount.visible = true;
                 itemCount.style.display = DisplayStyle.Flex;
                 addButton.style.display = DisplayStyle.Flex;
-                if(!_buttonCallbacks.TryAdd(addButton, () => _detailsViewModel.CreateNewAssetsInFolder(itemData, itemCount.value)))
+                if(!_buttonCallbacks.TryAdd(addButton, () =>
+                   {
+                       _detailsViewModel.CreateNewAssetsInFolder(itemData, itemCount.value);
+                       OnSelectionChanged?.Invoke();
+                   }))
                 {
                     addButton.clicked -= _buttonCallbacks[addButton];
                 }
@@ -162,13 +173,12 @@ namespace TableForge.Editor.UI
             }
             else
             {
+                label.RemoveFromClassList(TableDetailsUss.ItemLabelFolder);
                 itemCount.visible = false;
                 itemCount.style.display = DisplayStyle.None;
                 addButton.style.display = DisplayStyle.None;
             }
-
             UpdateVisualState(element, itemData);
-            
             if(itemData.isSelected)
             {
                 toggle.SetValueWithoutNotify(true);
@@ -191,7 +201,7 @@ namespace TableForge.Editor.UI
 
         private void UpdateVisualState(VisualElement element, TreeItem item)
         {
-            var toggle = element.Q<Toggle>("item-toggle");
+            var toggle = element.Q<Toggle>(TableDetailsUss.ItemToggle);
             var label = element.Q<Label>();
 
             toggle.SetValueWithoutNotify(item.isSelected);

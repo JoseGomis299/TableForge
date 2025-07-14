@@ -73,7 +73,7 @@ namespace TableForge.Editor
         private void OnPathChanged(ChangeEvent<string> evt)
         {
             _boundItem.Path = evt.newValue;
-            if (AssetDatabase.AssetPathExists(evt.newValue))
+            if (PathUtil.AssetPathExists(evt.newValue))
             {
                 _boundItem.Guid = AssetDatabase.AssetPathToGUID(evt.newValue);
                 _boundItem.ExistingAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(evt.newValue);
