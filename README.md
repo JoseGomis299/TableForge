@@ -324,7 +324,7 @@ The expected JSON format for importing is the same as when exporting to JSON. Th
           "SubField1": "SubValue1"
         },
         "ListField": [1, 2, 3],
-        "DictionatyField": {
+        "DictionaryField": {
           "key1": "value1"
           "key2": "value2"
         }
