@@ -312,7 +312,6 @@ The expected JSON format for importing is the same as when exporting to JSON. Th
 
 ```json
 {
-  "name": "TableName",
   "items": [
     {
       "guid": "optional-guid-string",         // Optional: Only if GUIDs are included
@@ -326,21 +325,14 @@ The expected JSON format for importing is the same as when exporting to JSON. Th
         },
         "ListField": [1, 2, 3]
       }
-    },
-    {
-      "properties": {
-        "FieldA": "AnotherValue",
-        "FieldB": 456,
-        "FieldC": false
-      }
     }
+    , ...
   ]
 }
 ```
 
-- The root object contains a `name` (table name) and an `items` array.
 - Each item represents a row and contains a `properties` object with key-value pairs for each field.
-- `guid` and `path` are optional and only present if included during export.
+- `guid` and `path` are optional.
 - Nested objects and lists are supported in the `properties` section.
 
 You can use exported JSON files as templates for import.
