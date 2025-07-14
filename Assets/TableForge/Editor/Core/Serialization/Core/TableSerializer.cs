@@ -5,7 +5,7 @@ using Unity.Plastic.Newtonsoft.Json;
 using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEditor;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     internal static class TableSerializer
     {
@@ -62,8 +62,8 @@ namespace TableForge.Editor
                 }
 
                 string value;
-                if(item is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
-                else value = item.Serialize();
+                if(item.Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
+                else value = item.Serializer.Serialize();
                 serializedData.Append($"\"{item.column.Name}\"{SerializationConstants.JsonKeyValueSeparator} {value}{SerializationConstants.JsonItemSeparator}");
             }
 

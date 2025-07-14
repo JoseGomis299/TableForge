@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TableForge.Editor.Serialization;
 using TableForge.Editor.UI;
 using UnityEditor;
 using UnityEngine;

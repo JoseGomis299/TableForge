@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TableForge.Editor.Serialization;
 using TableForge.Editor.UI;
 using UnityEditor;
 using UnityEngine;
@@ -229,7 +230,7 @@ namespace TableForge.Editor
                     if (string.IsNullOrEmpty(cellValue)) continue;
                     
                     Cell cell = row.OrderedCells[j]; 
-                    if(!cell.TryDeserialize(cellValue))
+                    if(!cell.Serializer.TryDeserialize(cellValue))
                     {
                         Debug.LogWarning($"Failed to deserialize cell value '{cellValue}' for cell {cell.GetGlobalPosition()}.");
                     }

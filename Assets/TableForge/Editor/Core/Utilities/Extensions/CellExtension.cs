@@ -298,29 +298,6 @@ namespace TableForge.Editor
             return cell is INumericBasedCell;
         }
         
-        /// <summary>
-        /// Serializes a cell's value in a CSV-compatible format.
-        /// </summary>
-        public static string SerializeCellCsvCompatible(this Cell cell, bool flattenSubTables)
-        {
-            string value;
-            if (cell is IQuotedValueCell quotedValueCell)
-            {
-                value = quotedValueCell.SerializeQuotedValue(true).Replace("\\\"", "\"\"").Replace("\'", "\"\""); // Escape quotes for CSV
-            }
-            else
-            {
-                value = cell.Serialize();
-                if((cell is SubTableCell && (!flattenSubTables || cell is ICollectionCell)) || cell.Serializer is JsonSerializer)
-                {
-                    // If we serialize the value as JSON we have to surround the value with quotes and escape quotes inside the value
-                    value = $"\"{value.Replace("\"", "\"\"")}\"";
-                }
-            }
-
-            return value;
-        }
-        
         public static Cell GetCellById(Table table, int cellId)
         {
             if (table.IsSubTable)

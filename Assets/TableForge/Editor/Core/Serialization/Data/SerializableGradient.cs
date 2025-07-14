@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     [Serializable]
     internal class SerializableGradient

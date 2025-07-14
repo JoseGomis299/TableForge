@@ -1,4 +1,5 @@
 using System.Linq;
+using TableForge.Editor.Serialization;
 using UnityEngine;
 
 namespace TableForge.Editor
@@ -9,7 +10,10 @@ namespace TableForge.Editor
     [CellType(typeof(Gradient))]
     internal class GradientCell : Cell
     {
-        public GradientCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
+        public GradientCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        {
+            Serializer = new GradientCellSerializer(this);
+        }
 
         public override void SetValue(object value)
         {
@@ -25,24 +29,6 @@ namespace TableForge.Editor
             if(cachedValue != null) return;
 
             cachedValue = new Gradient();
-        }
-
-        public override string Serialize()
-        {
-            SerializableGradient data = new SerializableGradient((Gradient) GetValue());
-            return serializer.Serialize(data);
-        }
-        
-        public override void Deserialize(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-                return;
-
-            SerializableGradient value = serializer.Deserialize<SerializableGradient>(data);
-            if (value is not null)
-            {
-                SetValue(value.ToGradient());
-            }
         }
         
         public override int CompareTo(Cell otherCell)

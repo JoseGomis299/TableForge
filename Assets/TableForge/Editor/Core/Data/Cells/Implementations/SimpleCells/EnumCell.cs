@@ -1,50 +1,17 @@
-using System;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor
 {
     /// <summary>
     /// Cell for Enum fields.
     /// </summary>
-    internal class EnumCell : Cell, IQuotedValueCell, INumericBasedCell
+    internal class EnumCell : Cell, INumericBasedCell
     {
-        public EnumCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-        
-        public override string Serialize()
+        public EnumCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            return GetFieldType().ResolveFlaggedEnumName((int)GetValue(), false);
+            Serializer = new EnumCellSerializer(this);
         }
         
-        public string SerializeQuotedValue(bool escapeInternalQuotes)
-        { 
-            string serializedValue = Serialize();
-            if (escapeInternalQuotes)
-            {
-                serializedValue = serializedValue.Replace("\"", "\\\"");
-            }
-            
-            return "\"" + serializedValue + "\"";
-        }
-
-        public override void Deserialize(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-                return;
-            
-            if(data == "Everything")
-            {
-                SetValue(-1);
-                return;
-            }
-            
-            if(data == "Nothing")
-            {
-                SetValue(0);
-                return;
-            }
-            
-            SetValue(Enum.Parse(GetFieldType(), data));
-        }
-
         public override int CompareTo(Cell other)
         {
             if (other is not EnumCell) return 1;

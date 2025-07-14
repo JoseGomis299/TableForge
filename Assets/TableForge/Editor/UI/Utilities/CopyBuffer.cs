@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor.UI
 {
@@ -83,7 +84,7 @@ namespace TableForge.Editor.UI
                     }
                 }
                 
-                string formattedValue = copyFunction ? tableMetadata.GetFunction(cell.Id) : cell.Serialize();
+                string formattedValue = copyFunction ? tableMetadata.GetFunction(cell.Id) : cell.Serializer.Serialize();
                 if (cell is StringCell && !copyFunction)
                 {
                     formattedValue = formattedValue
@@ -139,7 +140,7 @@ namespace TableForge.Editor.UI
                         }
 
                         object oldValue = subTableCell.GetValue();
-                        if (cell.TryDeserialize(serializedData.ToString()))
+                        if (cell.Serializer.TryDeserialize(serializedData.ToString()))
                         {
                             SetCellValueCommand command = new SetCellValueCommand(subTableCell, tableControl, oldValue, subTableCell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);
@@ -184,7 +185,7 @@ namespace TableForge.Editor.UI
                                     SerializationConstants.columnSeparator);
 
                         object oldValue = cell.GetValue();
-                        if (cell.TryDeserialize(data))
+                        if (cell.Serializer.TryDeserialize(data))
                         {   
                             SetCellValueCommand command = new SetCellValueCommand(cell, tableControl, oldValue, cell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);
@@ -248,7 +249,7 @@ namespace TableForge.Editor.UI
                         }
                         
                         object oldValue = subTableCell.GetValue();
-                        if (subTableCell.TryDeserialize(serializedData.ToString()))
+                        if (subTableCell.Serializer.TryDeserialize(serializedData.ToString()))
                         {
                             SetCellValueCommand command = new SetCellValueCommand(subTableCell, tableControl, oldValue, subTableCell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);
@@ -307,7 +308,7 @@ namespace TableForge.Editor.UI
 
                         
                         object oldValue = currentCell.GetValue();
-                        if (currentCell.TryDeserialize(data))
+                        if (currentCell.Serializer.TryDeserialize(data))
                         {
                             SetCellValueCommand command = new SetCellValueCommand(currentCell, tableControl, oldValue, currentCell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);

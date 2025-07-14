@@ -1,4 +1,4 @@
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     internal static class ColumnExtractorFactory
     {

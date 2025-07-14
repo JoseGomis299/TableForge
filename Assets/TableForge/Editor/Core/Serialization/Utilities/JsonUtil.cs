@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Plastic.Newtonsoft.Json;
 using Unity.Plastic.Newtonsoft.Json.Linq;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     internal static class JsonUtil
     {

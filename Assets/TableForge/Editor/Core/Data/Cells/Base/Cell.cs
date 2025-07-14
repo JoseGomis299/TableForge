@@ -1,12 +1,13 @@
 using System;
 using System.Text;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor
 {
     /// <summary>
     /// Represents an abstract cell within a table, storing and managing field values.
     /// </summary>
-    internal abstract class Cell : ISerializableCell, IComparable<Cell>
+    internal abstract class Cell : IComparable<Cell>
     {
         #region Fields
 
@@ -34,11 +35,6 @@ namespace TableForge.Editor
         /// The cached value of the cell.
         /// </summary>
         protected object cachedValue;
-
-        /// <summary>
-        /// The serializer used to serialize and deserialize the cell's data.
-        /// </summary>
-        protected ISerializer serializer;
         
 
         #endregion
@@ -59,12 +55,11 @@ namespace TableForge.Editor
         /// Unique identifier of the cell in the table.
         /// </summary>
         public int Id { get; }
-        
-        /// <summary>
-        /// The serializer used for this cell.
-        /// </summary>
-        public ISerializer Serializer => serializer;
 
+        /// <summary>
+        /// The serializer used to serialize and deserialize the cell's data.
+        /// </summary>
+        public ICellSerializer Serializer { get; protected set; }
         #endregion
 
         #region Constructors
@@ -75,7 +70,6 @@ namespace TableForge.Editor
             this.fieldInfo = fieldInfo;
             Type = GetFieldType();
             cachedValue = GetFieldValue();
-            serializer = new JsonSerializer();
             
             Id = HashCodeUtil.CombineHashes(this.column.Id, this.row.Id, Type.Name, fieldInfo?.Name);
             this.RegisterCell();
@@ -138,21 +132,7 @@ namespace TableForge.Editor
             return positionBuilder.ToString();
         }
         
-        public abstract string Serialize();
-        public abstract void Deserialize(string data);
         public abstract int CompareTo(Cell other);
-        public bool TryDeserialize(string data)
-        {
-            try
-            {
-                Deserialize(data);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
         
         #endregion
         

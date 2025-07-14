@@ -1,23 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
-    /// <summary>
-    /// Represents a cell that contains a collection of items.
-    /// </summary>
-    internal abstract class CollectionCell : SubTableCell, ICollectionCell
+    internal abstract class CollectionCellSerializer : SubTableCellSerializer
     {
-        public int Count => cachedValue is ICollection collection ? collection.Count : 0;
-
-        protected CollectionCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
+        private CollectionCell CollectionCell => (CollectionCell)cell;
+        protected CollectionCellSerializer(Cell cell) : base(cell)
         {
+            if (cell is not TableForge.Editor.CollectionCell)
+            {
+                throw new System.ArgumentException("Cell must be of type CollectionCell", nameof(cell));
+            }
         }
-        
-        public abstract void AddItem(object item);
-        public abstract void AddEmptyItem();
-        public abstract void RemoveItem(int position);
-        public abstract ICollection GetItems();
 
         public override string Serialize()
         {
@@ -25,37 +19,24 @@ namespace TableForge.Editor
         }
 
         protected abstract string SerializeCollection();
-        
+
         public override void Deserialize(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
                 return;
             }
-            
             var values = JsonUtil.JsonArrayToStringList(data);
             if(values.Count == 0) return;
-            
             int index = 0;
             DeserializeSubTable(values.ToArray(), ref index);
         }
-
-        public override int CompareTo(Cell other)
-        {
-            if (other is not CollectionCell collectionCell) return 1; 
-            
-            // Compare the number of items in the collections
-            int thisCount = Count;
-            int otherCount = collectionCell.Count;
-
-            return thisCount.CompareTo(otherCount);
-        }
-
+        
         protected override void DeserializeModifyingSubTable(string[] values, ref int index)
         {
             Row currentRow = null;
             Stack<int> positionsToRemove = new Stack<int>();
-            foreach (var descendant in this.GetImmediateDescendants())
+            foreach (var descendant in cell.GetImmediateDescendants())
             {
                 if (index >= values.Length)
                 {
@@ -75,30 +56,30 @@ namespace TableForge.Editor
             // Remove the items that are not in the new data
             foreach (var indexToRemove in positionsToRemove)
             {
-                RemoveItem(indexToRemove);
+                CollectionCell.RemoveItem(indexToRemove);
             }
             
             // Add new items if there are any
             while(index < values.Length)
             {
-                AddEmptyItem();
-                int lastRow = SubTable.Rows.Count;
+                CollectionCell.AddEmptyItem();
+                int lastRow = CollectionCell.SubTable.Rows.Count;
                 
-                foreach (var cell in  SubTable.Rows[lastRow].OrderedCells)
+                foreach (var c in  CollectionCell.SubTable.Rows[lastRow].OrderedCells)
                 {
                     if (index >= values.Length)
                     {
                        break;
                     }
                     
-                    DeserializeCell(values, ref index, cell);
+                    DeserializeCell(values, ref index, c);
                 }
             }
         }
 
         protected override void DeserializeWithoutModifyingSubTable(string[] values, ref int index)
         {
-            foreach (var descendant in this.GetImmediateDescendants())
+            foreach (var descendant in cell.GetImmediateDescendants())
             {
                 if (index >= values.Length)
                 {
@@ -107,19 +88,17 @@ namespace TableForge.Editor
                     index = 0;
                 }
                 
-                if(descendant is SubTableCell subTableCell and not ICollectionCell)
+                if(descendant is SubTableCell _ and not ICollectionCell && descendant.Serializer is SubTableCellSerializer subTableCellSerializer)
                 {
-                    subTableCell.DeserializeSubTable(values, ref index);
+                    subTableCellSerializer.DeserializeSubTable(values, ref index);
                 }
                 else
                 {
                     string value = values[index].Replace(SerializationConstants.EmptyColumn, string.Empty);
-                    descendant.Deserialize(value);
+                    descendant.Serializer.Deserialize(value);
                     index++;
                 }
             }
         }
-        
-        
     }
-}
+} 

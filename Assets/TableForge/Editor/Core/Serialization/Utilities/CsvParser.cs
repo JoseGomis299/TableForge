@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     public static class CsvParser
     {

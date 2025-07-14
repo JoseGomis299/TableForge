@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     internal abstract class ColumnExtractor
     {

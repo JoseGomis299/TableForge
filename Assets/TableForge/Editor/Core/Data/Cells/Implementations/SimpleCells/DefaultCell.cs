@@ -1,3 +1,5 @@
+using TableForge.Editor.Serialization;
+
 namespace TableForge.Editor
 {
     /// <summary>
@@ -5,16 +7,9 @@ namespace TableForge.Editor
     /// </summary>
     internal class DefaultCell : Cell
     {
-        public DefaultCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-
-        public override string Serialize()
+        public DefaultCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            return "null";
-        }
-        
-        public override void Deserialize(string data)
-        {
-            // No implementation needed for default cell
+            Serializer = new DefaultCellSerializer(this);
         }
         
         public override int CompareTo(Cell other)

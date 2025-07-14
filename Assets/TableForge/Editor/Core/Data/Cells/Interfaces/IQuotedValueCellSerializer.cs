@@ -1,6 +1,8 @@
+using TableForge.Editor.Serialization;
+
 namespace TableForge.Editor
 {
-    internal interface IQuotedValueCell
+    internal interface IQuotedValueCellSerializer : ICellSerializer
     {
         /// <summary>
         /// Returns the serialized value between quotes.

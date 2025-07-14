@@ -1,4 +1,3 @@
-using System.Linq;
 using TableForge.Editor.UI.UssClasses;
 using UnityEditor;
 using UnityEngine;

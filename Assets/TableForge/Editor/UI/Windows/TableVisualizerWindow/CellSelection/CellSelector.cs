@@ -78,7 +78,7 @@ namespace TableForge.Editor.UI
               //  UndoRedoManager.AddSeparator();
             }
         }
-
+        
         #endregion
 
         #region Constructor
@@ -95,7 +95,7 @@ namespace TableForge.Editor.UI
         }
 
         #endregion
-
+        
         #region Internal Methods - Selection Management
 
         /// <summary>

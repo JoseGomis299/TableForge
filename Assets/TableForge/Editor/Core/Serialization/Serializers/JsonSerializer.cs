@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     internal class JsonSerializer : ISerializer
     {

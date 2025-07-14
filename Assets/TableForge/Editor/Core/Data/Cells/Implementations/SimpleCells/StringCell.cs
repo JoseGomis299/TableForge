@@ -1,40 +1,16 @@
+using TableForge.Editor.Serialization;
+
 namespace TableForge.Editor
 {
     /// <summary>
     /// Cell for string type fields.
     /// </summary>
     [CellType(typeof(string))]
-    internal class StringCell : PrimitiveBasedCell<string>, IQuotedValueCell
+    internal class StringCell : PrimitiveBasedCell<string>
     {
-        public StringCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-        
-        public override string Serialize()
+        public StringCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            if (cachedValue is string typedValue)
-            {
-                return serializer.Serialize(typedValue);
-            }
-            return string.Empty;
-        }
-        
-        public string SerializeQuotedValue(bool escapeInternalQuotes)
-        { 
-            string serializedValue = Serialize();
-            if (escapeInternalQuotes)
-            {
-                serializedValue = serializedValue.Replace("\"", "\\\"");
-            }
-            
-            return "\"" + serializedValue + "\"";
-        }
-        
-        public override void Deserialize(string data)
-        {
-            string value = serializer.Deserialize<string>(data);
-            if (value is not null)
-            {
-                SetValue(value);
-            }
+            Serializer = new StringCellSerializer(this);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Globalization;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor
 {
@@ -8,19 +8,9 @@ namespace TableForge.Editor
     [CellType(typeof(double))]
     internal class DoubleCell : PrimitiveBasedCell<double>, INumericBasedCell
     {
-        public DoubleCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-
-        public override string Serialize()
+        public DoubleCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            return ((double)GetValue()).ToString(CultureInfo.InvariantCulture);
-        }
-        
-        public override void Deserialize(string serializedData)
-        {
-            if (double.TryParse(serializedData, NumberStyles.Float, CultureInfo.InvariantCulture, out double value))
-            {
-                SetValue(value);
-            }
+            Serializer = new DoubleCellSerializer(this);
         }
     }
 }

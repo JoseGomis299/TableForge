@@ -1,3 +1,4 @@
+using TableForge.Editor.Serialization;
 using UnityEngine;
 
 namespace TableForge.Editor
@@ -8,24 +9,9 @@ namespace TableForge.Editor
     [CellType(typeof(Color))]
     internal class ColorCell : Cell
     {
-        public ColorCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-        
-        public override string Serialize()
+        public ColorCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            SerializableColor data = new SerializableColor((Color) GetValue());
-            return serializer.Serialize(data);
-        }
-        
-        public override void Deserialize(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-                return;
-
-            SerializableColor value = serializer.Deserialize<SerializableColor>(data);
-            if (value is not null)
-            {
-                SetValue(value.ToColor());
-            }
+            Serializer = new ColorCellSerializer(this);
         }
         
         public override int CompareTo(Cell other)

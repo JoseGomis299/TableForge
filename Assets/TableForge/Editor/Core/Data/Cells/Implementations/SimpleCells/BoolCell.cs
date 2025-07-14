@@ -1,4 +1,5 @@
 using System;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor
 {
@@ -8,11 +9,9 @@ namespace TableForge.Editor
     [CellType(typeof(bool))]
     internal class BoolCell : PrimitiveBasedCell<bool>
     {
-        public BoolCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-
-        public override string Serialize()
+        public BoolCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            return base.Serialize().ToLower();
+            Serializer = new BoolCellSerializer(this);
         }
         
         public override int CompareTo(Cell other)

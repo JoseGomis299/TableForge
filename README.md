@@ -625,7 +625,8 @@ internal class MyCustomCellControl : Cell //if represents a single cell
 
 2. **Create Cell Control Class**:
 ```csharp
-[CellControlUsage(typeof(MyCustomCellType), CellSizeCalculationMethod)]
+[CellControlUsage(typeof(MyCustomCellType), CellSizeCalculationMethod)] //always
+[SubTableCellControlUsage(TableType, TableReorderMode, RowHeaderVisibility, ColumnHeaderVisibility)] //if represents a subtable
 internal class MyCustomCellControl : SimpleCellControl //if represents a single cell which value is not given by text
                                    / TextBasedCellControl<Type> //if represents a single cell which value is given by text
                                    / DynamicSubTableCellControl //if represents a subtable that can have 0 or more rows

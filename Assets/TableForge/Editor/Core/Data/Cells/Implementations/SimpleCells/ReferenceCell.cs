@@ -1,5 +1,5 @@
 using System;
-using UnityEditor;
+using TableForge.Editor.Serialization;
 using Object = UnityEngine.Object;
 
 namespace TableForge.Editor
@@ -10,47 +10,9 @@ namespace TableForge.Editor
     [CellType(TypeMatchMode.Assignable, typeof(Object))]
     internal class ReferenceCell : Cell
     {
-        private Object _lastSerializedObject;
-        private string _guid;
-        private string _path;
-        
-        public ReferenceCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-
-        public override string Serialize()
+        public ReferenceCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            object data = GetValue();
-            if (data is Object obj && obj != null)
-            {
-                if (obj != _lastSerializedObject)
-                {
-                    _lastSerializedObject = obj;
-                    _path = AssetDatabase.GetAssetPath(obj);
-                    _guid = AssetDatabase.AssetPathToGUID(_path);
-                }
-
-                data = new SerializableObject(_guid, _path, obj);
-                return serializer.Serialize(data);
-            }
-            
-            return "null";
-        }
-
-        public override void Deserialize(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-                return;
-            
-            if (data == "null") 
-            {
-                SetValue(null);
-                return;
-            }
-
-            SerializableObject value = serializer.Deserialize<SerializableObject>(data);
-            if (value is not null)
-            {
-                SetValue(value.ToObject());
-            }
+            Serializer = new ReferenceCellSerializer(this);
         }
 
         public override int CompareTo(Cell other)

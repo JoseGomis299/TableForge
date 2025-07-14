@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor
 {
@@ -13,6 +13,7 @@ namespace TableForge.Editor
     {
         public DictionaryCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
+            Serializer = new DictionaryCellSerializer(this);
             CreateSubTable();
         }
         
@@ -73,62 +74,6 @@ namespace TableForge.Editor
         public override ICollection GetItems()
         {
             return cachedValue.CreateShallowCopy() as ICollection;
-        }
-
-        protected override string SerializeCollection()
-        {
-            return SerializeDictionary(this.GetKeys(), this.GetValues());
-        }
-        
-        private string SerializeDictionary(List<Cell> keys, List<Cell> values)
-        {
-            StringBuilder serializedData = new StringBuilder();
-            serializedData.Append(SerializationConstants.JsonObjectStart);
-
-            for (int i = 0; i < keys.Count; i++)
-            {
-                string key = keys[i].Serialize();
-                string value;
-                if(values[i] is IQuotedValueCell quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
-                else value = values[i]?.Serialize() ?? SerializationConstants.JsonNullValue;
-                
-                serializedData.Append($"\"{key.Replace("\"", "")}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
-            }
-
-            if (serializedData.Length > 1)
-            {
-                serializedData.Remove(serializedData.Length - 1, 1);
-            }
-
-            serializedData.Append(SerializationConstants.JsonObjectEnd); 
-            return serializedData.ToString();
-        }
-        
-        public override void Deserialize(string data)
-        {
-            if (string.IsNullOrEmpty(data))
-            {
-                return;
-            }
-
-            var dictionary = JsonUtil.ToStringDictionary(data);
-            if(dictionary.Count == 0) return;
-            
-            string[] values = new string[dictionary.Count * 2];
-            int i = 0;
-            foreach (var kvp in dictionary)
-            {
-                values[i++] = kvp.Key;
-                values[i++] = kvp.Value;
-            }
-            
-            int index = 0;
-            DeserializeSubTable(values, ref index);
-        }
-
-        protected override void DeserializeModifyingSubTable(string[] values, ref int index)
-        {
-            DeserializeWithoutModifyingSubTable(values, ref index);
         }
     }
 }

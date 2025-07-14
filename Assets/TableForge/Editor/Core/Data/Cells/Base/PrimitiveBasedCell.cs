@@ -1,4 +1,5 @@
 using System;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor
 {
@@ -9,27 +10,9 @@ namespace TableForge.Editor
     {
         protected PrimitiveBasedCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            serializer = new SimpleSerializer();
+            Serializer = new PrimitiveBasedCellSerializer<TValue>(this);
         }
         
-        public override string Serialize()
-        {
-            if (cachedValue is TValue typedValue)
-            {
-                return serializer.Serialize(typedValue);
-            }
-            return string.Empty;
-        }
-
-        public override void Deserialize(string data)
-        {
-            TValue value = serializer.Deserialize<TValue>(data);
-            if (value is not null)
-            {
-                SetValue(value);
-            }
-        }
-
         public override int CompareTo(Cell other)
         {
             if (other is not PrimitiveBasedCell<TValue> primitiveCell) return 1;

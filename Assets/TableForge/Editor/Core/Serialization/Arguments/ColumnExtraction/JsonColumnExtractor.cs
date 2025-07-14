@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Plastic.Newtonsoft.Json.Linq;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     internal class JsonColumnExtractor : ColumnExtractor
     {

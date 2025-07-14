@@ -1,4 +1,4 @@
-using System.Globalization;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor
 {
@@ -8,19 +8,9 @@ namespace TableForge.Editor
     [CellType(typeof(float))]
     internal class FloatCell : PrimitiveBasedCell<float>, INumericBasedCell
     {
-        public FloatCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo) { }
-        
-        public override string Serialize()
+        public FloatCell(Column column, Row row, TfFieldInfo fieldInfo) : base(column, row, fieldInfo)
         {
-            return ((float)GetValue()).ToString(CultureInfo.InvariantCulture);
-        }
-        
-        public override void Deserialize(string serializedData)
-        {
-            if (float.TryParse(serializedData, NumberStyles.Float, CultureInfo.InvariantCulture, out float value))
-            {
-                SetValue(value);
-            }
+            Serializer = new FloatCellSerializer(this);
         }
     }
 }

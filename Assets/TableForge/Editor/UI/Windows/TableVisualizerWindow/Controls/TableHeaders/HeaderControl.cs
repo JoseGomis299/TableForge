@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using TableForge.Editor.UI.UssClasses;
 using UnityEngine.UIElements;
 

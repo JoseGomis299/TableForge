@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.IO;
+using TableForge.Editor.Serialization;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
 

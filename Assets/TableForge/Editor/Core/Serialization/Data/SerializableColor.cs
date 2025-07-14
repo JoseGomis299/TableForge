@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TableForge.Editor
+namespace TableForge.Editor.Serialization
 {
     [System.Serializable]
     internal class SerializableColor
