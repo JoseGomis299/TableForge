@@ -4,12 +4,6 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-
-#if !UNITY_6_OR_NEWER
-// ReSharper disable once RedundantUsingDirective
-using UnityEditor.UIElements; // For Unity versions before 6.0, use the legacy TreeView
-#endif
-
 using TableForge.Editor.UI.UssClasses;
 
 namespace TableForge.Editor.UI
