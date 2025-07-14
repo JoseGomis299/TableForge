@@ -31,7 +31,6 @@ namespace TableForge.Editor
         {
             StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonObjectStart);
 
-            serializedData.Append($"\"{SerializationConstants.JsonTableNamePropertyName}\": \"").Append(args.Table.Name).Append($"\"{SerializationConstants.JsonItemSeparator}");
             serializedData.Append($"\"{SerializationConstants.JsonRootArrayName}\": ").Append(SerializationConstants.JsonArrayStart);
             IEnumerable<Cell> cells = args.Table.OrderedRows.SelectMany(row => row.OrderedCells);
             int currentRow = -1;

@@ -323,7 +323,11 @@ The expected JSON format for importing is the same as when exporting to JSON. Th
         "NestedObject": {
           "SubField1": "SubValue1"
         },
-        "ListField": [1, 2, 3]
+        "ListField": [1, 2, 3],
+        "DictionatyField": {
+          "key1": "value1"
+          "key2": "value2"
+        }
       }
     }
     , ...
@@ -333,7 +337,7 @@ The expected JSON format for importing is the same as when exporting to JSON. Th
 
 - Each item represents a row and contains a `properties` object with key-value pairs for each field.
 - `guid` and `path` are optional.
-- Nested objects and lists are supported in the `properties` section.
+- Nested objects, dictionaries and lists are supported in the `properties` section.
 
 You can use exported JSON files as templates for import.
 
