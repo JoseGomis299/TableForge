@@ -614,16 +614,26 @@ To create a custom cell type for a specific data type:
 1. **Create the Cell class**:
 ```csharp
 [CellType(TypeMatchMode, typeof(MyCustomType))]
-internal class MyCustomCellControl : Cell //if represents a single cell
-                                    / PrimitiveBasedCell<PrimitiveType> //if represents a primitive (e.g. int, float...)
-                                    / SubTableCell //if represents a unique object subtable
-                                    / CollectionCell //if represents a collection of values
+internal class MyCustomCell : Cell //if represents a single cell
+                              / PrimitiveBasedCell<PrimitiveType> //if represents a primitive (e.g. int, float...)
+                              / SubTableCell //if represents a unique object subtable
+                              / CollectionCell //if represents a collection of values
 {
     // Implementation
 }
 ```
+2. **Create a CellSerializer class (if necessary)**
+```csharp
+internal class MyCustomCellSerializer : CellSerializer
+{
+    // Implementation
+}
 
-2. **Create Cell Control Class**:
+//In MyCustomCell constructor
+Serializer = new MyCustomCellSerializer(this);
+```
+
+3. **Create Cell Control class**:
 ```csharp
 [CellControlUsage(typeof(MyCustomCellType), CellSizeCalculationMethod)] //always
 [SubTableCellControlUsage(TableType, TableReorderMode, RowHeaderVisibility, ColumnHeaderVisibility)] //if represents a subtable
