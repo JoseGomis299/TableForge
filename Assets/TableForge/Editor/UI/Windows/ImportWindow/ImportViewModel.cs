@@ -237,7 +237,7 @@ namespace TableForge.Editor
             }
         }
 
-        public string GetDataPreview()
+        public string GetDataInfo()
         {
             if (string.IsNullOrEmpty(Data) || _deserializationArgs == null)
             {

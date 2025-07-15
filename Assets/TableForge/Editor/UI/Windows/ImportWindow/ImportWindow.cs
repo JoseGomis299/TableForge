@@ -18,6 +18,7 @@ namespace TableForge.Editor
         private SerializationFormat _format = SerializationFormat.Csv;
         private bool _csvHasHeader = true;
         private string _selectedNamespace;
+        private string _importedFileContent;
 
         private VisualElement _root;
         
@@ -29,7 +30,7 @@ namespace TableForge.Editor
         private DropdownField _namespaceDropdown;
         private DropdownField _typeDropdown;
         private Toggle _csvHeaderToggle;
-        private TextField _dataTextField;
+        private TextField _dataInfoTextField;
         private TextField _dataPreviewTextField;
         private Button _importFileButton;
         private Button _acceptButton;
@@ -66,8 +67,8 @@ namespace TableForge.Editor
             _namespaceDropdown = _root.Q<DropdownField>("namespace-dropdown");
             _typeDropdown = _root.Q<DropdownField>("type-dropdown");
             _csvHeaderToggle = _root.Q<Toggle>("csv-header-toggle");
-            _dataTextField = _root.Q<TextField>("data-text-field");
             _dataPreviewTextField = _root.Q<TextField>("data-preview-text-field");
+            _dataInfoTextField = _root.Q<TextField>("data-info-text-field");
             _importFileButton = _root.Q<Button>("import-file-button");
             _errorLabel = _root.Q<Label>("error-label");
             _acceptButton = _root.Q<Button>("accept-button");
@@ -199,7 +200,13 @@ namespace TableForge.Editor
 
             try
             {
-                _dataTextField.value = File.ReadAllText(path);
+                _importedFileContent = File.ReadAllText(path);
+                bool fileIsTooLarge = _importedFileContent.Length > 10000; 
+                string previewContent = fileIsTooLarge 
+                    ? "(Truncated)\n\n"+_importedFileContent.Substring(0, 10000) + "..." 
+                    : "\n"+_importedFileContent;
+                _dataPreviewTextField.value = $"Imported file: {Path.GetFileName(path)}\n\n" +
+                                              $"Content Preview:\n{previewContent}";
             }
             catch (Exception e)
             {
@@ -220,13 +227,13 @@ namespace TableForge.Editor
                 _viewModel.TableName = _tableNameField.value;
                 _viewModel.Format = _format;
                 _viewModel.CsvHasHeader = _csvHasHeader;
-                _viewModel.Data = _dataTextField.value;
+                _viewModel.Data = _importedFileContent;
                 _viewModel.NewElementsBasePath = _basePathField.value;
                 _viewModel.NewElementsBaseName = _baseNameField.value;
                 
                 _viewModel.ItemsType = TypeRegistry.TypesByNamespaceAndName[_namespaceDropdown.value][_typeDropdown.value];
                 _viewModel.ProcessData();
-                _dataPreviewTextField.value = _viewModel.GetDataPreview();
+                _dataInfoTextField.value = _viewModel.GetDataInfo();
 
                 ShowMapping();
             }
@@ -244,9 +251,9 @@ namespace TableForge.Editor
                 return false;
             }
             
-            if (string.IsNullOrWhiteSpace(_dataTextField.value))
+            if (string.IsNullOrWhiteSpace(_importedFileContent))
             {
-                ShowError("Data input is required.");
+                ShowError("File is required.");
                 return false;
             }
             
