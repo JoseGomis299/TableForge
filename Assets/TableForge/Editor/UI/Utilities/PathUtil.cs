@@ -9,6 +9,12 @@ namespace TableForge.Editor.UI
 {
     internal static class PathUtil
     {
+        private const string BaseDataPath = "Assets/TableForgeData/";
+
+        public static string GetRelativeDataPath(string path)
+        {
+            return BaseDataPath + path;
+        }
         private static string GetPathToAssembly()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();

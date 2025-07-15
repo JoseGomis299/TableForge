@@ -6,7 +6,6 @@ namespace TableForge.Tests
 {
     internal static class PathUtil
     {
-        
         public static string GetTestFolderRelativePath()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();

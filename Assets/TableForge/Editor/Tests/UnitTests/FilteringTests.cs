@@ -33,7 +33,7 @@ namespace TableForge.Tests
             List<string> rowPaths = new List<string>();
             for (int i = 0; i < rowCount; i++)
             {
-                string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/FilteringData{i}.asset";
+                string path = $"{PathUtil.GetTestFolderRelativePath()}/TestMockedData/FilteringData{i}.asset";
                 FilteringTestData existingData = AssetDatabase.LoadAssetAtPath<FilteringTestData>(path);
                 FilteringTestData data = existingData != null ? existingData : ScriptableObject.CreateInstance<FilteringTestData>();
                 

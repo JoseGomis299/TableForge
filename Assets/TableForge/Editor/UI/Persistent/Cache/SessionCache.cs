@@ -9,21 +9,23 @@ namespace TableForge.Editor.UI
     internal static class SessionCache
     {
         private static SessionCacheData _sessionCacheData;
-        private static string CachePath => PathUtil.GetPath("UI", "Cache", "Data", "SessionCache.asset");
+        private static string CachePath => PathUtil.GetRelativeDataPath("Cache");
+        private const string CacheFileName = "SessionCache.asset";
+        private static string CacheFullPath => Path.Combine(CachePath, CacheFileName);
 
         private static SessionCacheData GetCache()
         {
             if (_sessionCacheData != null)
                 return _sessionCacheData;
             
-            _sessionCacheData = AssetDatabase.LoadAssetAtPath<SessionCacheData>(CachePath);
+            _sessionCacheData = AssetDatabase.LoadAssetAtPath<SessionCacheData>(CacheFullPath);
             if (_sessionCacheData == null)
             {
                 if (!Directory.Exists(CachePath))
                     Directory.CreateDirectory(CachePath);
                 
                 _sessionCacheData = ScriptableObject.CreateInstance<SessionCacheData>();
-                AssetDatabase.CreateAsset(_sessionCacheData, CachePath);
+                AssetDatabase.CreateAsset(_sessionCacheData, CacheFullPath);
                 AssetDatabase.SaveAssets();
             }
             return _sessionCacheData;
@@ -31,7 +33,8 @@ namespace TableForge.Editor.UI
 
         private static void SaveSession()
         {
-            EditorUtility.SetDirty(_sessionCacheData);
+            if(!EditorUtility.IsDirty(_sessionCacheData))
+                EditorUtility.SetDirty(_sessionCacheData);
             AssetDatabase.SaveAssets();
         }
         

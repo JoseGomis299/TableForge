@@ -102,7 +102,7 @@ namespace TableForge.Editor.UI
         public static TableMetadata LoadMetadata(string tableName, string basePath = null)
         {
             string path = basePath ?? GetDataPath();
-            if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path) || !Directory.Exists(path))
             {
                 return null;
             }
@@ -114,7 +114,7 @@ namespace TableForge.Editor.UI
         public static List<TableMetadata> GetAllMetadata()
         {
             string path = GetDataPath();
-            if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path) || !Directory.Exists(path))
             {
                 return null;
             }
@@ -165,8 +165,8 @@ namespace TableForge.Editor.UI
         #endregion
 
         #region Path Getters
-
-        private static string GetDataPath() => PathUtil.GetPath( "UI", "Metadata", "Data");
+        
+        private static string GetDataPath() => PathUtil.GetRelativeDataPath("Metadata");
 
         #endregion
     }

@@ -8,7 +8,9 @@ namespace TableForge.Editor.UI
     {
         public const float MinPollingInterval = 0.5f;
         private static TableSettingsData _settingsData;
-        private static string SettingsPath => PathUtil.GetPath("UI", "Settings", "Data", "TableSettings.asset");
+        private static string SettingsPath => PathUtil.GetRelativeDataPath("Settings");
+        private const string SettingsFileName = "TableSettings.asset";
+        private static string SettingsFullPath => Path.Combine(SettingsPath, SettingsFileName);
 
         public static TableSettingsData GetSettings()
         {
@@ -20,14 +22,15 @@ namespace TableForge.Editor.UI
                 return _settingsData;
             }
 
-            _settingsData = AssetDatabase.LoadAssetAtPath<TableSettingsData>(SettingsPath);
+            
+            _settingsData = AssetDatabase.LoadAssetAtPath<TableSettingsData>(SettingsFullPath);
             if (_settingsData == null)
             {
                 if (!Directory.Exists(SettingsPath))
                     Directory.CreateDirectory(SettingsPath);
                 
                 _settingsData = ScriptableObject.CreateInstance<TableSettingsData>();
-                AssetDatabase.CreateAsset(_settingsData, SettingsPath);
+                AssetDatabase.CreateAsset(_settingsData, SettingsFullPath);
                 AssetDatabase.SaveAssets();
             }
             
