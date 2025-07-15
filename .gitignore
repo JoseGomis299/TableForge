@@ -15,9 +15,9 @@ sysinfo.txt
 *.log
 
 # TableForge data directories (not tracked in git)
-Assets/TableForgeData/Cache/
-Assets/TableForgeData/Settings/
-Assets/TableForgeData/Metadata/
+Assets/TableForge/Editor/Data/Cache/
+Assets/TableForge/Editor/Data/Settings/
+Assets/TableForge/Editor/Data/Metadata/
 Assets/TableForgeDemoFiles/
 Assets/TableForge/Editor/Tests/MockedData
 
