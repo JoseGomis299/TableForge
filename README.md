@@ -577,7 +577,7 @@ TableForge serializes fields using the same rules as Unity:
 - **Properties** with `[field: SerializeField]` are serialized.
 - **Unity Types** (e.g., `Vector3`, `Color`, `AnimationCurve`, etc.) and any type Unity can serialize are supported.
 - **Custom Classes/Structs** must be marked `[System.Serializable]` to be serialized.
-- **Collections** (arrays, lists, dictionaries) are supported if Unity can serialize them.
+- **Collections** (arrays, lists, serializedDictionaries) are supported if Unity can serialize them.
 - **If Unity can serialize it, TableForge can as well.**
 
 ### Excluding Fields: `[TableForgeIgnore]` Attribute
