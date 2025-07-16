@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
-  m_Name: Test1 (1)
+  m_Name: Test Table 2
   m_EditorClassIdentifier: 
   expandedTables:
     values: 015c61fc049f1c9bdce11c9b
@@ -18,7 +18,8 @@ MonoBehaviour:
     values: 
   hiddenFields:
     values: 
-  itemsTypeName: Test1, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  itemsTypeName: TableForgeDemoFiles.Test1, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
   bindingTypeName: 
   itemGUIDs:
     values:

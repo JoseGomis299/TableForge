@@ -15,3 +15,4 @@ MonoBehaviour:
   openTabs:
     values:
     - {fileID: 11400000, guid: 00f88aa30df5c2944b14b6ecaabb720d, type: 2}
+    - {fileID: 11400000, guid: 11dc20f8cba5a0243a24f542f9856706, type: 2}

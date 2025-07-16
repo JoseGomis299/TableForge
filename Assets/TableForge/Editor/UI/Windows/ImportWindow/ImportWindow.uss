@@ -140,7 +140,6 @@
     display: flex;
     flex-direction: column;
     background-color: var(--color-bg-dark-alt);
-    border-radius: 4px;
     padding: var(--spacing-sm);
 }
 

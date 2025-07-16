@@ -105,7 +105,6 @@ namespace TableForge.Editor.UI
         
         public void EditTab(TableMetadata tableMetadata)
         {
-            _cachedTables.Remove(tableMetadata);
             EditTableViewModel viewModel = new EditTableViewModel(tableMetadata);
             viewModel.OnTableUpdated += table =>
             {

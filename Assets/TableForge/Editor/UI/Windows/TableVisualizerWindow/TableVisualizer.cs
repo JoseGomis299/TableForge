@@ -16,8 +16,8 @@ namespace TableForge.Editor.UI
 
         [SerializeField] private VisualTreeAsset visualTreeAsset;
 
-        [MenuItem("Window/TableForge/TableVisualizer", priority = 0)]
-        public static void Initialize() => GetWindow<TableVisualizer>("TableVisualizer");
+        [MenuItem("Window/TableForge/Table Visualizer", priority = 0)]
+        public static void Initialize() => GetWindow<TableVisualizer>("Table Visualizer");
         
         public void CreateGUI()
         {

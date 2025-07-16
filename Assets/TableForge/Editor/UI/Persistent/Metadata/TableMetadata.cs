@@ -41,6 +41,7 @@ namespace TableForge.Editor.UI
                 if (string.IsNullOrEmpty(value) || value == name) return;
                 
                 this.Rename(value);
+                name = value;
                 SetDirtyIfNecessary();
             }
         }
@@ -154,6 +155,7 @@ namespace TableForge.Editor.UI
             }
             
             bindingTypeName = type.Name;
+            SetItemsType(type);
             SetDirtyIfNecessary();
         }
         

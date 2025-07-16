@@ -71,7 +71,7 @@ namespace TableForge.Editor.UI
         private void UpdateTable(TableMetadata tableMetadata)
         {
             TableMetadata.Copy(_tableMetadata, tableMetadata);
-            OnTableUpdated?.Invoke(tableMetadata);
+            OnTableUpdated?.Invoke(_tableMetadata);
         }
     }
 }
