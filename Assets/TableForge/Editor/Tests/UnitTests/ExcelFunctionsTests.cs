@@ -33,7 +33,7 @@ namespace TableForge.Tests
             List<string> rowPaths = new List<string>();
             for (int i = 1; i <= rowCount; i++)
             {
-                string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/ExcelData{i}.asset";
+                string path = $"{PathUtil.GetAndCreateTestDataFolder()}/ExcelData{i}.asset";
                 ExcelFunctionTestData existingData = AssetDatabase.LoadAssetAtPath<ExcelFunctionTestData>(path);
                 ExcelFunctionTestData data = existingData != null ? existingData : ScriptableObject.CreateInstance<ExcelFunctionTestData>();
                 
@@ -99,7 +99,7 @@ namespace TableForge.Tests
                 rowPaths.Add(path);
             }
             
-            TableMetadata tableMetadata = TableMetadataManager.GetMetadata(rowGuids, "ExcelTestTable", $"{PathUtil.GetTestFolderRelativePath()}/MockedData");
+            TableMetadata tableMetadata = TableMetadataManager.GetMetadata(rowGuids, "ExcelTestTable", $"{PathUtil.GetAndCreateTestDataFolder()}");
             tableMetadata.GetFunctions().Clear();
             tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata), metadata:tableMetadata);
 

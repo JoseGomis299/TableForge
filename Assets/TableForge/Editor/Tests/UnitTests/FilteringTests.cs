@@ -33,7 +33,7 @@ namespace TableForge.Tests
             List<string> rowPaths = new List<string>();
             for (int i = 0; i < rowCount; i++)
             {
-                string path = $"{PathUtil.GetTestFolderRelativePath()}/TestMockedData/FilteringData{i}.asset";
+                string path = $"{PathUtil.GetAndCreateTestDataFolder()}/FilteringData{i}.asset";
                 FilteringTestData existingData = AssetDatabase.LoadAssetAtPath<FilteringTestData>(path);
                 FilteringTestData data = existingData != null ? existingData : ScriptableObject.CreateInstance<FilteringTestData>();
                 
@@ -75,7 +75,7 @@ namespace TableForge.Tests
                 rowPaths.Add(path);
             }
             
-            TableMetadata tableMetadata = TableMetadataManager.GetMetadata(rowGuids, "FilteringTestTable", $"{PathUtil.GetTestFolderRelativePath()}/MockedData");
+            TableMetadata tableMetadata = TableMetadataManager.GetMetadata(rowGuids, "FilteringTestTable", $"{PathUtil.GetAndCreateTestDataFolder()}");
             tableControl.SetTable(TableMetadataManager.GetTable(tableMetadata), metadata:tableMetadata);
 
             return (tableControl, rowGuids, rowPaths);
@@ -118,7 +118,7 @@ namespace TableForge.Tests
         public void FilterByPath_WithFolder_ShouldMatchMultipleRows()
         {
             // Arrange
-            string folderPath = PathUtil.GetTestFolderRelativePath() + "/MockedData";
+            string folderPath = PathUtil.GetAndCreateTestDataFolder() + "";
 
             // Act
             _tableControl.Filterer.Filter($"path:{folderPath}");

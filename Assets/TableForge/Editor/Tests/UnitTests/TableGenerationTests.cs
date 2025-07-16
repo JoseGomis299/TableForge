@@ -13,7 +13,7 @@ namespace TableForge.Tests
         {
             // Arrange
             NonSupportedTypes testData = ScriptableObject.CreateInstance<NonSupportedTypes>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/FallbackScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/FallbackScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -38,7 +38,7 @@ namespace TableForge.Tests
         {
             // Arrange
             AnimationCurveScriptableObject testData = ScriptableObject.CreateInstance<AnimationCurveScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/AnimationCurveScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/AnimationCurveScriptableObject.asset";
             
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -65,7 +65,7 @@ namespace TableForge.Tests
         {
             // Arrange
             BooleanScriptableObject testData = ScriptableObject.CreateInstance<BooleanScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/BooleanScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/BooleanScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -92,7 +92,7 @@ namespace TableForge.Tests
         {
             // Arrange
             ColorScriptableObject testData = ScriptableObject.CreateInstance<ColorScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/ColorScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/ColorScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -119,7 +119,7 @@ namespace TableForge.Tests
         {
             // Arrange
             EnumScriptableObject testData = ScriptableObject.CreateInstance<EnumScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/EnumScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/EnumScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -146,7 +146,7 @@ namespace TableForge.Tests
         {
             // Arrange
             FloatingPointScriptableObject testData = ScriptableObject.CreateInstance<FloatingPointScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/FloatingPointScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/FloatingPointScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -174,7 +174,7 @@ namespace TableForge.Tests
         {
             // Arrange
             GradientScriptableObject testData = ScriptableObject.CreateInstance<GradientScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/GradientScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/GradientScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -201,7 +201,7 @@ namespace TableForge.Tests
         {
             // Arrange
             IntegralTypesScriptableObject testData = ScriptableObject.CreateInstance<IntegralTypesScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/IntegralTypesScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/IntegralTypesScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -235,7 +235,7 @@ namespace TableForge.Tests
         {
             // Arrange
             UnityObjectScriptableObject testData = ScriptableObject.CreateInstance<UnityObjectScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/UnityObjectScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/UnityObjectScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -262,7 +262,7 @@ namespace TableForge.Tests
         {
             // Arrange
             StringScriptableObject testData = ScriptableObject.CreateInstance<StringScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/StringScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/StringScriptableObject.asset";
 
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -289,7 +289,7 @@ namespace TableForge.Tests
         {
             // Arrange
             ListScriptableObject testData = ScriptableObject.CreateInstance<ListScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/ListScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/ListScriptableObject.asset";
             
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -317,7 +317,7 @@ namespace TableForge.Tests
         {
             // Arrange
             DictionaryScriptableObject testData = ScriptableObject.CreateInstance<DictionaryScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/DictionaryScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/DictionaryScriptableObject.asset";
             
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);
@@ -344,7 +344,7 @@ namespace TableForge.Tests
         {
             // Arrange
             ComplexTypeScriptableObject testData = ScriptableObject.CreateInstance<ComplexTypeScriptableObject>();
-            string path = $"{PathUtil.GetTestFolderRelativePath()}/MockedData/ComplexTypeScriptableObject.asset";
+            string path = $"{PathUtil.GetAndCreateTestDataFolder()}/ComplexTypeScriptableObject.asset";
             
             // Create the scriptableObject
             AssetDatabase.CreateAsset(testData, path);

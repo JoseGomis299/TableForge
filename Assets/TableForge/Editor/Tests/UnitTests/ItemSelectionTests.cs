@@ -19,9 +19,9 @@ namespace TableForge.Tests
 
             string[] paths = new[]
             {
-                $"{PathUtil.GetTestFolderRelativePath()}/MockedData/SampleTestData_0.asset",
-                $"{PathUtil.GetTestFolderRelativePath()}/MockedData/SampleTestData_1.asset",
-                $"{PathUtil.GetTestFolderRelativePath()}/MockedData/SampleTestData_2.asset"
+                $"{PathUtil.GetAndCreateTestDataFolder()}/SampleTestData_0.asset",
+                $"{PathUtil.GetAndCreateTestDataFolder()}/SampleTestData_1.asset",
+                $"{PathUtil.GetAndCreateTestDataFolder()}/SampleTestData_2.asset"
             };
             
             //Create the scriptableObjects

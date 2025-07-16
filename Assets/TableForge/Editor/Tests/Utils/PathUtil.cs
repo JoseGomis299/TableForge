@@ -6,19 +6,15 @@ namespace TableForge.Tests
 {
     internal static class PathUtil
     {
-        public static string GetTestFolderRelativePath()
+        public static string GetAndCreateTestDataFolder()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string[] guids = AssetDatabase.FindAssets("t:AssemblyDefinitionAsset");
-            foreach (string guid in guids)
+            string path = Editor.UI.PathUtil.GetRelativeDataPath("TestData").Replace("\\", "/");
+            if (!Directory.Exists(path))
             {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                if (path.EndsWith(assembly.GetName().Name + ".asmdef"))
-                {
-                    return Path.GetDirectoryName(path)?.Replace("\\", "/");
-                }
+                Directory.CreateDirectory(path);
             }
-            return string.Empty;
+         
+            return path;
         }
     }
 }
