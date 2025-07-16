@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace TableForge.Editor.Serialization
 {
@@ -36,7 +37,7 @@ namespace TableForge.Editor.Serialization
 
         private void DeserializeSubItem(string[] values, ref int index)
         {
-            foreach (var descendant in cell.GetImmediateDescendants())
+            foreach (var descendant in cell.GetImmediateDescendants().ToList())
             {
                 if (index >= values.Length)
                 {

@@ -1,3 +1,5 @@
+using System;
+
 namespace TableForge.Editor.Serialization
 {
     internal abstract class CellSerializer : ICellSerializer
@@ -23,7 +25,7 @@ namespace TableForge.Editor.Serialization
                 Deserialize(data);
                 return true;
             }
-            catch
+            catch(Exception e)
             {
                 return false;
             }

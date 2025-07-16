@@ -11,7 +11,7 @@ namespace TableForge.Editor.Serialization
         private List<string> _columnNames;
         private int _rowCount;
         
-        public string Data { get; }
+        public string Data { get; protected set; }
         public string TableName { get; }
         public Type ItemsType { get; }
         public string NewElementsBasePath { get; }

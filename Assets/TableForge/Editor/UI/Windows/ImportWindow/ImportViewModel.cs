@@ -47,14 +47,14 @@ namespace TableForge.Editor
             {
                 ColumnIndex = -1,
                 OriginalName = "Guid",
-                MappedField = AvailableFields.Contains("Guid") ? "Guid" : null
+                MappedField = AvailableFields.FirstOrDefault(field => field.ToLower().Equals("guid"))
             });
             
             ColumnMappings.Add(new ColumnMapping
             {
                 ColumnIndex = -1,
                 OriginalName = "Path",
-                MappedField = AvailableFields.Contains("Path") ? "Path" : null
+                MappedField = AvailableFields.FirstOrDefault(field => field.ToLower().Equals("path"))
             });
             
             TfSerializedType serializedType = new TfSerializedType(ItemsType, null);
@@ -66,7 +66,7 @@ namespace TableForge.Editor
                     ColumnIndex = i,
                     ColumnLetter = PositionUtil.ConvertToLetters(i + 1),
                     OriginalName = colName,
-                    MappedField = AvailableFields.Contains(colName) ? colName : null
+                    MappedField = AvailableFields.FirstOrDefault(field => field.ToLower().Equals(colName.ToLower()))
                 });
             }
         }
@@ -173,9 +173,6 @@ namespace TableForge.Editor
             {
                 throw new Exception($"Table name '{TableName}' already exists or is invalid.");
             }
-            
-            // This would actually create the table and assets
-            Debug.Log($"Creating table '{TableName}' with {ImportItems.Count} items");
             
             // Create assets
             int createdCount = 0;

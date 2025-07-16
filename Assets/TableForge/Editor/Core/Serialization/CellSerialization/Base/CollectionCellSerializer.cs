@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TableForge.Editor.Serialization
 {
@@ -28,6 +29,10 @@ namespace TableForge.Editor.Serialization
             }
             var values = JsonUtil.JsonArrayToStringList(data);
             if(values.Count == 0) return;
+            
+            if (JsonUtil.IsValidJsonObject(values[0]))
+                values = values.SelectMany(v => JsonUtil.ToStringDictionary(v).Values).ToList();    
+            
             int index = 0;
             DeserializeSubTable(values.ToArray(), ref index);
         }
@@ -36,7 +41,7 @@ namespace TableForge.Editor.Serialization
         {
             Row currentRow = null;
             Stack<int> positionsToRemove = new Stack<int>();
-            foreach (var descendant in cell.GetImmediateDescendants())
+            foreach (var descendant in cell.GetImmediateDescendants().ToList())
             {
                 if (index >= values.Length)
                 {
@@ -79,7 +84,7 @@ namespace TableForge.Editor.Serialization
 
         protected override void DeserializeWithoutModifyingSubTable(string[] values, ref int index)
         {
-            foreach (var descendant in cell.GetImmediateDescendants())
+            foreach (var descendant in cell.GetImmediateDescendants().ToList())
             {
                 if (index >= values.Length)
                 {
@@ -88,16 +93,7 @@ namespace TableForge.Editor.Serialization
                     index = 0;
                 }
                 
-                if(descendant is SubTableCell _ and not ICollectionCell && descendant.Serializer is SubTableCellSerializer subTableCellSerializer)
-                {
-                    subTableCellSerializer.DeserializeSubTable(values, ref index);
-                }
-                else
-                {
-                    string value = values[index].Replace(SerializationConstants.EmptyColumn, string.Empty);
-                    descendant.Serializer.Deserialize(value);
-                    index++;
-                }
+                DeserializeCell(values, ref index, descendant);
             }
         }
     }

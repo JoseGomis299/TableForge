@@ -35,7 +35,7 @@ namespace TableForge.Editor
             bool isKey = cell.column.Name == "Key";
             if (isKey)
             {
-                if(_dictionary.Contains(data))
+                if(_dictionary.Contains(data) && (cell.GetValue() == null || !cell.GetValue().ToString().Equals(data.ToString())))
                     throw new InvalidCellValueException($"Key {data} already exists in dictionary. Cannot add duplicate keys.");
                 
                 object value = _dictionary[_itemKey];
