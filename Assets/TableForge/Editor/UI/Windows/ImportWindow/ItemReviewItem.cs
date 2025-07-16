@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace TableForge.Editor
 {
@@ -73,10 +74,10 @@ namespace TableForge.Editor
         private void OnPathChanged(ChangeEvent<string> evt)
         {
             _boundItem.Path = evt.newValue;
-            if (PathUtil.AssetPathExists(evt.newValue))
+            if (PathUtil.TryLoadAsset(evt.newValue, out var asset))
             {
                 _boundItem.Guid = AssetDatabase.AssetPathToGUID(evt.newValue);
-                _boundItem.ExistingAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(evt.newValue);
+                _boundItem.ExistingAsset = asset as ScriptableObject;
                 ObjectField.SetValueWithoutNotify(_boundItem.ExistingAsset);
             }
             else

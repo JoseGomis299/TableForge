@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
+  m_Name: svswvev
+  m_EditorClassIdentifier: 
+  expandedTables:
+    values: 
+  transposedTables:
+    values: 
+  hiddenFields:
+    values: 
+  itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  bindingTypeName: 
+  itemGUIDs:
+    values:
+    - 54c315f22bcc40d45872d62cca9d0622
+    - 7fcf4b6961055bb4998773da2858fb09
+    - 026e072987156f840bb7d7f037682255
+    - 149c2e59857195746b5f232eaca71ad2
+    - 9bcd2d1d933fec147bbb13759f634152
+    - fb08a8d8efcb32146b736356bd8cc2ec
+    - d47a1bf6d2186724da6d4cd688929631
+  cellAnchorMetadata:
+    mKeys: e9a5af9986a63bd656e3023319e40e676a65fb9bcfb2114c917445f7
+    mValues:
+    - position: 1
+      size: {x: 0, y: 24.666672}
+    - position: 2
+      size: {x: 0, y: 0}
+    - position: 3
+      size: {x: 0, y: 0}
+    - position: 4
+      size: {x: 0, y: 0}
+    - position: 5
+      size: {x: 0, y: 0}
+    - position: 6
+      size: {x: 0, y: 0}
+    - position: 7
+      size: {x: 0, y: 0}
+  functions:
+    mKeys: 
+    mValues: []

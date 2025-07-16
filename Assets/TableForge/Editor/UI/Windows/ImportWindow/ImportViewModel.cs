@@ -6,12 +6,13 @@ using TableForge.Editor.Serialization;
 using TableForge.Editor.UI;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TableForge.Editor
 {
     internal class ImportViewModel
     {
-        private TableDeserializationArgs _deserializationArgs;
+        private TableDeserializer _deserializer;
         private int[] _columnMappingIndices;
         
         public string TableName { get; set; }
@@ -32,17 +33,10 @@ namespace TableForge.Editor
             ColumnMappings.Clear();
             ImportItems.Clear();
             AvailableFields.Clear();
+
+            _deserializer = TableDeserializerFactory.Create(Format, Data, TableName, NewElementsBasePath, NewElementsBaseName, ItemsType, CsvHasHeader);
             
-            if(Format == SerializationFormat.Json)
-            {
-                _deserializationArgs = new JsonTableDeserializationArgs(Data, TableName, NewElementsBasePath, NewElementsBaseName, ItemsType);
-            }
-            else // CSV
-            {
-                _deserializationArgs = new CsvTableDeserializationArgs(Data, TableName, NewElementsBasePath, NewElementsBaseName, ItemsType, CsvHasHeader);
-            }
-            
-            foreach(var name in _deserializationArgs.ColumnNames)
+            foreach(var name in _deserializer.ColumnNames)
             {
                 if(string.IsNullOrEmpty(name)) continue;
                 AvailableFields.Add(name);
@@ -101,12 +95,12 @@ namespace TableForge.Editor
             
             List<string> guids = new(), paths = new();
             if(_columnMappingIndices[0] != -1)
-                guids = _deserializationArgs.ColumnData[_columnMappingIndices[0]];
+                guids = _deserializer.ColumnData[_columnMappingIndices[0]];
             if(_columnMappingIndices[1] != -1)
-                paths = _deserializationArgs.ColumnData[_columnMappingIndices[1]];
+                paths = _deserializer.ColumnData[_columnMappingIndices[1]];
 
-            List<string> createdPaths = new List<string>();
-            for (int i = 0; i < _deserializationArgs.RowCount; i++)
+            HashSet<string> createdPaths = new HashSet<string>();
+            for (int i = 0; i < _deserializer.RowCount; i++)
             {
                 string guid = i < guids.Count ? guids[i] : string.Empty;
                 ImportItems.Add(new ImportItem { Guid = guid });
@@ -114,7 +108,7 @@ namespace TableForge.Editor
                 if (guid != string.Empty)
                 {
                     string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                    if (!string.IsNullOrEmpty(assetPath) && PathUtil.AssetPathExists(assetPath))
+                    if (!string.IsNullOrEmpty(assetPath) && PathUtil.TryLoadAsset(assetPath, out var asset) && asset.GetType() == ItemsType)
                     {
                         ImportItems[i].Path = assetPath;
                         ImportItems[i].OriginalPath = assetPath;
@@ -125,7 +119,9 @@ namespace TableForge.Editor
                 
                 if(!string.IsNullOrEmpty(ImportItems[i].Guid)) continue;
                 string path = i < paths.Count ? paths[i] : string.Empty;
-                if(string.IsNullOrEmpty(path) || !AssetDatabase.IsValidFolder(Path.GetDirectoryName(path)))
+                bool assetExists = PathUtil.TryLoadAsset(path, out var existingAsset);
+                
+                if(string.IsNullOrEmpty(path) || !AssetDatabase.IsValidFolder(Path.GetDirectoryName(path)) || (assetExists && existingAsset.GetType() != ItemsType))
                 {
                     path = PathUtil.GetUniquePath(
                         NewElementsBasePath, 
@@ -135,12 +131,13 @@ namespace TableForge.Editor
                         );
                     
                     createdPaths.Add(path);
+                    assetExists = false;
                 }
                 
                 ImportItems[i].Path = path;
                 ImportItems[i].OriginalPath = path;
-
-                if (PathUtil.AssetPathExists(path))
+                
+                if (assetExists)
                 {
                     ImportItems[i].ExistingAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
                     ImportItems[i].Guid = AssetDatabase.AssetPathToGUID(path);
@@ -189,7 +186,7 @@ namespace TableForge.Editor
                     Debug.Log($"Creating new asset at {item.Path}");
                      
                     //Create the items without a valid GUID
-                    var newData = ScriptableObject.CreateInstance(_deserializationArgs.ItemsType);
+                    var newData = ScriptableObject.CreateInstance(_deserializer.ItemsType);
                     AssetDatabase.CreateAsset(newData, item.Path);
                     item.Guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(newData));
                     createdCount++;
@@ -202,50 +199,22 @@ namespace TableForge.Editor
                 AssetDatabase.Refresh();
             }
             
-            //Reorder the data based on the provided column indices, skipping the first two columns (GUID and Path)
-            var columnDataCopy = _deserializationArgs.ColumnData.ToList();
-            List<List<string>> processedColumnData = new List<List<string>>();
-            for (var i = 2; i < _columnMappingIndices.Length; i++)
-            {
-                int newIndex = _columnMappingIndices[i];
-                if (newIndex == -1) continue;
-                
-                processedColumnData.Add(columnDataCopy[newIndex]);
-            }
-            
-            // Create the table
+            // Create and deserialize the table
             TableMetadata metadata = TableMetadataManager.CreateMetadata(ImportItems.Select(r => r.Guid).ToList(), TableName);
             Table table = TableMetadataManager.GetTable(metadata);
-            
-            // Deserialize the data into the table
-            for (int i = 0; i < table.OrderedRows.Count; i++)
-            {
-                Row row = table.OrderedRows[i];
-                for (int j = 0; j < processedColumnData.Count; j++)
-                {
-                    if (processedColumnData[j] == null) continue;
-                    
-                    string cellValue = processedColumnData[j][i];
-                    if (string.IsNullOrEmpty(cellValue)) continue;
-                    
-                    Cell cell = row.OrderedCells[j]; 
-                    if(!cell.Serializer.TryDeserialize(cellValue))
-                    {
-                        Debug.LogWarning($"Failed to deserialize cell value '{cellValue}' for cell {cell.GetGlobalPosition()}.");
-                    }
-                }
-            }
+            _deserializer.Deserialize(table, _columnMappingIndices[2..]); // Skip Guid and Path columns
+
         }
 
         public string GetDataInfo()
         {
-            if (string.IsNullOrEmpty(Data) || _deserializationArgs == null)
+            if (string.IsNullOrEmpty(Data) || _deserializer == null)
             {
                 return "No data to preview.";
             }
 
             string value = "";
-            foreach (var column in _deserializationArgs.ColumnNames)
+            foreach (var column in _deserializer.ColumnNames)
             {
                 if (string.IsNullOrEmpty(column)) continue;
                 value += $"{column}, ";
@@ -256,8 +225,8 @@ namespace TableForge.Editor
                 value = value.Substring(0, value.Length - 2);
             
             return $"Fields found in text: {value}\n" +
-                   $"Total rows: {_deserializationArgs.RowCount}\n" +
-                   $"Total columns: {_deserializationArgs.ColumnNames.Count}";
+                   $"Total rows: {_deserializer.RowCount}\n" +
+                   $"Total columns: {_deserializer.ColumnNames.Count}";
         }
     }
 }

@@ -84,7 +84,7 @@ namespace TableForge.Editor.UI
             if (!metadata.IsTypeBound && _tableControl.TableData != null)
             {
                 var missingRows = _tableControl.TableData.Rows.Values
-                    .Where(row => !PathUtil.AssetPathExists(AssetDatabase.GetAssetPath(row.SerializedObject.RootObject)))
+                    .Where(row => !PathUtil.TryLoadAsset(AssetDatabase.GetAssetPath(row.SerializedObject.RootObject), out _))
                     .ToList();
                 
                 foreach (var row in missingRows)

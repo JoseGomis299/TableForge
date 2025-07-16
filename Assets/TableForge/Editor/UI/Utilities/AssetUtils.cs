@@ -23,7 +23,7 @@ namespace TableForge.Editor.UI
                 return newName;
             }
 
-            while (PathUtil.AssetPathExists(newPath))
+            while (PathUtil.TryLoadAsset(newPath, out _))
             {
                 newName = $"{name} {counter++}";
                 newPath = $"{directory}/{newName}{extension}";

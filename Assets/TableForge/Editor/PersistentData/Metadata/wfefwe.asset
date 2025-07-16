@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b79e36b3a8534235852035ac7e993606, type: 3}
+  m_Name: wfefwe
+  m_EditorClassIdentifier: 
+  expandedTables:
+    values: 
+  transposedTables:
+    values: 
+  hiddenFields:
+    values: 
+  itemsTypeName: Test2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  bindingTypeName: 
+  itemGUIDs:
+    values:
+    - 01889cb05d565e448a1b090c8a160773
+    - 30a45796df338044eb343e8adde6b402
+    - 42be456bf7376bc41a41937ace56ee7c
+    - 1ba78e803d2733f45b662161a6026f28
+    - 03c48a57d728c0546a763399235c5e4b
+    - 3dfe7853117e4b14d9daa4806bb6b329
+  cellAnchorMetadata:
+    mKeys: 1e1c2d26c518e2fb7e716d6f028c6dcbd99a45bc4194af36
+    mValues:
+    - position: 1
+      size: {x: 0, y: 0}
+    - position: 2
+      size: {x: 0, y: 0}
+    - position: 3
+      size: {x: 0, y: 0}
+    - position: 4
+      size: {x: 0, y: 0}
+    - position: 5
+      size: {x: 0, y: 0}
+    - position: 6
+      size: {x: 0, y: 0}
+  functions:
+    mKeys: 
+    mValues: []

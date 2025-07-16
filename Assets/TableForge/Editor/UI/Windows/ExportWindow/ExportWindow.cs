@@ -83,8 +83,8 @@ namespace TableForge.Editor.UI
                 var table = GetSelectedTable();
                 if (table == null) return;
 
-                var args = CreateSerializationArgs(table);
-                string previewText = TableSerializer.SerializeTable(args, MaxPreviewRows);
+                var serializer = CreateSerializer(table);
+                string previewText = serializer.Serialize(MaxPreviewRows);
                 if(table.Rows.Count > 10) previewText = $"Preview limited to first {MaxPreviewRows} rows:\n{previewText}";
                 _previewField.value = previewText;
             }
@@ -107,24 +107,15 @@ namespace TableForge.Editor.UI
             return null;
         }
 
-        private TableSerializationArgs CreateSerializationArgs(Table table)
+        private TableSerializer CreateSerializer(Table table)
         {
             var format = (SerializationFormat) _formatDropdown.value;
-
-            if (format == SerializationFormat.Csv)
-            {
-                return new CsvTableSerializationArgs(
-                    table,
-                    _includeGuidsToggle.value,
-                    _includePathsToggle.value,
-                    _flattenToggle.value
-                );
-            }
-            
-            return new JsonTableSerializationArgs(
-                table,
+            return TableSerializerFactory.Create(
+                table, 
+                format,
                 _includeGuidsToggle.value,
-                _includePathsToggle.value
+                _includePathsToggle.value,
+                _flattenToggle.value
             );
         }
 
@@ -143,8 +134,8 @@ namespace TableForge.Editor.UI
 
             if (!string.IsNullOrEmpty(path))
             {
-                var args = CreateSerializationArgs(table);
-                File.WriteAllText(path, TableSerializer.SerializeTable(args));
+                var serializer = CreateSerializer(table);
+                File.WriteAllText(path, serializer.Serialize());
                 AssetDatabase.Refresh();
                 
                 Close();

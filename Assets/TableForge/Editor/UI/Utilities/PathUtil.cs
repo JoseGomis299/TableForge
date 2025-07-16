@@ -11,7 +11,7 @@ namespace TableForge.Editor.UI
     {
         public static string GetRelativeDataPath(string path)
         {
-            return GetPath("Data", path);
+            return GetPath("PersistentData", path);
         }
         private static string GetPathToAssembly()
         {
@@ -41,7 +41,7 @@ namespace TableForge.Editor.UI
             return path;
         }
         
-        public static string GetUniquePath(string baseFolder, string baseName, string extension, List<string> invalidPaths = null)
+        public static string GetUniquePath(string baseFolder, string baseName, string extension, HashSet<string> invalidPaths = null)
         {
             if(!extension.StartsWith(".")) extension = $".{extension}";
             if(!baseFolder.EndsWith("/")) baseFolder += "/";
@@ -49,7 +49,7 @@ namespace TableForge.Editor.UI
             string newPath = $"{baseFolder}{baseName}{extension}";
             int counter = 0;
 
-            while (AssetPathExists(newPath) || (invalidPaths != null && invalidPaths.Contains(newPath)))
+            while (TryLoadAsset(newPath, out _) || (invalidPaths != null && invalidPaths.Contains(newPath)))
             {
                 if (counter == 0)
                 {
@@ -78,13 +78,16 @@ namespace TableForge.Editor.UI
             return true;
         }
         
-        public static bool AssetPathExists(string path)
+        public static bool TryLoadAsset(string path, out Object asset)
         {
             if (string.IsNullOrEmpty(path))
+            {
+                asset = null;
                 return false;
+            }
 
-            var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
-            return obj != null;
+            asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+            return asset != null;
         }
     }
 }

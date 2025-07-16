@@ -37,7 +37,6 @@ namespace TableForge.Editor.Serialization
         public const string JsonGuidPropertyName = "guid";
         public const string JsonPropertiesPropertyName = "properties";
         public const string JsonRootArrayName = "items";
-        public const string JsonTableNamePropertyName = "name";
     }
 }
 
