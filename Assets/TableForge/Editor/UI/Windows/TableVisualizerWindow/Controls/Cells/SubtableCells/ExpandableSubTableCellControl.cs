@@ -151,7 +151,7 @@ namespace TableForge.Editor.UI
             }
         }
         
-        public void ShowToolbar(bool show, bool checkAncestors)
+        public void ShowToolbar(bool show, bool checkDescendants)
         {
             if(!_headerFoldout.value)
             {
@@ -159,7 +159,7 @@ namespace TableForge.Editor.UI
                 return;
             }
             
-            bool focused = !checkAncestors || Cell.GetAncestors(true).Any(x => TableControl.CellSelector.IsCellFocused(x));
+            bool focused = !checkDescendants || Cell.GetDescendants(includeSelf:true).Any(x => TableControl.CellSelector.IsCellFocused(x));
 
             if (show && focused && subTableToolbar.style.display != DisplayStyle.Flex)
             {

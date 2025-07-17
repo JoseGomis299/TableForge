@@ -67,13 +67,13 @@ namespace TableForge.Editor.UI
                 RowHeaderControl row = tableControl.GetRowHeaderControl(tableControl.GetCellRow(cellControl.Cell));
                 ColumnHeaderControl column = tableControl.GetColumnHeaderControl(tableControl.GetCellColumn(cellControl.Cell));
                 
-                if(!cellControl.TableControl.RowVisibilityManager.IsHeaderVisibilityLockedBy(row, cellControl.Cell)
-                   && !cellControl.TableControl.ColumnVisibilityManager.IsHeaderVisibilityLockedBy(column, cellControl.Cell))
-                    return;
+                bool headerIsLockedByCell = tableControl.RowVisibilityManager.IsHeaderVisibilityLockedBy(row, cellControl.Cell)
+                                           || tableControl.ColumnVisibilityManager.IsHeaderVisibilityLockedBy(column, cellControl.Cell);
                 
                 foreach (var ancestor in cellControl.GetAncestors(true))
                 {
-                    ancestor.UnlockHeadersVisibility();
+                    if(headerIsLockedByCell)
+                        ancestor.UnlockHeadersVisibility();
                     
                     if(ancestor is SubTableCellControl subTableCellControl)
                     {
