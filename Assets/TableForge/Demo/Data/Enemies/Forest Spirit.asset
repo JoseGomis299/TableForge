@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Forest Spirit
   m_EditorClassIdentifier: 
   characterName: Forest Spirit
-  level: 6
+  level: 27
   health: 128
   skinColor: {r: 0.2, g: 0.8, b: 0.4, a: 1}
   staminaOverTime:
@@ -46,7 +46,7 @@ MonoBehaviour:
     cooldown: 2.2
     power: 10
     details:
-      baseAttack: 3.0
+      baseAttack: 3
       baseCastingTime: 1.7
   weapon: {fileID: 0}
   aggressionGradient:

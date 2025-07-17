@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dark Elf Assassin
   m_EditorClassIdentifier: 
   characterName: Dark Elf Assassin
-  level: 11
-  health: 168
+  level: 3
+  health: 133
   skinColor: {r: 0.2, g: 0.1, b: 0.3, a: 1}
   staminaOverTime:
     serializedVersion: 2

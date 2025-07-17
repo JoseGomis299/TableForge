@@ -21,10 +21,10 @@ namespace TableForge.Editor
         public TfSerializedType SerializedType { get; protected set; }
         
 
-        public TfSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string guid, string name = null)
+        public TfSerializedObject(object targetInstance, FieldInfo parentField, Object rootObject, string guid, string name = null, Type typeOverride = null)
         {
             TargetInstance = targetInstance;
-            SerializedType = new TfSerializedType(targetInstance.GetType(), parentField);
+            SerializedType = new TfSerializedType(typeOverride ?? targetInstance.GetType(), parentField);
             columnGenerator = SerializedType;
             RootObject = rootObject;
             RootObjectGuid = guid;
