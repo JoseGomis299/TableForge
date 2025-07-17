@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a729831d3e9ce4a811bcede823895d, type: 3}
+  m_Name: Selene Moonshadow
+  m_EditorClassIdentifier: 
+  characterName: Selene Moonshadow
+  level: 4
+  health: 135
+  skinColor: {r: 0.6, g: 0.7, b: 0.95, a: 1}
+  staminaOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 4.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spawnPosition: {x: 7, y: 2, z: 10}
+  abilities:
+  - abilityName: Shadowstep
+    cooldown: 1.8
+    power: 13
+    details:
+      baseAttack: 3
+      baseCastingTime: 1.8
+  - abilityName: Lunar Grasp
+    cooldown: 3.5
+    power: 19
+    details:
+      baseAttack: 5
+      baseCastingTime: 3
+  - abilityName: Veil of Night
+    cooldown: 5.5
+    power: 27
+    details:
+      baseAttack: 7
+      baseCastingTime: 4.5
+  weapon: {fileID: 11400000, guid: 2aab95917a2c9904aa8554e2983d8f07, type: 2}

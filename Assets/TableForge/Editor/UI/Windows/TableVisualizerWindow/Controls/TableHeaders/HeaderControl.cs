@@ -9,8 +9,10 @@ namespace TableForge.Editor.UI
     /// </summary>
     internal abstract class HeaderControl : VisualElement
     {
-        #region Private Fields
+        #region Fields
 
+        protected static readonly SubTableHeaderContextMenuBuilder SubTableHeaderContextMenuBuilder = new();
+        
         private readonly ContextualMenuManipulator _contextualMenuManipulator;
         private bool _isSelected;
         private bool _isSubSelected;
@@ -98,10 +100,8 @@ namespace TableForge.Editor.UI
             
             tableControl.CellSelector.OnSelectionChanged += OnSelectionChanged;
             
-            if (tableControl.Parent == null)
-            {
-                this.AddManipulator(_contextualMenuManipulator);
-            }
+          
+            this.AddManipulator(_contextualMenuManipulator);
         }
         
         /// <summary>
@@ -152,8 +152,8 @@ namespace TableForge.Editor.UI
         /// <param name="evt">The contextual menu populate event.</param>
         private void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            var contextMenuBuilder = GetContextMenuBuilder();
-            contextMenuBuilder.BuildContextMenu(this, evt);
+            var contextMenuBuilder = TableControl.Parent != null ? SubTableHeaderContextMenuBuilder : GetContextMenuBuilder();
+            contextMenuBuilder?.BuildContextMenu(this, evt);
         }
 
         #endregion

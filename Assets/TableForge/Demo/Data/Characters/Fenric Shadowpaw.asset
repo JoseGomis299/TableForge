@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a729831d3e9ce4a811bcede823895d, type: 3}
+  m_Name: Fenric Shadowpaw
+  m_EditorClassIdentifier: 
+  characterName: Fenric Shadowpaw
+  level: 8
+  health: 145
+  skinColor: {r: 0.35, g: 0.32, b: 0.28, a: 1}
+  staminaOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 8.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spawnPosition: {x: 15, y: 3, z: 9}
+  abilities:
+  - abilityName: Prowl
+    cooldown: 1.6
+    power: 15
+    details:
+      baseAttack: 4
+      baseCastingTime: 1.6
+  - abilityName: Shadow Ambush
+    cooldown: 3.2
+    power: 21
+    details:
+      baseAttack: 6
+      baseCastingTime: 2.8
+  - abilityName: Evasive Leap
+    cooldown: 5
+    power: 19
+    details:
+      baseAttack: 5
+      baseCastingTime: 4
+  weapon: {fileID: 11400000, guid: 627315a6b5f76834aa0499a0c97f2004, type: 2}

@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f839aa25d4e5c934e8b202a305874d0e, type: 3}
+  m_Name: Forest Spirit
+  m_EditorClassIdentifier: 
+  characterName: Forest Spirit
+  level: 6
+  health: 128
+  skinColor: {r: 0.2, g: 0.8, b: 0.4, a: 1}
+  staminaOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0.6
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.8
+      inSlope: 0.6
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spawnPosition: {x: 2.3, y: 0, z: -3.7}
+  abilities:
+  - abilityName: Nature's Embrace
+    cooldown: 2.2
+    power: 10
+    details:
+      baseAttack: 3.0
+      baseCastingTime: 1.7
+  weapon: {fileID: 0}
+  aggressionGradient:
+    serializedVersion: 2
+    key0: {r: 0.2, g: 0.8, b: 0.4, a: 1}
+    key1: {r: 0.1, g: 0.5, b: 0.2, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  patrolArea: {x: 6, y: 12, z: 18, w: 24}
+  lootDrops: []
+  meta:
+    species: Fey
+    isBoss: 0
+    threatLevel: 6

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a729831d3e9ce4a811bcede823895d, type: 3}
+  m_Name: Kael Flameheart
+  m_EditorClassIdentifier: 
+  characterName: Kael Flameheart
+  level: 9
+  health: 160
+  skinColor: {r: 0.95, g: 0.45, b: 0.25, a: 1}
+  staminaOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 9.7
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spawnPosition: {x: 17, y: 5, z: 11}
+  abilities:
+  - abilityName: Firebolt
+    cooldown: 1.4
+    power: 19
+    details:
+      baseAttack: 6
+      baseCastingTime: 1.4
+  - abilityName: Inferno Wave
+    cooldown: 3.6
+    power: 27
+    details:
+      baseAttack: 9
+      baseCastingTime: 2.9
+  - abilityName: Phoenix Rebirth
+    cooldown: 7.0
+    power: 35
+    details:
+      baseAttack: 12
+      baseCastingTime: 6.0
+  weapon: {fileID: 0}

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4ac6bf0201f7649a5a2e77edce4a8f, type: 3}
+  m_Name: Crude Axe
+  m_EditorClassIdentifier: 
+  weaponName: Crude Axe
+  damage: 15
+  attackSpeed: 0.8
+  bladeColor: {r: 0.4, g: 0.2, b: 0.1, a: 1}
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  size: {x: 1.5, y: 2.5}
+  upgradeLevels:
+    mKeys:
+    - Chipped
+    - Heavy
+    mValues:
+    - 1
+    - 2
+  meta:
+    manufacturer: Goblin Smithy
+    year: 1192
+    isPrototype: 1
+  developerNotes: Used by goblin raiders. For enemies.

@@ -57,8 +57,8 @@ namespace TableForge.Editor.UI
                     OnFocusedCellChanged?.Invoke();
                     return;
                 }
-
-                _focusedCell?.SetFocused(false);
+                
+                Cell previousFocusedCell = _focusedCell;
                 _focusedCell = value;
                 if (_focusedCell != null)
                 {
@@ -66,6 +66,7 @@ namespace TableForge.Editor.UI
                     //We need to wait for the next frame to set focus, since the cell control might need to be created, otherwise it won't work properly.
                     TableControl.schedule.Execute(() =>
                     {
+                        previousFocusedCell?.SetFocused(false);
                         _focusedCell.SetFocused(true);
                     }).ExecuteLater(0);
                 
@@ -73,6 +74,7 @@ namespace TableForge.Editor.UI
                     _selectedCells.Add(_focusedCell);
                     CellsToDeselect.Remove(_focusedCell);
                 }
+                else previousFocusedCell?.SetFocused(false);
                 
                 OnFocusedCellChanged?.Invoke();
               //  UndoRedoManager.AddSeparator();
@@ -361,9 +363,9 @@ namespace TableForge.Editor.UI
         /// <summary>
         /// Gets selected cells from a specific table.
         /// </summary>
-        /// <param name="fromTable">The table to get cells from.</param>
+        /// <param name="fromTable">The table to get cells from, null to get all selected cells.</param>
         /// <returns>A list of selected cells.</returns>
-        public List<Cell> GetSelectedCells(Table fromTable) => _selectedCells.Where(c => c.Table == fromTable).ToList();
+        public List<Cell> GetSelectedCells(Table fromTable) => _selectedCells.Where(c => fromTable == null || c.Table == fromTable).ToList();
         
         /// <summary>
         /// Removes selection from a specific row.

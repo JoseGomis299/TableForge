@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a729831d3e9ce4a811bcede823895d, type: 3}
+  m_Name: Garrick Stormborn
+  m_EditorClassIdentifier: 
+  characterName: Garrick Stormborn
+  level: 6
+  health: 170
+  skinColor: {r: 0.45, g: 0.65, b: 0.85, a: 1}
+  staminaOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 6.2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spawnPosition: {x: 13, y: 4, z: 12}
+  abilities:
+  - abilityName: Lightning Strike
+    cooldown: 1.7
+    power: 18
+    details:
+      baseAttack: 5
+      baseCastingTime: 1.7
+  - abilityName: Tempest Shield
+    cooldown: 3.8
+    power: 22
+    details:
+      baseAttack: 7
+      baseCastingTime: 3
+  - abilityName: Eye of the Storm
+    cooldown: 6
+    power: 30
+    details:
+      baseAttack: 10
+      baseCastingTime: 5
+  weapon: {fileID: 11400000, guid: 8ae835a34ce4ad547afe32a651d14f20, type: 2}

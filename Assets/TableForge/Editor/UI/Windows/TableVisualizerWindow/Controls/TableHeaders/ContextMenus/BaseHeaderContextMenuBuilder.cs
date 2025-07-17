@@ -28,12 +28,12 @@ namespace TableForge.Editor.UI
             
             if (!containsSubTable) return;
             
-            evt.menu.AppendAction("Expand All", (_) =>
+            evt.menu.AppendAction("Expand Selected", (_) =>
             {
                 SetExpanded(header, selectedCells, true);
             });
 
-            evt.menu.AppendAction("Collapse All", (_) =>
+            evt.menu.AppendAction("Collapse Selected", (_) =>
             {
                 SetExpanded(header, selectedCells, false);
             });
@@ -69,8 +69,15 @@ namespace TableForge.Editor.UI
                 header.TableControl.PreferredSize.AddCellSize(cell, SizeCalculator.CalculateSize(cell, header.TableControl.Metadata));
                 header.TableControl.PreferredSize.StoreCellSizeInMetadata(cell);
             }
-
-            header.TableControl.RebuildPage();
+            
+            header.TableControl.RebuildPage(false);
+            if (header.TableControl.Parent != null)
+            {
+                foreach (var ancestor in header.TableControl.Parent.GetAncestors(true))
+                {
+                    ancestor.TableControl.RebuildPage(false);
+                }
+            }
         }
     }
 } 

@@ -25,7 +25,7 @@ namespace TableForge.Editor.Serialization
                 Deserialize(data);
                 return true;
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return false;
             }

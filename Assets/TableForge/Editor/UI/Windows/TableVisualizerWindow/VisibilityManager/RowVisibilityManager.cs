@@ -92,7 +92,7 @@ namespace TableForge.Editor.UI
         
         public override bool IsHeaderCompletelyInBounds(RowHeaderControl header, bool addSecuritySize, out sbyte visibleBounds)
         {
-            float margin = 1;
+            float margin = 5;
             Vector2 securitySize = addSecuritySize ? new Vector2(0, securityExtraSize.y) : Vector2.zero;
             var viewBounds = scrollView.contentViewport.worldBound;
             viewBounds.size = new Vector2(viewBounds.width, viewBounds.height - tableControl.CornerContainer.CornerControl.resolvedStyle.height) + securitySize;
