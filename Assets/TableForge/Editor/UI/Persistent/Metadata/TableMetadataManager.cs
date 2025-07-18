@@ -116,7 +116,7 @@ namespace TableForge.Editor.UI
             string path = GetDataPath();
             if (string.IsNullOrEmpty(path) || !Directory.Exists(path))
             {
-                return null;
+                return new List<TableMetadata>();
             }
 
             string[] guids = AssetDatabase.FindAssets("t:TableMetadata", new[] { path });

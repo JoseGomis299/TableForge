@@ -48,7 +48,9 @@ namespace TableForge.Editor.UI
                 reorderable = false,
             };
             _treeView.AddToClassList(TableDetailsUss.AssetTree);
-            _treeView.canStartDrag += _ => false;
+#if UNITY_6000_0_OR_NEWER
+                        _treeView.canStartDrag += _ => false;
+#endif
             _treeView.makeItem = MakeTreeItem;
             _treeView.bindItem = BindTreeItem;
             _treeView.unbindItem = UnbindTreeItem;

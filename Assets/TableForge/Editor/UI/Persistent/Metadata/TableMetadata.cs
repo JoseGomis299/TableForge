@@ -135,7 +135,7 @@ namespace TableForge.Editor.UI
             Type type = Type.GetType(itemsTypeName);
             if (type == null)
             {
-                Debug.LogError($"Failed to find type: {itemsTypeName}");
+                Debug.LogWarning($"Failed to find type: {itemsTypeName}");
                 return null;
             }
             

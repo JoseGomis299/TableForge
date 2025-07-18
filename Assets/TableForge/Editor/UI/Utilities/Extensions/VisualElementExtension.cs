@@ -78,16 +78,6 @@ namespace TableForge.Editor.UI
             }
         }
         
-        public static void RegisterSingleUseCallbackOnce<T>(this VisualElement element, Action actionToPerform, TrickleDown trickleDown = TrickleDown.NoTrickleDown) where T : EventBase<T>, new()
-        {
-            element.RegisterCallbackOnce<T>(OnEventPerformed, trickleDown);
-            
-            void OnEventPerformed(T evt)
-            {
-                actionToPerform?.Invoke();
-            }
-        }
-        
         public static void SwapChildren(this VisualElement element, VisualElement child1, VisualElement child2)
         {
             int index1 = element.IndexOf(child1);

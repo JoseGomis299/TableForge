@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1706.6667
     height: 976
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Inspector
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 76
+  controlID: 364
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 77
+  controlID: 365
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -165,12 +165,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1414
+    width: 1373.3334
     height: 920
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 78
+  controlID: 49
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -182,26 +182,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TableVisualizer
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1414
+    width: 1373.3334
     height: 709.3333
   m_MinSize: {x: 51, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 15}
   m_Panes:
-  - {fileID: 15}
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 18}
-  - {fileID: 14}
-  - {fileID: 13}
-  m_Selected: 5
+  - {fileID: 19}
+  - {fileID: 15}
+  m_Selected: 4
   m_LastSelected: 4
 --- !u!114 &9
 MonoBehaviour:
@@ -222,12 +221,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 709.3333
-    width: 1414
+    width: 1373.3334
     height: 210.66669
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 79
+  controlID: 50
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -246,13 +245,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1077.3334
+    width: 1047.3334
     height: 210.66669
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 19}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 19}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &11
@@ -270,15 +269,15 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1077.3334
+    x: 1047.3334
     y: 0
-    width: 336.66663
+    width: 326
     height: 210.66669
-  m_MinSize: {x: 102, y: 126}
-  m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 20}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 21}
   m_Panes:
-  - {fileID: 20}
+  - {fileID: 21}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &12
@@ -291,22 +290,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
+  m_Name: InspectorWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1414
+    x: 1373.3334
     y: 0
-    width: 292.66663
+    width: 333.33325
     height: 920
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 21}
+  m_ActualView: {fileID: 22}
   m_Panes:
-  - {fileID: 21}
+  - {fileID: 22}
+  - {fileID: 14}
+  - {fileID: 13}
   m_Selected: 0
-  m_LastSelected: 0
+  m_LastSelected: 2
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -316,22 +317,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a4ac289734f744a9751ad7fee949e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b5319699cc84194a9a768ad33b86c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MinSize: {x: 50, y: 50}
+  m_MinSize: {x: 400, y: 430}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Table Visualizer
+    m_Text: Asset Store Uploader
     m_Image: {fileID: 0}
     m_Tooltip: 
-    m_TextWithWhitespace: "Table Visualizer\u200B"
+    m_TextWithWhitespace: "Asset Store Uploader\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 24
-    width: 1413
-    height: 683.3333
+    x: 1373.3334
+    y: 78.66667
+    width: 332.33325
+    height: 894
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -343,8 +344,43 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
-  visualTreeAsset: {fileID: 9197481963319205126, guid: 1a7497980761aee499a21aa4ea67b4be, type: 3}
 --- !u!114 &14
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0dc99b826513dd4f868f1cf405c3923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 350, y: 350}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Asset Store Validator
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+    m_TextWithWhitespace: "Asset Store Validator\u200B"
+  m_Pos:
+    serializedVersion: 2
+    x: 986
+    y: 78.66667
+    width: 719.6666
+    height: 894
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_ContainerData: []
+    m_OverlaysVisible: 1
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -368,7 +404,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 78.66667
-    width: 1413
+    width: 1372.3334
     height: 683.3333
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -382,7 +418,7 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 3285
+    ID: 138
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -407,9 +443,9 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 0
   m_TestListGUIs:
-  - m_Window: {fileID: 14}
+  - m_Window: {fileID: 15}
     runProgress:
-      RunGuid: 7928d696-b302-42cf-8524-e756841613f9
+      RunGuid: 69ea9d47-e017-492c-8e2c-8e602700e08f
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -421,9 +457,9 @@ MonoBehaviour:
           assemblyNames: []
         filters:
         - testMode: 1
-          testNames:
-          - TableForge.Tests.FilteringTests
-          groupNames: []
+          testNames: []
+          groupNames:
+          - .*
           categoryNames: []
           assemblyNames: []
         runSynchronously: 0
@@ -437,7 +473,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999996
+      Progress: 0.99999994
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList:
@@ -526,7 +562,7 @@ MonoBehaviour:
       name: Abs_CellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_CellReference
       resultStatus: 1
-      duration: 0.5032372
+      duration: 0.2304077
       messages: 
       output: 
       stacktrace: 
@@ -543,7 +579,7 @@ MonoBehaviour:
       name: Abs_NegativeValue
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_NegativeValue
       resultStatus: 1
-      duration: 0.0570475
+      duration: 0.0579378
       messages: 
       output: 
       stacktrace: 
@@ -560,7 +596,7 @@ MonoBehaviour:
       name: Abs_PositiveValue
       fullName: TableForge.Tests.ExcelFunctionsTests.Abs_PositiveValue
       resultStatus: 1
-      duration: 0.0425105
+      duration: 0.0560596
       messages: 
       output: 
       stacktrace: 
@@ -577,7 +613,7 @@ MonoBehaviour:
       name: And_AllTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.And_AllTrue
       resultStatus: 1
-      duration: 0.0461955
+      duration: 0.0587524
       messages: 
       output: 
       stacktrace: 
@@ -594,7 +630,7 @@ MonoBehaviour:
       name: And_OneFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.And_OneFalse
       resultStatus: 1
-      duration: 0.0491518
+      duration: 0.0571371
       messages: 
       output: 
       stacktrace: 
@@ -611,7 +647,7 @@ MonoBehaviour:
       name: And_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.And_WithCellReferences
       resultStatus: 1
-      duration: 0.0526832
+      duration: 0.0598254
       messages: 
       output: 
       stacktrace: 
@@ -628,7 +664,7 @@ MonoBehaviour:
       name: Arithmetic_WithArrayReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithArrayReference
       resultStatus: 1
-      duration: 0.054183
+      duration: 0.0629576
       messages: 
       output: 
       stacktrace: 
@@ -645,7 +681,7 @@ MonoBehaviour:
       name: Arithmetic_WithComplexMixedExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithComplexMixedExpression
       resultStatus: 1
-      duration: 0.0559348
+      duration: 0.0625391
       messages: 
       output: 
       stacktrace: 
@@ -662,7 +698,7 @@ MonoBehaviour:
       name: Arithmetic_WithComplexNestedExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithComplexNestedExpression
       resultStatus: 1
-      duration: 0.045295
+      duration: 0.0579152
       messages: 
       output: 
       stacktrace: 
@@ -679,7 +715,7 @@ MonoBehaviour:
       name: Arithmetic_WithConditionalFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithConditionalFunction
       resultStatus: 1
-      duration: 0.0482657
+      duration: 0.0561009
       messages: 
       output: 
       stacktrace: 
@@ -696,7 +732,7 @@ MonoBehaviour:
       name: Arithmetic_WithDeepReferenceChain
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithDeepReferenceChain
       resultStatus: 1
-      duration: 0.0478668
+      duration: 0.0568115
       messages: 
       output: 
       stacktrace: 
@@ -713,7 +749,7 @@ MonoBehaviour:
       name: Arithmetic_WithExponentiationAndFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithExponentiationAndFunction
       resultStatus: 1
-      duration: 0.0501685
+      duration: 0.0579214
       messages: 
       output: 
       stacktrace: 
@@ -730,7 +766,7 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionAndReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionAndReference
       resultStatus: 1
-      duration: 0.0798162
+      duration: 0.0571332
       messages: 
       output: 
       stacktrace: 
@@ -747,7 +783,7 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionAsPercentageArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionAsPercentageArgument
       resultStatus: 1
-      duration: 0.0443903
+      duration: 0.0576368
       messages: 
       output: 
       stacktrace: 
@@ -764,7 +800,7 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionInParentheses
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionInParentheses
       resultStatus: 1
-      duration: 0.0449455
+      duration: 0.0590736
       messages: 
       output: 
       stacktrace: 
@@ -781,7 +817,7 @@ MonoBehaviour:
       name: Arithmetic_WithFunctionResult
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithFunctionResult
       resultStatus: 1
-      duration: 0.0418086
+      duration: 0.0593619
       messages: 
       output: 
       stacktrace: 
@@ -798,7 +834,7 @@ MonoBehaviour:
       name: Arithmetic_WithLogicalFunctionAndArithmetic
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithLogicalFunctionAndArithmetic
       resultStatus: 1
-      duration: 0.0466333
+      duration: 0.0639329
       messages: 
       output: 
       stacktrace: 
@@ -815,7 +851,7 @@ MonoBehaviour:
       name: Arithmetic_WithNestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithNestedFunctions
       resultStatus: 1
-      duration: 0.0471862
+      duration: 0.0823989
       messages: 
       output: 
       stacktrace: 
@@ -832,7 +868,7 @@ MonoBehaviour:
       name: Arithmetic_WithPercentageAfterFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithPercentageAfterFunction
       resultStatus: 1
-      duration: 0.0442271
+      duration: 0.1101219
       messages: 
       output: 
       stacktrace: 
@@ -849,7 +885,7 @@ MonoBehaviour:
       name: Arithmetic_WithPercentageInComplexExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithPercentageInComplexExpression
       resultStatus: 1
-      duration: 0.042313
+      duration: 0.0509371
       messages: 
       output: 
       stacktrace: 
@@ -866,7 +902,7 @@ MonoBehaviour:
       name: Arithmetic_WithPercentageInFunction
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithPercentageInFunction
       resultStatus: 1
-      duration: 0.0418103
+      duration: 0.0531493
       messages: 
       output: 
       stacktrace: 
@@ -883,7 +919,7 @@ MonoBehaviour:
       name: Arithmetic_WithRangeAndArithmetic
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithRangeAndArithmetic
       resultStatus: 1
-      duration: 0.0425102
+      duration: 0.053192
       messages: 
       output: 
       stacktrace: 
@@ -900,7 +936,7 @@ MonoBehaviour:
       name: Arithmetic_WithReferenceChain
       fullName: TableForge.Tests.ExcelFunctionsTests.Arithmetic_WithReferenceChain
       resultStatus: 1
-      duration: 0.0415486
+      duration: 0.0525731
       messages: 
       output: 
       stacktrace: 
@@ -917,7 +953,7 @@ MonoBehaviour:
       name: Average_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Average_NumericValues
       resultStatus: 1
-      duration: 0.0424056
+      duration: 0.0562678
       messages: 
       output: 
       stacktrace: 
@@ -934,7 +970,7 @@ MonoBehaviour:
       name: Complex_LogicalExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.Complex_LogicalExpression
       resultStatus: 1
-      duration: 0.0457709
+      duration: 0.0586406
       messages: 
       output: 
       stacktrace: 
@@ -951,7 +987,7 @@ MonoBehaviour:
       name: Complex_NestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Complex_NestedFunctions
       resultStatus: 1
-      duration: 0.0495885
+      duration: 0.0608174
       messages: 
       output: 
       stacktrace: 
@@ -968,7 +1004,7 @@ MonoBehaviour:
       name: ComplexReferenceParsing
       fullName: TableForge.Tests.ExcelFunctionsTests.ComplexReferenceParsing
       resultStatus: 1
-      duration: 0.0486315
+      duration: 0.0592625
       messages: 
       output: 
       stacktrace: 
@@ -985,7 +1021,7 @@ MonoBehaviour:
       name: Count_MixedTypes
       fullName: TableForge.Tests.ExcelFunctionsTests.Count_MixedTypes
       resultStatus: 1
-      duration: 0.0474345
+      duration: 0.0581167
       messages: 
       output: 
       stacktrace: 
@@ -1002,7 +1038,7 @@ MonoBehaviour:
       name: Count_NonEmptyCells
       fullName: TableForge.Tests.ExcelFunctionsTests.Count_NonEmptyCells
       resultStatus: 1
-      duration: 0.0466458
+      duration: 0.0562559
       messages: 
       output: 
       stacktrace: 
@@ -1019,7 +1055,7 @@ MonoBehaviour:
       name: CountIf_WithCriteria
       fullName: TableForge.Tests.ExcelFunctionsTests.CountIf_WithCriteria
       resultStatus: 1
-      duration: 0.0483084
+      duration: 0.0562556
       messages: 
       output: 
       stacktrace: 
@@ -1036,7 +1072,7 @@ MonoBehaviour:
       name: CountIf_WithTextCriteria
       fullName: TableForge.Tests.ExcelFunctionsTests.CountIf_WithTextCriteria
       resultStatus: 1
-      duration: 0.0483571
+      duration: 0.055857
       messages: 
       output: 
       stacktrace: 
@@ -1053,7 +1089,7 @@ MonoBehaviour:
       name: Divide_ByZero
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_ByZero
       resultStatus: 1
-      duration: 0.0487955
+      duration: 0.0607846
       messages: 
       output: "Function evaluation error in cell E1 for input: =DIVIDE(10; 0)\nExpected
         type: System.Double, but got: \nError: Division by zero in DIVIDE function.\r\n"
@@ -1071,7 +1107,7 @@ MonoBehaviour:
       name: Divide_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_NormalOperation
       resultStatus: 1
-      duration: 0.0447961
+      duration: 0.0560448
       messages: 
       output: 
       stacktrace: 
@@ -1088,7 +1124,7 @@ MonoBehaviour:
       name: Divide_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Divide_WithCellReferences
       resultStatus: 1
-      duration: 0.0456046
+      duration: 0.0567149
       messages: 
       output: 
       stacktrace: 
@@ -1105,7 +1141,7 @@ MonoBehaviour:
       name: ExecuteAllFunctions_ComplexDistributedDependencies_ExecutesInOrder
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_ComplexDistributedDependencies_ExecutesInOrder
       resultStatus: 1
-      duration: 0.0526195
+      duration: 0.0631637
       messages: 
       output: 
       stacktrace: 
@@ -1122,7 +1158,7 @@ MonoBehaviour:
       name: ExecuteAllFunctions_DiamondDependency_ExecutesParentsFirst
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_DiamondDependency_ExecutesParentsFirst
       resultStatus: 1
-      duration: 0.0483959
+      duration: 0.0588391
       messages: 
       output: 
       stacktrace: 
@@ -1139,13 +1175,13 @@ MonoBehaviour:
       name: ExecuteAllFunctions_DiamondDependencyWithCircularReference_ThrowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_DiamondDependencyWithCircularReference_ThrowsError
       resultStatus: 1
-      duration: 0.049988
+      duration: 0.0594741
       messages: 
       output: 'Circular dependency detected involving cell ''E4'' with function:
         =E3+E1
 
-        Circular dependency detected involving cell ''E4'' with function:
-        =E3+E1
+        Circular dependency detected involving cell ''E4'' with
+        function: =E3+E1
 
 '
       stacktrace: 
@@ -1162,7 +1198,7 @@ MonoBehaviour:
       name: ExecuteAllFunctions_LinearDependency_ExecutesInOrder
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_LinearDependency_ExecutesInOrder
       resultStatus: 1
-      duration: 0.0476026
+      duration: 0.0572172
       messages: 
       output: 
       stacktrace: 
@@ -1179,7 +1215,7 @@ MonoBehaviour:
       name: ExecuteAllFunctions_MultiBranch_ExecutesIndependently
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_MultiBranch_ExecutesIndependently
       resultStatus: 1
-      duration: 0.0446259
+      duration: 0.057234
       messages: 
       output: 
       stacktrace: 
@@ -1196,13 +1232,13 @@ MonoBehaviour:
       name: ExecuteAllFunctions_TransitiveCircularDependency_ThrowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.ExecuteAllFunctions_TransitiveCircularDependency_ThrowsError
       resultStatus: 1
-      duration: 0.0473089
+      duration: 0.0575992
       messages: 
       output: 'Circular dependency detected involving cell ''E5'' with function:
         =E4+E1
 
-        Circular dependency detected involving cell ''E5'' with function:
-        =E4+E1
+        Circular dependency detected involving cell ''E5'' with
+        function: =E4+E1
 
 '
       stacktrace: 
@@ -1219,7 +1255,7 @@ MonoBehaviour:
       name: If_NestedCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.If_NestedCondition
       resultStatus: 1
-      duration: 0.0470866
+      duration: 0.058707
       messages: 
       output: 
       stacktrace: 
@@ -1236,7 +1272,7 @@ MonoBehaviour:
       name: If_SimpleCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.If_SimpleCondition
       resultStatus: 1
-      duration: 0.0495897
+      duration: 0.0566316
       messages: 
       output: 
       stacktrace: 
@@ -1253,7 +1289,7 @@ MonoBehaviour:
       name: InvalidFunctionName_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.InvalidFunctionName_ShowsError
       resultStatus: 1
-      duration: 0.0463891
+      duration: 0.0548341
       messages: 
       output: "Function evaluation error in cell E1 for input: =INVALID(C1:C5)\nExpected
         type: System.Double, but got: \nError: Invalid result.\r\n"
@@ -1271,7 +1307,7 @@ MonoBehaviour:
       name: Max_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Max_NumericValues
       resultStatus: 1
-      duration: 0.0439962
+      duration: 0.0577755
       messages: 
       output: 
       stacktrace: 
@@ -1288,7 +1324,7 @@ MonoBehaviour:
       name: Max_WithNestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Max_WithNestedFunctions
       resultStatus: 1
-      duration: 0.0482493
+      duration: 0.0565748
       messages: 
       output: 
       stacktrace: 
@@ -1305,7 +1341,7 @@ MonoBehaviour:
       name: Min_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Min_NumericValues
       resultStatus: 1
-      duration: 0.047991
+      duration: 0.0563569
       messages: 
       output: 
       stacktrace: 
@@ -1322,7 +1358,7 @@ MonoBehaviour:
       name: Min_WithMixedReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Min_WithMixedReferences
       resultStatus: 1
-      duration: 0.0476111
+      duration: 0.0569921
       messages: 
       output: 
       stacktrace: 
@@ -1339,7 +1375,7 @@ MonoBehaviour:
       name: MismatchedParentheses_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.MismatchedParentheses_ShowsError
       resultStatus: 1
-      duration: 0.0454021
+      duration: 0.0574991
       messages: 
       output: "Function evaluation error in cell E1 for input: =SUM(C1:C5\nExpected
         type: System.Double, but got: \nError: Unmatched opening parenthesis in function
@@ -1358,7 +1394,7 @@ MonoBehaviour:
       name: Mod_ByZero
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_ByZero
       resultStatus: 1
-      duration: 0.0505302
+      duration: 0.0554373
       messages: 
       output: "Function evaluation error in cell E1 for input: =MOD(10; 0)\nExpected
         type: System.Double, but got: \nError: Division by zero in MOD function.\r\n"
@@ -1376,7 +1412,7 @@ MonoBehaviour:
       name: Mod_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_NormalOperation
       resultStatus: 1
-      duration: 0.0511732
+      duration: 0.0650446
       messages: 
       output: 
       stacktrace: 
@@ -1393,7 +1429,7 @@ MonoBehaviour:
       name: Mod_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Mod_WithCellReferences
       resultStatus: 1
-      duration: 0.0664268
+      duration: 0.0645792
       messages: 
       output: 
       stacktrace: 
@@ -1410,7 +1446,7 @@ MonoBehaviour:
       name: Multiply_NormalOperation
       fullName: TableForge.Tests.ExcelFunctionsTests.Multiply_NormalOperation
       resultStatus: 1
-      duration: 0.0903282
+      duration: 0.0643761
       messages: 
       output: 
       stacktrace: 
@@ -1427,7 +1463,7 @@ MonoBehaviour:
       name: Multiply_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Multiply_WithCellReferences
       resultStatus: 1
-      duration: 0.0587722
+      duration: 0.0651561
       messages: 
       output: 
       stacktrace: 
@@ -1444,7 +1480,7 @@ MonoBehaviour:
       name: Not_False
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_False
       resultStatus: 1
-      duration: 0.0632592
+      duration: 0.0597289
       messages: 
       output: 
       stacktrace: 
@@ -1461,7 +1497,7 @@ MonoBehaviour:
       name: Not_True
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_True
       resultStatus: 1
-      duration: 0.061747
+      duration: 0.0548332
       messages: 
       output: 
       stacktrace: 
@@ -1478,7 +1514,7 @@ MonoBehaviour:
       name: Not_WithCellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithCellReference
       resultStatus: 1
-      duration: 0.0647814
+      duration: 0.0599755
       messages: 
       output: 
       stacktrace: 
@@ -1495,7 +1531,7 @@ MonoBehaviour:
       name: Not_WithNonValidArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithNonValidArgument
       resultStatus: 1
-      duration: 0.0513358
+      duration: 0.06356
       messages: 
       output: "Invalid arguments for function 'NOT'\r\nFunction evaluation error
         in cell H1 for input: =NOT(5)\nExpected type: System.Boolean, but got: \nError:
@@ -1514,7 +1550,7 @@ MonoBehaviour:
       name: Not_WithNonValidFunctionArgument
       fullName: TableForge.Tests.ExcelFunctionsTests.Not_WithNonValidFunctionArgument
       resultStatus: 1
-      duration: 0.0483267
+      duration: 0.0801612
       messages: 
       output: "Invalid arguments for function 'NOT'\r\nFunction evaluation error
         in cell H1 for input: =NOT(SUM(5))\nExpected type: System.Boolean, but got:
@@ -1533,7 +1569,7 @@ MonoBehaviour:
       name: Or_AllFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_AllFalse
       resultStatus: 1
-      duration: 0.0425341
+      duration: 0.1283297
       messages: 
       output: 
       stacktrace: 
@@ -1550,7 +1586,7 @@ MonoBehaviour:
       name: Or_OneTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_OneTrue
       resultStatus: 1
-      duration: 0.0435968
+      duration: 0.0656901
       messages: 
       output: 
       stacktrace: 
@@ -1567,7 +1603,7 @@ MonoBehaviour:
       name: Or_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Or_WithCellReferences
       resultStatus: 1
-      duration: 0.0436508
+      duration: 0.0552088
       messages: 
       output: 
       stacktrace: 
@@ -1584,7 +1620,7 @@ MonoBehaviour:
       name: ReferenceOutOfRange_ShowsError
       fullName: TableForge.Tests.ExcelFunctionsTests.ReferenceOutOfRange_ShowsError
       resultStatus: 1
-      duration: 0.0448697
+      duration: 0.0540976
       messages: 
       output: "Function evaluation error in cell E1 for input: =SUM(C1:C10)\nExpected
         type: System.Double, but got: \nError: Could not resolve range: C1:C10\r\n"
@@ -1602,7 +1638,7 @@ MonoBehaviour:
       name: Round_NegativeNumber
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_NegativeNumber
       resultStatus: 1
-      duration: 0.0451581
+      duration: 0.0535726
       messages: 
       output: 
       stacktrace: 
@@ -1619,7 +1655,7 @@ MonoBehaviour:
       name: Round_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithCellReferences
       resultStatus: 1
-      duration: 0.0451059
+      duration: 0.0539349
       messages: 
       output: 
       stacktrace: 
@@ -1636,7 +1672,7 @@ MonoBehaviour:
       name: Round_WithDecimals
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithDecimals
       resultStatus: 1
-      duration: 0.0425894
+      duration: 0.0526772
       messages: 
       output: 
       stacktrace: 
@@ -1653,7 +1689,7 @@ MonoBehaviour:
       name: Round_WithoutDecimals
       fullName: TableForge.Tests.ExcelFunctionsTests.Round_WithoutDecimals
       resultStatus: 1
-      duration: 0.0461446
+      duration: 0.0512939
       messages: 
       output: 
       stacktrace: 
@@ -1670,7 +1706,7 @@ MonoBehaviour:
       name: SetCell_WithDeeplyNestedExpression
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithDeeplyNestedExpression
       resultStatus: 1
-      duration: 0.0447901
+      duration: 0.0540998
       messages: 
       output: 
       stacktrace: 
@@ -1687,7 +1723,7 @@ MonoBehaviour:
       name: SetCell_WithDirectNegativeNumber
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithDirectNegativeNumber
       resultStatus: 1
-      duration: 0.0474051
+      duration: 0.0513924
       messages: 
       output: 
       stacktrace: 
@@ -1704,7 +1740,7 @@ MonoBehaviour:
       name: SetCell_WithDirectNumberValue
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithDirectNumberValue
       resultStatus: 1
-      duration: 0.0459355
+      duration: 0.0539418
       messages: 
       output: 
       stacktrace: 
@@ -1721,7 +1757,7 @@ MonoBehaviour:
       name: SetCell_WithSingleCellReference
       fullName: TableForge.Tests.ExcelFunctionsTests.SetCell_WithSingleCellReference
       resultStatus: 1
-      duration: 0.0462145
+      duration: 0.0554735
       messages: 
       output: 
       stacktrace: 
@@ -1738,7 +1774,7 @@ MonoBehaviour:
       name: Sum_InvalidValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_InvalidValues
       resultStatus: 1
-      duration: 0.0438326
+      duration: 0.0587298
       messages: 
       output: "Invalid arguments for function 'SUM'\r\nFunction evaluation error
         in cell E1 for input: =SUM(C1;\"Invalid\")\nExpected type: System.Double,
@@ -1757,7 +1793,7 @@ MonoBehaviour:
       name: Sum_NestedFunctions
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_NestedFunctions
       resultStatus: 1
-      duration: 0.0443669
+      duration: 0.0567708
       messages: 
       output: 
       stacktrace: 
@@ -1774,7 +1810,7 @@ MonoBehaviour:
       name: Sum_NumericValues
       fullName: TableForge.Tests.ExcelFunctionsTests.Sum_NumericValues
       resultStatus: 1
-      duration: 0.0486206
+      duration: 0.0595789
       messages: 
       output: 
       stacktrace: 
@@ -1791,7 +1827,7 @@ MonoBehaviour:
       name: SumIf_BasicCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_BasicCondition
       resultStatus: 1
-      duration: 0.0443747
+      duration: 0.0568348
       messages: 
       output: 
       stacktrace: 
@@ -1808,7 +1844,7 @@ MonoBehaviour:
       name: SumIf_WithBoolComparison
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithBoolComparison
       resultStatus: 1
-      duration: 0.0456591
+      duration: 0.0584653
       messages: 
       output: 
       stacktrace: 
@@ -1825,7 +1861,7 @@ MonoBehaviour:
       name: SumIf_WithTextCondition
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithTextCondition
       resultStatus: 1
-      duration: 0.044807
+      duration: 0.0550272
       messages: 
       output: 
       stacktrace: 
@@ -1842,7 +1878,7 @@ MonoBehaviour:
       name: SumIf_WithTwoArguments
       fullName: TableForge.Tests.ExcelFunctionsTests.SumIf_WithTwoArguments
       resultStatus: 1
-      duration: 0.0468634
+      duration: 0.0558514
       messages: 
       output: 
       stacktrace: 
@@ -1859,7 +1895,7 @@ MonoBehaviour:
       name: Xor_BothFalse
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_BothFalse
       resultStatus: 1
-      duration: 0.0458561
+      duration: 0.0576392
       messages: 
       output: 
       stacktrace: 
@@ -1876,7 +1912,7 @@ MonoBehaviour:
       name: Xor_BothTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_BothTrue
       resultStatus: 1
-      duration: 0.0433975
+      duration: 0.0568128
       messages: 
       output: 
       stacktrace: 
@@ -1893,7 +1929,7 @@ MonoBehaviour:
       name: Xor_OneTrue
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_OneTrue
       resultStatus: 1
-      duration: 0.0469811
+      duration: 0.0558088
       messages: 
       output: 
       stacktrace: 
@@ -1910,7 +1946,7 @@ MonoBehaviour:
       name: Xor_WithCellReferences
       fullName: TableForge.Tests.ExcelFunctionsTests.Xor_WithCellReferences
       resultStatus: 1
-      duration: 0.0454291
+      duration: 0.054058
       messages: 
       output: 
       stacktrace: 
@@ -1943,7 +1979,7 @@ MonoBehaviour:
       name: FilterByBooleanAnd_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanAnd_ShouldMatchRows
       resultStatus: 1
-      duration: 0.1281675
+      duration: 0.0955664
       messages: 
       output: 
       stacktrace: 
@@ -1960,7 +1996,7 @@ MonoBehaviour:
       name: FilterByBooleanOr_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanOr_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0425934
+      duration: 0.0623079
       messages: 
       output: 
       stacktrace: 
@@ -1977,7 +2013,7 @@ MonoBehaviour:
       name: FilterByBooleanWithParentheses_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByBooleanWithParentheses_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0423778
+      duration: 0.0534953
       messages: 
       output: 
       stacktrace: 
@@ -1994,7 +2030,7 @@ MonoBehaviour:
       name: FilterByDeeplyNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDeeplyNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0448392
+      duration: 0.0518106
       messages: 
       output: 
       stacktrace: 
@@ -2011,7 +2047,7 @@ MonoBehaviour:
       name: FilterByDictionaryKey_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryKey_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0426208
+      duration: 0.0527745
       messages: 
       output: 
       stacktrace: 
@@ -2028,7 +2064,7 @@ MonoBehaviour:
       name: FilterByDictionaryProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByDictionaryProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0418105
+      duration: 0.0533585
       messages: 
       output: 
       stacktrace: 
@@ -2045,7 +2081,7 @@ MonoBehaviour:
       name: FilterByEnum_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByEnum_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0454828
+      duration: 0.0519232
       messages: 
       output: 
       stacktrace: 
@@ -2062,7 +2098,7 @@ MonoBehaviour:
       name: FilterByGuid_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByGuid_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0470158
+      duration: 0.0509429
       messages: 
       output: 
       stacktrace: 
@@ -2079,7 +2115,7 @@ MonoBehaviour:
       name: FilterByListContainsItem_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsItem_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0415467
+      duration: 0.0543155
       messages: 
       output: 
       stacktrace: 
@@ -2096,7 +2132,7 @@ MonoBehaviour:
       name: FilterByListContainsManualList_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListContainsManualList_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0445564
+      duration: 0.0527308
       messages: 
       output: 
       stacktrace: 
@@ -2113,7 +2149,7 @@ MonoBehaviour:
       name: FilterByListCountGreaterThan_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListCountGreaterThan_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0435458
+      duration: 0.0514486
       messages: 
       output: 
       stacktrace: 
@@ -2130,7 +2166,7 @@ MonoBehaviour:
       name: FilterByListDeepEquality_FailsForDifferentOrder
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_FailsForDifferentOrder
       resultStatus: 1
-      duration: 0.0410935
+      duration: 0.0537135
       messages: 
       output: 
       stacktrace: 
@@ -2147,7 +2183,7 @@ MonoBehaviour:
       name: FilterByListDeepEquality_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByListDeepEquality_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0416531
+      duration: 0.0521642
       messages: 
       output: 
       stacktrace: 
@@ -2164,7 +2200,7 @@ MonoBehaviour:
       name: FilterByListLength_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListLength_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0427325
+      duration: 0.0535386
       messages: 
       output: 
       stacktrace: 
@@ -2181,7 +2217,7 @@ MonoBehaviour:
       name: FilterByListNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0426019
+      duration: 0.052803
       messages: 
       output: 
       stacktrace: 
@@ -2198,7 +2234,7 @@ MonoBehaviour:
       name: FilterByListNotEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByListNotEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0402034
+      duration: 0.0550637
       messages: 
       output: 
       stacktrace: 
@@ -2215,7 +2251,7 @@ MonoBehaviour:
       name: FilterByLiteralListNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByLiteralListNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0446532
+      duration: 0.0521453
       messages: 
       output: 
       stacktrace: 
@@ -2232,7 +2268,7 @@ MonoBehaviour:
       name: FilterByMultipleConditions_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByMultipleConditions_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0431248
+      duration: 0.0527557
       messages: 
       output: 
       stacktrace: 
@@ -2249,7 +2285,7 @@ MonoBehaviour:
       name: FilterByName_MatchRowFullName
       fullName: TableForge.Tests.FilteringTests.FilterByName_MatchRowFullName
       resultStatus: 1
-      duration: 0.0416083
+      duration: 0.0559458
       messages: 
       output: 
       stacktrace: 
@@ -2266,7 +2302,7 @@ MonoBehaviour:
       name: FilterByName_ShouldMatchRowsContaining
       fullName: TableForge.Tests.FilteringTests.FilterByName_ShouldMatchRowsContaining
       resultStatus: 1
-      duration: 0.0422825
+      duration: 0.0584964
       messages: 
       output: 
       stacktrace: 
@@ -2283,7 +2319,7 @@ MonoBehaviour:
       name: FilterByNestedProperty_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedProperty_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0452751
+      duration: 0.0590014
       messages: 
       output: 
       stacktrace: 
@@ -2300,7 +2336,7 @@ MonoBehaviour:
       name: FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedPropertyWithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0429525
+      duration: 0.0750682
       messages: 
       output: 
       stacktrace: 
@@ -2317,7 +2353,7 @@ MonoBehaviour:
       name: FilterByNestedString_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNestedString_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0425244
+      duration: 0.1181382
       messages: 
       output: 
       stacktrace: 
@@ -2334,7 +2370,7 @@ MonoBehaviour:
       name: FilterByNotOperator_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByNotOperator_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0429181
+      duration: 0.0815927
       messages: 
       output: 
       stacktrace: 
@@ -2351,7 +2387,7 @@ MonoBehaviour:
       name: FilterByPath_WithFolder_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFolder_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.0517264
+      duration: 0.0596149
       messages: 
       output: 
       stacktrace: 
@@ -2368,7 +2404,7 @@ MonoBehaviour:
       name: FilterByPath_WithFullPath_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByPath_WithFullPath_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0436571
+      duration: 0.0523573
       messages: 
       output: 
       stacktrace: 
@@ -2385,7 +2421,7 @@ MonoBehaviour:
       name: FilterByProperty_BoolEqual_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_BoolEqual_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0416189
+      duration: 0.0512255
       messages: 
       output: 
       stacktrace: 
@@ -2402,7 +2438,7 @@ MonoBehaviour:
       name: FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_FloatGreaterThan_ShouldMatchMultipleRows
       resultStatus: 1
-      duration: 0.068783
+      duration: 0.047858
       messages: 
       output: 
       stacktrace: 
@@ -2419,7 +2455,7 @@ MonoBehaviour:
       name: FilterByProperty_IntEqual_ShouldMatchSingleRow
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_IntEqual_ShouldMatchSingleRow
       resultStatus: 1
-      duration: 0.0602175
+      duration: 0.0500438
       messages: 
       output: 
       stacktrace: 
@@ -2436,7 +2472,7 @@ MonoBehaviour:
       name: FilterByProperty_StringContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_StringContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0587991
+      duration: 0.0493307
       messages: 
       output: 
       stacktrace: 
@@ -2453,7 +2489,7 @@ MonoBehaviour:
       name: FilterByProperty_WithColumnLetter_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithColumnLetter_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0639736
+      duration: 0.0516418
       messages: 
       output: 
       stacktrace: 
@@ -2470,7 +2506,7 @@ MonoBehaviour:
       name: FilterByProperty_WithNotContains_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterByProperty_WithNotContains_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0668134
+      duration: 0.0492332
       messages: 
       output: 
       stacktrace: 
@@ -2487,7 +2523,7 @@ MonoBehaviour:
       name: FilterWithComplexExpression_ShouldMatchRows
       fullName: TableForge.Tests.FilteringTests.FilterWithComplexExpression_ShouldMatchRows
       resultStatus: 1
-      duration: 0.0635493
+      duration: 0.0503236
       messages: 
       output: 
       stacktrace: 
@@ -2504,7 +2540,7 @@ MonoBehaviour:
       name: FilterWithEmptyInput_ShouldShowAllRows
       fullName: TableForge.Tests.FilteringTests.FilterWithEmptyInput_ShouldShowAllRows
       resultStatus: 1
-      duration: 0.0753226
+      duration: 0.0503409
       messages: 
       output: 
       stacktrace: 
@@ -2521,7 +2557,7 @@ MonoBehaviour:
       name: FilterWithInvalidSyntax_ShouldShowAllRows
       fullName: TableForge.Tests.FilteringTests.FilterWithInvalidSyntax_ShouldShowAllRows
       resultStatus: 1
-      duration: 0.063763
+      duration: 0.049382
       messages: 
       output: 
       stacktrace: 
@@ -2554,7 +2590,7 @@ MonoBehaviour:
       name: ScriptableObjectSelection
       fullName: TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection
       resultStatus: 1
-      duration: 0.2250457
+      duration: 0.3014509
       messages: 
       output: 
       stacktrace: 
@@ -2587,7 +2623,7 @@ MonoBehaviour:
       name: GetSerializableFields
       fullName: TableForge.Tests.SerializationTests.GetSerializableFields
       resultStatus: 1
-      duration: 0.0014762
+      duration: 0.0019318
       messages: 
       output: 
       stacktrace: 
@@ -2620,7 +2656,7 @@ MonoBehaviour:
       name: AnimationCurveCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration
       resultStatus: 1
-      duration: 0.0865617
+      duration: 0.1026616
       messages: 
       output: 'No script asset for AnimationCurveScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2640,7 +2676,7 @@ MonoBehaviour:
       name: BooleanCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.BooleanCellGeneration
       resultStatus: 1
-      duration: 0.0830948
+      duration: 0.1015339
       messages: 
       output: 'No script asset for BooleanScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2660,7 +2696,7 @@ MonoBehaviour:
       name: ColorCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ColorCellGeneration
       resultStatus: 1
-      duration: 0.0899055
+      duration: 0.1024944
       messages: 
       output: 'No script asset for ColorScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2680,7 +2716,7 @@ MonoBehaviour:
       name: DictionaryCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.DictionaryCellGeneration
       resultStatus: 1
-      duration: 0.0897417
+      duration: 0.1034872
       messages: 
       output: 'No script asset for DictionaryScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2700,7 +2736,7 @@ MonoBehaviour:
       name: EnumCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.EnumCellGeneration
       resultStatus: 1
-      duration: 0.0842388
+      duration: 0.1031603
       messages: 
       output: 'No script asset for EnumScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2720,7 +2756,7 @@ MonoBehaviour:
       name: FloatingPointCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration
       resultStatus: 1
-      duration: 0.082202
+      duration: 0.1034617
       messages: 
       output: 'No script asset for FloatingPointScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2740,7 +2776,7 @@ MonoBehaviour:
       name: GradientCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.GradientCellGeneration
       resultStatus: 1
-      duration: 0.0853473
+      duration: 0.1054189
       messages: 
       output: 'No script asset for GradientScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2760,7 +2796,7 @@ MonoBehaviour:
       name: IntegralTypesCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration
       resultStatus: 1
-      duration: 0.0873306
+      duration: 0.1054675
       messages: 
       output: 'No script asset for IntegralTypesScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2780,7 +2816,7 @@ MonoBehaviour:
       name: ListCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ListCellGeneration
       resultStatus: 1
-      duration: 0.0851288
+      duration: 0.1038419
       messages: 
       output: 'No script asset for ListScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2800,7 +2836,7 @@ MonoBehaviour:
       name: NoSerializableTypes_NoCellsGenerated
       fullName: TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated
       resultStatus: 1
-      duration: 0.0869635
+      duration: 0.1029134
       messages: 
       output: 
       stacktrace: 
@@ -2817,7 +2853,7 @@ MonoBehaviour:
       name: StringCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.StringCellGeneration
       resultStatus: 1
-      duration: 0.0860275
+      duration: 0.1011975
       messages: 
       output: 'No script asset for StringScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2837,7 +2873,7 @@ MonoBehaviour:
       name: SubitemCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.SubitemCellGeneration
       resultStatus: 1
-      duration: 0.0853031
+      duration: 0.1045553
       messages: 
       output: 'No script asset for ComplexTypeScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2857,7 +2893,7 @@ MonoBehaviour:
       name: UnityObjectCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration
       resultStatus: 1
-      duration: 0.0874579
+      duration: 0.101618
       messages: 
       output: 'No script asset for UnityObjectScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2872,12 +2908,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1123
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    m_ResultText: FilteringTests (35 tests) (0,000s)
+    m_ResultText: TableForge (131 tests) (0,000s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3c60013c
-      m_LastClickedID: 1006723132
+      m_SelectedIDs: b1b65a60
+      m_LastClickedID: 1616557745
       m_ExpandedIDs: 6e6da2e15da74a17b1b65a603e11d07dffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -2908,7 +2944,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 7928d696-b302-42cf-8524-e756841613f9
+      RunGuid: 69ea9d47-e017-492c-8e2c-8e602700e08f
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -2920,9 +2956,9 @@ MonoBehaviour:
           assemblyNames: []
         filters:
         - testMode: 1
-          testNames:
-          - TableForge.Tests.FilteringTests
-          groupNames: []
+          testNames: []
+          groupNames:
+          - .*
           categoryNames: []
           assemblyNames: []
         runSynchronously: 0
@@ -2936,7 +2972,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999996
+      Progress: 0.99999994
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -2975,7 +3011,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 7928d696-b302-42cf-8524-e756841613f9
+      RunGuid: 69ea9d47-e017-492c-8e2c-8e602700e08f
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -2987,9 +3023,9 @@ MonoBehaviour:
           assemblyNames: []
         filters:
         - testMode: 1
-          testNames:
-          - TableForge.Tests.FilteringTests
-          groupNames: []
+          testNames: []
+          groupNames:
+          - .*
           categoryNames: []
           assemblyNames: []
         runSynchronously: 0
@@ -3003,7 +3039,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.9999996
+      Progress: 0.99999994
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3040,7 +3076,7 @@ MonoBehaviour:
       selectedCategories: []
       availableCategories: []
     m_SelectedOption: 0
---- !u!114 &15
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3764,7 +3800,7 @@ MonoBehaviour:
   m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
-    m_SceneView: {fileID: 15}
+    m_SceneView: {fileID: 16}
     m_CameraOverscanSettings:
       m_Opacity: 50
       m_Scale: 1
@@ -3774,7 +3810,7 @@ MonoBehaviour:
   m_LastLockedObject: {fileID: 0}
   m_LastDebugDrawMode: 35
   m_ViewIsLockedToObject: 0
---- !u!114 &16
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3846,7 +3882,7 @@ MonoBehaviour:
   m_CurrentEditor: 0
   m_LayerEditor:
     m_SelectedLayerIndex: 0
---- !u!114 &17
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3940,13 +3976,13 @@ MonoBehaviour:
       height: 960
     m_MinimalGUI: 1
   m_defaultScale: 0.6371528
-  m_LastWindowPixelSize: {x: 1293, y: 632.6667}
+  m_LastWindowPixelSize: {x: 1939.5, y: 949}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &18
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3987,7 +4023,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e8faffff
+      m_ExpandedIDs: eaf6ffff2cf8ffffe8faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -4012,7 +4048,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &19
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4034,8 +4070,8 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
-    width: 1076.3334
+    y: 788
+    width: 1046.3334
     height: 184.66669
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -4076,9 +4112,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 54c20000
-    m_LastClickedID: 49748
-    m_ExpandedIDs: 00000000c4c20000c6c20000c8c20000cac20000ccc20000cec20000d0c20000d2c20000d4c20000d6c20000d8c20000dac20000dcc20000dec20000e0c20000e2c20000
+    m_SelectedIDs: 4cbe0000
+    m_LastClickedID: 48716
+    m_ExpandedIDs: 000000004cbe00004ebe000050be000052be000054be000056be000058be00005abe00005cbe00005ebe000060be000062be000064be000066be000068be00006abe000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4107,7 +4143,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c4c20000c6c20000c8c20000cac20000ccc20000cec20000d0c20000d2c20000d4c20000d6c20000d8c20000dac20000dcc20000dec20000e0c20000e2c20000
+    m_ExpandedIDs: 000000004cbe00004ebe000050be000052be000054be000056be000058be00005abe00005cbe00005ebe000060be000062be000064be000066be000068be00006abe0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4165,7 +4201,7 @@ MonoBehaviour:
     m_GridSize: 74
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 194
---- !u!114 &20
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4186,9 +4222,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1078.3334
-    y: 24
-    width: 334.66663
+    x: 1047.3334
+    y: 788
+    width: 324
     height: 184.66669
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -4201,7 +4237,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &21
+--- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4222,9 +4258,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1415
-    y: 24
-    width: 291.66663
+    x: -19960
+    y: -21297.334
+    width: 332.33325
     height: 894
   m_SerializedDataModeController:
     m_DataMode: 0
