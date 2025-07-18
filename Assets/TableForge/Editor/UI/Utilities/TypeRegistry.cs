@@ -9,14 +9,15 @@ namespace TableForge.Editor.UI
     internal static class TypeRegistry
     {
         private static readonly Dictionary<string, Dictionary<string, Type>> _typesByNamespaceAndName = new(); 
-        private static readonly Dictionary<string, HashSet<string>> _typeNames = new();
+        private static readonly Dictionary<string, HashSet<string>> _typeNamesByNamespace = new();
         private static readonly Dictionary<string, HashSet<Type>> _namespaceTypes = new();
         private static List<string> _namespaces = new();
         
         public static IReadOnlyList<string> Namespaces => _namespaces;
         public static IReadOnlyDictionary<string, Dictionary<string, Type>> TypesByNamespaceAndName => _typesByNamespaceAndName;
-        public static IReadOnlyDictionary<string, HashSet<string>> TypeNames => _typeNames;
+        public static IReadOnlyDictionary<string, HashSet<string>> TypeNamesByNamespace => _typeNamesByNamespace;
         public static IReadOnlyDictionary<string, HashSet<Type>> NamespaceTypes => _namespaceTypes;
+        public static HashSet<string> TypeNames { get; } = new HashSet<string>();
 
         static TypeRegistry()
         {
@@ -36,13 +37,14 @@ namespace TableForge.Editor.UI
                 if (!_typesByNamespaceAndName.ContainsKey(namespaceName))
                 {
                     _typesByNamespaceAndName[namespaceName] = new Dictionary<string, Type>();
-                    _typeNames[namespaceName] = new HashSet<string>();
+                    _typeNamesByNamespace[namespaceName] = new HashSet<string>();
                 }
                 
                 foreach (var t in types)
                 {
                     _typesByNamespaceAndName[namespaceName][t.Name] = t;
-                    _typeNames[namespaceName].Add(t.Name);
+                    _typeNamesByNamespace[namespaceName].Add(t.Name);
+                    TypeNames.Add(t.Name);
                 }
             }
         }
