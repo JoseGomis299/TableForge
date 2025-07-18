@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
     [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.ImplicitReorder, TableHeaderVisibility.ShowHeaderNumberBase0, TableHeaderVisibility.ShowHeaderName)]
     internal class ListCellCellControl : DynamicSubTableCellControl
     {
-        public ListCellCellControl(ListCell cell, TableControl tableControl) : base(cell, tableControl, new ListRowAdditionStrategy(), new DefaultRowDeletionStrategy())
+        public ListCellCellControl(ListCell cell, TableControl tableControl) : base(cell, tableControl, new ListRowAdditionStrategy(), new RowDeletionStrategy())
         {
           
         }

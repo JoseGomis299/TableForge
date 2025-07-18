@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Cave Troll
   level: 2
-  health: 148.42857
+  health: 232
   skinColor: {r: 0.4, g: 0.35, b: 0.2, a: 1}
   staminaOverTime:
     serializedVersion: 2

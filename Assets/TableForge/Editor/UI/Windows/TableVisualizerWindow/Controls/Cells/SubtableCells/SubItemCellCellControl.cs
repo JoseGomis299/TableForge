@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
     [SubTableCellControlUsage(TableType.DynamicIfEmpty, TableReorderMode.ExplicitReorder, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
     internal class SubItemCellCellControl : DynamicSubTableCellControl
     {
-        public SubItemCellCellControl(SubItemCell cell, TableControl tableControl) : base(cell, tableControl, new NullItemRowAdditionStrategy(), new DefaultRowDeletionStrategy())
+        public SubItemCellCellControl(SubItemCell cell, TableControl tableControl) : base(cell, tableControl, new NullItemRowAdditionStrategy(), new RowDeletionStrategy())
         {
         }
 

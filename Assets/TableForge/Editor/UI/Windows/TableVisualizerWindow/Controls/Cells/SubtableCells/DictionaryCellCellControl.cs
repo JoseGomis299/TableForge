@@ -4,7 +4,7 @@ namespace TableForge.Editor.UI
     [SubTableCellControlUsage(TableType.Dynamic, TableReorderMode.None, TableHeaderVisibility.Hidden, TableHeaderVisibility.ShowHeaderName)]
     internal class DictionaryCellCellControl : DynamicSubTableCellControl
     {
-        public DictionaryCellCellControl(DictionaryCell cell, TableControl tableControl) : base(cell, tableControl, new DefaultRowAdditionStrategy(), new DefaultRowDeletionStrategy())
+        public DictionaryCellCellControl(DictionaryCell cell, TableControl tableControl) : base(cell, tableControl, new DefaultRowAdditionStrategy(), new RowDeletionStrategy())
         {
         }
         

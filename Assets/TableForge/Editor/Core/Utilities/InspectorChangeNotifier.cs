@@ -1,32 +1,35 @@
 using UnityEditor;
 using UnityEngine;
 
-public static class InspectorChangeNorifier
+namespace TableForge.Editor
 {
-    public static event System.Action<ScriptableObject> OnScriptableObjectModified;
-
-    [InitializeOnLoadMethod]
-    private static void Initialize()
+    public static class InspectorChangeNorifier
     {
-        Undo.postprocessModifications += OnPostprocessModifications;
-        AssemblyReloadEvents.beforeAssemblyReload += OnBeforeAssemblyReload;
-    }
+        public static event System.Action<ScriptableObject> OnScriptableObjectModified;
 
-    private static void OnBeforeAssemblyReload()
-    {
-        Undo.postprocessModifications -= OnPostprocessModifications;
-    }
-
-    private static UndoPropertyModification[] OnPostprocessModifications(UndoPropertyModification[] modifications)
-    {
-        foreach (var mod in modifications)
+        [InitializeOnLoadMethod]
+        private static void Initialize()
         {
-            if (mod.currentValue?.target is ScriptableObject scriptableObject)
-            {
-                OnScriptableObjectModified?.Invoke(scriptableObject);
-            }
+            Undo.postprocessModifications += OnPostprocessModifications;
+            AssemblyReloadEvents.beforeAssemblyReload += OnBeforeAssemblyReload;
         }
 
-        return modifications;
+        private static void OnBeforeAssemblyReload()
+        {
+            Undo.postprocessModifications -= OnPostprocessModifications;
+        }
+
+        private static UndoPropertyModification[] OnPostprocessModifications(UndoPropertyModification[] modifications)
+        {
+            foreach (var mod in modifications)
+            {
+                if (mod.currentValue?.target is ScriptableObject scriptableObject)
+                {
+                    OnScriptableObjectModified?.Invoke(scriptableObject);
+                }
+            }
+
+            return modifications;
+        }
     }
 }
