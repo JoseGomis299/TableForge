@@ -81,7 +81,7 @@ namespace TableForge.Editor.UI
         {
             var parts = token.Split(new[] { ':' }, 2);
             if (parts.Length != 2) 
-                return row => true;
+                return _ => true;
 
             var identifier = parts[0].ToLower();
             var value = parts[1];
@@ -92,7 +92,7 @@ namespace TableForge.Editor.UI
                 "path" => CreatePathFilter(value),
                 "n" or "name" => CreateNameFilter(value),
                 "p" or "property" => CreatePropertyFilter(value),
-                _ => row => true
+                _ => _ => true
             };
         }
 
@@ -123,7 +123,7 @@ namespace TableForge.Editor.UI
         {
             var match = Regex.Match(condition, @"([\w\$\. \[\],]+)\s*(==?|<>|!=|>=|<=|>|<|~=|!~|=~|~!)\s*([\w\$\. \[\],]+)");
             if (!match.Success) 
-                return row => true;
+                return _ => true;
 
             var left = match.Groups[1].Value.Trim();
             var op = match.Groups[2].Value.Trim();

@@ -42,6 +42,7 @@ namespace TableForge.Editor.UI
             
             if(isExpanded && SubTableControl.TableData != ((SubTableCell)Cell).SubTable)
             {
+                RecalculateSizeWithCurrentValues();
                 SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
             }
 

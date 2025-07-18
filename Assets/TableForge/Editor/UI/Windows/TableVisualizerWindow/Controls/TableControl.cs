@@ -28,6 +28,8 @@ namespace TableForge.Editor.UI
         private readonly RowHeaderContainerControl _rowHeaderContainer;
         private readonly CornerContainerControl _cornerContainer;
         private readonly VisualElement _rowsContainer;
+        private VisualElement _scrollViewTopContainer;
+        private VisualElement _scrollViewBottomContainer;
 
         // Size tracking
         private float _scrollViewHeight;
@@ -438,7 +440,7 @@ namespace TableForge.Editor.UI
         private ScrollView CreateScrollView()
         {
             var scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
-            scrollView.contentContainer.AddToClassList(TableVisualizerUss.TableScrollViewContent);
+            scrollView.contentContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentContainer);
             Add(scrollView);
             
             scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
@@ -469,25 +471,31 @@ namespace TableForge.Editor.UI
         /// </summary>
         private void BuildLayoutHierarchy()
         {
-            var scrollviewContentContainer = new VisualElement();
-            scrollviewContentContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentContainer);
-            ScrollView.Add(scrollviewContentContainer);
-
             // Bottom container for rows and row headers
-            var bottomContainer = new VisualElement();
-            bottomContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentBottom);
-            scrollviewContentContainer.Add(bottomContainer);
-            bottomContainer.Add(_rowsContainer);
-            bottomContainer.Add(_rowHeaderContainer);
+            _scrollViewBottomContainer = new VisualElement();
+            _scrollViewBottomContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentBottom);
+            ScrollView.Add(_scrollViewBottomContainer);
+            _scrollViewBottomContainer.Add(_rowsContainer);
+            _scrollViewBottomContainer.Add(_rowHeaderContainer);
 
             // Top container for column headers and corner cell
-            var topContainer = new VisualElement();
-            topContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentTop);
-            scrollviewContentContainer.Add(topContainer);
+            _scrollViewTopContainer = new VisualElement();
+            _scrollViewTopContainer.AddToClassList(TableVisualizerUss.TableScrollViewContentTop);
+            ScrollView.Add(_scrollViewTopContainer);
             var cornerCell = new TableCornerControl(this, _columnHeaderContainer, _rowHeaderContainer, _rowsContainer);
             _cornerContainer.Add(cornerCell);
-            topContainer.Add(_columnHeaderContainer);
-            topContainer.Add(_cornerContainer);
+            _scrollViewTopContainer.Add(_columnHeaderContainer);
+            _scrollViewTopContainer.Add(_cornerContainer);
+            
+            _scrollViewBottomContainer.RegisterCallback<GeometryChangedEvent>(_ =>
+            {
+                OnContentContainerResized();
+            });
+            
+            _scrollViewTopContainer.RegisterCallback<GeometryChangedEvent>(_ =>
+            {
+                OnContentContainerResized();
+            });
         }
 
         /// <summary>
@@ -852,25 +860,22 @@ namespace TableForge.Editor.UI
         
         private void OnTableResize(Vector2 sizeDelta)
         {
-            Vector2 size = PreferredSize.GetTotalSize(true, Filterer.HiddenRows);
-
-            Vector2 delta = new Vector2(size.x - _scrollViewWidth, size.y - _scrollViewHeight);
-            _scrollViewWidth = size.x;
-            _scrollViewHeight = size.y;
-
-            float targetWidth = Parent == null && _scrollViewWidth < ScrollView.contentViewport.resolvedStyle.width ?
-                ScrollView.contentViewport.resolvedStyle.width : _scrollViewWidth;
-
-            VisualElementResizer.ChangeSize(ScrollView.contentContainer, targetWidth, _scrollViewHeight, () => OnContentContainerResized(delta));
+             Vector2 size = PreferredSize.GetTotalSize(true, Filterer.HiddenRows);
+          
+            _scrollViewWidth = size.x; //_columnHeaderContainer.Children().Sum(c => c.style.width.value.value) + _cornerContainer[0].style.width.value.value;
+            _scrollViewHeight = size.y; //_rowHeaderContainer.Children().Sum(c => c.style.height.value.value) + _cornerContainer[0].style.height.value.value;
+            
+            _scrollViewBottomContainer.style.width = _scrollViewWidth;
+            _scrollViewTopContainer.style.width = _scrollViewWidth;
         }
 
-        private void OnContentContainerResized(Vector2 delta)
+        private void OnContentContainerResized()
         {
             //Adjust scrollers
             this.SetHorizontalScrollerMaxValue(_scrollViewWidth);
             this.SetVerticalScrollerMaxValue(_scrollViewHeight);
 
-            OnScrollviewSizeChanged?.Invoke(delta);
+            OnScrollviewSizeChanged?.Invoke(new Vector2(_scrollViewWidth, _scrollViewHeight));
         }
         
         private void OnRootGeometryChanged(GeometryChangedEvent evt)

@@ -193,12 +193,12 @@ namespace TableForge.Editor.UI
 
         private void RegisterEvents()
         {
-            _addTabButton.RegisterCallback<ClickEvent>(e =>
+            _addTabButton.RegisterCallback<ClickEvent>(_ =>
             {
                AddTabWindow.ShowWindow(new AddTabViewModel(this));
             });
 
-            _transposeTableButton.RegisterCallback<ClickEvent>(e =>
+            _transposeTableButton.RegisterCallback<ClickEvent>(_ =>
             {
                 if (_selectedTab == null) return;
                 
@@ -248,7 +248,7 @@ namespace TableForge.Editor.UI
                 _tableVisualizer.CurrentTable.FunctionExecutor.SetCellFunction(focusedCell, evt.newValue);
             });
             
-            _functionTextField.RegisterCallback<FocusOutEvent>(evt =>
+            _functionTextField.RegisterCallback<FocusOutEvent>(_ =>
             {
                 if (_selectedTab == null || _tableVisualizer.CurrentTable?.CellSelector.GetFocusedCell() == null) return;
                 

@@ -63,7 +63,7 @@ namespace TableForge.Editor.UI
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                ApplyFilter(row => true);
+                ApplyFilter(_ => true);
                 return;
             }
 
@@ -75,7 +75,7 @@ namespace TableForge.Editor.UI
             catch (Exception e)
             {
                 Debug.LogError($"Error applying filter: {e.Message}");
-                ApplyFilter(row => true);
+                ApplyFilter(_ => true);
             }
         }
 

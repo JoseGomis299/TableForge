@@ -40,16 +40,9 @@
 }
 
 .table {
-    width: 100%;
-    height: 100%;
     overflow: hidden;
     flex-shrink: 1;
     flex-grow: 0;
-}
-
-.table__scroll-view-content {
-    width: 0;
-    height: 0;
 }
 
 .table__corner {
@@ -344,19 +337,30 @@
 }
 
 .table__scroll-view-content__container {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
     flex-direction: column-reverse;
+    align-self: auto;
+    flex-shrink: 1;
+    flex-grow: 0;
 }
 
 .table__scroll-view-content--top {
-    flex-shrink: 0;
+    align-self: auto;
+    flex-shrink: 1;
+    flex-grow: 0;
     flex-direction: row;
+    height: auto;
+    width: auto;
 }
 
 .table__scroll-view-content--bottom {
+    align-self: auto;
     flex-shrink: 1;
+    flex-grow: 0;
     flex-direction: row;
+    height: auto;
+    width: auto;
 }
 
 .table {

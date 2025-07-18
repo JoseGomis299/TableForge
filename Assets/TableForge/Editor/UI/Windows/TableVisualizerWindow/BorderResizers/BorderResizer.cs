@@ -60,11 +60,11 @@ namespace TableForge.Editor.UI
 
             if (resizingHeaders.TryGetValue(cellControl.Cell.row.Id, out var header))
             {
-                delta += InstantResize(header, false);
+                delta += InstantResize(header, true);
             }
             else if(resizingHeaders.TryGetValue(cellControl.Cell.column.Id, out header))
             {
-                delta += InstantResize(header, false);
+                delta += InstantResize(header, true);
             }
          
             InvokeResize(header, delta, storeSize, false, Vector2.zero);

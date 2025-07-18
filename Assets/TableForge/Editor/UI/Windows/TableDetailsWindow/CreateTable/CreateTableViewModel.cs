@@ -39,7 +39,7 @@ namespace TableForge.Editor.UI
             return parts.Length switch
             {
                 1 => TypeRegistry.TypeNames.Contains(parts[0]),
-                2 when int.TryParse(parts[1].TrimEnd(')').TrimStart('('), out int count) => count > 0 && TypeRegistry.TypeNamesByNamespace[selectedNamespace].Contains(parts[0]),
+                2 when int.TryParse(parts[1].TrimEnd(')').TrimStart('('), out int count) => count > 0 && TypeRegistry.TypeNames.Contains(parts[0]),
                 _ => false
             };
         }

@@ -69,11 +69,11 @@ namespace TableForge.Editor.UI
             _headerLabel.text = title;
             _headerLabel.AddToClassList(TableVisualizerUss.TableHeaderText);
             if(tableControl.Parent != null)
-            {
                 _headerLabel.AddToClassList(TableVisualizerUss.SubTableHeaderText);
-            }
+            else 
+                _headerLabel.RemoveFromClassList(TableVisualizerUss.SubTableHeaderText);
             Add(_headerLabel);
-
+            
             TableControl.HorizontalResizer.HandleResize(this);
         }
 

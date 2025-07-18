@@ -27,7 +27,6 @@ namespace TableForge.Editor.UI
             
             if (_checkSizeArguments.TryGetValue(element, out _))
             {
-                element.UnregisterCallback<GeometryChangedEvent>(CheckSize);
                 _checkSizeArguments.Remove(element);
             }
             
@@ -37,9 +36,15 @@ namespace TableForge.Editor.UI
                 targetSize = targetSize,
                 onSuccess = onSuccess
             });
-            element.RegisterCallback<GeometryChangedEvent>(CheckSize);
-            element.style.width = width;
-            element.style.height = height;
+            
+            element.schedule.Execute(() =>
+            {
+                var args = _checkSizeArguments[element];
+                args.element.style.width = args.targetSize.x;
+                args.element.style.height = args.targetSize.y;
+                args.element.RegisterCallback<GeometryChangedEvent>(CheckSize);
+                args.element.schedule.Execute(args.onSuccess).ExecuteLater(0);
+            }).ExecuteLater(0);
         }
         
         private static void CheckSize(GeometryChangedEvent evt)

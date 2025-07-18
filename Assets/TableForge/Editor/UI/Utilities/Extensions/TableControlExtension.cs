@@ -125,7 +125,7 @@ namespace TableForge.Editor.UI
             scrollView.verticalScroller.highValue = value - scrollView.contentViewport.resolvedStyle.height;
             scrollView.verticalScroller.value = Mathf.Min(value, scrollView.verticalScroller.value);
             
-            AdjustVerticalScroller(tableControl);
+            AdjustVerticalScroller(tableControl, value);
         }
 
         public static void AdjustVerticalScroller(this TableControl tableControl, float scrollViewHeight = -1)
@@ -177,7 +177,7 @@ namespace TableForge.Editor.UI
             scrollView.horizontalScroller.highValue = value - scrollView.contentViewport.resolvedStyle.width;
             scrollView.horizontalScroller.value = Mathf.Min(value, scrollView.horizontalScroller.value);
             
-            AdjustHorizontalScroller(tableControl);
+            AdjustHorizontalScroller(tableControl, value);
         }
 
         public static void AdjustHorizontalScroller(this TableControl tableControl, float scrollViewWidth = -1)

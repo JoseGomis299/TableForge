@@ -61,7 +61,7 @@ namespace TableForge.Editor.UI
             _headerLabel.AddToClassList(TableVisualizerUss.TableHeaderText);
             _textField = new TextField();
             
-            _textField.RegisterCallback<FocusOutEvent>(evt =>
+            _textField.RegisterCallback<FocusOutEvent>(_ =>
             {
                 _isChangingName = false;
                 TryChangeName();
@@ -95,16 +95,16 @@ namespace TableForge.Editor.UI
             RowControl.style.display = DisplayStyle.Flex;
             
             if(tableControl.Parent != null)
-            {
                 AddToClassList(TableVisualizerUss.SubTableHeaderCellVertical);
-            }
+            else
+                RemoveFromClassList(TableVisualizerUss.SubTableHeaderCellVertical);
             
             var title = NameResolver.ResolveHeaderStyledName(cellAnchor, tableControl.TableAttributes.rowHeaderVisibility);
             _headerLabel.text = title;
             if(tableControl.Parent != null)
-            {
                 _headerLabel.AddToClassList(TableVisualizerUss.SubTableHeaderText);
-            }
+            else
+                _headerLabel.RemoveFromClassList(TableVisualizerUss.SubTableHeaderText);
             
             _textField.value = cellAnchor.Name;
             

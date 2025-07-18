@@ -5,7 +5,6 @@ namespace TableForge.Editor.UI.UssClasses
     {
         //Table
         public const string Table = "table";
-        public const string TableScrollViewContent = "table__scroll-view-content";
         public const string TableScrollViewContentContainer = "table__scroll-view-content__container";
         public const string TableScrollViewContentTop = "table__scroll-view-content--top";
         public const string TableScrollViewContentBottom = "table__scroll-view-content--bottom";
