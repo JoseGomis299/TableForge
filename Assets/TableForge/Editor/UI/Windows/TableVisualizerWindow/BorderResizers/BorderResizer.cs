@@ -60,11 +60,11 @@ namespace TableForge.Editor.UI
 
             if (resizingHeaders.TryGetValue(cellControl.Cell.row.Id, out var header))
             {
-                delta += InstantResize(header, true);
+                delta += InstantResize(header, false);
             }
             else if(resizingHeaders.TryGetValue(cellControl.Cell.column.Id, out header))
             {
-                delta += InstantResize(header, true);
+                delta += InstantResize(header, false);
             }
          
             InvokeResize(header, delta, storeSize, false, Vector2.zero);
@@ -81,7 +81,7 @@ namespace TableForge.Editor.UI
                 delta += InstantResize(header, fitStoredSize);
             }
 
-            InvokeResize(resizingHeaders.Values.FirstOrDefault(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero);
+            InvokeResize(resizingHeaders.Values.FirstOrDefault(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero, false);
             return delta;
         }
         
@@ -114,7 +114,7 @@ namespace TableForge.Editor.UI
             excludedFromManualResizing.Clear();
         }
         
-        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize)
+        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize, bool extendToAncestors = true)
         {
             if(delta == 0 || target == null) return;
 
@@ -131,18 +131,18 @@ namespace TableForge.Editor.UI
 
             if(sizeIsSet)
             {
-                Invoke();
+                Invoke(extendToAncestors);
             }
             else
             {
                 target.RegisterSingleUseCallback<GeometryChangedEvent>(_ =>
                 {
-                    Invoke();
+                    Invoke(extendToAncestors);
                 });
             }
             
             
-            void Invoke()
+            void Invoke(bool extendToAncestors)
             {
                 if (storeSize)
                 {
@@ -165,7 +165,7 @@ namespace TableForge.Editor.UI
                     tableControl.Metadata.SetAnchorSize(anchorId, sizeToStore);
                 }
                 
-                if(target.TableControl.Parent != null)
+                if(target.TableControl.Parent != null && extendToAncestors)
                 {
                     target.TableControl.Parent.TableControl.Resizer.ResizeCell(target.TableControl.Parent);
                 }

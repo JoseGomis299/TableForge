@@ -75,7 +75,9 @@ namespace TableForge.Editor.UI
             {
                 foreach (var ancestor in header.TableControl.Parent.GetAncestors(true))
                 {
-                    ancestor.TableControl.RebuildPage(false);
+                    ancestor.TableControl.PreferredSize.AddCellSize(ancestor.Cell, SizeCalculator.CalculateSize(ancestor.Cell, header.TableControl.Metadata));
+                    ancestor.TableControl.PreferredSize.StoreCellSizeInMetadata(ancestor.Cell);
+                    ancestor.TableControl.Resizer.ResizeAll(false);
                 }
             }
         }
