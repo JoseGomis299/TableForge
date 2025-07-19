@@ -689,6 +689,17 @@ internal class MyCustomFunction : ExcelFunctionBase
 3. **Install Dependencies**: Ensure all required packages are installed
 4. **Run Tests**: Execute the test suite to verify everything works
 
+#### Recommended .gitignore Settings
+
+It is recommended to add the following directories to your `.gitignore` file to avoid tracking local cache and user-specific settings:
+
+```
+*/TableForge/Editor/PersistentData/Cache/
+*/TableForge/Editor/PersistentData/Settings/
+```
+
+These folders store local cache and editor settings that are specific to your development environment and should not be committed to version control.
+
 ### Code Style Guidelines
 
 - **Naming**: Use PascalCase for public members, camelCase for private members
