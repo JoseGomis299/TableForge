@@ -159,7 +159,7 @@ namespace TableForge.Editor.UI
             }
             
             typeDropdown.choices = orderedTypes.ConvertAll(t => t.Name);
-            typeDropdown.value =(SelectedType?.Name);
+            typeDropdown.SetValueWithoutNotify(SelectedType?.Name ?? string.Empty);
         }
         
         public void PopulateNamespaceDropdown(DropdownField namespaceDropdown)
@@ -212,6 +212,7 @@ namespace TableForge.Editor.UI
         {
             selectedNamespace = evt.newValue;
             PopulateTypeDropdown(typeDropdown);
+            typeDropdown.value = SelectedType?.Name ?? string.Empty;
             RefreshTree();
         }
         
