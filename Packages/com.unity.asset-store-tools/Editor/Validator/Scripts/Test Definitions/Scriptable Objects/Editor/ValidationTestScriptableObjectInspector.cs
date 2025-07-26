@@ -7,7 +7,7 @@ using UnityEngine;
 namespace AssetStoreTools.Validator.TestDefinitions
 {
     [CustomEditor(typeof(ValidationTestScriptableObject), true)]
-    internal class ValidationTestScriptableObjectInspector : UnityEditor.Editor
+    internal class ValidationTestScriptableObjectInspector : Editor
     {
         private enum FilterSeverity
         {

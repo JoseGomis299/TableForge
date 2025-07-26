@@ -15,14 +15,14 @@ namespace TableForge.Editor.Serialization
             serializer = new JsonSerializer();
         }
         
-        public abstract string Serialize();
-        public abstract void Deserialize(string data);
+        public abstract string Serialize(SerializationOptions options);
+        public abstract void Deserialize(string data, SerializationOptions options);
         
-        public virtual bool TryDeserialize(string data)
+        public virtual bool TryDeserialize(string data, SerializationOptions options)
         {
             try
             {
-                Deserialize(data);
+                Deserialize(data, options);
                 return true;
             }
             catch(Exception)

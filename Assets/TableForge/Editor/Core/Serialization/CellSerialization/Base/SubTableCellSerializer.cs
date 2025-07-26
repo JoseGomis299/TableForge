@@ -17,17 +17,17 @@ namespace TableForge.Editor.Serialization
             serializer = null;
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
-            if (SerializationConstants.subTablesAsJson || cell.GetAncestors().Any(x => x is ICollectionCell))
+            if (options.SubTablesAsJson || cell.GetAncestors().Any(x => x is ICollectionCell))
             {
-                return SerializeAsJson();
+                return SerializeAsJson(options);
             }
             
-            return SerializeFlattening();
+            return SerializeFlattening(options);
         }
         
-        private string SerializeAsJson()
+        private string SerializeAsJson(SerializationOptions options)
         {
             StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonObjectStart);
 
@@ -36,8 +36,8 @@ namespace TableForge.Editor.Serialization
             foreach (var descendant in descendants)
             {
                 string value;
-                if(descendant.Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
-                else value = descendant.Serializer.Serialize();
+                if(descendant.Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(options, true);
+                else value = descendant.Serializer.Serialize(options);
                 serializedData.Append($"\"{descendant.column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
             }
 
@@ -50,7 +50,7 @@ namespace TableForge.Editor.Serialization
             return serializedData.ToString();
         }
         
-        private string SerializeFlattening()
+        private string SerializeFlattening(SerializationOptions options)
         {
             if (SubTableCell.SubTable.Rows.Count == 0)
             {
@@ -58,7 +58,7 @@ namespace TableForge.Editor.Serialization
                 for (int i = 0; i < SubTableCell.GetSubTableColumnCount(); i++)
                 {
                     emptyTable += SerializationConstants.EmptyColumn;
-                    emptyTable += SerializationConstants.columnSeparator;
+                    emptyTable += options.ColumnSeparator;
                 }
                 emptyTable += SerializationConstants.EmptyColumn;
                 return emptyTable;
@@ -67,22 +67,22 @@ namespace TableForge.Editor.Serialization
             StringBuilder serializedData = new StringBuilder();
             foreach (var descendant in cell.GetImmediateDescendants())
             {
-                serializedData.Append(SerializationConstants.csvCompatible ? 
-                    descendant.SerializeCellCsvCompatible(true) 
-                    : descendant.Serializer.Serialize())
-                    .Append(SerializationConstants.columnSeparator);
+                serializedData.Append(options.CsvCompatible ? 
+                    descendant.SerializeCellCsvCompatible(options, true) 
+                    : descendant.Serializer.Serialize(options))
+                    .Append(options.ColumnSeparator);
             }
             
             // Remove the last column separator
             if (serializedData.Length > 0)
             {
-                serializedData.Remove(serializedData.Length - SerializationConstants.columnSeparator.Length, SerializationConstants.columnSeparator.Length);
+                serializedData.Remove(serializedData.Length - options.ColumnSeparator.Length, options.ColumnSeparator.Length);
             }
             
             return serializedData.ToString();
         }
         
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -90,16 +90,16 @@ namespace TableForge.Editor.Serialization
             }
 
             int index = 0;
-            if (TryDeserializeJson(data, ref index))
+            if (TryDeserializeJson(data, ref index, options))
             {
                 return; // Successfully deserialized as JSON
             }
             
-            string[] values = data.Split(SerializationConstants.columnSeparator);
-            DeserializeSubTable(values, ref index);
+            string[] values = data.Split(options.ColumnSeparator);
+            DeserializeSubTable(values, ref index, options);
         }
 
-        private bool TryDeserializeJson(string data, ref int index)
+        private bool TryDeserializeJson(string data, ref int index, SerializationOptions options)
         {
             if (!data.StartsWith(SerializationConstants.JsonObjectStart) || !data.EndsWith(SerializationConstants.JsonObjectEnd))
                 return false;
@@ -124,12 +124,12 @@ namespace TableForge.Editor.Serialization
             // Order the values based on the column order in the subTable
             var values = subTableColumns.Select(column => jsonFields.GetValueOrDefault(column, SerializationConstants.EmptyColumn)).ToArray();
             
-            if (SerializationConstants.modifySubTables) DeserializeModifyingSubTable(values, ref index);
-            else DeserializeWithoutModifyingSubTable(values, ref index);
+            if (options.ModifySubTables) DeserializeModifyingSubTable(values, ref index, options);
+            else DeserializeWithoutModifyingSubTable(values, ref index, options);
             return true;
         }
         
-        public void DeserializeSubTable(string[]values, ref int index)
+        public void DeserializeSubTable(string[]values, ref int index, SerializationOptions options)
         {
             if(cell.GetValue() == null && values[0].Equals(SerializationConstants.EmptyColumn))
             {
@@ -137,23 +137,23 @@ namespace TableForge.Editor.Serialization
                 return;
             }
             
-            if(SerializationConstants.modifySubTables) DeserializeModifyingSubTable(values, ref index);
-            else DeserializeWithoutModifyingSubTable(values, ref index);
+            if(options.ModifySubTables) DeserializeModifyingSubTable(values, ref index, options);
+            else DeserializeWithoutModifyingSubTable(values, ref index, options);
         }
 
-        protected abstract void DeserializeModifyingSubTable(string[] values, ref int index);
-        protected abstract void DeserializeWithoutModifyingSubTable(string[] values, ref int index);
+        protected abstract void DeserializeModifyingSubTable(string[] values, ref int index, SerializationOptions options);
+        protected abstract void DeserializeWithoutModifyingSubTable(string[] values, ref int index, SerializationOptions options);
         
-        protected static void DeserializeCell(string[] values, ref int index, Cell cell)
+        protected static void DeserializeCell(string[] values, ref int index, Cell cell, SerializationOptions options)
         {
             if(cell is Editor.SubTableCell and not ICollectionCell && cell.Serializer is SubTableCellSerializer subTableCellSerializer && !JsonUtil.IsValidJsonObject(values[index]))
             {
-                subTableCellSerializer.DeserializeSubTable(values, ref index);
+                subTableCellSerializer.DeserializeSubTable(values, ref index, options);
             }
             else
             {
                 string value = values[index].Replace(SerializationConstants.EmptyColumn, string.Empty);
-                cell.Serializer.Deserialize(value);
+                cell.Serializer.Deserialize(value, options);
                 index++;
             }
         }

@@ -76,7 +76,7 @@ namespace TableForge.Editor.Serialization
         protected abstract List<string> ExtractColumnNames();
         protected abstract List<List<string>> ExtractColumnData();
 
-        public void Deserialize(Table table, int[] columnIndicesMapping = null)
+        public void Deserialize(Table table, SerializationOptions options , int[] columnIndicesMapping = null)
         {
             if (table == null) return;
             
@@ -110,7 +110,7 @@ namespace TableForge.Editor.Serialization
                     if (string.IsNullOrEmpty(cellValue)) continue;
                     
                     Cell cell = row.OrderedCells[j]; 
-                    if(!cell.Serializer.TryDeserialize(cellValue))
+                    if(!cell.Serializer.TryDeserialize(cellValue, options))
                     {
                         Debug.LogWarning($"Failed to deserialize cell value '{cellValue}' for cell {cell.GetGlobalPosition()}.");
                     }

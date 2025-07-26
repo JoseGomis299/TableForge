@@ -29,12 +29,12 @@ namespace AssetStoreTools.Api.Models
             {
                 _propertyConversions = new Dictionary<string, string>()
                 {
-                    { nameof(Package.VersionId), "id" },
-                    { nameof(Package.IsCompleteProject), "is_complete_project" },
-                    { nameof(Package.RootGuid), "root_guid" },
-                    { nameof(Package.RootPath), "root_path" },
-                    { nameof(Package.ProjectPath), "project_path" },
-                    { nameof(Package.IconUrl), "icon_url" }
+                    { nameof(VersionId), "id" },
+                    { nameof(IsCompleteProject), "is_complete_project" },
+                    { nameof(RootGuid), "root_guid" },
+                    { nameof(RootPath), "root_path" },
+                    { nameof(ProjectPath), "project_path" },
+                    { nameof(IconUrl), "icon_url" }
                 };
             }
 
@@ -56,15 +56,15 @@ namespace AssetStoreTools.Api.Models
 
             private CachedPackageResolver()
             {
-                this.NamingStrategy = new SnakeCaseNamingStrategy();
+                NamingStrategy = new SnakeCaseNamingStrategy();
                 _propertyConversion = new Dictionary<string, string>()
                 {
-                    { nameof(Package.PackageId), "package_id" },
-                    { nameof(Package.VersionId), "version_id" },
-                    { nameof(Package.IsCompleteProject), "is_complete_project" },
-                    { nameof(Package.RootGuid), "root_guid" },
-                    { nameof(Package.RootPath), "root_path" },
-                    { nameof(Package.IconUrl), "icon_url" }
+                    { nameof(PackageId), "package_id" },
+                    { nameof(VersionId), "version_id" },
+                    { nameof(IsCompleteProject), "is_complete_project" },
+                    { nameof(RootGuid), "root_guid" },
+                    { nameof(RootPath), "root_path" },
+                    { nameof(IconUrl), "icon_url" }
                 };
             }
 

@@ -34,8 +34,8 @@ namespace AssetStoreTools.Api.Models
             {
                 _propertyConversions = new Dictionary<string, string>()
                 {
-                    { nameof(User.SessionId), "xunitysession" },
-                    { nameof(User.PublisherId), "publisher" }
+                    { nameof(SessionId), "xunitysession" },
+                    { nameof(PublisherId), "publisher" }
                 };
             }
 

@@ -97,8 +97,8 @@ namespace AssetStoreTools.Uploader.Data
                 if (!PackageUtility.GetPackageByPackageName(dependency, out var package))
                     continue;
 
-                if (package.source != PackageManager.PackageSource.Local
-                    && package.source != PackageManager.PackageSource.Embedded)
+                if (package.source != PackageSource.Local
+                    && package.source != PackageSource.Embedded)
                     continue;
 
                 availableDependencies.Add(package);

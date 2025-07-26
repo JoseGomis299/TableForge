@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TableForge.Editor.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -283,7 +284,7 @@ namespace TableForge.Editor.UI
             if (_selector.FocusedCell == null)
                 return;
             
-            CopyBuffer.Copy(_selector.SelectedCells.ToList(), _tableControl.Metadata, copyFunctions);
+            CopyBuffer.Copy(_selector.SelectedCells.ToList(), _tableControl.Metadata, copyFunctions, SerializationConstants.GetSerializationOptions(SerializationFormat.Default));
         }
         
         private void ProcessPasteKey(bool copyFunctions)
@@ -291,15 +292,18 @@ namespace TableForge.Editor.UI
             if (_selector.FocusedCell == null)
                 return;
             
-            (Cell first, Cell last) = CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl, copyFunctions);
+            (Cell first, Cell last) = CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl, copyFunctions, SerializationConstants.GetSerializationOptions(SerializationFormat.Default));
             if (first != null && last != null)
             {
                 _selector.ClearSelection();
                 _selector.SelectRange(first, last);
             }
             
-            _tableControl.FunctionExecutor.ExecuteAllFunctions();
-            _tableControl.Update(true);
+            _tableControl.schedule.Execute(() =>
+            {
+                _tableControl.Update(true);
+                _tableControl.FunctionExecutor.ExecuteAllFunctions();
+            }).ExecuteLater(0);
         }
         
         private void ProcessCutKey()

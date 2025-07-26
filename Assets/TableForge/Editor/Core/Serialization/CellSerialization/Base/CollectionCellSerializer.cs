@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TableForge.Editor.Serialization;
 
 namespace TableForge.Editor.Serialization
 {
@@ -14,14 +15,14 @@ namespace TableForge.Editor.Serialization
             }
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
-            return SerializeCollection();
+            return SerializeCollection(options);
         }
 
-        protected abstract string SerializeCollection();
+        protected abstract string SerializeCollection(SerializationOptions options);
 
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -34,10 +35,10 @@ namespace TableForge.Editor.Serialization
                 values = values.SelectMany(v => JsonUtil.ToStringDictionary(v).Values).ToList();    
             
             int index = 0;
-            DeserializeSubTable(values.ToArray(), ref index);
+            DeserializeSubTable(values.ToArray(), ref index, options);
         }
         
-        protected override void DeserializeModifyingSubTable(string[] values, ref int index)
+        protected override void DeserializeModifyingSubTable(string[] values, ref int index, SerializationOptions options)
         {
             Row currentRow = null;
             Stack<int> positionsToRemove = new Stack<int>();
@@ -55,7 +56,7 @@ namespace TableForge.Editor.Serialization
                 }
                 
                 currentRow = descendant.row;
-                DeserializeCell(values, ref index, descendant);
+                DeserializeCell(values, ref index, descendant, options);
             }
             
             // Remove the items that are not in the new data
@@ -77,23 +78,23 @@ namespace TableForge.Editor.Serialization
                        break;
                     }
                     
-                    DeserializeCell(values, ref index, c);
+                    DeserializeCell(values, ref index, c, options);
                 }
             }
         }
 
-        protected override void DeserializeWithoutModifyingSubTable(string[] values, ref int index)
+        protected override void DeserializeWithoutModifyingSubTable(string[] values, ref int index, SerializationOptions options)
         {
             foreach (var descendant in cell.GetImmediateDescendants().ToList())
             {
                 if (index >= values.Length)
                 {
-                    if(SerializationConstants.modifySubTables)
+                    if(options.ModifySubTables)
                         break;
                     index = 0;
                 }
                 
-                DeserializeCell(values, ref index, descendant);
+                DeserializeCell(values, ref index, descendant, options);
             }
         }
     }

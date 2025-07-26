@@ -11,7 +11,7 @@ namespace TableForge.Editor.UI
         
         #region Public Methods
 
-        public static (Cell firstCell, Cell lastCell) Paste(List<Cell> pasteTo, TableControl tableControl, bool pasteFunctions)
+        public static (Cell firstCell, Cell lastCell) Paste(List<Cell> pasteTo, TableControl tableControl, bool pasteFunctions, SerializationOptions options)
         {
             if (pasteTo == null || pasteTo.Count == 0) return (null, null);
             string buffer = ClipboardUtility.PasteFromClipboard();
@@ -32,10 +32,10 @@ namespace TableForge.Editor.UI
 
             List<string> splitBuffer = new List<string>();
             List<List<string>> rowSplitBuffer = new List<List<string>>();
-            string[] rows = buffer.Split(SerializationConstants.rowSeparator);
+            string[] rows = buffer.Split(options.RowSeparator);
             foreach (string row in rows)
             {
-                string[] splitRow = row.Split(SerializationConstants.columnSeparator);
+                string[] splitRow = row.Split(options.ColumnSeparator);
                 splitBuffer.AddRange(splitRow);
 
                 List<string> rowBuffer = new List<string>();
@@ -44,17 +44,17 @@ namespace TableForge.Editor.UI
             }
 
             if (cellCount >= splitBuffer.Count || splitBuffer.Count > 1000)
-                Paste(cells, splitBuffer, tableControl, pasteFunctions);
+                Paste(cells, splitBuffer, tableControl, pasteFunctions, options);
             else
             {
-                Paste(navigator, rowSplitBuffer, tableControl, pasteFunctions);
+                Paste(navigator, rowSplitBuffer, tableControl, pasteFunctions, options);
                 return (cells[0], navigator.GetCurrentCell());
             }
             
             return (cells[0], cells[^1]);
         }
 
-        public static void Copy(List<Cell> cellsToCopy, TableMetadata tableMetadata, bool copyFunction)
+        public static void Copy(List<Cell> cellsToCopy, TableMetadata tableMetadata, bool copyFunction, SerializationOptions options)
         {
             if (cellsToCopy == null || cellsToCopy.Count == 0) return;
             
@@ -78,18 +78,18 @@ namespace TableForge.Editor.UI
 
                     if (!isSameRow)
                     {
-                        if (buffer.ToString().EndsWith(SerializationConstants.columnSeparator))
-                            buffer.Length -= SerializationConstants.columnSeparator.Length;
-                        buffer.Append(SerializationConstants.rowSeparator);
+                        if (buffer.ToString().EndsWith(options.ColumnSeparator))
+                            buffer.Length -= options.ColumnSeparator.Length;
+                        buffer.Append(options.RowSeparator);
                     }
                 }
                 
-                string formattedValue = copyFunction ? tableMetadata.GetFunction(cell.Id) : cell.Serializer.Serialize();
+                string formattedValue = copyFunction ? tableMetadata.GetFunction(cell.Id) : cell.Serializer.Serialize(options);
                 if (cell is StringCell && !copyFunction)
                 {
                     formattedValue = formattedValue
-                        .Replace(SerializationConstants.rowSeparator, SerializationConstants.cancelledRowSeparator)
-                        .Replace(SerializationConstants.columnSeparator, SerializationConstants.cancelledColumnSeparator);
+                        .Replace(options.RowSeparator, options.CancelledRowSeparator)
+                        .Replace(options.ColumnSeparator, options.CancelledColumnSeparator);
                 }
 
                 if (copyFunction && !lastCopiedFunctionSet)
@@ -99,7 +99,7 @@ namespace TableForge.Editor.UI
                 }
                 
                 buffer.Append(formattedValue);
-                if (i != cells.Count - 1) buffer.Append(SerializationConstants.columnSeparator);
+                if (i != cells.Count - 1) buffer.Append(options.ColumnSeparator);
             }
 
             ClipboardUtility.CopyToClipboard(buffer.ToString());
@@ -109,7 +109,7 @@ namespace TableForge.Editor.UI
 
         #region Private Methods
 
-        private static void Paste(IList<Cell> cells,  List<string> buffer, TableControl tableControl, bool pasteFunctions)
+        private static void Paste(IList<Cell> cells,  List<string> buffer, TableControl tableControl, bool pasteFunctions, SerializationOptions options)
         {
             int bufferIndex = 0;
             CommandCollection commandCollection = new CommandCollection();
@@ -128,19 +128,19 @@ namespace TableForge.Editor.UI
                         StringBuilder serializedData = new StringBuilder();
                         for (int i = bufferIndex; i < buffer.Count && i < bufferIndex + subTableCell.GetDescendantCount(true, false); i++)
                         {
-                            serializedData.Append(buffer[i]).Append(SerializationConstants.columnSeparator);
+                            serializedData.Append(buffer[i]).Append(options.ColumnSeparator);
                             count++;
                         }
 
                         // Remove the last column separator
                         if (serializedData.Length > 0)
                         {
-                            serializedData.Remove(serializedData.Length - SerializationConstants.columnSeparator.Length,
-                                SerializationConstants.columnSeparator.Length);
+                            serializedData.Remove(serializedData.Length - options.ColumnSeparator.Length,
+                                options.ColumnSeparator.Length);
                         }
 
-                        object oldValue = subTableCell.GetValue();
-                        if (cell.Serializer.TryDeserialize(serializedData.ToString()))
+                        object oldValue = subTableCell.GetValue().CreateShallowCopy();
+                        if (cell.Serializer.TryDeserialize(serializedData.ToString(), options))
                         {
                             SetCellValueCommand command = new SetCellValueCommand(subTableCell, tableControl, oldValue, subTableCell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);
@@ -179,13 +179,13 @@ namespace TableForge.Editor.UI
                     {
                         if (cell is StringCell)
                             data = data
-                                .Replace(SerializationConstants.cancelledRowSeparator,
-                                    SerializationConstants.rowSeparator)
-                                .Replace(SerializationConstants.cancelledColumnSeparator,
-                                    SerializationConstants.columnSeparator);
+                                .Replace(options.CancelledRowSeparator,
+                                    options.RowSeparator)
+                                .Replace(options.CancelledColumnSeparator,
+                                    options.ColumnSeparator);
 
-                        object oldValue = cell.GetValue();
-                        if (cell.Serializer.TryDeserialize(data))
+                        object oldValue = cell.GetValue().CreateShallowCopy();
+                        if (cell.Serializer.TryDeserialize(data, options))
                         {   
                             SetCellValueCommand command = new SetCellValueCommand(cell, tableControl, oldValue, cell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);
@@ -216,7 +216,7 @@ namespace TableForge.Editor.UI
             UndoRedoManager.AddToQueue(commandCollection);
         }
 
-        private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer, TableControl tableControl, bool pasteFunctions)
+        private static void Paste(FreeSpaceNavigator navigator, List<List<string>> buffer, TableControl tableControl, bool pasteFunctions, SerializationOptions options)
         {
             int bufferIndex = 0;
             int cellIndex = 0;
@@ -238,18 +238,18 @@ namespace TableForge.Editor.UI
                         StringBuilder serializedData = new StringBuilder();
                         for (int i = cellIndex; i < buffer[bufferIndex].Count && i < cellIndex + subTableCell.GetDescendantCount(true, false); i++)
                         {
-                            serializedData.Append(buffer[bufferIndex][i]).Append(SerializationConstants.columnSeparator);
+                            serializedData.Append(buffer[bufferIndex][i]).Append(options.ColumnSeparator);
                             count++;
                         }
                             
                         // Remove the last column separator
                         if (serializedData.Length > 0)
                         {
-                            serializedData.Remove(serializedData.Length - SerializationConstants.columnSeparator.Length, SerializationConstants.columnSeparator.Length);
+                            serializedData.Remove(serializedData.Length - options.ColumnSeparator.Length, options.ColumnSeparator.Length);
                         }
                         
-                        object oldValue = subTableCell.GetValue();
-                        if (subTableCell.Serializer.TryDeserialize(serializedData.ToString()))
+                        object oldValue = subTableCell.GetValue().CreateShallowCopy();
+                        if (subTableCell.Serializer.TryDeserialize(serializedData.ToString(), options))
                         {
                             SetCellValueCommand command = new SetCellValueCommand(subTableCell, tableControl, oldValue, subTableCell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);
@@ -301,14 +301,14 @@ namespace TableForge.Editor.UI
                     {
                         if (currentCell is StringCell)
                             data = data
-                                .Replace(SerializationConstants.cancelledRowSeparator,
-                                    SerializationConstants.rowSeparator)
-                                .Replace(SerializationConstants.cancelledColumnSeparator,
-                                    SerializationConstants.columnSeparator);
+                                .Replace(options.CancelledRowSeparator,
+                                    options.RowSeparator)
+                                .Replace(options.CancelledColumnSeparator,
+                                    options.ColumnSeparator);
 
                         
-                        object oldValue = currentCell.GetValue();
-                        if (currentCell.Serializer.TryDeserialize(data))
+                        object oldValue = currentCell.GetValue().CreateShallowCopy();
+                        if (currentCell.Serializer.TryDeserialize(data, options))
                         {
                             SetCellValueCommand command = new SetCellValueCommand(currentCell, tableControl, oldValue, currentCell.GetValue());
                             commandCollection.AddAndExecuteCommand(command);

@@ -7,7 +7,7 @@ namespace TableForge.Editor.Serialization
             serializer = new SimpleSerializer();
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
             if (cell.GetValue() is TValue typedValue)
             {
@@ -16,7 +16,7 @@ namespace TableForge.Editor.Serialization
             return string.Empty;
         }
 
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             TValue value = serializer.Deserialize<TValue>(data);
             if (value is not null)

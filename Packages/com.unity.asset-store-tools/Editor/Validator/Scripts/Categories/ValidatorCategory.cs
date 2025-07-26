@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AssetStoreTools.Validator.Categories
 {
-    [System.Serializable]
+    [Serializable]
     internal class ValidatorCategory
     {
         public bool IsFailFilter = false;

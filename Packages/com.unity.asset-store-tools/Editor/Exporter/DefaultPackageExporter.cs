@@ -34,7 +34,7 @@ namespace AssetStoreTools.Exporter
 
         protected override async Task<PackageExporterResult> ExportImpl()
         {
-            return await this.Export();
+            return await Export();
         }
 
         private new async Task<PackageExporterResult> Export()

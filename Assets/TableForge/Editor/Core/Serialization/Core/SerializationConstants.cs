@@ -1,17 +1,10 @@
+using System;
+
 namespace TableForge.Editor.Serialization
 {
     internal static class SerializationConstants
     {
-        public static bool modifySubTables = true;
-        public static bool subTablesAsJson = true;
-        public static bool csvCompatible = false; // If true, we will always quote necessary values in CSV serialization.
-        
         public const string EmptyColumn = "null";
-
-        public static string rowSeparator = "\n";
-        public static string cancelledRowSeparator = "\\n";
-        public static string columnSeparator = "\t";
-        public static string cancelledColumnSeparator = "\\t";
         
         public const string DefaultRowSeparator = "\n";
         public const string DefaultCancelledRowSeparator = "\\n";
@@ -37,6 +30,30 @@ namespace TableForge.Editor.Serialization
         public const string JsonGuidPropertyName = "guid";
         public const string JsonPropertiesPropertyName = "properties";
         public const string JsonRootArrayName = "items";
+
+        public static SerializationOptions GetSerializationOptions(SerializationFormat format)
+        {
+            return format switch
+            {
+                SerializationFormat.Default => new SerializationOptions(),
+                SerializationFormat.Csv => new SerializationOptions
+                {
+                    RowSeparator = CsvRowSeparator,
+                    CancelledRowSeparator = CsvCancelledRowSeparator,
+                    ColumnSeparator = CsvColumnSeparator,
+                    CancelledColumnSeparator = CsvCancelledColumnSeparator,
+                    CsvCompatible = true
+                },
+                SerializationFormat.Json => new SerializationOptions
+                {
+                    RowSeparator = DefaultRowSeparator,
+                    CancelledRowSeparator = DefaultCancelledRowSeparator,
+                    ColumnSeparator = DefaultColumnSeparator,
+                    CancelledColumnSeparator = DefaultCancelledColumnSeparator
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(format), format, null)
+            };
+        }
     }
 }
 

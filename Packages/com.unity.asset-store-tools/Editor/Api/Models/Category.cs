@@ -17,7 +17,7 @@ namespace AssetStoreTools.Api.Models
             {
                 _propertyConversions = new Dictionary<string, string>()
                 {
-                    { nameof(Category.Name), "assetstore_name" }
+                    { nameof(Name), "assetstore_name" }
                 };
             }
 
@@ -39,10 +39,10 @@ namespace AssetStoreTools.Api.Models
 
             private CachedCategoryResolver()
             {
-                this.NamingStrategy = new SnakeCaseNamingStrategy();
+                NamingStrategy = new SnakeCaseNamingStrategy();
                 _propertyConversion = new Dictionary<string, string>()
                 {
-                    { nameof(Category.Name), "name" }
+                    { nameof(Name), "name" }
                 };
             }
 

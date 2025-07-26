@@ -24,8 +24,8 @@ namespace AssetStoreTools.Api.Models
             {
                 _propertyConversions = new Dictionary<string, string>()
                 {
-                    { nameof(PackageAdditionalData.PackageId), "id" },
-                    { nameof(PackageAdditionalData.CategoryId), "category_id" }
+                    { nameof(PackageId), "id" },
+                    { nameof(CategoryId), "category_id" }
                 };
             }
 

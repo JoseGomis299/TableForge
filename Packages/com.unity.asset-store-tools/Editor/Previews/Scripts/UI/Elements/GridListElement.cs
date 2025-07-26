@@ -104,7 +104,7 @@ namespace AssetStoreTools.Previews.UI.Elements
             var visibleContentMinY = _scrollView.contentViewport.worldBound.yMin - _visibilityHeadroom;
             var visibleContentMaxY = _scrollView.contentViewport.worldBound.yMax + _visibilityHeadroom;
             if (_scrollView.contentViewport.worldBound.height == 0)
-                visibleContentMaxY = this.worldBound.yMax;
+                visibleContentMaxY = worldBound.yMax;
 
             var rowMinY = (rowIndex * ElementHeight) + contentStartY;
             var rowMaxY = (rowIndex * ElementHeight) + ElementHeight + contentStartY;

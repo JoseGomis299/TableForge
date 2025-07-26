@@ -89,7 +89,7 @@ namespace TableForge.Editor
             UpdateStatusLabel();
         }
 
-        private void OnObjectFieldChanged(ChangeEvent<UnityEngine.Object> evt)
+        private void OnObjectFieldChanged(ChangeEvent<Object> evt)
         {
             _boundItem.ExistingAsset = (ScriptableObject)evt.newValue;
             _boundItem.Guid = evt.newValue != null
