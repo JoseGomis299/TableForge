@@ -16,21 +16,21 @@ namespace TableForge.Editor.Serialization
             }
         }
         
-        protected override string SerializeCollection()
+        protected override string SerializeCollection(SerializationOptions options)
         {
-            return SerializeDictionary(DictionaryCell.GetKeys(), DictionaryCell.GetValues());
+            return SerializeDictionary(options, DictionaryCell.GetKeys(), DictionaryCell.GetValues());
         }
 
-        private string SerializeDictionary(List<Cell> keys, List<Cell> values)
+        private string SerializeDictionary(SerializationOptions options, List<Cell> keys, List<Cell> values)
         {
             StringBuilder serializedData = new StringBuilder();
             serializedData.Append(SerializationConstants.JsonObjectStart);
             for (int i = 0; i < keys.Count; i++)
             {
-                string key = keys[i].Serializer.Serialize();
+                string key = keys[i].Serializer.Serialize(options);
                 string value;
-                if(values[i].Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
-                else value = values[i]?.Serializer.Serialize() ?? SerializationConstants.JsonNullValue;
+                if(values[i].Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(options, true);
+                else value = values[i]?.Serializer.Serialize(options) ?? SerializationConstants.JsonNullValue;
                 serializedData.Append($"\"{key.Replace("\"", CustomEscapedQuote)}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}");
             }
             if (serializedData.Length > 1)
@@ -41,7 +41,7 @@ namespace TableForge.Editor.Serialization
             return serializedData.ToString();
         }
 
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -59,12 +59,12 @@ namespace TableForge.Editor.Serialization
             }
             int index = 0;
             
-            DeserializeSubTable(values, ref index);
+            DeserializeSubTable(values, ref index, options);
         }
         
-        protected override void DeserializeModifyingSubTable(string[] values, ref int index)
+        protected override void DeserializeModifyingSubTable(string[] values, ref int index, SerializationOptions options)
         {
-            DeserializeWithoutModifyingSubTable(values, ref index);
+            DeserializeWithoutModifyingSubTable(values, ref index, options);
         }
     }
 } 

@@ -8,14 +8,14 @@ namespace TableForge.Editor.Serialization
         {
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
             return cell.Type.ResolveFlaggedEnumName((int)cell.GetValue(), false);
         }
 
-        public string SerializeQuotedValue(bool escapeInternalQuotes)
+        public string SerializeQuotedValue(SerializationOptions options, bool escapeInternalQuotes)
         { 
-            string serializedValue = Serialize();
+            string serializedValue = Serialize(options);
             if (escapeInternalQuotes)
             {
                 serializedValue = serializedValue.Replace("\"", "\\\"");
@@ -23,7 +23,7 @@ namespace TableForge.Editor.Serialization
             return "\"" + serializedValue + "\"";
         }
 
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             if (string.IsNullOrEmpty(data))
                 return;

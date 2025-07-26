@@ -14,6 +14,15 @@ namespace TableForge.Editor.UI
             _rowDeletionStrategy = rowDeletionStrategy;
         }
 
+        protected override void OnRefresh()
+        {
+            base.OnRefresh();
+            if(SubTableControl != null && SubTableControl.RowHeaders.Count != SubTableControl.TableData.Rows.Count)
+            {
+                SubTableControl.RebuildPage();
+            }
+        }
+
         public override void Refresh(Cell cell, TableControl tableControl)
         {
             base.Refresh(cell, tableControl);

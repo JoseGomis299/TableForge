@@ -178,7 +178,7 @@ namespace AssetStoreTools.Validator.UI.Elements
                     continue;
 
                 var objectField = new ObjectField() { objectType = obj.GetType(), value = obj.GetObject() };
-                objectField.RegisterCallback<ChangeEvent<UnityEngine.Object>>((evt) =>
+                objectField.RegisterCallback<ChangeEvent<Object>>((evt) =>
                     objectField.SetValueWithoutNotify(evt.previousValue));
                 resultMessage.Add(objectField);
             }

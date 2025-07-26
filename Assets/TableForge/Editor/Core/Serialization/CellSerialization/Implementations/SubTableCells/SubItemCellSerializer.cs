@@ -14,7 +14,7 @@ namespace TableForge.Editor.Serialization
             }
         }
 
-        protected override void DeserializeModifyingSubTable(string[]values, ref int index)
+        protected override void DeserializeModifyingSubTable(string[]values, ref int index, SerializationOptions options)
         {
             if(cell.GetValue() != null && values[0].Equals(SerializationConstants.EmptyColumn))
             {
@@ -27,26 +27,26 @@ namespace TableForge.Editor.Serialization
                 SubItemCell.CreateDefaultValue();
             }
             
-            DeserializeSubItem(values, ref index);
+            DeserializeSubItem(values, ref index, options);
         }
 
-        protected override void DeserializeWithoutModifyingSubTable(string[]values, ref int index)
+        protected override void DeserializeWithoutModifyingSubTable(string[]values, ref int index, SerializationOptions options)
         {
-            DeserializeSubItem(values, ref index);
+            DeserializeSubItem(values, ref index, options);
         }
 
-        private void DeserializeSubItem(string[] values, ref int index)
+        private void DeserializeSubItem(string[] values, ref int index, SerializationOptions options)
         {
             foreach (var descendant in cell.GetImmediateDescendants().ToList())
             {
                 if (index >= values.Length)
                 {
-                    if(SerializationConstants.modifySubTables)
+                    if(options.ModifySubTables)
                         break;
                     index = 0;
                 }
                 
-                DeserializeCell(values, ref index, descendant);
+                DeserializeCell(values, ref index, descendant, options);
             }
         }
     }

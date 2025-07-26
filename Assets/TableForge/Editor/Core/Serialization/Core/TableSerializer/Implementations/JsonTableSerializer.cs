@@ -14,6 +14,7 @@ namespace TableForge.Editor.Serialization
         
         public override string Serialize(int maxRowCount = -1)
         {
+            SerializationOptions options = SerializationConstants.GetSerializationOptions(SerializationFormat.Json);
             StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonObjectStart);
 
             serializedData.Append($"\"{SerializationConstants.JsonRootArrayName}\": ").Append(SerializationConstants.JsonArrayStart);
@@ -47,8 +48,8 @@ namespace TableForge.Editor.Serialization
                 }
 
                 string value;
-                if(item.Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
-                else value = item.Serializer.Serialize();
+                if(item.Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(options, true);
+                else value = item.Serializer.Serialize(options);
                 serializedData.Append($"\"{item.column.Name}\"{SerializationConstants.JsonKeyValueSeparator} {value}{SerializationConstants.JsonItemSeparator}");
             }
 

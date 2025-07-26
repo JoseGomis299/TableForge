@@ -8,12 +8,12 @@ namespace TableForge.Editor.Serialization
         {
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
             return ((float)cell.GetValue()).ToString(CultureInfo.InvariantCulture);
         }
 
-        public override void Deserialize(string serializedData)
+        public override void Deserialize(string serializedData, SerializationOptions options)
         {
             if (float.TryParse(serializedData, NumberStyles.Float, CultureInfo.InvariantCulture, out float value))
             {

@@ -13,7 +13,7 @@ namespace TableForge.Editor.Serialization
         {
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
             object data = cell.GetValue();
             if (data is Object obj && obj != null)
@@ -32,7 +32,7 @@ namespace TableForge.Editor.Serialization
             return "null";
         }
 
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             if (string.IsNullOrEmpty(data))
                 return;

@@ -12,12 +12,12 @@ namespace TableForge.Editor.Serialization
                 throw new System.ArgumentException("Cell must be of type ListCell", nameof(cell));
         }
 
-        protected override string SerializeCollection()
+        protected override string SerializeCollection(SerializationOptions options)
         {
-            return SerializeList(cell.GetImmediateDescendants());
+            return SerializeList(options, cell.GetImmediateDescendants());
         }
 
-        private string SerializeList(IEnumerable<Cell> collection)
+        private string SerializeList(SerializationOptions options, IEnumerable<Cell> collection)
         {
             var cells = collection.ToList();
             StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonArrayStart);
@@ -37,8 +37,8 @@ namespace TableForge.Editor.Serialization
                         serializedData.Append("{");
                 }
                 string value;
-                if (item.Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(true);
-                else value = item.Serializer.Serialize();
+                if (item.Serializer is IQuotedValueCellSerializer quotedValueCell) value = quotedValueCell.SerializeQuotedValue(options, true);
+                else value = item.Serializer.Serialize(options);
                 value = isSimpleType
                     ? $"{value}{SerializationConstants.JsonItemSeparator}"
                     : $"\"{item.column.Name}\"{SerializationConstants.JsonKeyValueSeparator}{value}{SerializationConstants.JsonItemSeparator}";

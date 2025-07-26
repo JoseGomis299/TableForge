@@ -6,7 +6,7 @@ namespace TableForge.Editor.Serialization
         {
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
             if (cell.GetValue() is char typedValue && typedValue != '\0')
             {
@@ -15,7 +15,7 @@ namespace TableForge.Editor.Serialization
             return "\'\'";
         }
     
-        public string SerializeQuotedValue(bool escapeInternalQuotes)
+        public string SerializeQuotedValue(SerializationOptions options, bool escapeInternalQuotes)
         {
             if (cell.GetValue() is char typedValue && typedValue != '\0')
             {
@@ -29,7 +29,7 @@ namespace TableForge.Editor.Serialization
             return "\"\"";
         }
     
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             data = data.Trim('\'');
         

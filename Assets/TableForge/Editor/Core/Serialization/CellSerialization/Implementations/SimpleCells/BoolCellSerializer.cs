@@ -6,9 +6,9 @@ namespace TableForge.Editor.Serialization
         {
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
-            return base.Serialize().ToLower();
+            return base.Serialize(options).ToLower();
         }
     }
 } 

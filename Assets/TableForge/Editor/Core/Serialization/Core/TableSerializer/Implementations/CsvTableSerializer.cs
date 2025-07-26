@@ -18,14 +18,9 @@ namespace TableForge.Editor.Serialization
         public override string Serialize(int maxRowCount = -1)
         {
             //Change the serialization settings
-            bool serializeSubTablesAsJson = SerializationConstants.subTablesAsJson;
-            SerializationConstants.csvCompatible = true; // We always quote necessary values in CSV serialization.
-            SerializationConstants.subTablesAsJson = !FlattenSubTables; // If we are flattening sub-tables, we do not serialize them as JSON.
-            SerializationConstants.columnSeparator = SerializationConstants.CsvColumnSeparator;
-            SerializationConstants.rowSeparator = SerializationConstants.CsvRowSeparator;
-            SerializationConstants.cancelledColumnSeparator = SerializationConstants.CsvCancelledColumnSeparator;
-            SerializationConstants.cancelledRowSeparator = SerializationConstants.CsvCancelledRowSeparator;
-            
+            SerializationOptions serializationOptions = SerializationConstants.GetSerializationOptions(SerializationFormat.Csv);
+            serializationOptions.SubTablesAsJson = !FlattenSubTables; // If we are flattening sub-tables, we do not serialize them as JSON.
+
             StringBuilder serializedData = new StringBuilder();
             if(Table == null || Table.Rows.Count == 0 || Table.Columns.Count == 0)
             {
@@ -48,7 +43,7 @@ namespace TableForge.Editor.Serialization
             
             // Remove the last column separator and add a newline
             serializedData.Remove(serializedData.Length - SerializationConstants.CsvColumnSeparator.Length, SerializationConstants.CsvColumnSeparator.Length);
-            serializedData.Append(SerializationConstants.rowSeparator);
+            serializedData.Append(serializationOptions.RowSeparator);
             
             // Write the data rows
             int rowCount = maxRowCount > 0 ? maxRowCount : Table.Rows.Count;
@@ -63,28 +58,20 @@ namespace TableForge.Editor.Serialization
                 
                 foreach (var cell in row.OrderedCells)
                 {
-                    serializedData.Append(cell.SerializeCellCsvCompatible(FlattenSubTables)).Append(SerializationConstants.CsvColumnSeparator);
+                    serializedData.Append(cell.SerializeCellCsvCompatible(serializationOptions, FlattenSubTables)).Append(SerializationConstants.CsvColumnSeparator);
                 }
                 
                 // Remove the last column separator and add a newline
                 serializedData.Remove(serializedData.Length - SerializationConstants.CsvColumnSeparator.Length, SerializationConstants.CsvColumnSeparator.Length);
-                serializedData.Append(SerializationConstants.rowSeparator);
+                serializedData.Append(serializationOptions.RowSeparator);
                 rowCount--;
             }
             
             // Remove the last row separator if it exists
-            if (serializedData.Length > 0 && serializedData[^1] == SerializationConstants.rowSeparator[0])
+            if (serializedData.Length > 0 && serializedData[^1] == serializationOptions.RowSeparator[0])
             {
-                serializedData.Remove(serializedData.Length - SerializationConstants.rowSeparator.Length, SerializationConstants.rowSeparator.Length);
+                serializedData.Remove(serializedData.Length - serializationOptions.RowSeparator.Length, serializationOptions.RowSeparator.Length);
             }
-            
-            // Restore the original setting
-            SerializationConstants.subTablesAsJson = serializeSubTablesAsJson;
-            SerializationConstants.csvCompatible = false;
-            SerializationConstants.columnSeparator = SerializationConstants.DefaultColumnSeparator;
-            SerializationConstants.rowSeparator = SerializationConstants.DefaultRowSeparator;
-            SerializationConstants.cancelledColumnSeparator = SerializationConstants.DefaultCancelledColumnSeparator;
-            SerializationConstants.cancelledRowSeparator = SerializationConstants.DefaultCancelledRowSeparator;
             
             return serializedData.ToString();
         }

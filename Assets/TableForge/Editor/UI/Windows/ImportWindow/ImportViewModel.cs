@@ -199,7 +199,7 @@ namespace TableForge.Editor
             // Create and deserialize the table
             TableMetadata metadata = TableMetadataManager.CreateMetadata(ImportItems.Select(r => r.Guid).ToList(), TableName);
             Table table = TableMetadataManager.GetTable(metadata);
-            _deserializer.Deserialize(table, _columnMappingIndices[2..]); // Skip Guid and Path columns
+            _deserializer.Deserialize(table, SerializationConstants.GetSerializationOptions(SerializationFormat.Default), _columnMappingIndices[2..]); // Skip Guid and Path columns
 
         }
 

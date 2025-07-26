@@ -8,13 +8,13 @@ namespace TableForge.Editor.Serialization
         {
         }
 
-        public override string Serialize()
+        public override string Serialize(SerializationOptions options)
         {
             SerializableGradient data = new SerializableGradient((Gradient) cell.GetValue());
             return serializer.Serialize(data);
         }
 
-        public override void Deserialize(string data)
+        public override void Deserialize(string data, SerializationOptions options)
         {
             if (string.IsNullOrEmpty(data))
                 return;
