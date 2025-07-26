@@ -18,8 +18,7 @@ namespace TableForge.Editor.Serialization
         public override string Serialize(int maxRowCount = -1)
         {
             //Change the serialization settings
-            SerializationOptions serializationOptions = SerializationConstants.GetSerializationOptions(SerializationFormat.Csv);
-            serializationOptions.SubTablesAsJson = !FlattenSubTables; // If we are flattening sub-tables, we do not serialize them as JSON.
+            SerializationOptions serializationOptions = SerializationOptionsFactory.GetOptions(SerializationFormat.Csv, FlattenSubTables);
 
             StringBuilder serializedData = new StringBuilder();
             if(Table == null || Table.Rows.Count == 0 || Table.Columns.Count == 0)

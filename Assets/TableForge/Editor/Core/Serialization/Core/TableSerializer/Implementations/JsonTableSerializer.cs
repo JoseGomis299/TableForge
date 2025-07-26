@@ -14,7 +14,7 @@ namespace TableForge.Editor.Serialization
         
         public override string Serialize(int maxRowCount = -1)
         {
-            SerializationOptions options = SerializationConstants.GetSerializationOptions(SerializationFormat.Json);
+            SerializationOptions options = SerializationOptionsFactory.GetOptions(SerializationFormat.Json);
             StringBuilder serializedData = new StringBuilder(SerializationConstants.JsonObjectStart);
 
             serializedData.Append($"\"{SerializationConstants.JsonRootArrayName}\": ").Append(SerializationConstants.JsonArrayStart);

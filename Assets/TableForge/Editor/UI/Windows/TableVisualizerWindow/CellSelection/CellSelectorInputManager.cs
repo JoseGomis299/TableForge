@@ -284,7 +284,7 @@ namespace TableForge.Editor.UI
             if (_selector.FocusedCell == null)
                 return;
             
-            CopyBuffer.Copy(_selector.SelectedCells.ToList(), _tableControl.Metadata, copyFunctions, SerializationConstants.GetSerializationOptions(SerializationFormat.Default));
+            CopyBuffer.Copy(_selector.SelectedCells.ToList(), _tableControl.Metadata, copyFunctions, SerializationOptionsFactory.GetOptions(SerializationFormat.Default));
         }
         
         private void ProcessPasteKey(bool copyFunctions)
@@ -292,7 +292,7 @@ namespace TableForge.Editor.UI
             if (_selector.FocusedCell == null)
                 return;
             
-            (Cell first, Cell last) = CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl, copyFunctions, SerializationConstants.GetSerializationOptions(SerializationFormat.Default));
+            (Cell first, Cell last) = CopyBuffer.Paste(_selector.SelectedCells.ToList(), _tableControl, copyFunctions, SerializationOptionsFactory.GetOptions(SerializationFormat.Default));
             if (first != null && last != null)
             {
                 _selector.ClearSelection();
