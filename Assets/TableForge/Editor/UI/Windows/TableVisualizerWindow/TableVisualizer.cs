@@ -26,20 +26,6 @@ namespace TableForge.Editor.UI
             root.Add(visualTreeAsset.Instantiate());
 
             UiConstants.InitializeStyles(root[0]);
-            UiConstants.OnStylesInitialized += OnStylesInitialized;
-        }
-        
-        public void SetTable(Table table)
-        {
-            if(_tableControl == null) return;
-            
-            _tableControl.CellSelector.ClearSelection();
-            _tableControl.SetTable(table);
-        }
-
-        private void OnStylesInitialized()
-        {
-            var root = rootVisualElement;
             var mainTable = root.Q<VisualElement>("MainTable");
             
             var tableAttributes = new TableAttributes
@@ -60,7 +46,14 @@ namespace TableForge.Editor.UI
             EditorApplication.projectChanged += OnProjectChanged;
             EditorApplication.update += Update;
             InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
-            UiConstants.OnStylesInitialized -= OnStylesInitialized;
+        }
+        
+        public void SetTable(Table table)
+        {
+            if(_tableControl == null) return;
+            
+            _tableControl.CellSelector.ClearSelection();
+            _tableControl.SetTable(table);
         }
         
         private void OnProjectChanged()
