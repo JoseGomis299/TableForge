@@ -38,9 +38,9 @@ namespace TableForge.Editor
                 rowsData.Add(new TfSerializedDictionaryItem((IDictionary)cachedValue, key, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid));
             }
             
-            if(SubTable != null)
-                TableGenerator.GenerateTable(SubTable, rowsData);
-            else 
+            // if(SubTable != null)
+            //     TableGenerator.GenerateTable(SubTable, rowsData);
+            // else 
                 SubTable = TableGenerator.GenerateTable(rowsData, $"{column.Table.Name}.{column.Name}", this);
         }
 

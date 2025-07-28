@@ -18,6 +18,12 @@ namespace TableForge.Editor
         public abstract void RemoveItem(int position);
         public abstract ICollection GetItems();
 
+        public override void RefreshData()
+        {
+            base.RefreshData();
+            CreateSubTable();
+        }
+        
         public override int CompareTo(Cell other)
         {
             if (other is not CollectionCell collectionCell) return 1; 

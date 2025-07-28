@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 0
-    y: 42.666668
-    width: 1706.6667
-    height: 976
+    x: 2560
+    y: 43
+    width: 1920
+    height: 989
   m_ShowMode: 4
-  m_Title: Table Visualizer
+  m_Title: Test Runner
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -44,8 +44,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1706.6666
-    height: 976
+    width: 1920
+    height: 989
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
@@ -69,7 +69,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1706.6666
+    width: 1920
     height: 36
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 956
-    width: 1706.6666
+    y: 969
+    width: 1920
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -113,8 +113,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 36
-    width: 1706.6666
-    height: 920
+    width: 1920
+    height: 933
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
@@ -139,8 +139,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1706.6666
-    height: 920
+    width: 1920
+    height: 933
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
@@ -165,8 +165,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1373.3334
-    height: 920
+    width: 1545
+    height: 933
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
@@ -182,27 +182,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TableVisualizer
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1373.3334
-    height: 638
+    width: 1545
+    height: 646
   m_MinSize: {x: 51, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 15}
   m_Panes:
+  - {fileID: 16}
   - {fileID: 17}
   - {fileID: 18}
   - {fileID: 19}
-  - {fileID: 20}
-  - {fileID: 16}
-  - {fileID: 13}
-  m_Selected: 5
-  m_LastSelected: 2
+  - {fileID: 15}
+  m_Selected: 4
+  m_LastSelected: 4
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -221,13 +220,13 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 638
-    width: 1373.3334
-    height: 282
+    y: 646
+    width: 1545
+    height: 287
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 84
+  controlID: 83
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -246,13 +245,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1047.3334
-    height: 282
+    width: 1074
+    height: 287
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 21}
+  m_ActualView: {fileID: 20}
   m_Panes:
-  - {fileID: 21}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &11
@@ -270,15 +269,15 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1047.3334
+    x: 1074
     y: 0
-    width: 326
-    height: 282
+    width: 471
+    height: 287
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 22}
+  m_ActualView: {fileID: 21}
   m_Panes:
-  - {fileID: 22}
+  - {fileID: 21}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &12
@@ -296,57 +295,20 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1373.3334
+    x: 1545
     y: 0
-    width: 333.33325
-    height: 920
+    width: 375
+    height: 933
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 23}
+  m_ActualView: {fileID: 22}
   m_Panes:
-  - {fileID: 23}
-  - {fileID: 15}
+  - {fileID: 22}
   - {fileID: 14}
+  - {fileID: 13}
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &13
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a4ac289734f744a9751ad7fee949e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 50, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Table Visualizer
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-    m_TextWithWhitespace: "Table Visualizer\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 0
-    y: 24
-    width: 1372.3334
-    height: 612
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  visualTreeAsset: {fileID: 9197481963319205126, guid: 1a7497980761aee499a21aa4ea67b4be, type: 3}
---- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,7 +344,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &15
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,7 +380,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &16
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -441,9 +403,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 78.66667
-    width: 1372.3334
-    height: 684
+    y: 24
+    width: 1544
+    height: 620
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -456,12 +418,12 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 127
+    ID: 153
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 460.66666
-    - 153.33334
+    - 412
+    - 138
     relativeSizes:
     - 0.75
     - 0.25
@@ -471,7 +433,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 614
+    lastTotalSize: 550
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -481,9 +443,9 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 0
   m_TestListGUIs:
-  - m_Window: {fileID: 16}
+  - m_Window: {fileID: 15}
     runProgress:
-      RunGuid: 69ea9d47-e017-492c-8e2c-8e602700e08f
+      RunGuid: c77e67b4-cd91-4ece-bd5b-87a41ad183b1
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -495,9 +457,9 @@ MonoBehaviour:
           assemblyNames: []
         filters:
         - testMode: 1
-          testNames: []
-          groupNames:
-          - .*
+          testNames:
+          - TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows
+          groupNames: []
           categoryNames: []
           assemblyNames: []
         runSynchronously: 0
@@ -511,7 +473,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.99999994
+      Progress: 0.9999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList:
@@ -531,7 +493,7 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1137
+    - id: 1148
       uniqueId: '[TableForge.Tests.dll][suite]'
       name: TableForge.Tests.dll
       fullName: C:/Users/joseg/Documents/GitHub/TableForge/Library/ScriptAssemblies/TableForge.Tests.dll
@@ -545,9 +507,9 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1000
+      parentId: 1160
       parentUniqueId: '[TableForge][suite]'
-    - id: 1138
+    - id: 1149
       uniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
       name: TableForge
       fullName: TableForge
@@ -561,9 +523,9 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1137
+      parentId: 1148
       parentUniqueId: '[TableForge.Tests.dll][suite]'
-    - id: 1139
+    - id: 1150
       uniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
       name: Tests
       fullName: TableForge.Tests
@@ -577,9 +539,9 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1138
+      parentId: 1149
       parentUniqueId: 'TableForge.Tests.dll/[TableForge][suite]'
-    - id: 1001
+    - id: 1012
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
       name: ExcelFunctionsTests
       fullName: TableForge.Tests.ExcelFunctionsTests
@@ -593,7 +555,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1139
+      parentId: 1150
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1027
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ExcelFunctionsTests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests.Abs_CellReference]'
@@ -1996,7 +1958,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ExcelFunctionsTests][suite]'
-    - id: 1083
+    - id: 1094
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
       name: FilteringTests
       fullName: TableForge.Tests.FilteringTests
@@ -2010,7 +1972,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1139
+      parentId: 1150
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1097
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/FilteringTests/[TableForge.Tests][TableForge.Tests.FilteringTests.FilterByBooleanAnd_ShouldMatchRows]'
@@ -2607,7 +2569,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1083
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.FilteringTests][suite]'
-    - id: 1119
+    - id: 1130
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
       name: ItemSelectionTests
       fullName: TableForge.Tests.ItemSelectionTests
@@ -2621,7 +2583,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1139
+      parentId: 1150
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1120
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/ItemSelectionTests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests.ScriptableObjectSelection]'
@@ -2640,7 +2602,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1119
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.ItemSelectionTests][suite]'
-    - id: 1121
+    - id: 1132
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
       name: SerializationTests
       fullName: TableForge.Tests.SerializationTests
@@ -2654,7 +2616,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1139
+      parentId: 1150
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1122
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/SerializationTests/[TableForge.Tests][TableForge.Tests.SerializationTests.GetSerializableFields]'
@@ -2673,7 +2635,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1121
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.SerializationTests][suite]'
-    - id: 1123
+    - id: 1134
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
       name: TableGenerationTests
       fullName: TableForge.Tests.TableGenerationTests
@@ -2687,7 +2649,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1139
+      parentId: 1150
       parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
     - id: 1125
       uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TableGenerationTests/[TableForge.Tests][TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration]'
@@ -2946,13 +2908,234 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1123
       parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TableGenerationTests][suite]'
-    m_ResultText: TableForge (131 tests) (0,000s)
+    - id: 1001
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+      name: TablePerformanceTests
+      fullName: TableForge.Tests.TablePerformanceTests
+      resultStatus: 1
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1150
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/[TableForge.Tests][TableForge.Tests][suite]'
+    - id: 1143
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_10_Rows]'
+      name: TableControl_Initialization_Performance_10_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_10_Rows
+      resultStatus: 1
+      duration: 0.2758101
+      messages: 
+      output: 'Table control initialization for 10 rows: min=1 ms, max=29 ms, avg=1,28
+        ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1144
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_100_Rows]'
+      name: TableControl_Initialization_Performance_100_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_100_Rows
+      resultStatus: 1
+      duration: 1.0262944
+      messages: 
+      output: 'Table control initialization for 100 rows: min=8 ms, max=32 ms, avg=8,74
+        ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1146
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_1000_Rows]'
+      name: TableControl_Initialization_Performance_1000_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_1000_Rows
+      resultStatus: 1
+      duration: 12.9867525
+      messages: 
+      output: 'Table control initialization for 1000 rows: min=84 ms, max=454 ms,
+        avg=124,45 ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1147
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_2000_Rows]'
+      name: TableControl_Initialization_Performance_2000_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_2000_Rows
+      resultStatus: 1
+      duration: 33.00851
+      messages: 
+      output: 'Table control initialization for 2000 rows: min=169 ms, max=1252 ms,
+        avg=321,34 ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1145
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_500_Rows]'
+      name: TableControl_Initialization_Performance_500_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableControl_Initialization_Performance_500_Rows
+      resultStatus: 1
+      duration: 5.4093046
+      messages: 
+      output: 'Table control initialization for 500 rows: min=45 ms, max=180 ms,
+        avg=51,12 ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1138
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_10_Rows]'
+      name: TableGeneration_Performance_10_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_10_Rows
+      resultStatus: 1
+      duration: 0.3530408
+      messages: 
+      output: 'Table generation for 10 rows: min=2 ms, max=7 ms, avg=2,88 ms over
+        100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1139
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_100_Rows]'
+      name: TableGeneration_Performance_100_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_100_Rows
+      resultStatus: 1
+      duration: 2.7586339
+      messages: 
+      output: 'Table generation for 100 rows: min=23 ms, max=33 ms, avg=26,91 ms
+        over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1140
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_1000_Rows]'
+      name: TableGeneration_Performance_1000_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_1000_Rows
+      resultStatus: 1
+      duration: 28.688902
+      messages: 
+      output: 'Table generation for 1000 rows: min=243 ms, max=1177 ms, avg=286,23
+        ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1142
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows]'
+      name: TableGeneration_Performance_2000_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows
+      resultStatus: 1
+      duration: 63.214104
+      messages: 
+      output: 'Table generation for 2000 rows: min=482 ms, max=2337 ms, avg=631,50
+        ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    - id: 1140
+      uniqueId: 'TableForge.Tests.dll/TableForge/Tests/TablePerformanceTests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_500_Rows]'
+      name: TableGeneration_Performance_500_Rows
+      fullName: TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_500_Rows
+      resultStatus: 1
+      duration: 19.767385
+      messages: 
+      output: 'Table generation for 500 rows: min=124 ms, max=866 ms, avg=197,03
+        ms over 100 runs
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1137
+      parentUniqueId: 'TableForge.Tests.dll/TableForge/Tests/[TableForge.Tests][TableForge.Tests.TablePerformanceTests][suite]'
+    m_ResultText: 'TableGeneration_Performance_2000_Rows (63,214s)
+
+      ---
+
+      Table
+      generation for 2000 rows: min=482 ms, max=2337 ms, avg=631,50 ms over 100 runs'
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: b1b65a60
-      m_LastClickedID: 1616557745
-      m_ExpandedIDs: 6e6da2e15da74a17b1b65a603e11d07dffffff7f
+      m_SelectedIDs: 62e16a07
+      m_LastClickedID: 124445026
+      m_ExpandedIDs: 24a9d7d46e6da2e15da74a17b1b65a603e11d07dffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2982,7 +3165,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 69ea9d47-e017-492c-8e2c-8e602700e08f
+      RunGuid: c77e67b4-cd91-4ece-bd5b-87a41ad183b1
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -2994,9 +3177,9 @@ MonoBehaviour:
           assemblyNames: []
         filters:
         - testMode: 1
-          testNames: []
-          groupNames:
-          - .*
+          testNames:
+          - TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows
+          groupNames: []
           categoryNames: []
           assemblyNames: []
         runSynchronously: 0
@@ -3010,7 +3193,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.99999994
+      Progress: 0.9999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3049,7 +3232,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 69ea9d47-e017-492c-8e2c-8e602700e08f
+      RunGuid: c77e67b4-cd91-4ece-bd5b-87a41ad183b1
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -3061,9 +3244,9 @@ MonoBehaviour:
           assemblyNames: []
         filters:
         - testMode: 1
-          testNames: []
-          groupNames:
-          - .*
+          testNames:
+          - TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows
+          groupNames: []
           categoryNames: []
           assemblyNames: []
         runSynchronously: 0
@@ -3077,7 +3260,7 @@ MonoBehaviour:
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
       HasFinished: 1
-      Progress: 0.99999994
+      Progress: 0.9999999
       CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
@@ -3114,7 +3297,7 @@ MonoBehaviour:
       selectedCategories: []
       availableCategories: []
     m_SelectedOption: 0
---- !u!114 &17
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3838,7 +4021,7 @@ MonoBehaviour:
   m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
-    m_SceneView: {fileID: 17}
+    m_SceneView: {fileID: 16}
     m_CameraOverscanSettings:
       m_Opacity: 50
       m_Scale: 1
@@ -3848,7 +4031,7 @@ MonoBehaviour:
   m_LastLockedObject: {fileID: 0}
   m_LastDebugDrawMode: 35
   m_ViewIsLockedToObject: 0
---- !u!114 &18
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3920,7 +4103,7 @@ MonoBehaviour:
   m_CurrentEditor: 0
   m_LayerEditor:
     m_SelectedLayerIndex: 0
---- !u!114 &19
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4020,7 +4203,7 @@ MonoBehaviour:
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &20
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4061,7 +4244,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e2faffff
+      m_ExpandedIDs: 18d3ffff54d3ffff8cd3ffffc8d3ffff00d4ffff3cd4ffff74d4ffffb0d4ffffe8d4ffff24d5ffff5cd5ffff98d5ffff4ad6ffff86d6ffffbed6fffffad6ffff32d7ffff6ed7ffffa6d7ffffe2d7ffff1ad8ffff56d8ffff68d9ffffa4d9ffffb6dafffff2daffff2adbffff66dbffff9edbffffdadbffff8cdcffffc8dcffff18ddffff50ddffff84ddffff20deffff54deffffa4deffff3ee0ffffa6e0ffff9ee1fffff2e1ffff4ce2ffff84e2ffffc4e2ffff68e3ffff68e4ffffa0e4ffff0ee5ffff46e5ffff94e5ffffcce5ffff00e6ffff38e6ffff6ce6ffffa4e6ffffd8e6ffff10e7ffff44e7ffff7ce7ffff22e8ffff5ae8ffff8ee8ffffc6e8fffffae8ffff32e9ffff66e9ffff9ee9ffff48eaffff80eaffffb4eaffffeceaffff20ebffff58ebffff66ecffffa0edffffe2edffffa0f5ffffd6faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -4086,7 +4269,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &21
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4109,8 +4292,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 24
-    width: 1046.3334
-    height: 256
+    width: 1073
+    height: 261
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4123,7 +4306,7 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: perfTa
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -4133,26 +4316,26 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/TableForge/Demo/Data/Enemies
+    - Assets/TableForge/Editor/PersistentData/TestData
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
-    m_OriginalText: 
+    m_OriginalText: perfTa
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
   m_StartGridSize: 74
   m_LastFolders:
-  - Assets/TableForge/Demo/Data/Enemies
+  - Assets/TableForge/Editor/PersistentData/TestData
   m_LastFoldersGridSize: 74
   m_LastProjectPath: C:\Users\joseg\Documents\GitHub\TableForge
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 95}
-    m_SelectedIDs: dcc00000
-    m_LastClickedID: 49372
-    m_ExpandedIDs: 00000000aa0c0100ac0c0100ae0c0100b00c0100b20c0100b40c0100b60c0100b80c0100ba0c0100bc0c0100be0c0100c00c0100c20c0100c40c0100c60c0100c80c0100
+    m_SelectedIDs: a00f0100
+    m_LastClickedID: 69536
+    m_ExpandedIDs: 000000008a0c01008c0c01008e0c0100900c0100920c0100940c0100960c0100980c01009a0c01009c0c01009e0c0100a00c0100a20c0100a40c0100a60c0100a80c0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4181,7 +4364,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000aa0c0100ac0c0100ae0c0100b00c0100b20c0100b40c0100b60c0100b80c0100ba0c0100bc0c0100be0c0100c00c0100c20c0100c40c0100c60c0100c80c0100
+    m_ExpandedIDs: 000000008a0c01008c0c01008e0c0100900c0100920c0100940c0100960c0100980c01009a0c01009c0c01009e0c0100a00c0100a20c0100a40c0100a60c0100a80c0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -4239,7 +4422,7 @@ MonoBehaviour:
     m_GridSize: 74
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 194
---- !u!114 &22
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4260,10 +4443,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1048.3334
+    x: 1075
     y: 24
-    width: 324
-    height: 256
+    width: 469
+    height: 261
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -4275,7 +4458,7 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &23
+--- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4296,10 +4479,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1374.3334
+    x: 1546
     y: 24
-    width: 332.33325
-    height: 894
+    width: 374
+    height: 907
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0

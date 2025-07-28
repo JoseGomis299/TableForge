@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TableForge.Editor.UI.UssClasses;
@@ -352,7 +353,7 @@ namespace TableForge.Editor.UI
             RemoveRowCommand command = null;
             if(TableData.ParentCell is ICollectionCell collectionCell)
             {
-                command = new RemoveCollectionRowCommand(row, TableMetadata.Clone(Metadata), this, RemoveRow, TableData.ParentCell, collectionCell.GetItems());
+                command = new RemoveCollectionRowCommand(row, TableMetadata.Clone(Metadata), this, RemoveRow, TableData.ParentCell, collectionCell.GetItems().CreateShallowCopy() as ICollection);
             }
             else
             {

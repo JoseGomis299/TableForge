@@ -5,7 +5,7 @@ namespace TableForge.Editor.UI
     internal class SetCellValueCommand : BaseUndoableCommand, ICellBoundCommand, IAssetBoundCommand
     {
         private readonly Cell _cell;
-        private readonly CellControl _cellControl;
+        private CellControl _cellControl;
         private readonly TableControl _tableControl;
         private readonly object _oldValue;
         private object _newValue;
@@ -34,6 +34,7 @@ namespace TableForge.Editor.UI
         
         public override void Execute()
         {
+            _cellControl ??= CellControlFactory.GetCellControlFromId(_cell.Id);
             _cell.SetValue(_newValue);
             
             if (TableSettings.GetSettings().removeFormulaOnCellValueChange && _oldFunction == null && _oldValue != null && !_oldValue.Equals(_newValue))
@@ -49,6 +50,7 @@ namespace TableForge.Editor.UI
         
         public override void Undo()
         {
+            _cellControl ??= CellControlFactory.GetCellControlFromId(_cell.Id);
             _cell.SetValue(_oldValue);
             if(_oldFunction != null && TableSettings.GetSettings().removeFormulaOnCellValueChange)
             {

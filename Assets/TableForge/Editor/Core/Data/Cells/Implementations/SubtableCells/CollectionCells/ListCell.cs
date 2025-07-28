@@ -24,12 +24,6 @@ namespace TableForge.Editor
             CreateSubTable();
         }
 
-        public override void RefreshData()
-        {
-            base.RefreshData();
-            CreateSubTable();
-        }
-
         protected sealed override void CreateSubTable()
         {
             List<ITfSerializedObject> rowsData = new List<ITfSerializedObject>();
@@ -56,9 +50,9 @@ namespace TableForge.Editor
                 rowsData.Add(new TfSerializedListItem((IList)cachedValue, ((IList)cachedValue)[i], i, TfSerializedObject.RootObject, TfSerializedObject.RootObjectGuid));
             }
             
-            if(SubTable != null)
-                TableGenerator.GenerateTable(SubTable, rowsData);
-            else 
+            // if(SubTable != null)
+            //     TableGenerator.GenerateTable(SubTable, rowsData);
+            // else 
                 SubTable = TableGenerator.GenerateTable(rowsData, $"{column.Table.Name}.{column.Name}", this);
         }
 
