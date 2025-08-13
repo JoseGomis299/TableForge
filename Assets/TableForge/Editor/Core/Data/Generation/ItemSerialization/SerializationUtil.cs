@@ -111,7 +111,7 @@ namespace TableForge.Editor
             if(field.GetCustomAttribute<TableForgeIgnoreAttribute>() != null || !IsUnitySerializable(field.FieldType))
                 return false;
             
-            bool isSerializable = field.GetCustomAttribute<SerializeField>() != null || field.IsPublic || allowPrivate;
+            bool isSerializable = field.GetCustomAttribute<SerializeField>() != null || field.IsPublic || allowPrivate || field.GetCustomAttribute<SerializeReference>() != null;
             isSerializable &= !field.Attributes.HasFlag(FieldAttributes.Static) && !field.Attributes.HasFlag(FieldAttributes.InitOnly);
             
             return isSerializable && IsTableForgeSerializable(field.FieldType);

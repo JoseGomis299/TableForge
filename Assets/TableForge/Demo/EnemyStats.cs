@@ -7,9 +7,9 @@ namespace TableForge.Demo
     public class EnemyStats : CharacterStats
     {
         public Gradient aggressionGradient;
-        public Vector4 patrolArea;
+        [SerializeReference] Vector4 patrolArea;
         public List<string> lootDrops;
-        public EnemyMeta meta;
+        [SerializeField] private EnemyMeta meta;
 
         [System.Serializable]
         public class EnemyMeta

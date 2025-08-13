@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -19,14 +20,22 @@ namespace TableForge.Editor.UI
         [MenuItem("Window/TableForge/Table Visualizer", priority = 0)]
         public static void Initialize() => GetWindow<TableVisualizer>("Table Visualizer");
         
-        public void CreateGUI()
+        private void CreateGUI()
         {
-            var root = rootVisualElement;
-            root.focusable = true;
-            root.Add(visualTreeAsset.Instantiate());
+            rootVisualElement.focusable = true;
+            rootVisualElement.Add(visualTreeAsset.Instantiate());
+            
+            UiConstants.OnStylesInitialized += PopulateWindow;
+            UiConstants.InitializeStyles(rootVisualElement[0]);
+            
+            EditorApplication.projectChanged += OnProjectChanged;
+            EditorApplication.update += Update;
+            InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
+        }
 
-            UiConstants.InitializeStyles(root[0]);
-            var mainTable = root.Q<VisualElement>("MainTable");
+        private void PopulateWindow()
+        {
+            var mainTable = rootVisualElement.Q<VisualElement>("MainTable");
             
             var tableAttributes = new TableAttributes
             {
@@ -36,18 +45,16 @@ namespace TableForge.Editor.UI
                 columnHeaderVisibility = TableSettings.GetSettings().columnHeaderVisibility,
                 rowHeaderVisibility = TableSettings.GetSettings().rowHeaderVisibility,
             };
-
+            
             _tableControl = new TableControl(rootVisualElement, tableAttributes, null, null, this);
             mainTable.Add(_tableControl);
-            
-            var toolbar = root.Q<VisualElement>("toolbar");
-            _toolbarController = new ToolbarController(toolbar, this);
 
-            EditorApplication.projectChanged += OnProjectChanged;
-            EditorApplication.update += Update;
-            InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
+            var toolbar = rootVisualElement.Q<VisualElement>("toolbar");
+            _toolbarController = new ToolbarController(toolbar, this);
+            
+            UiConstants.OnStylesInitialized -= PopulateWindow;
         }
-        
+
         public void SetTable(Table table)
         {
             if(_tableControl == null) return;
