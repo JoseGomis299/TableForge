@@ -315,12 +315,8 @@ namespace TableForge.Editor.UI
             {
                 if (_selectedTab == null) return;
                 
+                _tableVisualizer.CurrentTable.Metadata.ClearAnchorSizes();
                 _tableVisualizer.CurrentTable.RebuildPage(false);
-                _tableVisualizer.CurrentTable.schedule.Execute(() =>
-                {
-                    _tableVisualizer.CurrentTable.Metadata.ClearAnchorSizes();
-                    _tableVisualizer.CurrentTable.ResizeAllRecursively(false, true);
-                }).ExecuteLater(5);
             };
         }
         
