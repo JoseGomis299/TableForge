@@ -272,6 +272,19 @@ namespace TableForge.Editor.UI
             SetDirtyIfNecessary();
         }
         
+        
+        public void ClearAnchorSizes()
+        {
+            if (cellAnchorMetadata == null) return;
+
+            foreach (var metadata in cellAnchorMetadata.Values)
+            {
+                metadata.size = Vector2.zero;
+            }
+            
+            SetDirtyIfNecessary();
+        }
+        
         #endregion
 
         #region Utility
@@ -521,6 +534,7 @@ namespace TableForge.Editor.UI
 
             to.SetDirtyIfNecessary();
         }
+
     }
 
     [Serializable]

@@ -17,12 +17,6 @@ namespace TableForge.Editor
         public abstract void AddEmptyItem();
         public abstract void RemoveItem(int position);
         public abstract ICollection GetItems();
-
-        public override void RefreshData()
-        {
-            base.RefreshData();
-            CreateSubTable();
-        }
         
         public override int CompareTo(Cell other)
         {

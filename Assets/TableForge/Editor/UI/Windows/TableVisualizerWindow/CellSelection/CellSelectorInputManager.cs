@@ -128,7 +128,11 @@ namespace TableForge.Editor.UI
                 }
                 
                 _tableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
-                _tableControl.FunctionExecutor.ExecuteAllFunctions();
+                _tableControl.schedule.Execute(() =>
+                {
+                    _tableControl.Update(true);
+                    _tableControl.FunctionExecutor.ExecuteAllFunctions();
+                }).ExecuteLater(0);
             }
             else if(evt.ctrlKey && evt.keyCode == KeyCode.Y)
             {
@@ -140,7 +144,11 @@ namespace TableForge.Editor.UI
                 }
                 
                 _tableControl.Visualizer.ToolbarController.RefreshFunctionTextField();
-                _tableControl.FunctionExecutor.ExecuteAllFunctions();
+                _tableControl.schedule.Execute(() =>
+                {
+                    _tableControl.Update(true);
+                    _tableControl.FunctionExecutor.ExecuteAllFunctions();
+                }).ExecuteLater(0);
             }
             evt.StopPropagation();
         }

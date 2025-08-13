@@ -21,9 +21,9 @@ namespace TableForge.Editor.UI
             
             if (SubTableControl.TableData != ((SubTableCell)Cell).SubTable)
             {
-                SubTableControl.SetTable(((SubTableCell)Cell).SubTable);
+                SubTableControl.SetTable(((SubTableCell)Cell).SubTable, useCachedSize:false);
             }
-            else SubTableControl.Update();
+            else SubTableControl.Update(true);
         }
 
         protected virtual void RecalculateSizeWithCurrentValues()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TableForge.Editor.UI.UssClasses;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -32,7 +33,7 @@ namespace TableForge.Editor.UI
                     if(excludedFromManualResizing.Contains(headerControl.Id)) return;
 
                     float delta = InstantResize(headerControl, false);
-                    InvokeResize(headerControl, delta, true, false, Vector2.zero);
+                    InvokeResize(new List<HeaderControl>{headerControl}, delta, true, false, Vector2.zero);
                     InvokeManualResize(headerControl, delta);
                     return;
                 }

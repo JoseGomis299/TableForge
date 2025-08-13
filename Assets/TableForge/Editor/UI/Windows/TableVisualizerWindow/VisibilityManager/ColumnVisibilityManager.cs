@@ -84,6 +84,7 @@ namespace TableForge.Editor.UI
 
         public override bool IsHeaderInBounds(ColumnHeaderControl header, bool addSecuritySize)
         {
+           // if (tableControl.Parent is ExpandableSubTableCellControl { IsFoldoutOpen: true }) return true;
             if(header.worldBound.width <= 0)
                 return false;
             

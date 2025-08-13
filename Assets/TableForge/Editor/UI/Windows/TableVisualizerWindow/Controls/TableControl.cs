@@ -208,7 +208,8 @@ namespace TableForge.Editor.UI
             ScrollView.horizontalScrollerVisibility = ScrollerVisibility.Auto;
             
             PreferredSize = SizeCalculator.CalculateTableSize(table, TableAttributes, Metadata, useCachedSize);
-
+            UpdateParentsSize();
+            
             if (Parent == null)
             {
                 FunctionExecutor.Setup();
@@ -516,6 +517,21 @@ namespace TableForge.Editor.UI
         {
             _scrollViewHeight = Parent == null ? UiConstants.HeaderHeight : UiConstants.SubTableHeaderHeight;
             _scrollViewWidth = 0;
+        }
+        
+        /// <summary>
+        /// Updates the size of the parent table control based on this cell size.
+        /// </summary>
+        private void UpdateParentsSize()
+        {
+            if (Parent == null)
+                return;
+
+            Parent.TableControl.PreferredSize.AddCellSize(Parent.Cell, SizeCalculator.CalculateSizeWithCurrentCellSizes(this));
+            if(Parent.TableControl.Parent != null)
+            {
+                Parent.TableControl.Parent.TableControl.UpdateParentsSize();
+            }
         }
 
         #endregion

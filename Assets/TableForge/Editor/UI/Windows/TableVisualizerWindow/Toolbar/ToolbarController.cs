@@ -21,6 +21,7 @@ namespace TableForge.Editor.UI
         private Button _addTabButton;
         private Button _transposeTableButton;
         private Button _rebuildButton;
+        private Button _adjustSizeButton;
         private VisualElement _tabContainer;
         private MultiSelectDropdownButton _visibleColumnsDropdown;
         private ToolbarSearchField _filter;
@@ -167,6 +168,7 @@ namespace TableForge.Editor.UI
             _addTabButton = _toolbar.Q<Button>("add-tab-button");
             _transposeTableButton = _toolbar.Q<Button>("transpose-button");
             _rebuildButton = _toolbar.Q<Button>("rebuild-button");
+            _adjustSizeButton = _toolbar.Q<Button>("adjust-size-button");
             _tabContainer = _toolbar.Q<VisualElement>("tab-container");
             _filter = _toolbar.Q<ToolbarSearchField>("filter");
             _functionTextField = _toolbar.Q<TextField>("function-field");
@@ -308,6 +310,18 @@ namespace TableForge.Editor.UI
                 
                 TableSettings.GetSettings().pollingInterval = evt.newValue;
             });
+            
+            _adjustSizeButton.clicked += () =>
+            {
+                if (_selectedTab == null) return;
+                
+                _tableVisualizer.CurrentTable.RebuildPage(false);
+                _tableVisualizer.CurrentTable.schedule.Execute(() =>
+                {
+                    _tableVisualizer.CurrentTable.Metadata.ClearAnchorSizes();
+                    _tableVisualizer.CurrentTable.ResizeAllRecursively(false, true);
+                }).ExecuteLater(5);
+            };
         }
         
         public void RefreshFunctionTextField()

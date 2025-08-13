@@ -10,7 +10,6 @@ namespace TableForge.Editor.UI
         private VisualElement _foldoutContentContainer;
         protected VisualElement subTableContentContainer;
         protected VisualElement subTableToolbar;
-        protected bool isSubTableInitialized;
         
         private Foldout _headerFoldout;
         private string _foldoutHeaderText;
@@ -18,6 +17,7 @@ namespace TableForge.Editor.UI
         private Button _collapseButton;
         
         public bool IsFoldoutOpen => _headerFoldout.value;
+        protected bool IsSubTableInitialized => SubTableControl is { TableData: not null };
 
         protected ExpandableSubTableCellControl(SubTableCell cell, TableControl tableControl) : base(cell, tableControl)
         {
@@ -29,13 +29,16 @@ namespace TableForge.Editor.UI
 
         public override void Refresh(Cell cell, TableControl tableControl)
         {
+            bool isExpanded = TableControl.Metadata.IsTableExpanded(cell.Id);
+            _headerFoldout.value = isExpanded;
+            subTableContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
+            
             base.Refresh(cell, tableControl);
             
             _foldoutHeaderText = cell.column.Name;
             _headerFoldout.text = _foldoutHeaderText;
             
-            bool isExpanded = TableControl.Metadata.IsTableExpanded(cell.Id);
-            if(isExpanded && !isSubTableInitialized)
+            if(isExpanded && !IsSubTableInitialized)
             {
                 InitializeSubTable();
             }
@@ -48,9 +51,6 @@ namespace TableForge.Editor.UI
 
             ShowToolbar(isExpanded, true);
             ShowFoldout(!isExpanded);
-
-            _headerFoldout.value = isExpanded;
-            subTableContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         public void OpenFoldout()
@@ -109,7 +109,6 @@ namespace TableForge.Editor.UI
         private void InitializeSubTable()
         {
             BuildSubTable();
-            isSubTableInitialized = true;
             IsSelected = TableControl.CellSelector.IsCellSelected(Cell);
         }
 
@@ -118,7 +117,7 @@ namespace TableForge.Editor.UI
             subTableContentContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
             TableControl.Metadata.SetTableExpanded(Cell.Id, evt.newValue);
             
-            if (evt.newValue && !isSubTableInitialized)
+            if (evt.newValue && !IsSubTableInitialized)
             {
                 InitializeSubTable();
             }

@@ -67,21 +67,21 @@ namespace TableForge.Editor.UI
                 delta += InstantResize(header, false);
             }
          
-            InvokeResize(header, delta, storeSize, false, Vector2.zero);
+            InvokeResize(new List<HeaderControl> {header}, delta, storeSize, false, Vector2.zero);
             return delta;
         }
 
-        public float ResizeAll(bool fitStoredSize)
+        public float ResizeAll(bool fitStoredSize, bool storeSize)
         {
             if(resizingHeaders.Count == 0) return 0;
-
+            
             float delta = 0;
             foreach (var header in resizingHeaders.Values)
             {
                 delta += InstantResize(header, fitStoredSize);
             }
 
-            InvokeResize(resizingHeaders.Values.FirstOrDefault(x => x.Id != 0), delta, false, fitStoredSize, Vector2.zero, false);
+            InvokeResize(resizingHeaders.Values.Where(x => x.Id != 0).ToList(), delta, storeSize, fitStoredSize, Vector2.zero, false);
             return delta;
         }
         
@@ -90,7 +90,7 @@ namespace TableForge.Editor.UI
             if (target == null) return 0;
 
             float delta = InstantResize(target, fitStoredSize);
-            InvokeResize(target, delta, storeSize, fitStoredSize, Vector2.zero);
+            InvokeResize(new List<HeaderControl>{target}, delta, storeSize, fitStoredSize, Vector2.zero);
             return delta;
         }
 
@@ -114,9 +114,10 @@ namespace TableForge.Editor.UI
             excludedFromManualResizing.Clear();
         }
         
-        protected void InvokeResize(HeaderControl target, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize, bool extendToAncestors = true)
+        protected void InvokeResize(List<HeaderControl> targets, float delta, bool storeSize, bool fitStoredSize, Vector2 targetSize, bool extendToAncestors = true)
         {
-            if(delta == 0 || target == null) return;
+            if(delta == 0 || targets == null || targets.Count == 0 || targets[0] == null) return;
+            var target = targets[0];
 
             if (targetSize == Vector2.zero)
             {
@@ -144,31 +145,39 @@ namespace TableForge.Editor.UI
             
             void Invoke(bool extendToAncestors)
             {
-                if (storeSize)
-                {
-                    int anchorId = target.CellAnchor?.Id ?? tableControl.Parent?.Cell.Id ?? 0;
-                    float width = target.resolvedStyle.width;
-                    float height = target.resolvedStyle.height;
-                    Vector2 sizeToStore = tableControl.Metadata.GetAnchorSize(anchorId);
-                    
-                    bool isRow = target is RowHeaderControl;
+                if (storeSize){
 
-                    if (isRow)
+                    foreach (var target in targets)
                     {
-                        sizeToStore.y = height;
-                    }
-                    else
-                    {
-                        sizeToStore.x = width;
+                        int anchorId = target.CellAnchor?.Id ?? tableControl.Parent?.Cell.Id ?? 0;
+                        float width = target.resolvedStyle.width;
+                        float height = target.resolvedStyle.height;
+                        Vector2 sizeToStore = tableControl.Metadata.GetAnchorSize(anchorId);
+                    
+                        bool isRow = target is RowHeaderControl;
+
+                        if (isRow)
+                        {
+                            sizeToStore.y = height;
+                        }
+                        else
+                        {
+                            sizeToStore.x = width;
+                        }
+                    
+                        tableControl.Metadata.SetAnchorSize(anchorId, sizeToStore);
                     }
                     
-                    tableControl.Metadata.SetAnchorSize(anchorId, sizeToStore);
                 }
-                
-                if(target.TableControl.Parent != null && extendToAncestors)
+
+                foreach (var target in targets)
                 {
-                    target.TableControl.Parent.TableControl.Resizer.ResizeCell(target.TableControl.Parent);
+                    if (target.TableControl.Parent != null && extendToAncestors)
+                    {
+                        target.TableControl.Parent.TableControl.Resizer.ResizeCell(target.TableControl.Parent);
+                    }
                 }
+
                 OnResize?.Invoke(delta);
             }
         }
@@ -227,7 +236,7 @@ namespace TableForge.Editor.UI
             {
                 float delta = UpdateSize(resizingHeader, _newSize);
                 UpdateChildrenSize(resizingHeader);
-                InvokeResize(resizingHeader, delta, true, false, _newSize);
+                InvokeResize(new List<HeaderControl>{resizingHeader}, delta, true, false, _newSize);
                 InvokeManualResize(resizingHeader, delta);
                 resizingPreview.RemoveFromHierarchy();
                 

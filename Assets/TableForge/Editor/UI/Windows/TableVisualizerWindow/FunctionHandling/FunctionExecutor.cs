@@ -96,6 +96,9 @@ namespace TableForge.Editor.UI
 
         public void ExecuteAllFunctions()
         {
+            if(_tableControl == null || _tableControl.Metadata == null)
+                return;
+            
             _incorrectCells.Clear();
             
             // Use bfs to execute functions in the correct order

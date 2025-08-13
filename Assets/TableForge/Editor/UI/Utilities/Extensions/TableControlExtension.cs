@@ -218,5 +218,46 @@ namespace TableForge.Editor.UI
             return pixelDifference > maxDiff;
         }
 
+        public static void ResizeAllRecursively(this TableControl tableControl, bool fitStoredSize, bool storeSize)
+        {
+            if (tableControl == null) return;
+
+            if (!tableControl.Transposed)
+            {
+                foreach (var row in tableControl.RowHeaders.Values)
+                {
+                    if (tableControl.RowVisibilityManager.IsHeaderVisible(row))
+                        UpdateChildren(row);
+                }
+            }
+            else
+            {
+                foreach (var column in tableControl.ColumnHeaders.Values)
+                {
+                    if (tableControl.ColumnVisibilityManager.IsHeaderVisible(column))
+                        UpdateChildren(column);
+                }
+            }
+
+            tableControl.Resizer.ResizeAll(fitStoredSize, storeSize);
+
+            void UpdateChildren(HeaderControl row)
+            {
+                foreach (var cell in ((Row)row.CellAnchor).OrderedCells)
+                {
+                    if (cell is SubTableCell)
+                    {
+                        if (CellControlFactory.GetCellControlFromId(cell.Id) is SubTableCellControl
+                            {
+                                SubTableControl: not null
+                            } subTableCellControl)
+                        {
+                            subTableCellControl.SubTableControl.RebuildPage();
+                            subTableCellControl.SubTableControl.ResizeAllRecursively(fitStoredSize, storeSize);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

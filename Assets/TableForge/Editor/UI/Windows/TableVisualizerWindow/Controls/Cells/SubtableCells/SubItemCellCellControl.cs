@@ -11,7 +11,7 @@ namespace TableForge.Editor.UI
         public override void Refresh(Cell cell, TableControl tableControl)
         {
             base.Refresh(cell, tableControl);
-            ShowAddRowButton(isSubTableInitialized && ((SubTableCell)Cell).SubTable.Rows.Count == 0);
+            ShowAddRowButton(IsSubTableInitialized && ((SubTableCell)Cell).SubTable.Rows.Count == 0);
         }
 
         protected override void BuildSubTable()

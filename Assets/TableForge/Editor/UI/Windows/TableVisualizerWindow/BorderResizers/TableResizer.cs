@@ -86,18 +86,18 @@ namespace TableForge.Editor.UI
         /// Resizes all cells in the table to fit their stored sizes or content.
         /// </summary>
         /// <param name="fitStoredSize">Whether to use stored size information.</param>
-        public void ResizeAll(bool fitStoredSize)
+        public void ResizeAll(bool fitStoredSize, bool storeSize = false)
         {
             if (IsResizing)
             {
-                _resizeQueue.Enqueue(() => ResizeAll(fitStoredSize));
+                _resizeQueue.Enqueue(() => ResizeAll(fitStoredSize, storeSize));
                 return;
             };
 
             HorizontalResizer.OnResize += OnHorizontalResizeComplete;
             _horizontalIsResizing = true;
 
-            float horizontalDelta = HorizontalResizer.ResizeAll(fitStoredSize);
+            float horizontalDelta = HorizontalResizer.ResizeAll(fitStoredSize, storeSize);
             _currentDelta = new Vector2(horizontalDelta, 0);
 
             if(horizontalDelta == 0)
@@ -118,7 +118,7 @@ namespace TableForge.Editor.UI
                 
                 VerticalResizer.OnResize += OnVerticalResizeComplete;
                 _verticalIsResizing = true;
-                _currentDelta.y = VerticalResizer.ResizeAll(fitStoredSize);
+                _currentDelta.y = VerticalResizer.ResizeAll(fitStoredSize, storeSize);
                 
                 if(_currentDelta.y == 0)
                 {
