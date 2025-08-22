@@ -6,7 +6,9 @@ using UnityEngine;
 
 namespace TableForge.Tests
 {
-    internal class SampleTestData : ScriptableObject
+
+    [CreateAssetMenu(fileName = "SampleTestData", menuName = "TableForge/Tests/Sample Test Data")]
+    internal class SampleTestData : AbstractTestData, ITestInterface
     {
         #region Basic Fields
 
@@ -94,6 +96,11 @@ namespace TableForge.Tests
             };
 
         #endregion
+
+        [field: SerializeField] public int InterfaceInt { get; set; }
+        [field: SerializeField] public override int AbstractInt { get; protected set; } = 3;
+        [field: SerializeField] public override string AbstractString { get; set; }
+        [field: SerializeField] public override float AbstractFloat { get; } = 5;
     }
 
     [Serializable]
@@ -124,5 +131,21 @@ namespace TableForge.Tests
         }
 
         #endregion
+    }
+
+    internal abstract class AbstractTestData : ScriptableObject
+    {
+        public int inheritedInt;
+        [field: SerializeField] public int InheritedIntProperty { get; set; } = 42;
+
+        public abstract int AbstractInt { get; protected set; }
+        public abstract string AbstractString { get; set; }
+        public abstract float AbstractFloat { get; }
+        [field: SerializeField] public virtual int VirtualInt { get; set; } = 42;
+    }
+
+    internal interface ITestInterface
+    {
+        int InterfaceInt { get; set; }
     }
 }

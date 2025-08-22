@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1706.6667
     height: 976
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Test Runner
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 130
+  controlID: 16
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 131
+  controlID: 17
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GameView
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -191,16 +191,16 @@ MonoBehaviour:
     y: 0
     width: 1373.3334
     height: 690.6667
-  m_MinSize: {x: 201, y: 226}
+  m_MinSize: {x: 51, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 18}
+  m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 18}
   - {fileID: 19}
   - {fileID: 15}
-  m_Selected: 2
+  m_Selected: 4
   m_LastSelected: 2
 --- !u!114 &9
 MonoBehaviour:
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 98
+  controlID: 50
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -402,10 +402,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Test Runner\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 2560
-    y: 79
-    width: 1544
-    height: 620
+    x: 0
+    y: 24
+    width: 1372.3334
+    height: 664.6667
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -418,12 +418,12 @@ MonoBehaviour:
     m_ContainerData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 149
+    ID: 146
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 412
-    - 138
+    - 446
+    - 148.66669
     relativeSizes:
     - 0.75
     - 0.25
@@ -433,7 +433,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 550
+    lastTotalSize: 594.6667
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_TestListGUIs:
   - m_Window: {fileID: 15}
     runProgress:
-      RunGuid: c77e67b4-cd91-4ece-bd5b-87a41ad183b1
+      RunGuid: 22b1ae62-d544-4932-9fcc-857093b20df2
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -458,7 +458,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows
+          - TableForge.Tests.TableGenerationTests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -2623,7 +2623,7 @@ MonoBehaviour:
       name: GetSerializableFields
       fullName: TableForge.Tests.SerializationTests.GetSerializableFields
       resultStatus: 1
-      duration: 0.0019318
+      duration: 0.0268194
       messages: 
       output: 
       stacktrace: 
@@ -2656,7 +2656,7 @@ MonoBehaviour:
       name: AnimationCurveCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.AnimationCurveCellGeneration
       resultStatus: 1
-      duration: 0.1026616
+      duration: 0.202477
       messages: 
       output: 'No script asset for AnimationCurveScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2676,7 +2676,7 @@ MonoBehaviour:
       name: BooleanCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.BooleanCellGeneration
       resultStatus: 1
-      duration: 0.1015339
+      duration: 0.095408
       messages: 
       output: 'No script asset for BooleanScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2696,7 +2696,7 @@ MonoBehaviour:
       name: ColorCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ColorCellGeneration
       resultStatus: 1
-      duration: 0.1024944
+      duration: 0.1190764
       messages: 
       output: 'No script asset for ColorScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2716,7 +2716,7 @@ MonoBehaviour:
       name: DictionaryCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.DictionaryCellGeneration
       resultStatus: 1
-      duration: 0.1034872
+      duration: 0.0952753
       messages: 
       output: 'No script asset for DictionaryScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2736,7 +2736,7 @@ MonoBehaviour:
       name: EnumCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.EnumCellGeneration
       resultStatus: 1
-      duration: 0.1031603
+      duration: 0.0964893
       messages: 
       output: 'No script asset for EnumScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2756,7 +2756,7 @@ MonoBehaviour:
       name: FloatingPointCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.FloatingPointCellGeneration
       resultStatus: 1
-      duration: 0.1034617
+      duration: 0.0945178
       messages: 
       output: 'No script asset for FloatingPointScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2776,7 +2776,7 @@ MonoBehaviour:
       name: GradientCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.GradientCellGeneration
       resultStatus: 1
-      duration: 0.1054189
+      duration: 0.0962047
       messages: 
       output: 'No script asset for GradientScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2796,7 +2796,7 @@ MonoBehaviour:
       name: IntegralTypesCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.IntegralTypesCellGeneration
       resultStatus: 1
-      duration: 0.1054675
+      duration: 0.0979572
       messages: 
       output: 'No script asset for IntegralTypesScriptableObject. Check that the
         definition is in a file of the same name and that it compiles properly.
@@ -2816,7 +2816,7 @@ MonoBehaviour:
       name: ListCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.ListCellGeneration
       resultStatus: 1
-      duration: 0.1038419
+      duration: 0.0958026
       messages: 
       output: 'No script asset for ListScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2836,7 +2836,7 @@ MonoBehaviour:
       name: NoSerializableTypes_NoCellsGenerated
       fullName: TableForge.Tests.TableGenerationTests.NoSerializableTypes_NoCellsGenerated
       resultStatus: 1
-      duration: 0.1029134
+      duration: 0.0919295
       messages: 
       output: 
       stacktrace: 
@@ -2853,7 +2853,7 @@ MonoBehaviour:
       name: StringCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.StringCellGeneration
       resultStatus: 1
-      duration: 0.1011975
+      duration: 0.0914129
       messages: 
       output: 'No script asset for StringScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2873,7 +2873,7 @@ MonoBehaviour:
       name: SubitemCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.SubitemCellGeneration
       resultStatus: 1
-      duration: 0.1045553
+      duration: 0.0965504
       messages: 
       output: 'No script asset for ComplexTypeScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -2893,7 +2893,7 @@ MonoBehaviour:
       name: UnityObjectCellGeneration
       fullName: TableForge.Tests.TableGenerationTests.UnityObjectCellGeneration
       resultStatus: 1
-      duration: 0.101618
+      duration: 0.0924979
       messages: 
       output: 'No script asset for UnityObjectScriptableObject. Check that the definition
         is in a file of the same name and that it compiles properly.
@@ -3165,7 +3165,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: c77e67b4-cd91-4ece-bd5b-87a41ad183b1
+      RunGuid: 22b1ae62-d544-4932-9fcc-857093b20df2
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -3178,7 +3178,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows
+          - TableForge.Tests.TableGenerationTests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -3232,7 +3232,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: c77e67b4-cd91-4ece-bd5b-87a41ad183b1
+      RunGuid: 22b1ae62-d544-4932-9fcc-857093b20df2
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -3245,7 +3245,7 @@ MonoBehaviour:
         filters:
         - testMode: 1
           testNames:
-          - TableForge.Tests.TablePerformanceTests.TableGeneration_Performance_2000_Rows
+          - TableForge.Tests.TableGenerationTests
           groupNames: []
           categoryNames: []
           assemblyNames: []
@@ -4125,7 +4125,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
+    y: 78.66667
     width: 1372.3334
     height: 664.6667
   m_SerializedDataModeController:

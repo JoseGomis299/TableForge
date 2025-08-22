@@ -35,6 +35,12 @@ namespace TableForge.Tests
             Assert.IsTrue(fields.Any(x => x.Name == "vector3Array"));
             Assert.IsTrue(fields.Any(x => x.Name == "sampleEnum"));
             Assert.IsTrue(fields.Any(x => x.Name == "stringToIntDictionary"));
+            Assert.IsTrue(fields.Any(x => x.Name == "<InheritedIntProperty>k__BackingField"));
+            Assert.IsTrue(fields.Any(x => x.Name == "<InterfaceInt>k__BackingField"));
+            Assert.IsTrue(fields.Any(x => x.Name == "<AbstractInt>k__BackingField"));
+            Assert.IsTrue(fields.Any(x => x.Name == "<AbstractString>k__BackingField"));
+            Assert.IsTrue(fields.Any(x => x.Name == "<VirtualInt>k__BackingField"));
+            Assert.IsTrue(fields.Any(x => x.Name == "inheritedInt"));
             
             //Check if the fields non-serializable fields are not included
             Assert.IsTrue(fields.All(x => x.Name != "_privateIntField"));
@@ -45,6 +51,8 @@ namespace TableForge.Tests
             Assert.IsTrue(fields.All(x => x.Name != "intList2D"));
             Assert.IsTrue(fields.All(x => x.Name != "stringToNestedDataDictionary"));
             Assert.IsTrue(fields.All(x => x.Name != "nestedDataToIntDictionary"));
+            Assert.IsTrue(fields.Any(x => x.Name != "<AbstractFloat>k__BackingField"));
+
         }
        
     }

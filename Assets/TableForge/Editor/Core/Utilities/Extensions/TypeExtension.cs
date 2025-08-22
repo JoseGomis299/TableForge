@@ -103,6 +103,31 @@ namespace TableForge.Editor
         #region Reflection Methods
 
         /// <summary>
+        /// Retrieves all base types of a given type, including the type itself.
+        /// </summary>
+        public static List<Type> GetBaseTypes(this Type type, bool includeSelf = true, Type breakType = null)
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Type cannot be null.");
+
+            var baseTypes = new List<Type>();
+            if (includeSelf) baseTypes.Add(type);
+            
+            Type current = type.BaseType;
+            while (current != null)
+            {
+                if (breakType != null && current == breakType)
+                    break;
+
+                baseTypes.Insert(0, current);
+                current = current.BaseType;
+            }
+
+            return baseTypes;
+        }
+       
+        
+        /// <summary>
         /// Retrieves the member information of a given property path in a type.
         /// </summary>
         /// <param name="type">The type to search in.</param>
