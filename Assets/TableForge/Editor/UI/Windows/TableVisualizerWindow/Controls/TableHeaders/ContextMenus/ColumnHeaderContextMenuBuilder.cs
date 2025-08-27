@@ -9,9 +9,6 @@ namespace TableForge.Editor.UI
     {
         public override void BuildContextMenu(HeaderControl header, ContextualMenuPopulateEvent evt)
         {
-            if (header is not ColumnHeaderControl)
-                return;
-            
             AddExpandCollapseItems(header, evt);
             evt.menu.AppendSeparator();
             AddSortingItems(header, evt);

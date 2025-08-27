@@ -17,6 +17,7 @@ namespace TableForge.Editor.UI
         private static readonly ObjectPool<RowHeaderControl> _pool = new(() => new RowHeaderControl());
         private static readonly ObjectPool<RowControl> _rowControlPool = new(() => new RowControl());
         private static readonly RowHeaderContextMenuBuilder _contextMenuBuilder = new();
+        private static readonly ColumnHeaderContextMenuBuilder _transposedContextMenuBuilder = new();
         
         private bool _isChangingName;
         private readonly Label _headerLabel;
@@ -153,7 +154,7 @@ namespace TableForge.Editor.UI
         /// <returns>The row header context menu builder.</returns>
         protected override IHeaderContextMenuBuilder GetContextMenuBuilder()
         {
-            return TableControl.Transposed? SubTableHeaderContextMenuBuilder : _contextMenuBuilder;
+            return TableControl.Transposed? _transposedContextMenuBuilder : _contextMenuBuilder;
         }
 
         #endregion
