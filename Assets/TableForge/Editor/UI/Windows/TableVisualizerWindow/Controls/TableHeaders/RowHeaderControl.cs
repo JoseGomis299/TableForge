@@ -153,7 +153,7 @@ namespace TableForge.Editor.UI
         /// <returns>The row header context menu builder.</returns>
         protected override IHeaderContextMenuBuilder GetContextMenuBuilder()
         {
-            return _contextMenuBuilder;
+            return TableControl.Transposed? SubTableHeaderContextMenuBuilder : _contextMenuBuilder;
         }
 
         #endregion
