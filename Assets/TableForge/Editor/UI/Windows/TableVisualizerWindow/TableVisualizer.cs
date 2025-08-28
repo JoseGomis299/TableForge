@@ -103,6 +103,8 @@ namespace TableForge.Editor.UI
         
         private void OnScriptableObjectModified(ScriptableObject scriptableObject)
         {
+            if(_tableControl == null) return;
+            
             Row row = _tableControl.TableData.Rows.Values.FirstOrDefault(r => r.SerializedObject.RootObject == scriptableObject);
             if(row == null) return;
             
@@ -111,6 +113,7 @@ namespace TableForge.Editor.UI
 
         private void Update()
         {
+            if(_tableControl == null) return;
             if(!TableSettings.GetSettings().enablePolling || _lastUpdateTime >= EditorApplication.timeSinceStartup - TableSettings.GetSettings().pollingInterval)
                 return;
         
