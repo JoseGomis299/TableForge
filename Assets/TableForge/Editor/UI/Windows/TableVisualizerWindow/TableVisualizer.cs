@@ -27,10 +27,6 @@ namespace TableForge.Editor.UI
             
             UiConstants.OnStylesInitialized += PopulateWindow;
             UiConstants.InitializeStyles(rootVisualElement[0]);
-            
-            EditorApplication.projectChanged += OnProjectChanged;
-            EditorApplication.update += Update;
-            InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
         }
 
         private void PopulateWindow()
@@ -53,6 +49,10 @@ namespace TableForge.Editor.UI
             _toolbarController = new ToolbarController(toolbar, this);
             
             UiConstants.OnStylesInitialized -= PopulateWindow;
+            
+            EditorApplication.projectChanged += OnProjectChanged;
+            EditorApplication.update += Update;
+            InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
         }
 
         public void SetTable(Table table)
