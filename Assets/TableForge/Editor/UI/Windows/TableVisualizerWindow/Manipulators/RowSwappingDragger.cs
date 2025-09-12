@@ -46,8 +46,8 @@ namespace TableForge.Editor.UI
             float direction = delta.y > 0 ? -1 : 1;
         
 #if UNITY_6000_OR_NEWER
-            target.style.translate = new Translate(delta.x + target.style.translate.value.x.value, delta.y + target.style.translate.value.y.value, 0);
-            rowHeaderControl.RowControl.style.translate = new Translate(delta.x + rowHeaderControl.RowControl.style.translate.value.x.value, delta.y + rowHeaderControl.RowControl.style.translate.value.y.value, 0);
+            target.style.translate = new Translate(delta.x + target.resolvedStyle.translate.x, delta.y + target.resolvedStyle.translate.y, 0);
+            rowHeaderControl.RowControl.style.translate = new Translate(delta.x + rowHeaderControl.RowControl.resolvedStyle.translate.x, delta.y + rowHeaderControl.RowControl.resolvedStyle.translate.y, 0);
 #else
             target.transform.position += delta;
             rowHeaderControl.RowControl.transform.position += delta;
@@ -112,16 +112,14 @@ namespace TableForge.Editor.UI
             
             bool hasMovedUp = movingIndex > 0 &&
 #if UNITY_6000_OR_NEWER
-                (_orderedHeaders[movingIndex - 1].style.translate.value.x != 0 
-                || _orderedHeaders[movingIndex - 1].style.translate.value.y != 0);
+                _orderedHeaders[movingIndex - 1].resolvedStyle.translate != Vector3.zero;
 #else
                 _orderedHeaders[movingIndex - 1].transform.position != Vector3.zero;
 #endif
 
             bool hasMovedDown = movingIndex < _orderedHeaders.Count - 1 &&
 #if UNITY_6000_OR_NEWER
-                (_orderedHeaders[movingIndex + 1].style.translate.value.x != 0 
-                || _orderedHeaders[movingIndex + 1].style.translate.value.y != 0);
+                _orderedHeaders[movingIndex + 1].resolvedStyle.translate != Vector3.zero;
 #else
                 _orderedHeaders[movingIndex + 1].transform.position != Vector3.zero;
 #endif
