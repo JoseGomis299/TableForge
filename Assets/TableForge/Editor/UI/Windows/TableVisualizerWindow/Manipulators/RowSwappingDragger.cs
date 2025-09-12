@@ -44,9 +44,14 @@ namespace TableForge.Editor.UI
         {
             if (target is not RowHeaderControl rowHeaderControl) return;
             float direction = delta.y > 0 ? -1 : 1;
-            
+        
+#if UNITY_6000_OR_NEWER
+            target.style.translate = new Translate(delta.x + target.style.translate.value.x.value, delta.y + target.style.translate.value.y.value, 0);
+            rowHeaderControl.RowControl.style.translate = new Translate(delta.x + rowHeaderControl.RowControl.style.translate.value.x.value, delta.y + rowHeaderControl.RowControl.style.translate.value.y.value, 0);
+#else
             target.transform.position += delta;
             rowHeaderControl.RowControl.transform.position += delta;
+#endif
             
             int movingIndex = tableControl.RowData[rowHeaderControl.Id].Position - 1;
             if(_lastHeaderIndex == -1)
@@ -60,8 +65,14 @@ namespace TableForge.Editor.UI
                 if (rowHeader == target || !rowHeader.worldBound.Contains(midPoint)) continue;
 
                 var targetPos = GetPosition(direction, movingIndex, i);
+
+#if UNITY_6000_OR_NEWER
+                rowHeader.style.translate = new Translate(targetPos.x, targetPos.y, 0);
+                rowHeader.RowControl.style.translate = new Translate(targetPos.x, targetPos.y, 0);
+#else
                 rowHeader.transform.position = targetPos;
                 rowHeader.RowControl.transform.position = targetPos;
+#endif
                 
                 //If the header is moved more than one position, ensure that the other headers are in the correct position
                 int indexDifference = _lastHeaderIndex - i;
@@ -69,6 +80,18 @@ namespace TableForge.Editor.UI
                 {
                     for (int j = 0; j < _orderedHeaders.Count; j++)
                     {
+#if UNITY_6000_OR_NEWER
+                        if ((i <= j && j < movingIndex) || (i >= j && j > movingIndex))
+                        {
+                            _orderedHeaders[j].style.translate = new Translate(targetPos.x, targetPos.y, 0);
+                            _orderedHeaders[j].RowControl.style.translate = new Translate(targetPos.x, targetPos.y, 0);
+                        }
+                        else
+                        {
+                            _orderedHeaders[j].style.translate = new Translate(0, 0, 0);
+                            _orderedHeaders[j].RowControl.style.translate = new Translate(0, 0, 0);
+                        }
+#else
                         if ((i <= j && j < movingIndex) || (i >= j && j > movingIndex))
                         {
                             _orderedHeaders[j].transform.position = targetPos;
@@ -79,6 +102,7 @@ namespace TableForge.Editor.UI
                             _orderedHeaders[j].transform.position = Vector3.zero;
                             _orderedHeaders[j].RowControl.transform.position = Vector3.zero;
                         }
+#endif
                     }
                 }
                 
@@ -86,8 +110,22 @@ namespace TableForge.Editor.UI
                 break;
             }
             
-            bool hasMovedUp = movingIndex > 0 && _orderedHeaders[movingIndex - 1].transform.position != Vector3.zero;
-            bool hasMovedDown = movingIndex < _orderedHeaders.Count - 1 && _orderedHeaders[movingIndex + 1].transform.position != Vector3.zero;
+            bool hasMovedUp = movingIndex > 0 &&
+#if UNITY_6000_OR_NEWER
+                (_orderedHeaders[movingIndex - 1].style.translate.value.x != 0 
+                || _orderedHeaders[movingIndex - 1].style.translate.value.y != 0);
+#else
+                _orderedHeaders[movingIndex - 1].transform.position != Vector3.zero;
+#endif
+
+            bool hasMovedDown = movingIndex < _orderedHeaders.Count - 1 &&
+#if UNITY_6000_OR_NEWER
+                (_orderedHeaders[movingIndex + 1].style.translate.value.x != 0 
+                || _orderedHeaders[movingIndex + 1].style.translate.value.y != 0);
+#else
+                _orderedHeaders[movingIndex + 1].transform.position != Vector3.zero;
+#endif
+
             if(!hasMovedUp && !hasMovedDown) 
                 _lastHeaderIndex = -1;
         }
@@ -106,8 +144,13 @@ namespace TableForge.Editor.UI
             if (target is not RowHeaderControl rowHeaderControl) return;
             foreach (var rowHeader in tableControl.RowHeaders.Values)
             {
+#if UNITY_6000_OR_NEWER
+                rowHeader.style.translate = new Translate(0, 0, 0);
+                rowHeader.RowControl.style.translate = new Translate(0, 0, 0);
+#else
                 rowHeader.transform.position = Vector3.zero;
                 rowHeader.RowControl.transform.position = Vector3.zero;
+#endif
             }
                 
             if (_lastHeaderIndex != -1)

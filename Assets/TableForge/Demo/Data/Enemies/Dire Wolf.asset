@@ -43,10 +43,10 @@ MonoBehaviour:
   spawnPosition: {x: -4.2, y: 0, z: 2.7}
   abilities:
   - abilityName: Howl
-    cooldown: 2.0
+    cooldown: 2
     power: 7
     details:
-      baseAttack: 2.0
+      baseAttack: 2
       baseCastingTime: 1.3
   weapon: {fileID: 0}
   aggressionGradient:
