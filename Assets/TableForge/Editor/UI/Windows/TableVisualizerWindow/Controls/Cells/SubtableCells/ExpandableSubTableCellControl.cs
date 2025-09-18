@@ -29,7 +29,7 @@ namespace TableForge.Editor.UI
 
         public override void Refresh(Cell cell, TableControl tableControl)
         {
-            bool isExpanded = TableControl.Metadata.IsTableExpanded(cell.Id);
+            bool isExpanded = tableControl.Metadata.IsTableExpanded(cell.Id);
             _headerFoldout.value = isExpanded;
             subTableContentContainer.style.display = isExpanded ? DisplayStyle.Flex : DisplayStyle.None;
             

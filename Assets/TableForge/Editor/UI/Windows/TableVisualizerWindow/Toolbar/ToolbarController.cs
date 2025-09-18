@@ -228,14 +228,18 @@ namespace TableForge.Editor.UI
             
             _filter.RegisterCallback<KeyDownEvent>(evt =>
             {
+                if (_selectedTab == null) return;
+   
                 if (evt.keyCode == KeyCode.Return) 
                 {
-                    _tableVisualizer.CurrentTable.Filterer.Filter(_filter.value); 
+                    _tableVisualizer.CurrentTable?.Filterer.Filter(_filter.value); 
                 }
             }, TrickleDown.TrickleDown);
             
             _filter.RegisterValueChangedCallback(evt =>
             {
+                if (_selectedTab == null) return;
+
                 if (evt.newValue == null || evt.newValue.Trim().Length == 0)
                 {
                     _tableVisualizer.CurrentTable.Filterer.Filter(string.Empty);
@@ -316,7 +320,10 @@ namespace TableForge.Editor.UI
                 if (_selectedTab == null) return;
                 
                 _tableVisualizer.CurrentTable.Metadata.ClearAnchorSizes();
-                _tableVisualizer.CurrentTable.RebuildPage(false);
+                _tableVisualizer.CurrentTable.schedule.Execute(() =>
+                {
+                    _tableVisualizer.CurrentTable.RebuildPage();
+                }).ExecuteLater(0);
             };
         }
         

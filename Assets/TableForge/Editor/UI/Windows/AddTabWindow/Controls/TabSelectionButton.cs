@@ -50,7 +50,7 @@ namespace TableForge.Editor.UI
             UpdateDeleteButtonVisibility();
         }
 
-        private void UpdateDeleteButtonVisibility()
+        public void UpdateDeleteButtonVisibility()
         {
             if (_viewModel.IsTabOpen(_tableMetadata))
             {

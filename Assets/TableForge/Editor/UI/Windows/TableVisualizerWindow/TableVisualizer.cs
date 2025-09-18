@@ -52,7 +52,14 @@ namespace TableForge.Editor.UI
             
             EditorApplication.projectChanged += OnProjectChanged;
             EditorApplication.update += Update;
-            InspectorChangeNorifier.OnScriptableObjectModified += OnScriptableObjectModified;
+            InspectorChangeNotifier.OnScriptableObjectModified += OnScriptableObjectModified;
+        }
+
+        private void OnDestroy()
+        {
+            EditorApplication.projectChanged -= OnProjectChanged;
+            EditorApplication.update -= Update;
+            InspectorChangeNotifier.OnScriptableObjectModified -= OnScriptableObjectModified;
         }
 
         public void SetTable(Table table)
@@ -103,7 +110,7 @@ namespace TableForge.Editor.UI
         
         private void OnScriptableObjectModified(ScriptableObject scriptableObject)
         {
-            if(_tableControl == null) return;
+            if(_tableControl?.TableData == null) return;
             
             Row row = _tableControl.TableData.Rows.Values.FirstOrDefault(r => r.SerializedObject.RootObject == scriptableObject);
             if(row == null) return;
@@ -113,7 +120,7 @@ namespace TableForge.Editor.UI
 
         private void Update()
         {
-            if(_tableControl == null) return;
+            if(_tableControl?.TableData == null) return;
             if(!TableSettings.GetSettings().enablePolling || _lastUpdateTime >= EditorApplication.timeSinceStartup - TableSettings.GetSettings().pollingInterval)
                 return;
         

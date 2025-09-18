@@ -140,6 +140,7 @@ namespace TableForge.Editor.UI
             if (_tabButtons.TryGetValue(table, out var existingButton))
             {
                 parent.Add(existingButton);
+                existingButton.UpdateDeleteButtonVisibility();
                 return existingButton;
             }
             
