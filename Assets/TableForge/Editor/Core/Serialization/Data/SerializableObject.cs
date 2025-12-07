@@ -20,9 +20,15 @@ namespace TableForge.Editor.Serialization
         
         public Object ToObject()
         {
-            return EditorUtility.InstanceIDToObject(instanceID) ??
+#if UNITY_6000_3_OR_NEWER
+            return EditorUtility.EntityIdToObject(instanceID) ??
                    AssetDatabase.LoadAssetAtPath<Object>(path) ??
                    AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid));
+#else
+    return EditorUtility.InstanceIDToObject(instanceID) ??
+       AssetDatabase.LoadAssetAtPath<Object>(path) ??
+       AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid));
+#endif
         }
     }
 }

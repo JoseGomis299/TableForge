@@ -45,7 +45,7 @@ namespace TableForge.Editor.UI
             if (target is not RowHeaderControl rowHeaderControl) return;
             float direction = delta.y > 0 ? -1 : 1;
         
-#if UNITY_6000_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
             target.style.translate = new Translate(delta.x + target.resolvedStyle.translate.x, delta.y + target.resolvedStyle.translate.y, 0);
             rowHeaderControl.RowControl.style.translate = new Translate(delta.x + rowHeaderControl.RowControl.resolvedStyle.translate.x, delta.y + rowHeaderControl.RowControl.resolvedStyle.translate.y, 0);
 #else
@@ -66,7 +66,7 @@ namespace TableForge.Editor.UI
 
                 var targetPos = GetPosition(direction, movingIndex, i);
 
-#if UNITY_6000_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
                 rowHeader.style.translate = new Translate(targetPos.x, targetPos.y, 0);
                 rowHeader.RowControl.style.translate = new Translate(targetPos.x, targetPos.y, 0);
 #else
@@ -80,7 +80,7 @@ namespace TableForge.Editor.UI
                 {
                     for (int j = 0; j < _orderedHeaders.Count; j++)
                     {
-#if UNITY_6000_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
                         if ((i <= j && j < movingIndex) || (i >= j && j > movingIndex))
                         {
                             _orderedHeaders[j].style.translate = new Translate(targetPos.x, targetPos.y, 0);
@@ -111,14 +111,14 @@ namespace TableForge.Editor.UI
             }
             
             bool hasMovedUp = movingIndex > 0 &&
-#if UNITY_6000_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
                 _orderedHeaders[movingIndex - 1].resolvedStyle.translate != Vector3.zero;
 #else
                 _orderedHeaders[movingIndex - 1].transform.position != Vector3.zero;
 #endif
 
             bool hasMovedDown = movingIndex < _orderedHeaders.Count - 1 &&
-#if UNITY_6000_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
                 _orderedHeaders[movingIndex + 1].resolvedStyle.translate != Vector3.zero;
 #else
                 _orderedHeaders[movingIndex + 1].transform.position != Vector3.zero;
@@ -142,7 +142,7 @@ namespace TableForge.Editor.UI
             if (target is not RowHeaderControl rowHeaderControl) return;
             foreach (var rowHeader in tableControl.RowHeaders.Values)
             {
-#if UNITY_6000_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
                 rowHeader.style.translate = new Translate(0, 0, 0);
                 rowHeader.RowControl.style.translate = new Translate(0, 0, 0);
 #else
