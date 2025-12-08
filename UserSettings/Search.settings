@@ -68,6 +68,11 @@ providers = {
 		priority = 210
 		defaultAction = null
 	}
+	"unity.ai.file.search" = {
+		active = true
+		priority = 85
+		defaultAction = null
+	}
 }
 objectSelectors = {
 }
