@@ -23,6 +23,7 @@ namespace TableForge.Editor.UI
             AddSortingItems(header, evt);
             evt.menu.AppendSeparator();
             AddRowOperationItems(rowHeader, evt);
+            CreateItem(rowHeader, evt);
         }
         
         private void AddAssetManagementItems(RowHeaderControl rowHeader, ContextualMenuPopulateEvent evt)
@@ -67,4 +68,4 @@ namespace TableForge.Editor.UI
             }
         }
     }
-} 
+}

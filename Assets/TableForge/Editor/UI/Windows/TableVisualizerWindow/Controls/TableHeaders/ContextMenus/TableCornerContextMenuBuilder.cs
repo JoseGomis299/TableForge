@@ -13,6 +13,7 @@ namespace TableForge.Editor.UI
             
             AddExpandCollapseItems(header, evt);
             evt.menu.AppendSeparator();
+            CreateItem(header, evt);
         }
     }
 }

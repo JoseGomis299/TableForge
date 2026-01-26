@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TableForge.Editor.UI
@@ -81,5 +85,94 @@ namespace TableForge.Editor.UI
                 }
             }
         }
+        
+        /// <summary>
+        /// Adds a "Create new asset" menu item to the context menu.
+        /// </summary>
+        /// <param name="headerControl">The header control.</param>
+        /// <param name="evt">The contextual menu populate event.</param>
+        protected void CreateItem(HeaderControl headerControl, ContextualMenuPopulateEvent evt)
+        {
+            if(headerControl.TableControl.Parent != null)
+                return;
+            
+            evt.menu.AppendAction("Create new asset", _ =>
+            {
+                var tableControl = headerControl?.TableControl;
+                if (tableControl?.Metadata == null) return;
+
+                var itemsType = tableControl.Metadata.GetItemsType();
+                if (itemsType == null || !typeof(ScriptableObject).IsAssignableFrom(itemsType))
+                {
+                    Debug.LogWarning("Can't create asset: table items type is null or not a ScriptableObject.");
+                    return;
+                }
+
+                // Determine target folder
+                string targetFolder = "Assets";
+                if (headerControl is RowHeaderControl { CellAnchor: Row row })
+                {
+                    var rootObj = row.SerializedObject?.RootObject;
+                    if (rootObj != null)
+                    {
+                        var p = AssetDatabase.GetAssetPath(rootObj);
+                        if (!string.IsNullOrEmpty(p))
+                        {
+                            var dir = Path.GetDirectoryName(p)?.Replace('\\', '/');
+                            if (!string.IsNullOrEmpty(dir) && AssetDatabase.IsValidFolder(dir))
+                                targetFolder = dir;
+                        }
+                    }
+                }
+                else if (tableControl.TableData.Rows.Count > 0)
+                { 
+                    row = tableControl.TableData.Rows[1];
+                    var rootObj = row.SerializedObject?.RootObject;
+                    if (rootObj != null)
+                    {
+                        var p = AssetDatabase.GetAssetPath(rootObj);
+                        if (!string.IsNullOrEmpty(p))
+                        {
+                            var dir = Path.GetDirectoryName(p)?.Replace('\\', '/');
+                            if (!string.IsNullOrEmpty(dir) && AssetDatabase.IsValidFolder(dir))
+                                targetFolder = dir;
+                        }
+                    }
+                }
+
+                // Create asset
+                string defaultName = itemsType.Name + ".asset";
+                string assetPath = AssetDatabase.GenerateUniqueAssetPath($"{targetFolder}/{defaultName}");
+
+                var newAsset = ScriptableObject.CreateInstance(itemsType);
+                AssetDatabase.CreateAsset(newAsset, assetPath);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                
+                Selection.activeObject = newAsset;
+                EditorGUIUtility.PingObject(newAsset);
+
+                // Add to metadata if not type-bound
+                if (!tableControl.Metadata.IsTypeBound)
+                {
+                    string guid = AssetDatabase.AssetPathToGUID(assetPath);
+                    if (!string.IsNullOrEmpty(guid) && !tableControl.Metadata.ContainsItem(guid))
+                        tableControl.Metadata.AddItemGuid(guid);
+                }
+                
+                // Refresh table and select new row
+                tableControl.CellSelector.ClearSelection();
+                tableControl.RebuildPage(false);
+                    
+                if (tableControl.TableData.RowsByName.TryGetValue(newAsset.name, out row) && row.Cells.Count > 0)
+                {
+                        tableControl.CellSelector.SetSelection(row.OrderedCells.ToList());
+                        tableControl.schedule.Execute(() =>
+                        {
+                            row.Cells[1].BringToView(tableControl);
+                        }).ExecuteLater(5); // Delay to ensure UI is updated
+                }
+            });
+        }
     }
-} 
+}
